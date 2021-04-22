@@ -1,0 +1,74 @@
+import asyncio
+import json
+import typing
+
+from aiokafka import AIOKafkaProducer
+from fastapi import FastAPI
+from loguru import logger
+
+from server.core.config import KAFKA_INSTANCE
+from server.core.config import PROJECT_NAME
+from server.core.models.model import ProducerMessage, ProducerResponse
+
+
+app = FastAPI(title=PROJECT_NAME)
+
+loop = asyncio.get_event_loop()
+aioproducer = AIOKafkaProducer(
+    loop=loop, client_id=PROJECT_NAME, bootstrap_servers=KAFKA_INSTANCE
+)
+
+
+@app.get("/ping")
+def ping():
+    return {"ping": "live"}
+
+
+@app.on_event("startup")
+async def startup_event():
+    await aioproducer.start()
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    await aioproducer.stop()
+
+
+@app.post("/producer")
+async def broker_produce(msg: ProducerMessage):
+    """
+    Produce a message into <topicname>
+    This will produce a message into a Apache Kafka topic
+    And this path operation will:
+    * return ProducerResponse
+    """
+    payload = msg.dict()
+    topic = payload.get("topic")
+
+    logger.info(f"broker_produce: payload = {payload}")
+
+    await aioproducer.send(topic, json.dumps(payload).encode("ascii"))
+
+    response = ProducerResponse(topic=topic)
+    logger.info(f"broker_produce: response = {response}")
+    return response
+
+
+# @app.post("/producer/{topicname}")
+# async def kafka_produce_tracking(msg: ProducerMessage, topicname: str):
+#     """
+#     Produce a message into <topicname>
+#     This will produce a message into a Apache Kafka topic
+#     And this path operation will:
+#     * return ProducerResponse
+#     """
+
+#     await aioproducer.send(topicname, json.dumps(msg.dict()).encode("ascii"))
+#     response = ProducerResponse(
+#         name=msg.name, message_id=msg.message_id, topic=topicname
+#     )
+#     logger.info(response)
+#     return response
+
+if __name__ == "__main__":
+    uvicorn.run(app, log_level="debug", reload=True)
