@@ -45,6 +45,7 @@ MEASUREMENT_SET=data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-n
 Download the measurement sets defined in `.env`
 
 ```bash
+mkdir ./data
 gsutil -m cp -r \
   "gs://ska1-simulation-data/ska1-low/psi_test/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms" \
   ./data/

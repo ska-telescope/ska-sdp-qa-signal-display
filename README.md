@@ -2,7 +2,7 @@
 This folder consists of four projects;
 
 1. `metric-generator` : 
-    - Receives measurement sets.
+    - Reads measurement set.
     - Process and generate quality metrics.
     - Feed the quality metrics to message broker using broker-api.  
 2. `broker-api` : REST-API server to disseminate real-time data streams (e.g., QA Signal Display) through message broker (Kafka).
@@ -25,8 +25,9 @@ This folder consists of four projects;
 2. `broker-api`
 3. `signal-display-api`
 4. `signal-display-ui`
+5. `metric-generator`
 
-For 2-4 see README.md inside each folder. TODO: dockerize.
+For 2-5 see README.md inside each folder. TODO: dockerize.
 
 # Message Broker Setup / Run
 
