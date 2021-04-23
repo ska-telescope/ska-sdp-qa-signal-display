@@ -54,7 +54,7 @@ num_times = 1
 curves = []
 plot_data = np.zeros((num_channels, num_antennas))
 
-plot_data_1 = []
+plot_data_touple = []
 xMin = float('inf')
 xMax = float('-inf')
 yMin = float('inf')
@@ -80,16 +80,19 @@ for t in range(num_times):
     plot_y = plot_y.reshape(-1, group).mean(axis=1)
     plot_x = np.arange(plot_y.shape[0])
     plot_x = freqs.reshape(-1, group).mean(axis=1) / 1.0e6
+    
+    # Plot here
     curves.append(go.Scatter(name=f"time-{t}", x=plot_x, y=plot_y))
 
     plot_std = np.zeros(plot_x.shape[0])
-    plot_data_1 = list(zip(plot_x, plot_y, plot_std, plot_std))
+    plot_data_touple = list(zip(plot_x, plot_y, plot_std, plot_std))
 
     xMin = min(np.min(plot_x), xMin)
     xMax = max(np.max(plot_x), xMax)
     yMin = min(np.min(plot_y), yMin)
     yMax = max(np.max(plot_y), yMax)
 
+# Plot here
 fig = go.Figure(curves)
 # fig.update_yaxes(range=[180, 215])
 fig.update_layout(
@@ -102,18 +105,19 @@ fig.update_layout(
 )
 fig.show()
 
+# Send the spectrum plot data for visualization
 payload = { 
         'topic': 'spectrum',
         'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         'body': {
             'description': "Spectrum",
             'xLabel': "Frequency (MHz)",
-            'yLabel': "Power (dB)",
+            'yLabel': "Total Intensity",
             'xMin': xMin,
             'xMax': xMax, 
             'yMin': yMin,
             'yMax': yMax,
-            'data': plot_data_1
+            'data': plot_data_touple
     }
 }
 
