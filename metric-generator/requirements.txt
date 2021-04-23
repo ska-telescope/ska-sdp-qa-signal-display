@@ -1,0 +1,6 @@
+python-casacore
+loguru
+numpy
+plotly
+starlette
+requests

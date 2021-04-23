@@ -1,3 +1,5 @@
+# data could be too big
+data/*
 
 ### IDE Fragments ###
 /.vscode
@@ -19,7 +21,7 @@ migrations
 *.sqlite3
 
 ### dotenv ###
-.env
+#.env
 
 ### macOS ###
 # General
@@ -281,7 +283,7 @@ pip-selfcheck.json
 # Ignore all local history of files
 .history
 
-# Virtualenv
-api-env
+
+.DS_Store
 
 # End of .gitignore

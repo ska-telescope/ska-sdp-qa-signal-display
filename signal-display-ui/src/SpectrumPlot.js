@@ -59,7 +59,7 @@ function SpectrumPlot({ width, height, data }) {
         var y = d3.scaleLinear().domain([yMin, yMax]).range([height, 0]);
         svg.append("g").call(d3.axisLeft(y));
 
-        // Show confidence interval
+        // Show confidence interval or std
         svg.append("path")
             .datum(values)
             .attr("fill", "#1f77b4")
@@ -108,8 +108,8 @@ function SpectrumPlot({ width, height, data }) {
                 "translate(" + width / 2 + " ," + (height + margin.top + 20) + ")"
             )
             .style("text-anchor", "middle")
-            .style("fill", "white")
-            .style("font-size", "12px")
+            .style("fill", "grey")
+            .style("font-size", "15px")
             .text(xLabel);
 
         // Label for the y axis
@@ -118,9 +118,9 @@ function SpectrumPlot({ width, height, data }) {
             .attr("y", 0 - margin.left)
             .attr("x", 0 - height / 2)
             .attr("dy", "1em")
-            .style("fill", "white")
+            .style("fill", "grey")
             .style("text-anchor", "middle")
-            .style("font-size", "12px")
+            .style("font-size", "15px")
             .text(yLabel);
 
         svg.exit()

@@ -1,7 +1,10 @@
 # Projects
 This folder consists of four projects;
 
-1. `casa-data-feeder` : TODO
+1. `metric-generator` : 
+    - Receives measurement sets.
+    - Process and generate quality metrics.
+    - Feed the quality metrics to message broker using broker-api.  
 2. `broker-api` : REST-API server to disseminate real-time data streams (e.g., QA Signal Display) through message broker (Kafka).
 3. `signal-display-api` : QA signal display consumer RESTful API server.
     - Subscribes to the message broker.
@@ -23,7 +26,7 @@ This folder consists of four projects;
 3. `signal-display-api`
 4. `signal-display-ui`
 
-For 2-4 see README.md inside each folder.
+For 2-4 see README.md inside each folder. TODO: dockerize.
 
 # Message Broker Setup / Run
 

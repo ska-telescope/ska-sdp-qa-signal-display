@@ -34,7 +34,7 @@ async def shutdown_event():
     await aioproducer.stop()
 
 
-@app.post("/producer")
+@app.post("/broker")
 async def broker_produce(msg: ProducerMessage):
     """
     Produce a message into <topicname>
