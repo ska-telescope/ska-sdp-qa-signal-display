@@ -16,10 +16,11 @@ This folder consists of four projects;
     - Connects to the `signal-display-api` on a socket.
     - Visualizes the received messages (e.g, using a spectrum plot).
 
-> Note that in future, the above mentioned four projects may be spitted into four different repositories.
+> Note: in future, the above mentioned four projects may be spitted into four different repositories.
 
+# Setup / Run
 
-# Services Start Sequence
+Services Start Sequence:
 
 1. Message Broker (next section)
 2. `broker-api`
@@ -27,20 +28,41 @@ This folder consists of four projects;
 4. `signal-display-ui`
 5. `metric-generator`
 
-For 2-5 see README.md inside each folder. TODO: dockerize.
 
-# Message Broker Setup / Run
-
-
-Start the message broker and dependent services;
+Start the message broker and dependent services:
 
 ```bash
-docker-compose up -d
-docker-compose ps
+docker compose up -d
+docker compose ps
 ```
-> Note that if any process has not started or exited then run the command `docker-compose up -d` again.
-
-
 Access the broker control center UI: http://localhost:9021
+
+> Note: if any process has not started or exited then run the command `docker-compose up -d` again or start the individual containers.
+
+Access the signal display UI: http://localhost:3000
+
+SSH to `metric-generator` container, download measurement sets, and feed data:
+
+```bash
+docker exec -it metric-generator bash
+
+mkdir ./data
+
+# Example 1
+gsutil -m cp -r \
+ "gs://ska1-simulation-data/ska1-low/psi_test/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms" \
+ ./data/
+
+python main.py \
+ data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms
+
+ # Example 2
+gsutil -m cp -r \
+  "gs://ska1-simulation-data/ska1-mid/psi_test/sim_mid_psi_6ant.ms/" \
+  ./data/
+
+python main.py \
+ data/sim_mid_psi_6ant.ms
+```
 
 

@@ -10,7 +10,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from server.core.settings import default_route_str
 from server.api import router as endpoint_router
-from server.core.config import PROJECT_NAME
+from server.core.config import PROJECT_NAME, BROKER_INSTANCE
 
 
 app = FastAPI(title=PROJECT_NAME, version="2")
@@ -18,6 +18,7 @@ app.add_middleware(GZipMiddleware, minimum_size=1000)
 app.add_middleware(CORSMiddleware, allow_origins=["*"])
 app.include_router(endpoint_router, prefix=default_route_str)
 
+logger.info(f'PROJECT_NAME: {PROJECT_NAME}; BROKER_INSTANCE : {BROKER_INSTANCE}')
 
 @app.on_event("startup")
 async def on_app_start():

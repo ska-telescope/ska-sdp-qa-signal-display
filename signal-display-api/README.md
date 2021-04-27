@@ -18,19 +18,11 @@ pip install -r requirements.txt
 
 ## Running the Project in Development
 
-The configuration variables (below) should be defined in `.env`. An example development configuration; 
-
-```bash
-PROJECT_NAME=signal-display-api
-BROKER_URI=127.0.0.1
-BROKER_PORT=9092
-```
-
-Start the API server.
+Set the configuration variables, and start the API server:
 
 ```bash
 source ./venv/bin/activate
-uvicorn server.main:app --reload --port 8002
+export BROKER_INSTANCE=localhost:9092
+uvicorn server.main:app --reload --port 8002 --host 0.0.0.0
 
-# --host 0.0.0.0 to make the application available on your local network
 ```

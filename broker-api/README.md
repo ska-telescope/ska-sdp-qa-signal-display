@@ -21,19 +21,12 @@ pip install -r requirements.txt
 
 ## Running the Project in Development
 
-The configuration variables (below) should be defined in `.env`. An example development configuration; 
-
-```bash
-PROJECT_NAME=broker-api
-BROKER_URI=127.0.0.1
-BROKER_PORT=9092
-```
-
-Start the API server.
+Set the configuration variables and start the server:
 
 ```bash
 source ./venv/bin/activate
-uvicorn server.main:app --reload --port 8001
+export BROKER_INSTANCE=localhost:9092
+uvicorn server.main:app --reload --host 0.0.0.0 --port 8001
 ```
 
 ## Push Test Data to Broker

@@ -6,16 +6,17 @@ from aiokafka import AIOKafkaProducer
 from fastapi import FastAPI
 from loguru import logger
 
-from server.core.config import KAFKA_INSTANCE
+from server.core.config import BROKER_INSTANCE
 from server.core.config import PROJECT_NAME
 from server.core.models.model import ProducerMessage, ProducerResponse
 
 
 app = FastAPI(title=PROJECT_NAME)
 
+logger.info(f'PROJECT_NAME: {PROJECT_NAME}; BROKER_INSTANCE : {BROKER_INSTANCE}')
 loop = asyncio.get_event_loop()
 aioproducer = AIOKafkaProducer(
-    loop=loop, client_id=PROJECT_NAME, bootstrap_servers=KAFKA_INSTANCE
+    loop=loop, client_id=PROJECT_NAME, bootstrap_servers=BROKER_INSTANCE
 )
 
 

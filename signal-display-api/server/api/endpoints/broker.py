@@ -30,7 +30,7 @@ class WebsocketConsumer(WebSocketEndpoint):
     async def on_connect(self, websocket: WebSocket) -> None:
         # until I figure out an alternative
         topicname = websocket["path"].split("/")[3]
-        print(topicname)
+        logger.info(f'topicname = {topicname}; BROKER_INSTANCE = {BROKER_INSTANCE}')
         await websocket.accept()
         await websocket.send_json({"status": "connected"})
 

@@ -1,17 +1,17 @@
 import logging
 import sys
+import os
 from loguru import logger
 from starlette.config import Config
-
 from core.logging import InterceptHandler
+
 
 config = Config(".env")
 
+PROJECT_NAME: str = config("PROJECT_NAME", default="metric-generator")
+BROKER_API = os.environ.get("BROKER_API", "http://localhost:8001")
 
-BROKER_API: str = config("BROKER_API")
-MEASUREMENT_SET: str = config("MEASUREMENT_SET")
 DEBUG: bool = config("DEBUG", cast=bool, default=False)
-
 LOGGING_LEVEL = logging.DEBUG if DEBUG else logging.INFO
 
 logging.basicConfig(

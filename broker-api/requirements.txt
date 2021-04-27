@@ -7,10 +7,8 @@ pytest
 pytest-cov
 pytest-asyncio
 autopep8
-# confluent
 certifi
 confluent-kafka[avro,json,protobuf]>=1.4.2
-# the below ones may not be needed
 starlette==0.13.2
 bcrypt==3.1.7
 certifi==2019.9.11
