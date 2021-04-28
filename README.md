@@ -18,26 +18,38 @@ This folder consists of four projects;
 
 > Note: in future, the above mentioned four projects may be spitted into four different repositories.
 
-# Setup / Run
+# Getting Started
 
-Services Start Sequence:
+Ideally, the services should be started in a sequence as follows.
 
-1. Message Broker (next section)
+1. Message Broker
 2. `broker-api`
 3. `signal-display-api`
 4. `signal-display-ui`
 5. `metric-generator`
 
+We created two docker compose files to start the service (1) and services (2)-(5) respectively.
 
-Start the message broker and dependent services:
+## Message Broker
+
+Start all message broker related  services.
 
 ```bash
-docker compose up -d
+docker compose -f docker-compose-broker.yml up -d
 docker compose ps
 ```
 Access the broker control center UI: http://localhost:9021
 
-> Note: if any process has not started or exited then run the command `docker-compose up -d` again or start the individual containers.
+> Note: if any process has not started or exited then run the above command 'docker compose up ...' again or start the individual containers.
+
+## Signal Display 
+
+Start all the services related to signal display.
+
+```bash
+docker compose -f docker-compose-sig.yml up -d
+docker compose ps
+```
 
 Access the signal display UI: http://localhost:3000
 
@@ -45,24 +57,24 @@ SSH to `metric-generator` container, download measurement sets, and feed data:
 
 ```bash
 docker exec -it metric-generator bash
+```
 
+Download example measurement set.
+
+```bash
 mkdir ./data
-
-# Example 1
 gsutil -m cp -r \
  "gs://ska1-simulation-data/ska1-low/psi_test/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms" \
  ./data/
+```
 
+Read the measurement set, generate metrics, and feed it to the message broker.
+
+```bash
 python main.py \
  data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms
-
- # Example 2
-gsutil -m cp -r \
-  "gs://ska1-simulation-data/ska1-mid/psi_test/sim_mid_psi_6ant.ms/" \
-  ./data/
-
-python main.py \
- data/sim_mid_psi_6ant.ms
 ```
+
+The signal display UI: http://localhost:3000 should update.
 
 

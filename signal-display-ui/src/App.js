@@ -10,7 +10,7 @@ const ws = new WebSocket(spectrumAPI);
 function App() {
     console.log("App: spectrumAPI: ", spectrumAPI);
 
-    const [data, setData] = useState(MockSpectrumDataPayload.body);
+    const [data, setData] = useState(null); // MockSpectrumDataPayload.body
     const [socketStatus, setSocketStatus] = useState(
         MockSpectrumDataPayload.timestamp
     );
@@ -49,7 +49,7 @@ function App() {
             <header className="App-header">
                 <h4>Sprectrum Plot</h4>
                 <h5>{socketStatus}</h5>
-                <SpectrumPlot width={1200} height={600} data={data} />
+                <SpectrumPlot width={1200} height={500} data={data} />
             </header>
         </div>
     );
