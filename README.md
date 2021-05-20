@@ -35,20 +35,22 @@ We created two docker compose files to start the service (1) and services (2)-(5
 Start all message broker related  services.
 
 ```bash
-docker compose -f docker-compose-broker.yml up -d
-docker compose ps
+docker-compose -f docker-compose-broker.yml up -d
+docker-compose -f docker-compose-broker.yml ps
 ```
 Access the broker control center UI: http://localhost:9021
 
-> Note: if any process has not started or exited then run the above command 'docker compose up ...' again or start the individual containers.
+> Note
+> - Use `docker-compose` or `docker compose` based on the version you have installed. 
+> - If any process has not started or exited then run the above command 'docker compose up ...' again or start the individual containers.
 
 ## Signal Display 
 
 Start all the services related to signal display.
 
 ```bash
-docker compose -f docker-compose-sig.yml up -d
-docker compose ps
+docker-compose -f docker-compose-sig.yml up -d
+docker-compose -f docker-compose-sig.yml ps
 ```
 
 Access the signal display UI: http://localhost:3000

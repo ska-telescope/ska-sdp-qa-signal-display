@@ -1,56 +1,55 @@
 ---
-  version: '2'
-  services:
-    broker-api:
-      depends_on:
-        - broker
-      ports:
-        - 8001:8001
-      hostname: broker-api
-      container_name: broker-api
-      build:
-        context: ./broker-api/
-        dockerfile: Dockerfile
-      environment:
-        BROKER_INSTANCE: 'broker:29092'
-      restart: always
-  
-    metric-generator:
-      depends_on:
-        - broker-api
-      hostname: metric-generator
-      container_name: metric-generator
-      build:
-        context: ./metric-generator/
-        dockerfile: Dockerfile
-      environment:
-        BROKER_API: 'http://broker-api:8001'
-      stdin_open: true # docker run -i
-      tty: true # docker run -t
-  
-    signal-display-api:
-      depends_on:
-        - broker
-      ports:
-        - 8002:8002
-      hostname: signal-display-api
-      container_name: signal-display-api
-      build:
-        context: ./signal-display-api/
-        dockerfile: Dockerfile
-      environment:
-        BROKER_INSTANCE: 'broker:29092'
-      restart: always
-  
-    signal-display-ui:
-      depends_on:
-        - signal-display-api
-      ports:
-        - 3000:3000
-      hostname: signal-display-ui
-      container_name: signal-display-ui
-      build:
-        context: ./signal-display-ui/
-        dockerfile: Dockerfile
-      restart: always
-  
+version: '2'
+services:
+  broker-api:
+    # depends_on:
+    #   - broker
+    ports:
+      - 8001:8001
+    hostname: broker-api
+    container_name: broker-api
+    build:
+      context: ./broker-api/
+      dockerfile: Dockerfile
+    environment:
+      BROKER_INSTANCE: 'broker:29092'
+    restart: always
+
+  metric-generator:
+    depends_on:
+      - broker-api
+    hostname: metric-generator
+    container_name: metric-generator
+    build:
+      context: ./metric-generator/
+      dockerfile: Dockerfile
+    environment:
+      BROKER_API: 'http://broker-api:8001'
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+
+  signal-display-api:
+    # depends_on:
+    #   - broker
+    ports:
+      - 8002:8002
+    hostname: signal-display-api
+    container_name: signal-display-api
+    build:
+      context: ./signal-display-api/
+      dockerfile: Dockerfile
+    environment:
+      BROKER_INSTANCE: 'broker:29092'
+    restart: always
+
+  signal-display-ui:
+    depends_on:
+      - signal-display-api
+    ports:
+      - 3000:3000
+    hostname: signal-display-ui
+    container_name: signal-display-ui
+    build:
+      context: ./signal-display-ui/
+      dockerfile: Dockerfile
+    restart: always
