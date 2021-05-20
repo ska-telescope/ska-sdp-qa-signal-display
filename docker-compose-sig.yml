@@ -6,6 +6,7 @@ services:
     #   - broker
     ports:
       - 8001:8001
+      - 8888:8888 # jupyter notebaak for testing
     hostname: broker-api
     container_name: broker-api
     build:

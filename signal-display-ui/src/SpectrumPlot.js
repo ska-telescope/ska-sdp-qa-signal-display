@@ -108,7 +108,7 @@ function SpectrumPlot({ width, height, data }) {
                 "translate(" + width / 2 + " ," + (height + margin.top + 20) + ")"
             )
             .style("text-anchor", "middle")
-            .style("fill", "grey")
+            .style("fill", "black")
             .style("font-size", "15px")
             .text(xLabel);
 
@@ -118,7 +118,7 @@ function SpectrumPlot({ width, height, data }) {
             .attr("y", 0 - margin.left)
             .attr("x", 0 - height / 2)
             .attr("dy", "1em")
-            .style("fill", "grey")
+            .style("fill", "black")
             .style("text-anchor", "middle")
             .style("font-size", "15px")
             .text(yLabel);

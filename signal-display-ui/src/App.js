@@ -48,7 +48,7 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <h4>Sprectrum Plot</h4>
-                <h5>{socketStatus}</h5>
+                <p>{socketStatus}</p>
                 <SpectrumPlot width={1200} height={500} data={data} />
             </header>
         </div>

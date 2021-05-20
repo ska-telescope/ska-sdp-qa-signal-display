@@ -43,6 +43,7 @@ Access the broker control center UI: http://localhost:9021
 > Note
 > - Use `docker-compose` or `docker compose` based on the version you have installed. 
 > - If any process has not started or exited then run the above command 'docker compose up ...' again or start the individual containers.
+> - Use `--no-deps --build` to rebuild
 
 ## Signal Display 
 
@@ -54,6 +55,9 @@ docker-compose -f docker-compose-sig.yml ps
 ```
 
 Access the signal display UI: http://localhost:3000
+
+
+### Test with Measurement Sets
 
 SSH to `metric-generator` container, download measurement sets, and feed data:
 
@@ -79,4 +83,14 @@ python main.py \
 
 The signal display UI: http://localhost:3000 should update.
 
+### Test with Random Data
 
+We can push test (random) data to the message broker and visualize
+
+```bash
+docker exec -it broker-api bash
+
+jupyter notebook --port=8888 --no-browser --ip=0.0.0.0 --allow-root
+```
+
+Open the http://127.0.0.1:8888/notebooks/producer.ipynb
