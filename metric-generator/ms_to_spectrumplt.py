@@ -1,20 +1,17 @@
 import sys
-import time
-import json
-import requests
-import math
+# import requests
 import numpy as np
 from loguru import logger
 from datetime import datetime
-
 from casacore.tables import table, tablecolumn
 from casacore.quanta import quantity
 import plotly.graph_objs as go
 
-from core.config import BROKER_API
+from src.post_to_broker import post
 
 
-def main(ms):
+def ms_to_spectrum_plt(ms):
+    logger.info(f"Name of the measurement set = {ms}")
     t = table(ms, ack=False)
     ant1 = tablecolumn(t, "ANTENNA1")
     ant2 = tablecolumn(t, "ANTENNA2")
@@ -47,15 +44,15 @@ def main(ms):
     w = 2000
     h = np.kaiser(w, 0.3)
     taper = np.ones((num_channels,))
-    taper[0 : w // 2] = h[: w // 2]
-    taper[num_channels - w // 2 :] = h[w // 2 : w]
+    taper[0: w // 2] = h[: w // 2]
+    taper[num_channels - w // 2:] = h[w // 2: w]
 
     # Parameters for adding RFI spikes
     num_rfi_spikes = 8
     rfi_level_min = 5
     rfi_level_max = 70
 
-    num_times = 1
+    #num_times = 1
     curves = []
     plot_data = np.zeros((num_channels, num_antennas))
 
@@ -76,7 +73,8 @@ def main(ms):
 
                 n += 1
         rfi_positions = np.random.randint(0, num_channels, num_rfi_spikes)
-        rfi_amps = np.random.uniform(rfi_level_min, rfi_level_max, num_rfi_spikes)
+        rfi_amps = np.random.uniform(
+            rfi_level_min, rfi_level_max, num_rfi_spikes)
 
         plot_y = np.average(plot_data, axis=1)
         plot_y[rfi_positions] = plot_y[rfi_positions] + rfi_amps
@@ -98,38 +96,36 @@ def main(ms):
         yMin = min(np.min(plot_y), yMin)
         yMax = max(np.max(plot_y), yMax)
 
-    # Plot to verify
-    # fig = go.Figure(curves)
-    ##fig.update_yaxes(range=[180, 215])
-    # fig.update_layout(
-    #     xaxis_title="Frequency (MHz)",
-    #     yaxis_title="Total Intensity",
-    #     font=dict(
-    #         family="Open Sans",
-    #         size=13,
-    #     ),
-    # )
-    # fig.show()
+        # Plot to verify
+        # fig = go.Figure(curves)
+        ##fig.update_yaxes(range=[180, 215])
+        # fig.update_layout(
+        #     xaxis_title="Frequency (MHz)",
+        #     yaxis_title="Total Intensity",
+        #     font=dict(
+        #         family="Open Sans",
+        #         size=13,
+        #     ),
+        # )
+        # fig.show()
 
-    # Send the spectrum plot data for visualization
-    payload = {
-        "topic": "spectrum",
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "body": {
-            "description": "Spectrum",
-            "xLabel": "Frequency (MHz)",
-            "yLabel": "Total Intensity",
-            "xMin": xMin,
-            "xMax": xMax,
-            "yMin": yMin,
-            "yMax": yMax,
-            "data": plot_data_touple,
-        },
-    }
+        # Send the spectrum plot data for visualization
+        spectrumplt = {
+            "topic": "spectrum",
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "body": {
+                "description": "Spectrum",
+                "xLabel": "Frequency (MHz)",
+                "yLabel": "Total Intensity",
+                "xMin": xMin,
+                "xMax": xMax,
+                "yMin": yMin,
+                "yMax": yMax,
+                "data": plot_data_touple,
+            },
+        }
 
-    endpoint = f"{BROKER_API}/broker"
-    logger.info(f"endpoint = {endpoint}, payload = {payload}")
-    requests.post(endpoint, json=payload)
+        post(spectrumplt)
 
 
 if __name__ == "__main__":
@@ -140,4 +136,4 @@ if __name__ == "__main__":
     logger.info(f"Args: {sys.argv}")
     logger.info(f"Measurement set = {sys.argv[1]}")
 
-    main(sys.argv[1])
+    ms_to_spectrum_plt(sys.argv[1])

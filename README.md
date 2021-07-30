@@ -2,9 +2,12 @@
 This folder consists of four projects;
 
 1. `metric-generator` : 
-    - Reads measurement set.
-    - Process and generate quality metrics.
+    - Currently there are three metric generators creates  quality metrics, e.g., spectrum plot
+    (a) Randomly generates spectrum plot data
+    (b) Creates spectrum plot data from measurement set
+    (b) Creates spectrum plot data from plasma object store
     - Feed the quality metrics to message broker using broker-api.  
+
 2. `broker-api` : REST-API server to disseminate real-time data streams (e.g., QA Signal Display) through message broker (Kafka).
 3. `signal-display-api` : QA signal display consumer RESTful API server.
     - Subscribes to the message broker.
@@ -28,9 +31,9 @@ Ideally, the services should be started in a sequence as follows.
 4. `signal-display-ui`
 5. `metric-generator`
 
-We created two docker compose files to start the service (1) and services (2)-(5) respectively.
+We created two docker compose files to start the service [1] and services [2]-[5] respectively.
 
-## Message Broker
+## Start Message Broker [1]
 
 Start all message broker related  services.
 
@@ -45,7 +48,7 @@ Access the broker control center UI: http://localhost:9021
 > - If any process has not started or exited then run the above command 'docker compose up ...' again or start the individual containers.
 > - Use `--no-deps --build` to rebuild
 
-## Signal Display 
+## Start APIs, Metric Generator, and Signal Display [2-5]
 
 Start all the services related to signal display.
 
@@ -57,15 +60,26 @@ docker-compose -f docker-compose-sig.yml ps
 Access the signal display UI: http://localhost:3000
 
 
-### Test with Measurement Sets
+### Run Metric Generators
 
-SSH to `metric-generator` container, download measurement sets, and feed data:
+SSH to `metric-generator` container.
 
 ```bash
 docker exec -it metric-generator bash
 ```
 
-Download example measurement set.
+Open the signal display UI: http://localhost:3000.
+
+
+### Create random spectrum plot data, and send to the message broker
+
+```
+python rand_spectrumplt.py
+```
+
+### Read a measurement set, create spectrum plot data, and send to the message broker
+
+Download example measurement set, if not there.
 
 ```bash
 mkdir ./data
@@ -77,20 +91,23 @@ gsutil -m cp -r \
 Read the measurement set, generate metrics, and feed it to the message broker.
 
 ```bash
-python main.py \
- data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms
+python ms_to_spectrumplt.py data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms
+
 ```
 
-The signal display UI: http://localhost:3000 should update.
-
-### Test with Random Data
-
-We can push test (random) data to the message broker and visualize
-
-```bash
-docker exec -it broker-api bash
-
-jupyter notebook --port=8888 --no-browser --ip=0.0.0.0 --allow-root
+### Read payloads from plasma, create spectrum plot data, and send to the message broker
 ```
+# Create plasma store
+plasma_store -m 1000000000 -s /tmp/plasma &
 
-Open the http://127.0.0.1:8888/notebooks/producer.ipynb
+# Convert plasma payload to spectrumplot and send to the message broker
+python plasma_to_spectrumplt.py "/tmp/plasma"
+
+# Start receiver
+cd data
+emu-recv -c ./50000ch.conf
+
+# Start sender
+cd data
+emu-send -c ./50000ch.conf ./50000ch-model.ms
+```

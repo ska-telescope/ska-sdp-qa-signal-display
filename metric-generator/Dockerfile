@@ -1,13 +1,12 @@
 FROM python:3.8
 
-WORKDIR /usr/src/metric-generator
-
 # dont write pyc files
 ENV PYTHONDONTWRITEBYTECODE 1
 # dont buffer to stdout/stderr
 ENV PYTHONUNBUFFERED 1
 
-COPY ./ /usr/src/metric-generator/
+COPY ./requirements.txt /usr/src/metric-generator/
+WORKDIR /usr/src/metric-generator
 
 # dependencies
 RUN set -eux \

@@ -45,10 +45,38 @@ gsutil -m cp -r \
 
 Set the configuration variables, and run the code for reading measurement set, generate quality metrics (e.g., spectrum plot) and feed metrics the broker API:
 
-```bash
-export BROKER_API=http://localhost:8001
 
-python main.py \
-data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms
+Set the broker address, for example,
+```
+export BROKER_API=http://broker-api:8001 # or
+export BROKER_API=http://localhost:8001
 ```
 
+### Create random spectrum plot data, and send to the message broker
+
+```
+python rand_spectrumplt.py
+```
+
+### Read a measurement set, create spectrum plot data, and send to the message broker
+```bash
+python ms_to_spectrumplt.py data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms
+
+```
+
+### Read payloads from plasma, create spectrum plot data, and send to the message broker
+```
+# Create plasma store
+plasma_store -m 1000000000 -s /tmp/plasma &
+
+# Convert plasma payload to spectrumplot and send to the message broker
+python plasma_to_spectrumplt.py "/tmp/plasma"
+
+# Start receiver
+cd data
+emu-recv -c ./50000ch.conf
+
+# Start sender
+cd data
+emu-send -c ./50000ch.conf ./50000ch-model.ms
+```

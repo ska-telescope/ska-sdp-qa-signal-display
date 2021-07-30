@@ -14,7 +14,7 @@ services:
       dockerfile: Dockerfile
     environment:
       BROKER_INSTANCE: 'broker:29092'
-    restart: always
+    # restart: always
 
   metric-generator:
     depends_on:
@@ -24,10 +24,13 @@ services:
     build:
       context: ./metric-generator/
       dockerfile: Dockerfile
+    shm_size: 2gb # to create enough plasma store for metric generator
     environment:
       BROKER_API: 'http://broker-api:8001'
     stdin_open: true # docker run -i
     tty: true # docker run -t
+    volumes:
+      - ./metric-generator/:/usr/src/metric-generator
 
   signal-display-api:
     # depends_on:
@@ -41,7 +44,7 @@ services:
       dockerfile: Dockerfile
     environment:
       BROKER_INSTANCE: 'broker:29092'
-    restart: always
+    # restart: always
 
   signal-display-ui:
     depends_on:
@@ -53,4 +56,4 @@ services:
     build:
       context: ./signal-display-ui/
       dockerfile: Dockerfile
-    restart: always
+    # restart: always
