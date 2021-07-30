@@ -283,7 +283,4 @@ pip-selfcheck.json
 
 .DS_Store
 
-# Expanded Measurement Sets
-/data/*.ms
-
 # End of .gitignore
