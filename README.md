@@ -73,29 +73,39 @@ docker exec -it metric-generator bash
 
 ### Periodically create random spectrum plot data and send to the message broker
 
-```
+```bash
+docker exec -it metric-generator bash
 python rand_spectrumplt.py
 ```
 
 ### Read a measurement set, prepare spectrum plot data, and send to the message broker
 
-Download example measurement set (if not there) in the `data` folder.
+```bash
+docker exec -it metric-generator bash
+```
+
+Download an example measurement set (if not there) and extract in the `data` folder.
 
 ```bash
 mkdir ./data
 gsutil -m cp -r \
  "gs://ska1-simulation-data/ska1-low/psi_test/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms" \
  ./data/
-```
 
+ cd ./data
+ tar -xvf PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms
+ cd ..
+```
 
 ```bash
 python ms_to_spectrumplt.py data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms
 ```
 
 ### Read payloads from plasma, create spectrum plot data, and send to the message broker
-```
+
+```bash
 # Create plasma store
+
 plasma_store -m 1000000000 -s /tmp/plasma &
 
 # Convert plasma payload to spectrumplot and send to the message broker

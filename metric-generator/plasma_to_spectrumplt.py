@@ -60,8 +60,8 @@ def payload_to_spectrum_plt(times, baselines, channels, antennas, polarizations,
 
     # Parameters for adding RFI spikes
     num_rfi_spikes = 8
-    rfi_level_min = 5
-    rfi_level_max = 10
+    rfi_level_min = 0.01
+    rfi_level_max = 0.05
 
     plot_data = np.zeros((num_channels, num_antennas))
 

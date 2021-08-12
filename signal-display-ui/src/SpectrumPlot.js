@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import React, { useRef, useEffect } from "react";
 
-function SpectrumPlot({ width, height, data }) {
+const SpectrumPlot = ({ width, height, data }) => {
     const ref = useRef();
 
     useEffect(() => {
