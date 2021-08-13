@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.9-slim
 
 WORKDIR /usr/src/signal-display-api
 
@@ -7,9 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 # dont buffer to stdout/stderr
 ENV PYTHONUNBUFFERED 1
 
-COPY ./requirements.txt /usr/src/signal-display-api/requirements.txt
-COPY ./.env /usr/src/signal-display-api/.env
-COPY ./server /usr/src/signal-display-api/server
+COPY . .
 
 # dependencies
 RUN set -eux \
