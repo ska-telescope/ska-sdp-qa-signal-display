@@ -1,7 +1,7 @@
 import asyncio
 import json
-import typing
 
+import uvicorn
 from aiokafka import AIOKafkaProducer
 from fastapi import FastAPI
 from loguru import logger
@@ -54,22 +54,6 @@ async def broker_produce(msg: ProducerMessage):
     logger.info(f"broker_produce: response = {response}")
     return response
 
-
-# @app.post("/producer/{topicname}")
-# async def kafka_produce_tracking(msg: ProducerMessage, topicname: str):
-#     """
-#     Produce a message into <topicname>
-#     This will produce a message into a Apache Kafka topic
-#     And this path operation will:
-#     * return ProducerResponse
-#     """
-
-#     await aioproducer.send(topicname, json.dumps(msg.dict()).encode("ascii"))
-#     response = ProducerResponse(
-#         name=msg.name, message_id=msg.message_id, topic=topicname
-#     )
-#     logger.info(response)
-#     return response
 
 if __name__ == "__main__":
     uvicorn.run(app, log_level="debug", reload=True)

@@ -4,5 +4,5 @@
 Dockerfile
 Makefile
 README.md
-package-lock.json
+tests
 version
