@@ -1,32 +1,41 @@
-# signal-display-ui
+# About
 
-## Requirements
-- React
-- npm
+- Bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- Using react material dashboard style
 
-## Setting up
+# Getting Started
 
-Install the dependencies:
+Install the dependencies.
 
-```
+```bash
 npm install
 ```
 
-## Running the Project in Development
-
-The configuration variables (below) should be defined in `.env`. An example development configuration:
+The configuration variables should be defined in the `.env` file. For example,
 
 ```bash
+.env
+
 REACT_APP_WS_URL=ws://localhost:8002
 ```
-> All variable name should be prefixed with `REACT_APP_`
 
-Start the UI server:
+Run the app in development mode.
 
-``` 
+```bash
+export NODE_ENV=development && export PORT=3000
 npm start
-
-# to access form local network use --host 0.0.0.0 
 ```
+# to access form local network use --host 0.0.0.0 
 
-Open the browser in `localhost:3000` and you must see a chart being updated every second.
+
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+# Notes
+
+**TODO**
+- Components, e.g., notification, login, search, etc. are incomplete.
+- Login, registration, and password reset are not implemented.
+- In plotting there are a lot of improvements possible such as 
+    - How the plots are re-rendered with updated data.
+    - Plots can be made responsive and auto resized.
+- Add logo, update fab icon
