@@ -65,36 +65,36 @@ stages:
 publish-dev-producer-api:
   extends: .publish-dev
   variables:
-    DIRECTORY: broker-api
+    DIRECTORY: producer-api
 
 publish-rel-producer-api:
   extends: .publish-release
   variables:
-    DIRECTORY: broker-api
+    DIRECTORY: producer-api
 
 # Display API
 
 publish-dev-display-api:
   extends: .publish-dev
   variables:
-    DIRECTORY: signal-display-api
+    DIRECTORY: display-api
 
 publish-rel-display-api:
   extends: .publish-release
   variables:
-    DIRECTORY: signal-display-api
+    DIRECTORY: display-api
 
 # Display UI
 
 publish-dev-display-ui:
   extends: .publish-dev
   variables:
-    DIRECTORY: signal-display-ui
+    DIRECTORY: display-ui
 
 publish-rel-display-ui:
   extends: .publish-release
   variables:
-    DIRECTORY: signal-display-ui
+    DIRECTORY: display-ui
 
 # ============================================================================
 # CI metrics

@@ -1,24 +1,24 @@
 # Projects
 This folder consists of four projects;
 
-1. **metric-generator** : 
+1. **metric-generator** :
     - Currently, there are three metrics generators implemented for testing or demo.
         - Randomly generating spectrum plot data.
         - Creating spectrum plot data from measurement set.
         - Creating spectrum plot data from Plasma object-store.
-    - The generated quality metrics is feed to a message broker using a **broker-api**. Finally, the data is propagated to **signal-display-ui** for visualization.
+    - The generated quality metrics is feed to a message broker using a **producer-api**. Finally, the data is propagated to **display-ui** for visualization.
 
-2. **broker-api** : 
+2. **producer-api** :
     - RESTful API to push data to the message broker (Kafka).
     - For example, the **metric-generator** pushes spectrum plot data to the message broker using this API.
 
-3. **signal-display-api** 
+3. **display-api**
     - This RESTful API server subscribes to the message broker and receives any data pushed to the message broker in real-time.
-    - This API also maintains connection requests from **signal-display-ui** on a socket, and propagates the data received from the message broker to the **signal-display-ui**.
+    - This API also maintains connection requests from **display-ui** on a socket, and propagates the data received from the message broker to the **display-ui**.
 
-4. **signal-display-ui** : 
+4. **display-ui** :
     - The quality metrics data visualization user interface.
-    - This connects to the **signal-display-api** on a socket and visualizes the received metrics (e.g, spectrum plot).
+    - This connects to the **display-api** on a socket and visualizes the received metrics (e.g, spectrum plot).
 
 
 > Note: the mentioned projects should be spitted into 3-4 different repositories.
@@ -28,9 +28,9 @@ This folder consists of four projects;
 Ideally, the services should be started in a sequence as follows.
 
 1. Message Broker
-2. `broker-api`
-3. `signal-display-api`
-4. `signal-display-ui`
+2. `producer-api`
+3. `display-api`
+4. `display-ui`
 5. `metric-generator`
 
 We created two docker-compose files to start the service [1] and services [2]-[5] respectively.
@@ -46,13 +46,13 @@ docker-compose -f docker-compose-broker.yml ps
 Access the broker control center UI: http://localhost:9021
 
 > Note
-> - Use `docker-compose` or `docker compose` based on the version you have installed. 
+> - Use `docker-compose` or `docker compose` based on the version you have installed.
 > - If any process has not started or exited then run the above command 'docker compose up ...' again or start the individual containers.
 > - Use `--no-deps --build` to rebuild
 
 ## Start APIs, Metric Generator, and Signal Display [2-5]
 
-Start all the `broker-api`, `signal-display-api`, `signal-display-ui`, and `metric-generator` services.
+Start all the `producer-api`, `display-api`, `display-ui`, and `metric-generator` services.
 
 ```bash
 docker-compose -f docker-compose-sig.yml up -d

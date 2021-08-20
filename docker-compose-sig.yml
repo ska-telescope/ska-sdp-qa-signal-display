@@ -1,16 +1,16 @@
 ---
 version: '2'
 services:
-  broker-api:
+  producer-api:
     # depends_on:
     #   - broker
     ports:
       - 8001:8001
       - 8888:8888 # jupyter notebaak for testing
-    hostname: broker-api
-    container_name: broker-api
+    hostname: producer-api
+    container_name: producer-api
     build:
-      context: ./broker-api/
+      context: ./producer-api/
       dockerfile: Dockerfile
     environment:
       BROKER_INSTANCE: 'broker:29092'
@@ -18,7 +18,7 @@ services:
 
   metric-generator:
     depends_on:
-      - broker-api
+      - producer-api
     hostname: metric-generator
     container_name: metric-generator
     build:
@@ -26,34 +26,34 @@ services:
       dockerfile: Dockerfile
     shm_size: 2gb # to create enough plasma store for metric generator
     environment:
-      BROKER_API: 'http://broker-api:8001'
+      BROKER_API: 'http://producer-api:8001'
     stdin_open: true # docker run -i
     tty: true # docker run -t
     volumes:
       - ./metric-generator/:/usr/src/metric-generator
 
-  signal-display-api:
+  display-api:
     # depends_on:
     #   - broker
     ports:
       - 8002:8002
-    hostname: signal-display-api
-    container_name: signal-display-api
+    hostname: display-api
+    container_name: display-api
     build:
-      context: ./signal-display-api/
+      context: ./display-api/
       dockerfile: Dockerfile
     environment:
       BROKER_INSTANCE: 'broker:29092'
     # restart: always
 
-  signal-display-ui:
+  display-ui:
     depends_on:
-      - signal-display-api
+      - display-api
     ports:
       - 3000:3000
-    hostname: signal-display-ui
-    container_name: signal-display-ui
+    hostname: display-ui
+    container_name: display-ui
     build:
-      context: ./signal-display-ui/
+      context: ./display-ui/
       dockerfile: Dockerfile
     # restart: always
