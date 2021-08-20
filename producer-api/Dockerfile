@@ -1,6 +1,6 @@
 FROM python:3.9-slim
 
-WORKDIR /usr/src/broker-api
+WORKDIR /usr/src/producer-api
 
 # dont write pyc files
 ENV PYTHONDONTWRITEBYTECODE 1

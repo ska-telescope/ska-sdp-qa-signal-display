@@ -1,5 +1,5 @@
 
-# broker-api
+# producer-api
 
 This is a RESTful API server to push data streams to message broker (Kafka).
 
