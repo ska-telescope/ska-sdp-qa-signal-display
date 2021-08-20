@@ -41,6 +41,8 @@ services:
       CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
 
   schema-registry:
+    profiles:
+      - full
     image: confluentinc/cp-schema-registry:6.1.1
     hostname: schema-registry
     container_name: schema-registry
@@ -54,6 +56,8 @@ services:
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
 
   connect:
+    profiles:
+      - full
     image: cnfldemos/cp-server-connect-datagen:0.4.0-6.1.0
     hostname: connect
     container_name: connect
@@ -85,6 +89,8 @@ services:
       CONNECT_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
 
   control-center:
+    profiles:
+      - full
     image: confluentinc/cp-enterprise-control-center:6.1.1
     hostname: control-center
     container_name: control-center
@@ -108,6 +114,8 @@ services:
       PORT: 9021
 
   ksqldb-server:
+    profiles:
+      - full
     image: confluentinc/cp-ksqldb-server:6.1.1
     hostname: ksqldb-server
     container_name: ksqldb-server
@@ -131,6 +139,8 @@ services:
       KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: 'true'
 
   ksqldb-cli:
+    profiles:
+      - full
     image: confluentinc/cp-ksqldb-cli:6.1.1
     container_name: ksqldb-cli
     depends_on:
@@ -141,6 +151,8 @@ services:
     tty: true
 
   ksql-datagen:
+    profiles:
+      - full
     image: confluentinc/ksqldb-examples:6.1.1
     hostname: ksql-datagen
     container_name: ksql-datagen
@@ -163,6 +175,8 @@ services:
       STREAMS_SCHEMA_REGISTRY_PORT: 8081
 
   rest-proxy:
+    profiles:
+      - full
     image: confluentinc/cp-kafka-rest:6.1.1
     depends_on:
       - broker
@@ -176,4 +190,3 @@ services:
       KAFKA_REST_BOOTSTRAP_SERVERS: 'broker:29092'
       KAFKA_REST_LISTENERS: 'http://0.0.0.0:8082'
       KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
-      

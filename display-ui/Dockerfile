@@ -1,6 +1,6 @@
 FROM node:14-slim
 
-WORKDIR /usr/src/signal-display-ui
+WORKDIR /usr/src/display-ui
 
 COPY . .
 

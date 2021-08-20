@@ -10,12 +10,12 @@ push = true
 "bumpver.toml" = [
     'current_version = "{version}"',
 ]
-"broker-api/version" = [
+"producer-api/version" = [
     '{version}'
 ]
-"signal-display-api/version" = [
+"display-api/version" = [
     '{version}'
 ]
-"signal-display-ui/version" = [
+"display-ui/version" = [
     '{version}'
 ]
