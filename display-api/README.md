@@ -1,4 +1,4 @@
-# signal-display-api 
+# display-api
 
 ## Requirements
 

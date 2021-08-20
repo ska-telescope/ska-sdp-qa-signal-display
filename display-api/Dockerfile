@@ -1,6 +1,6 @@
 FROM python:3.9-slim
 
-WORKDIR /usr/src/signal-display-api
+WORKDIR /usr/src/display-api
 
 # dont write pyc files
 ENV PYTHONDONTWRITEBYTECODE 1
