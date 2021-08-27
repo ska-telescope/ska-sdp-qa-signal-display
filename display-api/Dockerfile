@@ -17,4 +17,4 @@ RUN set -eux \
 
 # command: uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
 # uvicorn server.main:app --reload --port 8001
-CMD ["uvicorn", "server.main:app", "--host", "0.0.0.0", "--port", "8002"]
+CMD ["uvicorn", "server.main:app", "--host", "0.0.0.0", "--port", "8002", "--log-config", "log-config.json"]

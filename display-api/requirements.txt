@@ -1,6 +1,7 @@
+--index-url https://artefact.skao.int/repository/pypi-all/simple
 aiokafka
 fastapi
-loguru
 pydantic
+ska-ser-logging
 starlette
 uvicorn[standard]
