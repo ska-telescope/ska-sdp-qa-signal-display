@@ -1,19 +1,22 @@
 import asyncio
 import json
+import logging
 
 import uvicorn
 from aiokafka import AIOKafkaProducer
 from fastapi import FastAPI
-from loguru import logger
 
-from server.core.config import BROKER_INSTANCE
-from server.core.config import PROJECT_NAME
+import ska_ser_logging
+
+from server.core.config import PROJECT_NAME, BROKER_INSTANCE, LOGGING_LEVEL
 from server.core.models.model import ProducerMessage, ProducerResponse
 
+ska_ser_logging.configure_logging(LOGGING_LEVEL)
+logger = logging.getLogger(__name__)
 
 app = FastAPI(title=PROJECT_NAME)
 
-logger.info(f'PROJECT_NAME: {PROJECT_NAME}; BROKER_INSTANCE : {BROKER_INSTANCE}')
+logger.info("PROJECT_NAME: %s; BROKER_INSTANCE: %s", PROJECT_NAME, BROKER_INSTANCE)
 loop = asyncio.get_event_loop()
 aioproducer = AIOKafkaProducer(
     loop=loop, client_id=PROJECT_NAME, bootstrap_servers=BROKER_INSTANCE
@@ -46,12 +49,12 @@ async def broker_produce(msg: ProducerMessage):
     payload = msg.dict()
     topic = payload.get("topic")
 
-    logger.info(f"broker_produce: payload = {payload}")
+    logger.info("broker_produce: payload = %s", payload)
 
     await aioproducer.send(topic, json.dumps(payload).encode("ascii"))
 
     response = ProducerResponse(topic=topic)
-    logger.info(f"broker_produce: response = {response}")
+    logger.info("broker_produce: response = %s", response)
     return response
 
 

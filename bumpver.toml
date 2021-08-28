@@ -19,3 +19,6 @@ push = true
 "display-ui/version" = [
     '{version}'
 ]
+"display-ui/package.json" = [
+    '"version": "{version}"'
+]

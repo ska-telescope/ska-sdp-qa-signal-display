@@ -1,7 +1,8 @@
 import asyncio
 import json
+import logging
 import typing
-from loguru import logger
+
 from fastapi import APIRouter, WebSocket
 from starlette.endpoints import WebSocketEndpoint
 from aiokafka import AIOKafkaConsumer
@@ -9,6 +10,8 @@ from aiokafka import AIOKafkaConsumer
 from server.models.model import ConsumerResponse
 from server.core.config import BROKER_INSTANCE
 from server.core.config import PROJECT_NAME
+
+logger = logging.getLogger(__name__)
 
 ws_router = APIRouter()
 
@@ -30,7 +33,7 @@ class WebsocketConsumer(WebSocketEndpoint):
     async def on_connect(self, websocket: WebSocket) -> None:
         # until I figure out an alternative
         topicname = websocket["path"].split("/")[3]
-        logger.info(f'topicname = {topicname}; BROKER_INSTANCE = {BROKER_INSTANCE}')
+        logger.info("topicname = %s; BROKER_INSTANCE = %s", topicname, BROKER_INSTANCE)
         await websocket.accept()
         await websocket.send_json({"status": "connected"})
 
@@ -54,7 +57,7 @@ class WebsocketConsumer(WebSocketEndpoint):
     async def on_disconnect(self, websocket: WebSocket, close_code: int) -> None:
         self.consumer_task.cancel()
         await self.consumer.stop()
-        # logger.info(f"counter: {self.counter}")
+        # logger.info("counter: %d", self.counter)
         logger.info("disconnected")
         logger.info("consumer stopped")
 
@@ -69,11 +72,11 @@ class WebsocketConsumer(WebSocketEndpoint):
             # TODO
             # response = ConsumerResponse(topic=topicname, **json.loads(data))
             # response = SpectrumDataResponse(topic=topicname, **json.loads(data))
-            # logger.info(f'response = {response}')
+            # logger.info("response = %s", response)
 
             # await websocket.send_text(f"{response.json()}")
             # res = {'data': response.json()}
-            # logger.info(f'res = {res}')
+            # logger.info("res = %s", res")
             # await websocket.send_json(res)
 
             await websocket.send_json(json.loads(data))

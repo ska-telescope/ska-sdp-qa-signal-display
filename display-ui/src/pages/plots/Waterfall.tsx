@@ -20,10 +20,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import useSettings from "../../hooks/useSettings";
 import mockPhaseData from "src/mock/mockPhaseData";
 
-const { REACT_APP_WS_URL } = process.env;
+// const { REACT_APP_WS_URL } = process.env;
 // TODO: To use waterfall topic /  API
-const spectrumAPI = `${REACT_APP_WS_URL}/consumer/spectrum`;
-const ws = new WebSocket(spectrumAPI);
+// const spectrumAPI = `${REACT_APP_WS_URL}/consumer/spectrum`
+// const ws = new WebSocket(spectrumAPI);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,7 +55,7 @@ const Waterfall: FC = () => {
   const { settings } = useSettings();
   const classes = useStyles();
 
-  console.log("App: spectrumAPI: ", spectrumAPI);
+  // console.log("App: spectrumAPI: ", spectrumAPI);
 
   const [data, setData] = useState();
   const [socketStatus, setSocketStatus] = useState(Date().toLocaleString());

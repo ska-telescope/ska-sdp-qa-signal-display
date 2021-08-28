@@ -1,6 +1,6 @@
 {
   "name": "qa-display",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "scripts": {
     "lint": "eslint ./src",
     "lint-fix": "eslint --fix ./src",

@@ -1,20 +1,26 @@
+import logging
+
 import uvicorn
-from loguru import logger
 from fastapi import FastAPI
 from starlette.middleware.gzip import GZipMiddleware
 from starlette.middleware.cors import CORSMiddleware
 
+import ska_ser_logging
+
 from server.core.settings import default_route_str
 from server.api import router as endpoint_router
-from server.core.config import PROJECT_NAME, BROKER_INSTANCE
+from server.core.config import PROJECT_NAME, BROKER_INSTANCE, LOGGING_LEVEL
 
+ska_ser_logging.configure_logging(LOGGING_LEVEL)
+logger = logging.getLogger(__name__)
 
 app = FastAPI(title=PROJECT_NAME, version="2")
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 app.add_middleware(CORSMiddleware, allow_origins=["*"])
 app.include_router(endpoint_router, prefix=default_route_str)
 
-logger.info(f'PROJECT_NAME: {PROJECT_NAME}; BROKER_INSTANCE : {BROKER_INSTANCE}')
+logger.info("PROJECT_NAME: %s; BROKER_INSTANCE: %s", PROJECT_NAME, BROKER_INSTANCE)
+
 
 @app.on_event("startup")
 async def on_app_start():

@@ -4,7 +4,7 @@ from pydantic import BaseModel, confloat, StrictStr, validator
 
 
 class ProducerMessage(BaseModel):
-    topic: StrictStr = ''
+    topic: StrictStr = ""
     timestamp: StrictStr = ""
     body: Any
 
@@ -14,7 +14,7 @@ class ProducerMessage(BaseModel):
 
 
 class ProducerResponse(BaseModel):
-    topic: StrictStr = ''
+    topic: StrictStr = ""
     timestamp: StrictStr = ""
 
     @validator("timestamp", pre=True, always=True)
