@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Suspense, lazy } from "react";
+ import { Suspense, lazy } from "react";
 import type { PartialRouteObject } from "react-router";
 import { Navigate } from "react-router-dom";
 import AuthGuard from "./components/AuthGuard";
@@ -9,12 +8,13 @@ import DashboardLayout from "./components/dashboard/DashboardLayout";
 import LoadingScreen from "./components/LoadingScreen";
 import MainLayout from "./components/MainLayout";
 
-const Loadable = (Component) => (props) =>
-  (
+// eslint-disable-next-line react/display-name
+const Loadable = (CustomComponent) => (props) => (
     <Suspense fallback={<LoadingScreen />}>
-      <Component {...props} />
+      <CustomComponent {...props} />
     </Suspense>
   );
+ 
 
 // Authentication pages
 const Login = Loadable(lazy(() => import("./pages/auth/Login")));

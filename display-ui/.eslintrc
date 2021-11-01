@@ -1,6 +1,6 @@
 {
   "plugins": ["@typescript-eslint"],
-  "extends": ["next", "plugin:@typescript-eslint/recommended", "prettier"],
+  "extends": ["plugin:@typescript-eslint/recommended", "prettier"],
   "rules": {
     "@typescript-eslint/comma-dangle": "off",
     "class-methods-use-this": "off",
