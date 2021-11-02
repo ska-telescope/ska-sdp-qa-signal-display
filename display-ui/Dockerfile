@@ -3,9 +3,13 @@ FROM node:14-slim as build
 WORKDIR /usr/src/display-ui
 
 COPY package.json tsconfig.json package-lock.json .eslintrc ./
-COPY .env-production .env
 COPY public public
 COPY src src
+
+ARG API_URL
+ENV REACT_APP_API_URL=$API_URL
+ARG WS_URL
+ENV REACT_APP_WS_URL=$WS_URL
 
 RUN npm install
 RUN npm run build

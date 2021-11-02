@@ -25,9 +25,8 @@ import useSettings from "../../hooks/useSettings";
 import SpectrumPlot from "../../components/plots/SpectrumPlot";
 import mockSpectrumDataPayload from "../../mock/mockSpectrumData";
 
-const { REACT_APP_WS_USE_HOST, REACT_APP_WS_URL } = process.env;
-const hostURL = "ws://" + window.location.host + "/ws/consumer/spectrum";
-const spectrumAPI = REACT_APP_WS_USE_HOST ? hostURL : `${REACT_APP_WS_URL}/consumer/spectrum`;
+const { REACT_APP_WS_URL } = process.env;
+const spectrumAPI = `${REACT_APP_WS_URL}/consumer/spectrum`;
 const ws = new WebSocket(spectrumAPI);
 
 const useStyles = makeStyles((theme) => ({

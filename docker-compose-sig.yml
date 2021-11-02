@@ -26,7 +26,7 @@ services:
       dockerfile: Dockerfile
     shm_size: 2gb # to create enough plasma store for metric generator
     environment:
-      BROKER_API: 'http://producer-api:8001'
+      PRODUCER_API: 'http://producer-api:8001'
     stdin_open: true # docker run -i
     tty: true # docker run -t
     volumes:
@@ -56,4 +56,7 @@ services:
     build:
       context: ./display-ui/
       dockerfile: Dockerfile
+      args:
+        - API_URL=http://localhost:8002
+        - WS_URL=ws://localhost:8002/ws
     # restart: always
