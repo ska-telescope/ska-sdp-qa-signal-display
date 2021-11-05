@@ -2,19 +2,17 @@ import * as d3 from "d3";
 import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 
-const SpectrumPlot = (props) => {
+const Spectrum = (props) => {
   const ref = useRef();
 
   useEffect(() => {
-    d3.select(ref.current)
-      .attr("width", props.width)
-      .attr("height", props.height);
+    d3.select(ref.current).attr("width", props.width).attr("height", props.height);
     // .style("border", "1px solid black");
   }, []);
 
   function draw(width: number, height: number, data: any) {
-    console.log('SpectrumPlot:draw: data = ', data);
-    console.log('SpectrumPlot:draw: width, height =', width, height);
+    console.log("SpectrumPlot:draw: data = ", data);
+    console.log("SpectrumPlot:draw: width, height =", width, height);
     if (!data || !data.data || !width || !height) return;
 
     // Clear
@@ -39,10 +37,7 @@ const SpectrumPlot = (props) => {
 
     // Add X axis --> it is a date format
     const x = d3.scaleLinear().domain([xMin, xMax]).range([0, width]);
-    svg
-      .append("g")
-      .attr("transform", `translate(0,${height})`)
-      .call(d3.axisBottom(x));
+    svg.append("g").attr("transform", `translate(0,${height})`).call(d3.axisBottom(x));
 
     // Add Y axis
     const y = d3.scaleLinear().domain([yMin, yMax]).range([height, 0]);
@@ -62,7 +57,7 @@ const SpectrumPlot = (props) => {
           .curve(d3.curveMonotoneX)
           .x((d) => x(d[0]))
           .y0((d) => y(d[1] + d[2]))
-          .y1((d) => y(d[1] - d[3]))
+          .y1((d) => y(d[1] - d[3])),
       );
 
     // Add the line
@@ -79,7 +74,7 @@ const SpectrumPlot = (props) => {
           .line()
           .curve(d3.curveMonotoneX)
           .x((d) => x(d[0]))
-          .y((d) => y(d[1]))
+          .y((d) => y(d[1])),
       );
 
     // Label for the x-axis
@@ -103,13 +98,7 @@ const SpectrumPlot = (props) => {
       .style("font-size", "15px")
       .text(yLabel);
 
-    svg
-      .exit()
-      .transition()
-      .duration(300)
-      .attr("y", height)
-      .attr("height", 0)
-      .remove();
+    svg.exit().transition().duration(300).attr("y", height).attr("height", 0).remove();
   }
 
   useEffect(() => {
@@ -124,10 +113,10 @@ const SpectrumPlot = (props) => {
   );
 };
 
-SpectrumPlot.propTypes = {
+Spectrum.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   data: PropTypes.any.isRequired,
 };
 
-export default SpectrumPlot;
+export default Spectrum;

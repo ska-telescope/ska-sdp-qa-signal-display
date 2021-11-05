@@ -1,4 +1,4 @@
- import { Suspense, lazy } from "react";
+import { Suspense, lazy } from "react";
 import type { PartialRouteObject } from "react-router";
 import { Navigate } from "react-router-dom";
 import AuthGuard from "./components/AuthGuard";
@@ -9,25 +9,23 @@ import LoadingScreen from "./components/LoadingScreen";
 import MainLayout from "./components/MainLayout";
 
 // eslint-disable-next-line react/display-name
-const Loadable = (CustomComponent) => (props) => (
+const Loadable = (CustomComponent) => (props) =>
+  (
     <Suspense fallback={<LoadingScreen />}>
       <CustomComponent {...props} />
     </Suspense>
   );
- 
 
 // Authentication pages
 const Login = Loadable(lazy(() => import("./pages/auth/Login")));
 
 // Dashboard & plot pages
 const Overview = Loadable(lazy(() => import("./pages/dashboards/Overview")));
-const Spectrum = Loadable(lazy(() => import("./pages/plots/Spectrum")));
-const Waterfall = Loadable(lazy(() => import("./pages/plots/Waterfall")));
+const SpectrumPlot = Loadable(lazy(() => import("./pages/plots/SpectrumPlot")));
+const PhaseDisplay = Loadable(lazy(() => import("./pages/plots/PhaseDisplay")));
 
 // Error pages
-const AuthorizationRequired = Loadable(
-  lazy(() => import("./pages/AuthorizationRequired"))
-);
+const AuthorizationRequired = Loadable(lazy(() => import("./pages/AuthorizationRequired")));
 const NotFound = Loadable(lazy(() => import("./pages/NotFound")));
 const ServerError = Loadable(lazy(() => import("./pages/ServerError")));
 
@@ -60,15 +58,15 @@ const routes: PartialRouteObject[] = [
     children: [
       {
         path: "/",
-        element: <Navigate to="/plot/spectrum" replace />,
+        element: <Navigate to="/plot/spectrum-plot" replace />,
       },
       {
-        path: "spectrum",
-        element: <Spectrum />,
+        path: "spectrum-plot",
+        element: <SpectrumPlot />,
       },
       {
-        path: "waterfall",
-        element: <Waterfall />,
+        path: "phase-display",
+        element: <PhaseDisplay />,
       },
     ],
   },

@@ -22,7 +22,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import TimelineIcon from "@material-ui/icons/Timeline";
 
 import useSettings from "../../hooks/useSettings";
-import SpectrumPlot from "../../components/plots/SpectrumPlot";
+import Spectrum from "../../components/plots/Spectrum";
 import mockSpectrumDataPayload from "../../mock/mockSpectrumData";
 
 const { REACT_APP_WS } = process.env;
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Spectrum: FC = () => {
+const SpectrumPlot: FC = () => {
   const { settings } = useSettings();
   const classes = useStyles();
 
@@ -126,7 +126,7 @@ const Spectrum: FC = () => {
                 />
 
                 <CardContent sx={{ pt: "8px" }}>
-                  <SpectrumPlot width={1000} height={500} data={data} />
+                  <Spectrum width={1000} height={500} data={data} />
                 </CardContent>
               </Card>
             </Grid>
@@ -137,4 +137,4 @@ const Spectrum: FC = () => {
   );
 };
 
-export default Spectrum;
+export default SpectrumPlot;
