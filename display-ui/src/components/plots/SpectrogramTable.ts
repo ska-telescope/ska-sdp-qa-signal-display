@@ -1,5 +1,7 @@
 import * as d3 from "d3";
 import Spectrogram from "./Spectrogram";
+import "./SpectrogramTable.css";
+import "./Spectrogram.css";
 
 class SpectrogramTable {
   phaseDisplayId;
@@ -38,7 +40,10 @@ class SpectrogramTable {
     const polarisation = data.polarisation;
     // console.log(baseline, polarisation)
 
-    const table = d3.select("#" + this.phaseDisplayId).append("table");
+    const table = d3
+      .select("#" + this.phaseDisplayId)
+      .append("table")
+      .style("class", "table");
 
     // append the header row
     table
@@ -48,7 +53,8 @@ class SpectrogramTable {
       .data(baseline)
       .enter()
       .append("th")
-      .text((d) => d);
+      .text((d) => d)
+      .style("class", "th");
 
     // create a row for each object/array in the data
     const rows = table
@@ -85,7 +91,8 @@ class SpectrogramTable {
         // the current node is selected using 'this', hence use 'function', not '=>'
         const tdId = d3.select(this).node().parentNode.id;
         return `canvas${tdId}`;
-      });
+      })
+      .attr("style", "canvas");
 
     return true;
   }

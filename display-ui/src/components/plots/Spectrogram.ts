@@ -1,3 +1,5 @@
+import "./Spectrogram.css";
+
 class Spectrogram {
   canvas;
   context;
@@ -13,8 +15,8 @@ class Spectrogram {
   constructor(id) {
     this.canvas = document.getElementById(id);
     this.context = this.canvas.getContext("2d");
-    this.width = 100; // this.canvas.width;
-    this.height = 100; //this.canvas.height;
+    this.width = this.canvas.width;
+    this.height = this.canvas.height;
   }
 
   draw(data) {
