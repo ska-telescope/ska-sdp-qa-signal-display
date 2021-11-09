@@ -64,9 +64,13 @@ const PhaseDisplay: FC = () => {
   const [data, setData] = useState(null);
   const [socketStatus, setSocketStatus] = useState(Date().toLocaleString());
 
-  useEffect(() => {
-    const spectrogramTable = new SpectrogramTable("phase-display-table");
+  const spectrogramTable = new SpectrogramTable("phase-display-table");
 
+  //
+  // generate random data to test locally
+  //
+  /*
+  useEffect(() => {
     let i = 1;
     function myLoop() {
       setTimeout(function () {
@@ -105,41 +109,40 @@ const PhaseDisplay: FC = () => {
 
     myLoop(); //  start the loop
   }, []);
+  */
 
-  //  const spectrogramTable = new SpectrogramTable("phase-display-table");
+  const onMessage = (event) => {
+    const payload = JSON.parse(event.data);
+    console.log("PhaseDisplay:onMessage: received event.data = ", event.data, typeof event.data);
+    console.log("PhaseDisplay:onMessage: received event.data = ", payload);
 
-  // const onMessage = (event) => {
-  //   const payload = JSON.parse(event.data);
-  //   console.log("PhaseDisplay:onMessage: received event.data = ", event.data, typeof event.data);
-  //   console.log("PhaseDisplay:onMessage: received event.data = ", payload);
+    if ("status" in payload) {
+      console.log(payload.status);
+      setSocketStatus(payload.status);
+    }
 
-  //   if ("status" in payload) {
-  //     console.log(payload.status);
-  //     setSocketStatus(payload.status);
-  //   }
+    if ("body" in payload) {
+      setData(payload.body);
+      setSocketStatus(payload.timestamp);
+      spectrogramTable.draw(payload.body);
+    }
+  };
 
-  //   if ("body" in payload) {
-  //     setData(payload.body);
-  //     setSocketStatus(payload.timestamp);
-  //     spectrogramTable.draw(payload.body);
-  //   }
-  // };
+  useEffect(() => {
+    console.log("PhaseDisplay: useEffect: 1");
 
-  // useEffect(() => {
-  //   console.log("PhaseDisplay: useEffect: 1");
+    ws.onmessage = onMessage;
 
-  //   ws.onmessage = onMessage;
+    return () => {
+      // TODO
+      // ws.close();
+    };
+  }, []);
 
-  //   return () => {
-  //     // TODO
-  //     // ws.close();
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log("PhaseDisplay: useEffect: 2");
-  //   // console.log("PhaseDisplay: data = ", JSON.stringify(data));
-  // }, [data, socketStatus]);
+  useEffect(() => {
+    console.log("PhaseDisplay: useEffect: 2");
+    // console.log("PhaseDisplay: data = ", JSON.stringify(data));
+  }, [data, socketStatus]);
 
   return (
     <>
