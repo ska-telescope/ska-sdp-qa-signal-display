@@ -19,8 +19,7 @@ import {
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { blue } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/core/styles";
-import TimelineIcon from "@material-ui/icons/Timeline";
-
+import TableChartIcon from "@mui/icons-material/TableChart";
 import useSettings from "../../hooks/useSettings";
 import mockPhaseData from "../../mock/mockPhaseData";
 import SpectrogramTable from "src/components/plots/SpectrogramTable";
@@ -169,7 +168,7 @@ const PhaseDisplay: FC = () => {
                   }
                   avatar={
                     <Avatar className={classes.avatar}>
-                      <TimelineIcon />
+                      <TableChartIcon />
                     </Avatar>
                   }
                   title="Phase Display"
