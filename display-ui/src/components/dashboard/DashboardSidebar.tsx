@@ -9,7 +9,6 @@ import type { Theme } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import TimelineIcon from "@material-ui/icons/Timeline";
-import InsertChartIcon from "@material-ui/icons/InsertChart";
 import TableChartIcon from "@mui/icons-material/TableChart";
 
 import useAuth from "../../hooks/useAuth";
