@@ -41,7 +41,7 @@ class Spectrogram {
 
     const NORMALISE_FACTOR = 360;
 
-    console.log("Spectrogram:loop: data = ", this.data);
+    // console.log("Spectrogram:loop: data = ", this.data);
 
     for (let i = 0; i < this.len; i++) {
       const rat = this.data[i] / NORMALISE_FACTOR; // 0-1 normalise
@@ -49,7 +49,7 @@ class Spectrogram {
       const sat = "100%";
       const lit = "50%";
 
-      console.log(`rat = ${rat}, hue = ${hue}, sat = ${sat}, lit = ${lit}`);
+      // console.log(`rat = ${rat}, hue = ${hue}, sat = ${sat}, lit = ${lit}`);
 
       this.context.beginPath();
       this.context.strokeStyle = `hsl(${hue}, ${sat}, ${lit})`;

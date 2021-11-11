@@ -5,12 +5,7 @@ Generic Styling, for Desktops/Laptops
 table { 
 	border-collapse: collapse;
 }
-/* Zebra striping */
-/* 
-tr:nth-of-type(odd) { 
-	background: #eee; 
-} 
-*/
+
 th { 
 	/* background: rgb(211, 209, 209);  */
 	/* color: rgb(65, 64, 64);  */
@@ -20,9 +15,10 @@ th {
 	background-position: 3% center;
 }
 td, th { 
-	padding: 6px; 
-	border: 1px solid rgb(255, 255, 255);
-	color: black;
+	padding: 3px; 
+	/* change borders to debug table cells */
+	border: 1px solid rgb(255, 255, 255); 
+	color: rgb(30,129,176);
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: small;
 	font-weight: normal;

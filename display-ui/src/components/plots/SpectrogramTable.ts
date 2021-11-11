@@ -1,65 +1,79 @@
 import * as d3 from "d3";
+import * as _ from "lodash";
 import Spectrogram from "./Spectrogram";
 import "./SpectrogramTable.css";
 
 class SpectrogramTable {
   phaseDisplayId;
-  table = undefined;
-  spectrograms = undefined;
+  table;
+  cells;
+  colHeaders;
+  rowHeaders;
+  numRows;
+  numCols;
+  cellData;
 
   constructor(id) {
     this.phaseDisplayId = id;
   }
 
   draw(data) {
-    if (!this.table) {
-      this.table = this.drawTable(data);
+    this.cellData = data.phase_values;
 
-      this.spectrograms = new Array(data.polarisation.length);
-      for (let j = 0; j < data.polarisation.length; j++) {
-        this.spectrograms[j] = new Array(data.baseline.length);
+    if (!this.table || !_.isEqual(this.colHeaders, data.polarisation) || !_.isEqual(this.rowHeaders, data.baseline)) {
+      this.colHeaders = data.polarisation;
+      this.rowHeaders = data.baseline;
+      this.numCols = this.colHeaders.length;
+      this.numRows = this.rowHeaders.length;
+
+      this.cells = new Array(this.numRows);
+      for (let i = 0; i < this.numRows; i++) {
+        this.cells[i] = new Array(this.numCols);
       }
+
+      this.table = this.drawTable();
     }
 
     // console.log('spectrograms = ', this.spectrograms)
 
-    for (let i = 0; i < data.phase_values.length; i++) {
-      for (let j = 0; j < data.phase_values[i].length; j++) {
-        if (!this.spectrograms[i][j]) {
-          this.spectrograms[i][j] = new Spectrogram(`canvas${i}${j}`);
+    for (let i = 0; i < this.numRows; i++) {
+      for (let j = 0; j < this.numCols; j++) {
+        if (!this.cells[i][j]) {
+          this.cells[i][j] = new Spectrogram(`canvas${i}${j}`);
         }
-        this.spectrograms[i][j].draw(data.phase_values[i][j]);
+        this.cells[i][j].draw(this.cellData[i][j]);
       }
     }
   }
 
-  drawTable(data) {
-    const baseline = data.baseline;
-    baseline.unshift("");
-    const polarisation = data.polarisation;
-    // console.log(baseline, polarisation)
+  drawTable() {
+    // remove existing table
+    d3.select("#" + this.phaseDisplayId)
+      .selectAll("table")
+      .remove();
 
     const table = d3
       .select("#" + this.phaseDisplayId)
       .append("table")
       .style("class", "table");
 
-    // append the header row
-    table
-      .append("thead")
+    const thead = table.append("thead");
+    const tbody = table.append("tbody");
+
+    // append the column header row
+    thead
       .append("tr")
       .selectAll("th")
-      .data(baseline)
+      .data([""].concat(this.colHeaders)) // column "" is for row header
       .enter()
       .append("th")
-      .text((d) => d)
+      .text((col) => col)
       .style("class", "th");
 
     // create a row for each object/array in the data
-    const rows = table
-      .append("tbody")
+    const rows = tbody
       .selectAll("tr")
-      .data(polarisation)
+      .data(this.cells)
       .enter()
       .append("tr")
       .attr("id", (d, i) => {
@@ -70,13 +84,14 @@ class SpectrogramTable {
     rows
       .append("th")
       .attr("scope", "row")
-      .text((d) => d);
+      .text((row, i) => this.rowHeaders[i]);
 
     // create a cell in each row for each column
     rows
       .selectAll("td")
-      .data((d, i) => {
-        return d;
+      .data((row, i) => {
+        //
+        return this.colHeaders;
       })
       .enter()
       .append("td")
@@ -93,7 +108,7 @@ class SpectrogramTable {
       })
       .attr("style", "canvas");
 
-    return true;
+    return table;
   }
 }
 
