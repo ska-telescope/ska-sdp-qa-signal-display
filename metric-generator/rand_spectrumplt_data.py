@@ -6,11 +6,18 @@ from time import sleep
 from src.post_to_broker import post
 
 while True:
-    curve = []
+    frequencies = []
+    values = []
     xMax = 100
     yMax = 20
+    flags = []
+    rfis = []
+
     for i in range(xMax):
-        curve.append([i, random.randrange(5, yMax - 1, 5)	, 0.4, 0.8])
+        frequencies.append(i)
+        values.append([random.randrange(5, yMax - 1, 5)	, 0.4, 0.8])
+        flags.append(random.randint(0, 1))
+        rfis.append(random.randrange(0, 2))    
 
     spectrumplt = {
         'topic': 'spectrum',
@@ -23,9 +30,12 @@ while True:
             'xMax': xMax,
             'yMin': 1,
             'yMax': yMax,
-            'data': curve
+            'frequencies': frequencies,
+            'spectrum_values': values,
+            'flags': flags,
+            'rfis': rfis,
         }
     }
 
     post(spectrumplt)
-    sleep(.5)
+    sleep(3)

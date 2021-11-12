@@ -13,13 +13,12 @@ const Spectrum = (props) => {
   function draw(width: number, height: number, data: any) {
     console.log("SpectrumPlot:draw: data = ", data);
     console.log("SpectrumPlot:draw: width, height =", width, height);
-    if (!data || !data.data || !width || !height) return;
+    if (!data || !data.spectrum_values || !data.spectrum_values.length || !width || !height) return;
 
     // Clear
     d3.select(ref.current).select("svg").remove();
 
-    const { xMin, xMax, yMin, yMax, xLabel, yLabel } = data;
-    const values = data.data;
+    const { xMin, xMax, yMin, yMax, xLabel, yLabel, frequencies, rfis, flags, spectrum_values } = data;
 
     // set the dimensions and margins of the graph
     const margin = { top: 10, right: 10, bottom: 40, left: 50 };
@@ -46,7 +45,7 @@ const Spectrum = (props) => {
     // Show confidence interval or std
     svg
       .append("path")
-      .datum(values)
+      .datum(spectrum_values)
       .attr("fill", "#1f77b4")
       .attr("stroke", "none")
       .attr("opacity", 0.3)
@@ -55,17 +54,17 @@ const Spectrum = (props) => {
         d3
           .area()
           .curve(d3.curveMonotoneX)
-          .x((d) => x(d[0]))
-          .y0((d) => y(d[1] + d[2]))
-          .y1((d) => y(d[1] - d[3])),
+          .x((value, i) => x(frequencies[i]))
+          .y0((value) => y(value[0] + value[1]))
+          .y1((value) => y(value[0] - value[2])),
       );
 
     // Add the line
     svg
       .append("path")
-      .datum(values)
+      .datum(spectrum_values)
       .attr("fill", "none")
-      .attr("stroke", "#1f77b4")
+      .attr("stroke", "#3366CC")
       .attr("stroke-width", 1.5)
       .attr("opacity", 1)
       .attr(
@@ -73,9 +72,32 @@ const Spectrum = (props) => {
         d3
           .line()
           .curve(d3.curveMonotoneX)
-          .x((d) => x(d[0]))
-          .y((d) => y(d[1])),
+          .x((value, i) => x(frequencies[i]))
+          .y((value) => y(value[0])),
       );
+
+    // rfi flags
+    if (rfis) {
+      svg
+        .selectAll(".point")
+        .data(spectrum_values)
+        .enter()
+        .append("path")
+        .attr("d", d3.symbol().type(d3.symbolSquare))
+        .style("fill", "#00CC66")
+        .style("opacity", (value, i) => flags[i] * 1)
+        .attr("transform", (value, i) => "translate(" + x(frequencies[i]) + "," + y(value[0]) + ")");
+
+      svg
+        .selectAll(".point")
+        .data(spectrum_values)
+        .enter()
+        .append("path")
+        .attr("d", d3.symbol().type(d3.symbolCircle))
+        .style("fill", "#CC3366")
+        .style("opacity", (value, i) => rfis[i] * 0.8)
+        .attr("transform", (value, i) => "translate(" + x(frequencies[i]) + "," + y(yMin) + ")");
+    }
 
     // Label for the x-axis
     svg

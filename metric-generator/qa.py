@@ -32,7 +32,7 @@ def autospectrum_plot(data, antenna1, antenna2, frequency, chan_avg=5):
     spec_std = tmp.std(axis=1)
 
     # Stack data into 2D array
-    data = np.stack((freq_avg, spec_avg, spec_std, spec_std)).T
+    data = np.stack((spec_avg, spec_std, spec_std)).T
 
     # Create body of plot
     body = {
@@ -43,7 +43,8 @@ def autospectrum_plot(data, antenna1, antenna2, frequency, chan_avg=5):
         "xMax": np.max(freq_avg),
         "yMin": np.min(spec_avg),
         "yMax": np.max(spec_avg),
-        "data": data.tolist(),
+        "frequencies": freq_avg.tolist(),
+        "spectrum_values": data.tolist(),
     }
 
     return body
@@ -79,7 +80,7 @@ def phase_plot(data, baseline, frequency, polarisation, chan_avg=50):
         "baseline": baseline,
         "frequency": freq_avg.tolist(),
         "polarisation": polarisation,
-        "phase": phase.tolist(),
+        "phase_values": phase.tolist(),
     }
 
     return body
