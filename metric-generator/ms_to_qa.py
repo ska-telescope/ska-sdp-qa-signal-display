@@ -67,7 +67,7 @@ def ms_to_qa(ms, interval=None):
     antenna1 = tablecolumn(main_table, "ANTENNA1")[0:num_baselines]
     antenna2 = tablecolumn(main_table, "ANTENNA2")[0:num_baselines]
     name = tablecolumn(ant_table, "NAME")[0:num_antennas]
-    baseline = [(name[a1], name[a2]) for a1, a2 in zip(antenna1, antenna2)]
+    baseline = [f"{name[a1]}, {name[a2]}" for a1, a2 in zip(antenna1, antenna2)]
 
     # Channel frequencies
     frequency = tablecolumn(spw_table, "CHAN_FREQ")[0]
@@ -87,8 +87,12 @@ def ms_to_qa(ms, interval=None):
     data = tablecolumn(main_table, "DATA")
 
     # Create array to contain data for one time sample
-    data_sample = np.zeros(
+    data_sample_a = np.zeros(
         (num_baselines, num_channels, num_polarisations), dtype=np.complex128
+    )
+
+    data_sample_b = np.zeros(
+        (num_baselines, num_polarisations, num_channels), dtype=np.complex128
     )
 
     try:
@@ -102,17 +106,18 @@ def ms_to_qa(ms, interval=None):
 
             for b in range(num_baselines):
                 i = t * num_baselines + b
-                data_sample[b, :, :] = data[i]
+                data_sample_a[b, :, :] = data[i]
+                data_sample_b[b, :, :] = np.transpose(data[i])
 
             # Generate plots and send to queues
 
             topic = "spectrum"
-            body = qa.autospectrum_plot(data_sample, antenna1, antenna2, frequency)
+            body = qa.autospectrum_plot(data_sample_a, antenna1, antenna2, frequency)
             autospectrum_plot = make_plot(topic, body)
             post(autospectrum_plot)
 
             topic = "phase"
-            body = qa.phase_plot(data_sample, baseline, frequency, polarisation)
+            body = qa.phase_plot(data_sample_b, baseline, frequency, polarisation)
             phase_plot = make_plot(topic, body)
             post(phase_plot)
 

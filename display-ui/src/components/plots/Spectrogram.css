@@ -1,7 +1,7 @@
 canvas {
     display: block;
-    height: 100px;
-    width: 100px;
+    height: 50px;
+    width: 200px;
     outline: gray 1px solid;
   }
    
