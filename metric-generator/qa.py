@@ -57,7 +57,7 @@ def autospectrum_plot(data, antenna1, antenna2, frequency, chan_avg=5):
     return body
 
 
-def phase_plot(data, baseline, frequency, polarisation, chan_avg=1):
+def phase_plot(data, baseline, frequency, polarisation, chan_avg=50):
     """
     Generate plot of phase.
 
