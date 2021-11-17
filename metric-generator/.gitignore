@@ -284,8 +284,13 @@ pip-selfcheck.json
 .DS_Store
 
 
+*.log
+*.zip
+
 # Expanded Measurement Sets
 data/*.ms
 data/ms-for-rfi-testing
 data/*.ms.split
+
 # End of .gitignore
+

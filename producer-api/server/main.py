@@ -70,7 +70,7 @@ async def broker_produce(msg: ProducerMessage):
     """
     payload = msg.dict()
     topic = payload.get("topic")
-    logger.info(f'broker_produce: payload = {payload}')
+    logger.debug(f'broker_produce: payload = {payload}')
 
     await aioproducer.send(topic, payload)
 
