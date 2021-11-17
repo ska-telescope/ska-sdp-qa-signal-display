@@ -7,7 +7,7 @@ import numpy as np
 
 # translate numbers from a range to another range
 # by default, -180 - 180 -> 0 - 360
-def transfrom(x, min_a=-180, max_a=180, min_b=0, max_b=360):
+def transfrom_hsl(x, min_a=-180, max_a=180, min_b=0, max_b=360):
     return (x - min_a) * ((max_b - min_b) / (max_a - min_a)) + min_b
 
 
@@ -24,22 +24,19 @@ def autospectrum_plot(data, antenna1, antenna2, frequency, chan_avg=5):
     """
     # Extract autocorrelations and calculate their intensity
     auto = np.array(antenna1) == np.array(antenna2)
-    spectrum = 0.5 * (data[auto, :, 0] + data[auto, :, 3]).real
+    data_auto = data[auto, :, :]
+    spectrum = 0.5 * (data_auto[:, :, 0] + data_auto[:, :, 3]).real
 
     # Take mean over antennas
     spectrum = spectrum.mean(axis=0)
 
     # Average frequencies over channels and convert to MHz
-    # freq_avg = 1.0e-6 * frequency.reshape(-1, chan_avg).mean(axis=1)
-    freq_avg = 1.0e-6 * frequency
+    freq_avg = 1.0e-6 * frequency.reshape(-1, chan_avg).mean(axis=1)
 
     # Take mean and standard deviation of spectrum over channels
-    # tmp = spectrum.reshape(-1, chan_avg)
-    # spec_avg = tmp.mean(axis=1)
-    # spec_std = tmp.std(axis=1)
-    tmp = spectrum
-    spec_avg = tmp
-    spec_std = np.zeros(tmp.shape)
+    tmp = spectrum.reshape(-1, chan_avg)
+    spec_avg = tmp.mean(axis=1)
+    spec_std = tmp.std(axis=1)
 
     # Stack data into 2D array
     data = np.stack((spec_avg, spec_std, spec_std)).T
@@ -60,7 +57,7 @@ def autospectrum_plot(data, antenna1, antenna2, frequency, chan_avg=5):
     return body
 
 
-def phase_plot(data, baseline, frequency, polarisation, chan_avg=50):
+def phase_plot(data, baseline, frequency, polarisation, chan_avg=1):
     """
     Generate plot of phase.
 
@@ -72,24 +69,20 @@ def phase_plot(data, baseline, frequency, polarisation, chan_avg=50):
 
     """
     # Get array dimensions
-    # nbase, _, npol = data.shape
-    nbase, npol, _ = data.shape
+    nbase, _, npol = data.shape
 
     # Normalise visibilities by dividing by amplitude
     data_norm = np.where(data != 0.0, data / np.abs(data), 0.0)
 
     # Average over channels
-    # freq_avg = frequency.reshape(-1, chan_avg).mean(axis=1)
-    freq_avg = frequency
-
-    # data_avg = data_norm.reshape(nbase, -1, chan_avg, npol).mean(axis=2)
-    data_avg = data_norm
+    freq_avg = frequency.reshape(-1, chan_avg).mean(axis=1)
+    data_avg = data_norm.reshape(nbase, -1, chan_avg, npol).mean(axis=2)
 
     # Get phase (in range -180 to 180)
     phase = np.angle(data_avg, deg=True)
 
-    # convert phase (in range 0 to 360)
-    phase_scaled = transfrom(phase)
+    ## convert phase (in range 0 to 360)
+    phase_hsl = transfrom_hsl(phase)
 
     # Create body of plot
     body = {
@@ -97,8 +90,8 @@ def phase_plot(data, baseline, frequency, polarisation, chan_avg=50):
         "baseline": baseline,
         "frequency": freq_avg.tolist(),
         "polarisation": polarisation,
-        # "phase_values": phase.tolist(),
-        "phase_values": phase_scaled.tolist(),
+        ## (baseline, channel, polarisation) -> (baseline, polarisation, channel)
+        "phase_values": phase_hsl.transpose(0, 2, 1).tolist(),
     }
 
     return body

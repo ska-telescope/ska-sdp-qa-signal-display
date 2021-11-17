@@ -37,7 +37,7 @@ export PRODUCER_API=http://localhost:8001
 ```
 
 # Generate Matrices
-## Synthetic/Random Data
+## Synthetic / Randomly Generated
 
 Create random spectrum plot and spectrogram data, and send to the message broker
 
@@ -48,19 +48,16 @@ python rand_phase_display_data.py
 
 ## Measurement Set
 
-Read a measurement set, create spectrum plot data, and send to the message broker
 ```bash
-python ms_to_spectrumplt.py data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms
-```
-
-We used [this](https://console.cloud.google.com/storage/browser/ska1-simulation-data/simulations/psi_simulations_SP-1158/low/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms.split) MS to test the spectrogram.
-
-
-```bash
+python ms_to_qa.py <.ms>
+## example
 python ms_to_qa.py ./data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms.split
 ```
 
-## Plasma
+We used measurement set [1](https://console.cloud.google.com/storage/browser/ska1-simulation-data/simulations/psi_simulations_SP-1158/low/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms;tab=objects?prefix=&forceOnObjectsSortingFiltering=false) to test the spectrogram.
+
+
+## Using Plasma
 
 Read payloads from plasma, create spectrum plot data, and send to the message broker
 
@@ -81,13 +78,63 @@ emu-send -c ./50000ch.conf ./50000ch-model.ms
 ```
 
 
+# Data Structures
+
+Spectrum plot, 
+
+```sh
+{
+    'topic': String,
+    'timestamp': DateTime,                                  ## format("%Y-%m-%d %H:%M:%S")
+    'body': {
+        'description': String,
+        'xLabel': String,
+        'yLabel': String,
+        'xMin': Number,
+        'xMax': Number,
+        'yMin': Number,
+        'yMax': Number,
+        'frequencies': Array[Number],
+        'spectrum_values': Array[[Number, Number, Number]], ## shape: (3, #channels)
+    }
+}
+
+```
+See the file `rand_spectrumplt_data.py` as an example.
+
+Phase display with waterfall of spectrograms,
+
+```sh
+{
+    'topic': String,
+    'timestamp': DateTime,                 ## format("%Y-%m-%d %H:%M:%S")
+    "body": {
+        "polarisation": String[],
+        "baseline": String[],
+        "phase_values": Array[[[Number]]]  ## 3D array of shape: (#baseline, #polarisation, #channels)
+            
+    }
+}
+
+```
+See the file `rand_phase_display_data.py` as an example.
+
+
 # Downloading Measurement Sets
 
-An example command to download a measurement set from GCP,
+Download measurement sets from GCP,
 
 ```bash
+# using gsutil tool
+gsutil -m cp -r <src> <dst>
+
+## create & download in the metrics-generator/data folder
 cd metrics-generator 
 mkdir ./data
 
+## example 1
 gsutil -m cp -r "gs://ska1-simulation-data/ska1-low/psi_test/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms" ./data/
+## example 2
+gsutil -m cp -r "gs://ska1-simulation-data/simulations/psi_simulations_SP-1158/low/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms" ./data/
+
 ```
