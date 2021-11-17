@@ -1,11 +1,8 @@
 
-# metric-generator
+# Metric Generator
 
 
-## Requirements
-
-
-## Setting up
+## Development
 
 Setup a python virtual environment and install the dependencies.
 
@@ -33,15 +30,6 @@ TODO: Create conda environment.yml
 
 ## Running the Project in Development
 
-Download an example measurement set:
-
-```bash
-mkdir ./data
-
-gsutil -m cp -r \
-"gs://ska1-simulation-data/ska1-low/psi_test/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms" \
-./data/
-```
 
 Set the configuration variables, and run the code for reading measurement set, generate quality metrics (e.g., spectrum plot) and feed metrics the broker API:
 
@@ -52,19 +40,33 @@ export BROKER_API=http://broker-api:8001 # or
 export BROKER_API=http://localhost:8001
 ```
 
-### Create random spectrum plot data, and send to the message broker
+# Generate Matrices
+## Synthetic/Random Data
+
+Create random spectrum plot and spectrogram data, and send to the message broker
 
 ```
-python rand_spectrumplt.py
+python rand_spectrumplt_data.py
+python rand_phase_display_data.py
 ```
 
-### Read a measurement set, create spectrum plot data, and send to the message broker
+## Measurement Set
+
+Read a measurement set, create spectrum plot data, and send to the message broker
 ```bash
 python ms_to_spectrumplt.py data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms
-
 ```
 
-### Read payloads from plasma, create spectrum plot data, and send to the message broker
+We used [this](https://console.cloud.google.com/storage/browser/ska1-simulation-data/simulations/psi_simulations_SP-1158/low/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms.split) MS to test the spectrogram.
+
+
+```bash
+python ms_to_qa.py ./data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms.split
+```
+
+## Plasma
+
+Read payloads from plasma, create spectrum plot data, and send to the message broker
 ```
 # Create plasma store
 plasma_store -m 1000000000 -s /tmp/plasma &
@@ -82,15 +84,13 @@ emu-send -c ./50000ch.conf ./50000ch-model.ms
 ```
 
 
+# Downloading Measurement Sets
 
-
-
-
-## Generationg data for Spectrogram
-
-We used [this](https://console.cloud.google.com/storage/browser/ska1-simulation-data/simulations/psi_simulations_SP-1158/low/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms.split) to test the spectrogram.
-
+An example command to download a measurement set from GCP,
 
 ```bash
-python ms_to_qa.py ./data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms.split
+cd metrics-generator 
+mkdir ./data
+
+gsutil -m cp -r "gs://ska1-simulation-data/ska1-low/psi_test/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms" ./data/
 ```
