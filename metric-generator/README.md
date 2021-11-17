@@ -1,22 +1,25 @@
 
 # Metric Generator
 
+Here, we will describe how to develop and debug the code, and how to generate different quality matrices.
 
-## Development
+# Development & Debugging
 
-Setup a python virtual environment and install the dependencies.
+The docker container's working/source directory `/usr/src/metric-generator` is mapped/mounted to the host's `./metric-generator` folder. Therefore, attaching a VSCode editor to the `metric-generator` container is a most convenient way to develop and debug.
+
+> Note: follow the instructions below to develop and debug in the host machine, which is not recommended.
+
+Required
+- Python 3.8.
 
 ```bash
+## create a virtual environment and install dependencies
 pip install virtualenv
 virtualenv venv
-
 source ./venv/bin/activate
 pip install -r requirements.txt
-```
 
-In **MAC**, the `python-casacore` installation in virtualenv gives error related to C++ library. Whereas in conda environment it works well.
-
-```bash
+## in **MAC**, the python-casacore installation in virtualenv gives error (C++ library related), therefore, use a conda environment to install casacore libraries.
 conda create --name metric-generator python=3.8
 conda activate metric-generator
 
@@ -25,19 +28,12 @@ conda install -c conda-forge loguru
 conda install -c conda-forge plotly
 conda install -c conda-forge starlette
 conda install -c conda-forge requests
-```
-TODO: Create conda environment.yml
 
-## Running the Project in Development
+## set the configuration variables, and run the code for reading measurement set, generate quality metrics (e.g., spectrum plot) and feed metrics the broker API:
 
-
-Set the configuration variables, and run the code for reading measurement set, generate quality metrics (e.g., spectrum plot) and feed metrics the broker API:
-
-
-Set the broker address, for example,
-```
-export BROKER_API=http://broker-api:8001 # or
-export BROKER_API=http://localhost:8001
+export PRODUCER_API=http://broker-api:8001 
+## or
+export PRODUCER_API=http://localhost:8001
 ```
 
 # Generate Matrices
@@ -67,18 +63,19 @@ python ms_to_qa.py ./data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autoc
 ## Plasma
 
 Read payloads from plasma, create spectrum plot data, and send to the message broker
-```
-# Create plasma store
+
+```bash
+## create plasma store
 plasma_store -m 1000000000 -s /tmp/plasma &
 
-# Convert plasma payload to spectrumplot and send to the message broker
+## convert plasma payload to spectrumplot and send to the message broker
 python plasma_to_spectrumplt.py "/tmp/plasma"
 
-# Start receiver
+## start receiver
 cd data
 emu-recv -c ./50000ch.conf
 
-# Start sender
+## send data
 cd data
 emu-send -c ./50000ch.conf ./50000ch-model.ms
 ```

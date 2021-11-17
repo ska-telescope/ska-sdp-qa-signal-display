@@ -16,11 +16,11 @@ WORKDIR /usr/src/display-ui
 COPY . .
 RUN npm install
 
-# production build
+## production build and start
 RUN npm run build
 RUN npm install -g serve
 CMD ["serve", "-s", "build", "-l", "3000"]
 
-# start development server without build
+## start development server without building
 # RUN npm install -g create-react-app
 # CMD ["npm", "start"]
