@@ -80,3 +80,17 @@ emu-recv -c ./50000ch.conf
 cd data
 emu-send -c ./50000ch.conf ./50000ch-model.ms
 ```
+
+
+
+
+
+
+## Generationg data for Spectrogram
+
+We used [this](https://console.cloud.google.com/storage/browser/ska1-simulation-data/simulations/psi_simulations_SP-1158/low/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms.split) to test the spectrogram.
+
+
+```bash
+python ms_to_qa.py ./data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms.split
+```
