@@ -1,0 +1,63 @@
+import * as d3 from "d3";
+
+export class RfiStat {
+  canvas;
+  width;
+  height;
+  margin = { top: 2, right: 2, bottom: 2, left: 2 };
+
+  constructor(id) {
+    this.canvas = document.getElementById(id);
+    this.width = 400; // this.canvas.width;
+    this.height = 20; //this.canvas.height;
+
+    // set the dimensions and margins of the graph
+    this.width = this.width - this.margin.left - this.margin.right;
+    this.height = this.height - this.margin.top - this.margin.bottom;
+  }
+
+  draw(data: { rfi_data: number[]; flags: number[] }) {
+    // console.log("RfiStat:draw: data = ", data);
+    // validation
+    // if (!data || !data.spectrum_values || !data.spectrum_values.length || !width || !height) return;
+    const { rfi_data, flags } = data;
+
+    // clear
+    d3.select(this.canvas).select("svg").remove();
+
+    // append the svg object to the body of the page
+    const svg = d3
+      .select(this.canvas)
+      .append("svg")
+      .attr("width", this.width + this.margin.left + this.margin.right)
+      .attr("height", this.height + this.margin.top + this.margin.bottom)
+      .append("g")
+      .attr("transform", `translate(${this.margin.left},${this.margin.top})`)
+      .attr("outline", "gray 1px solid");
+
+    let rh = 0,
+      rw = 0;
+    rw = this.width / rfi_data.length;
+    rh = this.height;
+    svg
+      .selectAll("rect")
+      .data(rfi_data)
+      .enter()
+      .append("rect")
+      .attr("x", (d, i) => {
+        return rw * i;
+      })
+      .attr("width", rw)
+      .attr("height", rh)
+      .attr("fill", (d, i) => {
+        // console.log(rfis[i], flags[i]);
+        if (rfi_data[i] === 0 && flags[i] === 0) return "#D3D3D3";
+        else if (rfi_data[i] === 0 && flags[i] === 1) return "#FF6666";
+        else if (rfi_data[i] !== 0 && flags[i] === 0) return "#FF9966";
+        else if (rfi_data[i] !== 0 && flags[i] === 1) return "#A9A9A9";
+        else return "black";
+      });
+
+    svg.exit().transition().duration(300).attr("y", this.height).attr("height", 0).remove();
+  }
+}

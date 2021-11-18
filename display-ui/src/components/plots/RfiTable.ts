@@ -1,10 +1,13 @@
 import * as d3 from "d3";
 import * as _ from "lodash";
-// import RfiHighlight from "./RfiHighlight";
+import { RfiTableModel } from "../../models/RfiTableModel";
+import { RfiDetailsPlot } from "./RfiDetailsPlot";
+import { RfiStat } from "./RfiStat";
 import "./RfiTable.css";
 
-class RfiTable {
-  displayId;
+export class RfiTable {
+  tableId;
+  plotId;
   table;
   cells;
   colHeaders;
@@ -13,12 +16,14 @@ class RfiTable {
   numCols;
   cellData;
 
-  constructor(id) {
-    this.displayId = id;
+  rfiHighlight: RfiDetailsPlot;
+
+  constructor(tableId) {
+    this.tableId = tableId;
   }
 
-  draw(data) {
-    this.cellData = data.values;
+  draw(data: RfiTableModel) {
+    this.cellData = data;
 
     if (!this.table || !_.isEqual(this.colHeaders, data.polarisation) || !_.isEqual(this.rowHeaders, data.baseline)) {
       this.colHeaders = data.polarisation;
@@ -37,21 +42,24 @@ class RfiTable {
     for (let i = 0; i < this.numRows; i++) {
       for (let j = 0; j < this.numCols; j++) {
         if (!this.cells[i][j]) {
-          // this.cells[i][j] = new Spectrogram(`canvas${i}${j}`);
+          this.cells[i][j] = new RfiStat(`g${i}${j}`);
         }
-        // this.cells[i][j].draw(this.cellData[i][j]);
+        this.cells[i][j].draw({
+          rfi_data: this.cellData.rfi_data[i][j],
+          flags: this.cellData.flags[i][j],
+        });
       }
     }
   }
 
   drawTable() {
     // remove existing table
-    d3.select("#" + this.displayId)
+    d3.select("#" + this.tableId)
       .selectAll("table")
       .remove();
 
     const table = d3
-      .select("#" + this.displayId)
+      .select("#" + this.tableId)
       .append("table")
       .style("class", "table");
 
@@ -98,16 +106,14 @@ class RfiTable {
         const trId = d3.select(this).node().parentNode.id;
         return `${trId}${i}`;
       })
-      .append("canvas")
+      .append("g")
       .attr("id", function (d, i) {
         // the current node is selected using 'this', hence use 'function', not '=>'
         const tdId = d3.select(this).node().parentNode.id;
-        return `canvas${tdId}`;
-      })
-      .attr("style", "canvas");
+        return `g${tdId}`;
+      });
+    // .attr("style", "canvas");
 
     return table;
   }
 }
-
-export default RfiTable;

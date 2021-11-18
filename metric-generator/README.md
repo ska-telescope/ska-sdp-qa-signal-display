@@ -57,6 +57,12 @@ python ms_to_qa.py ./data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autoc
 We used measurement set [1](https://console.cloud.google.com/storage/browser/ska1-simulation-data/simulations/psi_simulations_SP-1158/low/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms;tab=objects?prefix=&forceOnObjectsSortingFiltering=false) to test the spectrogram.
 
 
+For the RFI debugging
+
+```bash
+python rfi_main.py ./data/rfi/20_sources_with_screen/aa0.5_ms.MS ./data/rfi/aa05_low_rfi_84chans.ms
+```
+
 ## Using Plasma
 
 Read payloads from plasma, create spectrum plot data, and send to the message broker
