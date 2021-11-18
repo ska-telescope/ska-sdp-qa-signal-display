@@ -9,10 +9,9 @@ import type { Theme } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import TimelineIcon from "@material-ui/icons/Timeline";
-import TableChartIcon from "@mui/icons-material/TableChart";
-
+import WaterfallChartIcon from "@mui/icons-material/WaterfallChart";
+import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
 import useAuth from "../../hooks/useAuth";
-
 import Logo from "../Logo";
 import NavSection from "../NavSection";
 import Scrollbar from "../Scrollbar";
@@ -44,7 +43,17 @@ const sections = [
       {
         title: "Phase Display",
         path: "/plot/phase-display",
-        icon: <TableChartIcon fontSize="small" />,
+        icon: <WaterfallChartIcon fontSize="small" />,
+      },
+    ],
+  },
+  {
+    title: "RFI",
+    items: [
+      {
+        title: "RFI Display",
+        path: "/plot/rfi-display",
+        icon: <SignalCellularAltIcon fontSize="small" />,
       },
     ],
   },
