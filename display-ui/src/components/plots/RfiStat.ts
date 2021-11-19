@@ -1,5 +1,8 @@
 import * as d3 from "d3";
 
+const FLAG_LEGENDS = ["TP", "TN", "FP", "FN"];
+const FLAG_COLORS = ["#2c7bb6", "#abd9e9", "#d7191c", "#fdae61"];
+
 export class RfiStat {
   canvas;
   width;
@@ -50,11 +53,10 @@ export class RfiStat {
       .attr("width", rw)
       .attr("height", rh)
       .attr("fill", (d, i) => {
-        // console.log(rfis[i], flags[i]);
-        if (rfi_data[i] === 0 && flags[i] === 0) return "#D3D3D3";
-        else if (rfi_data[i] === 0 && flags[i] === 1) return "#FF6666";
-        else if (rfi_data[i] !== 0 && flags[i] === 0) return "#FF9966";
-        else if (rfi_data[i] !== 0 && flags[i] === 1) return "#A9A9A9";
+        if (rfi_data[i] !== 0 && flags[i] === 1) return FLAG_COLORS[0];
+        else if (rfi_data[i] === 0 && flags[i] === 0) return FLAG_COLORS[1];
+        else if (rfi_data[i] === 0 && flags[i] === 1) return FLAG_COLORS[2];
+        else if (rfi_data[i] !== 0 && flags[i] === 0) return FLAG_COLORS[3];
         else return "black";
       });
 
