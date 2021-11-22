@@ -23,12 +23,6 @@ The following sections provide the design, development, and deployment documenta
 
 
   ../content/architecture
-
-
-.. toctree::
-  :maxdepth: 1
-
-  ../content/prerequisites_installation
   ../content/development
   ../content/deployment
   ../content/issues

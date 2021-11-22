@@ -285,6 +285,7 @@ pip-selfcheck.json
 
 
 # Expanded Measurement Sets
+data/rfi
 data/*.ms
 
 # End of .gitignore
