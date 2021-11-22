@@ -1,9 +1,14 @@
 
-```bash
-# activate a python environment, e.g.,
-conda activate <>
+Required 
+- Python 3.8
 
+```bash
+## prepare a python environment
+pip install virtualenv
+virtualenv venv
+source ./venv/bin/activate
 pip install -r requirements.txt
+
 sphinx-autobuild --watch . src build
 ```
 
