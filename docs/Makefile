@@ -12,7 +12,7 @@ DOXY_OUTDIR   = doxygen
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
-DOXYGEN_xml     = -D breathe_projects.ska-sdp-exec-iotest=$(DOXY_OUTDIR)/xml
+DOXYGEN_xml     = -D breathe_projects.ska-sdp-qa-display=$(DOXY_OUTDIR)/xml
 ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(DOXYGEN_xml) $(SPHINXOPTS) $(SOURCEDIR)
 # the i18n builder cannot share the environment and doctrees with the others
 I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) $(SOURCEDIR)

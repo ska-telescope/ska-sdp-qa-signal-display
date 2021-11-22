@@ -19,12 +19,15 @@
 #
 import os
 import sys
+
 sys.path.insert(0, os.path.abspath(os.path.join("..", "..", "src")))
 import sphinx_rtd_theme
 
+
 def setup(app):
-    app.add_css_file('css/custom.css')
-    app.add_js_file('js/github.js')
+    app.add_css_file("css/custom.css")
+    app.add_js_file("js/github.js")
+
 
 # -- General configuration ------------------------------------------------
 
@@ -35,44 +38,45 @@ def setup(app):
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autodoc',
-              'sphinx.ext.napoleon',
-              'sphinx.ext.doctest',
-              'sphinx.ext.intersphinx',
-              'sphinx.ext.autosectionlabel',
-              'sphinx.ext.todo',
-              'sphinx.ext.coverage',
-              'sphinx.ext.mathjax',
-              'sphinx.ext.ifconfig',
-              'sphinx.ext.viewcode',
-              'sphinx.ext.githubpages',
-              'breathe',
-              'm2r2',
-              ]
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.doctest",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.autosectionlabel",
+    "sphinx.ext.todo",
+    "sphinx.ext.coverage",
+    "sphinx.ext.mathjax",
+    "sphinx.ext.ifconfig",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.githubpages",
+    "breathe",
+    "m2r2",
+]
 
 # Make sure the target is unique
 autosectionlabel_prefix_document = True
 
 # Add breathe configuration options
-breathe_projects = { "ska-sdp-exec-iotest": os.path.join("..", "doxygen", "xml")}
-breathe_default_project = "ska-sdp-exec-iotest"
+breathe_projects = {"ska-sdp-qa-display": os.path.join("..", "doxygen", "xml")}
+breathe_default_project = "ska-sdp-qa-display"
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
-source_suffix = ['.rst', '.md']
+source_suffix = [".rst", ".md"]
 # source_suffix = '.rst'
 
 # The master toctree document.
-master_doc = 'index'
+master_doc = "index"
 
 # General information about the project.
-project = 'SKA SDP QA Display'
-copyright = '2021, SKA SDP Developers'
-author = 'SKA SDP Developers'
+project = "SKA SDP QA Display"
+copyright = "2021, SKA SDP Developers"
+author = "SKA SDP Developers"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -88,7 +92,7 @@ author = 'SKA SDP Developers'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = 'En-en'
+language = "En-en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -96,7 +100,7 @@ language = 'En-en'
 exclude_patterns = []
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = "sphinx"
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
@@ -107,7 +111,7 @@ todo_include_todos = True
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_rtd_theme'
+html_theme = "sphinx_rtd_theme"
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -120,28 +124,27 @@ html_theme_options = {
 }
 
 html_context = {
-    'favicon': 'img/favicon.ico',
-    'logo': 'img/logo.jpg',
-    'theme_logo_only' : True,
-    'display_github': True, # Integrate GitHub
-    'github_user': '', # Username
-    'github_repo': '', # Repo name
-    'github_version': 'master', # Version
-    'conf_py_path': '/src/', # Path in the checkout to the docs root
-
+    "favicon": "img/favicon.ico",
+    "logo": "img/logo.jpg",
+    "theme_logo_only": True,
+    "display_github": True,  # Integrate GitHub
+    "github_user": "",  # Username
+    "github_repo": "",  # Repo name
+    "github_version": "master",  # Version
+    "conf_py_path": "/src/",  # Path in the checkout to the docs root
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ["_static"]
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
 #
 # This is required for the alabaster theme
 # refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
-#html_sidebars = {
+# html_sidebars = {
 #    '**': [
 #        'about.html',
 #        'navigation.html',
@@ -149,13 +152,13 @@ html_static_path = ['_static']
 #        'searchbox.html',
 #        'donate.html',
 #    ]
-#}
+# }
 
 
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'developerskatelescopeorgdoc'
+htmlhelp_basename = "developerskatelescopeorgdoc"
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -164,15 +167,12 @@ latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
     # 'papersize': 'letterpaper',
-
     # The font size ('10pt', '11pt' or '12pt').
     #
     # 'pointsize': '10pt',
-
     # Additional stuff for the LaTeX preamble.
     #
     # 'preamble': '',
-
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
@@ -182,11 +182,13 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc,
-    'developerskatelescopeorg.tex',
-    'developer.skatelescope.org Documentation',
-    '',
-    'manual'),
+    (
+        master_doc,
+        "developerskatelescopeorg.tex",
+        "developer.skatelescope.org Documentation",
+        "",
+        "manual",
+    ),
 ]
 
 
@@ -195,11 +197,13 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc,
-    'developerskatelescopeorg',
-    'developer.skatelescope.org Documentation',
-     [author],
-     1)
+    (
+        master_doc,
+        "developerskatelescopeorg",
+        "developer.skatelescope.org Documentation",
+        [author],
+        1,
+    )
 ]
 
 
@@ -209,15 +213,16 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc,
-    'developerskatelescopeorg',
-    'developer.skatelescope.org Documentation',
-     author,
-     'developerskatelescopeorg',
-     'One line description of project.',
-     'Miscellaneous'),
+    (
+        master_doc,
+        "developerskatelescopeorg",
+        "developer.skatelescope.org Documentation",
+        author,
+        "developerskatelescopeorg",
+        "One line description of project.",
+        "Miscellaneous",
+    ),
 ]
-
 
 
 # -- Options for Epub output ----------------------------------------------
@@ -238,9 +243,8 @@ epub_copyright = copyright
 # epub_uid = ''
 
 # A list of files that should not be packed into the epub file.
-epub_exclude_files = ['search.html']
-
+epub_exclude_files = ["search.html"]
 
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}
+intersphinx_mapping = {"https://docs.python.org/": None}
