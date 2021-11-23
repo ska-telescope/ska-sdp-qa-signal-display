@@ -98,4 +98,4 @@ def read_ms(ms, interval=None):
         wait = round(start + interval - time.time())
         print("wait =", wait)
         if wait > 0.0:
-            time.sleep(1)
+            time.sleep(wait)
