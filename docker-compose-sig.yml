@@ -15,6 +15,8 @@ services:
     environment:
       BROKER_INSTANCE: 'broker:29092'
     # restart: always
+    volumes:
+      - ./producer-api/:/usr/src/producer-api
 
   metric-generator:
     depends_on:
@@ -26,7 +28,7 @@ services:
       dockerfile: Dockerfile
     shm_size: 2gb # to create enough plasma store for metric generator
     environment:
-      BROKER_API: 'http://producer-api:8001'
+      PRODUCER_API: 'http://producer-api:8001'
     stdin_open: true # docker run -i
     tty: true # docker run -t
     volumes:
@@ -45,6 +47,8 @@ services:
     environment:
       BROKER_INSTANCE: 'broker:29092'
     # restart: always
+    volumes:
+      - ./display-api/:/usr/src/display-api
 
   display-ui:
     depends_on:
@@ -56,4 +60,9 @@ services:
     build:
       context: ./display-ui/
       dockerfile: Dockerfile
+      args:
+        - REACT_APP_API=http://localhost:8002
+        - REACT_APP_WS=ws://localhost:8002/ws
     # restart: always
+    volumes:
+      - ./display-ui/:/usr/src/display-ui

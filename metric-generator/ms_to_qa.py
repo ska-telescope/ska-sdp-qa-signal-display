@@ -22,11 +22,13 @@ corrtype_to_pol = {
 }
 
 
-def make_plot(topic, body):
+def make_plot(topic, sample_time, body):
     """Create plot structure with timestamp."""
     plot = {
         "topic": topic,
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "timestamp": datetime.utcfromtimestamp(sample_time).strftime(
+            "%Y-%m-%d %H:%M:%S"
+        ),
         "body": body,
     }
     return plot
@@ -67,7 +69,7 @@ def ms_to_qa(ms, interval=None):
     antenna1 = tablecolumn(main_table, "ANTENNA1")[0:num_baselines]
     antenna2 = tablecolumn(main_table, "ANTENNA2")[0:num_baselines]
     name = tablecolumn(ant_table, "NAME")[0:num_antennas]
-    baseline = [(name[a1], name[a2]) for a1, a2 in zip(antenna1, antenna2)]
+    baseline = [f"{name[a1]}, {name[a2]}" for a1, a2 in zip(antenna1, antenna2)]
 
     # Channel frequencies
     frequency = tablecolumn(spw_table, "CHAN_FREQ")[0]
@@ -104,16 +106,18 @@ def ms_to_qa(ms, interval=None):
                 i = t * num_baselines + b
                 data_sample[b, :, :] = data[i]
 
+            sample_time = times[t * num_baselines]
+
             # Generate plots and send to queues
 
             topic = "spectrum"
             body = qa.autospectrum_plot(data_sample, antenna1, antenna2, frequency)
-            autospectrum_plot = make_plot(topic, body)
+            autospectrum_plot = make_plot(topic, sample_time, body)
             post(autospectrum_plot)
 
             topic = "phase"
             body = qa.phase_plot(data_sample, baseline, frequency, polarisation)
-            phase_plot = make_plot(topic, body)
+            phase_plot = make_plot(topic, sample_time, body)
             post(phase_plot)
 
             # Wait until sending next sample, if necessary

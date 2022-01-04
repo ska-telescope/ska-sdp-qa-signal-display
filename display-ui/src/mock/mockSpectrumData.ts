@@ -1,3 +1,6 @@
+//
+// This data structure is out of date!
+//
 const mockSpectrumDataPayload = {
   body: {
     description: "Spectrum",

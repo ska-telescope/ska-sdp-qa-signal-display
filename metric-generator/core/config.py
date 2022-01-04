@@ -8,8 +8,10 @@ from core.logging import InterceptHandler
 
 config = Config(".env")
 
+print(f'config={config}')
+
 PROJECT_NAME: str = config("PROJECT_NAME", default="metric-generator")
-BROKER_API = os.environ.get("BROKER_API", "http://localhost:8001")
+PRODUCER_API = os.environ.get("PRODUCER_API", "http://localhost:8001")
 
 DEBUG: bool = config("DEBUG", cast=bool, default=False)
 LOGGING_LEVEL = logging.DEBUG if DEBUG else logging.INFO

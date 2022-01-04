@@ -4,20 +4,12 @@ import { useEffect } from "react";
 import type { FC } from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-import {
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  Drawer,
-  Link,
-  Typography,
-} from "@material-ui/core";
+import { Avatar, Box, Button, Divider, Drawer, Link, Typography } from "@material-ui/core";
 import type { Theme } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import TimelineIcon from "@material-ui/icons/Timeline";
-import InsertChartIcon from "@material-ui/icons/InsertChart";
+import TableChartIcon from "@mui/icons-material/TableChart";
 
 import useAuth from "../../hooks/useAuth";
 
@@ -45,14 +37,14 @@ const sections = [
     title: "Plots",
     items: [
       {
-        title: "Spectrum",
-        path: "/plot/spectrum",
+        title: "Spectrum Plot",
+        path: "/plot/spectrum-plot",
         icon: <TimelineIcon fontSize="small" />,
       },
       {
-        title: "Waterfall",
-        path: "/plot/waterfall",
-        icon: <InsertChartIcon fontSize="small" />,
+        title: "Phase Display",
+        path: "/plot/phase-display",
+        icon: <TableChartIcon fontSize="small" />,
       },
     ],
   },
