@@ -1,31 +1,31 @@
-# Projects
+# Overview
+
 This folder consists of four projects;
 
 1. **metric-generator** :
-    - Currently, there are three metrics generators implemented for testing or demo.
-        - Randomly generating spectrum plot data.
-        - Creating spectrum plot data from measurement set.
-        - Creating spectrum plot data from Plasma object-store.
-    - The generated quality metrics is feed to a message broker using a **producer-api**. Finally, the data is propagated to **display-ui** for visualization.
+    - Currently, there are three metrics (quality metrics) generators implemented for testing and/or demo.
+        - Randomly generating plot data.
+        - Creating plot data from measurement set.
+        - Creating plot data from plasma object-store.
+    - The generated metrics is feed to a message broker using a **producer-api**. Finally, the data is propagated to **display-ui** for visualization.
 
 2. **producer-api** :
     - RESTful API to push data to the message broker (Kafka).
     - For example, the **metric-generator** pushes spectrum plot data to the message broker using this API.
 
 3. **display-api**
-    - This RESTful API server subscribes to the message broker and receives any data pushed to the message broker in real-time.
-    - This API also maintains connection requests from **display-ui** on a socket, and propagates the data received from the message broker to the **display-ui**.
+    - This RESTful API server subscribes to the message broker for receiving any data that are pushed to the message broker in real-time.
+    - This API also maintains connection requests from **display-ui** on a socket, and propagates the data received data from the message broker to the **display-ui**.
 
 4. **display-ui** :
-    - The quality metrics data visualization user interface.
-    - This connects to the **display-api** on a socket and visualizes the received metrics (e.g, spectrum plot).
+    - The quality metrics visualization interface.
+    - This connects to the **display-api** on a socket and visualizes the received metrics (e.g, spectrum plot, waterfall plot etc) in real-time.
 
-
-> Note: the mentioned projects should be spitted into 3-4 different repositories.
+> Note: perhaps these projects should be spitted into 3-4 different repositories.
 
 # Getting Started
 
-Ideally, the services should be started in a sequence as follows.
+Ideally, the services should be started in the following sequence,
 
 1. Message Broker
 2. `producer-api`
@@ -35,7 +35,7 @@ Ideally, the services should be started in a sequence as follows.
 
 We created two docker-compose files to start the service [1] and services [2]-[5] respectively.
 
-## Start Message Broker [1]
+## [1] Start the Message Broker
 
 Start all message broker related  services.
 
@@ -43,81 +43,30 @@ Start all message broker related  services.
 docker-compose -f docker-compose-broker.yml up -d
 docker-compose -f docker-compose-broker.yml ps
 ```
-Access the broker control center UI: http://localhost:9021
 
-> Note
-> - Use `docker-compose` or `docker compose` based on the version you have installed.
-> - If any process has not started or exited then run the above command 'docker compose up ...' again or start the individual containers.
-> - Use `--no-deps --build` to rebuild
+> Note: 
+> - If we start a control center (see, the `docker-compose-broker.yml`) instance then the broker control panel UI can be accessed via http://localhost:9021.
+> - If any process has not started or exited then stop and start the instances again.
+> - Use `--no-deps --build` with `docker-compose` to rebuild the containers.
 
-## Start APIs, Metric Generator, and Signal Display [2-5]
+## [2-5] Start APIs, Metric Generator, and Signal Display
 
-Start all the `producer-api`, `display-api`, `display-ui`, and `metric-generator` services.
+Start the `producer-api`, `display-api`, `display-ui`, and `metric-generator` services.
 
 ```bash
 docker-compose -f docker-compose-sig.yml up -d
 docker-compose -f docker-compose-sig.yml ps
 ```
 
-Access the signal display UI: http://localhost:3000
+Access the signal display UI via http://localhost:3000. When the `metric-generator` will feed different quality metrics to the broker the UI will visualize the data.
 
 
-### Run Metric Generators
+### Metric Generator
 
-The metric generators can be executed from the `metric-generator` container. SSH to `metric-generator` container:
-
-```bash
-docker exec -it metric-generator bash
-```
-
-
-### Periodically create random spectrum plot data and send to the message broker
-
-```bash
-docker exec -it metric-generator bash
-python rand_spectrumplt.py
-```
-
-### Read a measurement set, prepare spectrum plot data, and send to the message broker
+Different metrics can be generated from the `metric-generator` container and for that first SSH to the container,
 
 ```bash
 docker exec -it metric-generator bash
 ```
 
-Download an example measurement set (if not there) and extract in the `data` folder.
-
-```bash
-mkdir ./data
-gsutil -m cp -r \
- "gs://ska1-simulation-data/ska1-low/psi_test/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms" \
- ./data/
-
- cd ./data
- tar -xvf PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms
- cd ..
-```
-
-```bash
-python ms_to_spectrumplt.py data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms
-```
-
-### Read payloads from plasma, create spectrum plot data, and send to the message broker
-
-```bash
-# Create plasma store
-
-plasma_store -m 1000000000 -s /tmp/plasma &
-
-# Convert plasma payload to spectrumplot and send to the message broker
-python plasma_to_spectrumplt.py "/tmp/plasma"
-
-# Start receiver
-cd data
-emu-recv -c ./50000ch.conf
-
-# Start sender
-cd data
-emu-send -c ./50000ch.conf ./50000ch-model.ms
-```
-
-For more details information of `plasma_store`, `emu-send`, and `emu-recv`, please refer to [ska-cbf-sdp-emulator in Gitlab](https://gitlab.com/ska-telescope/ska-sdp-cbf-emulator).
+See the [metric-generator/README.md](./metric-generator/README) for more details.

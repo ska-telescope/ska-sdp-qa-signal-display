@@ -6,7 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 WORKDIR /usr/src/metric-generator
-COPY . ./
+COPY . .
 
 # dependencies
 RUN set -eux \

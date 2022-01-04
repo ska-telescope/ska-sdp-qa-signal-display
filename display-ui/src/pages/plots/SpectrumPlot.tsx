@@ -6,24 +6,28 @@ import { Helmet } from "react-helmet-async";
 import {
   Avatar,
   Box,
+  Button,
+  Card,
+  CardActions,
   CardContent,
   CardHeader,
+  Container,
   Grid,
   IconButton,
-  Container,
-  Card,
+  Typography,
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import InsertChartIcon from "@material-ui/icons/InsertChart";
 import { blue } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/core/styles";
-import useSettings from "../../hooks/useSettings";
-import mockPhaseData from "src/mock/mockPhaseData";
+import TimelineIcon from "@material-ui/icons/Timeline";
 
-// const { REACT_APP_WS_URL } = process.env;
-// TODO: To use waterfall topic /  API
-// const spectrumAPI = `${REACT_APP_WS_URL}/consumer/spectrum`
-// const ws = new WebSocket(spectrumAPI);
+import useSettings from "../../hooks/useSettings";
+import Spectrum from "../../components/plots/Spectrum";
+import mockSpectrumDataPayload from "../../mock/mockSpectrumData";
+
+const { REACT_APP_WS } = process.env;
+const spectrumAPI = `${REACT_APP_WS}/consumer/spectrum`;
+const ws = new WebSocket(spectrumAPI);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,19 +55,48 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Waterfall: FC = () => {
+const SpectrumPlot: FC = () => {
   const { settings } = useSettings();
   const classes = useStyles();
 
-  // console.log("App: spectrumAPI: ", spectrumAPI);
+  console.log("App: spectrumAPI: ", spectrumAPI);
 
-  const [data, setData] = useState();
+  const [data, setData] = useState([]); // mockSpectrumDataPayload.body
   const [socketStatus, setSocketStatus] = useState(Date().toLocaleString());
+
+  const onMessage = (event) => {
+    const payload = JSON.parse(event.data);
+    console.log("App.js:onMessage: received payload = ", payload);
+
+    if ("status" in payload) {
+      console.log(payload.status);
+      setSocketStatus(payload.status);
+    }
+
+    if ("body" in payload) {
+      setData(payload.body);
+      setSocketStatus(payload.timestamp);
+    }
+  };
+
+  useEffect(() => {
+    console.log("App: useEffect: 1");
+    ws.onmessage = onMessage;
+
+    return () => {
+      // TODO
+      // ws.close();
+    };
+  });
+
+  useEffect(() => {
+    console.log("App: useEffect: 2");
+  }, [data, socketStatus]);
 
   return (
     <>
       <Helmet>
-        <title>Waterfall</title>
+        <title>Spectrum Plot</title>
       </Helmet>
 
       <Box
@@ -85,13 +118,16 @@ const Waterfall: FC = () => {
                   }
                   avatar={
                     <Avatar className={classes.avatar}>
-                      <InsertChartIcon />
+                      <TimelineIcon />
                     </Avatar>
                   }
-                  title="Waterfall Plot"
+                  title="Spectrum Plot"
                   subheader={socketStatus}
                 />
-                <CardContent sx={{ pt: "8px" }}>Under construction</CardContent>
+
+                <CardContent sx={{ pt: "8px" }}>
+                  <Spectrum width={1000} height={500} data={data} />
+                </CardContent>
               </Card>
             </Grid>
           </Grid>
@@ -101,4 +137,4 @@ const Waterfall: FC = () => {
   );
 };
 
-export default Waterfall;
+export default SpectrumPlot;

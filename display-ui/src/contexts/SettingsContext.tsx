@@ -62,7 +62,7 @@ export const storeSettings = (settings: Settings): void => {
 
 const SettingsContext = createContext<SettingsContextValue>({
   settings: initialSettings,
-  saveSettings: () => {}
+  saveSettings: () => { return }
 });
 
 export const SettingsProvider: FC<SettingsProviderProps> = (props) => {

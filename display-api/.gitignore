@@ -287,4 +287,6 @@ pip-selfcheck.json
 # Virtualenv
 api-env
 
+output.log*
+
 # End of .gitignore
