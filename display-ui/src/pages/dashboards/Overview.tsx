@@ -79,11 +79,14 @@ const Overview: FC = () => {
                       <DashboardIcon />
                     </Avatar>
                   }
-                  title="Dashboard: Overview"
+                  title="Overview Dashboard"
                   subheader=""
                 />
 
-                <CardContent sx={{ pt: "8px" }}>Under construction</CardContent>
+                <CardContent sx={{ pt: "8px" }}>
+                  <h3>This is an Overview Dashboard for the QA Display</h3>
+                  <p>This page is under construction</p>
+                </CardContent>
               </Card>
             </Grid>
           </Grid>

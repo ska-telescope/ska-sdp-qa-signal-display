@@ -23,6 +23,7 @@ const Login = Loadable(lazy(() => import("./pages/auth/Login")));
 const Overview = Loadable(lazy(() => import("./pages/dashboards/Overview")));
 const SpectrumPlot = Loadable(lazy(() => import("./pages/plots/SpectrumPlot")));
 const PhaseDisplay = Loadable(lazy(() => import("./pages/plots/PhaseDisplay")));
+const RfiDisplay = Loadable(lazy(() => import("./pages/plots/RfiDisplay")));
 
 // Error pages
 const AuthorizationRequired = Loadable(lazy(() => import("./pages/AuthorizationRequired")));
@@ -67,6 +68,10 @@ const routes: PartialRouteObject[] = [
       {
         path: "phase-display",
         element: <PhaseDisplay />,
+      },
+      {
+        path: "rfi-display",
+        element: <RfiDisplay />,
       },
     ],
   },

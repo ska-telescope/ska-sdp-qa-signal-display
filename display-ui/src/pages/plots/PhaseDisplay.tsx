@@ -21,7 +21,7 @@ import { blue } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/core/styles";
 import TableChartIcon from "@mui/icons-material/TableChart";
 import useSettings from "../../hooks/useSettings";
-import mockPhaseData from "../../mock/mockPhaseData";
+import WaterfallChartIcon from "@mui/icons-material/WaterfallChart";
 import SpectrogramTable from "src/components/plots/SpectrogramTable";
 
 const { REACT_APP_WS } = process.env;
@@ -64,51 +64,6 @@ const PhaseDisplay: FC = () => {
   const [socketStatus, setSocketStatus] = useState(Date().toLocaleString());
 
   const spectrogramTable = new SpectrogramTable("phase-display-table");
-
-  //
-  // generate random data to test locally
-  //
-  /*
-  useEffect(() => {
-    let i = 1;
-    function myLoop() {
-      setTimeout(function () {
-        // randomly generated N = 100 length array 0 <= A[N] <= 39
-        const data1 = {
-          baseline: ["XX", "XY"],
-          polarisation: ["00", "01", "10"],
-          phase_values: [
-            [
-              Array.from({ length: 100 }, () => Math.floor(Math.random() * 360)),
-              Array.from({ length: 100 }, () => Math.floor(Math.random() * 270)),
-            ],
-            [
-              Array.from({ length: 100 }, () => Math.floor(Math.random() * 300)),
-              Array.from({ length: 100 }, () => Math.floor(Math.random() * 120)),
-            ],
-            [
-              Array.from({ length: 100 }, () => Math.floor(Math.random() * 180)),
-              Array.from({ length: 100 }, () => Math.floor(Math.random() * 90)),
-            ],
-          ],
-        };
-
-        setData(data1);
-        setSocketStatus(Date().toLocaleString());
-        console.log("data = ", data);
-
-        if (data1) spectrogramTable.draw(data1);
-
-        i++;
-        if (i < 10000) {
-          myLoop();
-        }
-      }, 1000);
-    }
-
-    myLoop(); //  start the loop
-  }, []);
-  */
 
   const onMessage = (event) => {
     const payload = JSON.parse(event.data);
@@ -168,7 +123,7 @@ const PhaseDisplay: FC = () => {
                   }
                   avatar={
                     <Avatar className={classes.avatar}>
-                      <TableChartIcon />
+                      <WaterfallChartIcon />
                     </Avatar>
                   }
                   title="Phase Display"

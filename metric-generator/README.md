@@ -37,25 +37,27 @@ export PRODUCER_API=http://localhost:8001
 ```
 
 # Generate Matrices
-## Synthetic / Randomly Generated
-
-Create random spectrum plot and spectrogram data, and send to the message broker
-
-```
-python rand_spectrumplt_data.py
-python rand_phase_display_data.py
-```
 
 ## Measurement Set
 
+Create spectrum plot and spectrogram data from a measurement set, and send to the message broker.
+ 
 ```bash
 python ms_to_qa.py <.ms>
 ## example
-python ms_to_qa.py ./data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms.split
+python ms_to_qa.py ./data/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms
 ```
+We used measurement set [PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms](https://console.cloud.google.com/storage/browser/ska1-simulation-data/simulations/psi_simulations_SP-1158/low/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms;tab=objects?prefix=&forceOnObjectsSortingFiltering=false) to test the spectrogram.
 
-We used measurement set [1](https://console.cloud.google.com/storage/browser/ska1-simulation-data/simulations/psi_simulations_SP-1158/low/PSI-LOW_5_stations_1_km_2_sources_10000_channels-autocorr-noise.ms;tab=objects?prefix=&forceOnObjectsSortingFiltering=false) to test the spectrogram.
 
+
+For the RFI debugging we aggregate date from two measurement sets (a) visibility data with flags, for example,
+
+```bash
+python rfi_main.py <measurement-set with visibility and flags> <measurement-set of RFI>
+## example
+python rfi_main.py ./data/rfi/20_sources_with_screen/aa0.5_ms.MS ./data/rfi/aa05_low_rfi_84chans.ms
+```
 
 ## Using Plasma
 
@@ -77,6 +79,14 @@ cd data
 emu-send -c ./50000ch.conf ./50000ch-model.ms
 ```
 
+## Synthetic / Randomly Generated
+
+This is particularly helpful during development and debugging. The following scripts create random spectrum plot and spectrogram data, and send to the message broker.
+
+```
+python rand_spectrumplt_data.py
+python rand_phase_display_data.py
+```
 
 # Data Structures
 

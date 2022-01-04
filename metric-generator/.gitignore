@@ -288,4 +288,5 @@ pip-selfcheck.json
 data/*.ms
 data/ms-for-rfi-testing
 data/*.ms.split
+data/rfi
 # End of .gitignore

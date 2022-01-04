@@ -32,8 +32,6 @@ while True:
             'yMax': yMax,
             'frequencies': frequencies,
             'spectrum_values': values,
-            'flags': flags,
-            'rfis': rfis,
         }
     }
 
