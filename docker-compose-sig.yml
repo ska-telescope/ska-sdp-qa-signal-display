@@ -63,6 +63,7 @@ services:
       args:
         - REACT_APP_API=http://localhost:8002
         - REACT_APP_WS=ws://localhost:8002/ws
+        - REACT_APP_ENV=development
     # restart: always
     volumes:
       - ./display-ui/:/usr/src/display-ui

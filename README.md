@@ -45,9 +45,9 @@ docker-compose -f docker-compose-broker.yml ps
 ```
 
 > Note: 
-> - If we start a control center (see, the `docker-compose-broker.yml`) instance then the broker control panel UI can be accessed via http://localhost:9021.
 > - If any process has not started or exited then stop and start the instances again.
 > - Use `--no-deps --build` with `docker-compose` to rebuild the containers.
+> - The broker control center UI is disabled now (see, the `docker-compose-broker.yml`). If enabled, this can be accessed via http://localhost:9021.
 
 ## [2-5] Start APIs, Metric Generator, and Signal Display
 
@@ -57,16 +57,8 @@ Start the `producer-api`, `display-api`, `display-ui`, and `metric-generator` se
 docker-compose -f docker-compose-sig.yml up -d
 docker-compose -f docker-compose-sig.yml ps
 ```
-
-Access the signal display UI via http://localhost:3000. When the `metric-generator` will feed different quality metrics to the broker the UI will visualize the data.
+Make sure all the services has started and wait for the UI server to start inside the container. Access the signal display UI via http://localhost:3000. 
 
 
 ### Metric Generator
-
-Different metrics can be generated from the `metric-generator` container and for that first SSH to the container,
-
-```bash
-docker exec -it metric-generator bash
-```
-
-See the [metric-generator/README.md](./metric-generator/README) for more details.
+Using the `metric-generator` we can feed different quality metrics to the broker and display it in the browser. See the [metric-generator/README.md](./metric-generator/README) > **Generate Matrices** for more details.

@@ -19,7 +19,7 @@ virtualenv venv
 source ./venv/bin/activate
 pip install -r requirements.txt
 
-## in **MAC**, the python-casacore installation in virtualenv gives error (C++ library related), therefore, use a conda environment to install casacore libraries.
+## The python-casacore installation in virtualenv may give C++ library related error. Using conda environment for installing casacore may solve the issue.
 conda create --name metric-generator python=3.8
 conda activate metric-generator
 
@@ -37,6 +37,22 @@ export PRODUCER_API=http://localhost:8001
 ```
 
 # Generate Matrices
+
+SSH to the container,
+
+```bash
+docker exec -it metric-generator bash
+```
+
+
+## Synthetic / Randomly Generated
+
+This is particularly helpful during development and debugging. The following scripts create random spectrum plot and spectrogram data, and send to the message broker.
+
+```
+python rand_spectrumplt_data.py
+python rand_phase_display_data.py
+```
 
 ## Measurement Set
 
@@ -77,15 +93,6 @@ emu-recv -c ./50000ch.conf
 ## send data
 cd data
 emu-send -c ./50000ch.conf ./50000ch-model.ms
-```
-
-## Synthetic / Randomly Generated
-
-This is particularly helpful during development and debugging. The following scripts create random spectrum plot and spectrogram data, and send to the message broker.
-
-```
-python rand_spectrumplt_data.py
-python rand_phase_display_data.py
 ```
 
 # Data Structures
