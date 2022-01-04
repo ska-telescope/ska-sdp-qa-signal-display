@@ -1,64 +1,65 @@
-# Overview
+# QA Display
 
-This folder consists of four projects;
+Depends on the data API: https://gitlab.com/ska-telescope/ska-sdp-qa-data-api
 
-1. **metric-generator** :
-    - Currently, there are three metrics (quality metrics) generators implemented for testing and/or demo.
-        - Randomly generating plot data.
-        - Creating plot data from measurement set.
-        - Creating plot data from plasma object-store.
-    - The generated metrics is feed to a message broker using a **producer-api**. Finally, the data is propagated to **display-ui** for visualization.
+## Development & Debugging
 
-2. **producer-api** :
-    - RESTful API to push data to the message broker (Kafka).
-    - For example, the **metric-generator** pushes spectrum plot data to the message broker using this API.
-
-3. **display-api**
-    - This RESTful API server subscribes to the message broker for receiving any data that are pushed to the message broker in real-time.
-    - This API also maintains connection requests from **display-ui** on a socket, and propagates the data received data from the message broker to the **display-ui**.
-
-4. **display-ui** :
-    - The quality metrics visualization interface.
-    - This connects to the **display-api** on a socket and visualizes the received metrics (e.g, spectrum plot, waterfall plot etc) in real-time.
-
-> Note: perhaps these projects should be spitted into 3-4 different repositories.
-
-# Getting Started
-
-Ideally, the services should be started in the following sequence,
-
-1. Message Broker
-2. `producer-api`
-3. `display-api`
-4. `display-ui`
-5. `metric-generator`
-
-We created two docker-compose files to start the service [1] and services [2]-[5] respectively.
-
-## [1] Start the Message Broker
-
-Start all message broker related  services.
+Start the container
 
 ```bash
-docker-compose -f docker-compose-broker.yml up -d
-docker-compose -f docker-compose-broker.yml ps
+docker-compose up -d
+docker-compose ps
+
+docker-compose build --no-cache --pull
 ```
 
-> Note: 
-> - If any process has not started or exited then stop and start the instances again.
-> - Use `--no-deps --build` with `docker-compose` to rebuild the containers.
-> - The broker control center UI is disabled now (see, the `docker-compose-broker.yml`). If enabled, this can be accessed via http://localhost:9021.
+The docker container's working/source directory `/usr/src/qa-display` is mapped/mounted to the host's `./` folder. Therefore, attaching a VSCode editor to the `qa-display` container is a most convenient way to develop and debug.
 
-## [2-5] Start APIs, Metric Generator, and Signal Display
+During development and debugging, the `react-scripts` will automatically reload the changes. Open [http://localhost:3000](http://localhost:3000) to view the UI in the browser, and use a Chrome debugger to debug.
 
-Start the `producer-api`, `display-api`, `display-ui`, and `metric-generator` services.
+### Additional Instructions
+
+Follow the instructions below to start the React app in your host machine, which is not recommended.
 
 ```bash
-docker-compose -f docker-compose-sig.yml up -d
-docker-compose -f docker-compose-sig.yml ps
+## required Node.js 14+
+
+## install the dependencies
+npm install
+
+## setup environment variables
+
+## Linux/MAC
+export NODE_ENV=development && export PORT=3000 # UI port no
+export REACT_APP_API=http://qa-data-api:8002    # QA data API
+export REACT_APP_WS=ws://qa-data-api:8002/ws    # QA data API websocket
+
+## Windows
+$env:NODE_ENV="development"
+$env:PORT="3000"
+$env:REACT_APP_API="http://localhost:8002"
+$env:REACT_APP_WS="ws://localhost:8002/ws"
+
+## run the app in development mode.
+npm start
 ```
-Make sure all the services has started and wait for the UI server to start inside the container. Access the signal display UI via http://localhost:3000. 
 
+Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 
-### Metric Generator
-Using the `metric-generator` we can feed different quality metrics to the broker and display it in the browser. See the [metric-generator/README.md](./metric-generator/README) > **Generate Matrices** for more details.
+## Production Deployment
+
+In production, before starting the container set environment variable in the `docker-compose.yml` file.
+
+```bash
+- REACT_APP_ENV=production
+```
+
+# References
+
+- Bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- Using react material dashboard style
+
+# Notes
+
+- The source code was developed for proof of concepts. Therefore, the code may require improvement for production release.
+- Need to use advanced build tool for production, and the production build step need to be improved.

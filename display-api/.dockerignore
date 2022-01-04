@@ -1,8 +1,0 @@
-.dockerignore
-.editorconfig
-.gitignore
-Dockerfile
-Makefile
-README.md
-tests
-version
