@@ -1,7 +1,0 @@
---index-url https://artefact.skao.int/repository/pypi-all/simple
-aiokafka
-fastapi
-pydantic
-ska-ser-logging
-starlette
-uvicorn[standard]
