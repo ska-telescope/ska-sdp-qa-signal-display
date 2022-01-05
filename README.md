@@ -4,9 +4,9 @@ This connects to the [QA data API](https://gitlab.com/ska-telescope/ska-sdp-qa-d
 
 # Getting Started
 
-## Option-1: Start Using Container
+## Option-1: Using Container
 
-_Note: This option need to be fixed, a problem is in container to container connection._
+_Note: There is a known issue._
 
 ```bash
 docker-compose up -d
@@ -48,23 +48,14 @@ npm start
 
 Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 
-# Misc
+# Known Issues
 
-**Notes**
+- If we start the service in a container it can not connect to the data API. In the docker-compose file we need to configure and setup a suitable network (e.g., overlay). The work around of this problem is to start it locally.
 
-In production, before starting the container set environment variable in the `docker-compose.yml` file.
+- The source code was developed for proof of concepts. Therefore, the code may require improvement for production release.
+- Need to use advanced build tool for production, and the production build step need to be improved.
 
-```bash
-- REACT_APP_ENV=production
-```
-
-**References**
+# References
 
 - Bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 - Using react material dashboard style
-
-**TODO**
-
-- The docker configuration need to be fixed.
-- The source code was developed for proof of concepts. Therefore, the code may require improvement for production release.
-- Need to use advanced build tool for production, and the production build step need to be improved.
