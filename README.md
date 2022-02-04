@@ -59,3 +59,12 @@ Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 
 - Bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 - Using react material dashboard style
+
+# Optionally start the display locally with a script
+
+If the host machine is a Linux computer, navigate to the project directory and start the below
+BAsh script as follows:
+
+```bash
+$sudo ./linuxGettingStarted.bash
+```
