@@ -1,0 +1,16 @@
+bumpver.toml              @HIPPO @NALEDI
+docker-compose.yml        @HIPPO @NALEDI 
+Dockerfile                @HIPPO @NALEDI
+LICENSE                   @HIPPO @NALEDI
+linuxGettingStarted.bash  @HIPPO @NALEDI
+make/                     @HIPPO @NALEDI
+Makefile                  @HIPPO @NALEDI
+node_modules/             @HIPPO @NALEDI
+package.json              @HIPPO @NALEDI
+package-lock.json         @HIPPO @NALEDI
+prettier.config.js        @HIPPO @NALEDI
+public/                   @HIPPO @NALEDI
+README.md                 @HIPPO @NALEDI
+src/                      @HIPPO @NALEDI
+tsconfig.json             @HIPPO @NALEDI
+version                   @HIPPO @NALEDI
