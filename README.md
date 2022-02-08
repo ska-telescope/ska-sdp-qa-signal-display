@@ -17,7 +17,16 @@ The docker container's working/source directory `/usr/src/qa-display` is mapped/
 
 During development and debugging, the `react-scripts` will automatically reload the changes. Open [http://localhost:3000](http://localhost:3000) to view the UI in the browser, and use a Chrome debugger to debug.
 
-## Option-2: Start Locally
+## Option-2: Start the display locally with a script
+
+If the host machine is a Linux computer, navigate to the project directory and start the below
+BAsh script as follows:
+
+```bash
+$sudo ./linuxGettingStarted.bash
+```
+
+## Option-3: Start Locally
 
 Follow the instructions below to start the React app in your host machine.
 
@@ -60,11 +69,4 @@ Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 - Bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 - Using react material dashboard style
 
-# Optionally start the display locally with a script
 
-If the host machine is a Linux computer, navigate to the project directory and start the below
-BAsh script as follows:
-
-```bash
-$sudo ./linuxGettingStarted.bash
-```
