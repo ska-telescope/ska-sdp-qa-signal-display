@@ -2,9 +2,6 @@
 
 set -x
 
-docker-compose up -d --build --remove-orphans
-docker-compose ps
-
 npm install
 
 export NODE_ENV=development && export PORT=3000 # UI port no
