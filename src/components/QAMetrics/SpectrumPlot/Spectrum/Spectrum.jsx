@@ -6,14 +6,12 @@ import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 import PropTypes from 'prop-types';
 
-const Spectrum = props => {
+function Spectrum(props) {
   const ref = useRef();
   const { width, height, data } = props;
 
   useEffect(() => {
-    d3.select(ref.current)
-      .attr('width', width)
-      .attr('height', height);
+    d3.select(ref.current).attr('width', width).attr('height', height);
     // .style("border", "1px solid black");
   }, [props]);
 
@@ -24,9 +22,7 @@ const Spectrum = props => {
     if (!data || !data.spectrum_values || !data.spectrum_values.length || !width || !height) return;
 
     // Clear
-    d3.select(ref.current)
-      .select('svg')
-      .remove();
+    d3.select(ref.current).select('svg').remove();
 
     const {
       xMin,
@@ -39,7 +35,7 @@ const Spectrum = props => {
       rfis,
       flags,
       // eslint-disable-next-line camelcase
-      spectrum_values
+      spectrum_values,
     } = data;
 
     // set the dimensions and margins of the graph
@@ -57,20 +53,11 @@ const Spectrum = props => {
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
     // Add X axis --> it is a date format
-    const x = d3
-      .scaleLinear()
-      .domain([xMin, xMax])
-      .range([0, width]);
-    svg
-      .append('g')
-      .attr('transform', `translate(0,${height})`)
-      .call(d3.axisBottom(x));
+    const x = d3.scaleLinear().domain([xMin, xMax]).range([0, width]);
+    svg.append('g').attr('transform', `translate(0,${height})`).call(d3.axisBottom(x));
 
     // Add Y axis
-    const y = d3
-      .scaleLinear()
-      .domain([yMin, yMax])
-      .range([height, 0]);
+    const y = d3.scaleLinear().domain([yMin, yMax]).range([height, 0]);
     svg.append('g').call(d3.axisLeft(y));
 
     // Show confidence interval or std
@@ -86,8 +73,8 @@ const Spectrum = props => {
           .area()
           .curve(d3.curveMonotoneX)
           .x((value, i) => x(frequencies[i]))
-          .y0(value => y(value[0] + value[1]))
-          .y1(value => y(value[0] - value[2]))
+          .y0((value) => y(value[0] + value[1]))
+          .y1((value) => y(value[0] - value[2]))
       );
 
     // Add the line
@@ -104,7 +91,7 @@ const Spectrum = props => {
           .line()
           .curve(d3.curveMonotoneX)
           .x((value, i) => x(frequencies[i]))
-          .y(value => y(value[0]))
+          .y((value) => y(value[0]))
       );
 
     // rfi flags
@@ -154,13 +141,7 @@ const Spectrum = props => {
       .style('font-size', '15px')
       .text(yLabel);
 
-    svg
-      .exit()
-      .transition()
-      .duration(300)
-      .attr('y', height)
-      .attr('height', 0)
-      .remove();
+    svg.exit().transition().duration(300).attr('y', height).attr('height', 0).remove();
   }
 
   useEffect(() => {
@@ -173,12 +154,12 @@ const Spectrum = props => {
       <svg ref={ref} />
     </div>
   );
-};
+}
 
 Spectrum.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  data: PropTypes.any.isRequired
+  data: PropTypes.any.isRequired,
 };
 
 export default Spectrum;
