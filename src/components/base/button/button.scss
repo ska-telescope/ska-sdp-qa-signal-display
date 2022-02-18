@@ -1,0 +1,20 @@
+@import '../../../scss/colors';
+@import '../../../scss/variables';
+
+button {
+    padding: 5px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: $border-radius;
+    cursor: pointer;
+
+    &:disabled {
+        opacity: $opacity-disabled;
+    }
+}
+
+.primary {
+    @extend button;
+    color: $color-text;
+    background-color: $color-pri-02;
+}

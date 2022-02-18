@@ -1,0 +1,17 @@
+@import '../../scss/colors';
+@import '../../scss/variables';
+
+.pageContainer {
+    margin-top: calc($header-height + 10px);
+}
+
+.metricContainer {
+    margin: 10px;
+}
+
+.metricsBox {
+    margin: 10px;
+    padding: calc($border-radius / 2);
+    border-radius: $border-radius;
+    background-color: $color-tec-02;
+}

@@ -1,105 +1,116 @@
-variables:
-  GIT_STRATEGY: clone
+image: node:alpine
 
-workflow:
-  rules:
-    - if: $CI_COMMIT_BRANCH
-    - if: $CI_COMMIT_TAG
+services:
+  - docker:dind
 
 stages:
-  - publish
+  - dependencies
+  - test
+  - build
+  - deploy
 
-# ============================================================================
-# Build and publish Docker images
-# ============================================================================
-
-# Template to build and push Docker image
-
-.publish:
-  stage: publish
-  image: docker:20.10.7
-  services:
-    - docker:20.10.7-dind
-  before_script:
-    - apk add make git
-    - echo $PASSWORD | docker login --username $USERNAME --password-stdin $REGISTRY
+#Install basic dependencies using yarn
+install_dependencies:
+  stage: dependencies
+  tags:
+  - k8srunner
   script:
-    - cd $DIRECTORY
-    - make build
-    - make push
+    - rm -rf node_modules && yarn install
+  cache:
+    paths:
+      - node_modules/
+    policy: push
 
-# Extends .publish template to publish development version to GitLab on non-tag
-# commit
+#Run the static code analysis
+code_analysis:
+  stage: test
+  tags:
+  - k8srunner
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  script:
+    - yarn run code-analysis
 
-.publish-dev:
-  extends: .publish
-  variables:
-    REGISTRY: $CI_REGISTRY
-    USERNAME: $CI_REGISTRY_USER
-    PASSWORD: $CI_REGISTRY_PASSWORD
-    PREFIX: $CI_REGISTRY_IMAGE
-    GITHASH: $CI_COMMIT_SHORT_SHA
-  rules:
-    - if: '$CI_COMMIT_TAG == null || $CI_COMMIT_TAG == ""'
+# run the test coverage reports
+test_and_coverage:
+  stage: test
+  tags:
+  - k8srunner
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  script:
+    - mkdir -p build/reports
+    - yarn run test
+    - yarn run code-analysis
+    - yarn run test:coverage
+    - mv junit.xml build/reports/unit-tests.xml
+    - mv linting.xml build/reports/linting.xml
+    - mv build/coverage/cobertura-coverage.xml build/reports/code-coverage.xml
 
-# Extends .publish template to publish release to artefact repository on tag
-# commit on master
+  coverage: /All\sfiles.*?\s+(\d+.\d+)/
+  artifacts:
+    paths:
+      - build/
 
-.publish-release:
-  extends: .publish
-  variables:
-    REGISTRY: $CAR_OCI_REGISTRY_HOST
-    USERNAME: $CAR_OCI_REGISTRY_USERNAME
-    PASSWORD: $CAR_OCI_REGISTRY_PASSWORD
-    PREFIX: $CAR_OCI_REGISTRY_HOST
-    RELEASE: "true"
-  only:
-    variables:
-       - $CI_COMMIT_MESSAGE =~ /^.+$/ # Confirm tag message exists
-       - $CI_COMMIT_TAG =~ /^((([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)$/ #Confirm semantic versioning of tag
-  except:
-    - branches
+# list the current top level dependencies for the project
+list_dependencies:
+  stage: test
+  tags:
+  - k8srunner
+  allow_failure: true
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  script:
+    - npm list --depth=0 --json >> npm_deps.json
+    - npm list --depth=0  >> npm_deps.txt
+    - mkdir .public
+    - cp npm_deps.txt .public/
+    - cp npm_deps.json .public/
+  artifacts:
+    paths:
+      - .public
 
-# Producer API
+# Build the application
+build:
+  stage: build
+  tags:
+  - k8srunner
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  script:
+    - yarn build
 
-publish-dev-producer-api:
-  extends: .publish-dev
-  variables:
-    DIRECTORY: producer-api
-
-publish-rel-producer-api:
-  extends: .publish-release
-  variables:
-    DIRECTORY: producer-api
-
-# Display API
-
-publish-dev-display-api:
-  extends: .publish-dev
-  variables:
-    DIRECTORY: display-api
-
-publish-rel-display-api:
-  extends: .publish-release
-  variables:
-    DIRECTORY: display-api
-
-# Display UI
-
-publish-dev-display-ui:
-  extends: .publish-dev
-  variables:
-    DIRECTORY: display-ui
-
-publish-rel-display-ui:
-  extends: .publish-release
-  variables:
-    DIRECTORY: display-ui
-
-# ============================================================================
-# CI metrics
-# ============================================================================
+# export the report
+pages:
+  stage: deploy
+  tags:
+  - k8srunner
+  dependencies:
+    - test_and_coverage
+    - list_dependencies
+    - code_quality
+  script:
+    - mv public/* .
+    - cp -r build/* public
+    - cp -r .public/* public
+  artifacts:
+    paths:
+      - public
+    expire_in: 30 days
 
 include:
-  - project: 'ska-telescope/templates-repository'
-    file: 'gitlab-ci/includes/post_step.yml'
+  - template: Code-Quality.gitlab-ci.yml
+
+code_quality:
+  artifacts:
+    paths: [gl-code-quality-report.json]
+  tags:
+  - k8srunner

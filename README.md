@@ -27,7 +27,7 @@ Prerequisite
 
 ```bash
 ## install the dependencies
-npm install
+yarn install
 
 ## setup environment variables
 
@@ -43,7 +43,7 @@ $env:REACT_APP_API="http://localhost:8002"
 $env:REACT_APP_WS="ws://localhost:8002/ws"
 
 ## run the app in development mode.
-npm start
+yarn start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.

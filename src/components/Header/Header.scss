@@ -1,0 +1,39 @@
+@import '../../scss/colors';
+@import '../../scss/variables';
+
+.logo {
+    margin: 10px;
+    height: 30px;
+    min-width: 50px;
+    top: 0;
+    left: 0;
+}
+
+.header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 5px;
+    border-bottom: 1px solid $color-pri-02;
+    background-color: $color-pri-01;
+    height: $header-height;
+
+}
+
+.pageTitle {
+    text-align: center;
+    width: 100%;
+    font-size: 32px;
+}
+
+.panelTitle {
+    top: 0;
+    width: 100%;
+    font-size: 24px;
+}
+
+.userTitle {
+    padding-top: 10px;
+    text-align: right;
+}
