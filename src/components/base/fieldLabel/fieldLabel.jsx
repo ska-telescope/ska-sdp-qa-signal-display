@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import './fieldLabel.scss';
 
 // eslint-disable-next-line react/prop-types
-const FieldLabel = ({ id, label, name }) => {
+function FieldLabel({ id, label, name }) {
   const { t } = useTranslation();
 
   const outputLabel = t(label);
@@ -16,8 +16,9 @@ const FieldLabel = ({ id, label, name }) => {
           {outputLabel}
         </label>
       )}
+      {!outputLabel}
     </>
   );
-};
+}
 
 export default FieldLabel;

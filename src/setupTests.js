@@ -6,6 +6,6 @@ configure({ adapter: new Adapter() });
 
 jest.mock(`react-i18next`, () => ({
   useTranslation: () => ({
-    t: str => str
-  })
+    t: (str) => str,
+  }),
 }));

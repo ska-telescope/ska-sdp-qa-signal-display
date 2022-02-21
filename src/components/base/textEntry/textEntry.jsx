@@ -3,16 +3,16 @@ import React from 'react';
 import './textEntry.scss';
 import FieldLabel from '../fieldLabel/fieldLabel';
 
-const TextEntry = ({ id, encrypt, label, name, onChange, value }) => {
+function TextEntry({ id, encrypt, label, name, onChange, value }) {
   const inputType = encrypt ? 'password' : 'text';
 
-  const onChangeHandler = event => {
+  const onChangeHandler = (event) => {
     const newEvent = {
       target: {
         name,
         type: 'select',
-        value: event.target.value
-      }
+        value: event.target.value,
+      },
     };
     onChange(newEvent);
   };
@@ -23,6 +23,6 @@ const TextEntry = ({ id, encrypt, label, name, onChange, value }) => {
       <input id={id} type={inputType} value={value} onChange={onChangeHandler} />
     </>
   );
-};
+}
 
 export default TextEntry;

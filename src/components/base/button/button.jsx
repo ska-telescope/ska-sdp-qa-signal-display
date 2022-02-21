@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import './button.scss';
 
-const Button = ({ className, disabled, id, label, onClick }) => {
+function Button({ className, disabled, id, label, onClick }) {
   const { t } = useTranslation();
 
   return (
@@ -11,6 +11,6 @@ const Button = ({ className, disabled, id, label, onClick }) => {
       {label && <span>{t(label)}</span>}
     </button>
   );
-};
+}
 
 export default Button;

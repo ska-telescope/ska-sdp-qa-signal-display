@@ -10,29 +10,27 @@ function Header() {
   }
 
   return (
-    <>
-      <header className="container-fluid header">
-        <div className="row">
-          <div className="col-1">
-            <img className="logo" alt="SKAO Logo" src={CompanyPrintLogo} />
-          </div>
-          <div className="col pageTitle">
-            <FieldLabel label="label.qaMetrics" />
-          </div>
-          <div className="col-1 userTitle">
-            <p>admin@user.org</p>
-          </div>
-          <div className="col-1">
-            <Button
-              className="primary"
-              id="loginButton"
-              label="button.logout"
-              onClick={() => logoutClicked()}
-            />
-          </div>
+    <header className="container-fluid header">
+      <div className="row">
+        <div className="col-1">
+          <img className="logo" alt="SKAO Logo" src={CompanyPrintLogo} />
         </div>
-      </header>
-    </>
+        <div className="col pageTitle">
+          <FieldLabel label="label.qaMetrics" />
+        </div>
+        <div className="col-1 userTitle">
+          <p>admin@user.org</p>
+        </div>
+        <div className="col-1">
+          <Button
+            className="primary"
+            id="loginButton"
+            label="button.logout"
+            onClick={() => logoutClicked()}
+          />
+        </div>
+      </div>
+    </header>
   );
 }
 

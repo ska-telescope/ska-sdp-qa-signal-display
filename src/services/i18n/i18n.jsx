@@ -27,8 +27,8 @@ i18n
           return new Intl.NumberFormat().format(value);
         }
         return typeof value;
-      }
-    }
+      },
+    },
   });
 
 export default i18n;

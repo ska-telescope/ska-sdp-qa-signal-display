@@ -6,7 +6,7 @@ import TextEntry from '../base/textEntry/textEntry';
 function Login() {
   const [loginData, setLoginDataBatch] = React.useState({
     username: 'admin@user.org',
-    password: 'Password123!'
+    password: 'Password123!',
   });
 
   function updateName(value) {
@@ -29,7 +29,7 @@ function Login() {
           id="username"
           label="label.username"
           name="username"
-          onChange={event => updateName(event.target.value)}
+          onChange={(event) => updateName(event.target.value)}
           value={loginData.username}
         />
       </div>
@@ -39,7 +39,7 @@ function Login() {
           encrypt
           label="label.password"
           name="password"
-          onChange={event => updatePassword(event.target.value)}
+          onChange={(event) => updatePassword(event.target.value)}
           value={loginData.password}
         />
       </div>

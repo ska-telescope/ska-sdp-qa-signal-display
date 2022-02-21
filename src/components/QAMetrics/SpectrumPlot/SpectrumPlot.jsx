@@ -10,7 +10,7 @@ function SpectrumPlot() {
   const [data, setData] = React.useState([]);
   const [socketStatus, setSocketStatus] = React.useState(Date().toLocaleString());
 
-  const onMessage = event => {
+  const onMessage = (event) => {
     const payload = JSON.parse(event.data);
 
     if ('status' in payload) {
