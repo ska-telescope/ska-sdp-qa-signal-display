@@ -1,0 +1,18 @@
+{
+  "language": "English",
+  "date_format_one": "{{-date, YYYY/MM/DD}}",
+  "date_format_two": "{{date, DD-MM-YYYY}}",
+  "dummy": "I am in ENGLISH translation file only",
+  "intlNumber": "{{val, number}}",
+  "button": {
+    "login": "Login",
+    "logout": "Logout"
+  },
+  "label": {
+    "password": "Password",
+    "phaseDisplay": "Phase Display",
+    "qaMetrics": "QA Metrics",
+    "spectrumPlot": "Spectrum Plot",
+    "username": "Username"
+  }
+}

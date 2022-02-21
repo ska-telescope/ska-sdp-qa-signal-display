@@ -1,0 +1,116 @@
+image: node:alpine
+
+services:
+  - docker:dind
+
+stages:
+  - dependencies
+  - test
+  - build
+  - deploy
+
+#Install basic dependencies using yarn
+install_dependencies:
+  stage: dependencies
+  tags:
+  - k8srunner
+  script:
+    - rm -rf node_modules && yarn install
+  cache:
+    paths:
+      - node_modules/
+    policy: push
+
+#Run the static code analysis
+code_analysis:
+  stage: test
+  tags:
+  - k8srunner
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  script:
+    - yarn run code-analysis
+
+# run the test coverage reports
+test_and_coverage:
+  stage: test
+  tags:
+  - k8srunner
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  script:
+    - mkdir -p build/reports
+    - yarn run test
+    - yarn run code-analysis
+    - yarn run test:coverage
+    - mv junit.xml build/reports/unit-tests.xml
+    - mv linting.xml build/reports/linting.xml
+    - mv build/coverage/cobertura-coverage.xml build/reports/code-coverage.xml
+
+  coverage: /All\sfiles.*?\s+(\d+.\d+)/
+  artifacts:
+    paths:
+      - build/
+
+# list the current top level dependencies for the project
+list_dependencies:
+  stage: test
+  tags:
+  - k8srunner
+  allow_failure: true
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  script:
+    - npm list --depth=0 --json >> npm_deps.json
+    - npm list --depth=0  >> npm_deps.txt
+    - mkdir .public
+    - cp npm_deps.txt .public/
+    - cp npm_deps.json .public/
+  artifacts:
+    paths:
+      - .public
+
+# Build the application
+build:
+  stage: build
+  tags:
+  - k8srunner
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  script:
+    - yarn build
+
+# export the report
+pages:
+  stage: deploy
+  tags:
+  - k8srunner
+  dependencies:
+    - test_and_coverage
+    - list_dependencies
+    - code_quality
+  script:
+    - mv public/* .
+    - cp -r build/* public
+    - cp -r .public/* public
+  artifacts:
+    paths:
+      - public
+    expire_in: 30 days
+
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
+code_quality:
+  artifacts:
+    paths: [gl-code-quality-report.json]
+  tags:
+  - k8srunner

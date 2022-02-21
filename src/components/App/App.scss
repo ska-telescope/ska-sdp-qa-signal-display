@@ -1,0 +1,23 @@
+@import '../../scss/colors';
+@import '../../scss/variables';
+
+.appContainer {
+  background-image: linear-gradient(to bottom left, $color-pri-01 75%, $color-pri-02);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  color: $color-text;
+}
+
+.right {
+  text-align: right;
+}
+
+// Below for debugging purposes only
+.red {
+  background: red;
+}
+
+.yellow {
+  background: yellow;
+}
