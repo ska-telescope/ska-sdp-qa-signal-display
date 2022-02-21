@@ -1,5 +1,16 @@
 {
     "language": "Afrikaans",
     "date_format_one": "{{-date, DD/MM/YY}}",
-    "date_format_two": "{{date, YY-MM-DD}}"
+    "date_format_two": "{{date, YY-MM-DD}}",
+  "button": {
+    "login": "Login",
+    "logout": "Logout"
+  },
+  "label": {
+    "password": "Password",
+    "phaseDisplay": "Phase Display",
+    "qaMetrics": "QA Metrics",
+    "spectrumPlot": "Spectrum Plot",
+    "username": "Username"
+  }
   }
