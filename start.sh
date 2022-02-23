@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -x
-
 npm install
 
 export NODE_ENV=development && export PORT=3000 # UI port no

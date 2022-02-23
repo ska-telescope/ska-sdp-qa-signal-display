@@ -23,7 +23,7 @@ If the host machine is a Linux computer, navigate to the project directory and s
 BAsh script as follows:
 
 ```bash
-$sudo ./linuxGettingStarted.bash
+$sudo ./start.sh
 ```
 
 ## Option-3: Start Locally
