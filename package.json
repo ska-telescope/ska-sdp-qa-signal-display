@@ -65,6 +65,10 @@
       "!<rootDir>/path/to/dir/",
       "!src/index.jsx"
     ],
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
     "coverageReporters": [
       "text",
       "cobertura",
