@@ -6,7 +6,7 @@ This connects to the [QA data API](https://gitlab.com/ska-telescope/ska-sdp-qa-d
 
 ## Option-1: Using Container
 
-_Note: There is a known issue._
+_Note: This option needs to be fixed, the problem is in container to container connection._
 
 ```bash
 docker-compose up -d
@@ -20,7 +20,7 @@ During development and debugging, the `react-scripts` will automatically reload 
 ## Option-2: Start the display locally with a script
 
 If the host machine is a Linux computer, navigate to the project directory and start the below
-BAsh script as follows:
+Bash script as follows:
 
 ```bash
 $sudo ./start.sh
@@ -59,7 +59,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 
 # Known Issues
 
-- If we start the service in a container it can not connect to the data API. In the docker-compose file we need to configure and setup a suitable network (e.g., overlay). The work around of this problem is to start it locally.
+- If the service is started in a container it can not connect to the data API. In the docker-compose file to configure and setup a suitable network (e.g., overlay). The work around of this problem is to start it locally.
 
 - The source code was developed for proof of concepts. Therefore, the code may require improvement for production release.
 - Need to use advanced build tool for production, and the production build step need to be improved.
