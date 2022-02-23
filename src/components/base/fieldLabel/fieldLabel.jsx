@@ -1,9 +1,8 @@
-/* eslint-disable jsx-a11y/label-has-for */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import './fieldLabel.scss';
+import './FieldLabel.scss';
 
-// eslint-disable-next-line react/prop-types
 function FieldLabel({ id, label, name }) {
   const { t } = useTranslation();
 
@@ -20,5 +19,12 @@ function FieldLabel({ id, label, name }) {
     </>
   );
 }
+
+FieldLabel.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  name: PropTypes.string,
+};
+FieldLabel.defaultProps = { label: '', name: '' };
 
 export default FieldLabel;

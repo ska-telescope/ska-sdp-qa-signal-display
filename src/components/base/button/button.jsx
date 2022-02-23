@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import './button.scss';
+import './Button.scss';
 
 function Button({ className, disabled, id, label, onClick }) {
   const { t } = useTranslation();

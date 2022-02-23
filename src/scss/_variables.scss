@@ -1,6 +1,9 @@
+@import './colors';
+
+
 :root {
     --font-size-base: 16px;
-    --font-color: var(--color-tec-10);
+    --font-color: $color-tec-10;
     --font-face-fallback: verdana, arial, sans-serif;
     --font-face-regular: 'Roboto Regular', --font-face-fallback;
     --font-face-light: 'Roboto Light', --font-face-fallback;
@@ -11,3 +14,4 @@
 $border-radius: 25px;
 $header-height: 60px;
 $opacity-disabled: 0.4;
+$table-border: $color-tec-08;

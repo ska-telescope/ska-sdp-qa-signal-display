@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './Login.scss';
-import Button from '../base/button/button';
-import TextEntry from '../base/textEntry/textEntry';
+import Button from '../base/Button/Button';
+import TextEntry from '../base/TextEntry/TextEntry';
 
-function Login() {
+function Login({ id }) {
   const [loginData, setLoginDataBatch] = React.useState({
     username: 'admin@user.org',
     password: 'Password123!',
@@ -23,7 +24,7 @@ function Login() {
   }
 
   return (
-    <div className="loginContainer">
+    <div id={id} className="loginContainer">
       <div>
         <TextEntry
           id="username"
@@ -53,5 +54,9 @@ function Login() {
     </div>
   );
 }
+
+Login.propTypes = {
+  id: PropTypes.string.isRequired,
+};
 
 export default Login;
