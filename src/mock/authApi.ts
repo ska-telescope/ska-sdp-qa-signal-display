@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { sign, decode, JWT_SECRET, JWT_EXPIRES_IN } from '../utils/jwt';
 import wait from '../utils/wait';
 import { User } from '../types/user';
@@ -9,8 +10,8 @@ const users = [
     email: 'admin@user.org',
     name: 'Administrator',
     password: 'Password123!',
-    role: 'Admin'
-  }
+    role: 'Admin',
+  },
 ];
 
 class AuthApi {
@@ -22,17 +23,13 @@ class AuthApi {
         // Find the user
         const user = users.find((_user) => _user.email === email);
 
-        if (!user || (user.password !== password)) {
+        if (!user || user.password !== password) {
           reject(new Error('Please check your email and password'));
           return;
         }
 
         // Create the access token
-        const accessToken = sign(
-          { userId: user.id },
-          JWT_SECRET,
-          { expiresIn: JWT_EXPIRES_IN }
-        );
+        const accessToken = sign({ userId: user.id }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 
         resolve(accessToken);
       } catch (err) {
@@ -42,12 +39,11 @@ class AuthApi {
     });
   }
 
-
   me(accessToken): Promise<User> {
     return new Promise((resolve, reject) => {
       try {
         // Decode access token
-        const { userId } = decode(accessToken) as any;
+        const { userId } = decode(accessToken);
 
         // Find the user
         const user = users.find((_user) => _user.id === userId);
@@ -62,7 +58,7 @@ class AuthApi {
           avatar: user.avatar,
           email: user.email,
           name: user.name,
-          role: user.role
+          role: user.role,
         });
       } catch (err) {
         console.error('[Auth Api]: ', err);

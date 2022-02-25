@@ -1,8 +1,8 @@
-import { createContext, useEffect, useReducer } from "react";
-import type { FC, ReactNode } from "react";
-import PropTypes from "prop-types";
-import type { User } from "../types/user";
-import { authApi } from "../mock/authApi";
+import React from 'react';
+import type { FC, ReactNode } from 'react';
+import PropTypes from 'prop-types';
+import type { User } from '../types/user';
+import { authApi } from '../mock/authApi';
 
 interface State {
   isInitialized: boolean;
@@ -11,7 +11,7 @@ interface State {
 }
 
 interface AuthContextValue extends State {
-  platform: "JWT";
+  platform: 'JWT';
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 }
@@ -21,7 +21,7 @@ interface AuthProviderProps {
 }
 
 type InitializeAction = {
-  type: "INITIALIZE";
+  type: 'INITIALIZE';
   payload: {
     isAuthenticated: boolean;
     user: User | null;
@@ -29,18 +29,18 @@ type InitializeAction = {
 };
 
 type LoginAction = {
-  type: "LOGIN";
+  type: 'LOGIN';
   payload: {
     user: User;
   };
 };
 
 type LogoutAction = {
-  type: "LOGOUT";
+  type: 'LOGOUT';
 };
 
 type RegisterAction = {
-  type: "REGISTER";
+  type: 'REGISTER';
   payload: {
     user: User;
   };
@@ -93,27 +93,27 @@ const handlers: Record<string, (state: State, action: Action) => State> = {
 const reducer = (state: State, action: Action): State =>
   handlers[action.type] ? handlers[action.type](state, action) : state;
 
-const AuthContext = createContext<AuthContextValue>({
+const AuthContext = React.createContext<AuthContextValue>({
   ...initialState,
-  platform: "JWT",
+  platform: 'JWT',
   login: () => Promise.resolve(),
   logout: () => Promise.resolve(),
 });
 
 export const AuthProvider: FC<AuthProviderProps> = (props) => {
   const { children } = props;
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = React.useReducer(reducer, initialState);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const initialize = async (): Promise<void> => {
       try {
-        const accessToken = window.localStorage.getItem("accessToken");
+        const accessToken = window.localStorage.getItem('accessToken');
 
         if (accessToken) {
           const user = await authApi.me(accessToken);
 
           dispatch({
-            type: "INITIALIZE",
+            type: 'INITIALIZE',
             payload: {
               isAuthenticated: true,
               user,
@@ -121,7 +121,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
           });
         } else {
           dispatch({
-            type: "INITIALIZE",
+            type: 'INITIALIZE',
             payload: {
               isAuthenticated: false,
               user: null,
@@ -131,7 +131,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
       } catch (err) {
         console.error(err);
         dispatch({
-          type: "INITIALIZE",
+          type: 'INITIALIZE',
           payload: {
             isAuthenticated: false,
             user: null,
@@ -147,10 +147,10 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
     const accessToken = await authApi.login({ email, password });
     const user = await authApi.me(accessToken);
 
-    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem('accessToken', accessToken);
 
     dispatch({
-      type: "LOGIN",
+      type: 'LOGIN',
       payload: {
         user,
       },
@@ -158,15 +158,15 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
   };
 
   const logout = async (): Promise<void> => {
-    localStorage.removeItem("accessToken");
-    dispatch({ type: "LOGOUT" });
+    localStorage.removeItem('accessToken');
+    dispatch({ type: 'LOGOUT' });
   };
 
   return (
     <AuthContext.Provider
       value={{
         ...state,
-        platform: "JWT",
+        platform: 'JWT',
         login,
         logout,
       }}

@@ -1,6 +1,7 @@
-import { useContext } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React from 'react';
 import AuthContext from '../contexts/JWTContext';
 
-const useAuth = () => useContext(AuthContext);
+const useAuth: any = () => React.useContext(AuthContext);
 
 export default useAuth;

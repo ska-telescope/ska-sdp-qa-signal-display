@@ -1,3 +1,4 @@
+import React from 'react';
 import type { FC, ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import { matchPath } from 'react-router-dom';
@@ -19,34 +20,11 @@ interface NavSectionProps extends ListProps {
   title?: string;
 }
 
-const renderNavItems = ({
-  depth = 0,
-  items,
-  pathname
-}: {
-  items: Item[];
-  pathname: string;
-  depth?: number;
-}): JSX.Element => (
-  <List disablePadding>
-    {items.reduce(
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define, no-use-before-define
-      (acc, item) => reduceChildRoutes({
-        acc,
-        item,
-        pathname,
-        depth
-      }),
-      []
-    )}
-  </List>
-);
-
 const reduceChildRoutes = ({
   acc,
   pathname,
   item,
-  depth
+  depth,
 }: {
   acc: JSX.Element[];
   pathname: string;
@@ -54,16 +32,26 @@ const reduceChildRoutes = ({
   depth: number;
 }): Array<JSX.Element> => {
   const key = `${item.title}-${depth}`;
-  const exactMatch = item.path ? !!matchPath({
-    path: item.path,
-    end: true
-  }, pathname) : false;
+  const exactMatch = item.path
+    ? !!matchPath(
+        {
+          path: item.path,
+          end: true,
+        },
+        pathname
+      )
+    : false;
 
   if (item.children) {
-    const partialMatch = item.path ? !!matchPath({
-      path: item.path,
-      end: false
-    }, pathname) : false;
+    const partialMatch = item.path
+      ? !!matchPath(
+          {
+            path: item.path,
+            end: false,
+          },
+          pathname
+        )
+      : false;
 
     acc.push(
       <NavItem
@@ -79,7 +67,7 @@ const reduceChildRoutes = ({
         {renderNavItems({
           depth: depth + 1,
           items: item.children,
-          pathname
+          pathname,
         })}
       </NavItem>
     );
@@ -100,17 +88,36 @@ const reduceChildRoutes = ({
   return acc;
 };
 
+const renderNavItems = ({
+  depth = 0,
+  items,
+  pathname,
+}: {
+  items: Item[];
+  pathname: string;
+  depth?: number;
+}): JSX.Element => (
+  <List disablePadding>
+    {items.reduce(
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define, no-use-before-define
+      (acc, item) =>
+        reduceChildRoutes({
+          acc,
+          item,
+          pathname,
+          depth,
+        }),
+      []
+    )}
+  </List>
+);
+
 const NavSection: FC<NavSectionProps> = (props) => {
-  const {
-    items,
-    pathname,
-    title,
-    ...other
-  } = props;
+  const { items, pathname, title, ...other } = props;
 
   return (
     <List
-      subheader={(
+      subheader={
         <ListSubheader
           disableGutters
           disableSticky
@@ -119,17 +126,17 @@ const NavSection: FC<NavSectionProps> = (props) => {
             fontSize: '0.75rem',
             lineHeight: 2.5,
             fontWeight: 700,
-            textTransform: 'uppercase'
+            textTransform: 'uppercase',
           }}
         >
           {title}
         </ListSubheader>
-      )}
+      }
       {...other}
     >
       {renderNavItems({
         items,
-        pathname
+        pathname,
       })}
     </List>
   );
@@ -138,7 +145,7 @@ const NavSection: FC<NavSectionProps> = (props) => {
 NavSection.propTypes = {
   items: PropTypes.array,
   pathname: PropTypes.string,
-  title: PropTypes.string
+  title: PropTypes.string,
 };
 
 export default NavSection;

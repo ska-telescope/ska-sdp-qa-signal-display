@@ -1,29 +1,28 @@
-import type { FC } from "react";
-import { Link as RouterLink } from "react-router-dom";
-import PropTypes from "prop-types";
-import { AppBar, Box, IconButton, Toolbar } from "@material-ui/core";
-import { experimentalStyled } from "@material-ui/core/styles";
-import type { AppBarProps } from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
-import AccountPopover from "./AccountPopover";
-import Logo from "../Logo";
-import NotificationsPopover from "./NotificationsPopover";
-import ContentSearch from "./ContentSearch";
+import React from 'react';
+import type { FC } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { AppBar, Box, IconButton, Toolbar } from '@material-ui/core';
+import { experimentalStyled } from '@material-ui/core/styles';
+import type { AppBarProps } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import AccountPopover from './AccountPopover';
+import Logo from '../Logo';
 
 interface DashboardNavbarProps extends AppBarProps {
   onSidebarMobileOpen?: () => void;
 }
 
 const DashboardNavbarRoot = experimentalStyled(AppBar)(({ theme }) => ({
-  ...(theme.palette.mode === "light" && {
+  ...(theme.palette.mode === 'light' && {
     backgroundColor: theme.palette.primary.main,
-    boxShadow: "none",
+    boxShadow: 'none',
     color: theme.palette.primary.contrastText,
   }),
-  ...(theme.palette.mode === "dark" && {
+  ...(theme.palette.mode === 'dark' && {
     backgroundColor: theme.palette.background.paper,
     borderBottom: `1px solid ${theme.palette.divider}`,
-    boxShadow: "none",
+    boxShadow: 'none',
   }),
   zIndex: theme.zIndex.drawer + 100,
 }));
@@ -39,7 +38,7 @@ const DashboardNavbar: FC<DashboardNavbarProps> = (props) => {
           onClick={onSidebarMobileOpen}
           sx={{
             display: {
-              lg: "none",
+              lg: 'none',
             },
           }}
         >
@@ -50,8 +49,8 @@ const DashboardNavbar: FC<DashboardNavbarProps> = (props) => {
           <Logo
             sx={{
               display: {
-                lg: "inline",
-                xs: "none",
+                lg: 'inline',
+                xs: 'none',
               },
               height: 40,
               width: 40,
@@ -64,13 +63,7 @@ const DashboardNavbar: FC<DashboardNavbarProps> = (props) => {
             ml: 2,
           }}
         />
-        <Box sx={{ ml: 1 }}>
-          <ContentSearch />
-        </Box>
 
-        <Box sx={{ ml: 1 }}>
-          <NotificationsPopover />
-        </Box>
         <Box sx={{ ml: 2 }}>
           <AccountPopover />
         </Box>

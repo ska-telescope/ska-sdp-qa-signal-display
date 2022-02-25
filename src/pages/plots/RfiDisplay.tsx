@@ -1,28 +1,23 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-import { useEffect, useState } from "react";
-import type { FC } from "react";
-import { Helmet } from "react-helmet-async";
+import React from 'react';
+import type { FC } from 'react';
+import { Helmet } from 'react-helmet-async';
 import {
   Avatar,
   Box,
-  Button,
   Card,
-  CardActions,
   CardContent,
   CardHeader,
   Container,
   Grid,
   IconButton,
-  Typography,
-} from "@mui/material";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { blue } from "@material-ui/core/colors";
-import { makeStyles } from "@material-ui/core/styles";
-import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
-import useSettings from "../../hooks/useSettings";
-import { RfiDetailsPlot } from "src/components/plots/RfiDetailsPlot";
-import { RfiTable } from "src/components/plots/RfiTable";
+} from '@mui/material';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { blue } from '@material-ui/core/colors';
+import { makeStyles } from '@material-ui/core/styles';
+import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
+import { RfiDetailsPlot } from 'src/components/plots/RfiDetailsPlot';
+import { RfiTable } from 'src/components/plots/RfiTable';
+import useSettings from '../../hooks/useSettings';
 
 const { REACT_APP_WS } = process.env;
 const rfiDetailsApi = `${REACT_APP_WS}/consumer/rfi_xx_00_01`;
@@ -36,17 +31,17 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     height: 0,
-    paddingTop: "56.25%", // 16:9
+    paddingTop: '56.25%', // 16:9
   },
   expand: {
-    transform: "rotate(0deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.shortest,
     }),
   },
   expandOpen: {
-    transform: "rotate(180deg)",
+    transform: 'rotate(180deg)',
   },
   avatar: {
     backgroundColor: blue[500],
@@ -60,19 +55,20 @@ const RfiDisplay: FC = () => {
   const { settings } = useSettings();
   const classes = useStyles();
 
-  console.log("RfiDisplay: rfiApi = ", rfiDetailsApi);
+  console.log('RfiDisplay: rfiApi = ', rfiDetailsApi);
 
-  const [data, setData] = useState(null);
-  const [socketStatus, setSocketStatus] = useState(Date().toLocaleString());
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [data, setData] = React.useState(null);
+  const [socketStatus, setSocketStatus] = React.useState(Date().toLocaleString());
 
-  const rfiTable = new RfiTable("rfi-table");
-  const rfiDetailsPlot = new RfiDetailsPlot("rfi-details-plot");
+  const rfiTable = new RfiTable('rfi-table');
+  const rfiDetailsPlot = new RfiDetailsPlot('rfi-details-plot');
 
   //
   // generate random data to test locally
   //
   /*
-  useEffect(() => {
+  React.useEffect(() => {
     let i = 1;
     function myLoop() {
       setTimeout(function () {
@@ -112,30 +108,30 @@ const RfiDisplay: FC = () => {
 
   const onMessage = (event) => {
     const payload = JSON.parse(event.data);
-    console.log("RfiDisplay:onMessage: received payload = ", payload);
+    console.log('RfiDisplay:onMessage: received payload = ', payload);
 
-    if ("status" in payload) {
+    if ('status' in payload) {
       console.log(payload.status);
       setSocketStatus(payload.status);
     }
 
-    if ("body" in payload) {
+    if ('body' in payload) {
       setData(payload.body);
       setSocketStatus(payload.timestamp);
 
-      if ("topic" in payload && payload?.topic === "rfi_summary") rfiTable.draw(payload.body);
-      if ("topic" in payload && payload?.topic === "rfi_xx_00_01") rfiDetailsPlot.draw(payload.body);
+      if ('topic' in payload && payload?.topic === 'rfi_summary') rfiTable.draw(payload.body);
+      if ('topic' in payload && payload?.topic === 'rfi_xx_00_01')
+        rfiDetailsPlot.draw(payload.body);
     }
   };
 
-  useEffect(() => {
-    console.log("RfiDisplay: useEffect: 1");
+  React.useEffect(() => {
+    console.log('RfiDisplay: useEffect: 1');
     rfiDetailsWs.onmessage = onMessage;
     rfiSummaryWs.onmessage = onMessage;
 
     return () => {
-      // TODO
-      // ws.close();
+      // TODO : ws.close();
     };
   });
 
@@ -152,12 +148,12 @@ const RfiDisplay: FC = () => {
 
       <Box
         sx={{
-          backgroundColor: "background.default",
-          minHeight: "100%",
-          py: 8,
+          backgroundColor: 'background.default',
+          minHeight: '100%',
+          py: 3,
         }}
       >
-        <Container maxWidth={settings.compact ? "xl" : false}>
+        <Container maxWidth={settings.compact ? 'xl' : false}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Card>
@@ -176,8 +172,8 @@ const RfiDisplay: FC = () => {
                   subheader={socketStatus}
                 />
 
-                <CardContent sx={{ pt: "8px" }}>
-                  <div id="rfi-table"></div>
+                <CardContent sx={{ pt: '8px' }}>
+                  <div id="rfi-table" />
                 </CardContent>
               </Card>
 
@@ -197,8 +193,8 @@ const RfiDisplay: FC = () => {
                   subheader={socketStatus}
                 />
 
-                <CardContent sx={{ pt: "8px" }}>
-                  <div id="rfi-details-plot"></div>
+                <CardContent sx={{ pt: '8px' }}>
+                  <div id="rfi-details-plot" />
                 </CardContent>
               </Card>
             </Grid>

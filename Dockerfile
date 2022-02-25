@@ -12,26 +12,26 @@ WORKDIR /usr/src/qa-display
 # when we change our application’s nodejs dependencies:
 # COPY package.json ./
 COPY . .
-RUN npm install -g npm@latest
+RUN npm install -g yarn
 RUN rm -rf node_modules
-RUN npm install
+RUN yarn install
 
 
 ## production build and start
-# RUN npm run build
-# RUN npm install -g serve
+# RUN yarn build
+# RUN yarn install -g serve
 # CMD ["serve", "-s", "build", "-l", "3000"]
 
 ## start development server without building
-# RUN npm install -g create-react-app
-# CMD ["npm", "start"]
+# RUN yarn install -g create-react-app
+# CMD ["yarn", "start"]
 
 CMD if [ ${REACT_APP_ENV} = production ];  \
 	then \
-		npm install -g http-server && \
-		npm run build && \
+		yarn install -g http-server && \
+		yarn build && \
 		cd build && \
 		hs -p 3000; \
 	else \
-		npm run start; \
+		yarn start; \
 	fi

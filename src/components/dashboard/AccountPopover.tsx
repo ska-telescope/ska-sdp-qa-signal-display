@@ -1,28 +1,15 @@
-import { useRef, useState } from "react";
-import type { FC } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import {
-  Avatar,
-  Box,
-  Button,
-  ButtonBase,
-  Divider,
-  ListItemIcon,
-  ListItemText,
-  MenuItem,
-  Popover,
-  Typography,
-} from "@material-ui/core";
-import useAuth from "../../hooks/useAuth";
-import SettingsIcon from "@material-ui/icons/Settings";
-import PersonIcon from "@material-ui/icons/Person";
+import React from 'react';
+import type { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { Avatar, Box, Button, ButtonBase, Popover, Typography } from '@material-ui/core';
+import useAuth from '../../hooks/useAuth';
 
 const AccountPopover: FC = () => {
-  const anchorRef = useRef<HTMLButtonElement | null>(null);
+  const anchorRef = React.useRef<HTMLButtonElement | null>(null);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = React.useState<boolean>(false);
 
   const handleOpen = (): void => {
     setOpen(true);
@@ -36,10 +23,10 @@ const AccountPopover: FC = () => {
     try {
       handleClose();
       await logout();
-      navigate("/");
+      navigate('/');
     } catch (err) {
       console.error(err);
-      toast.error("Unable to logout.");
+      toast.error('Unable to logout.');
     }
   };
 
@@ -50,8 +37,8 @@ const AccountPopover: FC = () => {
         onClick={handleOpen}
         ref={anchorRef}
         sx={{
-          alignItems: "center",
-          display: "flex",
+          alignItems: 'center',
+          display: 'flex',
         }}
       >
         <Avatar
@@ -65,8 +52,8 @@ const AccountPopover: FC = () => {
       <Popover
         anchorEl={anchorRef.current}
         anchorOrigin={{
-          horizontal: "center",
-          vertical: "bottom",
+          horizontal: 'center',
+          vertical: 'bottom',
         }}
         keepMounted
         onClose={handleClose}
@@ -83,6 +70,7 @@ const AccountPopover: FC = () => {
             {user.email}
           </Typography>
         </Box>
+        {/*
         <Divider />
 
         <Box sx={{ mt: 2 }}>
@@ -111,13 +99,9 @@ const AccountPopover: FC = () => {
             />
           </MenuItem>
         </Box>
+            */}
         <Box sx={{ p: 2 }}>
-          <Button
-            color="primary"
-            fullWidth
-            onClick={handleLogout}
-            variant="outlined"
-          >
+          <Button color="primary" fullWidth onClick={handleLogout} variant="outlined">
             Logout
           </Button>
         </Box>

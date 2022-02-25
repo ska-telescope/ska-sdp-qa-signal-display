@@ -1,31 +1,43 @@
-import * as d3 from "d3";
-import * as _ from "lodash";
-import { RfiTableModel } from "../../models/RfiTableModel";
-import { RfiDetailsPlot } from "./RfiDetailsPlot";
-import { RfiStat } from "./RfiStat";
-import "./RfiTable.css";
+import * as d3 from 'd3';
+import * as _ from 'lodash';
+import { RfiTableModel } from '../../models/RfiTableModel';
+import { RfiDetailsPlot } from './RfiDetailsPlot';
+import { RfiStat } from './RfiStat';
+import './RfiTable.css';
 
 export class RfiTable {
   tableId;
+
   plotId;
+
   table;
+
   cells;
+
   colHeaders;
+
   rowHeaders;
+
   numRows;
+
   numCols;
+
   cellData;
 
   rfiHighlight: RfiDetailsPlot;
 
-  constructor(tableId) {
+  constructor(tableId: string) {
     this.tableId = tableId;
   }
 
-  draw(data: RfiTableModel) {
+  draw(data: RfiTableModel): void {
     this.cellData = data;
 
-    if (!this.table || !_.isEqual(this.colHeaders, data.polarisation) || !_.isEqual(this.rowHeaders, data.baseline)) {
+    if (
+      !this.table ||
+      !_.isEqual(this.colHeaders, data.polarisation) ||
+      !_.isEqual(this.rowHeaders, data.baseline)
+    ) {
       this.colHeaders = data.polarisation;
       this.rowHeaders = data.baseline;
       this.numCols = this.colHeaders.length;
@@ -52,62 +64,53 @@ export class RfiTable {
     }
   }
 
-  drawTable() {
+  drawTable(): void {
     // remove existing table
-    d3.select("#" + this.tableId)
-      .selectAll("table")
-      .remove();
+    d3.select(`#${this.tableId}`).selectAll('table').remove();
 
-    const table = d3
-      .select("#" + this.tableId)
-      .append("table")
-      .style("class", "table");
+    const table = d3.select(`#${this.tableId}`).append('table').style('class', 'table');
 
-    const thead = table.append("thead");
-    const tbody = table.append("tbody");
+    const thead = table.append('thead');
+    const tbody = table.append('tbody');
 
     // append the column header row
     thead
-      .append("tr")
-      .selectAll("th")
-      .data([""].concat(this.colHeaders)) // column "" is for row header
+      .append('tr')
+      .selectAll('th')
+      .data([''].concat(this.colHeaders)) // column "" is for row header
       .enter()
-      .append("th")
+      .append('th')
       .text((col) => col)
-      .style("class", "th");
+      .style('class', 'th');
 
     // create a row for each object/array in the data
     const rows = tbody
-      .selectAll("tr")
+      .selectAll('tr')
       .data(this.cells)
       .enter()
-      .append("tr")
-      .attr("id", (d, i) => {
-        return i;
-      });
+      .append('tr')
+      .attr('id', (d, i) => i);
 
     // create row header
     rows
-      .append("th")
-      .attr("scope", "row")
+      .append('th')
+      .attr('scope', 'row')
       .text((row, i) => this.rowHeaders[i]);
 
     // create a cell in each row for each column
     rows
-      .selectAll("td")
-      .data((row, i) => {
-        //
-        return this.colHeaders;
-      })
+      .selectAll('td')
+      .data(() => this.colHeaders)
       .enter()
-      .append("td")
-      .attr("id", function (d, i) {
+      .append('td')
+      .attr('id', function (d, i) {
         // the current node is selected using 'this', hence use 'function', not '=>'
         const trId = d3.select(this).node().parentNode.id;
         return `${trId}${i}`;
       })
-      .append("g")
-      .attr("id", function (d, i) {
+      .append('g')
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .attr('id', function (d, i) {
         // the current node is selected using 'this', hence use 'function', not '=>'
         const tdId = d3.select(this).node().parentNode.id;
         return `g${tdId}`;

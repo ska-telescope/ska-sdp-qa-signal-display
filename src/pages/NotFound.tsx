@@ -1,13 +1,14 @@
-import type { FC } from "react";
-import { Link as RouterLink } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
-import { Box, Button, Container, Typography } from "@material-ui/core";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useTheme } from "@material-ui/core/styles";
+import React from 'react';
+import type { FC } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { Box, Button, Container, Typography } from '@material-ui/core';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 
 const NotFound: FC = () => {
   const theme = useTheme();
-  const mobileDevice = useMediaQuery(theme.breakpoints.down("sm"));
+  const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <>
@@ -16,35 +17,26 @@ const NotFound: FC = () => {
       </Helmet>
       <Box
         sx={{
-          alignItems: "center",
-          backgroundColor: "background.paper",
-          display: "flex",
-          minHeight: "100%",
+          alignItems: 'center',
+          backgroundColor: 'background.paper',
+          display: 'flex',
+          minHeight: '100%',
           px: 3,
-          py: "80px",
+          py: '80px',
         }}
       >
         <Container maxWidth="lg">
-          <Typography
-            align="center"
-            color="textPrimary"
-            variant={mobileDevice ? "h4" : "h1"}
-          >
+          <Typography align="center" color="textPrimary" variant={mobileDevice ? 'h4' : 'h1'}>
             404: The page you are looking for isn’t here
           </Typography>
-          <Typography
-            align="center"
-            color="textSecondary"
-            sx={{ mt: 0.5 }}
-            variant="subtitle2"
-          >
-            You either tried some shady route or you came here by mistake.
-            Whichever it is, try using the navigation.
+          <Typography align="center" color="textSecondary" sx={{ mt: 0.5 }} variant="subtitle2">
+            You either tried some shady route or you came here by mistake. Whichever it is, try
+            using the navigation.
           </Typography>
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "center",
+              display: 'flex',
+              justifyContent: 'center',
               mt: 6,
             }}
           >
@@ -53,25 +45,20 @@ const NotFound: FC = () => {
               component="img"
               src={`/static/error/error404_${theme.palette.mode}.svg`}
               sx={{
-                height: "auto",
-                maxWidth: "100%",
+                height: 'auto',
+                maxWidth: '100%',
                 width: 400,
               }}
             />
           </Box>
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "center",
+              display: 'flex',
+              justifyContent: 'center',
               mt: 6,
             }}
           >
-            <Button
-              color="primary"
-              component={RouterLink}
-              to="/"
-              variant="outlined"
-            >
+            <Button color="primary" component={RouterLink} to="/" variant="outlined">
               Back to Home
             </Button>
           </Box>

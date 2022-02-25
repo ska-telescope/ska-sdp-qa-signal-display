@@ -1,13 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React from 'react';
 import type { FC } from 'react';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import {
-  Alert,
-  Box,
-  Button,
-  FormHelperText,
-  TextField
-} from '@material-ui/core';
+import { Alert, Box, Button, FormHelperText, TextField } from '@material-ui/core';
 import useAuth from '../../../hooks/useAuth';
 import useMounted from '../../../hooks/useMounted';
 
@@ -20,28 +16,13 @@ const LoginJWT: FC = (props) => {
       initialValues={{
         email: 'admin@user.org',
         password: 'Password123!',
-        submit: null
+        submit: null,
       }}
-      validationSchema={
-        Yup
-          .object()
-          .shape({
-            email: Yup
-              .string()
-              .email('Must be a valid email')
-              .max(255)
-              .required('Email is required'),
-            password: Yup
-              .string()
-              .max(255)
-              .required('Password is required')
-          })
-      }
-      onSubmit={async (values, {
-        setErrors,
-        setStatus,
-        setSubmitting
-      }): Promise<void> => {
+      validationSchema={Yup.object().shape({
+        email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+        password: Yup.string().max(255).required('Password is required'),
+      })}
+      onSubmit={async (values, { setErrors, setStatus, setSubmitting }): Promise<void> => {
         try {
           await login(values.email, values.password);
 
@@ -66,13 +47,9 @@ const LoginJWT: FC = (props) => {
         handleSubmit,
         isSubmitting,
         touched,
-        values
+        values,
       }): JSX.Element => (
-        <form
-          noValidate
-          onSubmit={handleSubmit}
-          {...props}
-        >
+        <form noValidate onSubmit={handleSubmit} {...props}>
           <TextField
             autoFocus
             error={Boolean(touched.email && errors.email)}
@@ -102,9 +79,7 @@ const LoginJWT: FC = (props) => {
           />
           {errors.submit && (
             <Box sx={{ mt: 3 }}>
-              <FormHelperText error>
-                {errors.submit}
-              </FormHelperText>
+              <FormHelperText error>{errors.submit}</FormHelperText>
             </Box>
           )}
           <Box sx={{ mt: 2 }}>
@@ -122,13 +97,7 @@ const LoginJWT: FC = (props) => {
           <Box sx={{ mt: 2 }}>
             <Alert severity="info">
               <div>
-                Use
-                {' '}
-                <b>admin@user.org</b>
-                {' '}
-                and password
-                {' '}
-                <b>Password123!</b>
+                Use <b>admin@user.org</b> and password <b>Password123!</b>
               </div>
             </Alert>
           </Box>

@@ -1,3 +1,4 @@
+import React from 'react';
 import type { FC } from 'react';
 import { Box } from '@material-ui/core';
 import Logo from './Logo';
@@ -16,7 +17,7 @@ const SlashScreen: FC = () => (
       position: 'fixed',
       top: 0,
       width: '100%',
-      zIndex: 2000
+      zIndex: 2000,
     }}
   >
     <Logo />

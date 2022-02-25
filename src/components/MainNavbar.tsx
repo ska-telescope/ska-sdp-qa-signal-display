@@ -1,17 +1,10 @@
-import type { FC } from "react";
-import PropTypes from "prop-types";
-import { Link as RouterLink } from "react-router-dom";
-import {
-  AppBar,
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  Link,
-  Toolbar,
-} from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
-import Logo from "./Logo";
+import React from 'react';
+import type { FC } from 'react';
+import PropTypes from 'prop-types';
+import { Link as RouterLink } from 'react-router-dom';
+import { AppBar, Box, Button, Divider, IconButton, Link, Toolbar } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import Logo from './Logo';
 
 interface MainNavbarProps {
   onSidebarMobileOpen?: () => void;
@@ -24,8 +17,8 @@ const MainNavbar: FC<MainNavbarProps> = (props) => {
     <AppBar
       elevation={0}
       sx={{
-        backgroundColor: "background.paper",
-        color: "text.secondary",
+        backgroundColor: 'background.paper',
+        color: 'text.secondary',
       }}
     >
       <Toolbar sx={{ minHeight: 64 }}>
@@ -34,7 +27,7 @@ const MainNavbar: FC<MainNavbarProps> = (props) => {
           onClick={onSidebarMobileOpen}
           sx={{
             display: {
-              md: "none",
+              md: 'none',
             },
           }}
         >
@@ -44,8 +37,8 @@ const MainNavbar: FC<MainNavbarProps> = (props) => {
           <Logo
             sx={{
               display: {
-                md: "inline",
-                xs: "none",
+                md: 'inline',
+                xs: 'none',
               },
               height: 40,
               width: 40,
@@ -55,10 +48,10 @@ const MainNavbar: FC<MainNavbarProps> = (props) => {
         <Box sx={{ flexGrow: 1 }} />
         <Box
           sx={{
-            alignItems: "center",
+            alignItems: 'center',
             display: {
-              md: "flex",
-              xs: "none",
+              md: 'flex',
+              xs: 'none',
             },
           }}
         >

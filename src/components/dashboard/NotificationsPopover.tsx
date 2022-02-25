@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
-import type { ElementType, FC } from "react";
-import { subDays, subHours } from "date-fns";
+import React from 'react';
+import type { ElementType, FC } from 'react';
+import { subDays, subHours } from 'date-fns';
 import {
   Avatar,
   Badge,
@@ -15,11 +15,11 @@ import {
   Popover,
   Tooltip,
   Typography,
-} from "@material-ui/core";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import ChatIcon from "@material-ui/icons/Chat";
-import CreditCardIcon from "@material-ui/icons/CreditCard";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+} from '@material-ui/core';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import ChatIcon from '@material-ui/icons/Chat';
+import CreditCardIcon from '@material-ui/icons/CreditCard';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 interface Notification {
   id: string;
@@ -33,25 +33,25 @@ const now = new Date();
 
 const notifications: Notification[] = [
   {
-    id: "5e8883f1b51cc1956a5a1ec0",
+    id: '5e8883f1b51cc1956a5a1ec0',
     createdAt: subHours(now, 2).getTime(),
-    description: "Notification description",
-    title: "Notification a title",
-    type: "a",
+    description: 'Notification description',
+    title: 'Notification a title',
+    type: 'a',
   },
   {
-    id: "5e8883f7ed1486d665d8be1e",
+    id: '5e8883f7ed1486d665d8be1e',
     createdAt: subDays(now, 1).getTime(),
-    description: "Notification description",
-    title: "Notification b title",
-    type: "b",
+    description: 'Notification description',
+    title: 'Notification b title',
+    type: 'b',
   },
   {
-    id: "5e8883f7ed1486d667j8878h",
+    id: '5e8883f7ed1486d667j8878h',
     createdAt: subDays(now, 1).getTime(),
-    description: "Notification description",
-    title: "Notification c title",
-    type: "c",
+    description: 'Notification description',
+    title: 'Notification c title',
+    type: 'c',
   },
 ];
 
@@ -62,8 +62,8 @@ const iconsMap: Record<string, ElementType> = {
 };
 
 const NotificationsPopover: FC = () => {
-  const anchorRef = useRef<HTMLButtonElement | null>(null);
-  const [open, setOpen] = useState<boolean>(false);
+  const anchorRef = React.useRef<HTMLButtonElement | null>(null);
+  const [open, setOpen] = React.useState<boolean>(false);
 
   const handleOpen = (): void => {
     setOpen(true);
@@ -85,8 +85,8 @@ const NotificationsPopover: FC = () => {
       <Popover
         anchorEl={anchorRef.current}
         anchorOrigin={{
-          horizontal: "center",
-          vertical: "bottom",
+          horizontal: 'center',
+          vertical: 'bottom',
         }}
         onClose={handleClose}
         open={open}
@@ -116,8 +116,8 @@ const NotificationsPopover: FC = () => {
                     <ListItemAvatar>
                       <Avatar
                         sx={{
-                          backgroundColor: "primary.main",
-                          color: "primary.contrastText",
+                          backgroundColor: 'primary.main',
+                          color: 'primary.contrastText',
                         }}
                       >
                         <Icon fontSize="small" />
@@ -127,7 +127,7 @@ const NotificationsPopover: FC = () => {
                       primary={
                         <Link
                           color="textPrimary"
-                          sx={{ cursor: "pointer" }}
+                          sx={{ cursor: 'pointer' }}
                           underline="none"
                           variant="subtitle2"
                         >
@@ -142,8 +142,8 @@ const NotificationsPopover: FC = () => {
             </List>
             <Box
               sx={{
-                display: "flex",
-                justifyContent: "center",
+                display: 'flex',
+                justifyContent: 'center',
                 p: 1,
               }}
             >

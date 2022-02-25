@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import React from 'react';
 import type { FC, ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import { THEMES } from '../constants';
@@ -25,7 +25,7 @@ const initialSettings: Settings = {
   direction: 'ltr',
   responsiveFontSizes: true,
   roundedCorners: true,
-  theme: THEMES.LIGHT
+  theme: THEMES.LIGHT,
 };
 
 export const restoreSettings = (): Settings | null => {
@@ -44,12 +44,12 @@ export const restoreSettings = (): Settings | null => {
         roundedCorners: true,
         theme: window.matchMedia('(prefers-color-scheme: dark)').matches
           ? THEMES.DARK
-          : THEMES.LIGHT
+          : THEMES.LIGHT,
       };
     }
   } catch (err) {
     console.error(err);
-    // If stored data is not a strigified JSON this will fail,
+    // If stored data is not a stringified JSON this will fail,
     // that's why we catch the error
   }
 
@@ -60,16 +60,16 @@ export const storeSettings = (settings: Settings): void => {
   window.localStorage.setItem('settings', JSON.stringify(settings));
 };
 
-const SettingsContext = createContext<SettingsContextValue>({
+const SettingsContext = React.createContext<SettingsContextValue>({
   settings: initialSettings,
-  saveSettings: () => { return }
+  saveSettings: () => {},
 });
 
 export const SettingsProvider: FC<SettingsProviderProps> = (props) => {
   const { children } = props;
-  const [settings, setSettings] = useState<Settings>(initialSettings);
+  const [settings, setSettings] = React.useState<Settings>(initialSettings);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const restoredSettings = restoreSettings();
 
     if (restoredSettings) {
@@ -86,7 +86,7 @@ export const SettingsProvider: FC<SettingsProviderProps> = (props) => {
     <SettingsContext.Provider
       value={{
         settings,
-        saveSettings
+        saveSettings,
       }}
     >
       {children}
@@ -95,7 +95,7 @@ export const SettingsProvider: FC<SettingsProviderProps> = (props) => {
 };
 
 SettingsProvider.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export const SettingsConsumer = SettingsContext.Consumer;

@@ -1,3 +1,4 @@
+import React from 'react';
 import type { FC } from 'react';
 import type { Theme } from '@material-ui/core';
 import { experimentalStyled } from '@material-ui/core/styles';
@@ -10,13 +11,7 @@ interface LogoProps {
 const LogoRoot = experimentalStyled('svg')``;
 
 const Logo: FC<LogoProps> = (props) => (
-  <LogoRoot
-    height="52"
-    version="1.1"
-    viewBox="0 0 52 52"
-    width="52"
-    {...props}
-  >
+  <LogoRoot height="52" version="1.1" viewBox="0 0 52 52" width="52" {...props}>
     <title>T</title>
     <defs>
       <filter id="filter">
@@ -27,20 +22,10 @@ const Logo: FC<LogoProps> = (props) => (
         />
       </filter>
     </defs>
-    <g
-      fill="none"
-      stroke="none"
-    >
+    <g fill="none" stroke="none">
       <g filter="url(#filter)">
         <g>
-          <rect
-            height="52"
-            width="52"
-            x="0"
-            y="4.26325641e-14"
-          />
-
- 
+          <rect height="52" width="52" x="0" y="4.26325641e-14" />
         </g>
       </g>
     </g>

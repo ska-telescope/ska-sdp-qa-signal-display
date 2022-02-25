@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import React from 'react';
 import type { FC } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Box, Button, Chip, Drawer, Link } from '@material-ui/core';
+import { Box, Drawer } from '@material-ui/core';
 import type { Theme } from '@material-ui/core';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Logo from './Logo';
@@ -17,7 +17,7 @@ const MainSidebar: FC<MainSidebarProps> = (props) => {
   const location = useLocation();
   const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'));
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
@@ -32,8 +32,8 @@ const MainSidebar: FC<MainSidebarProps> = (props) => {
       PaperProps={{
         sx: {
           backgroundColor: 'background.default',
-          width: 256
-        }
+          width: 256,
+        },
       }}
     >
       <Box
@@ -42,13 +42,12 @@ const MainSidebar: FC<MainSidebarProps> = (props) => {
           display: 'flex',
           flexDirection: 'column',
           height: '100%',
-          p: 2
+          p: 2,
         }}
       >
         <RouterLink to="/">
           <Logo />
         </RouterLink>
-
       </Box>
     </Drawer>
   );
@@ -56,7 +55,7 @@ const MainSidebar: FC<MainSidebarProps> = (props) => {
 
 MainSidebar.propTypes = {
   onMobileClose: PropTypes.func,
-  openMobile: PropTypes.bool
+  openMobile: PropTypes.bool,
 };
 
 export default MainSidebar;

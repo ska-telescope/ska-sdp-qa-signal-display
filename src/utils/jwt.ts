@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-bitwise */
 export const JWT_SECRET = 'some-secret-key';
 export const JWT_EXPIRES_IN = 3600 * 24 * 2; // 2 days
@@ -6,7 +7,7 @@ export const JWT_EXPIRES_IN = 3600 * 24 * 2; // 2 days
 // because "jsonwebtoken" library is available on server side only, NodeJS environment
 // we simply simulate a signed token, no complex checks because on server side
 // you're using the library
-export const sign = (
+export const sign: any = (
   payload: Record<string, any>,
   privateKey: string,
   header: Record<string, any>
@@ -16,11 +17,10 @@ export const sign = (
   const encodedHeader = btoa(JSON.stringify(header));
   const encodedPayload = btoa(JSON.stringify(payload));
   const signature = btoa(
-    Array
-      .from(encodedPayload)
-      .map((item, key) => (
+    Array.from(encodedPayload)
+      .map((item, key) =>
         String.fromCharCode(item.charCodeAt(0) ^ privateKey[key % privateKey.length].charCodeAt(0))
-      ))
+      )
       .join('')
   );
 
@@ -40,11 +40,10 @@ export const decode = (token: string): any => {
   }
 
   const verifiedSignature = btoa(
-    Array
-      .from(encodedPayload)
-      .map((item, key) => (
+    Array.from(encodedPayload)
+      .map((item, key) =>
         String.fromCharCode(item.charCodeAt(0) ^ JWT_SECRET[key % JWT_SECRET.length].charCodeAt(0))
-      ))
+      )
       .join('')
   );
 
@@ -55,10 +54,7 @@ export const decode = (token: string): any => {
   return payload;
 };
 
-export const verify = (
-  token: string,
-  privateKey: string
-): Record<string, any> => {
+export const verify = (token: string, privateKey: string): Record<string, any> => {
   const [encodedHeader, encodedPayload, signature] = token.split('.');
   const header = JSON.parse(atob(encodedHeader));
   const payload = JSON.parse(atob(encodedPayload));
@@ -69,11 +65,10 @@ export const verify = (
   }
 
   const verifiedSignature = btoa(
-    Array
-      .from(encodedPayload)
-      .map((item, key) => (
+    Array.from(encodedPayload)
+      .map((item, key) =>
         String.fromCharCode(item.charCodeAt(0) ^ privateKey[key % privateKey.length].charCodeAt(0))
-      ))
+      )
       .join('')
   );
 

@@ -3,9 +3,9 @@
 //
 const mockSpectrumDataPayload = {
   body: {
-    description: "Spectrum",
-    xLabel: "Frequency (MHz)",
-    yLabel: "Power (dB)",
+    description: 'Spectrum',
+    xLabel: 'Frequency (MHz)',
+    yLabel: 'Power (dB)',
     xMin: 0,
     xMax: 100,
     yMin: 1,
@@ -113,8 +113,8 @@ const mockSpectrumDataPayload = {
       [99, 10, 0.4, 0.5],
     ],
   },
-  topic: "spectrum",
-  timestamp: "2021-04-09 10:49:27.443768",
+  topic: 'spectrum',
+  timestamp: '2021-04-09 10:49:27.443768',
 };
 
 export default mockSpectrumDataPayload;
