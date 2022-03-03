@@ -1,0 +1,20 @@
+---
+version: '2'
+services:
+  qa-display:
+    #depends_on:
+    #  - qa-data-api
+    ports:
+      - 3000:3000
+    hostname: qa-display
+    container_name: qa-display
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - REACT_APP_API=http://qa-data-api:8002
+        - REACT_APP_WS=ws://qa-data-api:8002/ws
+        - REACT_APP_ENV=development
+    # restart: always
+    volumes:
+      - .:/usr/src/qa-display

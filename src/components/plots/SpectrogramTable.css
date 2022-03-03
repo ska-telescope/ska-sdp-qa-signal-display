@@ -1,0 +1,35 @@
+
+/* 
+Generic Styling, for Desktops/Laptops 
+*/
+table { 
+	border-collapse: collapse;
+}
+
+th { 
+	/* background: rgb(211, 209, 209);  */
+	/* color: rgb(65, 64, 64);  */
+	/* font-weight: bold;  */
+	cursor: s-resize;
+	background-repeat: no-repeat;
+	background-position: 3% center;
+}
+td, th { 
+	padding: 3px; 
+	/* change borders to debug table cells */
+	border: 1px solid rgb(255, 255, 255); 
+	color: rgb(30,129,176);
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: small;
+	font-weight: normal;
+	text-align: center; 
+}
+
+th.des:after {
+	content: "\21E9";
+}
+
+th.aes:after {
+	content: "\21E7";
+}
+ 
