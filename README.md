@@ -35,8 +35,8 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 
-
 ## References
+
 - Using [Next.js](https://nextjs.org) build system
 - Using React [MUI](https://mui.com)
 
@@ -49,7 +49,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 │   ├── index.html
 │   └── manifest.json
 ├── src
-│   ├── components  
+│   ├── components
 │   │   ├── dashboard-layout            /* MUI open-source */
 │   │   │   ├── dashboard-layout.tsx
 │   │   │   ├── dashboard-navbar.tsx
@@ -66,7 +66,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 │   ├── models
 │   │   └── ****                        /* different data models, basically for typing */
 │   ├── pages
-│   │   ├── _app.tsx                    /* MUI open-source */      
+│   │   ├── _app.tsx                    /* MUI open-source */
 │   │   ├── _document.tsx               /* MUI open-source */
 │   │   ├── index.tsx
 │   │   └── plot
@@ -83,10 +83,9 @@ Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 
 [1] In this repository, we adapted (e.g., updated code for our requirement, language type JS to TS etc.) around nine files of total ~600 lines of code from `/* MUI open-source */`. These are mainly used for side navigation, top navigation, and theme (see the screenshot at the end of this doc). These files can be used freely, see the [license](https://github.com/devias-io/material-kit-react/blob/main/LICENSE.md). This is a data visualisation project and not a general web-development project, therefore it will be a waste of our effort to spend time on something which is already available. Moreover, as we keep developing our visualisation components, these files contents will evolve, for example, add SKA specific styles.
 
-[2] The package.json files lists all the packages and libraries used in this project. Mainly the Google's Material design, [MUI](https://mui.com/) provides beautiful UI components (e.g., buttons, check boxes, cards, etc.) which are free and open source. 
+[2] The package.json files lists all the packages and libraries used in this project. Mainly the Google's Material design, [MUI](https://mui.com/) provides beautiful UI components (e.g., buttons, check boxes, cards, etc.) which are open source and free to use.
 
-[3] To our knowledge, none of the packages or libraries used in this project require any license, please get in touch with us unless otherwise.
-
+[3] To our knowledge, none of the packages or libraries used in this project require any license. Please let us know if any package or component require license or acknowledgement.
 
 ## Screenshot of the UI
 
@@ -96,4 +95,3 @@ Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 
 - The Dockerfile need to be fixed to run in a container, however, locally developing and debugging is is much more faster.
 - The source code is still a proof of concept, and should gradually improve.
-
