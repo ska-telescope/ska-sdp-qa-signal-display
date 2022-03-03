@@ -1,4 +1,4 @@
-import "./Spectrogram.css";
+// import "./Spectrogram.css";
 
 class Spectrogram {
   canvas;

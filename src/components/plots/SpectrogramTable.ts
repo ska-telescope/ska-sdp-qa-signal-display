@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import * as _ from "lodash";
 import Spectrogram from "./Spectrogram";
-import "./SpectrogramTable.css";
+// import "./SpectrogramTable.css";
 
 class SpectrogramTable {
   phaseDisplayId;

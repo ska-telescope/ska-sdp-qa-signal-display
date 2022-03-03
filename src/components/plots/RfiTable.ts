@@ -3,7 +3,6 @@ import * as _ from "lodash";
 import { RfiTableModel } from "../../models/RfiTableModel";
 import { RfiDetailsPlot } from "./RfiDetailsPlot";
 import { RfiStat } from "./RfiStat";
-import "./RfiTable.css";
 
 export class RfiTable {
   tableId;
