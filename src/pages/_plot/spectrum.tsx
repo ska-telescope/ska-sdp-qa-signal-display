@@ -15,7 +15,7 @@ import Head from 'next/head';
 
 import { DashboardLayout } from "src/components/dashboard-layout/dashboard-layout";
 import Spectrum from "../../components/plots/Spectrum";
-import mockSpectrumDataPayload from "../../mock/mockSpectrumData";
+import mockSpectrumDataPayload from "../../mock/mock-spectrum-data";
 
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/spectrum`;
 

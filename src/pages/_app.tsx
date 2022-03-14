@@ -1,15 +1,13 @@
-import Head from 'next/head';
-import { CacheProvider } from '@emotion/react';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { CssBaseline } from '@mui/material';
-import { ThemeProvider } from '@mui/material/styles';
-import { createEmotionCache } from '../utils/create-emotion-cache';
-import { theme } from '../theme';
+import Head from "next/head";
+import { CacheProvider } from "@emotion/react";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import { CssBaseline } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
+import { createEmotionCache } from "src/utils/create-emotion-cache";
+import { theme } from "src/theme";
 
-import "src/libs/css/RfiTable.css";
-import "src/libs/css/Spectrogram.css";
-import "src/libs/css/SpectrogramTable.css";
+import "src/libs/css/spectrogram-plot-table.css";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -21,13 +19,8 @@ const App = (props) => {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>
-          Material Kit Pro
-        </title>
-        <meta
-          name="viewport"
-          content="initial-scale=1, width=device-width"
-        />
+        <title>QA Display</title>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <ThemeProvider theme={theme}>

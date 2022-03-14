@@ -1,7 +1,7 @@
 //
 // This data structure is out of date!
 //
-const mockSpectrumDataPayload = {
+export const mockSpectrumData = {
   body: {
     description: "Spectrum",
     xLabel: "Frequency (MHz)",
@@ -116,5 +116,3 @@ const mockSpectrumDataPayload = {
   topic: "spectrum",
   timestamp: "2021-04-09 10:49:27.443768",
 };
-
-export default mockSpectrumDataPayload;

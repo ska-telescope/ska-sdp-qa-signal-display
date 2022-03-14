@@ -1,48 +1,27 @@
 import * as d3 from "d3";
 
-let width = 1200;
-let height = 600;
-const margin = { top: 10, right: 10, bottom: 40, left: 50 };
-width = width - margin.left - margin.right;
-height = height - margin.top - margin.bottom;
-const xLabel = "Frequency channels";
-const yLabel = "Power (in dB)";
-
 export class SpectrumPlotSvg {
+  width: number;
+  height: number;
+  margin = { top: 10, right: 10, bottom: 40, left: 50 };
   svg: any;
+  xLabel: string = "Frequency channels";
+  yLabel: string = "Power (in dB)";
   xScale: any;
   yScale: any;
 
-  constructor(selector: string) {
+  constructor(selector: string, width = 1200, height = 600) {
+    this.width = width;
+    this.height = height;
+
     // append the svg object to the selector
     this.svg = d3
       .select(selector)
       .append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
+      .attr("width", width + this.margin.left + this.margin.right)
+      .attr("height", height + this.margin.top + this.margin.bottom)
       .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
-
-    // label for the x-axis
-    this.svg
-      .append("text")
-      .attr("transform", `translate(${width / 2} ,${height + margin.top + 20})`)
-      .style("fill", "grey")
-      .style("text-anchor", "middle")
-      .style("font-size", "15px")
-      .text(xLabel);
-
-    // label for the y-axis
-    this.svg
-      .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left)
-      .attr("x", 0 - height / 2)
-      .attr("dy", "1.0em")
-      .style("fill", "grey")
-      .style("text-anchor", "middle")
-      .style("font-size", "15px")
-      .text(yLabel);
+      .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
   }
 
   public draw(data: any) {
@@ -54,40 +33,63 @@ export class SpectrumPlotSvg {
     this.xScale = d3
       .scaleLinear()
       .domain([data?.xMin || 0, data.xMax])
-      .range([0, width]);
+      .range([0, this.width]);
 
     // create y-scale
     this.yScale = d3
       .scaleLinear()
       .domain([data?.yMin || 0, data.yMax])
-      .range([height, 0]);
+      .range([this.height, 0]);
 
+    this.drawAxis();
+    this.drawLine(data);
+    this.drawConfidenceIntervals(data);
+
+    this.svg
+      .exit()
+      .transition()
+      // .duration(300)
+      .attr("y", this.height)
+      .attr("height", 0)
+      .remove();
+  }
+
+  private drawAxis() {
     // add x-axis
     this.svg
       .append("g")
-      .attr("transform", `translate(0,${height})`)
+      .attr("transform", `translate(0,${this.height})`)
       .call(d3.axisBottom(this.xScale));
 
     // add y axis
     this.svg.append("g").call(d3.axisLeft(this.yScale));
 
-    // show confidence interval/std
+    // label for the x-axis
     this.svg
-      .append("path")
-      .datum(data.channels)
-      .attr("fill", "#1f77b4")
-      .attr("stroke", "none")
-      .attr("opacity", 0.3)
+      .append("text")
       .attr(
-        "d",
-        d3
-          .area()
-          .curve(d3.curveMonotoneX)
-          .x((d, i) => this.xScale(data.channels[i]))
-          .y0((d, i) => this.yScale(data.power[i] + data.sdU[i]))
-          .y1((d, i) => this.yScale(data.power[i] - data.sdL[i])),
-      );
+        "transform",
+        `translate(${this.width / 2} ,${this.height + this.margin.top + 20})`,
+      )
+      .style("fill", "grey")
+      .style("text-anchor", "middle")
+      .style("font-size", "15px")
+      .text(this.xLabel);
 
+    // label for the y-axis
+    this.svg
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - this.margin.left)
+      .attr("x", 0 - this.height / 2)
+      .attr("dy", "1.0em")
+      .style("fill", "grey")
+      .style("text-anchor", "middle")
+      .style("font-size", "15px")
+      .text(this.yLabel);
+  }
+
+  private drawLine(data) {
     // add the line
     this.svg
       .append("path")
@@ -107,13 +109,23 @@ export class SpectrumPlotSvg {
           })
           .y((d, i) => this.yScale(data.power[i])),
       );
+  }
 
+  private drawConfidenceIntervals(data) {
     this.svg
-      .exit()
-      .transition()
-      // .duration(300)
-      .attr("y", height)
-      .attr("height", 0)
-      .remove();
+      .append("path")
+      .datum(data.channels)
+      .attr("fill", "#1f77b4")
+      .attr("stroke", "none")
+      .attr("opacity", 0.3)
+      .attr(
+        "d",
+        d3
+          .area()
+          .curve(d3.curveMonotoneX)
+          .x((d, i) => this.xScale(data.channels[i]))
+          .y0((d, i) => this.yScale(data.power[i] + data.sdU[i]))
+          .y1((d, i) => this.yScale(data.power[i] - data.sdL[i])),
+      );
   }
 }
