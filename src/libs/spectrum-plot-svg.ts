@@ -3,7 +3,8 @@ import * as d3 from "d3";
 export class SpectrumPlotSvg {
   width: number;
   height: number;
-  margin = { top: 10, right: 10, bottom: 40, left: 50 };
+  margin = { top: 10, right: 40, bottom: 40, left: 50 };
+
   svg: any;
   xLabel: string = "Frequency channels";
   yLabel: string = "Power (in dB)";
@@ -18,8 +19,8 @@ export class SpectrumPlotSvg {
     this.svg = d3
       .select(selector)
       .append("svg")
-      .attr("width", width + this.margin.left + this.margin.right)
-      .attr("height", height + this.margin.top + this.margin.bottom)
+      .attr("width", width - this.margin.left - this.margin.right)
+      .attr("height", height - this.margin.top + this.margin.bottom)
       .append("g")
       .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
   }

@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Head from "next/head";
 import {
   Avatar,
@@ -89,10 +88,8 @@ const SpectrumPage = () => {
           if (decoded && decoded.status) {
             setSocketStatus(decoded.status);
           } else {
-            console.log(
-              "SpectrumPage: received type = text, decoded = ",
-              decoded,
-            );
+            // prettier-ignore
+            console.log("SpectrumPage: received type = text, decoded = ", decoded);
             window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
           }
         }
@@ -113,7 +110,7 @@ const SpectrumPage = () => {
   return (
     <>
       <Head>
-        <title>Spectrum</title>
+        <title>Spectrum Plot</title>
       </Head>
       <DashboardLayout>
         <Box
@@ -129,7 +126,7 @@ const SpectrumPage = () => {
           <Container>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <Card>
+                <Card sx={{ minWidth: WIDTH }}>
                   <CardHeader
                     action={
                       <IconButton aria-label="settings">

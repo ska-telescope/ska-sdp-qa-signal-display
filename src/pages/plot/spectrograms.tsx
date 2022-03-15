@@ -1,38 +1,56 @@
-import { Typography } from "@mui/material";
+import { useCallback, useEffect, useState } from "react";
+import {
+  Avatar,
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  Grid,
+  IconButton,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import Head from "next/head";
-import { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import TimelineIcon from "@mui/icons-material/Timeline";
 
-import DashboardLayout from "src/components/dashboard-layout/DashboardLayout";
-import { decodeJson, decodeSpectrogram } from "src/lib/decoder";
-import { spectrogramsMockData } from "public/static/mock/spectrogram-mock-data";
-import SpectrogramPlotTable from "src/lib/spectrogram-plot-table";
+import { Protocol } from "src/models/protocol";
+import { MessageTopic } from "src/models/message-topic";
+import { decodeJson, decodeSpectrogram } from "src/libs/decoder";
+import { DashboardLayout } from "src/components/dashboard-layout/dashboard-layout";
 
-const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/spectrogram-`;
+import SpectrogramPlotTable from "src/libs/spectrogram-plot-table";
+import { mockSpectrogramsData } from "src/mock/mock-spectrogram-data";
+
+const WIDTH = 1600;
+const HEIGHT = 600;
+const CELL_WIDTH = 200;
+const CELL_HEIGHT = 100;
+const PROTOCOL = Protocol.PROTOBUF;
+const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
+const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
 const SpectrogramTable = () => {
+  const theme = useTheme();
   const [socketStatus, setSocketStatus] = useState("disconnected");
-  const router = useRouter();
-  const protocol =
-    typeof router.query.protocol === "string"
-      ? router.query.protocol
-      : undefined;
 
   const connectWebSocket = useCallback(async () => {
-    if (!protocol) {
-      return;
-    }
+    const spectrogramPlotTable = new SpectrogramPlotTable(
+      "divId",
+      WIDTH,
+      HEIGHT,
+      CELL_WIDTH,
+      CELL_HEIGHT,
+    );
+    // test plot with mock data
+    spectrogramPlotTable.draw(mockSpectrogramsData.spectrogram);
 
-    const spectrogramPlotTable = new SpectrogramPlotTable("divId");
-    spectrogramPlotTable.draw(spectrogramsMockData.spectrogram);
-
-    const wsApi = `${WS_API}${protocol}`;
     // prettier-ignore
-    console.log(`SpectrogramPage: protocol = ${protocol}, wsApi = ${wsApi}`);
+    console.log(`SpectrogramPage: connecting to WS_API = ${WS_API}`);
 
     // socket
-    const ws = new WebSocket(wsApi);
+    const ws = new WebSocket(WS_API);
 
     ws.onerror = function (e) {
       console.error("SpectrogramPage: ws onerror, error = ", e);
@@ -57,7 +75,7 @@ const SpectrogramTable = () => {
         } else if (data instanceof Blob) {
           decodeSpectrogram(data).then((decoded: any) => {
             // prettier-ignore
-            // console.log("SpectrogramPage: received type = Blob, decoded = ", decoded);
+            console.log("SpectrogramPage: received type = Blob, decoded = ", decoded);
             window.requestAnimationFrame(() => {
               spectrogramPlotTable.draw(decoded.spectrogram);
             });
@@ -69,8 +87,11 @@ const SpectrogramTable = () => {
           if (decoded && decoded.status) {
             setSocketStatus(decoded.status);
           } else {
-            // console.log("SpectrogramPage: received type = text, decoded = ", decoded);
-            // window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
+            // prettier-ignore
+            console.log("SpectrogramPage: received type = text, decoded = ", decoded);
+            window.requestAnimationFrame(() => {
+              spectrogramPlotTable.draw(decoded.spectrogram);
+            });
           }
         }
       } catch (e) {
@@ -81,7 +102,7 @@ const SpectrogramTable = () => {
     return () => {
       ws.close();
     };
-  }, [protocol]);
+  }, []);
 
   useEffect(() => {
     connectWebSocket();
@@ -90,7 +111,7 @@ const SpectrogramTable = () => {
   return (
     <>
       <Head>
-        <title>Spectrogram Table</title>
+        <title>Phase Spectrograms</title>
       </Head>
       <DashboardLayout>
         <Box
@@ -103,13 +124,32 @@ const SpectrogramTable = () => {
             right: 0,
           }}
         >
-          <Typography variant="caption" display="block" gutterBottom>
-            {"SPECTROGRAM (TABLE): Socket: " +
-              socketStatus +
-              ", Serialisation:" +
-              protocol}
-          </Typography>
-          <div id="divId" />
+          <Container>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Card sx={{ minWidth: WIDTH }}>
+                  <CardHeader
+                    action={
+                      <IconButton aria-label="settings">
+                        <MoreVertIcon />
+                      </IconButton>
+                    }
+                    avatar={
+                      <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
+                        <TimelineIcon />
+                      </Avatar>
+                    }
+                    title="Spectrograms"
+                    subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
+                  />
+
+                  <CardContent sx={{ pt: "8px" }}>
+                    <div id="divId" />
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+          </Container>
         </Box>
       </DashboardLayout>
     </>

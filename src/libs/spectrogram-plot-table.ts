@@ -2,12 +2,6 @@ import * as d3 from "d3";
 import * as _ from "lodash";
 import { SpectrogramPlot } from "./spectrogram-plot";
 
-const TABLE_WIDTH = 2300;
-const TABLE_HEIGHT = 1200;
-const CELL_HEIGHT = 100;
-const CELL_WIDTH = 200;
-const CELL_GAP = 5;
-
 interface Cell {
   metadata: { baseline: string; polarisation: string };
   plot: SpectrogramPlot;
@@ -15,6 +9,12 @@ interface Cell {
 
 class SpectrogramPlotTable {
   divId;
+  width: number;
+  height: number;
+  cellHeight: number;
+  cellWidth: number;
+  cellGap: number = 5;
+
   table;
   cells: Cell[][];
   colNames;
@@ -25,8 +25,18 @@ class SpectrogramPlotTable {
   len;
   unwrap = ({ baseline, polarisation }) => ({ baseline, polarisation });
 
-  constructor(divId) {
+  constructor(
+    divId,
+    width = 1200,
+    height = 600,
+    cellWidth = 200,
+    cellHeight = 100,
+  ) {
     this.divId = divId;
+    this.width = width;
+    this.height = height;
+    this.cellWidth = cellWidth;
+    this.cellHeight = cellHeight;
   }
 
   draw(data) {
@@ -34,7 +44,7 @@ class SpectrogramPlotTable {
 
     if (!this.table || this.len !== data.length) {
       this.len = data.length;
-      this.numCols = Math.floor(TABLE_WIDTH / (CELL_WIDTH + CELL_GAP));
+      this.numCols = Math.floor(this.width / (this.cellWidth + this.cellGap));
       this.numRows = Math.ceil(this.len / this.numCols) || 1;
       // console.log(this.numCols, this.numRows);
 
@@ -114,8 +124,8 @@ class SpectrogramPlotTable {
         if (id) return id;
       })
       .attr("style", "canvas")
-      .attr("width", CELL_WIDTH)
-      .attr("height", CELL_HEIGHT);
+      .attr("width", this.cellWidth)
+      .attr("height", this.cellHeight);
 
     return;
   }
