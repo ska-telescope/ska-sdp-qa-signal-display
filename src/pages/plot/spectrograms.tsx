@@ -75,7 +75,7 @@ const SpectrogramTable = () => {
         } else if (data instanceof Blob) {
           decodeSpectrogram(data).then((decoded: any) => {
             // prettier-ignore
-            console.log("SpectrogramPage: received type = Blob, decoded = ", decoded);
+            // console.log("SpectrogramPage: received type = Blob, decoded = ", decoded);
             window.requestAnimationFrame(() => {
               spectrogramPlotTable.draw(decoded.spectrogram);
             });
@@ -88,7 +88,7 @@ const SpectrogramTable = () => {
             setSocketStatus(decoded.status);
           } else {
             // prettier-ignore
-            console.log("SpectrogramPage: received type = text, decoded = ", decoded);
+            // console.log("SpectrogramPage: received type = text, decoded = ", decoded);
             window.requestAnimationFrame(() => {
               spectrogramPlotTable.draw(decoded.spectrogram);
             });

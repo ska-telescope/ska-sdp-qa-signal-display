@@ -3,10 +3,10 @@ import * as d3 from "d3";
 export class SpectrumPlotSvg {
   width: number;
   height: number;
-  margin = { top: 10, right: 40, bottom: 40, left: 50 };
+  margin = { top: 10, right: 40, bottom: 60, left: 50 };
 
   svg: any;
-  xLabel: string = "Frequency channels";
+  xLabel: string = "Frequency channels (MHz)";
   yLabel: string = "Power (in dB)";
   xScale: any;
   yScale: any;
@@ -27,8 +27,9 @@ export class SpectrumPlotSvg {
 
   public draw(data: any) {
     //console.log("SpectrumPlot:draw: data = ", data);
-    this.svg.selectAll("path").remove();
+    this.svg.selectAll("text").remove();
     this.svg.selectAll(".tick").remove();
+    this.svg.selectAll("path").remove();
 
     // create x-scale
     this.xScale = d3
