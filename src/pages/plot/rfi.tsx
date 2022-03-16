@@ -47,7 +47,7 @@ const Rfi = () => {
 
     rfiWs.onmessage = (event) => {
       const payload = decodeJson(event.data);
-      console.log("Rfi:onMessage: rfiWs received payload = ", payload);
+      // console.log("Rfi:onMessage: rfiWs received payload = ", payload);
 
       if ("status" in payload) {
         console.log(payload.status);
@@ -62,7 +62,7 @@ const Rfi = () => {
 
     rfiDetailsWs.onmessage = (event) => {
       const payload = decodeJson(event.data);
-      console.log("Rfi:onMessage: rfiDetailsWs received payload = ", payload);
+      // console.log("Rfi:onMessage: rfiDetailsWs received payload = ", payload);
 
       if ("status" in payload) {
         console.log(payload.status);
@@ -84,7 +84,7 @@ const Rfi = () => {
   return (
     <>
       <Head>
-        <title>RFI Quality</title>
+        <title>RFI QA</title>
       </Head>
 
       <DashboardLayout>
