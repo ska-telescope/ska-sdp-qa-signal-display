@@ -73,7 +73,7 @@ export class SpectrumPlotSvg {
         "transform",
         `translate(${this.width / 2} ,${this.height + this.margin.top + 20})`,
       )
-      .style("fill", "grey")
+      .style("fill", "#303030")
       .style("text-anchor", "middle")
       .style("font-size", "15px")
       .text(this.xLabel);
@@ -85,7 +85,7 @@ export class SpectrumPlotSvg {
       .attr("y", 0 - this.margin.left)
       .attr("x", 0 - this.height / 2)
       .attr("dy", "1.0em")
-      .style("fill", "grey")
+      .style("fill", "#303030")
       .style("text-anchor", "middle")
       .style("font-size", "15px")
       .text(this.yLabel);

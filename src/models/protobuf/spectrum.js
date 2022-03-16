@@ -144,17 +144,17 @@ $root.Spectrum = (function() {
         if (message.timestamp != null && Object.hasOwnProperty.call(message, "timestamp"))
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.timestamp);
         if (message.xMin != null && Object.hasOwnProperty.call(message, "xMin"))
-            writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.xMin);
+            writer.uint32(/* id 2, wireType 5 =*/21).float(message.xMin);
         if (message.xMax != null && Object.hasOwnProperty.call(message, "xMax"))
-            writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.xMax);
+            writer.uint32(/* id 3, wireType 5 =*/29).float(message.xMax);
         if (message.yMin != null && Object.hasOwnProperty.call(message, "yMin"))
-            writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.yMin);
+            writer.uint32(/* id 4, wireType 5 =*/37).float(message.yMin);
         if (message.yMax != null && Object.hasOwnProperty.call(message, "yMax"))
-            writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.yMax);
+            writer.uint32(/* id 5, wireType 5 =*/45).float(message.yMax);
         if (message.channels != null && message.channels.length) {
             writer.uint32(/* id 6, wireType 2 =*/50).fork();
             for (var i = 0; i < message.channels.length; ++i)
-                writer.uint32(message.channels[i]);
+                writer.float(message.channels[i]);
             writer.ldelim();
         }
         if (message.power != null && message.power.length) {
@@ -213,16 +213,16 @@ $root.Spectrum = (function() {
                 message.timestamp = reader.string();
                 break;
             case 2:
-                message.xMin = reader.uint32();
+                message.xMin = reader.float();
                 break;
             case 3:
-                message.xMax = reader.uint32();
+                message.xMax = reader.float();
                 break;
             case 4:
-                message.yMin = reader.uint32();
+                message.yMin = reader.float();
                 break;
             case 5:
-                message.yMax = reader.uint32();
+                message.yMax = reader.float();
                 break;
             case 6:
                 if (!(message.channels && message.channels.length))
@@ -230,9 +230,9 @@ $root.Spectrum = (function() {
                 if ((tag & 7) === 2) {
                     var end2 = reader.uint32() + reader.pos;
                     while (reader.pos < end2)
-                        message.channels.push(reader.uint32());
+                        message.channels.push(reader.float());
                 } else
-                    message.channels.push(reader.uint32());
+                    message.channels.push(reader.float());
                 break;
             case 7:
                 if (!(message.power && message.power.length))
@@ -303,23 +303,23 @@ $root.Spectrum = (function() {
             if (!$util.isString(message.timestamp))
                 return "timestamp: string expected";
         if (message.xMin != null && message.hasOwnProperty("xMin"))
-            if (!$util.isInteger(message.xMin))
-                return "xMin: integer expected";
+            if (typeof message.xMin !== "number")
+                return "xMin: number expected";
         if (message.xMax != null && message.hasOwnProperty("xMax"))
-            if (!$util.isInteger(message.xMax))
-                return "xMax: integer expected";
+            if (typeof message.xMax !== "number")
+                return "xMax: number expected";
         if (message.yMin != null && message.hasOwnProperty("yMin"))
-            if (!$util.isInteger(message.yMin))
-                return "yMin: integer expected";
+            if (typeof message.yMin !== "number")
+                return "yMin: number expected";
         if (message.yMax != null && message.hasOwnProperty("yMax"))
-            if (!$util.isInteger(message.yMax))
-                return "yMax: integer expected";
+            if (typeof message.yMax !== "number")
+                return "yMax: number expected";
         if (message.channels != null && message.hasOwnProperty("channels")) {
             if (!Array.isArray(message.channels))
                 return "channels: array expected";
             for (var i = 0; i < message.channels.length; ++i)
-                if (!$util.isInteger(message.channels[i]))
-                    return "channels: integer[] expected";
+                if (typeof message.channels[i] !== "number")
+                    return "channels: number[] expected";
         }
         if (message.power != null && message.hasOwnProperty("power")) {
             if (!Array.isArray(message.power))
@@ -360,19 +360,19 @@ $root.Spectrum = (function() {
         if (object.timestamp != null)
             message.timestamp = String(object.timestamp);
         if (object.xMin != null)
-            message.xMin = object.xMin >>> 0;
+            message.xMin = Number(object.xMin);
         if (object.xMax != null)
-            message.xMax = object.xMax >>> 0;
+            message.xMax = Number(object.xMax);
         if (object.yMin != null)
-            message.yMin = object.yMin >>> 0;
+            message.yMin = Number(object.yMin);
         if (object.yMax != null)
-            message.yMax = object.yMax >>> 0;
+            message.yMax = Number(object.yMax);
         if (object.channels) {
             if (!Array.isArray(object.channels))
                 throw TypeError(".Spectrum.channels: array expected");
             message.channels = [];
             for (var i = 0; i < object.channels.length; ++i)
-                message.channels[i] = object.channels[i] >>> 0;
+                message.channels[i] = Number(object.channels[i]);
         }
         if (object.power) {
             if (!Array.isArray(object.power))
@@ -427,17 +427,17 @@ $root.Spectrum = (function() {
         if (message.timestamp != null && message.hasOwnProperty("timestamp"))
             object.timestamp = message.timestamp;
         if (message.xMin != null && message.hasOwnProperty("xMin"))
-            object.xMin = message.xMin;
+            object.xMin = options.json && !isFinite(message.xMin) ? String(message.xMin) : message.xMin;
         if (message.xMax != null && message.hasOwnProperty("xMax"))
-            object.xMax = message.xMax;
+            object.xMax = options.json && !isFinite(message.xMax) ? String(message.xMax) : message.xMax;
         if (message.yMin != null && message.hasOwnProperty("yMin"))
-            object.yMin = message.yMin;
+            object.yMin = options.json && !isFinite(message.yMin) ? String(message.yMin) : message.yMin;
         if (message.yMax != null && message.hasOwnProperty("yMax"))
-            object.yMax = message.yMax;
+            object.yMax = options.json && !isFinite(message.yMax) ? String(message.yMax) : message.yMax;
         if (message.channels && message.channels.length) {
             object.channels = [];
             for (var j = 0; j < message.channels.length; ++j)
-                object.channels[j] = message.channels[j];
+                object.channels[j] = options.json && !isFinite(message.channels[j]) ? String(message.channels[j]) : message.channels[j];
         }
         if (message.power && message.power.length) {
             object.power = [];
