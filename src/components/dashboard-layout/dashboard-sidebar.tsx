@@ -2,12 +2,21 @@ import { useEffect } from "react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
-import { Box, Divider, Drawer, Typography, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Drawer,
+  Link,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import TimelineIcon from "@mui/icons-material/Timeline";
 import WaterfallChartIcon from "@mui/icons-material/WaterfallChart";
 import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
 
 import { NavItem } from "./nav-item";
+import Logo from "src/components/logo";
 
 const items = [
   {
@@ -28,6 +37,7 @@ const items = [
 ];
 
 export const DashboardSidebar = (props) => {
+  const theme = useTheme();
   const { open, onClose } = props;
   const router = useRouter();
   const lgUp = useMediaQuery((theme) => theme?.breakpoints.up("lg"), {
@@ -46,7 +56,7 @@ export const DashboardSidebar = (props) => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [router.asPath]
+    [router.asPath],
   );
 
   const content = (
@@ -58,45 +68,43 @@ export const DashboardSidebar = (props) => {
           height: "100%",
         }}
       >
-        <div>
-          <Box sx={{ p: 3 }}>
-            <NextLink href="/" passHref>
-              <a></a>
-            </NextLink>
-          </Box>
-          <Box sx={{ px: 2 }}>
-            <Box
-              sx={{
-                alignItems: "center",
-                backgroundColor: "rgba(255, 255, 255, 0.04)",
-                cursor: "pointer",
-                display: "flex",
-                justifyContent: "space-between",
-                px: 3,
-                py: "11px",
-                borderRadius: 1,
-              }}
-            >
-              <div>
-                <Typography color="#1c54b2" variant="h3">
+        <Box sx={{ p: 2 }}>
+          <Box
+            sx={{
+              alignItems: "center",
+              backgroundColor: "background.default",
+              borderRadius: 1,
+              display: "flex",
+              overflow: "hidden",
+              p: 2,
+            }}
+          >
+            <Box sx={{ ml: 2 }}>
+              <img src="/static/logos/logo.png" />
+
+              <Link href="/" style={{ textDecoration: "none" }}>
+                <Typography color="primary" variant="h5" textAlign="center">
                   QA Metrics
                 </Typography>
-                <Typography color="#1c54b2" variant="body2">
-                  SKA QA Metrics Visualisation
-                </Typography>
-              </div>
+              </Link>
             </Box>
           </Box>
-        </div>
+        </Box>
+
         <Divider
           sx={{
             borderColor: "#2D3748",
-            my: 3,
+            my: 0,
           }}
         />
         <Box sx={{ flexGrow: 1 }}>
           {items.map((item) => (
-            <NavItem key={item.title} icon={item.icon} href={item.href} title={item.title} />
+            <NavItem
+              key={item.title}
+              icon={item.icon}
+              href={item.href}
+              title={item.title}
+            />
           ))}
         </Box>
         <Divider sx={{ borderColor: "#2D3748" }} />
