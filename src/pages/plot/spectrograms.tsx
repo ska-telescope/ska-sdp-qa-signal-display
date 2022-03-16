@@ -13,7 +13,7 @@ import {
 import { Box } from "@mui/system";
 import Head from "next/head";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import TimelineIcon from "@mui/icons-material/Timeline";
+import WaterfallChartIcon from "@mui/icons-material/WaterfallChart";
 
 import { Protocol } from "src/models/protocol";
 import { MessageTopic } from "src/models/message-topic";
@@ -44,24 +44,24 @@ const SpectrogramTable = () => {
       CELL_HEIGHT,
     );
     // test plot with mock data
-    spectrogramPlotTable.draw(mockSpectrogramsData.spectrogram);
+    // spectrogramPlotTable.draw(mockSpectrogramsData.spectrogram);
 
     // prettier-ignore
-    console.log(`SpectrogramPage: connecting to WS_API = ${WS_API}`);
+    console.log(`SpectrogramsPage: connecting to WS_API = ${WS_API}`);
 
     // socket
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function (e) {
-      console.error("SpectrogramPage: ws onerror, error = ", e);
+      console.error("SpectrogramsPage: ws onerror, error = ", e);
     };
 
     ws.onclose = function () {
-      console.log("SpectrogramPage: ws onclose");
+      console.log("SpectrogramsPage: ws onclose");
     };
 
     ws.onopen = function () {
-      console.log("SpectrogramPage: ws onopen");
+      console.log("SpectrogramsPage: ws onopen");
       // ws.send("status: ws open");
     };
 
@@ -71,11 +71,11 @@ const SpectrogramTable = () => {
       try {
         if (data instanceof ArrayBuffer) {
           // prettier-ignore
-          console.log("SpectrogramPage: received, type = ArrayBuffer, data = ", data);
+          console.log("SpectrogramsPage: received, type = ArrayBuffer, data = ", data);
         } else if (data instanceof Blob) {
           decodeSpectrogram(data).then((decoded: any) => {
             // prettier-ignore
-            // console.log("SpectrogramPage: received type = Blob, decoded = ", decoded);
+            // console.log("SpectrogramsPage: received type = Blob, decoded = ", decoded);
             window.requestAnimationFrame(() => {
               spectrogramPlotTable.draw(decoded.spectrogram);
             });
@@ -83,19 +83,19 @@ const SpectrogramTable = () => {
         } else {
           const decoded = decodeJson(data);
           // prettier-ignore
-          // console.log( "SpectrogramPage: received type = string, decoded = ", decoded, );
+          // console.log( "SpectrogramsPage: received type = string, decoded = ", decoded, );
           if (decoded && decoded.status) {
             setSocketStatus(decoded.status);
           } else {
             // prettier-ignore
-            // console.log("SpectrogramPage: received type = text, decoded = ", decoded);
+            // console.log("SpectrogramsPage: received type = text, decoded = ", decoded);
             window.requestAnimationFrame(() => {
               spectrogramPlotTable.draw(decoded.spectrogram);
             });
           }
         }
       } catch (e) {
-        console.error("SpectrogramPage: received, decoding error = ", e);
+        console.error("SpectrogramsPage: received, decoding error = ", e);
       }
     };
 
@@ -136,7 +136,7 @@ const SpectrogramTable = () => {
                     }
                     avatar={
                       <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
-                        <TimelineIcon />
+                        <WaterfallChartIcon />
                       </Avatar>
                     }
                     title="Spectrograms"
@@ -144,6 +144,15 @@ const SpectrogramTable = () => {
                   />
 
                   <CardContent sx={{ pt: "8px" }}>
+                    <Typography
+                      sx={{ fontSize: 14 }}
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      Click baseline and polarisation to see detailed
+                      spectrogram
+                    </Typography>
+
                     <div id="divId" />
                   </CardContent>
                 </Card>

@@ -1,46 +1,60 @@
-import { Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import Head from "next/head";
 import { useCallback, useEffect, useState } from "react";
+import {
+  Typography,
+  Avatar,
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  Grid,
+  IconButton,
+  useTheme,
+} from "@mui/material";
+import { Box } from "@mui/system";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import WaterfallChartIcon from "@mui/icons-material/WaterfallChart";
+import Head from "next/head";
 import { useRouter } from "next/router";
 
-import DashboardLayout from "src/components/dashboard-layout/DashboardLayout";
-import { decodeJson, decodeSpectrogram } from "src/lib/decoder";
-import { SpectrogramPlot, WaterfallDirection } from "src/lib/spectrogram-plot";
-import { spectrogramsMockData } from "public/static/mock/spectrogram-mock-data";
+import { Protocol } from "src/models/protocol";
+import { MessageTopic } from "src/models/message-topic";
+import { decodeJson, decodeSpectrogram } from "src/libs/decoder";
+import { DashboardLayout } from "src/components/dashboard-layout/dashboard-layout";
 
-const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/spectrogram-`;
-const WIDTH = 2300,
-  HEIGHT = 1200;
+import SpectrogramPlotTable from "src/libs/spectrogram-plot-table";
+import { mockSpectrogramsData } from "src/mock/mock-spectrogram-data";
+import { SpectrogramPlot } from "src/libs/spectrogram-plot";
+
+const WIDTH = 1600;
+const HEIGHT = 600;
+const PROTOCOL = Protocol.PROTOBUF;
+const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
+const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
 const SpectrogramPage = () => {
-  const [socketStatus, setSocketStatus] = useState("disconnected");
+  const theme = useTheme();
   const router = useRouter();
-  const protocol =
-    typeof router.query.protocol === "string"
-      ? router.query.protocol
-      : undefined;
+  const idx =
+    typeof router.query.idx === "string" ? router.query.idx : undefined;
+
+  const [socketStatus, setSocketStatus] = useState("disconnected");
 
   const connectWebSocket = useCallback(async () => {
-    if (!protocol) {
+    if (!idx) {
       return;
     }
 
-    const spectrogramPlot = new SpectrogramPlot(
-      "canvasId",
-      WaterfallDirection.TOP_TO_BOTTOM,
-    );
-    // Test with mock data
-    for (let d of spectrogramsMockData.spectrogram) {
+    const spectrogramPlot = new SpectrogramPlot("canvasId");
+    // test spectrogram with mock data
+    for (let d of mockSpectrogramsData.spectrogram) {
       spectrogramPlot.draw(d.phase);
     }
 
-    const wsApi = `${WS_API}${protocol}`;
     // prettier-ignore
-    console.log(`SpectrogramPage: protocol = ${protocol}, wsApi = ${wsApi}`);
+    console.log(`SpectrogramPage: connecting to WS_API = ${WS_API}, idx = ${idx}`);
 
     // socket
-    const ws = new WebSocket(wsApi);
+    const ws = new WebSocket(WS_API);
 
     ws.onerror = function (e) {
       console.error("SpectrogramPage: ws onerror, error = ", e);
@@ -68,7 +82,7 @@ const SpectrogramPage = () => {
             // console.log("SpectrogramPage: received type = Blob, decoded = ", decoded);
             window.requestAnimationFrame(() => {
               // single spectrogram plot
-              spectrogramPlot.draw(decoded.spectrogram[0].phase);
+              spectrogramPlot.draw(decoded.spectrogram[idx].phase);
             });
           });
         } else {
@@ -88,7 +102,7 @@ const SpectrogramPage = () => {
     return () => {
       ws.close();
     };
-  }, [protocol]);
+  }, [idx]);
 
   useEffect(() => {
     connectWebSocket();
@@ -110,23 +124,41 @@ const SpectrogramPage = () => {
             right: 0,
           }}
         >
-          <Typography variant="caption" display="block" gutterBottom>
-            {"SPECTROGRAM PLOT: Socket: " +
-              socketStatus +
-              ", Serialisation:" +
-              protocol}
-          </Typography>
+          <Container>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Card sx={{ minWidth: WIDTH + 100 }}>
+                  <CardHeader
+                    action={
+                      <IconButton aria-label="settings">
+                        <MoreVertIcon />
+                      </IconButton>
+                    }
+                    avatar={
+                      <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
+                        <WaterfallChartIcon />
+                      </Avatar>
+                    }
+                    title="Spectrograms"
+                    subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
+                  />
 
-          <canvas
-            id="canvasId"
-            width={WIDTH}
-            height={HEIGHT}
-            style={{
-              outline: "gray 1px solid",
-              // border: "2px solid steelblue",
-              backgroundColor: "white",
-            }}
-          ></canvas>
+                  <CardContent sx={{ pt: "8px" }}>
+                    <canvas
+                      id="canvasId"
+                      width={WIDTH}
+                      height={HEIGHT}
+                      style={{
+                        outline: "gray 1px solid",
+                        // border: "2px solid steelblue",
+                        backgroundColor: "white",
+                      }}
+                    ></canvas>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+          </Container>
         </Box>
       </DashboardLayout>
     </>

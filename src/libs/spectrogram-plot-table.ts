@@ -1,9 +1,10 @@
 import * as d3 from "d3";
 import * as _ from "lodash";
+import { removeLastDirectoryPartOf } from "src/utils/common";
 import { SpectrogramPlot } from "./spectrogram-plot";
 
 interface Cell {
-  metadata: { baseline: string; polarisation: string };
+  metadata: { baseline: string; polarisation: string; idx: number };
   plot: SpectrogramPlot;
 }
 
@@ -61,7 +62,7 @@ class SpectrogramPlotTable {
         for (let j = 0; j < this.numCols; j++) {
           if (idx >= this.len) break;
           this.cells[i][j] = {} as Cell;
-          this.cells[i][j].metadata = this.unwrap(data[idx]);
+          this.cells[i][j].metadata = { ...this.unwrap(data[idx]), idx };
           idx++;
         }
       }
@@ -117,6 +118,15 @@ class SpectrogramPlotTable {
       .append("td")
       .text((d, i) => {
         return this.getName(d?.metadata);
+      })
+      .on("click", (d, i) => {
+        if (i?.metadata?.idx !== undefined) {
+          window.open(
+            `${removeLastDirectoryPartOf(
+              window.location.href,
+            )}/spectrogram/?idx=${i?.metadata?.idx}`,
+          );
+        }
       })
       .append("canvas")
       .attr("id", (d, i) => {
