@@ -1,10 +1,15 @@
 import * as d3 from "d3";
 import * as _ from "lodash";
-import { RfiQa } from "./rfi-qa";
-import "./RfiTable.css";
+import { RfiQaPixel } from "./rfi-qa-pixel";
 
-export class RfiQaTable {
-  tableId;
+const GAP = 10;
+const NUM_POL = 4;
+
+export class RfiQaPixelTable {
+  tableId: string;
+  width: number;
+  height: number;
+
   plotId;
   table;
   cells;
@@ -16,14 +21,20 @@ export class RfiQaTable {
 
   rfiHighlight: any;
 
-  constructor(tableId) {
+  constructor(tableId, width = 1600, height = 800) {
     this.tableId = tableId;
+    this.width = width;
+    this.height = height;
   }
 
   draw(data: any) {
     this.cellData = data;
 
-    if (!this.table || !_.isEqual(this.colHeaders, data.polarisation) || !_.isEqual(this.rowHeaders, data.baseline)) {
+    if (
+      !this.table ||
+      !_.isEqual(this.colHeaders, data.polarisation) ||
+      !_.isEqual(this.rowHeaders, data.baseline)
+    ) {
       this.colHeaders = data.polarisation;
       this.rowHeaders = data.baseline;
       this.numCols = this.colHeaders.length;
@@ -40,7 +51,10 @@ export class RfiQaTable {
     for (let i = 0; i < this.numRows; i++) {
       for (let j = 0; j < this.numCols; j++) {
         if (!this.cells[i][j]) {
-          this.cells[i][j] = new RfiQa(`g${i}${j}`);
+          this.cells[i][j] = new RfiQaPixel(
+            `g${i}${j}`,
+            this.width / NUM_POL - GAP * NUM_POL,
+          );
         }
         this.cells[i][j].draw({
           rfi_data: this.cellData.rfi_data[i][j],

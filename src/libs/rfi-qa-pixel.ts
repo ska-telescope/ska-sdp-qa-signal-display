@@ -3,16 +3,16 @@ import * as d3 from "d3";
 const FLAG_LEGENDS = ["TP", "TN", "FP", "FN"];
 const FLAG_COLORS = ["#2c7bb6", "#abd9e9", "#d7191c", "#fdae61"];
 
-export class RfiQa {
+export class RfiQaPixel {
   canvas;
   width;
   height;
   margin = { top: 2, right: 2, bottom: 2, left: 2 };
 
-  constructor(id) {
+  constructor(id, width = 400, height = 20) {
     this.canvas = document.getElementById(id);
-    this.width = 400; // this.canvas.width;
-    this.height = 20; //this.canvas.height;
+    this.width = width;
+    this.height = height;
 
     // set the dimensions and margins of the graph
     this.width = this.width - this.margin.left - this.margin.right;
@@ -60,6 +60,12 @@ export class RfiQa {
         else return "black";
       });
 
-    svg.exit().transition().duration(300).attr("y", this.height).attr("height", 0).remove();
+    svg
+      .exit()
+      .transition()
+      .duration(300)
+      .attr("y", this.height)
+      .attr("height", 0)
+      .remove();
   }
 }

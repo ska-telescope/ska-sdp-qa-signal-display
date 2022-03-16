@@ -19,7 +19,6 @@ import { Protocol } from "src/models/protocol";
 import { MessageTopic } from "src/models/message-topic";
 import { decodeJson, decodeSpectrogram } from "src/libs/decoder";
 import { DashboardLayout } from "src/components/dashboard-layout/dashboard-layout";
-
 import SpectrogramPlotTable from "src/libs/spectrogram-plot-table";
 import { mockSpectrogramsData } from "src/mock/mock-spectrogram-data";
 
@@ -149,8 +148,8 @@ const SpectrogramTable = () => {
                       color="text.secondary"
                       gutterBottom
                     >
-                      Click baseline and polarisation to see detailed
-                      spectrogram
+                      Click on the baseline and polarisation label to see a
+                      detailed spectrogram
                     </Typography>
 
                     <div id="divId" />
