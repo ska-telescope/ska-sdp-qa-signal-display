@@ -1,105 +1,45 @@
-variables:
-  GIT_STRATEGY: clone
+image: node:16.14.0
 
-workflow:
-  rules:
-    - if: $CI_COMMIT_BRANCH
-    - if: $CI_COMMIT_TAG
+services:
+  - docker:dind
 
 stages:
-  - publish
+  - dependencies
+  - test
+  - build
 
-# ============================================================================
-# Build and publish Docker images
-# ============================================================================
-
-# Template to build and push Docker image
-
-.publish:
-  stage: publish
-  image: docker:20.10.7
-  services:
-    - docker:20.10.7-dind
-  before_script:
-    - apk add make git
-    - echo $PASSWORD | docker login --username $USERNAME --password-stdin $REGISTRY
+# install js dependencies
+install_dependencies:
+  stage: dependencies
+  tags:
+    - k8srunner
   script:
-    - cd $DIRECTORY
-    - make build
-    - make push
+    - rm -rf node_modules && yarn install
+  cache:
+    paths:
+      - node_modules/
+    policy: push
 
-# Extends .publish template to publish development version to GitLab on non-tag
-# commit
+# run the code analysis
+code_analysis:
+  stage: test
+  tags:
+    - k8srunner
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  script:
+    - yarn lint
 
-.publish-dev:
-  extends: .publish
-  variables:
-    REGISTRY: $CI_REGISTRY
-    USERNAME: $CI_REGISTRY_USER
-    PASSWORD: $CI_REGISTRY_PASSWORD
-    PREFIX: $CI_REGISTRY_IMAGE
-    GITHASH: $CI_COMMIT_SHORT_SHA
-  rules:
-    - if: '$CI_COMMIT_TAG == null || $CI_COMMIT_TAG == ""'
-
-# Extends .publish template to publish release to artefact repository on tag
-# commit on master
-
-.publish-release:
-  extends: .publish
-  variables:
-    REGISTRY: $CAR_OCI_REGISTRY_HOST
-    USERNAME: $CAR_OCI_REGISTRY_USERNAME
-    PASSWORD: $CAR_OCI_REGISTRY_PASSWORD
-    PREFIX: $CAR_OCI_REGISTRY_HOST
-    RELEASE: "true"
-  only:
-    variables:
-       - $CI_COMMIT_MESSAGE =~ /^.+$/ # Confirm tag message exists
-       - $CI_COMMIT_TAG =~ /^((([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)$/ #Confirm semantic versioning of tag
-  except:
-    - branches
-
-# Producer API
-
-publish-dev-producer-api:
-  extends: .publish-dev
-  variables:
-    DIRECTORY: producer-api
-
-publish-rel-producer-api:
-  extends: .publish-release
-  variables:
-    DIRECTORY: producer-api
-
-# Display API
-
-publish-dev-display-api:
-  extends: .publish-dev
-  variables:
-    DIRECTORY: display-api
-
-publish-rel-display-api:
-  extends: .publish-release
-  variables:
-    DIRECTORY: display-api
-
-# Display UI
-
-publish-dev-display-ui:
-  extends: .publish-dev
-  variables:
-    DIRECTORY: display-ui
-
-publish-rel-display-ui:
-  extends: .publish-release
-  variables:
-    DIRECTORY: display-ui
-
-# ============================================================================
-# CI metrics
-# ============================================================================
-
-include:
-  - project: 'ska-telescope/templates-repository'
-    file: 'gitlab-ci/includes/post_step.yml'
+# build and generate deployable outputs
+build:
+  stage: build
+  tags:
+    - k8srunner
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  script:
+    - yarn build
