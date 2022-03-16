@@ -1,6 +1,5 @@
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import PropTypes from "prop-types";
 import { Box, Button, ListItem } from "@mui/material";
 
 export const NavItem = (props) => {
@@ -47,10 +46,4 @@ export const NavItem = (props) => {
       </NextLink>
     </ListItem>
   );
-};
-
-NavItem.propTypes = {
-  href: PropTypes.string,
-  icon: PropTypes.node,
-  title: PropTypes.string,
 };

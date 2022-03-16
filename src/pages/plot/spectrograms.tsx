@@ -65,7 +65,7 @@ const SpectrogramTable = () => {
     };
 
     ws.onmessage = function (msg) {
-      let data = msg?.data;
+      const data = msg?.data;
 
       try {
         if (data instanceof ArrayBuffer) {

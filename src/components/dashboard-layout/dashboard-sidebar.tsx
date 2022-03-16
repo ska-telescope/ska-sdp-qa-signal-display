@@ -1,7 +1,5 @@
 import { useEffect } from "react";
-import NextLink from "next/link";
 import { useRouter } from "next/router";
-import PropTypes from "prop-types";
 import {
   Box,
   Divider,
@@ -16,7 +14,6 @@ import WaterfallChartIcon from "@mui/icons-material/WaterfallChart";
 import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
 
 import { NavItem } from "./nav-item";
-import Logo from "src/components/logo";
 
 const items = [
   {
@@ -40,6 +37,7 @@ export const DashboardSidebar = (props) => {
   const theme = useTheme();
   const { open, onClose } = props;
   const router = useRouter();
+  // @ts-expect-error -- investigate
   const lgUp = useMediaQuery((theme) => theme?.breakpoints.up("lg"), {
     defaultMatches: true,
     noSsr: false,
@@ -155,9 +153,4 @@ export const DashboardSidebar = (props) => {
       {content}
     </Drawer>
   );
-};
-
-DashboardSidebar.propTypes = {
-  onClose: PropTypes.func,
-  open: PropTypes.bool,
 };

@@ -5,7 +5,7 @@ services:
 
 stages:
   - dependencies
-  - test
+  - lint
   - build
 
 # install js dependencies
@@ -22,7 +22,7 @@ install_dependencies:
 
 # run the code analysis
 code_analysis:
-  stage: test
+  stage: lint
   tags:
     - k8srunner
   cache:

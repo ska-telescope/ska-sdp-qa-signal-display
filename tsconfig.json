@@ -2,11 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "target": "es6",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -22,11 +18,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": [
-    "src",
-    "src/pages/.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src", "src/pages/.tsx"],
+  "exclude": ["node_modules"]
 }

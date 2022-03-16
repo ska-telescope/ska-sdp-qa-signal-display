@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import styled from "@emotion/styled";
 import {
   AppBar,
@@ -12,7 +11,9 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
+  // @ts-expect-error -- investigate
   backgroundColor: theme.palette.background.paper,
+  // @ts-expect-error -- investigate
   boxShadow: theme.shadows[3],
 }));
 
@@ -59,8 +60,4 @@ export const DashboardNavbar = (props) => {
       </DashboardNavbarRoot>
     </>
   );
-};
-
-DashboardNavbar.propTypes = {
-  onSidebarOpen: PropTypes.func,
 };

@@ -46,7 +46,7 @@ const SpectrogramPage = () => {
 
     const spectrogramPlot = new SpectrogramPlot("canvasId");
     // test spectrogram with mock data
-    for (let d of mockSpectrogramsData.spectrogram) {
+    for (const d of mockSpectrogramsData.spectrogram) {
       spectrogramPlot.draw(d.phase);
     }
 
@@ -70,7 +70,7 @@ const SpectrogramPage = () => {
     };
 
     ws.onmessage = function (msg) {
-      let data = msg?.data;
+      const data = msg?.data;
 
       try {
         if (data instanceof ArrayBuffer) {
