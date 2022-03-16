@@ -24,8 +24,8 @@ import { mockSpectrogramsData } from "src/mock/mock-spectrogram-data";
 
 const WIDTH = 1600;
 const HEIGHT = 600;
-const CELL_WIDTH = 200;
-const CELL_HEIGHT = 100;
+const CELL_WIDTH = 150;
+const CELL_HEIGHT = 75;
 const PROTOCOL = Protocol.PROTOBUF;
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
