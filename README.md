@@ -40,10 +40,10 @@ Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 - Using [Next.js](https://nextjs.org) build system
 - Using React [MUI](https://mui.com)
 
-### Third party packages, libraries and licenses
+### Project Structure, Packages, and Licenses
 
 ```
-├── ****                                /* various configuration files */
+├── __test__                            /* unit tests following Next.js guidelines */
 ├── package.json                        /* list of used packages and libraries */
 ├── public
 │   ├── index.html
@@ -54,30 +54,26 @@ Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 │   │   │   ├── dashboard-layout.tsx
 │   │   │   ├── dashboard-navbar.tsx
 │   │   │   ├── dashboard-sidebar.tsx
-│   │   │   ├── nav-item.tsx
-│   │   │   └── severity-pill.tsx
-│   │   └── plots
-│   │       └── ****                    /* plots as react component  */
-│   ├── libs
+│   │   │   └── nav-item.tsx
+│   │   └── ****                        /* react components */
+│   ├── libs                            /* the visualisation functions */
 │   │   └── css
-│   │       └── ****                    /* CSS stylesheets */
+│   │       └── ****                    /* stylesheets related to the visualisations*/
 │   ├── mock
 │   │   └── ****                        /* mock data used for testing */
 │   ├── models
-│   │   └── ****                        /* different data models, basically for typing */
+│   │   └── ****                        /* different data models */
 │   ├── pages
-│   │   ├── _app.tsx                    /* MUI open-source */
-│   │   ├── _document.tsx               /* MUI open-source */
+│   │   ├── _app.tsx                    /* Next.js specific */
+│   │   ├── _document.tsx               /* Next.js specific */
 │   │   ├── index.tsx
-│   │   └── plot
-│   │       └── ****                    /* all pages  */
+│   │   └── ****                        /* all the pages */
 │   ├── theme
-│   │   └── index.js                    /* MUI open-source */
+│   │   └── index.js                    /* modify this for to apply style/template */
 │   └── utils
 │       ├── create-emotion-cache.js     /* MUI open-source */
 │       └── get-initials.js
-├── tsconfig.json
-└── yarn.lock
+└── ****                                /* other files */
 
 ```
 
@@ -94,4 +90,4 @@ Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 ## Notes and Other Known Issues
 
 - The Dockerfile need to be fixed to run in a container, however, locally developing and debugging is is much more faster.
-- The source code is still a proof of concept, and should gradually improve.
+- The source code is still a proof of concept, and should gradually evolve.
