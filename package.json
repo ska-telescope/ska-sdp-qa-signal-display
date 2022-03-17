@@ -14,7 +14,7 @@
     "lint:yarn-deduplicate": "yarn-deduplicate --fail --list --strategy=fewer",
     "prepare": "husky install",
     "start": "next start",
-    "test": "jest --watch"
+    "test": "jest"
   },
   "dependencies": {
     "@emotion/cache": "^11.5.0",
