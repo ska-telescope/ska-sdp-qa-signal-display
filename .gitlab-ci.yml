@@ -6,6 +6,7 @@ services:
 stages:
   - dependencies
   - lint
+  - test
   - build
 
 # install js dependencies
@@ -20,8 +21,8 @@ install_dependencies:
       - node_modules/
     policy: push
 
-# run the code analysis
-code_analysis:
+# run the code lint
+code_lint:
   stage: lint
   tags:
     - k8srunner
@@ -31,6 +32,18 @@ code_analysis:
     policy: pull
   script:
     - yarn lint
+
+# run the unit tests
+unit_tests:
+  stage: test
+  tags:
+    - k8srunner
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  script:
+    - yarn test
 
 # build and generate deployable outputs
 build:

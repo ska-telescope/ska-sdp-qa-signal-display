@@ -30,4 +30,7 @@ module.exports = {
     "react/require-default-props": "off",
     "react/display-name": "off"
   },
+  "env": {
+    "jest": true
+  }
 };

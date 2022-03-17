@@ -11,10 +11,7 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
-  // @ts-expect-error -- investigate
-  backgroundColor: theme.palette.background.paper,
-  // @ts-expect-error -- investigate
-  boxShadow: theme.shadows[3],
+  //
 }));
 
 export const DashboardNavbar = (props) => {

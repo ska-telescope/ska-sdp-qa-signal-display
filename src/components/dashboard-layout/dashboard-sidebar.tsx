@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import type { FC } from "react";
 import { useRouter } from "next/router";
 import {
   Box,
@@ -14,6 +15,11 @@ import WaterfallChartIcon from "@mui/icons-material/WaterfallChart";
 import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
 
 import { NavItem } from "./nav-item";
+
+interface DashboardSidebarProps {
+  onMobileClose: () => void;
+  openMobile: boolean;
+}
 
 const items = [
   {
@@ -33,29 +39,19 @@ const items = [
   },
 ];
 
-export const DashboardSidebar = (props) => {
+export const DashboardSidebar: FC<DashboardSidebarProps> = ({
+  onMobileClose,
+  openMobile,
+}) => {
+  const asPath = useRouter();
   const theme = useTheme();
-  const { open, onClose } = props;
-  const router = useRouter();
-  // @ts-expect-error -- investigate
-  const lgUp = useMediaQuery((theme) => theme?.breakpoints.up("lg"), {
-    defaultMatches: true,
-    noSsr: false,
-  });
+  const screenIsMobile = !useMediaQuery(theme.breakpoints.up("md"));
 
-  useEffect(
-    () => {
-      if (!router.isReady) {
-        return;
-      }
-
-      if (open) {
-        onClose?.();
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [router.asPath],
-  );
+  useEffect(() => {
+    if (screenIsMobile) {
+      onMobileClose();
+    }
+  }, [screenIsMobile, onMobileClose, asPath]);
 
   const content = (
     <>
@@ -116,7 +112,7 @@ export const DashboardSidebar = (props) => {
     </>
   );
 
-  if (lgUp) {
+  if (!screenIsMobile) {
     return (
       <Drawer
         anchor="left"
@@ -138,8 +134,8 @@ export const DashboardSidebar = (props) => {
   return (
     <Drawer
       anchor="left"
-      onClose={onClose}
-      open={open}
+      onClose={onMobileClose}
+      open={openMobile}
       PaperProps={{
         sx: {
           backgroundColor: "neutral.900",
