@@ -12,9 +12,12 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - REACT_APP_API=http://qa-data-api:8002
-        - REACT_APP_WS=ws://qa-data-api:8002/ws
-        - REACT_APP_ENV=development
+        - NEXT_PUBLIC_WS_API=ws://qa-data-api/consumer
     # restart: always
     volumes:
-      - .:/usr/src/qa-display
+      - .:/usr/src/app
+
+networks:
+  default:
+    external: true
+    name: ska-sdp-qa-metric-network

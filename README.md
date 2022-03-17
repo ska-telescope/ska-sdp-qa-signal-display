@@ -6,16 +6,12 @@ This connects to the [QA data API](https://gitlab.com/ska-telescope/ska-sdp-qa-d
 
 ## Option-1: Using Container
 
-_Note: There is a known issue._
-
 ```bash
 docker-compose up -d
 docker-compose ps
 ```
 
-The docker container's working/source directory `/usr/src/qa-display` is mapped/mounted to the host's `./` folder. Therefore, attaching a VSCode editor to the `qa-display` container is a most convenient way to develop and debug.
-
-During development and debugging, the `react-scripts` will automatically reload the changes. Open [http://localhost:3000](http://localhost:3000) to view the UI in the browser, and use a Chrome debugger to debug.
+The docker container's working/source directory `/usr/src/app` is mapped/mounted to the host's `./` folder.
 
 ## Option-2: Start Locally
 
@@ -23,13 +19,13 @@ Follow the instructions below to start the React app in your host machine.
 
 Prerequisite
 
-- Node.js 14+
+- Node.js 16+
 
 ```bash
-## install the dependencies
+# install the dependencies
 yarn
 
-## run the app in development mode.
+# run the app in development mode.
 yarn dev
 ```
 

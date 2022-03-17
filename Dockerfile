@@ -1,34 +1,14 @@
-FROM node:lts-alpine as dependencies
-WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+FROM node:16.14.0 
 
-FROM node:lts-alpine as builder
-WORKDIR /app
-COPY . .
-COPY --from=dependencies /app/node_modules ./node_modules
-RUN yarn build
+ENV PORT 3000
 
-FROM node:lts-alpine as runner
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-ARG PRODUCER_INSTANCE
-ENV NEXT_PUBLIC_WS_API=$PRODUCER_INSTANCE
-RUN echo $NEXT_PUBLIC_WS_API
+COPY package.json /usr/src/app/
+COPY yarn.lock /usr/src/app/
+RUN yarn install
 
-ARG APP=/app
+COPY . /usr/src/app
 
-ENV APP_USER=runner
-RUN addgroup -S $APP_USER \
-    && adduser -S $APP_USER -G $APP_USER \
-    && mkdir -p ${APP}
-
-RUN chown -R $APP_USER:$APP_USER ${APP}
-
-WORKDIR /app
-
-COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-
+CMD "yarn" "dev"
