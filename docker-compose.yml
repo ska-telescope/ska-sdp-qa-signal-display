@@ -11,12 +11,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        - NEXT_PUBLIC_WS_API=ws://qa-data-api/consumer
-    # restart: always
     volumes:
       - .:/usr/src/app
-
+    env_file:
+      - .env
 networks:
   default:
     external: true
