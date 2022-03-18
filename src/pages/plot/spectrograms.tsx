@@ -22,7 +22,7 @@ import { DashboardLayout } from "src/components/dashboard-layout/dashboard-layou
 import SpectrogramPlotTable from "src/libs/spectrogram-plot-table";
 import { mockSpectrogramsData } from "src/mock/mock-spectrogram-data";
 
-const WIDTH = 1600;
+const WIDTH = 1200;
 const HEIGHT = 600;
 const CELL_WIDTH = 150;
 const CELL_HEIGHT = 75;

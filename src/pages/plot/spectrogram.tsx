@@ -25,7 +25,7 @@ import SpectrogramPlotTable from "src/libs/spectrogram-plot-table";
 import { mockSpectrogramsData } from "src/mock/mock-spectrogram-data";
 import { SpectrogramPlot } from "src/libs/spectrogram-plot";
 
-const WIDTH = 1600;
+const WIDTH = 1200;
 const HEIGHT = 600;
 const PROTOCOL = Protocol.PROTOBUF;
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;

@@ -23,7 +23,7 @@ import { DashboardLayout } from "src/components/dashboard-layout/dashboard-layou
 import { RfiQaPixelTable } from "src/libs/rfi-qa-pixel-table";
 import { RfiDetailPlots } from "src/libs/rfi-detail-plots";
 
-const WIDTH = 1600;
+const WIDTH = 1200;
 const PROTOCOL = Protocol.JSON;
 const MESSAGE_TOPIC = MessageTopic.RFI;
 const RFI_SUBTOPIC = "xx-00-01";
