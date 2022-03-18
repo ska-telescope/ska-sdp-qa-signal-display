@@ -1,17 +1,15 @@
 import { Card, CardContent, Container, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { ReactElement } from "react";
-import Head from 'next/head';
+import Head from "next/head";
 import { DashboardLayout } from "src/components/dashboard-layout/dashboard-layout";
 
 const Home = () => {
   return (
     <>
-    <Head>
-      <title>
-        Home
-      </title>
-    </Head>
+      <Head>
+        <title>Home</title>
+      </Head>
       <DashboardLayout>
         <Box
           sx={{
@@ -23,7 +21,9 @@ const Home = () => {
           <Container>
             <Card sx={{ minWidth: 275 }}>
               <CardContent>
-                <Typography variant="h5">Welcome to QA Metrics Visualisation Dashboard!</Typography>
+                <Typography variant="h5">
+                  Welcome to QA Metrics Visualisation Dashboard!
+                </Typography>
                 <br />
               </CardContent>
             </Card>
