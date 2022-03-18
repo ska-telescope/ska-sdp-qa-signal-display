@@ -1,3 +1,8 @@
+/**
+ * This is Canvas version of the spectrum plot. This plot requires improvements:
+ * 1. Show confidence interval bands
+ * 2. Improve scaling factor, and overall code
+ */
 export class SpectrumPlotCanvas {
   canvas;
   xMin;

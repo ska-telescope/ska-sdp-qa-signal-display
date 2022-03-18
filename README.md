@@ -3,14 +3,16 @@
 This connects to the [QA data API](https://gitlab.com/ska-telescope/ska-sdp-qa-data-api) on a socket and visualizes the received metrics (e.g, spectrum plot, waterfall plot etc) in real-time.
 
 # Getting Started
+
 **To get the QI Display running services should be started in the following order:**
 
-**Step 1:** Follow the steps in the [QA Metric Generator](https://gitlab.com/ska-telescope/ska-sdp-qa-metric-generator) README to: 
+**Step 1:** Follow the steps in the [QA Metric Generator](https://gitlab.com/ska-telescope/ska-sdp-qa-metric-generator) README to:
 \
 (1) create the `"ska-sdp-qa-metric-network"` -> (2) start Message Broker -> (3) Start Metric Generator\
 **Step 2** Then start [QA Data API](https://gitlab.com/ska-telescope/ska-sdp-qa-data-api) using information in it's README.\
 **Step 3:** Finally start the [QA Display](https://gitlab.com/ska-telescope/sdp/ska-sdp-qa-display) in this repository, using the steps below.\
 **Spoofing data to display:** Consult [QA Metric Generator](https://gitlab.com/ska-telescope/ska-sdp-qa-metric-generator/-/tree/main/metric-generator).
+
 ## Option-1: Using Container
 
 ```bash
