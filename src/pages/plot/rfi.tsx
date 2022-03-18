@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
-  Button,
   Card,
   CardActions,
   CardContent,
@@ -11,143 +10,139 @@ import {
   Grid,
   IconButton,
   Typography,
+  useTheme,
 } from "@mui/material";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
-import Head from 'next/head';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
+import Head from "next/head";
 
+import { Protocol } from "src/models/protocol";
+import { MessageTopic } from "src/models/message-topic";
+import { decodeJson } from "src/libs/decoder";
 import { DashboardLayout } from "src/components/dashboard-layout/dashboard-layout";
-import { RfiDetailsPlot } from "src/components/plots/RfiDetailsPlot";
-import { RfiTable } from "src/components/plots/RfiTable";
+import { RfiQaPixelTable } from "src/libs/rfi-qa-pixel-table";
+import { RfiDetailPlots } from "src/libs/rfi-detail-plots";
 
-const rfiSummaryApi = `${process.env.NEXT_PUBLIC_WS_API}/rfi_summary`;
-const rfiDetailsApi = `${process.env.NEXT_PUBLIC_WS_API}/rfi_xx_00_01`;
+const WIDTH = 1200;
+const PROTOCOL = Protocol.JSON;
+const MESSAGE_TOPIC = MessageTopic.RFI;
+const RFI_SUBTOPIC = "xx-00-01";
+const RFI_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
+const RFI_DETAILS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}_${RFI_SUBTOPIC}`;
 
 const Rfi = () => {
-  console.log("Rfi:");
+  const theme = useTheme();
+
   const [data, setData] = useState(null);
   const [socketStatus, setSocketStatus] = useState(Date().toLocaleString());
 
-
   useEffect(() => {
-    console.log("Rfi: useEffect: 1");
+    const rfiQaPixelTable = new RfiQaPixelTable("rfi-table-id", WIDTH);
+    const rfiDetailPlots = new RfiDetailPlots("rfi-details-id", WIDTH);
 
-    const rfiTable = new RfiTable("rfi-table");
-    const rfiDetailsPlot = new RfiDetailsPlot("rfi-details-plot");
-    const rfiSummaryWs = new WebSocket(rfiSummaryApi);
-    const rfiDetailsWs = new WebSocket(rfiDetailsApi);
+    const rfiWs = new WebSocket(RFI_API);
+    const rfiDetailsWs = new WebSocket(RFI_DETAILS_API);
+    // prettier-ignore
+    console.log(`RfiPage: connecting to RFI_SUMMARY_API = ${RFI_API}, RFI_DETAILS_API = ${RFI_DETAILS_API}`);
 
-    rfiDetailsWs.onmessage = (event) => {
-      const payload = JSON.parse(event.data);
-      // console.log("Rfi:onMessage: received payload = ", payload);
-  
+    rfiWs.onmessage = (event) => {
+      const payload = decodeJson(event.data);
+      // console.log("Rfi:onMessage: rfiWs received payload = ", payload);
+
       if ("status" in payload) {
         console.log(payload.status);
         setSocketStatus(payload.status);
       }
-  
+
       if ("body" in payload) {
         setData(payload.body);
-        setSocketStatus(payload.timestamp);
-  
-        if ("topic" in payload && payload?.topic === "rfi_summary") rfiTable.draw(payload.body);
-        if ("topic" in payload && payload?.topic === "rfi_xx_00_01") rfiDetailsPlot.draw(payload.body);
+        rfiQaPixelTable.draw(payload.body);
       }
     };
 
-    rfiSummaryWs.onmessage = (event) => {
-    const payload = JSON.parse(event.data);
-    console.log("Rfi:onMessage: received payload = ", payload);
+    rfiDetailsWs.onmessage = (event) => {
+      const payload = decodeJson(event.data);
+      // console.log("Rfi:onMessage: rfiDetailsWs received payload = ", payload);
 
-    if ("status" in payload) {
-      console.log(payload.status);
-      setSocketStatus(payload.status);
-    }
+      if ("status" in payload) {
+        console.log(payload.status);
+        setSocketStatus(payload.status);
+      }
 
-    if ("body" in payload) {
-      setData(payload.body);
-      setSocketStatus(payload.timestamp);
-
-      if ("topic" in payload && payload?.topic === "rfi_summary") rfiTable.draw(payload.body);
-      if ("topic" in payload && payload?.topic === "rfi_xx_00_01") rfiDetailsPlot.draw(payload.body);
-    }
-  };
+      if ("body" in payload) {
+        setData(payload.body);
+        rfiDetailPlots.draw(payload.body);
+      }
+    };
 
     return () => {
-      // TODO
-      // ws.close();
+      rfiDetailsWs.close();
+      rfiWs.close();
     };
-  });
-
-  // useEffect(() => {
-  //   console.log("Rfi: useEffect: 2");
-  //   // console.log("Rfi: data = ", JSON.stringify(data));
-  // }, [data, socketStatus]);
+  }, []);
 
   return (
     <>
       <Head>
-        <title>
-          RFI Quality
-        </title>
+        <title>RFI QA</title>
       </Head>
 
       <DashboardLayout>
-      <Box
-        sx={{
-          backgroundColor: "background.default",
-          minHeight: "100%",
-          py: 8,
-        }}
-      >
-        <Container>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Card>
-                <CardHeader
-                  action={
-                    <IconButton aria-label="settings">
-                      <MoreVertIcon />
-                    </IconButton>
-                  }
-                  avatar={
-                    <Avatar>
-                      <SignalCellularAltIcon />
-                    </Avatar>
-                  }
-                  title="RFI: Summary"
-                  subheader={socketStatus}
-                />
+        <Box
+          sx={{
+            backgroundColor: "background.default",
+            minHeight: "100%",
+            py: 8,
+          }}
+        >
+          <Container>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Card sx={{ minWidth: WIDTH }}>
+                  <CardHeader
+                    action={
+                      <IconButton aria-label="settings">
+                        <MoreVertIcon />
+                      </IconButton>
+                    }
+                    avatar={
+                      <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
+                        <SignalCellularAltIcon />
+                      </Avatar>
+                    }
+                    title="RFI"
+                    subheader={`Socket: ${socketStatus}`}
+                  />
 
-                <CardContent sx={{ pt: "8px" }}>
-                  <div id="rfi-table"></div>
-                </CardContent>
-              </Card>
+                  <CardContent sx={{ pt: "8px" }}>
+                    <div id="rfi-table-id"></div>
+                  </CardContent>
+                </Card>
 
-              <Card>
-                <CardHeader
-                  action={
-                    <IconButton aria-label="settings">
-                      <MoreVertIcon />
-                    </IconButton>
-                  }
-                  avatar={
-                    <Avatar>
-                      <SignalCellularAltIcon />
-                    </Avatar>
-                  }
-                  title="RFI: (XX, s0000-s0001)"
-                  subheader={socketStatus}
-                />
+                <Card sx={{ minWidth: WIDTH }}>
+                  <CardHeader
+                    action={
+                      <IconButton aria-label="settings">
+                        <MoreVertIcon />
+                      </IconButton>
+                    }
+                    avatar={
+                      <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
+                        <SignalCellularAltIcon />
+                      </Avatar>
+                    }
+                    title={`RFI: ${RFI_SUBTOPIC}`}
+                    subheader={`Socket: ${socketStatus}`}
+                  />
 
-                <CardContent sx={{ pt: "8px" }}>
-                  <div id="rfi-details-plot"></div>
-                </CardContent>
-              </Card>
+                  <CardContent sx={{ pt: "8px" }}>
+                    <div id="rfi-details-id"></div>
+                  </CardContent>
+                </Card>
+              </Grid>
             </Grid>
-          </Grid>
-        </Container>
-      </Box>
+          </Container>
+        </Box>
       </DashboardLayout>
     </>
   );

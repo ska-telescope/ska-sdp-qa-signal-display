@@ -1,6 +1,8 @@
 module.exports = {
   trailingComma: "all",
 
-  plugins: [require("prettier-plugin-packagejson"), require("prettier-plugin-sh")],
-  printWidth: 120,
+  plugins: [
+    require("prettier-plugin-packagejson"),
+    require("prettier-plugin-sh"),
+  ],
 };

@@ -4,18 +4,23 @@ This connects to the [QA data API](https://gitlab.com/ska-telescope/ska-sdp-qa-d
 
 # Getting Started
 
-## Option-1: Using Container
+**To get the QI Display running services should be started in the following order:**
 
-_Note: There is a known issue._
+**Step 1:** Follow the steps in the [QA Metric Generator](https://gitlab.com/ska-telescope/ska-sdp-qa-metric-generator) README to:
+\
+(1) create the `"ska-sdp-qa-metric-network"` -> (2) start Message Broker -> (3) Start Metric Generator\
+**Step 2** Then start [QA Data API](https://gitlab.com/ska-telescope/ska-sdp-qa-data-api) using information in it's README.\
+**Step 3:** Finally start the [QA Display](https://gitlab.com/ska-telescope/sdp/ska-sdp-qa-display) in this repository, using the steps below.\
+**Sending spoof data to display:** Consult the README in the [metric-generator](https://gitlab.com/ska-telescope/ska-sdp-qa-metric-generator/-/tree/main/metric-generator) folder.
+
+## Option-1: Using Container
 
 ```bash
 docker-compose up -d
 docker-compose ps
 ```
 
-The docker container's working/source directory `/usr/src/qa-display` is mapped/mounted to the host's `./` folder. Therefore, attaching a VSCode editor to the `qa-display` container is a most convenient way to develop and debug.
-
-During development and debugging, the `react-scripts` will automatically reload the changes. Open [http://localhost:3000](http://localhost:3000) to view the UI in the browser, and use a Chrome debugger to debug.
+The docker container's working/source directory `/usr/src/app` is mapped/mounted to the host's `./` folder.
 
 ## Option-2: Start Locally
 
@@ -23,13 +28,13 @@ Follow the instructions below to start the React app in your host machine.
 
 Prerequisite
 
-- Node.js 14+
+- Node.js 16+
 
 ```bash
-## install the dependencies
+# install the dependencies
 yarn
 
-## run the app in development mode.
+# run the app in development mode.
 yarn dev
 ```
 
@@ -40,10 +45,10 @@ Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 - Using [Next.js](https://nextjs.org) build system
 - Using React [MUI](https://mui.com)
 
-### Third party packages, libraries and licenses
+### Project Structure, Packages, and Licenses
 
 ```
-├── ****                                /* various configuration files */
+├── __test__                            /* unit tests following Next.js guidelines */
 ├── package.json                        /* list of used packages and libraries */
 ├── public
 │   ├── index.html
@@ -54,30 +59,26 @@ Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 │   │   │   ├── dashboard-layout.tsx
 │   │   │   ├── dashboard-navbar.tsx
 │   │   │   ├── dashboard-sidebar.tsx
-│   │   │   ├── nav-item.tsx
-│   │   │   └── severity-pill.tsx
-│   │   └── plots
-│   │       └── ****                    /* plots as react component  */
-│   ├── libs
+│   │   │   └── nav-item.tsx
+│   │   └── ****                        /* react components */
+│   ├── libs                            /* the visualisation functions */
 │   │   └── css
-│   │       └── ****                    /* CSS stylesheets */
+│   │       └── ****                    /* stylesheets related to the visualisations */
 │   ├── mock
 │   │   └── ****                        /* mock data used for testing */
 │   ├── models
-│   │   └── ****                        /* different data models, basically for typing */
+│   │   └── ****                        /* different data models */
 │   ├── pages
-│   │   ├── _app.tsx                    /* MUI open-source */
-│   │   ├── _document.tsx               /* MUI open-source */
+│   │   ├── _app.tsx                    /* Next.js specific */
+│   │   ├── _document.tsx               /* Next.js specific */
 │   │   ├── index.tsx
-│   │   └── plot
-│   │       └── ****                    /* all pages  */
+│   │   └── ****                        /* all pages */
 │   ├── theme
-│   │   └── index.js                    /* MUI open-source */
+│   │   └── index.js                    /* modify this for to apply style/template */
 │   └── utils
 │       ├── create-emotion-cache.js     /* MUI open-source */
 │       └── get-initials.js
-├── tsconfig.json
-└── yarn.lock
+└── ****                                /* other files */
 
 ```
 
@@ -87,11 +88,20 @@ Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 
 [3] To our knowledge, none of the packages or libraries used in this project require any license. Please let us know if any package or component require license or acknowledgement.
 
-## Screenshot of the UI
+## Notes
 
-![Alt-Text](./public/static/images/screenshot-1.png)
+- The source code is a proof of concept, and will gradually evolve.
 
-## Notes and Other Known Issues
+# Screenshots
 
-- The Dockerfile need to be fixed to run in a container, however, locally developing and debugging is is much more faster.
-- The source code is still a proof of concept, and should gradually improve.
+Screenshots of the visulisation functions implemented.
+The appearance of the plots depends on the dataset analysed. Thus, plots generated using are generally expected to look different from the ones included below. Getting plots with different appearance when first setting up and testing the [QA Display](https://gitlab.com/ska-telescope/sdp/ska-sdp-qa-display), [QA Data API](https://gitlab.com/ska-telescope/ska-sdp-qa-data-api) and [QA Metric Generator](https://gitlab.com/ska-telescope/ska-sdp-qa-metric-generator) is not a cause for concern.
+
+|                                                                 |                                                           |
+| --------------------------------------------------------------- | --------------------------------------------------------- |
+| ![](./public/static/images/screenshot-spectrograms.png)         | ![](./public/static/images/screenshot-spectrogram.png)    |
+| Fig. 1: Spectrograms of different baselines and polarisations\* | Fig. 2: Waterfall (top -> bottom) plot of a spectrogram\* |
+| ![](./public/static/images/screenshot-spectrum.png)             | ![](./public/static/images/screenshot-rfi.png)            |
+| Fig. 3: Spectrum plot\*                                         | Fig. 4: RFI QA\*                                          |
+
+_\*The spectrum plot and spectrograms are generated using data from Meerkat telescope, and the RFI QA is generated using simulated data._
