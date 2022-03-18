@@ -46,9 +46,9 @@ const SpectrogramPage = () => {
 
     const spectrogramPlot = new SpectrogramPlot("canvasId");
     // test spectrogram with mock data
-    for (const d of mockSpectrogramsData.spectrogram) {
-      spectrogramPlot.draw(d.phase);
-    }
+    // for (const d of mockSpectrogramsData.spectrogram) {
+    //   spectrogramPlot.draw(d.phase);
+    // }
 
     // prettier-ignore
     console.log(`SpectrogramPage: connecting to WS_API = ${WS_API}, idx = ${idx}`);

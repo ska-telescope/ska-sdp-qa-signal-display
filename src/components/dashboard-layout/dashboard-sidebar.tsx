@@ -85,12 +85,7 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = ({
           </Box>
         </Box>
 
-        <Divider
-          sx={{
-            borderColor: "#2D3748",
-            my: 0,
-          }}
-        />
+        <Divider />
         <Box sx={{ flexGrow: 1 }}>
           {items.map((item) => (
             <NavItem

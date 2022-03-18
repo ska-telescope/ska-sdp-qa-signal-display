@@ -63,7 +63,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 │   │   └── ****                        /* react components */
 │   ├── libs                            /* the visualisation functions */
 │   │   └── css
-│   │       └── ****                    /* stylesheets related to the visualisations*/
+│   │       └── ****                    /* stylesheets related to the visualisations */
 │   ├── mock
 │   │   └── ****                        /* mock data used for testing */
 │   ├── models
@@ -72,7 +72,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 │   │   ├── _app.tsx                    /* Next.js specific */
 │   │   ├── _document.tsx               /* Next.js specific */
 │   │   ├── index.tsx
-│   │   └── ****                        /* all the pages */
+│   │   └── ****                        /* all pages */
 │   ├── theme
 │   │   └── index.js                    /* modify this for to apply style/template */
 │   └── utils
@@ -88,11 +88,19 @@ Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 
 [3] To our knowledge, none of the packages or libraries used in this project require any license. Please let us know if any package or component require license or acknowledgement.
 
-## Screenshot of the UI
+## Notes
 
-![Alt-Text](./public/static/images/screenshot-1.png)
+- The source code is a proof of concept, and will gradually evolve.
 
-## Notes and Other Known Issues
+# Screenshots
 
-- The Dockerfile need to be fixed to run in a container, however, locally developing and debugging is is much more faster.
-- The source code is still a proof of concept, and should gradually evolve.
+Screenshots of the visulisation functions implemented
+
+|                                                         |                                                        |
+| ------------------------------------------------------- | ------------------------------------------------------ |
+| Spectrograms of different baselines and polarisations   | Waterfall (top -> bottom) plot of a spectrogram        |
+| ![](./public/static/images/screenshot-spectrograms.png) | ![](./public/static/images/screenshot-spectrogram.png) |
+| Spectrum Plot                                           | RFI QA                                                 |
+| ![](./public/static/images/screenshot-spectrum.png)     | ![](./public/static/images/screenshot-rfi.png)         |
+
+_The spectrum plot and spectrograms are generated using data from Meerkat telescope, and the RFI QA is generated using simulated data._
