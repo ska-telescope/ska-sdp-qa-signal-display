@@ -96,11 +96,11 @@ Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 
 Screenshots of the visulisation functions implemented
 
-|                                                         |                                                        |
-| ------------------------------------------------------- | ------------------------------------------------------ |
-| Spectrograms of different baselines and polarisations   | Waterfall (top -> bottom) plot of a spectrogram        |
-| ![](./public/static/images/screenshot-spectrograms.png) | ![](./public/static/images/screenshot-spectrogram.png) |
-| Spectrum Plot                                           | RFI QA                                                 |
-| ![](./public/static/images/screenshot-spectrum.png)     | ![](./public/static/images/screenshot-rfi.png)         |
+|                                                               |                                                         |
+| ------------------------------------------------------------- | ------------------------------------------------------- |
+| ![](./public/static/images/screenshot-spectrograms.png)       | ![](./public/static/images/screenshot-spectrogram.png)  |
+| Fig. 1: Spectrograms of different baselines and polarisations | Fig. 2: Waterfall (top -> bottom) plot of a spectrogram |
+| ![](./public/static/images/screenshot-spectrum.png)           | ![](./public/static/images/screenshot-rfi.png)          |
+| Fig. 3: Spectrum plot                                         | Fig. 4: RFI QA                                          |
 
 _The spectrum plot and spectrograms are generated using data from Meerkat telescope, and the RFI QA is generated using simulated data._
