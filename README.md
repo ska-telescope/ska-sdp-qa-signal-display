@@ -11,7 +11,7 @@ This connects to the [QA data API](https://gitlab.com/ska-telescope/ska-sdp-qa-d
 (1) create the `"ska-sdp-qa-metric-network"` -> (2) start Message Broker -> (3) Start Metric Generator\
 **Step 2** Then start [QA Data API](https://gitlab.com/ska-telescope/ska-sdp-qa-data-api) using information in it's README.\
 **Step 3:** Finally start the [QA Display](https://gitlab.com/ska-telescope/sdp/ska-sdp-qa-display) in this repository, using the steps below.\
-**Spoofing data to display:** Consult [QA Metric Generator](https://gitlab.com/ska-telescope/ska-sdp-qa-metric-generator/-/tree/main/metric-generator).
+**Sending spoof data to display:** Consult the README in the [metric-generator](https://gitlab.com/ska-telescope/ska-sdp-qa-metric-generator/-/tree/main/metric-generator) folder.
 
 ## Option-1: Using Container
 
@@ -94,13 +94,14 @@ Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 
 # Screenshots
 
-Screenshots of the visulisation functions implemented
+Screenshots of the visulisation functions implemented.
+The appearance of the plots depends on the dataset analysed. Thus, plots generated using are generally expected to look different from the ones included below. Getting plots with different appearance when first setting up and testing the [QA Display](https://gitlab.com/ska-telescope/sdp/ska-sdp-qa-display), [QA Data API](https://gitlab.com/ska-telescope/ska-sdp-qa-data-api) and [QA Metric Generator](https://gitlab.com/ska-telescope/ska-sdp-qa-metric-generator) is not a cause for concern.
 
-|                                                               |                                                         |
-| ------------------------------------------------------------- | ------------------------------------------------------- |
-| ![](./public/static/images/screenshot-spectrograms.png)       | ![](./public/static/images/screenshot-spectrogram.png)  |
-| Fig. 1: Spectrograms of different baselines and polarisations | Fig. 2: Waterfall (top -> bottom) plot of a spectrogram |
-| ![](./public/static/images/screenshot-spectrum.png)           | ![](./public/static/images/screenshot-rfi.png)          |
-| Fig. 3: Spectrum plot                                         | Fig. 4: RFI QA                                          |
+|                                                                 |                                                           |
+| --------------------------------------------------------------- | --------------------------------------------------------- |
+| ![](./public/static/images/screenshot-spectrograms.png)         | ![](./public/static/images/screenshot-spectrogram.png)    |
+| Fig. 1: Spectrograms of different baselines and polarisations\* | Fig. 2: Waterfall (top -> bottom) plot of a spectrogram\* |
+| ![](./public/static/images/screenshot-spectrum.png)             | ![](./public/static/images/screenshot-rfi.png)            |
+| Fig. 3: Spectrum plot\*                                         | Fig. 4: RFI QA\*                                          |
 
-_The spectrum plot and spectrograms are generated using data from Meerkat telescope, and the RFI QA is generated using simulated data._
+_\*The spectrum plot and spectrograms are generated using data from Meerkat telescope, and the RFI QA is generated using simulated data._
