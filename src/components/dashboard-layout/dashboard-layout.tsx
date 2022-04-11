@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { DashboardNavbar } from "./dashboard-navbar";
@@ -16,7 +16,13 @@ const DashboardLayoutRoot = styled("div")(({ theme }) => ({
 
 export const DashboardLayout = (props) => {
   const { children } = props;
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [isSidebarMobileOpen, setIsSidebarMobileOpen] =
+    useState<boolean>(false);
+
+  const handleSidebarClose = useCallback(
+    (): void => setIsSidebarMobileOpen(false),
+    [],
+  );
 
   return (
     <>
@@ -32,8 +38,13 @@ export const DashboardLayout = (props) => {
           {children}
         </Box>
       </DashboardLayoutRoot>
-      <DashboardNavbar onSidebarOpen={() => setSidebarOpen(true)} />
-      <DashboardSidebar onClose={() => setSidebarOpen(false)} open={isSidebarOpen} />
+      <DashboardNavbar
+        onSidebarMobileOpen={(): void => setIsSidebarMobileOpen(true)}
+      />
+      <DashboardSidebar
+        onMobileClose={handleSidebarClose}
+        openMobile={isSidebarMobileOpen}
+      />
     </>
   );
 };

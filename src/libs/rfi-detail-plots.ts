@@ -1,5 +1,4 @@
 import * as d3 from "d3";
-import { RfiDetailsModel } from "src/models/RfiDetailsModel";
 
 const Y_OFFSET = 10;
 const LEGEND_DOT_RAD = 6;
@@ -9,30 +8,38 @@ const FLAG_COLORS = ["#2c7bb6", "#abd9e9", "#d7191c", "#fdae61"]; // ["#A9A9A9",
 const LINE_COLOR = ["#CC00CC", "#4daf4a", "#D3D3D3"];
 const LINE_LEGENDS = ["RFI", "Visibility", "RFI + Vis."];
 
-export class RfiDetailsPlot {
+export class RfiDetailPlots {
   canvas;
   width;
   height;
   margin = { top: 10, right: 100, bottom: Y_OFFSET * 6, left: 50 };
   svg;
 
-  constructor(id) {
+  constructor(id, width = 1600, height = 400) {
     this.canvas = document.getElementById(id);
-
-    this.width = 1200;
-    this.height = 400;
-    // set the dimensions and margins of the graph
-    this.width = this.width - this.margin.left - this.margin.right;
-    this.height = this.height - this.margin.top - this.margin.bottom;
+    this.width = width - this.margin.left - this.margin.right;
+    this.height = height - this.margin.top - this.margin.bottom;
   }
 
-  draw(data: RfiDetailsModel) {
+  draw(data: any) {
     // console.log("RfiDetailsPlot:draw: data = ", data);
 
     // validations
     // if (!data || !data.spectrum_values || !data.spectrum_values.length || !width || !height) return;
-    const { description, xLabel, yLabel, sum_data, vis_data, rfi_data, flags, frequencies, xMin, xMax, yMin, yMax } =
-      data;
+    const {
+      description,
+      xLabel,
+      yLabel,
+      sum_data,
+      vis_data,
+      rfi_data,
+      flags,
+      frequencies,
+      xMin,
+      xMax,
+      yMin,
+      yMax,
+    } = data;
 
     // clear
     d3.select(this.canvas).select("svg").remove();
@@ -137,7 +144,12 @@ export class RfiDetailsPlot {
     // label for the x-axis
     this.svg
       .append("text")
-      .attr("transform", `translate(${this.width / 2} ,${this.height + this.margin.top + 4 * Y_OFFSET})`)
+      .attr(
+        "transform",
+        `translate(${this.width / 2} ,${
+          this.height + this.margin.top + 4 * Y_OFFSET
+        })`,
+      )
       .style("fill", "black")
       .style("text-anchor", "middle")
       .style("font-size", "15px")
@@ -194,6 +206,12 @@ export class RfiDetailsPlot {
       .style("alignment-baseline", "middle");
 
     //
-    this.svg.exit().transition().duration(300).attr("y", this.height).attr("height", 0).remove();
+    this.svg
+      .exit()
+      .transition()
+      .duration(300)
+      .attr("y", this.height)
+      .attr("height", 0)
+      .remove();
   }
 }

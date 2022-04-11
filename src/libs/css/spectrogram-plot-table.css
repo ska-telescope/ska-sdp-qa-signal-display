@@ -1,14 +1,7 @@
-
-/* 
-Generic Styling, for Desktops/Laptops 
-*/
 table { 
 	border-collapse: collapse;
 }
-/* Zebra striping */
-/* tr:nth-of-type(even) { 
-	background: #eee; 
-} */
+
 th { 
 	/* background: rgb(211, 209, 209);  */
 	/* color: rgb(65, 64, 64);  */
@@ -18,12 +11,12 @@ th {
 	background-position: 3% center;
 }
 td, th { 
-	padding: 5px; 
+	padding: 2px; 
 	/* change borders to debug table cells */
 	border: 1px solid rgb(255, 255, 255); 
-	color: rgb(0, 0, 0);
+	color: rgb(30,129,176);
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: small;
+	font-size: 10px;
 	font-weight: normal;
 	text-align: center; 
 }
@@ -35,4 +28,10 @@ th.des:after {
 th.aes:after {
 	content: "\21E7";
 }
- 
+
+
+canvas {
+    display: block;
+    outline: gray 1px solid;
+}
+   

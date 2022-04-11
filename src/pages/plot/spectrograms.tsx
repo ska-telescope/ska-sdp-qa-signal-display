@@ -1,110 +1,167 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Avatar,
-  Box,
-  Button,
   Card,
-  CardActions,
   CardContent,
   CardHeader,
   Container,
   Grid,
   IconButton,
   Typography,
+  useTheme,
 } from "@mui/material";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import WaterfallChart from "@mui/icons-material/WaterfallChart";
-import Head from 'next/head';
+import { Box } from "@mui/system";
+import Head from "next/head";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import WaterfallChartIcon from "@mui/icons-material/WaterfallChart";
 
+import { Protocol } from "src/models/protocol";
+import { MessageTopic } from "src/models/message-topic";
+import { decodeJson, decodeSpectrogram } from "src/libs/decoder";
 import { DashboardLayout } from "src/components/dashboard-layout/dashboard-layout";
-import SpectrogramTable from "src/components/plots/SpectrogramTable";
+import SpectrogramPlotTable from "src/libs/spectrogram-plot-table";
+import { mockSpectrogramsData } from "src/mock/mock-spectrogram-data";
 
-const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/phase`;
+const WIDTH = 1200;
+const HEIGHT = 600;
+const CELL_WIDTH = 150;
+const CELL_HEIGHT = 75;
+const PROTOCOL = Protocol.PROTOBUF;
+const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
+const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
-const Spectrograms = () => {
-  console.log("Spectrograms:");
-  const [data, setData] = useState(null);
-  const [socketStatus, setSocketStatus] = useState(Date().toLocaleString());
+const SpectrogramTable = () => {
+  const theme = useTheme();
+  const [socketStatus, setSocketStatus] = useState("disconnected");
 
-  const spectrogramTable = new SpectrogramTable("phase-display-table");
+  const connectWebSocket = useCallback(async () => {
+    const spectrogramPlotTable = new SpectrogramPlotTable(
+      "divId",
+      WIDTH,
+      HEIGHT,
+      CELL_WIDTH,
+      CELL_HEIGHT,
+    );
+    // test plot with mock data
+    // spectrogramPlotTable.draw(mockSpectrogramsData.spectrogram);
 
-  useEffect(() => {
-    console.log("Spectrograms: useEffect1");
+    // prettier-ignore
+    console.log(`SpectrogramsPage: connecting to WS_API = ${WS_API}`);
+
+    // socket
     const ws = new WebSocket(WS_API);
 
-    ws.onmessage = (event) => {
-      const payload = JSON.parse(event.data);
-      console.log("Spectrograms:onMessage: received event.data = ", event.data, typeof event.data);
-      console.log("Spectrograms:onMessage: received event.data = ", payload);
-  
-      if ("status" in payload) {
-        console.log(payload.status);
-        setSocketStatus(payload.status);
-      }
-  
-      if ("body" in payload) {
-        setData(payload.body);
-        setSocketStatus(payload.timestamp);
-        spectrogramTable.draw(payload.body);
+    ws.onerror = function (e) {
+      console.error("SpectrogramsPage: ws onerror, error = ", e);
+    };
+
+    ws.onclose = function () {
+      console.log("SpectrogramsPage: ws onclose");
+    };
+
+    ws.onopen = function () {
+      console.log("SpectrogramsPage: ws onopen");
+      // ws.send("status: ws open");
+    };
+
+    ws.onmessage = function (msg) {
+      const data = msg?.data;
+
+      try {
+        if (data instanceof ArrayBuffer) {
+          // prettier-ignore
+          console.log("SpectrogramsPage: received, type = ArrayBuffer, data = ", data);
+        } else if (data instanceof Blob) {
+          decodeSpectrogram(data).then((decoded: any) => {
+            // prettier-ignore
+            // console.log("SpectrogramsPage: received type = Blob, decoded = ", decoded);
+            window.requestAnimationFrame(() => {
+              spectrogramPlotTable.draw(decoded.spectrogram);
+            });
+          });
+        } else {
+          const decoded = decodeJson(data);
+          // prettier-ignore
+          // console.log( "SpectrogramsPage: received type = string, decoded = ", decoded, );
+          if (decoded && decoded.status) {
+            setSocketStatus(decoded.status);
+          } else {
+            // prettier-ignore
+            // console.log("SpectrogramsPage: received type = text, decoded = ", decoded);
+            window.requestAnimationFrame(() => {
+              spectrogramPlotTable.draw(decoded.spectrogram);
+            });
+          }
+        }
+      } catch (e) {
+        console.error("SpectrogramsPage: received, decoding error = ", e);
       }
     };
 
     return () => {
-      // TODO
-      // ws.close();
+      ws.close();
     };
   }, []);
 
   useEffect(() => {
-    console.log("Spectrograms: useEffect2");
-  }, [data, socketStatus]);
+    connectWebSocket();
+  }, [connectWebSocket]);
 
   return (
     <>
       <Head>
-        <title>
-          Phase Spectrograms
-        </title>
+        <title>Phase Spectrograms</title>
       </Head>
-
       <DashboardLayout>
-      <Box
-        sx={{
-          backgroundColor: "background.default",
-          minHeight: "100%",
-          py: 8,
-        }}
-      >
-        <Container>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Card>
-                <CardHeader
-                  action={
-                    <IconButton aria-label="settings">
-                      <MoreVertIcon />
-                    </IconButton>
-                  }
-                  avatar={
-                    <Avatar>
-                      <WaterfallChart />
-                    </Avatar>
-                  }
-                  title="Phase Display"
-                  subheader={socketStatus}
-                />
+        <Box
+          sx={{
+            position: "fixed",
+            overflow: "visible",
+            bottom: 0,
+            left: { xs: 0, md: 280 },
+            top: 60,
+            right: 0,
+          }}
+        >
+          <Container>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Card sx={{ minWidth: WIDTH }}>
+                  <CardHeader
+                    action={
+                      <IconButton aria-label="settings">
+                        <MoreVertIcon />
+                      </IconButton>
+                    }
+                    avatar={
+                      <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
+                        <WaterfallChartIcon />
+                      </Avatar>
+                    }
+                    title="Spectrograms"
+                    subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
+                  />
 
-                <CardContent sx={{ pt: "8px" }}>
-                  <div id="phase-display-table"></div>
-                </CardContent>
-              </Card>
+                  <CardContent sx={{ pt: "8px" }}>
+                    <Typography
+                      sx={{ fontSize: 14 }}
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      Click on the baseline and polarisation label to see a
+                      detailed spectrogram
+                    </Typography>
+
+                    <div id="divId" />
+                  </CardContent>
+                </Card>
+              </Grid>
             </Grid>
-          </Grid>
-        </Container>
-      </Box>
+          </Container>
+        </Box>
       </DashboardLayout>
     </>
   );
 };
 
-export default Spectrograms;
+export default SpectrogramTable;
