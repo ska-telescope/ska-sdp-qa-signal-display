@@ -37,7 +37,8 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     "react/require-default-props": 1,
     "react/function-component-definition": "off",
-    "react/display-name": "off"
+    "react/display-name": "off",
+    "consistent-return": 1
   },
   "env": {
     "jest": true

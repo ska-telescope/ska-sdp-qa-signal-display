@@ -99,6 +99,8 @@ const SpectrogramPage = () => {
     };
   }, [idx]);
 
+
+
   useEffect(() => {
     connectWebSocket();
   }, [connectWebSocket]);
