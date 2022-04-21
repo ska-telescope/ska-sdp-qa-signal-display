@@ -35,7 +35,7 @@ code_analysis:
   before_script:
     - mkdir -p build/reports
   script:
-    - yarn run code-analysis
+    - yarn test:coverage
     - mv linting.xml build/reports/linting.xml
   artifacts:
     paths:
@@ -50,7 +50,7 @@ code_lint:
       - node_modules/
     policy: pull
   script:
-    - yarn lint
+    - yarn lint:eslint
 
 test_and_coverage:
   stage: test
