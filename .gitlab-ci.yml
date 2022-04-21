@@ -24,23 +24,6 @@ install_dependencies:
       - node_modules/
     policy: push
 
-code_analysis:
-  stage: lint
-  tags:
-    - k8srunner
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
-  before_script:
-    - mkdir -p build/reports
-  script:
-    - yarn test:coverage
-    - mv linting.xml build/reports/linting.xml
-  artifacts:
-    paths:
-      - build/
-
 code_lint:
   stage: lint
   tags:
@@ -62,16 +45,14 @@ test_and_coverage:
     policy: pull
   before_script:
     - mkdir -p build/reports
-  script:
-    - yarn run test
-    - yarn run test:coverage
-    - mv junit.xml build/reports/unit-tests.xml
-    - mv build/coverage/cobertura-coverage.xml build/reports/code-coverage.xml
 
   coverage: /All\sfiles.*?\s+(\d+.\d+)/
   artifacts:
     paths:
       - build/
+  script:
+    - yarn test:coverage
+    - mv build/coverage/clover.xml build/reports/code-coverage.xml
       
 # run the unit tests
 unit_tests:
