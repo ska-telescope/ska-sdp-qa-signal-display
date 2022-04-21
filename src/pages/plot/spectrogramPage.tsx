@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import Head from "next/head";
 import {
   Avatar,
   Card,
@@ -8,109 +7,106 @@ import {
   Container,
   Grid,
   IconButton,
-  Typography,
-  useTheme,
+  useTheme
 } from "@mui/material";
 import { Box } from "@mui/system";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import TimelineIcon from "@mui/icons-material/Timeline";
+import WaterfallChartIcon from "@mui/icons-material/WaterfallChart";
+import Head from "next/head";
+import { useRouter } from "next/router";
 
 import { Protocol } from "src/models/protocol";
 import { MessageTopic } from "src/models/message-topic";
-import { decodeJson, decodeSpectrum } from "src/libs/decoder";
+import { decodeJson, decodeSpectrogram } from "src/libs/decoder";
 import { DashboardLayout } from "src/components/dashboard-layout/dashboard-layout";
-import { SpectrumPlotSvg } from "src/libs/spectrum-plot-svg";
-import { SpectrumPlotCanvas } from "src/libs/spectrum-plot-canvas";
-import { mockSpectrumData } from "src/mock/mock-spectrum-data";
+
+// import { mockSpectrogramsData } from "src/mock/mock-spectrogram-data";
+import { SpectrogramPlot } from "src/libs/spectrogram-plot";
 
 const WIDTH = 1200;
 const HEIGHT = 600;
 const PROTOCOL = Protocol.PROTOBUF;
-const MESSAGE_TOPIC = MessageTopic.SPECTRUM;
+const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
-const SpectrumPage = () => {
+const SpectrogramPage = () => {
   const theme = useTheme();
+  const router = useRouter();
+  const idx =
+    typeof router.query.idx === "string" ? router.query.idx : undefined;
+
   const [socketStatus, setSocketStatus] = useState("disconnected");
 
-  const connectToWebSocket = useCallback(async () => {
-    //
-    // spectrum plot: SVG implementation
-    //
-    const spectrumPlot = new SpectrumPlotSvg("#divId", WIDTH, HEIGHT);
+  const connectWebSocket = useCallback(async () => {
+    if (!idx) {
+      return;
+    }
 
-    //
-    // spectrum plot: canvas implementation (incomplete)
-    //
-    // const spectrumPlot = new SpectrumPlotCanvas({
-    //   canvasId: "canvasId",
-    //   unitsPerTickX: 1000,
-    //   unitsPerTickY: 2,
-    // });
+    const spectrogramPlot = new SpectrogramPlot("canvasId");
+    // test spectrogram with mock data
+    // for (const d of mockSpectrogramsData.spectrogram) {
+    //   spectrogramPlot.draw(d.phase);
+    // }
 
-    // test plot with mock data
-    //spectrumPlot.draw(mockSpectrumData);
-
-    // prettier-ignore
-    console.log(`SpectrumPage: connecting to WS_API = ${WS_API}`);
+    // DEBUG console.log(`SpectrogramPage: connecting to WS_API = ${WS_API}, idx = ${idx}`);
 
     // socket
     const ws = new WebSocket(WS_API);
 
-    ws.onerror = function (e) {
-      console.error("SpectrumPage: ws onerror, error = ", e);
+    ws.onerror = function onError(e) {
+      console.error("SpectrogramPage: ws onerror, error = ", e);
     };
 
-    ws.onclose = function () {
-      console.log("SpectrumPage: ws onclose");
+    ws.onclose = function onClose() {
+      // DEBUG console.log("SpectrogramPage: ws onclose");
     };
 
-    ws.onopen = function () {
-      console.log("SpectrumPage: ws onopen");
+    ws.onopen = function onOpen() {
+      // DEBUG console.log("SpectrogramPage: ws onopen");
       // ws.send("status: ws open");
     };
 
-    ws.onmessage = function (msg) {
+    ws.onmessage = function onMessage(msg) {
       const data = msg?.data;
 
       try {
         if (data instanceof ArrayBuffer) {
-          // prettier-ignore
-          console.log("SpectrumPage: received, type = ArrayBuffer, data = ", data);
+          // DEBUG console.log("SpectrogramPage: received, type = ArrayBuffer, data = ", data);
         } else if (data instanceof Blob) {
-          decodeSpectrum(data).then((decoded: any) => {
-            // prettier-ignore
-            // console.log("SpectrumPage: received type = Blob, decoded = ", decoded);
-            window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
+          decodeSpectrogram(data).then((decoded: any) => {
+            // console.log("SpectrogramPage: received type = Blob, decoded = ", decoded);
+            window.requestAnimationFrame(() => {
+              // single spectrogram plot
+              spectrogramPlot.draw(decoded.spectrogram[idx].phase);
+            });
           });
         } else {
           const decoded = decodeJson(data);
           if (decoded && decoded.status) {
             setSocketStatus(decoded.status);
           } else {
-            // prettier-ignore
-            // console.log("SpectrumPage: received type = text, decoded = ", decoded);
-            window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
+            // DEBUG console.log("SpectrogramPage: received type = text, decoded = ", decoded);
+            // window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
           }
         }
       } catch (e) {
-        console.error("SpectrumPage: received, decoding error = ", e);
+        console.error("SpectrogramPage: received, decoding error = ", e);
       }
     };
 
     return () => {
       ws.close();
     };
-  }, []);
+  }, [idx]);
 
   useEffect(() => {
-    connectToWebSocket();
-  }, [connectToWebSocket]);
+    connectWebSocket();
+  }, [connectWebSocket]);
 
   return (
     <>
       <Head>
-        <title>Spectrum Plot</title>
+        <title>Spectrogram</title>
       </Head>
       <DashboardLayout>
         <Box
@@ -120,13 +116,13 @@ const SpectrumPage = () => {
             bottom: 0,
             left: { xs: 0, md: 280 },
             top: 60,
-            right: 0,
+            right: 0
           }}
         >
           <Container>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <Card sx={{ minWidth: WIDTH }}>
+                <Card sx={{ minWidth: WIDTH + 100 }}>
                   <CardHeader
                     action={
                       <IconButton aria-label="settings">
@@ -135,24 +131,23 @@ const SpectrumPage = () => {
                     }
                     avatar={
                       <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
-                        <TimelineIcon />
+                        <WaterfallChartIcon />
                       </Avatar>
                     }
-                    title="Spectrum Plot"
+                    title="Spectrograms"
                     subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
                   />
 
                   <CardContent sx={{ pt: "8px" }}>
-                    <div id="divId" />
-                    {/* <canvas
+                    <canvas
                       id="canvasId"
                       width={WIDTH}
                       height={HEIGHT}
                       style={{
                         outline: "gray 1px solid",
-                        backgroundColor: "white",
+                        backgroundColor: "white"
                       }}
-                    ></canvas> */}
+                    />
                   </CardContent>
                 </Card>
               </Grid>
@@ -164,4 +159,4 @@ const SpectrumPage = () => {
   );
 };
 
-export default SpectrumPage;
+export default SpectrogramPage;

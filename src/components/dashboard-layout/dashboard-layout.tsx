@@ -10,8 +10,8 @@ const DashboardLayoutRoot = styled("div")(({ theme }) => ({
   maxWidth: "100%",
   paddingTop: 64,
   [theme.breakpoints.up("lg")]: {
-    paddingLeft: 280,
-  },
+    paddingLeft: 280
+  }
 }));
 
 export const DashboardLayout = (props) => {
@@ -21,7 +21,7 @@ export const DashboardLayout = (props) => {
 
   const handleSidebarClose = useCallback(
     (): void => setIsSidebarMobileOpen(false),
-    [],
+    []
   );
 
   return (
@@ -32,7 +32,7 @@ export const DashboardLayout = (props) => {
             display: "flex",
             flex: "1 1 auto",
             flexDirection: "column",
-            width: "100%",
+            width: "100%"
           }}
         >
           {children}

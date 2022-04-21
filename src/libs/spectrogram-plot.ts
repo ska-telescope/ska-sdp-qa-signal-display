@@ -1,9 +1,8 @@
 const PHASE_NORM_FACTOR = 360;
-const PAD = 10;
 
 export const enum WaterfallDirection {
   TOP_TO_BOTTOM = "top-to-bottom",
-  LEFT_TO_RIGHT = "left-to-right",
+  LEFT_TO_RIGHT = "left-to-right"
 }
 
 export class SpectrogramPlot {
@@ -12,7 +11,7 @@ export class SpectrogramPlot {
   ctx;
   width: number;
   height: number;
-  len: number = 0;
+  len: 0;
   h: number;
   w: number;
   x: number;
@@ -65,12 +64,10 @@ export class SpectrogramPlot {
 
   loop() {
     if (this.direction === WaterfallDirection.TOP_TO_BOTTOM) {
-      // prettier-ignore
-      const imgData = this.ctx.getImageData(0, 0, this.width, this.height - 1);
+     const imgData = this.ctx.getImageData(0, 0, this.width, this.height - 1);
       this.ctx.fillRect(0, 0, this.width, this.height);
       this.ctx.putImageData(imgData, 0, 1);
     } else {
-      // prettier-ignore
       const imgData = this.ctx.getImageData(1, 0, this.width - 1, this.height);
       this.ctx.fillRect(0, 0, this.width, this.height);
       this.ctx.putImageData(imgData, 0, 0);
@@ -78,15 +75,13 @@ export class SpectrogramPlot {
 
     // console.log("SpectrogramPlot:loop: data = ", this.data);
 
-    for (let i = 0; i < this.len; i++) {
-      const rat = this.data[i] / PHASE_NORM_FACTOR; // 0-1 normalise
-      const hue = Math.round(rat * 360); // hsl normalise
+    for (let i = 0; i < this.len; i = i + 1) {
+      const rat = this.data[i] / PHASE_NORM_FACTOR; // 0-1 normalize
+      const hue = Math.round(rat * 360); // hsl normalize
       const sat = "100%";
       const lit = "50%";
 
-      // prettier-ignore
       // console.log(`rat = ${rat}, hue = ${hue}, sat = ${sat}, lit = ${lit}`);
-      // prettier-ignore
       // console.log(`SpectrogramPlot:loop: h = ${this.h}, w = ${this.w}, x = ${this.x}, y = ${this.y}`);
 
       this.ctx.beginPath();

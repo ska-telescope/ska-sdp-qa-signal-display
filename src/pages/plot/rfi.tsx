@@ -3,14 +3,12 @@ import {
   Avatar,
   Box,
   Card,
-  CardActions,
   CardContent,
   CardHeader,
   Container,
   Grid,
   IconButton,
-  Typography,
-  useTheme,
+  useTheme
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
@@ -33,7 +31,6 @@ const RFI_DETAILS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE
 const Rfi = () => {
   const theme = useTheme();
 
-  const [data, setData] = useState(null);
   const [socketStatus, setSocketStatus] = useState(Date().toLocaleString());
 
   useEffect(() => {
@@ -42,20 +39,18 @@ const Rfi = () => {
 
     const rfiWs = new WebSocket(RFI_API);
     const rfiDetailsWs = new WebSocket(RFI_DETAILS_API);
-    // prettier-ignore
-    console.log(`RfiPage: connecting to RFI_SUMMARY_API = ${RFI_API}, RFI_DETAILS_API = ${RFI_DETAILS_API}`);
+    // DEBUG console.log(`RfiPage: connecting to RFI_SUMMARY_API = ${RFI_API}, RFI_DETAILS_API = ${RFI_DETAILS_API}`);
 
     rfiWs.onmessage = (event) => {
       const payload = decodeJson(event.data);
       // console.log("Rfi:onMessage: rfiWs received payload = ", payload);
 
       if ("status" in payload) {
-        console.log(payload.status);
+        // DEBUG console.log(payload.status);
         setSocketStatus(payload.status);
       }
 
       if ("body" in payload) {
-        setData(payload.body);
         rfiQaPixelTable.draw(payload.body);
       }
     };
@@ -65,12 +60,11 @@ const Rfi = () => {
       // console.log("Rfi:onMessage: rfiDetailsWs received payload = ", payload);
 
       if ("status" in payload) {
-        console.log(payload.status);
+        // DEBUG console.log(payload.status);
         setSocketStatus(payload.status);
       }
 
       if ("body" in payload) {
-        setData(payload.body);
         rfiDetailPlots.draw(payload.body);
       }
     };
@@ -92,7 +86,7 @@ const Rfi = () => {
           sx={{
             backgroundColor: "background.default",
             minHeight: "100%",
-            py: 8,
+            py: 8
           }}
         >
           <Container>
@@ -115,7 +109,7 @@ const Rfi = () => {
                   />
 
                   <CardContent sx={{ pt: "8px" }}>
-                    <div id="rfi-table-id"></div>
+                    <div id="rfi-table-id" />
                   </CardContent>
                 </Card>
 
@@ -136,7 +130,7 @@ const Rfi = () => {
                   />
 
                   <CardContent sx={{ pt: "8px" }}>
-                    <div id="rfi-details-id"></div>
+                    <div id="rfi-details-id" />
                   </CardContent>
                 </Card>
               </Grid>

@@ -58,7 +58,7 @@ CustomDocument.getInitialProps = async (ctx) => {
     originalRenderPage({
       // eslint-disable-next-line react/display-name,@typescript-eslint/no-explicit-any -- code borrowed from as is from https://github.com/mui-org/material-ui/blob/512896973499adbbda057e7f3685d1b23cc02de9/examples/nextjs-with-typescript/pages/_document.tsx
       enhanceApp: (App: any) => (props) =>
-        <App emotionCache={cache} {...props} />,
+        <App emotionCache={cache} {...props} />
     });
 
   const initialProps = await Document.getInitialProps(ctx);
@@ -79,8 +79,8 @@ CustomDocument.getInitialProps = async (ctx) => {
     // Styles fragment is rendered after the app and page rendering finish.
     styles: [
       ...React.Children.toArray(initialProps.styles),
-      ...emotionStyleTags,
-    ],
+      ...emotionStyleTags
+    ]
   };
 };
 

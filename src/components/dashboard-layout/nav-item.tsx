@@ -2,8 +2,7 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Box, Button, ListItem } from "@mui/material";
 
-export const NavItem = (props) => {
-  const { href, icon, title, ...others } = props;
+function NavItem({ href, icon, title, ...others }) {
   const router = useRouter();
   const active = href ? router.pathname === href : false;
 
@@ -14,7 +13,7 @@ export const NavItem = (props) => {
         display: "flex",
         mb: 0.5,
         py: 0,
-        px: 2,
+        px: 2
       }}
       {...others}
     >
@@ -34,11 +33,11 @@ export const NavItem = (props) => {
             textTransform: "none",
             width: "100%",
             "& .MuiButton-startIcon": {
-              color: active ? "secondary.main" : "#5393f",
+              color: active ? "secondary.main" : "#5393f"
             },
             "&:hover": {
-              backgroundColor: "rgba(255,255,255, 1)",
-            },
+              backgroundColor: "rgba(255,255,255, 1)"
+            }
           }}
         >
           <Box sx={{ flexGrow: 1 }}>{title}</Box>
@@ -46,4 +45,6 @@ export const NavItem = (props) => {
       </NextLink>
     </ListItem>
   );
-};
+}
+
+export default NavItem;

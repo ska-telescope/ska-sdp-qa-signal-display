@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 import {
-  Typography,
   Avatar,
   Card,
   CardContent,
@@ -8,101 +7,96 @@ import {
   Container,
   Grid,
   IconButton,
-  useTheme,
+  Typography,
+  useTheme
 } from "@mui/material";
 import { Box } from "@mui/system";
+import Head from "next/head";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import WaterfallChartIcon from "@mui/icons-material/WaterfallChart";
-import Head from "next/head";
-import { useRouter } from "next/router";
 
 import { Protocol } from "src/models/protocol";
 import { MessageTopic } from "src/models/message-topic";
 import { decodeJson, decodeSpectrogram } from "src/libs/decoder";
 import { DashboardLayout } from "src/components/dashboard-layout/dashboard-layout";
-
 import SpectrogramPlotTable from "src/libs/spectrogram-plot-table";
-import { mockSpectrogramsData } from "src/mock/mock-spectrogram-data";
-import { SpectrogramPlot } from "src/libs/spectrogram-plot";
+// import { mockSpectrogramsData } from "src/mock/mock-spectrogram-data";
 
 const WIDTH = 1200;
 const HEIGHT = 600;
+const CELL_WIDTH = 150;
+const CELL_HEIGHT = 75;
 const PROTOCOL = Protocol.PROTOBUF;
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
-const SpectrogramPage = () => {
+const SpectrogramTable = () => {
   const theme = useTheme();
-  const router = useRouter();
-  const idx =
-    typeof router.query.idx === "string" ? router.query.idx : undefined;
-
   const [socketStatus, setSocketStatus] = useState("disconnected");
 
   const connectWebSocket = useCallback(async () => {
-    if (!idx) {
-      return;
-    }
+    const spectrogramPlotTable = new SpectrogramPlotTable(
+      "divId",
+      WIDTH,
+      HEIGHT,
+      CELL_WIDTH,
+      CELL_HEIGHT
+    );
+    // test plot with mock data
+    // spectrogramPlotTable.draw(mockSpectrogramsData.spectrogram);
 
-    const spectrogramPlot = new SpectrogramPlot("canvasId");
-    // test spectrogram with mock data
-    // for (const d of mockSpectrogramsData.spectrogram) {
-    //   spectrogramPlot.draw(d.phase);
-    // }
-
-    // prettier-ignore
-    console.log(`SpectrogramPage: connecting to WS_API = ${WS_API}, idx = ${idx}`);
+    // DEBUG console.log(`SpectrogramsPage: connecting to WS_API = ${WS_API}`);
 
     // socket
     const ws = new WebSocket(WS_API);
 
-    ws.onerror = function (e) {
-      console.error("SpectrogramPage: ws onerror, error = ", e);
+    ws.onerror = function onError(e) {
+      console.error("SpectrogramsPage: ws onerror, error = ", e);
     };
 
-    ws.onclose = function () {
-      console.log("SpectrogramPage: ws onclose");
+    ws.onclose = function onClose() {
+      // DEBUG console.log("SpectrogramsPage: ws onclose");
     };
 
-    ws.onopen = function () {
-      console.log("SpectrogramPage: ws onopen");
+    ws.onopen = function onOpen() {
+      // DEBUG console.log("SpectrogramsPage: ws onopen");
       // ws.send("status: ws open");
     };
 
-    ws.onmessage = function (msg) {
+    ws.onmessage = function onMessage(msg) {
       const data = msg?.data;
 
       try {
         if (data instanceof ArrayBuffer) {
-          // prettier-ignore
-          console.log("SpectrogramPage: received, type = ArrayBuffer, data = ", data);
+          // DEBUG console.log("SpectrogramsPage: received, type = ArrayBuffer, data = ", data);
         } else if (data instanceof Blob) {
           decodeSpectrogram(data).then((decoded: any) => {
-            // prettier-ignore
-            // console.log("SpectrogramPage: received type = Blob, decoded = ", decoded);
+            // DEBUG console.log("SpectrogramsPage: received type = Blob, decoded = ", decoded);
             window.requestAnimationFrame(() => {
-              // single spectrogram plot
-              spectrogramPlot.draw(decoded.spectrogram[idx].phase);
+              spectrogramPlotTable.draw(decoded.spectrogram);
             });
           });
         } else {
           const decoded = decodeJson(data);
+          // DEBUG console.log( "SpectrogramsPage: received type = string, decoded = ", decoded, );
           if (decoded && decoded.status) {
             setSocketStatus(decoded.status);
           } else {
-            // console.log("SpectrogramPage: received type = text, decoded = ", decoded);
-            // window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
+            // DEBUG console.log("SpectrogramsPage: received type = text, decoded = ", decoded);
+            window.requestAnimationFrame(() => {
+              spectrogramPlotTable.draw(decoded.spectrogram);
+            });
           }
         }
       } catch (e) {
-        console.error("SpectrogramPage: received, decoding error = ", e);
+        console.error("SpectrogramsPage: received, decoding error = ", e);
       }
     };
 
     return () => {
       ws.close();
     };
-  }, [idx]);
+  }, []);
 
   useEffect(() => {
     connectWebSocket();
@@ -111,7 +105,7 @@ const SpectrogramPage = () => {
   return (
     <>
       <Head>
-        <title>Spectrogram</title>
+        <title>Phase Spectrograms</title>
       </Head>
       <DashboardLayout>
         <Box
@@ -121,13 +115,13 @@ const SpectrogramPage = () => {
             bottom: 0,
             left: { xs: 0, md: 280 },
             top: 60,
-            right: 0,
+            right: 0
           }}
         >
           <Container>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <Card sx={{ minWidth: WIDTH + 100 }}>
+                <Card sx={{ minWidth: WIDTH }}>
                   <CardHeader
                     action={
                       <IconButton aria-label="settings">
@@ -144,16 +138,16 @@ const SpectrogramPage = () => {
                   />
 
                   <CardContent sx={{ pt: "8px" }}>
-                    <canvas
-                      id="canvasId"
-                      width={WIDTH}
-                      height={HEIGHT}
-                      style={{
-                        outline: "gray 1px solid",
-                        // border: "2px solid steelblue",
-                        backgroundColor: "white",
-                      }}
-                    ></canvas>
+                    <Typography
+                      sx={{ fontSize: 14 }}
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      Click on the baseline and polarisation label to see a
+                      detailed spectrogram
+                    </Typography>
+
+                    <div id="divId" />
                   </CardContent>
                 </Card>
               </Grid>
@@ -165,4 +159,4 @@ const SpectrogramPage = () => {
   );
 };
 
-export default SpectrogramPage;
+export default SpectrogramTable;

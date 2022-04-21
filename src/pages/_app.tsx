@@ -8,18 +8,15 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import {
   CssBaseline,
   StyledEngineProvider,
-  ThemeProvider,
+  ThemeProvider
 } from "@mui/material";
 import { createEmotionCache } from "src/utils/create-emotion-cache";
 import { theme } from "src/theme";
+// Import all the css files created for d3 charts
+import "src/libs/css/spectrogram-plot-table.css";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
-
-//
-// Import all the css files created for d3 charts
-//
-import "src/libs/css/spectrogram-plot-table.css";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
