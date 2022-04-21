@@ -149,7 +149,6 @@ code_quality:
   artifacts:
     paths: [gl-code-quality-report.json]
   # disable dind service as it's not needed for k8srunner runners
-  script: " "
   services: []
   tags:
     - k8srunner
