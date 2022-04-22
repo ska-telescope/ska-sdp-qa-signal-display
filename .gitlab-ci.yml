@@ -3,6 +3,9 @@ image: node:16.14.0
 services:
   - docker:dind
 
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  
 stages:
   - dependencies
   - lint
