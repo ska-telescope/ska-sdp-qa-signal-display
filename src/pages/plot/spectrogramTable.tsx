@@ -50,6 +50,7 @@ const SpectrogramTable = () => {
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function onError(e) {
+      /* eslint no-console: ["error", { allow: ["error"] }] */
       console.error("SpectrogramsPage: ws onerror, error = ", e);
     };
 
@@ -88,6 +89,7 @@ const SpectrogramTable = () => {
           }
         }
       } catch (e) {
+        /* eslint no-console: ["error", { allow: ["error"] }] */
         console.error("SpectrogramsPage: received, decoding error = ", e);
       }
     };

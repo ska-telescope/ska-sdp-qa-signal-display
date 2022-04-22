@@ -56,6 +56,7 @@ const SpectrumPage = () => {
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function oneError(e) {
+      /* eslint no-console: ["error", { allow: ["error"] }] */
       console.error("SpectrumPage: ws onerror, error = ", e);
     };
 
@@ -89,6 +90,7 @@ const SpectrumPage = () => {
           }
         }
       } catch (e) {
+        /* eslint no-console: ["error", { allow: ["error"] }] */
         console.error("SpectrumPage: received, decoding error = ", e);
       }
     };

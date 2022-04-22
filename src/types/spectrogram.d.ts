@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import * as $protobuf from "protobufjs";
 /** Properties of a Spectrogram. */
 export interface ISpectrogram {

@@ -18,7 +18,6 @@ export const DashboardNavbar = (props) => {
   const { ...other } = props;
 
   return (
-    <>
       <DashboardNavbarRoot
         sx={{
           left: {
@@ -55,6 +54,5 @@ export const DashboardNavbar = (props) => {
           </Tooltip>
         </Toolbar>
       </DashboardNavbarRoot>
-    </>
   );
 };

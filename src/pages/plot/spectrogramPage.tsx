@@ -53,6 +53,7 @@ const SpectrogramPage = () => {
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function onError(e) {
+      /* eslint no-console: ["error", { allow: ["error"] }] */
       console.error("SpectrogramPage: ws onerror, error = ", e);
     };
 
@@ -83,7 +84,7 @@ const SpectrogramPage = () => {
           const decoded = decodeJson(data);
           if (decoded && decoded.status) {
             setSocketStatus(decoded.status);
-          } else {
+          // } else {
             // DEBUG console.log("SpectrogramPage: received type = text, decoded = ", decoded);
             // window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
           }
@@ -93,9 +94,9 @@ const SpectrogramPage = () => {
       }
     };
 
-    return () => {
+    // return () => {
       ws.close();
-    };
+    // };
   }, [idx]);
 
 

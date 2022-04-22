@@ -17,7 +17,7 @@ module.exports = {
     "import/prefer-default-export": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "max-len": "off",
-    "no-console": 1,
+    "no-console": 2,
     "no-param-reassign": "off",
     "no-plusplus": 0,
     "no-return-assign": "off",
