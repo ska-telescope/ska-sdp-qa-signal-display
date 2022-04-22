@@ -7,11 +7,9 @@ import {
   CardHeader,
   Container,
   Grid,
-  IconButton,
   useTheme
 } from "@mui/material";
 import { Box } from "@mui/system";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import TimelineIcon from "@mui/icons-material/Timeline";
 
 import { Protocol } from "src/models/protocol";
@@ -24,6 +22,7 @@ import { SpectrumPlotSvg } from "src/libs/spectrum-plot-svg";
 
 const WIDTH = 1200;
 const HEIGHT = 600;
+const SIDEBAR_WIDTH = 250;
 const PROTOCOL = Protocol.PROTOBUF;
 const MESSAGE_TOPIC = MessageTopic.SPECTRUM;
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
@@ -114,8 +113,9 @@ const SpectrumPage = () => {
             position: "fixed",
             overflow: "visible",
             bottom: 0,
-            left: { xs: 0, md: 280 },
-            top: 60,
+            left: { xs: 0, md: SIDEBAR_WIDTH },
+            top: 5,
+            margin: 2,
             right: 0
           }}
         >
@@ -124,11 +124,6 @@ const SpectrumPage = () => {
               <Grid item xs={12}>
                 <Card sx={{ minWidth: WIDTH }}>
                   <CardHeader
-                    action={
-                      <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                      </IconButton>
-                    }
                     avatar={
                       <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
                         <TimelineIcon />

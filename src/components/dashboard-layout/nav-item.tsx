@@ -6,6 +6,8 @@ function NavItem({ href, icon, title, ...others }) {
   const router = useRouter();
   const active = href ? router.pathname === href : false;
 
+  const BG_COLOR = "#FFFFFF";
+
   return (
     <ListItem
       disableGutters
@@ -36,7 +38,7 @@ function NavItem({ href, icon, title, ...others }) {
               color: active ? "secondary.main" : "#5393f"
             },
             "&:hover": {
-              backgroundColor: "rgba(255,255,255, 1)"
+              backgroundColor: BG_COLOR
             }
           }}
         >

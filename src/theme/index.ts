@@ -141,8 +141,8 @@ export const theme = createTheme({
       disabled: "rgba(55, 65, 81, 0.26)",
     },
     background: {
-      default: "#F9FAFC",
-      paper: "#FFFFFF",
+      default: '#FFFFFF', // "#F9FAFC",
+      paper: '#C1C6CA', // "#FFFFFF",
     },
     divider: "#E6E8F0",
     primary: {
@@ -188,7 +188,7 @@ export const theme = createTheme({
     },
   },
   shape: {
-    borderRadius: 8,
+    borderRadius: 25,
   },
   shadows: [
     "none",

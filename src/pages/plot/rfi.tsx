@@ -7,10 +7,8 @@ import {
   CardHeader,
   Container,
   Grid,
-  IconButton,
   useTheme
 } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
 import Head from "next/head";
 
@@ -94,11 +92,6 @@ const Rfi = () => {
               <Grid item xs={12}>
                 <Card sx={{ minWidth: WIDTH }}>
                   <CardHeader
-                    action={
-                      <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                      </IconButton>
-                    }
                     avatar={
                       <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
                         <SignalCellularAltIcon />
@@ -115,11 +108,6 @@ const Rfi = () => {
 
                 <Card sx={{ minWidth: WIDTH }}>
                   <CardHeader
-                    action={
-                      <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                      </IconButton>
-                    }
                     avatar={
                       <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
                         <SignalCellularAltIcon />

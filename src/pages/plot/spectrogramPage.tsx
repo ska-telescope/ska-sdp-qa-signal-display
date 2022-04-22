@@ -6,11 +6,9 @@ import {
   CardHeader,
   Container,
   Grid,
-  IconButton,
   useTheme
 } from "@mui/material";
 import { Box } from "@mui/system";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import WaterfallChartIcon from "@mui/icons-material/WaterfallChart";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -25,6 +23,7 @@ import { SpectrogramPlot } from "src/libs/spectrogram-plot";
 
 const WIDTH = 1200;
 const HEIGHT = 600;
+const SIDEBAR_WIDTH = 250;
 const PROTOCOL = Protocol.PROTOBUF;
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
@@ -116,7 +115,7 @@ const SpectrogramPage = () => {
             position: "fixed",
             overflow: "visible",
             bottom: 0,
-            left: { xs: 0, md: 280 },
+            left: { xs: 0, md: SIDEBAR_WIDTH },
             top: 60,
             right: 0
           }}
@@ -126,11 +125,6 @@ const SpectrogramPage = () => {
               <Grid item xs={12}>
                 <Card sx={{ minWidth: WIDTH + 100 }}>
                   <CardHeader
-                    action={
-                      <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                      </IconButton>
-                    }
                     avatar={
                       <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
                         <WaterfallChartIcon />

@@ -21,6 +21,10 @@ interface DashboardSidebarProps {
   openMobile: boolean;
 }
 
+const SIDEBAR_WIDTH = 250;
+const BG_COLOR = "#C1C6CA";
+const FG_COLOR = "#FFFFFF";
+
 const items = [
   {
     title: "Spectrum Plot",
@@ -95,8 +99,6 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = ({
           />
         ))}
       </Box>
-      <Divider sx={{ borderColor: "#2D3748" }} />
-      <Box sx={{ px: 2, py: 3 }} />
     </Box>
   );
 
@@ -107,9 +109,9 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = ({
         open
         PaperProps={{
           sx: {
-            backgroundColor: "rgb(226 232 240)",
-            color: "#FFFFFF",
-            width: 280
+            backgroundColor: BG_COLOR,
+            color: FG_COLOR,
+            width: SIDEBAR_WIDTH
           }
         }}
         variant="permanent"
@@ -126,9 +128,9 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = ({
       open={openMobile}
       PaperProps={{
         sx: {
-          backgroundColor: "neutral.900",
-          color: "#FFFFFF",
-          width: 280
+          backgroundColor: BG_COLOR,
+          color: FG_COLOR,
+          width: SIDEBAR_WIDTH
         }
       }}
       sx={{ zIndex: (inTheme) => inTheme.zIndex.appBar + 100 }}
