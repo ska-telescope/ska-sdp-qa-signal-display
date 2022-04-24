@@ -1,7 +1,7 @@
-import * as d3 from "d3";
-import * as _ from "lodash";
-import { removeLastDirectoryPartOf } from "src/utils/common";
-import { SpectrogramPlot } from "./spectrogram-plot";
+import * as d3 from 'd3';
+import * as _ from 'lodash';
+import { removeLastDirectoryPartOf } from 'src/utils/common';
+import { SpectrogramPlot } from './spectrogram-plot';
 
 interface Cell {
   metadata: { baseline: string; polarisation: string; idx: number };
@@ -26,13 +26,7 @@ class SpectrogramPlotTable {
   len;
   unwrap = ({ baseline, polarisation }) => ({ baseline, polarisation });
 
-  constructor(
-    divId,
-    width = 1200,
-    height = 600,
-    cellWidth = 200,
-    cellHeight = 100,
-  ) {
+  constructor(divId, width = 1200, height = 600, cellWidth = 200, cellHeight = 100) {
     this.divId = divId;
     this.width = width;
     this.height = height;
@@ -91,65 +85,57 @@ class SpectrogramPlotTable {
 
   drawTable() {
     // clear/remove existing table
-    d3.select("#" + this.divId)
-      .selectAll("table")
+    d3.select('#' + this.divId)
+      .selectAll('table')
       .remove();
 
     this.table = d3
-      .select("#" + this.divId)
-      .append("table")
-      .style("class", "table");
+      .select('#' + this.divId)
+      .append('table')
+      .style('class', 'table');
 
-    const tablebody = this.table.append("tbody");
-    const rows = tablebody
-      .selectAll("tr")
-      .data(this.cells)
-      .enter()
-      .append("tr");
+    const tablebody = this.table.append('tbody');
+    const rows = tablebody.selectAll('tr').data(this.cells).enter().append('tr');
 
     // we built the rows using the nested array - now each row has its own array.
     rows
-      .selectAll("td")
+      .selectAll('td')
       // each row has data associated; we get it and enter it for the cells.
       .data((d, i) => {
         return d;
       })
       .enter()
-      .append("td")
+      .append('td')
       .text((d, i) => {
         return this.getName(d?.metadata);
       })
-      .on("click", (d, i) => {
+      .on('click', (d, i) => {
         if (i?.metadata?.idx !== undefined) {
           window.open(
-            `${removeLastDirectoryPartOf(
-              window.location.href,
-            )}/spectrogram/?idx=${i?.metadata?.idx}`,
+            `${removeLastDirectoryPartOf(window.location.href)}/spectrogram/?idx=${
+              i?.metadata?.idx
+            }`
           );
         }
       })
-      .append("canvas")
-      .attr("id", (d, i) => {
+      .append('canvas')
+      .attr('id', (d, i) => {
         const id = this.getId(d?.metadata);
         if (id) return id;
       })
-      .attr("style", "canvas")
-      .attr("width", this.cellWidth)
-      .attr("height", this.cellHeight);
+      .attr('style', 'canvas')
+      .attr('width', this.cellWidth)
+      .attr('height', this.cellHeight);
 
     return;
   }
 
   private getName(d: any) {
-    return d?.baseline && d?.polarisation
-      ? `${d?.baseline}-${d?.polarisation}`
-      : "-";
+    return d?.baseline && d?.polarisation ? `${d?.baseline}-${d?.polarisation}` : '-';
   }
 
   private getId(d: any) {
-    return d?.baseline && d?.polarisation
-      ? `canvas-${d?.baseline}-${d?.polarisation}`
-      : undefined;
+    return d?.baseline && d?.polarisation ? `canvas-${d?.baseline}-${d?.polarisation}` : undefined;
   }
 }
 

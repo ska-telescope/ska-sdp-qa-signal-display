@@ -1,6 +1,4 @@
-/* eslint-disable */
-
-import * as $protobuf from "protobufjs";
+import * as $protobuf from 'protobufjs';
 /** Properties of a Spectrum. */
 export interface ISpectrum {
   /** Spectrum timestamp */
@@ -79,10 +77,7 @@ export class Spectrum implements ISpectrum {
    * @param [writer] Writer to encode to
    * @returns Writer
    */
-  public static encode(
-    message: ISpectrum,
-    writer?: $protobuf.Writer,
-  ): $protobuf.Writer;
+  public static encode(message: ISpectrum, writer?: $protobuf.Writer): $protobuf.Writer;
 
   /**
    * Encodes the specified Spectrum message, length delimited. Does not implicitly {@link Spectrum.verify|verify} messages.
@@ -90,10 +85,7 @@ export class Spectrum implements ISpectrum {
    * @param [writer] Writer to encode to
    * @returns Writer
    */
-  public static encodeDelimited(
-    message: ISpectrum,
-    writer?: $protobuf.Writer,
-  ): $protobuf.Writer;
+  public static encodeDelimited(message: ISpectrum, writer?: $protobuf.Writer): $protobuf.Writer;
 
   /**
    * Decodes a Spectrum message from the specified reader or buffer.
@@ -103,10 +95,7 @@ export class Spectrum implements ISpectrum {
    * @throws {Error} If the payload is not a reader or valid buffer
    * @throws {$protobuf.util.ProtocolError} If required fields are missing
    */
-  public static decode(
-    reader: $protobuf.Reader | Uint8Array,
-    length?: number,
-  ): Spectrum;
+  public static decode(reader: $protobuf.Reader | Uint8Array, length?: number): Spectrum;
 
   /**
    * Decodes a Spectrum message from the specified reader or buffer, length delimited.
@@ -115,9 +104,7 @@ export class Spectrum implements ISpectrum {
    * @throws {Error} If the payload is not a reader or valid buffer
    * @throws {$protobuf.util.ProtocolError} If required fields are missing
    */
-  public static decodeDelimited(
-    reader: $protobuf.Reader | Uint8Array,
-  ): Spectrum;
+  public static decodeDelimited(reader: $protobuf.Reader | Uint8Array): Spectrum;
 
   /**
    * Verifies a Spectrum message.
@@ -141,7 +128,7 @@ export class Spectrum implements ISpectrum {
    */
   public static toObject(
     message: Spectrum,
-    options?: $protobuf.IConversionOptions,
+    options?: $protobuf.IConversionOptions
   ): { [k: string]: any };
 
   /**

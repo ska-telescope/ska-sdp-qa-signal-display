@@ -1,0 +1,9 @@
+node_modules
+build
+dist
+**/*.css
+**/*.py
+**/*.scss
+**/*.ttf
+**/*.svg
+**/*.html
