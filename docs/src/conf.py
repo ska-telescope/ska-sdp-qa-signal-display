@@ -151,7 +151,7 @@ latex_elements = {
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
-#  author, documentclass [howto, manual, or own class]).
+#  author, documentclass [how to, manual, or own class]).
 latex_documents = [
     (master_doc, 'ska-web-apps-documentation.tex', 'ska-web-apps-documentation Documentation',
      'Snehal Valame', 'manual'),
