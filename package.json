@@ -14,9 +14,11 @@
     "lint:yarn-deduplicate": "yarn-deduplicate --fail --list --strategy=fewer",
     "prepare": "husky install",
     "start": "next start",
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "jest --coverage --coverageDirectory=build/coverage"
   },
   "dependencies": {
+    "@babel/core": "^7.17.9",
     "@emotion/cache": "^11.5.0",
     "@emotion/react": "^11.5.0",
     "@emotion/server": "^11.4.0",
@@ -25,9 +27,14 @@
     "@mui/lab": "^5.0.0-alpha.53",
     "@mui/material": "^5.0.6",
     "@mui/styles": "^5.0.2",
+    "@typescript-eslint/parser": "^5.20.0",
+    "airbnb": "^0.0.2",
     "chart.js": "^3.5.1",
     "d3": "^7.0.1",
     "date-fns": "^2.25.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-testing-library": "^5.3.1",
     "formik": "^2.1.5",
     "history": "^5.0.0",
     "next": "^12.0.3-canary.7",
