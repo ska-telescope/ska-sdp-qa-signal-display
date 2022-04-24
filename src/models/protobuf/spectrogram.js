@@ -1,4 +1,3 @@
-/*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars*/
 "use strict";
 
 var $protobuf = require("protobufjs/minimal");
@@ -386,7 +385,8 @@ $root.Spectrograms = (function() {
                 if (!(message.spectrogram && message.spectrogram.length))
                     message.spectrogram = [];
                 message.spectrogram.push($root.Spectrogram.decode(reader, reader.uint32()));
-                break;
+                    break;
+            case 0:  
             default:
                 reader.skipType(tag & 7);
                 break;
@@ -405,11 +405,6 @@ $root.Spectrograms = (function() {
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    Spectrograms.decodeDelimited = function decodeDelimited(reader) {
-        if (!(reader instanceof $Reader))
-            reader = new $Reader(reader);
-        return this.decode(reader, reader.uint32());
-    };
 
     /**
      * Verifies a Spectrograms message.

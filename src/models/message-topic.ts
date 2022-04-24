@@ -1,6 +1,6 @@
 export enum MessageTopic {
-  SPECTRUM = "spectrum",
-  SPECTROGRAMS = "spectrograms",
-  SPECTROGRAM = "spectrogram",
-  RFI = "rfi",
+  SPECTRUM = 'spectrum',
+  SPECTROGRAMS = 'spectrograms',
+  SPECTROGRAM = 'spectrogram',
+  RFI = 'rfi',
 }
