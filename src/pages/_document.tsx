@@ -1,7 +1,7 @@
-import React from "react";
-import Document, { Html, Head, Main, NextScript } from "next/document";
-import createEmotionServer from "@emotion/server/create-instance";
-import { createEmotionCache } from "../utils/create-emotion-cache";
+import React from 'react';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
+import createEmotionServer from '@emotion/server/create-instance';
+import { createEmotionCache } from '../utils/create-emotion-cache';
 
 class CustomDocument extends Document {
   render() {
@@ -18,24 +18,10 @@ class CustomDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto+Slab|Roboto:300,400,500,700&display=optional"
           />
-          <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href="/apple-touch-icon.png"
-          />
+          <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
           <link rel="icon" href="/favicon.ico" />
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="/favicon-32x32.png"
-          />
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="/favicon-16x16.png"
-          />
+          <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+          <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
           <meta name="theme-color" content="#111827" />
         </Head>
         <body>
@@ -57,8 +43,7 @@ CustomDocument.getInitialProps = async (ctx) => {
   ctx.renderPage = () =>
     originalRenderPage({
       // code borrowed from as is from https://github.com/mui-org/material-ui/blob/512896973499adbbda057e7f3685d1b23cc02de9/examples/nextjs-with-typescript/pages/_document.tsx
-      enhanceApp: (App: any) => (props) =>
-        <App emotionCache={cache} {...props} />
+      enhanceApp: (App: any) => (props) => <App emotionCache={cache} {...props} />,
     });
 
   const initialProps = await Document.getInitialProps(ctx);
@@ -67,7 +52,7 @@ CustomDocument.getInitialProps = async (ctx) => {
   const emotionStyles = extractCriticalToChunks(initialProps.html);
   const emotionStyleTags = emotionStyles.styles.map((style) => (
     <style
-      data-emotion={`${style.key} ${style.ids.join(" ")}`}
+      data-emotion={`${style.key} ${style.ids.join(' ')}`}
       key={style.key}
       // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{ __html: style.css }}
@@ -77,10 +62,7 @@ CustomDocument.getInitialProps = async (ctx) => {
   return {
     ...initialProps,
     // Styles fragment is rendered after the app and page rendering finish.
-    styles: [
-      ...React.Children.toArray(initialProps.styles),
-      ...emotionStyleTags
-    ]
+    styles: [...React.Children.toArray(initialProps.styles), ...emotionStyleTags],
   };
 };
 

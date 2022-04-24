@@ -1,25 +1,17 @@
-import { useCallback, useEffect, useState } from "react";
-import {
-  Avatar,
-  Card,
-  CardContent,
-  CardHeader,
-  Container,
-  Grid,
-  useTheme
-} from "@mui/material";
-import { Box } from "@mui/system";
-import WaterfallChartIcon from "@mui/icons-material/WaterfallChart";
-import Head from "next/head";
-import { useRouter } from "next/router";
+import { useCallback, useEffect, useState } from 'react';
+import { Avatar, Card, CardContent, CardHeader, Container, Grid, useTheme } from '@mui/material';
+import { Box } from '@mui/system';
+import WaterfallChartIcon from '@mui/icons-material/WaterfallChart';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 
-import { Protocol } from "src/models/protocol";
-import { MessageTopic } from "src/models/message-topic";
-import { decodeJson, decodeSpectrogram } from "src/libs/decoder";
-import { DashboardLayout } from "src/components/dashboard-layout/dashboard-layout";
+import { Protocol } from 'src/models/protocol';
+import { MessageTopic } from 'src/models/message-topic';
+import { decodeJson, decodeSpectrogram } from 'src/libs/decoder';
+import { DashboardLayout } from 'src/components/dashboard-layout/dashboard-layout';
 
 // import { mockSpectrogramsData } from "src/mock/mock-spectrogram-data";
-import { SpectrogramPlot } from "src/libs/spectrogram-plot";
+import { SpectrogramPlot } from 'src/libs/spectrogram-plot';
 
 const WIDTH = 1200;
 const HEIGHT = 600;
@@ -31,17 +23,16 @@ const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 const SpectrogramPage = () => {
   const theme = useTheme();
   const router = useRouter();
-  const idx =
-    typeof router.query.idx === "string" ? router.query.idx : undefined;
+  const idx = typeof router.query.idx === 'string' ? router.query.idx : undefined;
 
-  const [socketStatus, setSocketStatus] = useState("disconnected");
+  const [socketStatus, setSocketStatus] = useState('disconnected');
 
   const connectWebSocket = useCallback(async () => {
     if (!idx) {
       return;
     }
 
-    const spectrogramPlot = new SpectrogramPlot("canvasId");
+    const spectrogramPlot = new SpectrogramPlot('canvasId');
     // test spectrogram with mock data
     // for (const d of mockSpectrogramsData.spectrogram) {
     //   spectrogramPlot.draw(d.phase);
@@ -54,7 +45,7 @@ const SpectrogramPage = () => {
 
     ws.onerror = function onError(e) {
       /* eslint no-console: ["error", { allow: ["error"] }] */
-      console.error("SpectrogramPage: ws onerror, error = ", e);
+      console.error('SpectrogramPage: ws onerror, error = ', e);
     };
 
     ws.onclose = function onClose() {
@@ -84,22 +75,20 @@ const SpectrogramPage = () => {
           const decoded = decodeJson(data);
           if (decoded && decoded.status) {
             setSocketStatus(decoded.status);
-          // } else {
+            // } else {
             // DEBUG console.log("SpectrogramPage: received type = text, decoded = ", decoded);
             // window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
           }
         }
       } catch (e) {
-        console.error("SpectrogramPage: received, decoding error = ", e);
+        console.error('SpectrogramPage: received, decoding error = ', e);
       }
     };
 
     // return () => {
-      ws.close();
+    ws.close();
     // };
   }, [idx]);
-
-
 
   useEffect(() => {
     connectWebSocket();
@@ -113,12 +102,12 @@ const SpectrogramPage = () => {
       <DashboardLayout>
         <Box
           sx={{
-            position: "fixed",
-            overflow: "visible",
+            position: 'fixed',
+            overflow: 'visible',
             bottom: 0,
             left: { xs: 0, md: SIDEBAR_WIDTH },
             top: 60,
-            right: 0
+            right: 0,
           }}
         >
           <Container>
@@ -135,14 +124,14 @@ const SpectrogramPage = () => {
                     subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
                   />
 
-                  <CardContent sx={{ pt: "8px" }}>
+                  <CardContent sx={{ pt: '8px' }}>
                     <canvas
                       id="canvasId"
                       width={WIDTH}
                       height={HEIGHT}
                       style={{
-                        outline: "gray 1px solid",
-                        backgroundColor: "white"
+                        outline: 'gray 1px solid',
+                        backgroundColor: 'white',
                       }}
                     />
                   </CardContent>

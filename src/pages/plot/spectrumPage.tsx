@@ -1,22 +1,14 @@
-import { useCallback, useEffect, useState } from "react";
-import Head from "next/head";
-import {
-  Avatar,
-  Card,
-  CardContent,
-  CardHeader,
-  Container,
-  Grid,
-  useTheme
-} from "@mui/material";
-import { Box } from "@mui/system";
-import TimelineIcon from "@mui/icons-material/Timeline";
+import { useCallback, useEffect, useState } from 'react';
+import Head from 'next/head';
+import { Avatar, Card, CardContent, CardHeader, Container, Grid, useTheme } from '@mui/material';
+import { Box } from '@mui/system';
+import TimelineIcon from '@mui/icons-material/Timeline';
 
-import { Protocol } from "src/models/protocol";
-import { MessageTopic } from "src/models/message-topic";
-import { decodeJson, decodeSpectrum } from "src/libs/decoder";
-import { DashboardLayout } from "src/components/dashboard-layout/dashboard-layout";
-import { SpectrumPlotSvg } from "src/libs/spectrum-plot-svg";
+import { Protocol } from 'src/models/protocol';
+import { MessageTopic } from 'src/models/message-topic';
+import { decodeJson, decodeSpectrum } from 'src/libs/decoder';
+import { DashboardLayout } from 'src/components/dashboard-layout/dashboard-layout';
+import { SpectrumPlotSvg } from 'src/libs/spectrum-plot-svg';
 // import { SpectrumPlotCanvas } from "src/libs/spectrum-plot-canvas";
 // import { mockSpectrumData } from "src/mock/mock-spectrum-data";
 
@@ -29,13 +21,13 @@ const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
 const SpectrumPage = () => {
   const theme = useTheme();
-  const [socketStatus, setSocketStatus] = useState("disconnected");
+  const [socketStatus, setSocketStatus] = useState('disconnected');
 
   const connectToWebSocket = useCallback(async () => {
     //
     // spectrum plot: SVG implementation
     //
-    const spectrumPlot = new SpectrumPlotSvg("#divId", WIDTH, HEIGHT);
+    const spectrumPlot = new SpectrumPlotSvg('#divId', WIDTH, HEIGHT);
 
     //
     // spectrum plot: canvas implementation (incomplete)
@@ -57,7 +49,7 @@ const SpectrumPage = () => {
 
     ws.onerror = function oneError(e) {
       /* eslint no-console: ["error", { allow: ["error"] }] */
-      console.error("SpectrumPage: ws onerror, error = ", e);
+      console.error('SpectrumPage: ws onerror, error = ', e);
     };
 
     ws.onclose = function onClose() {
@@ -91,7 +83,7 @@ const SpectrumPage = () => {
         }
       } catch (e) {
         /* eslint no-console: ["error", { allow: ["error"] }] */
-        console.error("SpectrumPage: received, decoding error = ", e);
+        console.error('SpectrumPage: received, decoding error = ', e);
       }
     };
 
@@ -112,13 +104,13 @@ const SpectrumPage = () => {
       <DashboardLayout>
         <Box
           sx={{
-            position: "fixed",
-            overflow: "visible",
+            position: 'fixed',
+            overflow: 'visible',
             bottom: 0,
             left: { xs: 0, md: SIDEBAR_WIDTH },
             top: 5,
             margin: 2,
-            right: 0
+            right: 0,
           }}
         >
           <Container>
@@ -135,7 +127,7 @@ const SpectrumPage = () => {
                     subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
                   />
 
-                  <CardContent sx={{ pt: "8px" }}>
+                  <CardContent sx={{ pt: '8px' }}>
                     <div id="divId" />
                     {/* <canvas
                       id="canvasId"

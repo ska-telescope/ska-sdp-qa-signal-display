@@ -15,9 +15,9 @@ export class SpectrumPlotCanvas {
   // constants
   padding = 10;
   tickSize = 10;
-  axisColor = "#555";
+  axisColor = '#555';
   pointRadius = 5;
-  font = "12pt Calibri";
+  font = '12pt Calibri';
 
   fontHeight = 12;
 
@@ -44,14 +44,14 @@ export class SpectrumPlotCanvas {
     // constants
     this.padding = 10;
     this.tickSize = 10;
-    this.axisColor = "#555";
+    this.axisColor = '#555';
     this.pointRadius = 3;
-    this.font = "12pt Calibri";
+    this.font = '12pt Calibri';
 
     this.fontHeight = 12;
 
     // relationships
-    this.ctx = this.canvas.getContext("2d");
+    this.ctx = this.canvas.getContext('2d');
   }
 
   clear() {
@@ -99,10 +99,7 @@ export class SpectrumPlotCanvas {
     // draw tick marks
     for (let n1 = 0; n1 < this.numXTicks; n1++) {
       ctx.beginPath();
-      ctx.moveTo(
-        ((n1 + 1) * this.width) / this.numXTicks + this.x,
-        this.y + this.height
-      );
+      ctx.moveTo(((n1 + 1) * this.width) / this.numXTicks + this.x, this.y + this.height);
       ctx.lineTo(
         ((n1 + 1) * this.width) / this.numXTicks + this.x,
         this.y + this.height - this.tickSize
@@ -112,9 +109,9 @@ export class SpectrumPlotCanvas {
 
     // draw labels
     ctx.font = this.font;
-    ctx.fillStyle = "black";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
+    ctx.fillStyle = 'black';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
 
     for (let n2 = 0; n2 < this.numXTicks; n2++) {
       const label = Math.round(((n2 + 1) * this.xMax) / this.numXTicks);
@@ -145,10 +142,7 @@ export class SpectrumPlotCanvas {
     for (let n3 = 0; n3 < this.numYTicks; n3++) {
       ctx.beginPath();
       ctx.moveTo(this.x, (n3 * this.height) / this.numYTicks + this.y);
-      ctx.lineTo(
-        this.x + this.tickSize,
-        (n3 * this.height) / this.numYTicks + this.y
-      );
+      ctx.lineTo(this.x + this.tickSize, (n3 * this.height) / this.numYTicks + this.y);
       ctx.stroke();
     }
     // ctx.restore();
@@ -156,19 +150,16 @@ export class SpectrumPlotCanvas {
     // draw values
     // ctx.save();
     ctx.font = this.font;
-    ctx.fillStyle = "black";
-    ctx.textAlign = "right";
-    ctx.textBaseline = "middle";
+    ctx.fillStyle = 'black';
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
 
     for (let n4 = 0; n4 < this.numYTicks; n4++) {
       ctx.save();
 
       const value = Math.round(this.yMax - (n4 * this.yMax) / this.numYTicks);
 
-      ctx.translate(
-        this.x - this.padding,
-        (n4 * this.height) / this.numYTicks + this.y
-      );
+      ctx.translate(this.x - this.padding, (n4 * this.height) / this.numYTicks + this.y);
       ctx.fillText(value, 0, 0);
 
       ctx.restore();
@@ -176,7 +167,7 @@ export class SpectrumPlotCanvas {
     ctx.restore();
   }
 
-  drawLine(data, color = "#3366CC", width = 1, showPoints = false) {
+  drawLine(data, color = '#3366CC', width = 1, showPoints = false) {
     const x = data.channels,
       y = data.power;
 
@@ -188,8 +179,8 @@ export class SpectrumPlotCanvas {
     ctx.fillStyle = color;
     ctx.beginPath();
     ctx.moveTo(x[0] * this.scaleX, y[0] * this.scaleY);
-    ctx.lineJoin = "round";
-    ctx.lineCap = "round";
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
 
     for (let n5 = 0; n5 < x.length; n5++) {
       // draw segment
@@ -199,14 +190,7 @@ export class SpectrumPlotCanvas {
 
       if (showPoints) {
         ctx.beginPath();
-        ctx.arc(
-          x[n5] * this.scaleX,
-          y[n5] * this.scaleY,
-          this.pointRadius,
-          0,
-          2 * Math.PI,
-          false
-        );
+        ctx.arc(x[n5] * this.scaleX, y[n5] * this.scaleY, this.pointRadius, 0, 2 * Math.PI, false);
         ctx.fill();
         ctx.closePath();
       }
@@ -219,7 +203,7 @@ export class SpectrumPlotCanvas {
     ctx.restore();
   }
 
-  drawArea(data, color = "#1f77b4 ", width = 0) {
+  drawArea(data, color = '#1f77b4 ', width = 0) {
     const x = data.channels,
       y = data.power,
       y1 = data.sdU || data?.sd_u,
@@ -276,7 +260,7 @@ export class SpectrumPlotCanvas {
     let longestValueWidth = 0;
     for (let n7 = 0; n7 <= this.numYTicks; n7++) {
       const value = this.yMax - n7 * this.unitsPerTickY;
-      longestValueWidth = Math.max(longestValueWidth, this.ctx.measureText(value).width );
+      longestValueWidth = Math.max(longestValueWidth, this.ctx.measureText(value).width);
     }
     return longestValueWidth;
   }

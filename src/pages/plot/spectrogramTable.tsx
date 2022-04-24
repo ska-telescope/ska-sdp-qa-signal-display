@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from 'react';
 import {
   Avatar,
   Card,
@@ -7,17 +7,17 @@ import {
   Container,
   Grid,
   Typography,
-  useTheme
-} from "@mui/material";
-import { Box } from "@mui/system";
-import Head from "next/head";
-import WaterfallChartIcon from "@mui/icons-material/WaterfallChart";
+  useTheme,
+} from '@mui/material';
+import { Box } from '@mui/system';
+import Head from 'next/head';
+import WaterfallChartIcon from '@mui/icons-material/WaterfallChart';
 
-import { Protocol } from "src/models/protocol";
-import { MessageTopic } from "src/models/message-topic";
-import { decodeJson, decodeSpectrogram } from "src/libs/decoder";
-import { DashboardLayout } from "src/components/dashboard-layout/dashboard-layout";
-import SpectrogramPlotTable from "src/libs/spectrogram-plot-table";
+import { Protocol } from 'src/models/protocol';
+import { MessageTopic } from 'src/models/message-topic';
+import { decodeJson, decodeSpectrogram } from 'src/libs/decoder';
+import { DashboardLayout } from 'src/components/dashboard-layout/dashboard-layout';
+import SpectrogramPlotTable from 'src/libs/spectrogram-plot-table';
 // import { mockSpectrogramsData } from "src/mock/mock-spectrogram-data";
 
 const WIDTH = 1200;
@@ -31,11 +31,11 @@ const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
 const SpectrogramTable = () => {
   const theme = useTheme();
-  const [socketStatus, setSocketStatus] = useState("disconnected");
+  const [socketStatus, setSocketStatus] = useState('disconnected');
 
   const connectWebSocket = useCallback(async () => {
     const spectrogramPlotTable = new SpectrogramPlotTable(
-      "divId",
+      'divId',
       WIDTH,
       HEIGHT,
       CELL_WIDTH,
@@ -51,7 +51,7 @@ const SpectrogramTable = () => {
 
     ws.onerror = function onError(e) {
       /* eslint no-console: ["error", { allow: ["error"] }] */
-      console.error("SpectrogramsPage: ws onerror, error = ", e);
+      console.error('SpectrogramsPage: ws onerror, error = ', e);
     };
 
     ws.onclose = function onClose() {
@@ -90,7 +90,7 @@ const SpectrogramTable = () => {
         }
       } catch (e) {
         /* eslint no-console: ["error", { allow: ["error"] }] */
-        console.error("SpectrogramsPage: received, decoding error = ", e);
+        console.error('SpectrogramsPage: received, decoding error = ', e);
       }
     };
 
@@ -111,13 +111,13 @@ const SpectrogramTable = () => {
       <DashboardLayout>
         <Box
           sx={{
-            position: "fixed",
-            overflow: "visible",
+            position: 'fixed',
+            overflow: 'visible',
             bottom: 0,
             left: { xs: 0, md: SIDEBAR_WIDTH },
             top: 5,
             margin: 2,
-            right: 0
+            right: 0,
           }}
         >
           <Container>
@@ -134,14 +134,9 @@ const SpectrogramTable = () => {
                     subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
                   />
 
-                  <CardContent sx={{ pt: "8px" }}>
-                    <Typography
-                      sx={{ fontSize: 14 }}
-                      color="text.secondary"
-                      gutterBottom
-                    >
-                      Click on the baseline and polarisation label to see a
-                      detailed spectrogram
+                  <CardContent sx={{ pt: '8px' }}>
+                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                      Click on the baseline and polarisation label to see a detailed spectrogram
                     </Typography>
 
                     <div id="divId" />
