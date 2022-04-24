@@ -1,25 +1,18 @@
-import React, { ReactElement, ReactNode, StrictMode } from "react";
-import type { AppProps } from "next/app";
-import Head from "next/head";
-import type { NextPage } from "next";
-import { CacheProvider } from "@emotion/react";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import {
-  CssBaseline,
-  StyledEngineProvider,
-  ThemeProvider,
-} from "@mui/material";
-import { createEmotionCache } from "src/utils/create-emotion-cache";
-import { theme } from "src/theme";
+import React, { ReactElement, ReactNode, StrictMode } from 'react';
+import type { AppProps } from 'next/app';
+import Head from 'next/head';
+import type { NextPage } from 'next';
+import { CacheProvider } from '@emotion/react';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { CssBaseline, StyledEngineProvider, ThemeProvider } from '@mui/material';
+import { createEmotionCache } from 'src/utils/create-emotion-cache';
+import { theme } from 'src/theme';
+// Import all the css files created for d3 charts
+import 'src/libs/css/spectrogram-plot-table.css';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
-
-//
-// Import all the css files created for d3 charts
-//
-import "src/libs/css/spectrogram-plot-table.css";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
