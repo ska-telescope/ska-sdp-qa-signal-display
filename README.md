@@ -2,7 +2,7 @@
 
 #Overview
 
-This connects to the [QA data API](https://gitlab.com/ska-telescope/ska-sdp-qa-data-api) via a WebSocket and visualizes the received QA metrics (e.g, spectrum plot, waterfall plot etc) in real-time.
+This connects to the [QA data API](https://gitlab.com/ska-telescope/ska-sdp-qa-data-api) via a WebSocket and visualises the received QA metrics (e.g, spectrum plot, waterfall plot etc) in real-time.
 
 # Getting Started
 
