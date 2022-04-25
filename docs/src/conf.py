@@ -16,26 +16,21 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
-
 # -- Project information -----------------------------------------------------
 
-project = 'ska-web-apps-documentation'
-copyright = '2018, Snehal Valame'
-author = 'Snehal Valame'
+project = 'ska-sdp-qa-display'
+author = 'Naledi'
 
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
 release = ''
 
-
 # -- General configuration ---------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
 #
 # needs_sphinx = '1.0'
-
-import sphinx_rtd_theme
 
 def setup(app):
     app.add_css_file('css/custom.css')
@@ -53,7 +48,6 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -104,7 +98,6 @@ html_context = {
     'github_repo': 'developer.skatelescope.org', # Repo name
     'github_version': 'master', # Version
     'conf_py_path': '/src/', # Path in the checkout to the docs root
-
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -122,12 +115,10 @@ html_static_path = ['_static']
 #
 # html_sidebars = {}
 
-
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'ska-web-apps-documentationdoc'
-
+htmlhelp_basename = 'ska-sdp-qa-display'
 
 # -- Options for LaTeX output ------------------------------------------------
 
@@ -153,20 +144,18 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [how to, manual, or own class]).
 latex_documents = [
-    (master_doc, 'ska-web-apps-documentation.tex', 'ska-web-apps-documentation Documentation',
-     'Snehal Valame', 'manual'),
+    (master_doc, 'ska-sdp-qa-display.tex', 'ska-sdp-qa-display Documentation',
+     'Naledi', 'manual'),
 ]
-
 
 # -- Options for manual page output ------------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'ska-web-apps-documentation', 'ska-web-apps-documentation Documentation',
+    (master_doc, 'ska-sdp-qa-display', 'ska-sdp-qa-display Documentation',
      [author], 1)
 ]
-
 
 # -- Options for Texinfo output ----------------------------------------------
 
@@ -174,11 +163,10 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'ska-web-apps-documentation', 'ska-web-apps-documentation Documentation',
-     author, 'ska-web-apps-documentation', 'One line description of project.',
+    (master_doc, 'ska-sdp-qa-display', 'ska-sdp-qa-display Documentation',
+     author, 'ska-sdp-qa-display', 'One line description of project.',
      'Miscellaneous'),
 ]
-
 
 # -- Options for Epub output -------------------------------------------------
 
@@ -196,7 +184,6 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ['search.html']
-
 
 # -- Extension configuration -------------------------------------------------
 

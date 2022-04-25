@@ -21,7 +21,7 @@ function Home() {
           <Container>
             <Card sx={{ minWidth: 275 }}>
               <CardContent>
-                <Typography variant="h5">Welcome to QA Metrics Visualization Dashboard!</Typography>
+                <Typography variant="h5">Welcome to QA Metrics Visualisation Dashboard!</Typography>
                 <br />
               </CardContent>
             </Card>

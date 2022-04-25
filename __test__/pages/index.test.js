@@ -8,7 +8,7 @@ describe("Home", () => {
     render(<Home />)
 
     const heading = screen.getByRole('heading', {
-      name: /Welcome to QA Metrics Visualization Dashboard!/i,
+      name: /Welcome to QA Metrics Visualisation Dashboard!/i
     })
 
     expect(heading).toBeInTheDocument();
