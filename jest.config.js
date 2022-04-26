@@ -21,6 +21,11 @@ const customJestConfig = {
   "reporters": [
     "default",
     ["jest-junit", {"outputDirectory": "reports", "outputName": "report.xml"}]
+  ],
+  "coverageReporters": [
+    "text",
+    "cobertura",
+    "html"
   ]
 }
 
