@@ -17,18 +17,7 @@ const customJestConfig = {
     "^@components(.*)$": "<rootDir>/components$1",
     "^@pages(.*)$": "<rootDir>/pages$1",
     "^@hooks(.*)$": "<rootDir>/hooks$1"
-  },
-  collectCoverageFrom: [
-    "src/**/{!(i18n),}.{js,jsx}",
-    "!<rootDir>/node_modules/",
-    "!<rootDir>/path/to/dir/",
-    "!src/index.jsx"
-  ],
-  coverageReporters: [
-    "text",
-    "cobertura",
-    "html"
-  ]
+  }
 }
 
 
