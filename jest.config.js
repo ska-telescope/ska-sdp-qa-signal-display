@@ -17,7 +17,11 @@ const customJestConfig = {
     "^@components(.*)$": "<rootDir>/components$1",
     "^@pages(.*)$": "<rootDir>/pages$1",
     "^@hooks(.*)$": "<rootDir>/hooks$1"
-  }
+  },
+  "reporters": [
+    "default",
+    ["jest-junit", {"outputDirectory": "reports", "outputName": "report.xml"}]
+  ]
 }
 
 
