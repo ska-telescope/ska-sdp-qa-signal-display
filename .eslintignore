@@ -7,3 +7,4 @@ dist
 **/*.ttf
 **/*.svg
 **/*.html
+jest.config.js

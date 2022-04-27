@@ -3,7 +3,7 @@ const nextJest = require('next/jest')
 
 const createJestConfig = nextJest({
   // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
-  dir: './',
+  dir: './'
 })
 
 // Add any custom config to be passed to Jest
@@ -16,8 +16,12 @@ const customJestConfig = {
   moduleNameMapper: {
     "^@components(.*)$": "<rootDir>/components$1",
     "^@pages(.*)$": "<rootDir>/pages$1",
-    "^@hooks(.*)$": "<rootDir>/hooks$1",
-  }
+    "^@hooks(.*)$": "<rootDir>/hooks$1"
+  },
+  "reporters": [
+    "default",
+    ["jest-junit", {"outputDirectory": "reports", "outputName": "report.xml"}]
+ ]
 }
 
 
