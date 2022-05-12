@@ -18,8 +18,7 @@ This connects to the [QA data API](https://gitlab.com/ska-telescope/ska-sdp-qa-d
 ## Option-1: Using Container
 
 ```bash
-docker-compose up -d
-docker-compose ps
+make up
 ```
 
 The docker container's working/source directory `/usr/src/app` is mapped/mounted to the host's `./` folder.
