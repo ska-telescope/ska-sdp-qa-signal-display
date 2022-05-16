@@ -21,18 +21,18 @@ const items = [
   {
     title: 'Spectrum Plot',
     href: '/plot/spectrumPage',
-    icon: <TimelineIcon fontSize="small" />,
+    icon: <TimelineIcon fontSize="small" />
   },
   {
     title: 'Phase Spectrograms',
     href: '/plot/spectrogramTable',
-    icon: <WaterfallChartIcon fontSize="small" />,
+    icon: <WaterfallChartIcon fontSize="small" />
   },
   {
     title: 'RFI QA',
-    href: '/plot/rfi',
-    icon: <SignalCellularAltIcon fontSize="small" />,
-  },
+    href: '/plot/rfiPage',
+    icon: <SignalCellularAltIcon fontSize="small" />
+  }
 ];
 
 export const DashboardSidebar: FC<DashboardSidebarProps> = ({ onMobileClose, openMobile }) => {
@@ -51,7 +51,7 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = ({ onMobileClose, ope
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        height: '100%',
+        height: '100%'
       }}
     >
       <Box sx={{ p: 2 }}>
@@ -62,7 +62,7 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = ({ onMobileClose, ope
             borderRadius: 1,
             display: 'flex',
             overflow: 'hidden',
-            p: 2,
+            p: 2
           }}
         >
           <Box sx={{ ml: 2 }}>
@@ -95,8 +95,8 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = ({ onMobileClose, ope
           sx: {
             backgroundColor: BG_COLOR,
             color: FG_COLOR,
-            width: SIDEBAR_WIDTH,
-          },
+            width: SIDEBAR_WIDTH
+          }
         }}
         variant="permanent"
       >
@@ -114,8 +114,8 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = ({ onMobileClose, ope
         sx: {
           backgroundColor: BG_COLOR,
           color: FG_COLOR,
-          width: SIDEBAR_WIDTH,
-        },
+          width: SIDEBAR_WIDTH
+        }
       }}
       sx={{ zIndex: (inTheme) => inTheme.zIndex.appBar + 100 }}
       variant="temporary"

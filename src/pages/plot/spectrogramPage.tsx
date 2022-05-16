@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Avatar, Card, CardContent, CardHeader, Container, Grid, useTheme } from '@mui/material';
+import { Card, CardContent, CardHeader, Container, Grid } from '@mui/material';
 import { Box } from '@mui/system';
-import WaterfallChartIcon from '@mui/icons-material/WaterfallChart';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
@@ -14,14 +13,13 @@ import { DashboardLayout } from 'src/components/dashboard-layout/dashboard-layou
 import { SpectrogramPlot } from 'src/libs/spectrogram-plot';
 
 const WIDTH = 1200;
-const HEIGHT = 600;
+const HEIGHT = 300;
 const SIDEBAR_WIDTH = 250;
 const PROTOCOL = Protocol.PROTOBUF;
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
 const SpectrogramPage = () => {
-  const theme = useTheme();
   const router = useRouter();
   const idx = typeof router.query.idx === 'string' ? router.query.idx : undefined;
 
@@ -107,7 +105,7 @@ const SpectrogramPage = () => {
             bottom: 0,
             left: { xs: 0, md: SIDEBAR_WIDTH },
             top: 60,
-            right: 0,
+            right: 0
           }}
         >
           <Container>
@@ -115,11 +113,6 @@ const SpectrogramPage = () => {
               <Grid item xs={12}>
                 <Card sx={{ minWidth: WIDTH + 100 }}>
                   <CardHeader
-                    avatar={
-                      <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
-                        <WaterfallChartIcon />
-                      </Avatar>
-                    }
                     title="Spectrograms"
                     subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
                   />
@@ -131,7 +124,7 @@ const SpectrogramPage = () => {
                       height={HEIGHT}
                       style={{
                         outline: 'gray 1px solid',
-                        backgroundColor: 'white',
+                        backgroundColor: 'white'
                       }}
                     />
                   </CardContent>

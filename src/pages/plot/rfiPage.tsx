@@ -1,15 +1,15 @@
-import { Box } from '@mui/system';
+import { Box } from '@mui/material';
 import Head from 'next/head';
 
 import { DashboardLayout } from 'src/components/dashboard-layout/dashboard-layout';
-import Spectrogram from "../../components/spectrogram/spectrogram";
+import Rfi from "../../components/rfi/rfi";
 
 const SIDEBAR_WIDTH = 250;
 
-const SpectrogramTable = () => (
+const RfiPage = () => (
   <>
     <Head>
-      <title>Spectrum Plot</title>
+      <title>RFI QA</title>
     </Head>
     <DashboardLayout>
       <Box
@@ -23,10 +23,10 @@ const SpectrogramTable = () => (
           right: 0
         }}
       >
-        <Spectrogram />
+        <Rfi />
       </Box>
     </DashboardLayout>
   </>
 );
 
-export default SpectrogramTable;
+export default RfiPage;
