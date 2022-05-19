@@ -27,7 +27,7 @@ import { SpectrogramPlot } from "src/libs/spectrogram-plot";
 
 const WIDTH = 1200;
 const HEIGHT = 600;
-const PROTOCOL = Protocol.PROTOBUF;
+const PROTOCOL = (process.env.NEXT_PUBLIC_MESSAGE_TYPE === "json") ? Protocol.JSON : Protocol.PROTOBUF;
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 

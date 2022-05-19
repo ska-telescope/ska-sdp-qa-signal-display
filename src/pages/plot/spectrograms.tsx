@@ -26,7 +26,7 @@ const WIDTH = 1200;
 const HEIGHT = 600;
 const CELL_WIDTH = 150;
 const CELL_HEIGHT = 75;
-const PROTOCOL = Protocol.PROTOBUF;
+const PROTOCOL = (process.env.NEXT_PUBLIC_MESSAGE_TYPE === "json") ? Protocol.JSON : Protocol.PROTOBUF;
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
@@ -47,6 +47,7 @@ const SpectrogramTable = () => {
 
     // prettier-ignore
     console.log(`SpectrogramsPage: connecting to WS_API = ${WS_API}`);
+    console.log(process.env.NEXT_PUBLIC_MESSAGE_TYPE);
 
     // socket
     const ws = new WebSocket(WS_API);

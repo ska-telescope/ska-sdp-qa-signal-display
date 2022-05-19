@@ -25,7 +25,7 @@ import { mockSpectrumData } from "src/mock/mock-spectrum-data";
 
 const WIDTH = 1200;
 const HEIGHT = 600;
-const PROTOCOL = Protocol.PROTOBUF;
+const PROTOCOL = (process.env.NEXT_PUBLIC_MESSAGE_TYPE === "json") ? Protocol.JSON : Protocol.PROTOBUF;
 const MESSAGE_TOPIC = MessageTopic.SPECTRUM;
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
