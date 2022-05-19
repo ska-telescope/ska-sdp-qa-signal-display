@@ -1,6 +1,4 @@
-/* eslint-disable */
-
-import * as $protobuf from "protobufjs";
+import * as $protobuf from 'protobufjs';
 /** Properties of a Spectrogram. */
 export interface ISpectrogram {
   /** Spectrogram timestamp */
@@ -49,10 +47,7 @@ export class Spectrogram implements ISpectrogram {
    * @param [writer] Writer to encode to
    * @returns Writer
    */
-  public static encode(
-    message: ISpectrogram,
-    writer?: $protobuf.Writer,
-  ): $protobuf.Writer;
+  public static encode(message: ISpectrogram, writer?: $protobuf.Writer): $protobuf.Writer;
 
   /**
    * Encodes the specified Spectrogram message, length delimited. Does not implicitly {@link Spectrogram.verify|verify} messages.
@@ -60,10 +55,7 @@ export class Spectrogram implements ISpectrogram {
    * @param [writer] Writer to encode to
    * @returns Writer
    */
-  public static encodeDelimited(
-    message: ISpectrogram,
-    writer?: $protobuf.Writer,
-  ): $protobuf.Writer;
+  public static encodeDelimited(message: ISpectrogram, writer?: $protobuf.Writer): $protobuf.Writer;
 
   /**
    * Decodes a Spectrogram message from the specified reader or buffer.
@@ -73,10 +65,7 @@ export class Spectrogram implements ISpectrogram {
    * @throws {Error} If the payload is not a reader or valid buffer
    * @throws {$protobuf.util.ProtocolError} If required fields are missing
    */
-  public static decode(
-    reader: $protobuf.Reader | Uint8Array,
-    length?: number,
-  ): Spectrogram;
+  public static decode(reader: $protobuf.Reader | Uint8Array, length?: number): Spectrogram;
 
   /**
    * Decodes a Spectrogram message from the specified reader or buffer, length delimited.
@@ -85,9 +74,7 @@ export class Spectrogram implements ISpectrogram {
    * @throws {Error} If the payload is not a reader or valid buffer
    * @throws {$protobuf.util.ProtocolError} If required fields are missing
    */
-  public static decodeDelimited(
-    reader: $protobuf.Reader | Uint8Array,
-  ): Spectrogram;
+  public static decodeDelimited(reader: $protobuf.Reader | Uint8Array): Spectrogram;
 
   /**
    * Verifies a Spectrogram message.
@@ -111,7 +98,7 @@ export class Spectrogram implements ISpectrogram {
    */
   public static toObject(
     message: Spectrogram,
-    options?: $protobuf.IConversionOptions,
+    options?: $protobuf.IConversionOptions
   ): { [k: string]: any };
 
   /**
@@ -151,10 +138,7 @@ export class Spectrograms implements ISpectrograms {
    * @param [writer] Writer to encode to
    * @returns Writer
    */
-  public static encode(
-    message: ISpectrograms,
-    writer?: $protobuf.Writer,
-  ): $protobuf.Writer;
+  public static encode(message: ISpectrograms, writer?: $protobuf.Writer): $protobuf.Writer;
 
   /**
    * Encodes the specified Spectrograms message, length delimited. Does not implicitly {@link Spectrograms.verify|verify} messages.
@@ -164,7 +148,7 @@ export class Spectrograms implements ISpectrograms {
    */
   public static encodeDelimited(
     message: ISpectrograms,
-    writer?: $protobuf.Writer,
+    writer?: $protobuf.Writer
   ): $protobuf.Writer;
 
   /**
@@ -175,10 +159,7 @@ export class Spectrograms implements ISpectrograms {
    * @throws {Error} If the payload is not a reader or valid buffer
    * @throws {$protobuf.util.ProtocolError} If required fields are missing
    */
-  public static decode(
-    reader: $protobuf.Reader | Uint8Array,
-    length?: number,
-  ): Spectrograms;
+  public static decode(reader: $protobuf.Reader | Uint8Array, length?: number): Spectrograms;
 
   /**
    * Decodes a Spectrograms message from the specified reader or buffer, length delimited.
@@ -187,9 +168,7 @@ export class Spectrograms implements ISpectrograms {
    * @throws {Error} If the payload is not a reader or valid buffer
    * @throws {$protobuf.util.ProtocolError} If required fields are missing
    */
-  public static decodeDelimited(
-    reader: $protobuf.Reader | Uint8Array,
-  ): Spectrograms;
+  public static decodeDelimited(reader: $protobuf.Reader | Uint8Array): Spectrograms;
 
   /**
    * Verifies a Spectrograms message.
@@ -213,7 +192,7 @@ export class Spectrograms implements ISpectrograms {
    */
   public static toObject(
     message: Spectrograms,
-    options?: $protobuf.IConversionOptions,
+    options?: $protobuf.IConversionOptions
   ): { [k: string]: any };
 
   /**
