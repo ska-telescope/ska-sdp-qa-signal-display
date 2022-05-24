@@ -9,7 +9,7 @@ const WIDTH = 1200;
 const HEIGHT = 300;
 const CELL_WIDTH = 150;
 const CELL_HEIGHT = 75;
-const PROTOCOL = Protocol.PROTOBUF;
+const PROTOCOL = (process.env.NEXT_PUBLIC_MESSAGE_TYPE === "protobuf") ? Protocol.PROTOBUF : Protocol.JSON;
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
