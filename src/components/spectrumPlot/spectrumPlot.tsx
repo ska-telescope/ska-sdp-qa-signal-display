@@ -8,7 +8,7 @@ import { SpectrumPlotSvg } from 'src/libs/spectrum-plot-svg';
 
 const WIDTH = 1200;
 const HEIGHT = 300;
-const PROTOCOL = Protocol.PROTOBUF;
+const PROTOCOL = (process.env.NEXT_PUBLIC_MESSAGE_TYPE === "protobuf") ? Protocol.PROTOBUF : Protocol.JSON;
 const MESSAGE_TOPIC = MessageTopic.SPECTRUM;
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
