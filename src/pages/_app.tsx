@@ -1,30 +1,31 @@
-import React, { ReactElement, ReactNode, StrictMode } from 'react';
-import type { AppProps } from 'next/app';
+import React, { StrictMode } from 'react';
 import Head from 'next/head';
-import type { NextPage } from 'next';
 import { CacheProvider } from '@emotion/react';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { CssBaseline, StyledEngineProvider, ThemeProvider } from '@mui/material';
+import { Box, CssBaseline, StyledEngineProvider, ThemeProvider } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
 import { createEmotionCache } from 'src/utils/create-emotion-cache';
 import { theme } from 'src/theme';
 // Import all the css files created for d3 charts
 import 'src/libs/css/spectrogram-plot-table.css';
 
+import Rfi from "../components/rfi/rfi";
+import Spectrogram from "../components/spectrogram/spectrogram";
+import SpectrumPlot from "../components/spectrumPlot/spectrumPlot";
+
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
-type NextPageWithLayout = NextPage & {
-  getLayout?: (page: ReactElement) => ReactNode;
-};
+function App() {
 
-type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
-};
-
-function App({ Component, pageProps }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout ?? ((page) => page);
-
+  const DashboardLayoutRoot = styled('div')(() => ({
+    display: 'flex',
+    flex: '1 1 auto',
+    maxWidth: '100%'
+  }));
+  
   return (
     <CacheProvider value={clientSideEmotionCache}>
       <Head>
@@ -36,7 +37,20 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <ThemeProvider theme={theme}>
               <CssBaseline />
-              {getLayout(<Component {...pageProps} />)}
+                  <DashboardLayoutRoot>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flex: '1 1 auto',
+                      flexDirection: 'column',
+                      width: '100%'
+                    }}
+                  >
+                      <SpectrumPlot />
+                      <Spectrogram />
+                      <Rfi />
+                  </Box>
+                </DashboardLayoutRoot>
             </ThemeProvider>
           </LocalizationProvider>
         </StyledEngineProvider>
