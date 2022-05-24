@@ -1,21 +1,9 @@
 import { useEffect, useState } from 'react';
-import {
-  Avatar,
-  Box,
-  Card,
-  CardContent,
-  CardHeader,
-  Container,
-  Grid,
-  useTheme,
-} from '@mui/material';
-import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
-import Head from 'next/head';
+import { Card, CardContent, CardHeader, Container, Grid } from '@mui/material';
 
 import { Protocol } from 'src/models/protocol';
 import { MessageTopic } from 'src/models/message-topic';
 import { decodeJson } from 'src/libs/decoder';
-import { DashboardLayout } from 'src/components/dashboard-layout/dashboard-layout';
 import { RfiQaPixelTable } from 'src/libs/rfi-qa-pixel-table';
 import { RfiDetailPlots } from 'src/libs/rfi-detail-plots';
 
@@ -27,8 +15,6 @@ const RFI_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`
 const RFI_DETAILS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}_${RFI_SUBTOPIC}`;
 
 const Rfi = () => {
-  const theme = useTheme();
-
   const [socketStatus, setSocketStatus] = useState(Date().toLocaleString());
 
   useEffect(() => {
@@ -74,59 +60,33 @@ const Rfi = () => {
   }, []);
 
   return (
-    <>
-      <Head>
-        <title>RFI QA</title>
-      </Head>
+    <Container>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Card sx={{ minWidth: WIDTH }}>
+            <CardHeader
+              title="RFI"
+              subheader={`Socket: ${socketStatus}`}
+            />
 
-      <DashboardLayout>
-        <Box
-          sx={{
-            backgroundColor: 'background.default',
-            minHeight: '100%',
-            py: 8,
-          }}
-        >
-          <Container>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Card sx={{ minWidth: WIDTH }}>
-                  <CardHeader
-                    avatar={
-                      <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
-                        <SignalCellularAltIcon />
-                      </Avatar>
-                    }
-                    title="RFI"
-                    subheader={`Socket: ${socketStatus}`}
-                  />
+            <CardContent sx={{ pt: '8px' }}>
+              <div id="rfi-table-id" />
+            </CardContent>
+          </Card>
 
-                  <CardContent sx={{ pt: '8px' }}>
-                    <div id="rfi-table-id" />
-                  </CardContent>
-                </Card>
+          <Card sx={{ minWidth: WIDTH }}>
+            <CardHeader
+              title={`RFI: ${RFI_SUBTOPIC}`}
+              subheader={`Socket: ${socketStatus}`}
+            />
 
-                <Card sx={{ minWidth: WIDTH }}>
-                  <CardHeader
-                    avatar={
-                      <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
-                        <SignalCellularAltIcon />
-                      </Avatar>
-                    }
-                    title={`RFI: ${RFI_SUBTOPIC}`}
-                    subheader={`Socket: ${socketStatus}`}
-                  />
-
-                  <CardContent sx={{ pt: '8px' }}>
-                    <div id="rfi-details-id" />
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
-      </DashboardLayout>
-    </>
+            <CardContent sx={{ pt: '8px' }}>
+              <div id="rfi-details-id" />
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 
