@@ -6,8 +6,8 @@ export class SpectrumPlotSvg {
   margin = { top: 10, right: 40, bottom: 60, left: 50 };
 
   svg: any;
-  xLabel: string = 'Frequency channels (MHz)';
-  yLabel: string = 'Power (in dB)';
+  xLabel: string = 'Frequency (MHz)';
+  yLabel: string = 'Power (dB)';
   xScale: any;
   yScale: any;
 

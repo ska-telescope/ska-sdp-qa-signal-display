@@ -47,8 +47,12 @@ function App() {
                     }}
                   >
                       <SpectrumPlot />
-                      <Spectrogram />
-                      <Rfi />
+                  <Spectrogram />
+                  {
+                    /*      Suppressed for now.
+                    <Rfi />
+                    */
+                  }
                   </Box>
                 </DashboardLayoutRoot>
             </ThemeProvider>
