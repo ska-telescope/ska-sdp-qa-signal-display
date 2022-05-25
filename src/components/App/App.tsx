@@ -1,19 +1,18 @@
 import React, { StrictMode } from 'react';
-import Head from 'next/head';
 import { CacheProvider } from '@emotion/react';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { Box, CssBaseline, StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import { createEmotionCache } from 'src/utils/create-emotion-cache';
-import { theme } from 'src/theme';
+import { createEmotionCache } from 'utils/create-emotion-cache';
+import { theme } from './../../theme';
 // Import all the css files created for d3 charts
-import 'src/libs/css/spectrogram-plot-table.css';
+import 'libs/css/spectrogram-plot-table.css';
 
-import Rfi from "../components/rfi/rfi";
-import Spectrogram from "../components/spectrogram/spectrogram";
-import SpectrumPlot from "../components/spectrumPlot/spectrumPlot";
+import Rfi from "components/rfi/rfi";
+import Spectrogram from "components/spectrogram/spectrogram";
+import SpectrumPlot from "components/spectrumPlot/spectrumPlot";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -28,10 +27,6 @@ function App() {
   
   return (
     <CacheProvider value={clientSideEmotionCache}>
-      <Head>
-        <title>QA Display</title>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
       <StrictMode>
         <StyledEngineProvider injectFirst>
           <LocalizationProvider dateAdapter={AdapterDateFns}>

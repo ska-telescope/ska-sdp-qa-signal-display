@@ -16,9 +16,10 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
+    "rootDir": "src",
     "incremental": true
   },
-  "include": ["src", "src/pages/.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules"],
   "paths": {
     "@components/*": ["components/*"],
