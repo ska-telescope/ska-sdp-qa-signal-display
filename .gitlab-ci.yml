@@ -36,7 +36,7 @@ code_lint:
       - node_modules/
     policy: pull
   script:
-    - yarn lint:eslint
+    - yarn lint
 
 test_and_coverage:
   stage: test

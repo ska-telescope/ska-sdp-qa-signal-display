@@ -1,6 +1,5 @@
 import * as d3 from 'd3';
 
-const FLAG_LEGENDS = ['TP', 'TN', 'FP', 'FN'];
 const FLAG_COLORS = ['#2c7bb6', '#abd9e9', '#d7191c', '#fdae61'];
 
 export class RfiQaPixel {
