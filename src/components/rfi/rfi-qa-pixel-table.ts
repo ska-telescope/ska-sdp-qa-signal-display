@@ -110,16 +110,16 @@ export class RfiQaPixelTable {
       })
       .enter()
       .append('td')
-      .attr('id', function (d, i) {
+      .attr('id', function (_d, _i) {
         // the current node is selected using 'this', hence use 'function', not '=>'
-        const trId = d3.select(this).node().parentNode.id;
-        return `${trId}${i}`;
+        // DEBUG const trId = d3.select(this).node().parentNode.id;
+        return null; // DEBUG `${trId}${i}`;
       })
       .append('g')
-      .attr('id', function (d, i) {
+      .attr('id', function (_d, _i) {
         // the current node is selected using 'this', hence use 'function', not '=>'
-        const tdId = d3.select(this).node().parentNode.id;
-        return `g${tdId}`;
+        // DEBUG const tdId = d3.select(this).node().parentNode.id;
+        return null; // DEBUG `g${tdId}`;
       });
     // .attr("style", "canvas");
 

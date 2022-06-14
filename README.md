@@ -31,7 +31,6 @@ Follow the instructions below to start the React app in your host machine.
 Prerequisite
 
 - Node.js 16+
-- next.js
 - material UI ( MUI )
 
 ```bash
@@ -46,7 +45,6 @@ Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
 
 ## References
 
-- Using [Next.js](https://nextjs.org) build system
 - Using React [MUI](https://mui.com)
 
 ### Project Structure

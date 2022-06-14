@@ -1,17 +1,17 @@
 import * as d3 from 'd3';
 
 export class SpectrumPlotSvg {
-  width: number;
-  height: number;
+  width: number = 0;
+  height: number = 0;
   margin = { top: 10, right: 40, bottom: 60, left: 50 };
 
-  svg: any;
+  svg: any = null;
   xLabel: string = 'Frequency (MHz)';
   yLabel: string = 'Power (dB)';
   xScale: any;
   yScale: any;
 
-  constructor(selector: string, width = 1200, height = 600) {
+  constructor(selector: string, width: number, height: number) {
     this.width = width;
     this.height = height;
 
@@ -26,7 +26,7 @@ export class SpectrumPlotSvg {
   }
 
   public draw(data: any) {
-    //console.log("SpectrumPlot:draw: data = ", data);
+    console.log("SpectrumPlot:draw: data = ", data);
     this.svg.selectAll('text').remove();
     this.svg.selectAll('.tick').remove();
     this.svg.selectAll('path').remove();
@@ -50,7 +50,7 @@ export class SpectrumPlotSvg {
     this.svg
       .exit()
       .transition()
-      // .duration(300)
+      .duration(300)
       .attr('y', this.height)
       .attr('height', 0)
       .remove();

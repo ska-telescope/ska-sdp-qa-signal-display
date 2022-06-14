@@ -1,16 +1,17 @@
+/* eslint-disable no-console */
 import { useCallback, useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, Container, Grid } from '@mui/material';
 
-import { Protocol } from 'src/models/protocol';
-import { MessageTopic } from 'src/models/message-topic';
-import { decodeJson, decodeSpectrum } from 'src/libs/decoder';
-import { SpectrumPlotSvg } from 'src/libs/spectrum-plot-svg';
+import { Protocol } from '../../models/protocol';
+import { MessageTopic } from '../../models/message-topic';
+import { decodeJson, decodeSpectrum } from '../../libs/decoder';
+import { SpectrumPlotSvg } from './spectrum-plot-svg';
 
 const WIDTH = 1200;
 const HEIGHT = 300;
-const PROTOCOL = (process.env.NEXT_PUBLIC_MESSAGE_TYPE === "protobuf") ? Protocol.PROTOBUF : Protocol.JSON;
+const PROTOCOL = (process.env.REACT_APP_MESSAGE_TYPE === "protobuf") ? Protocol.PROTOBUF : Protocol.JSON;
 const MESSAGE_TOPIC = MessageTopic.SPECTRUM;
-const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
+const WS_API = `${process.env.REACT_APP_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
 const SpectrumPlot = () => {
   const [socketStatus, setSocketStatus] = useState('disconnected');

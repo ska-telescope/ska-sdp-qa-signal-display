@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
-import * as _ from 'lodash';
-import { removeLastDirectoryPartOf } from 'src/utils/common';
+// import * as _ from 'lodash';
+import { removeLastDirectoryPartOf } from '../../utils/common';
 import { SpectrogramPlot } from './spectrogram-plot';
 
 interface Cell {
@@ -41,26 +41,32 @@ class SpectrogramPlotTable {
       this.len = data.length;
       this.numCols = Math.floor(this.width / (this.cellWidth + this.cellGap));
       this.numRows = Math.ceil(this.len / this.numCols) || 1;
-      // console.log(this.numCols, this.numRows);
+      console.log(this.numCols, this.numRows);
 
-      // initialise 2d array of cells of a table
-      this.cells = new Array(this.numRows);
+      // initialize 2d array of cells of a table
+      console.log("cells A0 = ", this.cells);
+      this.cells = [];
+      console.log("cells B1 = ", this.cells);
       for (let i = 0; i < this.numRows; i++) {
         this.cells[i] = new Array(this.numCols);
       }
-      // console.log("cells 1 = ", this.cells);
+      console.log("cells C2 = ", this.cells);
 
       // fill each cell with a data object
       let idx = 0;
       for (let i = 0; i < this.numRows; i++) {
         for (let j = 0; j < this.numCols; j++) {
-          if (idx >= this.len) break;
-          this.cells[i][j] = {} as Cell;
-          this.cells[i][j].metadata = { ...this.unwrap(data[idx]), idx };
-          idx++;
+          if (idx < this.len) {
+            this.cells[i][j] = {} as Cell;
+            if (data[idx]) {
+              console.log(data);
+             this.cells[i][j].metadata = { ...this.unwrap(data[idx]), idx };
+            }
+            idx++;
+          }
         }
       }
-      // console.log("cells 2 = ", this.cells);
+      console.log("cells 3 = ", this.cells);
 
       this.drawTable();
     }

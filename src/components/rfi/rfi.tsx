@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, Container, Grid } from '@mui/material';
 
-import { Protocol } from 'src/models/protocol';
-import { MessageTopic } from 'src/models/message-topic';
-import { decodeJson } from 'src/libs/decoder';
-import { RfiQaPixelTable } from 'src/libs/rfi-qa-pixel-table';
-import { RfiDetailPlots } from 'src/libs/rfi-detail-plots';
+import { Protocol } from '../../models/protocol';
+import { MessageTopic } from '../../models/message-topic';
+import { decodeJson } from '../../libs/decoder';
+import { RfiQaPixelTable } from './rfi-qa-pixel-table';
+import { RfiDetailPlots } from './rfi-detail-plots';
 
 const WIDTH = 1200;
 const PROTOCOL = Protocol.JSON;
 const MESSAGE_TOPIC = MessageTopic.RFI;
 const RFI_SUBTOPIC = 'xx-00-01';
-const RFI_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
-const RFI_DETAILS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}_${RFI_SUBTOPIC}`;
+const RFI_API = `${process.env.REACT_APP_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
+const RFI_DETAILS_API = `${process.env.REACT_APP_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}_${RFI_SUBTOPIC}`;
 
 const Rfi = () => {
   const [socketStatus, setSocketStatus] = useState(Date().toLocaleString());

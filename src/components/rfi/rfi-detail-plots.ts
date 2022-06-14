@@ -103,8 +103,8 @@ export class RfiDetailPlots {
         d3
           .line()
           .curve(d3.curveMonotoneX)
-          .x((d, i) => x(frequencies[i]))
-          .y((d) => y(d))
+          .x((_d, i) => x(frequencies[i]))
+          // DEBUG .y((d) => y(d))
       );
 
     // line plot for the rfi data
@@ -120,8 +120,8 @@ export class RfiDetailPlots {
         d3
           .line()
           .curve(d3.curveMonotoneX)
-          .x((d, i) => x(frequencies[i]))
-          .y((d) => y(d))
+          .x((_d, i) => x(frequencies[i]))
+          // DEBUG .y((d) => y(d))
       );
 
     //  line plot for the visibility data
@@ -137,8 +137,8 @@ export class RfiDetailPlots {
         d3
           .line()
           .curve(d3.curveMonotoneX)
-          .x((d, i) => x(frequencies[i]))
-          .y((d) => y(d))
+          .x((_d, i) => x(frequencies[i]))
+          // DEBUG .y((d) => y(d))
       );
 
     // label for the x-axis

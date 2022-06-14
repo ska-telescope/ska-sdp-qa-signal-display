@@ -1,28 +1,32 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "target": "es6",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": false,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
     "moduleResolution": "node",
+    "noImplicitAny": false,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve",
-    "incremental": true
+    "strictNullChecks": false,
+    "strictPropertyInitialization": false,
+    "jsx": "react-jsx",
+    "paths": {
+      "src/*": ["src/*"]
+    }
   },
-  "include": ["src", "src/pages/.tsx"],
-  "exclude": ["node_modules"],
-  "paths": {
-    "@components/*": ["components/*"],
-    "@pages/*": ["pages/*"],
-    "@hooks/*": ["hooks/*"]
-  }
+  "include": [
+    "src"
+  ]
 }
