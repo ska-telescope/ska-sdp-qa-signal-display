@@ -11,6 +11,7 @@ stages:
   - lint
   - build
   - test
+  - scan
   - pages
   - deploy
   - publish
