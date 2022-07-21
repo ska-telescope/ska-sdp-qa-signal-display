@@ -110,7 +110,7 @@ const Spectrogram = () => {
                     <ImageListItem key={item}>
                       <ImageListItemBar title={item} position="top" />
                       <img
-                        src="https://images.unsplash.com/photo-1589118949245-7d38baf380d6"
+                        src="static/images/default_image.bmp"
                         alt={item}
                         loading="lazy"
                       />
