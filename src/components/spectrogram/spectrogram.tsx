@@ -27,6 +27,10 @@ const Spectrogram = () => {
 
     const ws = new WebSocket(WS_API);
 
+    window.requestAnimationFrame(() => {
+      spectrogramPlotTable.draw();
+    })
+
     ws.onerror = function onError(e) {
       /* eslint no-console: ["error", { allow: ["error"] }] */
       console.error('SpectrogramsPage: ws onerror, error = ', e);
@@ -52,7 +56,7 @@ const Spectrogram = () => {
           decodeSpectrogram(data).then((decoded: any) => {
             // DEBUG console.log("SpectrogramsPage: received type = Blob, decoded = ", decoded);
             window.requestAnimationFrame(() => {
-              spectrogramPlotTable.draw(decoded.spectrogram);
+              spectrogramPlotTable.draw();
             });
           });
         } else {
@@ -63,7 +67,7 @@ const Spectrogram = () => {
           } else {
             // DEBUG console.log("SpectrogramsPage: received type = text, decoded = ", decoded);
             window.requestAnimationFrame(() => {
-              spectrogramPlotTable.draw(decoded.spectrogram);
+              spectrogramPlotTable.draw();
             });
           }
         }
