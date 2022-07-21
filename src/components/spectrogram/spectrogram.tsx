@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, Container, Image, ImageList, ImageListItem,  ImageListItemBar, Grid, Typography } from '@mui/material';
+import { Card, CardContent, CardHeader, Container, Dialog, ImageList, ImageListItem,  ImageListItemBar, Grid, Typography } from '@mui/material';
 import { Protocol } from 'src/models/protocol';
 import { MessageTopic } from 'src/models/message-topic';
 import { decodeJson, decodeSpectrogram } from 'src/libs/decoder';
 import SpectrogramPlotTable from 'src/libs/spectrogram-plot-table';
+import React from 'react';
 
 const WIDTH = 1200;
 const HEIGHT = 300;
@@ -26,13 +27,13 @@ const Spectrogram = () => {
       HEIGHT,
       CELL_WIDTH,
       CELL_HEIGHT
-    );
+    );      
 
     const ws = new WebSocket(WS_API);
 
-    window.requestAnimationFrame(() => {
-      spectrogramPlotTable.draw();
-    })
+    // window.requestAnimationFrame(() => {
+    //   spectrogramPlotTable.draw();
+    // })
 
     ws.onerror = function onError(e) {
       /* eslint no-console: ["error", { allow: ["error"] }] */
@@ -113,12 +114,12 @@ const Spectrogram = () => {
                         src="static/images/default_image.bmp"
                         alt={item}
                         loading="lazy"
+                        onClick={() => imageClick(item)}
                       />
                     </ImageListItem>
                   ))}
                 </ImageList>
               </div>
-              
               <div id="spectrogramId" />
             </CardContent>
           </Card>
@@ -129,3 +130,46 @@ const Spectrogram = () => {
 };
 
 export default Spectrogram;
+
+function imageClick(item: string) {
+  const baselines = item.split(/[-_]+/);
+  const image_url = `http://localhost:8002/${baselines[0]}/${baselines[1]}/${baselines[2]}`
+
+  var open = false
+
+  const handleClickOpen = () => {
+    open = true;
+  };
+
+  const handleClose = () => {
+    open = false;
+  };
+
+  return (
+    <SimpleDialog
+    open={open}
+    onClose={handleClose}
+    url={image_url}
+  />
+  );
+}
+
+export interface SimpleDialogProps {
+  open: boolean;
+  onClose: () => void;
+  url: string
+}
+
+function SimpleDialog(props: SimpleDialogProps) {
+  const { onClose, open, url } = props;
+
+  const handleClose = () => {
+    onClose();
+  };
+
+  return (
+    <Dialog onClose={handleClose} open={open}>
+      <img src={url}/>
+    </Dialog>
+  );
+}

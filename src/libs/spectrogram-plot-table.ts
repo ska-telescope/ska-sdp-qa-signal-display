@@ -109,7 +109,7 @@ class SpectrogramPlotTable {
       })
       .text((d) => this.getName(d?.metadata))
       .append('img')
-      .attr('src', "https://images.unsplash.com/photo-1589118949245-7d38baf380d6")
+      .attr('src', "public/static/images/default_image.bmp")
       .attr('id', (d) => {
         const id = this.getId(d?.metadata);
         if (id) return id;
