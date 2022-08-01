@@ -142,7 +142,7 @@ const Spectrogram = () => {
       <Container>
         <Modal open={open} onClose={handleClose} style={{display:'flex',alignItems:'center',justifyContent:'center', border:'none'}}>
           <Card sx={{ minWidth: WIDTH, border:'none'}} >
-            <CardContent sx={{border:'none'}}>
+            <CardContent style={{border:'none'}}>
               <img src={imageUrl} loading="lazy"/>
             </CardContent>
           </Card>
@@ -170,6 +170,7 @@ const Spectrogram = () => {
                           src={getImageUrl(item)}
                           loading="lazy"
                           onClick={() =>imageClick(item)}
+                          style={{maxWidth: '100%', display:'flex',alignItems:'center',justifyContent:'center'}}
                         />
                       </ImageListItem>
                     ))}
