@@ -13,6 +13,7 @@ const PROTOCOL = (process.env.NEXT_PUBLIC_MESSAGE_TYPE === "protobuf") ? Protoco
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.NEXT_PUBLIC_SWITCH_D3_IMAGE_CREATION_ON_OFF;
+const DATA_API = process.env.NEXT_PUBLIC_DATA_API;
 
 
 const Spectrogram = () => {
@@ -22,6 +23,17 @@ const Spectrogram = () => {
 
   const handleOpen = () => setOpen(true);  
   const handleClose = () => setOpen(false);
+
+  function generateChartData() {
+    const arr = [];
+    for (let i = 33; i < 64; i++) {
+        arr.push(`m0${i}_m0${i}_XX` );
+        arr.push(`m0${i}_m0${i}_XY`);
+        arr.push(`m0${i}_m0${i}_YX`);
+        arr.push(`m0${i}_m0${i}_YY`);
+    }
+    return arr;
+  }
 
   const chartData = generateChartData();
 
@@ -93,25 +105,14 @@ const Spectrogram = () => {
     connectWebSocket();
   }, [connectWebSocket]);
 
+  function getImageUrl(item: string){
+    const baselines = item.split(/[-_]+/);
+    return `${DATA_API}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
+  }
+
   function imageClick(item: string) {
     handleOpen();
     setImageUrl(getImageUrl(item));
-  }
-
-  function getImageUrl(item: string){
-    const baselines = item.split(/[-_]+/);
-    return `http://localhost:8002/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
-  }
-
-  function generateChartData() {
-    let arr = [];
-    for (let i = 33; i < 64; i++) {
-        arr.push('m0' + i + '_m0' + i + '_XX' );
-        arr.push('m0' + i + '_m0' + i + '_XY' );
-        arr.push('m0' + i + '_m0' + i + '_YX' );
-        arr.push('m0' + i + '_m0' + i + '_YY' );
-    }
-    return arr;
   }
 
   if(SWITCH_D3_IMAGE_CREATION_ON_OFF === "on"){
@@ -143,7 +144,9 @@ const Spectrogram = () => {
         <Modal open={open} onClose={handleClose} style={{display:'flex',alignItems:'center',justifyContent:'center', border:'none'}}>
           <Card sx={{ minWidth: WIDTH, border:'none'}} >
             <CardContent style={{border:'none'}}>
-              <img src={imageUrl} loading="lazy"/>
+              <img src={imageUrl} 
+              loading="lazy"
+              alt=""/>
             </CardContent>
           </Card>
       </Modal>
@@ -168,6 +171,7 @@ const Spectrogram = () => {
                         <ImageListItemBar title={item} position="top" />
                         <img
                           src={getImageUrl(item)}
+                          alt={item}
                           loading="lazy"
                           onClick={() =>imageClick(item)}
                           style={{maxWidth: '100%', display:'flex',alignItems:'center',justifyContent:'center'}}
