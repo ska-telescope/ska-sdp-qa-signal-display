@@ -93,7 +93,7 @@ const Spectrogram = () => {
           /* eslint no-console: ["error", { allow: ["error"] }] */
           console.error('SpectrogramsPage: received, decoding error = ', e);
         }
-      };
+      }
     }
 
     return () => {
