@@ -13,7 +13,7 @@ const PROTOCOL = (process.env.NEXT_PUBLIC_MESSAGE_TYPE === "protobuf") ? Protoco
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.NEXT_PUBLIC_SWITCH_D3_IMAGE_CREATION_ON_OFF;
-const DATA_API = process.env.NEXT_PUBLIC_DATA_API;
+const DATA_API_URL = process.env.NEXT_PUBLIC_DATA_API_URL || "http://127.0.0.1:8002";
 
 
 const Spectrogram = () => {
@@ -24,18 +24,25 @@ const Spectrogram = () => {
   const handleOpen = () => setOpen(true);  
   const handleClose = () => setOpen(false);
 
-  function generateChartData() {
-    const arr = [];
-    for (let i = 33; i < 64; i++) {
-        arr.push(`m0${i}_m0${i}_XX` );
-        arr.push(`m0${i}_m0${i}_XY`);
-        arr.push(`m0${i}_m0${i}_YX`);
-        arr.push(`m0${i}_m0${i}_YY`);
-    }
+  
+
+  function retrieveChartData() {
+    let arr = [];
+    try{
+      const api_url = `${DATA_API_URL}/baselines`;
+      console.log(api_url);
+      fetch(api_url)
+          .then((response) => response.json())
+          .then((data)=> {
+            console.log("Hello_2");
+            arr = data.baselines;
+    });
+  } catch(error){
+      console.log(error);
+  }
     return arr;
   }
-
-  const chartData = generateChartData();
+  const chartData = retrieveChartData();
 
   const connectWebSocket = useCallback(async () => {
     const spectrogramPlotTable = new SpectrogramPlotTable(
@@ -47,7 +54,6 @@ const Spectrogram = () => {
     );      
 
     const ws = new WebSocket(WS_API);
-
 
     ws.onerror = function onError(e) {
       /* eslint no-console: ["error", { allow: ["error"] }] */
@@ -107,7 +113,7 @@ const Spectrogram = () => {
 
   function getImageUrl(item: string){
     const baselines = item.split(/[-_]+/);
-    return `${DATA_API}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
+    return `${DATA_API_URL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
 
   function imageClick(item: string) {
