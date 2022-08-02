@@ -13,7 +13,7 @@ const PROTOCOL = (process.env.NEXT_PUBLIC_MESSAGE_TYPE === "protobuf") ? Protoco
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.NEXT_PUBLIC_SWITCH_D3_IMAGE_CREATION_ON_OFF;
-const DATA_API_URL = process.env.NEXT_PUBLIC_DATA_API_URL || "http://127.0.0.1:8002";
+const DATA_API_URL =  "http://127.0.0.1:8002";
 
 
 const Spectrogram = () => {
@@ -24,25 +24,23 @@ const Spectrogram = () => {
   const handleOpen = () => setOpen(true);  
   const handleClose = () => setOpen(false);
 
-  
+  let chartData = [];
 
   function retrieveChartData() {
     let arr = [];
     try{
       const api_url = `${DATA_API_URL}/baselines`;
-      console.log(api_url);
       fetch(api_url)
           .then((response) => response.json())
           .then((data)=> {
-            console.log("Hello_2");
-            arr = data.baselines;
+            arr = data["baselines"];
     });
   } catch(error){
       console.log(error);
   }
     return arr;
   }
-  const chartData = retrieveChartData();
+  chartData = retrieveChartData();
 
   const connectWebSocket = useCallback(async () => {
     const spectrogramPlotTable = new SpectrogramPlotTable(
