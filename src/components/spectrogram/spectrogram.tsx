@@ -37,9 +37,6 @@ const Spectrogram = () => {
 
   const chartData = generateChartData();
 
-const Spectrogram = () => {
-  const [socketStatus, setSocketStatus] = useState('disconnected');
-
   const connectWebSocket = useCallback(async () => {
     const spectrogramPlotTable = new SpectrogramPlotTable(
       'spectrogramId',
@@ -189,5 +186,4 @@ const Spectrogram = () => {
       </Container>
     );
 };
-}
 export default Spectrogram;
