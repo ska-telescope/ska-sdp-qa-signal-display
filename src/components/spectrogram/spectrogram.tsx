@@ -189,5 +189,5 @@ const Spectrogram = () => {
       </Container>
     );
 };
-
+}
 export default Spectrogram;
