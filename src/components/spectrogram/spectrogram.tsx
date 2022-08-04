@@ -13,7 +13,8 @@ const PROTOCOL = (process.env.NEXT_PUBLIC_MESSAGE_TYPE === "protobuf") ? Protoco
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.NEXT_PUBLIC_SWITCH_D3_IMAGE_CREATION_ON_OFF;
-const DATA_API_URL =  "http://127.0.0.1:8002";
+const DATA_API_URL_BROWSER = "http://localhost:8002";
+const DATA_API_URL_SERVER = "http://qa-data-api:8002";
 
 
 const Spectrogram = () => {
@@ -26,21 +27,14 @@ const Spectrogram = () => {
 
   let chartData = [];
 
-  function retrieveChartData() {
-    let arr = [];
-    try{
-      const api_url = `${DATA_API_URL}/baselines`;
-      fetch(api_url)
+  async function retrieveChartData() {
+      const api_url = `${DATA_API_URL_SERVER}/baselines`;
+      await fetch(api_url)
           .then((response) => response.json())
           .then((data)=> {
-            arr = data["baselines"];
+          chartData = data["baselines"];
     });
-  } catch(error){
-      console.log(error);
   }
-    return arr;
-  }
-  chartData = retrieveChartData();
 
   const connectWebSocket = useCallback(async () => {
     const spectrogramPlotTable = new SpectrogramPlotTable(
@@ -107,11 +101,12 @@ const Spectrogram = () => {
 
   useEffect(() => {
     connectWebSocket();
-  }, [connectWebSocket]);
+    retrieveChartData();
+  }, [connectWebSocket, retrieveChartData]);
 
   function getImageUrl(item: string){
     const baselines = item.split(/[-_]+/);
-    return `${DATA_API_URL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
+    return `${DATA_API_URL_BROWSER}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
 
   function imageClick(item: string) {
