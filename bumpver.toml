@@ -1,0 +1,24 @@
+[bumpver]
+current_version = "0.1.0"
+version_pattern = "MAJOR.MINOR.PATCH[PYTAGNUM]"
+commit_message = "Release {new_version}"
+commit = true
+tag = true
+push = true
+
+[bumpver.file_patterns]
+"bumpver.toml" = [
+    'current_version = "{version}"',
+]
+"producer-api/version" = [
+    '{version}'
+]
+"display-api/version" = [
+    '{version}'
+]
+"display-ui/version" = [
+    '{version}'
+]
+"display-ui/package.json" = [
+    '"version": "{version}"'
+]
