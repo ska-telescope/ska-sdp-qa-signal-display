@@ -37,6 +37,9 @@ const Spectrogram = () => {
 
   const chartData = generateChartData();
 
+const Spectrogram = () => {
+  const [socketStatus, setSocketStatus] = useState('disconnected');
+
   const connectWebSocket = useCallback(async () => {
     const spectrogramPlotTable = new SpectrogramPlotTable(
       'spectrogramId',
@@ -44,10 +47,9 @@ const Spectrogram = () => {
       HEIGHT,
       CELL_WIDTH,
       CELL_HEIGHT
-    );      
+    );
 
     const ws = new WebSocket(WS_API);
-
 
     ws.onerror = function onError(e) {
       /* eslint no-console: ["error", { allow: ["error"] }] */
@@ -95,7 +97,6 @@ const Spectrogram = () => {
         }
       }
     }
-
     return () => {
       ws.close();
     };
