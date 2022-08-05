@@ -24,6 +24,8 @@ const Spectrogram = () => {
   const handleOpen = () => setOpen(true);  
   const handleClose = () => setOpen(false);
 
+  // The below function creates a basic list of baselines just to show that the table and the images works.
+  // The complete list of baselines will be retrieved in NAL-186 and NAL-185.
   function generateChartData() {
     const arr = [];
     for (let i = 33; i < 64; i++) {
