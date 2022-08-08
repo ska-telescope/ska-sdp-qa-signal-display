@@ -38,6 +38,9 @@ module.exports = {
     "react/require-default-props": 1,
     "react/function-component-definition": "off",
     "react/display-name": "off",
+    "consistent-return": 1,
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'jsx-a11y/no-noninteractive-element-interactions' : 'off',
     "consistent-return": 1
   },
   "env": {

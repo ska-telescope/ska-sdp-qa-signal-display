@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, Container, Grid, Typography } from '@mui/material';
+import { Card, CardContent, CardHeader, Container, ImageList, ImageListItem, ImageListItemBar, Grid, Modal, Typography } from '@mui/material';
 import { Protocol } from 'src/models/protocol';
 import { MessageTopic } from 'src/models/message-topic';
 import { decodeJson, decodeSpectrogram } from 'src/libs/decoder';
-import SpectrogramPlotTable from 'src/libs/spectrogram-plot-table';
+import SpectrogramPlotTable from 'src/libs/spectrogram-plot-table'; 
 
 const WIDTH = 1200;
 const HEIGHT = 300;
@@ -12,9 +12,32 @@ const CELL_HEIGHT = 75;
 const PROTOCOL = (process.env.NEXT_PUBLIC_MESSAGE_TYPE === "protobuf") ? Protocol.PROTOBUF : Protocol.JSON;
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
+const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.NEXT_PUBLIC_SWITCH_D3_IMAGE_CREATION_ON_OFF;
+const DATA_API = process.env.NEXT_PUBLIC_DATA_API;
+
 
 const Spectrogram = () => {
   const [socketStatus, setSocketStatus] = useState('disconnected');
+  const [open, setOpen] = useState(false);
+  const [imageUrl, setImageUrl] = useState(null);
+
+  const handleOpen = () => setOpen(true);  
+  const handleClose = () => setOpen(false);
+
+  // The below function creates a basic list of baselines just to show that the table and the images works.
+  // The complete list of baselines will be retrieved in NAL-186 and NAL-185.
+  function generateChartData() {
+    const arr = [];
+    for (let i = 33; i < 64; i++) {
+        arr.push(`m0${i}_m0${i}_XX` );
+        arr.push(`m0${i}_m0${i}_XY`);
+        arr.push(`m0${i}_m0${i}_YX`);
+        arr.push(`m0${i}_m0${i}_YY`);
+    }
+    return arr;
+  }
+
+  const chartData = generateChartData();
 
   const connectWebSocket = useCallback(async () => {
     const spectrogramPlotTable = new SpectrogramPlotTable(
@@ -43,36 +66,36 @@ const Spectrogram = () => {
 
     ws.onmessage = function onMessage(msg) {
       const data = msg?.data;
-
-      try {
-        if (data instanceof ArrayBuffer) {
-          // DEBUG console.log("SpectrogramsPage: received, type = ArrayBuffer, data = ", data);
-        } else if (data instanceof Blob) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          decodeSpectrogram(data).then((decoded: any) => {
-            // DEBUG console.log("SpectrogramsPage: received type = Blob, decoded = ", decoded);
-            window.requestAnimationFrame(() => {
-              spectrogramPlotTable.draw(decoded.spectrogram);
+      if (SWITCH_D3_IMAGE_CREATION_ON_OFF === "on"){
+        try {
+          if (data instanceof ArrayBuffer) {
+            // DEBUG console.log("SpectrogramsPage: received, type = ArrayBuffer, data = ", data);
+          } else if (data instanceof Blob) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            decodeSpectrogram(data).then((decoded: any) => {
+              // DEBUG console.log("SpectrogramsPage: received type = Blob, decoded = ", decoded);
+              window.requestAnimationFrame(() => {
+                spectrogramPlotTable.draw(decoded.spectrogram);
+              });
             });
-          });
-        } else {
-          const decoded = decodeJson(data);
-          // DEBUG console.log( "SpectrogramsPage: received type = string, decoded = ", decoded, );
-          if (decoded && decoded.status) {
-            setSocketStatus(decoded.status);
           } else {
-            // DEBUG console.log("SpectrogramsPage: received type = text, decoded = ", decoded);
-            window.requestAnimationFrame(() => {
-              spectrogramPlotTable.draw(decoded.spectrogram);
-            });
+            const decoded = decodeJson(data);
+            // DEBUG console.log( "SpectrogramsPage: received type = string, decoded = ", decoded, );
+            if (decoded && decoded.status) {
+              setSocketStatus(decoded.status);
+            } else {
+              // DEBUG console.log("SpectrogramsPage: received type = text, decoded = ", decoded);
+              window.requestAnimationFrame(() => {
+                spectrogramPlotTable.draw(decoded.spectrogram);
+              });
+            }
           }
+        } catch (e) {
+          /* eslint no-console: ["error", { allow: ["error"] }] */
+          console.error('SpectrogramsPage: received, decoding error = ', e);
         }
-      } catch (e) {
-        /* eslint no-console: ["error", { allow: ["error"] }] */
-        console.error('SpectrogramsPage: received, decoding error = ', e);
       }
-    };
-
+    }
     return () => {
       ws.close();
     };
@@ -82,28 +105,87 @@ const Spectrogram = () => {
     connectWebSocket();
   }, [connectWebSocket]);
 
-  return (
-    <Container>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Card sx={{ minWidth: WIDTH }}>
-            <CardHeader
-              title="Spectrograms"
-              subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
-            />
+  function getImageUrl(item: string){
+    const baselines = item.split(/[-_]+/);
+    return `${DATA_API}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
+  }
 
-            <CardContent sx={{ pt: '8px' }}>
-              <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                Click on the baseline and polarisation label to see a detailed spectrogram
-              </Typography>
+  function imageClick(item: string) {
+    handleOpen();
+    setImageUrl(getImageUrl(item));
+  }
 
-              <div id="spectrogramId" />
+  if(SWITCH_D3_IMAGE_CREATION_ON_OFF === "on"){
+    return (
+      <Container>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Card sx={{ minWidth: WIDTH }}>
+              <CardHeader
+                title="Spectrograms"
+                subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
+              />
+
+              <CardContent sx={{ pt: '8px' }}>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  Click on the baseline and polarisation label to see a detailed spectrogram
+                </Typography>
+
+                <div id="spectrogramId" />
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </Container>
+    );
+  }
+    return (
+      <Container>
+        <Modal open={open} onClose={handleClose} style={{display:'flex',alignItems:'center',justifyContent:'center', border:'none'}}>
+          <Card sx={{ minWidth: WIDTH, border:'none'}} >
+            <CardContent style={{border:'none'}}>
+              <img src={imageUrl} 
+              loading="lazy"
+              alt=""/>
             </CardContent>
           </Card>
-        </Grid>
-      </Grid>
-    </Container>
-  );
-};
+      </Modal>
+        
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Card sx={{ minWidth: WIDTH }}>
+              <CardHeader
+                title="Spectrograms"
+                subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
+              />
 
+              <CardContent sx={{ pt: '8px' }}>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  Click on the baseline and polarisation label to see a detailed spectrogram
+                </Typography>
+
+                <div id="trevorId" >
+                  <ImageList sx={{ width: 1150 }} cols={6} rowHeight={164}>
+                    {chartData.map((item) => (
+                      <ImageListItem key={item}>
+                        <ImageListItemBar title={item} position="top" />
+                        <img
+                          src={getImageUrl(item)}
+                          alt={item}
+                          loading="lazy"
+                          onClick={() =>imageClick(item)}
+                          style={{maxWidth: '100%', display:'flex',alignItems:'center',justifyContent:'center'}}
+                        />
+                      </ImageListItem>
+                    ))}
+                  </ImageList>
+                </div>
+                <div id="spectrogramId" />
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </Container>
+    );
+};
 export default Spectrogram;
