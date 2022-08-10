@@ -40,7 +40,8 @@ module.exports = {
     "react/display-name": "off",
     "consistent-return": 1,
     'jsx-a11y/click-events-have-key-events': 'off',
-    'jsx-a11y/no-noninteractive-element-interactions' : 'off'
+    'jsx-a11y/no-noninteractive-element-interactions' : 'off',
+    "consistent-return": 1
   },
   "env": {
     "jest": true

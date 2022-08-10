@@ -35,7 +35,6 @@ const Spectrogram = () => {
           chartData = data["baselines"];
     });
   }
-
   const connectWebSocket = useCallback(async () => {
     const spectrogramPlotTable = new SpectrogramPlotTable(
       'spectrogramId',
@@ -93,7 +92,6 @@ const Spectrogram = () => {
         }
       }
     }
-
     return () => {
       ws.close();
     };
