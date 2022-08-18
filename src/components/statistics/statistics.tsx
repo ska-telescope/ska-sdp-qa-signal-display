@@ -2,8 +2,9 @@ import {useEffect, useState} from 'react';
 import { Card, CardContent, CardHeader, Container, Grid, Typography } from '@mui/material';
 
 const DATA_API_URL = process.env.NEXT_PUBLIC_DATA_API_URL;
-const WORKFLOW_INTERVAL_SECONDS = Number(process.env.NEXT_PUBLIC_WORKFLOW_INTERVAL_SECONDS);
-const WORKFLOW_STATISTICS_INTERVAL_SECONDS = Number(process.env.NEXT_PUBLIC_WORKFLOW_STATISTICS_INTERVAL_SECONDS);
+const CONVERT = 1000;
+const WORKFLOW_INTERVAL_SECONDS = Number(process.env.NEXT_PUBLIC_WORKFLOW_INTERVAL_SECONDS)* CONVERT;
+const WORKFLOW_STATISTICS_INTERVAL_SECONDS = Number(process.env.NEXT_PUBLIC_WORKFLOW_STATISTICS_INTERVAL_SECONDS) * CONVERT;
 const WIDTH = 1200;
 
 const Statistics = () => {
@@ -33,20 +34,18 @@ const Statistics = () => {
     }
 
     useEffect(() => {
-        const workflowInterval = 1000*WORKFLOW_INTERVAL_SECONDS;
-        const workflowStatisticsInterval = 1000*WORKFLOW_STATISTICS_INTERVAL_SECONDS;
         retrieveWorkflowData();
         const interval = setInterval(async () => {
             if (workflowData){
             await retrieveWorkflowData();
             }
-        }, workflowInterval);
+        }, WORKFLOW_INTERVAL_SECONDS);
         retrieveWorkflowStatisticsData();
         const interval2 = setInterval(async () => {
             if (workflowStatisticsData){
             await retrieveWorkflowStatisticsData();
             }
-        }, workflowStatisticsInterval);
+        }, WORKFLOW_STATISTICS_INTERVAL_SECONDS);
         return () => {
             clearInterval(interval);
             clearInterval(interval2);
