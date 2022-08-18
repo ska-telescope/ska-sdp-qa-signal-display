@@ -28,11 +28,10 @@ const Spectrogram = () => {
 
 
   async function retrieveChartData() {
-      const api_url = `${DATA_API_URL}/stats/baselines`;
-      await fetch(api_url)
+      await fetch(`${DATA_API_URL}/stats/baselines`)
           .then((response) => response.json())
           .then((data)=> {
-          setChartData(data["baselines"]);
+          setChartData(data.baselines);
     });
   }
   const connectWebSocket = useCallback(async () => {
