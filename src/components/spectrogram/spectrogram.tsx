@@ -13,32 +13,27 @@ const PROTOCOL = (process.env.NEXT_PUBLIC_MESSAGE_TYPE === "protobuf") ? Protoco
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.NEXT_PUBLIC_SWITCH_D3_IMAGE_CREATION_ON_OFF;
-const DATA_API = process.env.NEXT_PUBLIC_DATA_API;
+const DATA_API_URL = process.env.NEXT_PUBLIC_DATA_API_URL
+
 
 
 const Spectrogram = () => {
   const [socketStatus, setSocketStatus] = useState('disconnected');
   const [open, setOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
+  const [chartData, setChartData] = useState(null);
 
   const handleOpen = () => setOpen(true);  
   const handleClose = () => setOpen(false);
 
-  // The below function creates a basic list of baselines just to show that the table and the images works.
-  // The complete list of baselines will be retrieved in NAL-186 and NAL-185.
-  function generateChartData() {
-    const arr = [];
-    for (let i = 33; i < 64; i++) {
-        arr.push(`m0${i}_m0${i}_XX` );
-        arr.push(`m0${i}_m0${i}_XY`);
-        arr.push(`m0${i}_m0${i}_YX`);
-        arr.push(`m0${i}_m0${i}_YY`);
-    }
-    return arr;
+
+  async function retrieveChartData() {
+      await fetch(`${DATA_API_URL}/stats/baselines`)
+          .then((response) => response.json())
+          .then((data)=> {
+          setChartData(data.baselines);
+    });
   }
-
-  const chartData = generateChartData();
-
   const connectWebSocket = useCallback(async () => {
     const spectrogramPlotTable = new SpectrogramPlotTable(
       'spectrogramId',
@@ -46,7 +41,7 @@ const Spectrogram = () => {
       HEIGHT,
       CELL_WIDTH,
       CELL_HEIGHT
-    );
+    );      
 
     const ws = new WebSocket(WS_API);
 
@@ -103,11 +98,12 @@ const Spectrogram = () => {
 
   useEffect(() => {
     connectWebSocket();
-  }, [connectWebSocket]);
+    retrieveChartData();
+  }, [connectWebSocket, retrieveChartData]);
 
   function getImageUrl(item: string){
     const baselines = item.split(/[-_]+/);
-    return `${DATA_API}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
+    return `${DATA_API_URL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
 
   function imageClick(item: string) {
@@ -164,9 +160,9 @@ const Spectrogram = () => {
                   Click on the baseline and polarisation label to see a detailed spectrogram
                 </Typography>
 
-                <div id="trevorId" >
+                <div id="spectogram-image-list-Id" >
                   <ImageList sx={{ width: 1150 }} cols={6} rowHeight={164}>
-                    {chartData.map((item) => (
+                    {chartData && chartData.length &&  chartData.map((item) => (
                       <ImageListItem key={item}>
                         <ImageListItemBar title={item} position="top" />
                         <img
@@ -188,4 +184,5 @@ const Spectrogram = () => {
       </Container>
     );
 };
+
 export default Spectrogram;
