@@ -13,26 +13,26 @@ const PROTOCOL = (process.env.NEXT_PUBLIC_MESSAGE_TYPE === "protobuf") ? Protoco
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.NEXT_PUBLIC_SWITCH_D3_IMAGE_CREATION_ON_OFF;
-const DATA_API_URL_BROWSER = "http://localhost:8002";
-const DATA_API_URL_SERVER = "http://qa-data-api:8002";
+const DATA_API_URL = process.env.NEXT_PUBLIC_DATA_API_URL
+
 
 
 const Spectrogram = () => {
   const [socketStatus, setSocketStatus] = useState('disconnected');
   const [open, setOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
+  const [chartData, setChartData] = useState(null);
 
   const handleOpen = () => setOpen(true);  
   const handleClose = () => setOpen(false);
 
-  let chartData = [];
 
   async function retrieveChartData() {
-      const api_url = `${DATA_API_URL_SERVER}/baselines`;
+      const api_url = `${DATA_API_URL}/stats/baselines`;
       await fetch(api_url)
           .then((response) => response.json())
           .then((data)=> {
-          chartData = data["baselines"];
+          setChartData(data["baselines"]);
     });
   }
   const connectWebSocket = useCallback(async () => {
@@ -104,7 +104,7 @@ const Spectrogram = () => {
 
   function getImageUrl(item: string){
     const baselines = item.split(/[-_]+/);
-    return `${DATA_API_URL_BROWSER}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
+    return `${DATA_API_URL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
 
   function imageClick(item: string) {
@@ -161,9 +161,9 @@ const Spectrogram = () => {
                   Click on the baseline and polarisation label to see a detailed spectrogram
                 </Typography>
 
-                <div id="trevorId" >
+                <div id="spectogram-image-list-Id" >
                   <ImageList sx={{ width: 1150 }} cols={6} rowHeight={164}>
-                    {chartData.map((item) => (
+                    {chartData && chartData.length &&  chartData.map((item) => (
                       <ImageListItem key={item}>
                         <ImageListItemBar title={item} position="top" />
                         <img
