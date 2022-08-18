@@ -51,7 +51,7 @@ const Statistics = () => {
             clearInterval(interval);
             clearInterval(interval2);
         };
-    });
+    }, []);
 
     return (
         <Container>
