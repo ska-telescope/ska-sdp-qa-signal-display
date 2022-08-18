@@ -27,7 +27,7 @@ const Statistics = () => {
     }
 
     function epochToDateString(timeInMilliseconds: number){
-        let date = new Date(0);
+        const date = new Date(0);
         date.setMilliseconds(timeInMilliseconds*1000);
         return date.toISOString();
     }
@@ -36,22 +36,22 @@ const Statistics = () => {
         const workflowInterval = 1000*WORKFLOW_INTERVAL_SECONDS;
         const workflowStatisticsInterval = 1000*WORKFLOW_STATISTICS_INTERVAL_SECONDS;
         retrieveWorkflowData();
-        let interval = setInterval(async () => {
+        const interval = setInterval(async () => {
             if (workflowData){
             await retrieveWorkflowData();
             }
         }, workflowInterval);
         retrieveWorkflowStatisticsData();
-        let interval_2 = setInterval(async () => {
+        const interval2 = setInterval(async () => {
             if (workflowStatisticsData){
             await retrieveWorkflowStatisticsData();
             }
         }, workflowStatisticsInterval);
         return () => {
             clearInterval(interval);
-            clearInterval(interval_2);
+            clearInterval(interval2);
         };
-    }, []);
+    });
 
     return (
         <Container>
