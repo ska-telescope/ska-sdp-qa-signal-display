@@ -14,6 +14,7 @@ import 'src/libs/css/spectrogram-plot-table.css';
 import Rfi from "../components/rfi/rfi";
 import Spectrogram from "../components/spectrogram/spectrogram";
 import SpectrumPlot from "../components/spectrumPlot/spectrumPlot";
+import Statistics from 'src/components/statistics/statistics';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -46,6 +47,7 @@ function App() {
                       width: '100%'
                     }}
                   >
+                    <Statistics/>
                       <SpectrumPlot />
                   <Spectrogram />
                   {
