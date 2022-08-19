@@ -1,6 +1,12 @@
 /******/ (function() { // webpackBootstrap
-/******/ 	"use strict";
-/******/ 	var __webpack_modules__ = ({});
+/******/ 	var __webpack_modules__ = ([
+/* 0 */
+/***/ (function() {
+
+throw new Error("Module parse failed: Unexpected token (23:12)\nFile was processed with these loaders:\n * ./node_modules/ts-loader/index.js\nYou may need an additional loader to handle the result of these loaders.\n|         maxWidth: '100%'\n|     }));\n>     return (<CacheProvider value={clientSideEmotionCache}>\n|       <Helmet>\n|         <title>QA Display</title>");
+
+/***/ })
+/******/ 	]);
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
@@ -85,6 +91,9 @@
 /************************************************************************/
 /******/ 	
 /******/ 	// module cache are used so entry inlining is disabled
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	var __webpack_exports__ = __webpack_require__(0);
 /******/ 	
 /******/ })()
 ;

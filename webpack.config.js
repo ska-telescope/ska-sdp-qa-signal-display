@@ -4,6 +4,7 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 const deps = require('./package.json').dependencies;
 
 module.exports = {
+  entry: "./src/pages/_app.tsx",
   mode: "none",
   output: {
     publicPath: 'http://localhost:3000/'
@@ -35,7 +36,7 @@ module.exports = {
         test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'awesome-typescript-loader'
+          loader: 'ts-loader'
         }
       },
       { 
