@@ -4,8 +4,9 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 const deps = require('./package.json').dependencies;
 
 module.exports = {
+  mode: "none",
   output: {
-    publicPath: 'http://localhost:8090/'
+    publicPath: 'http://localhost:3000/'
   },
 
   resolve: {
@@ -13,7 +14,7 @@ module.exports = {
   },
 
   devServer: {
-    port: 8090,
+    port: 3000,
     historyApiFallback: true
   },
 
@@ -34,11 +35,23 @@ module.exports = {
         test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
+          loader: 'awesome-typescript-loader'
         }
-      }
+      },
+      { 
+        enforce: "pre",
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "source-map-loader" }
     ]
   },
+
+  externals: {
+    "react": "React",
+    "react-dom": "ReactDOM",
+  },
+
+  devtool: "source-map",
 
   plugins: [
     new ModuleFederationPlugin({
@@ -46,7 +59,7 @@ module.exports = {
       filename: 'remoteEntry.js',
       remotes: {},
       exposes: {
-        './ExampleComponent': './src/components/ExampleComponent/ExampleComponent.jsx'
+        './_app.tsx': './src/pages/_app.tsx'
       },
       shared: {
         ...deps,

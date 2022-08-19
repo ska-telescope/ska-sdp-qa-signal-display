@@ -1,5 +1,7 @@
-default:
-  image: node:alpine
+image: node:16.14.0
+
+services:
+  - docker:dind
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
@@ -9,15 +11,16 @@ stages:
   - lint
   - build
   - test
+  - scan
   - pages
   - deploy
   - publish
 
-#Install basic dependencies using yarn
+# install js dependencies
 install_dependencies:
   stage: dependencies
   tags:
-  - k8srunner
+    - k8srunner
   script:
     - rm -rf node_modules && yarn install
   cache:
@@ -25,59 +28,60 @@ install_dependencies:
       - node_modules/
     policy: push
 
-#Run the static code analysis
-code_analysis:
+code_lint:
   stage: lint
   tags:
-  - k8srunner
+    - k8srunner
   cache:
     paths:
       - node_modules/
     policy: pull
-  before_script:
-    - mkdir -p build/reports
   script:
-    - yarn run code-analysis
-    - mv linting.xml build/reports/linting.xml
-  artifacts:
-    paths:
-      - build/
+    - yarn lint:eslint
 
-# run the test coverage reports
 test_and_coverage:
   stage: test
   tags:
-  - k8srunner
+    - k8srunner
   cache:
     paths:
       - node_modules/
     policy: pull
   before_script:
     - mkdir -p build/reports
-  script:
-    - yarn run test
-    - yarn run test:coverage
-    - mv junit.xml build/reports/unit-tests.xml
-    - mv build/coverage/cobertura-coverage.xml build/reports/code-coverage.xml
 
   coverage: /All\sfiles.*?\s+(\d+.\d+)/
   artifacts:
     paths:
       - build/
+  script:
+    - yarn test:coverage
+    - mv build/coverage/clover.xml build/reports/code-coverage.xml
 
-# list the current top level dependencies for the project
+# run the unit tests
+unit_tests:
+  stage: test
+  tags:
+    - k8srunner
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  script:
+    - yarn test
+
 list_dependencies:
   stage: test
   tags:
-  - k8srunner
+    - k8srunner
   allow_failure: true
   cache:
     paths:
       - node_modules/
     policy: pull
   script:
-    - npm list --depth=0 --json >> npm_deps.json
-    - npm list --depth=0  >> npm_deps.txt
+    - yarn list --depth=0 --json >> npm_deps.json
+    - yarn list --depth=0  >> npm_deps.txt
     - mkdir .public
     - cp npm_deps.txt .public/
     - cp npm_deps.json .public/
@@ -85,11 +89,11 @@ list_dependencies:
     paths:
       - .public
 
-# Build the application
+# build and generate deployable outputs
 build:
   stage: build
   tags:
-  - k8srunner
+    - k8srunner
   cache:
     paths:
       - node_modules/
@@ -97,19 +101,16 @@ build:
   script:
     - yarn build
 
-# export the report
 pages:
   stage: pages
   tags:
-  - k8srunner
+    - k8srunner
   dependencies:
     - test_and_coverage
     - list_dependencies
     - code_quality
   script:
-    - mv public/* .
     - cp -r build/* public
-    - cp -r .public/* public
   artifacts:
     paths:
       - public
@@ -117,18 +118,18 @@ pages:
 
 include:
   - template: Code-Quality.gitlab-ci.yml
-  
-# .post step finalisers eg: badges
+
+  # .post step finalisers eg: badges
   - project: 'ska-telescope/templates-repository'
     file: 'gitlab-ci/includes/finaliser.gitlab-ci.yml'
-# .post step finalisers eg: badges
+  # .post step finalisers eg: badges
   - project: 'ska-telescope/templates-repository'
     file: 'gitlab-ci/includes/docs.gitlab-ci.yml'
-# deploy
+  # deploy
   - project: 'ska-telescope/templates-repository'
     file: 'gitlab-ci/includes/release.gitlab-ci.yml'
-    
-
+  - project: 'ska-telescope/templates-repository'
+    file: 'gitlab-ci/includes/oci-image.gitlab-ci.yml'
 
 code_quality:
   # https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html#generate-an-html-report
@@ -137,9 +138,9 @@ code_quality:
   # disable dind service as it's not needed for k8srunner runners
   services: []
   tags:
-  - k8srunner
+    - k8srunner
   # We need to merge the rules with what we have here on template rules
-  # https://gitlab.com/ska-telescope/templates-repository/-/blob/master/gitlab-ci/includes/rules.gitlab-ci.yml 
+  # https://gitlab.com/ska-telescope/templates-repository/-/blob/master/gitlab-ci/includes/rules.gitlab-ci.yml
   # https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html#using-with-merge-request-pipelines
   rules:
     - if: '$CODE_QUALITY_DISABLED'
