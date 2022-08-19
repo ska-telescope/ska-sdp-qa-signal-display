@@ -1,110 +1,145 @@
-# QA Display
+# SKA React Web App Skeleton
 
-#Overview
+[![Documentation Status](https://readthedocs.org/projects/ska-react-webapp-skeleton/badge/?version=latest)](https://developer.skatelescope.org/projects/ska-react-webapp-skeleton/en/latest/?badge=latest)
 
-This connects to the [QA data API](https://gitlab.com/ska-telescope/ska-sdp-qa-data-api) via a WebSocket and visualises the received QA metrics (e.g, spectrum plot, waterfall plot etc) in real-time.
+This project is intended to act as a skeleton for any SKA developer looking to make a React based web application.
 
-# Getting Started
+It includes tools for linting, code formatting, and testing which are easily integrated into various IDEs.
+It also includes modular federation, exposing the ExampleComponent, which can be imported into other applications.
 
-**To get the QI Display running services should be started in the following order:**
+### Requirements
 
-**Step 1:** Follow the steps in the [QA Metric Generator](https://gitlab.com/ska-telescope/ska-sdp-qa-metric-generator) README to:
-\
-(1) create the `"ska-sdp-qa-metric-network"` -> (2) start Message Broker -> (3) Start Metric Generator\
-**Step 2** Then start [QA Data API](https://gitlab.com/ska-telescope/ska-sdp-qa-data-api) using information in it's README.\
-**Step 3:** Finally start the [QA Display](https://gitlab.com/ska-telescope/sdp/ska-sdp-qa-display) in this repository, using the steps below.\
-**Sending spoof data to display:** Consult the README in the [metric-generator](https://gitlab.com/ska-telescope/ska-sdp-qa-metric-generator/-/tree/main/metric-generator) folder.
+This skeleton requires **Node** and **YARN** to install and run. To install these follow the instructions for your operating system at [https://nodejs.org/en/download/](https://nodejs.org/en/download/).
 
-## Option-1: Using Container
+Alternatively the official Node docker image can be used. Instructions can be found on the [official Node docker image site](https://github.com/nodejs/docker-node/blob/master/README.md#how-to-use-this-image).
 
-```bash
-docker-compose up -d
-docker-compose ps
-```
+### Installation
 
-The docker container's working/source directory `/usr/src/app` is mapped/mounted to the host's `./` folder.
+_All the following notes assume you are at the command prompt for your chosen environment._
 
-## Option-2: Start Locally
+1.  Confirm Node and YARN are installed and configured correctly, both the following commands should return the relevant version number.
 
-Follow the instructions below to start the React app in your host machine.
+        > node --version
+        > yarn --version
 
-Prerequisite
+2.  Clone the project from GitHub
 
-- Node.js 16+
-- next.js
-- material UI ( MUI )
+3.  Install all the necessary project dependencies by running
 
-```bash
-# install the dependencies
-yarn
+        > yarn init
 
-# run the app in development mode.
-yarn dev
-```
+### Running and Building the Application
 
-Open [http://localhost:3000](http://localhost:3000) to view the UI in a browser.
+Scripts for running, testing, and building the application are provided as part of the standard configuration. These are run using YARN and listed in the scripts section of the package.json file.
 
-## References
+From the project directory, you can run any of the following:
 
-- Using [Next.js](https://nextjs.org) build system
-- Using React [MUI](https://mui.com)
+- `> yarn start`
 
-### Project Structure
+  Runs the app in the development mode at [http://localhost:3000](http://localhost:3000). The app will recompile and restart if you make any edits to the source files. Any linting errors will also be shown in the console.
 
-```
-├── __test__                            /* unit test for index.txt */
-├── package.json                        /* list of used packages and libraries */
-├── public
-│   ├── index.html
-│   └── manifest.json
-│   └── robots.txt                      /* See https://www.robotstxt.org/robotstxt.html */
-├── src
-│   ├── components
-│   │   ├── dashboard-layout
-│   │   │   ├── dashboard-layout.tsx
-│   │   │   ├── dashboard-navbar.tsx
-│   │   │   ├── dashboard-sidebar.tsx
-│   │   │   └── nav-item.tsx
-│   ├── libs                            /* the visualisation functions */
-│   │   └── css
-│   │       └── ****                    /* stylesheets related to the visualisations */
-│   ├── mock
-│   │   └── ****                        /* mock data used for testing */
-│   ├── models
-│   │   └── ****                        /* different data models */
-│   ├── pages
-│   │   ├── _app.tsx                    /* Next.js specific */
-│   │   ├── _document.tsx               /* Next.js specific */
-│   │   ├── index.tsx
-│   ├── theme
-│   │   └── index.js                    /* MUI theme */
-│   ├── types
-│   └── utils
-│       ├── create-emotion-cache.js     /* User by MUI */
-│       └── get-initials.js
-└── ****                                /* other files */
+- `> yarn test`
+
+  Launches the test runner in the interactive watch mode. See the [testing](#testing) section for more information.
+
+- `> yarn build`
+
+  Builds the app for production to the `build` folder. The build is minified and any JSX is transpiled to JavaScript. Your app is ready to be deployed!
+
+## Testing
+
+### Writing
+
+We use Jest as the test running framework. It will look for test files with any of the following naming conventions:
+
+- Files with `.js` suffix in `__tests__` folders.
+- Files with `.test.js` suffix in any folder.
+- Files with `.spec.js` suffix in any folder.
+
+The .test.js / .spec.js files (or the `__tests__` folders) can be located at any depth under the src top level folder.
+We recommend to put the test files or folders next to the code they are testing.
 
 ```
+components
+|
+└─ App
+   |  App.jsx
+   |  App.test.jsx
+```
 
-[1] The package.json files lists all the packages and libraries used in this project.
+[Enzyme](https://airbnb.io/enzyme/) and [jest-enzyme](https://www.npmjs.com/package/jest-enzyme) have been included to improve the testing framework and test readability.
 
-[2] To our knowledge, none of the packages or libraries used in this project require any license. Please let us know if any package or component require license or acknowledgement.
+See the developer guide for more information
 
-## Notes
+### Running
 
-- This is currently a Proof of Concept and will require addition effort to make production ready
+To run the interactive test runner, execute
 
-# Screenshots
+    > yarn test
 
-Screenshots of the visulisation functions implemented.
+This will also watch the source files and re-run when any changes are detected
 
-The appearance of the plots depends on the dataset analysed. Thus, plots generated using are generally expected to look different from the ones included below. Getting plots with different appearance when first setting up and testing the [QA Display](https://gitlab.com/ska-telescope/sdp/ska-sdp-qa-display), [QA Data API](https://gitlab.com/ska-telescope/ska-sdp-qa-data-api) and [QA Metric Generator](https://gitlab.com/ska-telescope/ska-sdp-qa-metric-generator) is not a cause for concern.
+To run the tests with coverage, execute
 
-|                                                                 |                                                           |
-| --------------------------------------------------------------- | --------------------------------------------------------- |
-| ![](./public/static/images/screenshot-spectrograms.png)         | ![](./public/static/images/screenshot-spectrogram.png)    |
-| Fig. 1: Spectrograms of different baselines and polarisations\* | Fig. 2: Waterfall (top -> bottom) plot of a spectrogram\* |
-| ![](./public/static/images/screenshot-spectrum.png)             | ![](./public/static/images/screenshot-rfi.png)            |
-| Fig. 3: Spectrum plot\*                                         | Fig. 4: RFI QA\*                                          |
+    > yarn test:coverage
 
-_\*The spectrum plot and spectrograms are generated using data from Meerkat telescope, and the RFI QA is generated using simulated data._
+The coverage results are displayed in the console. They are also written to the `coverage` folder as:
+
+- `lcov-report` - A coverage report as a series of html pages, open `index.html` in a web browser to view
+- `clover.xml` - A clover coverage report that can be viewed in the clover code-coverage tools
+- `coverage-final.json` - A json format.
+
+**All the tests should pass before merging the code**
+
+## Code Analysis
+
+[ESLint](https://ESLint.org/) and [Prettier](https://prettier.io/) are included as code analysis and formatting tools.
+These do not need installing as they're included in `node_modules` by running `yarn init`.
+
+These tools can be run in the command line or integrated into your IDE (recommended).
+
+JavaScript based SKA projects must comply with the [AirBnB JavaScript Style Guide](https://github.com/airbnb/javascript). These rules are included in this project and ESLint and Prettier are configured to use them.
+
+### Running
+
+To run the analysis tools, execute
+
+    > yarn code-analysis
+
+This will display any errors in the command line. If there are any errors, YARN will exit with a non-zero code, the `-s` argument suppresses this and cleans up the output.
+
+### IDE Integration
+
+#### VS Code
+
+Install the [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-ESLint) and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) extensions and reload the IDE.
+
+Errors should now show in the editor. `shift + alt + F` will format a file, or you can turn on the format on save setting.
+
+#### JetBrains (WebStorm, IntelliJ IDEA etc.)
+
+ESLint is integrated into the Ultimate versions of all JetBrains IDEs
+
+Prettier can be installed through a [plugin](https://plugins.jetbrains.com/plugin/10456-prettier). Follow the steps [here](https://www.jetbrains.com/help/idea/prettier.html) to configure it.
+
+## Documentation
+
+The documentation generator for this project is derived from SKA's [SKA Developer Portal repository](http://developer.skatelescope.org/en/latest/projects/document_project.html)
+
+### Writing
+
+The documentation can be edited under `./docs/src`. They're written in reStructured text (.rst).
+
+### Building
+
+In order to build the documentation for this specific project, execute the following under ./docs:
+
+    > make html
+
+or
+
+    > docker run --rm -d -v $(pwd):/tmp -w /tmp netresearch/sphinx-buildbox sh -c "make html"
+
+The latter requires Docker to be installed on your system but not Python, Sphinx, and other dependencies.
+
+The documentation can then be consulted by opening the file `./docs/build/html/index.html`

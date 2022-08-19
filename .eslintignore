@@ -1,10 +1,6 @@
 node_modules
-build
-dist
+coverage
 **/*.css
-**/*.py
 **/*.scss
 **/*.ttf
-**/*.svg
-**/*.html
-jest.config.js
+webpack.config.js
