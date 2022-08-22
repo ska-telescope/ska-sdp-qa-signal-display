@@ -1,10 +1,11 @@
+const webpack = require('webpack')
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
 const deps = require('./package.json').dependencies;
 
 module.exports = {
-  entry: "./src/pages/_app.tsx",
+  entry: "./src/index.tsx",
   mode: "none",
   output: {
     publicPath: 'http://localhost:3000/'
@@ -29,7 +30,7 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/i,
+        test: /\.s[ac]ss|\.css$/i,
         use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
@@ -39,7 +40,9 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
-              presets: ['@babel/react'],
+              presets: [
+              '@babel/preset-env',
+              '@babel/preset-react'],
             },
           },
           {
@@ -55,10 +58,6 @@ module.exports = {
     ]
   },
 
-  externals: {
-    "react": "React",
-    "react-dom": "ReactDOM",
-  },
 
   devtool: "source-map",
 
@@ -68,7 +67,6 @@ module.exports = {
       filename: 'remoteEntry.js',
       remotes: {},
       exposes: {
-        './_app.tsx': './src/pages/_app.tsx'
       },
       shared: {
         ...deps,
@@ -82,35 +80,55 @@ module.exports = {
           singleton: true,
           requiredVersion: deps['react-dom']
         },
-        i18next: {
+        'react-helmet': {
           eager: true,
           singleton: true,
-          requiredVersion: deps.i18next
+          requiredVersion: deps['react-helmet']
+        }
+        ,
+        'prop-types': {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps['prop-types']
         },
-        'react-i18next': {
+        '@emotion/react': {
           eager: true,
           singleton: true,
-          requiredVersion: deps['react-i18next']
+          requiredVersion: deps['@emotion/react']
         },
-        'i18next-browser-languagedetector': {
+        '@emotion/cache': {
           eager: true,
           singleton: true,
-          requiredVersion: deps['i18next-browser-languagedetector']
+          requiredVersion: deps['@emotion/cache']
         },
-        'i18next-http-backend': {
+        '@mui/material': {
           eager: true,
           singleton: true,
-          requiredVersion: deps['i18next-http-backend']
+          requiredVersion: deps['@mui/material']
         },
-        moment: {
+        '@emotion/styled': {
           eager: true,
           singleton: true,
-          requiredVersion: deps.moment
+          requiredVersion: deps['@emotion/styled']
+        },
+        'd3': {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps['d3']
         }
       }
     }),
     new HtmlWebPackPlugin({
+      inject: true,
       template: './public/index.html'
+    }),
+    new webpack.DefinePlugin({
+      'process.env.REACT_APP_WS_API': JSON.stringify(process.env.REACT_APP_WS_API),
+      'process.env.REACT_APP_MESSAGE_TYPE': JSON.stringify(process.env.REACT_APP_MESSAGE_TYPE),
+      'process.env.REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF': JSON.stringify(process.env.REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF),
+      'process.env.REACT_APP_DATA_API_URL': JSON.stringify(process.env.REACT_APP_DATA_API_URL),
+      'process.env.REACT_APP_WORKFLOW_INTERVAL_SECONDS': JSON.stringify(process.env.REACT_APP_WORKFLOW_INTERVAL_SECONDS),
+      'process.env.REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS': JSON.stringify(process.env.REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS)
     })
   ]
 };

@@ -11,4 +11,4 @@ RUN yarn install --frozen-lockfile
 
 COPY . /usr/src/app
 
-CMD "yarn" "dev"
+CMD "yarn" "start"

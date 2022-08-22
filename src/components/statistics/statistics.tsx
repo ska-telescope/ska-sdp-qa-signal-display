@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Card, CardContent, CardHeader, Container, Grid, Typography } from '@mui/material';
 import {DATA_API_URL, WIDTH} from '../../utils/constants'
 

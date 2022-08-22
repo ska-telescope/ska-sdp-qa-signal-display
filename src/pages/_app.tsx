@@ -1,13 +1,11 @@
 import React, { StrictMode } from 'react';
-import { Helmet } from "react-helmet";
 import { CacheProvider } from '@emotion/react';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { Helmet } from 'react-helmet';
 import { Box, CssBaseline, StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 import { createEmotionCache } from '../utils/create-emotion-cache';
-import { theme } from '../theme';
+import { theme } from '../theme/index';
 // Import all the css files created for d3 charts
 import '../libs/css/spectrogram-plot-table.css';
 
@@ -33,32 +31,30 @@ function App() {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Helmet>
       <StrictMode>
-        <StyledEngineProvider injectFirst>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-                  <DashboardLayoutRoot>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flex: '1 1 auto',
-                      flexDirection: 'column',
-                      width: '100%'
-                    }}
-                  >
-                    <Statistics/>
-                      <SpectrumPlot />
-                  <Spectrogram />
-                  {
-                    /*      Suppressed for now.
-                    <Rfi />
-                    */
-                  }
-                  </Box>
-                </DashboardLayoutRoot>
-            </ThemeProvider>
-          </LocalizationProvider>
-        </StyledEngineProvider>
+    <StyledEngineProvider injectFirst>
+    <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <DashboardLayoutRoot>
+      <Box
+        sx={{
+          display: 'flex',
+          flex: '1 1 auto',
+          flexDirection: 'column',
+          width: '100%'
+        }}
+      >
+        <Statistics/>
+          <SpectrumPlot />
+      <Spectrogram />
+      {
+        /*      Suppressed for now.
+        <Rfi />
+        */
+      }
+      </Box>
+      </DashboardLayoutRoot>
+      </ThemeProvider>
+      </StyledEngineProvider>
       </StrictMode>
     </CacheProvider>
   );
