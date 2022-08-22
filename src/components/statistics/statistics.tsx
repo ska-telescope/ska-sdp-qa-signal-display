@@ -1,11 +1,10 @@
 import {useEffect, useState} from 'react';
 import { Card, CardContent, CardHeader, Container, Grid, Typography } from '@mui/material';
+import {DATA_API_URL, WIDTH} from '../../utils/constants'
 
-const DATA_API_URL = process.env.REACT_APP_DATA_API_URL;
 const CONVERT = 1000;
 const WORKFLOW_INTERVAL_SECONDS = Number(process.env.REACT_APP_WORKFLOW_INTERVAL_SECONDS)* CONVERT;
 const WORKFLOW_STATISTICS_INTERVAL_SECONDS = Number(process.env.REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS) * CONVERT;
-const WIDTH = 1200;
 
 const Statistics = () => {
     const [workflowData, setWorkflowData] = useState(null);

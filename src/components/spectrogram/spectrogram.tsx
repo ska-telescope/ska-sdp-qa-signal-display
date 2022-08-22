@@ -1,19 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, Container, ImageList, ImageListItem, ImageListItemBar, Grid, Modal, Typography } from '@mui/material';
-import { Protocol } from '../../models/protocol';
 import { MessageTopic } from '../../models/message-topic';
 import { decodeJson, decodeSpectrogram } from '../../libs/decoder';
 import SpectrogramPlotTable from '../../libs/spectrogram-plot-table'; 
+import {CELL_HEIGHT, CELL_WIDTH, DATA_API_URL, HEIGHT, PROTOCOL, WIDTH, WS_API_URL} from '../../utils/constants';
 
-const WIDTH = 1200;
-const HEIGHT = 300;
-const CELL_WIDTH = 150;
-const CELL_HEIGHT = 75;
-const PROTOCOL = (process.env.REACT_APP_MESSAGE_TYPE === "protobuf") ? Protocol.PROTOBUF : Protocol.JSON;
+
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
-const WS_API = `${process.env.REACT_APP_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
-const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF;
-const DATA_API_URL = process.env.REACT_APP_DATA_API_URL
+const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
+const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF
 
 
 

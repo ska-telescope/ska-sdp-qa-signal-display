@@ -1,3 +1,4 @@
+//Not converted to typescript as this seems to complicated. It will be done in future.
 "use strict";
 
 var $protobuf = require("protobufjs/minimal");
