@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, Container, Grid } from '@mui/material';
 
-import { Protocol } from 'src/models/protocol';
-import { MessageTopic } from 'src/models/message-topic';
-import { decodeJson, decodeSpectrum } from 'src/libs/decoder';
-import { SpectrumPlotSvg } from 'src/libs/spectrum-plot-svg';
+import { Protocol } from '../../models/protocol';
+import { MessageTopic } from '../../models/message-topic';
+import { decodeJson, decodeSpectrum } from '../../libs/decoder';
+import { SpectrumPlotSvg } from '../../libs/spectrum-plot-svg';
 
 const WIDTH = 1200;
 const HEIGHT = 300;

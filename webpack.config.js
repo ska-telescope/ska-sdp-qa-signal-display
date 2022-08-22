@@ -29,15 +29,23 @@ module.exports = {
         }
       },
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.css$/i,
         use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
-        test: /\.(ts|tsx|js|jsx)$/,
+        test: /\.(t|j)sx?$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'ts-loader'
-        }
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/react'],
+            },
+          },
+          {
+            loader: 'ts-loader'
+          }
+        ]
       },
       { 
         enforce: "pre",

@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, Container, ImageList, ImageListItem, ImageListItemBar, Grid, Modal, Typography } from '@mui/material';
-import { Protocol } from 'src/models/protocol';
-import { MessageTopic } from 'src/models/message-topic';
-import { decodeJson, decodeSpectrogram } from 'src/libs/decoder';
-import SpectrogramPlotTable from 'src/libs/spectrogram-plot-table'; 
+import { Protocol } from '../../models/protocol';
+import { MessageTopic } from '../../models/message-topic';
+import { decodeJson, decodeSpectrogram } from '../../libs/decoder';
+import SpectrogramPlotTable from '../../libs/spectrogram-plot-table'; 
 
 const WIDTH = 1200;
 const HEIGHT = 300;

@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import * as _ from 'lodash';
-import { removeLastDirectoryPartOf } from 'src/utils/common';
+import { removeLastDirectoryPartOf } from '../utils/common';
 import { SpectrogramPlot } from './spectrogram-plot';
 
 interface Cell {

@@ -6,15 +6,15 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { Box, CssBaseline, StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import { createEmotionCache } from 'src/utils/create-emotion-cache';
-import { theme } from 'src/theme';
+import { createEmotionCache } from '../utils/create-emotion-cache';
+import { theme } from '../theme';
 // Import all the css files created for d3 charts
-import 'src/libs/css/spectrogram-plot-table.css';
+import '../libs/css/spectrogram-plot-table.css';
 
 import Rfi from "../components/rfi/rfi";
-import Spectrogram from "src/components/spectrogram/spectrogram";
-import SpectrumPlot from "src/components/spectrumPlot/spectrumPlot";
-import Statistics from 'src/components/statistics/statistics';
+import Spectrogram from "../components/spectrogram/spectrogram";
+import SpectrumPlot from "../components/spectrumPlot/spectrumPlot";
+import Statistics from '../components/statistics/statistics';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
