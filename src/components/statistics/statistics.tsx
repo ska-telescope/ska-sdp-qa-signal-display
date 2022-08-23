@@ -14,6 +14,7 @@ const Statistics = () => {
         await fetch(`${DATA_API_URL}/stats/workflow`)
             .then((response) => response.json())
             .then((data)=> {
+                console.log("hello");
             setWorkflowData(data);
       }).catch(()=>null);
     }
@@ -36,6 +37,7 @@ const Statistics = () => {
         retrieveWorkflowData();
         const interval = setInterval(async () => {
             if (workflowData){
+                console.log(workflowData.success);
             await retrieveWorkflowData();
             }
         }, WORKFLOW_INTERVAL_SECONDS);
@@ -69,13 +71,13 @@ const Statistics = () => {
                             Time:
                         </Typography>
                         <Typography paragraph>
-                            Now: {workflowData && epochToDateString(workflowData.time.now)}
+                            Now: {workflowData && workflowData.time && epochToDateString(workflowData.time.now)}
                         </Typography>
                         <Typography paragraph>
-                            Last Updated: {workflowData && epochToDateString(workflowData.time.last_update)}
+                            Last Updated: {workflowData && workflowData.time && epochToDateString(workflowData.time.last_update)}
                         </Typography>
                         <Typography paragraph>
-                            Start: {workflowData && epochToDateString(workflowData.time.start)}
+                            Start: {workflowData && workflowData.time && epochToDateString(workflowData.time.start)}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
@@ -83,19 +85,19 @@ const Statistics = () => {
                             Workflow:
                         </Typography>
                         <Typography paragraph>
-                            State: {workflowData && JSON.stringify(workflowData.workflow.state)}
+                            State: {workflowData && workflowData.workflow && JSON.stringify(workflowData.workflow.state)}
                         </Typography>
                         <Typography paragraph>
-                            Scan: {workflowData && JSON.stringify(workflowData.workflow.scan)}
+                            Scan: {workflowData && workflowData.workflow && JSON.stringify(workflowData.workflow.scan)}
                         </Typography>
                         <Typography paragraph>
-                            Processing block: {workflowData && JSON.stringify(workflowData.workflow.processing_block)}
+                            Processing block: {workflowData && workflowData.workflow && JSON.stringify(workflowData.workflow.processing_block)}
                         </Typography>
                         <Typography paragraph>
-                            Scan ID: {workflowData && JSON.stringify(workflowData.workflow.scan_id)}
+                            Scan ID: {workflowData && workflowData.workflow && JSON.stringify(workflowData.workflow.scan_id)}
                         </Typography>
                         <Typography paragraph>
-                            Time Since Last Payload: {workflowData && JSON.stringify(workflowData.workflow.time_since_last_payload)}
+                            Time Since Last Payload: {workflowData && workflowData.workflow && JSON.stringify(workflowData.workflow.time_since_last_payload)}
                         </Typography>
                     </Grid>
                 </Grid>
@@ -113,13 +115,13 @@ const Statistics = () => {
                             Time:
                         </Typography>
                         <Typography paragraph>
-                            Now: {workflowStatisticsData && epochToDateString(workflowStatisticsData.time.now)}
+                            Now: {workflowStatisticsData && workflowStatisticsData.time && epochToDateString(workflowStatisticsData.time.now)}
                         </Typography>
                         <Typography paragraph>
-                            Last Updated: {workflowStatisticsData && epochToDateString(workflowStatisticsData.time.last_update)}
+                            Last Updated: {workflowStatisticsData && workflowStatisticsData.time && epochToDateString(workflowStatisticsData.time.last_update)}
                         </Typography>
                         <Typography paragraph>
-                            Start: {workflowStatisticsData && epochToDateString(workflowStatisticsData.time.start)}
+                            Start: {workflowStatisticsData && workflowStatisticsData.time && epochToDateString(workflowStatisticsData.time.start)}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
@@ -127,16 +129,16 @@ const Statistics = () => {
                             Statistics:
                         </Typography>
                         <Typography paragraph>
-                            Ingestion Rate: {workflowStatisticsData && JSON.stringify(workflowStatisticsData.statistics.ingestion_rate)}
+                            Ingestion Rate: {workflowStatisticsData && workflowStatisticsData.statistics && JSON.stringify(workflowStatisticsData.statistics.ingestion_rate)}
                         </Typography>
                         <Typography paragraph>
-                            Error Count: {workflowStatisticsData && JSON.stringify(workflowStatisticsData.statistics.error_count)}
+                            Error Count: {workflowStatisticsData && workflowStatisticsData.statistics && JSON.stringify(workflowStatisticsData.statistics.error_count)}
                         </Typography>
                         <Typography paragraph>
-                            Packet Count: {workflowStatisticsData && JSON.stringify(workflowStatisticsData.statistics.packet_count)}
+                            Packet Count: {workflowStatisticsData && workflowStatisticsData.statistics && JSON.stringify(workflowStatisticsData.statistics.packet_count)}
                         </Typography>
                         <Typography paragraph>
-                            Payloads Received: {workflowStatisticsData && JSON.stringify(workflowStatisticsData.statistics.payloads_received)}
+                            Payloads Received: {workflowStatisticsData && workflowStatisticsData.statistics && JSON.stringify(workflowStatisticsData.statistics.payloads_received)}
                         </Typography>
                     </Grid>
                 </Grid>
