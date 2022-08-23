@@ -1,4 +1,4 @@
-import * as d3 from 'd3';
+import * as d3 from 'd3/dist/d3.min';
 
 const FLAG_LEGENDS = ['TP', 'TN', 'FP', 'FN'];
 const FLAG_COLORS = ['#2c7bb6', '#abd9e9', '#d7191c', '#fdae61'];

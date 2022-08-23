@@ -1,4 +1,4 @@
-import * as d3 from 'd3';
+import * as d3 from 'd3/dist/d3.min';
 import * as _ from 'lodash';
 import { RfiQaPixel } from './rfi-qa-pixel';
 
