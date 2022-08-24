@@ -37,7 +37,6 @@ const Statistics = () => {
         retrieveWorkflowData();
         const interval = setInterval(async () => {
             if (workflowData){
-                console.log(workflowData.success);
             await retrieveWorkflowData();
             }
         }, WORKFLOW_INTERVAL_SECONDS);

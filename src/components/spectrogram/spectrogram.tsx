@@ -15,7 +15,7 @@ const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.REACT_APP_SWITCH_D3_IMAGE_CR
 const Spectrogram = () => {
   const [socketStatus, setSocketStatus] = useState('disconnected');
   const [open, setOpen] = useState(false);
-  const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [chartData, setChartData] = useState(null);
 
   const handleOpen = () => setOpen(true);  
@@ -168,7 +168,7 @@ const Spectrogram = () => {
                           style={{maxWidth: '100%', display:'flex',alignItems:'center',justifyContent:'center'}}
                         />
                       </ImageListItem>
-                    ))}
+                    ))};
                   </ImageList>
                 </div>
                 <div id="spectrogramId" />

@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import App from './_app';
+import SpectrumPlot from './spectrumPlot';
 
-describe('App Component', () => {
+describe('SpectrumPlot Component', () => {
   it('renders without crashing', () => {
-    const wrapper = shallow(<App />);
+    const wrapper = shallow(<SpectrumPlot />);
     expect(wrapper.exists());
   });
 });
