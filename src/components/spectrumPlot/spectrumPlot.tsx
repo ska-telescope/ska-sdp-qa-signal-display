@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import React, { useCallback, useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, Container, Grid } from '@mui/material';
 
@@ -5,7 +6,7 @@ import { MessageTopic } from '../../models/message-topic';
 import { decodeJson, decodeSpectrum } from '../../libs/decoder';
 import { SpectrumPlotSvg } from '../../libs/spectrum-plot-svg';
 
-import {HEIGHT, PROTOCOL, WIDTH, WS_API_URL} from '../../utils/constants';
+import { HEIGHT, PROTOCOL, WIDTH, WS_API_URL } from '../../utils/constants';
 
 const MESSAGE_TOPIC = MessageTopic.SPECTRUM;
 const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
@@ -14,7 +15,6 @@ const SpectrumPlot = () => {
   const [socketStatus, setSocketStatus] = useState('disconnected');
 
   const connectToWebSocket = useCallback(async () => {
-
     const spectrumPlot = new SpectrumPlotSvg('#sPlotId', WIDTH, HEIGHT);
     const ws = new WebSocket(WS_API);
 

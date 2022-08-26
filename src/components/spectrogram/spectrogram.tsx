@@ -1,16 +1,33 @@
+/* eslint-disable import/no-unresolved */
 import React, { useCallback, useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, Container, ImageList, ImageListItem, ImageListItemBar, Grid, Modal, Typography } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
+  Grid,
+  Modal,
+  Typography
+} from '@mui/material';
 import { MessageTopic } from '../../models/message-topic';
 import { decodeJson, decodeSpectrogram } from '../../libs/decoder';
 import SpectrogramPlotTable from '../../libs/spectrogram-plot-table';
-import { CELL_HEIGHT, CELL_WIDTH, DATA_API_URL, HEIGHT, PROTOCOL, WIDTH, WS_API_URL } from '../../utils/constants';
-
+import {
+  CELL_HEIGHT,
+  CELL_WIDTH,
+  DATA_API_URL,
+  HEIGHT,
+  PROTOCOL,
+  WIDTH,
+  WS_API_URL
+} from '../../utils/constants';
 
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
-const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF
-
-
+const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF;
 
 const Spectrogram = () => {
   const [socketStatus, setSocketStatus] = useState('disconnected');
@@ -21,13 +38,13 @@ const Spectrogram = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-
   async function retrieveChartData() {
     await fetch(`${DATA_API_URL}/stats/baselines`)
       .then((response) => response.json())
       .then((data) => {
         setChartData(data.baselines);
-      }).catch(() => null);
+      })
+      .catch(() => null);
   }
   const connectWebSocket = useCallback(async () => {
     const spectrogramPlotTable = new SpectrogramPlotTable(
@@ -56,7 +73,7 @@ const Spectrogram = () => {
 
     ws.onmessage = function onMessage(msg) {
       const data = msg?.data;
-      if (SWITCH_D3_IMAGE_CREATION_ON_OFF === "on") {
+      if (SWITCH_D3_IMAGE_CREATION_ON_OFF === 'on') {
         try {
           if (data instanceof ArrayBuffer) {
             // DEBUG console.log("SpectrogramsPage: received, type = ArrayBuffer, data = ", data);
@@ -85,7 +102,7 @@ const Spectrogram = () => {
           console.error('SpectrogramsPage: received, decoding error = ', e);
         }
       }
-    }
+    };
     return () => {
       ws.close();
     };
@@ -106,7 +123,7 @@ const Spectrogram = () => {
     setImageUrl(getImageUrl(item));
   }
 
-  if (SWITCH_D3_IMAGE_CREATION_ON_OFF === "on") {
+  if (SWITCH_D3_IMAGE_CREATION_ON_OFF === 'on') {
     return (
       <Container>
         <Grid container spacing={3}>
@@ -132,12 +149,14 @@ const Spectrogram = () => {
   }
   return (
     <Container>
-      <Modal open={open} onClose={handleClose} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none' }}>
-        <Card sx={{ minWidth: WIDTH, border: 'none' }} >
+      <Modal
+        open={open}
+        onClose={handleClose}
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none' }}
+      >
+        <Card sx={{ minWidth: WIDTH, border: 'none' }}>
           <CardContent style={{ border: 'none' }}>
-            <img src={imageUrl}
-              loading="lazy"
-              alt="" />
+            <img src={imageUrl} loading="lazy" alt="" />
           </CardContent>
         </Card>
       </Modal>
@@ -155,20 +174,27 @@ const Spectrogram = () => {
                 Click on the baseline and polarisation label to see a detailed spectrogram
               </Typography>
 
-              <div id="spectogram-image-list-Id" >
+              <div id="spectogram-image-list-Id">
                 <ImageList sx={{ width: 1150 }} cols={6} rowHeight={164}>
-                  {chartData && chartData.length && chartData.map((item) => (
-                    <ImageListItem key={item}>
-                      <ImageListItemBar title={item} position="top" />
-                      <img
-                        src={getImageUrl(item)}
-                        alt={item}
-                        loading="lazy"
-                        onClick={() => imageClick(item)}
-                        style={{ maxWidth: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                      />
-                    </ImageListItem>
-                  ))}
+                  {chartData &&
+                    chartData.length &&
+                    chartData.map((item) => (
+                      <ImageListItem key={item}>
+                        <ImageListItemBar title={item} position="top" />
+                        <img
+                          src={getImageUrl(item)}
+                          alt={item}
+                          loading="lazy"
+                          onClick={() => imageClick(item)}
+                          style={{
+                            maxWidth: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                        />
+                      </ImageListItem>
+                    ))}
                 </ImageList>
               </div>
               <div id="spectrogramId" />

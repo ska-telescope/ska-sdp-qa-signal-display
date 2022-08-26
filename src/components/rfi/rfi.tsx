@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, Container, Grid } from '@mui/material';
 
@@ -6,7 +7,7 @@ import { decodeJson } from 'src/libs/decoder';
 import { RfiQaPixelTable } from 'src/libs/rfi-qa-pixel-table';
 import { RfiDetailPlots } from 'src/libs/rfi-detail-plots';
 
-import {PROTOCOL, WIDTH, WS_API_URL} from 'src/utils/constants'
+import { PROTOCOL, WIDTH, WS_API_URL } from 'src/utils/constants';
 
 const MESSAGE_TOPIC = MessageTopic.RFI;
 const RFI_SUBTOPIC = 'xx-00-01';
@@ -63,10 +64,7 @@ const Rfi = () => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Card sx={{ minWidth: WIDTH }}>
-            <CardHeader
-              title="RFI"
-              subheader={`Socket: ${socketStatus}`}
-            />
+            <CardHeader title="RFI" subheader={`Socket: ${socketStatus}`} />
 
             <CardContent sx={{ pt: '8px' }}>
               <div id="rfi-table-id" />
@@ -74,10 +72,7 @@ const Rfi = () => {
           </Card>
 
           <Card sx={{ minWidth: WIDTH }}>
-            <CardHeader
-              title={`RFI: ${RFI_SUBTOPIC}`}
-              subheader={`Socket: ${socketStatus}`}
-            />
+            <CardHeader title={`RFI: ${RFI_SUBTOPIC}`} subheader={`Socket: ${socketStatus}`} />
 
             <CardContent sx={{ pt: '8px' }}>
               <div id="rfi-details-id" />

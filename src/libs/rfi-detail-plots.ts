@@ -31,7 +31,7 @@ class RfiDetailPlots {
     // validations
     // if (!data || !data.spectrum_values || !data.spectrum_values.length || !width || !height) return;
     const {
-      description,
+      // description,
       xLabel,
       yLabel,
       sumData,
