@@ -1,7 +1,7 @@
 //
 // This data structure is out of date!
 //
-export const mockSpectrumData = {
+export default const mockSpectrumData = {
   timestamp: '2022-03-14 13:58:18',
   xMax: 10,
   yMax: 10,

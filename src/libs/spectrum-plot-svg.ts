@@ -1,14 +1,20 @@
-import * as d3 from 'd3/dist/d3.min';
+import * as d3 from 'd3';
 
-export class SpectrumPlotSvg {
+export default class SpectrumPlotSvg {
   width: number;
+
   height: number;
+
   margin = { top: 10, right: 40, bottom: 60, left: 50 };
 
   svg: any;
+
   xLabel: string = 'Frequency (MHz)';
+
   yLabel: string = 'Power (dB)';
+
   xScale: any;
+
   yScale: any;
 
   constructor(selector: string, width = 1200, height = 600) {
@@ -26,7 +32,7 @@ export class SpectrumPlotSvg {
   }
 
   public draw(data: any) {
-    //console.log("SpectrumPlot:draw: data = ", data);
+    // console.log("SpectrumPlot:draw: data = ", data);
     this.svg.selectAll('text').remove();
     this.svg.selectAll('.tick').remove();
     this.svg.selectAll('path').remove();

@@ -1,4 +1,4 @@
-export enum Protocol {
+export default enum Protocol {
   JSON = 'json',
   PROTOBUF = 'protobuf',
 }

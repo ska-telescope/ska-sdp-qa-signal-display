@@ -1,4 +1,4 @@
-export const getInitials = (name = '') =>
+export default const getInitials = (name = '') =>
   name
     .replace(/\s+/, ' ')
     .split(' ')

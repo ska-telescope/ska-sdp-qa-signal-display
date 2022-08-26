@@ -14,6 +14,7 @@ module.exports = {
     "import/no-extraneous-dependencies": "off",
     "import/order": 1,
     "import/prefer-default-export": "off",
+    "import/extensions": [ "error", "ignorePackages", { "js": "never", "jsx": "never", "ts": "never", "tsx": "never" } ], 
     "jsx-a11y/anchor-is-valid": "off",
     "max-len": "off",
     "no-console": 2,
@@ -31,7 +32,6 @@ module.exports = {
     "object-curly-newline": "off",
     "react/prop-types": "off",
     "react/forbid-prop-types": "off",
-    "react/jsx-filename-extension": "off",
     "react/jsx-props-no-spreading": "off",
     "react/react-in-jsx-scope": "off",
     "react/require-default-props": 1,
@@ -40,7 +40,8 @@ module.exports = {
     "consistent-return": 1,
     'jsx-a11y/click-events-have-key-events': 'off',
     'jsx-a11y/no-noninteractive-element-interactions' : 'off',
-    "consistent-return": 1
+    "consistent-return": 1,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }]
   },
   "env": {
     "browser": true,

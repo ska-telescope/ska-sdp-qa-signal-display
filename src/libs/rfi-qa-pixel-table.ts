@@ -1,22 +1,31 @@
 import * as d3 from 'd3/dist/d3.min';
 import * as _ from 'lodash';
-import { RfiQaPixel } from './rfi-qa-pixel';
+import { RfiQaPixel } from './rfi-qa-pixel.ts';
 
 const GAP = 10;
 const NUM_POL = 4;
 
-export class RfiQaPixelTable {
+export default class RfiQaPixelTable {
   tableId: string;
+
   width: number;
+
   height: number;
 
   plotId;
+
   table;
+
   cells;
+
   colHeaders;
+
   rowHeaders;
+
   numRows;
+
   numCols;
+
   cellData;
 
   rfiHighlight: any;
@@ -41,15 +50,15 @@ export class RfiQaPixelTable {
       this.numRows = this.rowHeaders.length;
 
       this.cells = new Array(this.numRows);
-      for (let i = 0; i < this.numRows; i++) {
+      for (let i = 0; i < this.numRows; i += 1) {
         this.cells[i] = new Array(this.numCols);
       }
 
       this.table = this.drawTable();
     }
 
-    for (let i = 0; i < this.numRows; i++) {
-      for (let j = 0; j < this.numCols; j++) {
+    for (let i = 0; i < this.numRows; i += 1) {
+      for (let j = 0; j < this.numCols; j += 1) {
         if (!this.cells[i][j]) {
           this.cells[i][j] = new RfiQaPixel(`g${i}${j}`, this.width / NUM_POL - GAP * NUM_POL);
         }
@@ -63,14 +72,9 @@ export class RfiQaPixelTable {
 
   drawTable() {
     // remove existing table
-    d3.select('#' + this.tableId)
-      .selectAll('table')
-      .remove();
+    d3.select(`#${this.tableId}`).selectAll('table').remove();
 
-    const table = d3
-      .select('#' + this.tableId)
-      .append('table')
-      .style('class', 'table');
+    const table = d3.select(`#${this.tableId}`).append('table').style('class', 'table');
 
     const thead = table.append('thead');
     const tbody = table.append('tbody');
@@ -104,19 +108,19 @@ export class RfiQaPixelTable {
     // create a cell in each row for each column
     rows
       .selectAll('td')
-      .data((row, i) => {
+      .data(() => {
         //
         return this.colHeaders;
       })
       .enter()
       .append('td')
-      .attr('id', function (d, i) {
+      .attr('id', (d, i) => {
         // the current node is selected using 'this', hence use 'function', not '=>'
         const trId = d3.select(this).node().parentNode.id;
         return `${trId}${i}`;
       })
       .append('g')
-      .attr('id', function (d, i) {
+      .attr('id', () => {
         // the current node is selected using 'this', hence use 'function', not '=>'
         const tdId = d3.select(this).node().parentNode.id;
         return `g${tdId}`;

@@ -1,12 +1,15 @@
 import * as d3 from 'd3/dist/d3.min';
 
-const FLAG_LEGENDS = ['TP', 'TN', 'FP', 'FN'];
+// const FLAG_LEGENDS = ['TP', 'TN', 'FP', 'FN'];
 const FLAG_COLORS = ['#2c7bb6', '#abd9e9', '#d7191c', '#fdae61'];
 
-export class RfiQaPixel {
+export default class RfiQaPixel {
   canvas;
+
   width;
+
   height;
+
   margin = { top: 2, right: 2, bottom: 2, left: 2 };
 
   constructor(id, width = 400, height = 20) {
@@ -19,11 +22,11 @@ export class RfiQaPixel {
     this.height = this.height - this.margin.top - this.margin.bottom;
   }
 
-  draw(data: { rfi_data: number[]; flags: number[] }) {
+  draw(data: { rfiData: number[]; flags: number[] }) {
     // console.log("RfiStat:draw: data = ", data);
     // validation
     // if (!data || !data.spectrum_values || !data.spectrum_values.length || !width || !height) return;
-    const { rfi_data, flags } = data;
+    const { rfiData, flags } = data;
 
     // clear
     d3.select(this.canvas).select('svg').remove();
@@ -38,13 +41,13 @@ export class RfiQaPixel {
       .attr('transform', `translate(${this.margin.left},${this.margin.top})`)
       .attr('outline', 'gray 1px solid');
 
-    let rh = 0,
-      rw = 0;
-    rw = this.width / rfi_data.length;
+    let rh = 0;
+    let rw = 0;
+    rw = this.width / rfiData.length;
     rh = this.height;
     svg
       .selectAll('rect')
-      .data(rfi_data)
+      .data(rfiData)
       .enter()
       .append('rect')
       .attr('x', (d, i) => {
@@ -53,11 +56,11 @@ export class RfiQaPixel {
       .attr('width', rw)
       .attr('height', rh)
       .attr('fill', (d, i) => {
-        if (rfi_data[i] !== 0 && flags[i] === 1) return FLAG_COLORS[0];
-        else if (rfi_data[i] === 0 && flags[i] === 0) return FLAG_COLORS[1];
-        else if (rfi_data[i] === 0 && flags[i] === 1) return FLAG_COLORS[2];
-        else if (rfi_data[i] !== 0 && flags[i] === 0) return FLAG_COLORS[3];
-        else return 'black';
+        if (rfiData[i] !== 0 && flags[i] === 1) return FLAG_COLORS[0];
+        if (rfiData[i] === 0 && flags[i] === 0) return FLAG_COLORS[1];
+        if (rfiData[i] === 0 && flags[i] === 1) return FLAG_COLORS[2];
+        if (rfiData[i] !== 0 && flags[i] === 0) return FLAG_COLORS[3];
+        return 'black';
       });
 
     svg.exit().transition().duration(300).attr('y', this.height).attr('height', 0).remove();

@@ -1,7 +1,7 @@
-import * as d3 from 'd3/dist/d3.min';
-import * as _ from 'lodash';
-import { removeLastDirectoryPartOf } from '../utils/common';
-import { SpectrogramPlot } from './spectrogram-plot';
+import * as d3 from 'd3';
+// import * as _ from 'lodash';
+import { removeLastDirectoryPartOf } from '../utils/common.ts';
+import { SpectrogramPlot } from './spectrogram-plot.ts';
 
 interface Cell {
   metadata: { baseline: string; polarisation: string; idx: number };
@@ -10,20 +10,33 @@ interface Cell {
 
 class SpectrogramPlotTable {
   divId;
+
   width: number;
+
   height: number;
+
   cellHeight: number;
+
   cellWidth: number;
+
   cellGap: number = 5;
 
   table;
+
   cells: Cell[][];
+
   colNames;
+
   rowNames;
+
   numRows;
+
   numCols;
+
   data;
+
   len;
+
   unwrap = ({ baseline, polarisation }) => ({ baseline, polarisation });
 
   constructor(divId, width = 1200, height = 600, cellWidth = 200, cellHeight = 100) {
@@ -45,15 +58,15 @@ class SpectrogramPlotTable {
 
       // initialise 2d array of cells of a table
       this.cells = new Array(this.numRows);
-      for (let i = 0; i < this.numRows; i++) {
+      for (let i = 0; i < this.numRows; i += 1) {
         this.cells[i] = new Array(this.numCols);
       }
       // console.log("cells 1 = ", this.cells);
 
       // fill each cell with a data object
       let idx = 0;
-      for (let i = 0; i < this.numRows; i++) {
-        for (let j = 0; j < this.numCols; j++) {
+      for (let i = 0; i < this.numRows; i += 1) {
+        for (let j = 0; j < this.numCols; j += 1) {
           if (idx >= this.len) break;
           this.cells[i][j] = {} as Cell;
           this.cells[i][j].metadata = { ...this.unwrap(data[idx]), idx };
@@ -66,8 +79,8 @@ class SpectrogramPlotTable {
     }
 
     let idx = 0;
-    for (let i = 0; i < this.numRows; i++) {
-      for (let j = 0; j < this.numCols; j++) {
+    for (let i = 0; i < this.numRows; i += 1) {
+      for (let j = 0; j < this.numCols; j += 1) {
         if (idx >= this.len) break;
         // console.log("cells 3 = ", this.cells[i][j], idx);
 
@@ -85,14 +98,9 @@ class SpectrogramPlotTable {
 
   drawTable() {
     // clear/remove existing table
-    d3.select('#' + this.divId)
-      .selectAll('table')
-      .remove();
+    d3.select(`#${this.divId}`).selectAll('table').remove();
 
-    this.table = d3
-      .select('#' + this.divId)
-      .append('table')
-      .style('class', 'table');
+    this.table = d3.select(`#${this.divId}`).append('table').style('class', 'table');
 
     const tablebody = this.table.append('tbody');
     const rows = tablebody.selectAll('tr').data(this.cells).enter().append('tr');
@@ -101,15 +109,15 @@ class SpectrogramPlotTable {
     rows
       .selectAll('td')
       // each row has data associated; we get it and enter it for the cells.
-      .data((d, i) => {
+      .data((d) => {
         return d;
       })
       .enter()
       .append('td')
-      .text((d, i) => {
+      .text((d) => {
         return this.getName(d?.metadata);
       })
-      .on('click', (d, i) => {
+      .on('click', (i) => {
         if (i?.metadata?.idx !== undefined) {
           window.open(
             `${removeLastDirectoryPartOf(window.location.href)}/spectrogram/?idx=${
@@ -119,15 +127,13 @@ class SpectrogramPlotTable {
         }
       })
       .append('canvas')
-      .attr('id', (d, i) => {
+      .attr('id', (d) => {
         const id = this.getId(d?.metadata);
         if (id) return id;
       })
       .attr('style', 'canvas')
       .attr('width', this.cellWidth)
       .attr('height', this.cellHeight);
-
-    return;
   }
 
   private getName(d: any) {

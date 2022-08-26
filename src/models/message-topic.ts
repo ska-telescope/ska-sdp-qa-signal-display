@@ -1,4 +1,4 @@
-export enum MessageTopic {
+export default enum MessageTopic {
   SPECTRUM = 'spectrum',
   SPECTROGRAMS = 'spectrograms',
   SPECTROGRAM = 'spectrogram',

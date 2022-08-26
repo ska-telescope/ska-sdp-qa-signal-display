@@ -8,11 +8,15 @@ const FLAG_COLORS = ['#2c7bb6', '#abd9e9', '#d7191c', '#fdae61']; // ["#A9A9A9",
 const LINE_COLOR = ['#CC00CC', '#4daf4a', '#D3D3D3'];
 const LINE_LEGENDS = ['RFI', 'Visibility', 'RFI + Vis.'];
 
-export class RfiDetailPlots {
+class RfiDetailPlots {
   canvas;
+
   width;
+
   height;
+
   margin = { top: 10, right: 100, bottom: Y_OFFSET * 6, left: 50 };
+
   svg;
 
   constructor(id, width = 1600, height = 400) {
@@ -30,9 +34,9 @@ export class RfiDetailPlots {
       description,
       xLabel,
       yLabel,
-      sum_data,
-      vis_data,
-      rfi_data,
+      sumData,
+      visData,
+      rfiData,
       flags,
       frequencies,
       xMin,
@@ -73,18 +77,18 @@ export class RfiDetailPlots {
       .data(frequencies)
       .enter()
       .append('rect')
-      .attr('x', (d, i) => {
+      .attr('x', (i) => {
         return rw * i;
       })
-      .attr('y', (d, i) => y(yMin) + 0.5 * Y_OFFSET)
+      .attr('y', () => y(yMin) + 0.5 * Y_OFFSET)
       .attr('width', rw)
       .attr('height', rh)
-      .attr('fill', (d, i) => {
-        if (rfi_data[i] !== 0 && flags[i] === 1) return FLAG_COLORS[0];
-        else if (rfi_data[i] === 0 && flags[i] === 0) return FLAG_COLORS[1];
-        else if (rfi_data[i] === 0 && flags[i] === 1) return FLAG_COLORS[2];
-        else if (rfi_data[i] !== 0 && flags[i] === 0) return FLAG_COLORS[3];
-        else return 'black';
+      .attr('fill', (i) => {
+        if (rfiData[i] !== 0 && flags[i] === 1) return FLAG_COLORS[0];
+        if (rfiData[i] === 0 && flags[i] === 0) return FLAG_COLORS[1];
+        if (rfiData[i] === 0 && flags[i] === 1) return FLAG_COLORS[2];
+        if (rfiData[i] !== 0 && flags[i] === 0) return FLAG_COLORS[3];
+        return 'black';
       })
       .attr('opacity', 0.8)
       .attr('style', 'stroke-width:0.5;stroke:rgb(255,255,255)');
@@ -93,7 +97,7 @@ export class RfiDetailPlots {
     //  line plot for the sum of visibility and rfi data
     this.svg
       .append('path')
-      .datum(sum_data)
+      .datum(sumData)
       .attr('fill', 'none')
       .attr('stroke', LINE_COLOR[2])
       .attr('stroke-width', 8)
@@ -110,7 +114,7 @@ export class RfiDetailPlots {
     // line plot for the rfi data
     this.svg
       .append('path')
-      .datum(rfi_data)
+      .datum(rfiData)
       .attr('fill', 'none')
       .attr('stroke', LINE_COLOR[0])
       .attr('stroke-width', 2)
@@ -127,7 +131,7 @@ export class RfiDetailPlots {
     //  line plot for the visibility data
     this.svg
       .append('path')
-      .datum(vis_data)
+      .datum(visData)
       .attr('fill', 'none')
       .attr('stroke', LINE_COLOR[1])
       .attr('stroke-width', 2)
@@ -207,3 +211,5 @@ export class RfiDetailPlots {
     this.svg.exit().transition().duration(300).attr('y', this.height).attr('height', 0).remove();
   }
 }
+
+export default RfiDetailPlots;

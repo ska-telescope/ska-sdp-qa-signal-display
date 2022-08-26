@@ -1,13 +1,14 @@
-//Not converted to typescript as this seems to complicated. It will be done in future.
-"use strict";
+// Not converted to typescript as this seems to complicated. It will be done in future.
 
-var $protobuf = require("protobufjs/minimal");
+
+
+const $protobuf = require("protobufjs/minimal");
 
 // Common aliases
-var $Reader = $protobuf.Reader, $Writer = $protobuf.Writer, $util = $protobuf.util;
+const $Reader = $protobuf.Reader; const $Writer = $protobuf.Writer; const $util = $protobuf.util;
 
 // Exported root namespace
-var $root = $protobuf.roots["default"] || ($protobuf.roots["default"] = {});
+const $root = $protobuf.roots.default || ($protobuf.roots.default = {});
 
 $root.Spectrogram = (function() {
 
@@ -32,7 +33,7 @@ $root.Spectrogram = (function() {
     function Spectrogram(properties) {
         this.phase = [];
         if (properties)
-            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+            for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                 if (properties[keys[i]] != null)
                     this[keys[i]] = properties[keys[i]];
     }
@@ -94,14 +95,14 @@ $root.Spectrogram = (function() {
         if (!writer)
             writer = $Writer.create();
         if (message.timestamp != null && Object.hasOwnProperty.call(message, "timestamp"))
-            writer.uint32(/* id 1, wireType 2 =*/10).string(message.timestamp);
+            writer.uint32(/* id 1, wireType 2 = */10).string(message.timestamp);
         if (message.baseline != null && Object.hasOwnProperty.call(message, "baseline"))
-            writer.uint32(/* id 2, wireType 2 =*/18).string(message.baseline);
+            writer.uint32(/* id 2, wireType 2 = */18).string(message.baseline);
         if (message.polarisation != null && Object.hasOwnProperty.call(message, "polarisation"))
-            writer.uint32(/* id 3, wireType 2 =*/26).string(message.polarisation);
+            writer.uint32(/* id 3, wireType 2 = */26).string(message.polarisation);
         if (message.phase != null && message.phase.length) {
-            writer.uint32(/* id 4, wireType 2 =*/34).fork();
-            for (var i = 0; i < message.phase.length; ++i)
+            writer.uint32(/* id 4, wireType 2 = */34).fork();
+            for (let i = 0; i < message.phase.length; ++i)
                 writer.int32(message.phase[i]);
             writer.ldelim();
         }
@@ -135,9 +136,9 @@ $root.Spectrogram = (function() {
     Spectrogram.decode = function decode(reader, length) {
         if (!(reader instanceof $Reader))
             reader = $Reader.create(reader);
-        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.Spectrogram();
+        const end = length === undefined ? reader.len : reader.pos + length; const message = new $root.Spectrogram();
         while (reader.pos < end) {
-            var tag = reader.uint32();
+            const tag = reader.uint32();
             switch (tag >>> 3) {
             case 1:
                 message.timestamp = reader.string();
@@ -152,7 +153,7 @@ $root.Spectrogram = (function() {
                 if (!(message.phase && message.phase.length))
                     message.phase = [];
                 if ((tag & 7) === 2) {
-                    var end2 = reader.uint32() + reader.pos;
+                    const end2 = reader.uint32() + reader.pos;
                     while (reader.pos < end2)
                         message.phase.push(reader.int32());
                 } else
@@ -205,7 +206,7 @@ $root.Spectrogram = (function() {
         if (message.phase != null && message.hasOwnProperty("phase")) {
             if (!Array.isArray(message.phase))
                 return "phase: array expected";
-            for (var i = 0; i < message.phase.length; ++i)
+            for (let i = 0; i < message.phase.length; ++i)
                 if (!$util.isInteger(message.phase[i]))
                     return "phase: integer[] expected";
         }
@@ -223,7 +224,7 @@ $root.Spectrogram = (function() {
     Spectrogram.fromObject = function fromObject(object) {
         if (object instanceof $root.Spectrogram)
             return object;
-        var message = new $root.Spectrogram();
+        const message = new $root.Spectrogram();
         if (object.timestamp != null)
             message.timestamp = String(object.timestamp);
         if (object.baseline != null)
@@ -234,7 +235,7 @@ $root.Spectrogram = (function() {
             if (!Array.isArray(object.phase))
                 throw TypeError(".Spectrogram.phase: array expected");
             message.phase = [];
-            for (var i = 0; i < object.phase.length; ++i)
+            for (let i = 0; i < object.phase.length; ++i)
                 message.phase[i] = object.phase[i] | 0;
         }
         return message;
@@ -252,7 +253,7 @@ $root.Spectrogram = (function() {
     Spectrogram.toObject = function toObject(message, options) {
         if (!options)
             options = {};
-        var object = {};
+        const object = {};
         if (options.arrays || options.defaults)
             object.phase = [];
         if (options.defaults) {
@@ -268,7 +269,7 @@ $root.Spectrogram = (function() {
             object.polarisation = message.polarisation;
         if (message.phase && message.phase.length) {
             object.phase = [];
-            for (var j = 0; j < message.phase.length; ++j)
+            for (let j = 0; j < message.phase.length; ++j)
                 object.phase[j] = message.phase[j];
         }
         return object;
@@ -308,7 +309,7 @@ $root.Spectrograms = (function() {
     function Spectrograms(properties) {
         this.spectrogram = [];
         if (properties)
-            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+            for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                 if (properties[keys[i]] != null)
                     this[keys[i]] = properties[keys[i]];
     }
@@ -346,8 +347,8 @@ $root.Spectrograms = (function() {
         if (!writer)
             writer = $Writer.create();
         if (message.spectrogram != null && message.spectrogram.length)
-            for (var i = 0; i < message.spectrogram.length; ++i)
-                $root.Spectrogram.encode(message.spectrogram[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            for (let i = 0; i < message.spectrogram.length; ++i)
+                $root.Spectrogram.encode(message.spectrogram[i], writer.uint32(/* id 1, wireType 2 = */10).fork()).ldelim();
         return writer;
     };
 
@@ -378,9 +379,9 @@ $root.Spectrograms = (function() {
     Spectrograms.decode = function decode(reader, length) {
         if (!(reader instanceof $Reader))
             reader = $Reader.create(reader);
-        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.Spectrograms();
+        const end = length === undefined ? reader.len : reader.pos + length; const message = new $root.Spectrograms();
         while (reader.pos < end) {
-            var tag = reader.uint32();
+            const tag = reader.uint32();
             switch (tag >>> 3) {
             case 1:
                 if (!(message.spectrogram && message.spectrogram.length))
@@ -421,10 +422,10 @@ $root.Spectrograms = (function() {
         if (message.spectrogram != null && message.hasOwnProperty("spectrogram")) {
             if (!Array.isArray(message.spectrogram))
                 return "spectrogram: array expected";
-            for (var i = 0; i < message.spectrogram.length; ++i) {
-                var error = $root.Spectrogram.verify(message.spectrogram[i]);
+            for (let i = 0; i < message.spectrogram.length; ++i) {
+                const error = $root.Spectrogram.verify(message.spectrogram[i]);
                 if (error)
-                    return "spectrogram." + error;
+                    return `spectrogram.${  error}`;
             }
         }
         return null;
@@ -441,12 +442,12 @@ $root.Spectrograms = (function() {
     Spectrograms.fromObject = function fromObject(object) {
         if (object instanceof $root.Spectrograms)
             return object;
-        var message = new $root.Spectrograms();
+        const message = new $root.Spectrograms();
         if (object.spectrogram) {
             if (!Array.isArray(object.spectrogram))
                 throw TypeError(".Spectrograms.spectrogram: array expected");
             message.spectrogram = [];
-            for (var i = 0; i < object.spectrogram.length; ++i) {
+            for (let i = 0; i < object.spectrogram.length; ++i) {
                 if (typeof object.spectrogram[i] !== "object")
                     throw TypeError(".Spectrograms.spectrogram: object expected");
                 message.spectrogram[i] = $root.Spectrogram.fromObject(object.spectrogram[i]);
@@ -467,12 +468,12 @@ $root.Spectrograms = (function() {
     Spectrograms.toObject = function toObject(message, options) {
         if (!options)
             options = {};
-        var object = {};
+        const object = {};
         if (options.arrays || options.defaults)
             object.spectrogram = [];
         if (message.spectrogram && message.spectrogram.length) {
             object.spectrogram = [];
-            for (var j = 0; j < message.spectrogram.length; ++j)
+            for (let j = 0; j < message.spectrogram.length; ++j)
                 object.spectrogram[j] = $root.Spectrogram.toObject(message.spectrogram[j], options);
         }
         return object;
