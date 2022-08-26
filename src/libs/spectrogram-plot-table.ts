@@ -19,7 +19,7 @@ class SpectrogramPlotTable {
 
   cellWidth: number;
 
-  cellGap: number = 5;
+  cellGap = 5;
 
   table;
 

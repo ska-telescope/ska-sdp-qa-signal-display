@@ -13,8 +13,7 @@ module.exports = {
     "import/no-cycle": "off",
     "import/no-extraneous-dependencies": "off",
     "import/order": 1,
-    "import/prefer-default-export": "off",
-    "import/extensions": [ "error", "ignorePackages", { "js": "never", "jsx": "never", "ts": "never", "tsx": "never" } ], 
+    "import/prefer-default-export": "off", 
     "jsx-a11y/anchor-is-valid": "off",
     "max-len": "off",
     "no-console": 2,
@@ -41,17 +40,15 @@ module.exports = {
     'jsx-a11y/click-events-have-key-events': 'off',
     'jsx-a11y/no-noninteractive-element-interactions' : 'off',
     "consistent-return": 1,
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }]
+    'react/jsx-filename-extension': [2, { 'extensions': ['.js', '.jsx', '.ts', '.tsx'] }],
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"],
+    "no-bitwise": "off"
   },
   "env": {
     "browser": true,
     "es6": true,
     "jest": true,
     "node": true
-  },
-  "extends": ["react-app", "airbnb", "prettier"],
-  "plugins": ["prettier"],
-  "rules": {
-    "prettier/prettier": ["error"]
   }
 }

@@ -2,7 +2,7 @@
 
 
 
-const $protobuf = require("protobufjs/minimal");
+const $protobuf = await import("protobufjs/minimal");
 
 // Common aliases
 const $Reader = $protobuf.Reader; const $Writer = $protobuf.Writer; const $util = $protobuf.util;
@@ -300,43 +300,43 @@ $root.Spectrum = (function() {
     Spectrum.verify = function verify(message) {
         if (typeof message !== "object" || message === null)
             return "object expected";
-        if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+        if (message.timestamp != null && Object.prototype.call(message,"timestamp"))
             if (!$util.isString(message.timestamp))
                 return "timestamp: string expected";
-        if (message.xMin != null && message.hasOwnProperty("xMin"))
+        if (message.xMin != null && Object.prototype.call(message,"xMin"))
             if (typeof message.xMin !== "number")
                 return "xMin: number expected";
-        if (message.xMax != null && message.hasOwnProperty("xMax"))
+        if (message.xMax != null && Object.prototype.call(message,"xMax"))
             if (typeof message.xMax !== "number")
                 return "xMax: number expected";
-        if (message.yMin != null && message.hasOwnProperty("yMin"))
+        if (message.yMin != null && Object.prototype.call(message,"yMin"))
             if (typeof message.yMin !== "number")
                 return "yMin: number expected";
-        if (message.yMax != null && message.hasOwnProperty("yMax"))
+        if (message.yMax != null && Object.prototype.call(message,"yMax"))
             if (typeof message.yMax !== "number")
                 return "yMax: number expected";
-        if (message.channels != null && message.hasOwnProperty("channels")) {
+        if (message.channels != null && Object.prototype.call(message,"channels")) {
             if (!Array.isArray(message.channels))
                 return "channels: array expected";
             for (let i5 = 0; i5 < message.channels.length; i5+=1)
                 if (typeof message.channels[i5] !== "number")
                     return "channels: number[] expected";
         }
-        if (message.power != null && message.hasOwnProperty("power")) {
+        if (message.power != null && Object.prototype.call(message,"power")) {
             if (!Array.isArray(message.power))
                 return "power: array expected";
             for (let i6 = 0; i6 < message.power.length; i6+=1)
                 if (typeof message.power[i6] !== "number")
                     return "power: number[] expected";
         }
-        if (message.sdL != null && message.hasOwnProperty("sdL")) {
+        if (message.sdL != null && Object.prototype.call(message,"sdL")) {
             if (!Array.isArray(message.sdL))
                 return "sdL: array expected";
             for (let i7 = 0; i7 < message.sdL.length; i7+=1)
                 if (typeof message.sdL[i7] !== "number")
                     return "sdL: number[] expected";
         }
-        if (message.sdU != null && message.hasOwnProperty("sdU")) {
+        if (message.sdU != null && Object.prototype.call(message,"sdU")) {
             if (!Array.isArray(message.sdU))
                 return "sdU: array expected";
             for (let i8 = 0; i8 < message.sdU.length; i8+=1)
@@ -425,35 +425,35 @@ $root.Spectrum = (function() {
             object.yMin = 0;
             object.yMax = 0;
         }
-        if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+        if (message.timestamp != null && Object.prototype.call(message,"timestamp"))
             object.timestamp = message.timestamp;
-        if (message.xMin != null && message.hasOwnProperty("xMin"))
-            object.xMin = options.json && !isFinite(message.xMin) ? String(message.xMin) : message.xMin;
-        if (message.xMax != null && message.hasOwnProperty("xMax"))
-            object.xMax = options.json && !isFinite(message.xMax) ? String(message.xMax) : message.xMax;
-        if (message.yMin != null && message.hasOwnProperty("yMin"))
-            object.yMin = options.json && !isFinite(message.yMin) ? String(message.yMin) : message.yMin;
-        if (message.yMax != null && message.hasOwnProperty("yMax"))
-            object.yMax = options.json && !isFinite(message.yMax) ? String(message.yMax) : message.yMax;
+        if (message.xMin != null && Object.prototype.call(message,"xMin"))
+            object.xMin = options.json && !Number.isFinite(message.xMin) ? String(message.xMin) : message.xMin;
+        if (message.xMax != null && Object.prototype.call(message,"xMax"))
+            object.xMax = options.json && !Number.isFinite(message.xMax) ? String(message.xMax) : message.xMax;
+        if (message.yMin != null && Object.prototype.call(message,"yMin"))
+            object.yMin = options.json && !Number.isFinite(message.yMin) ? String(message.yMin) : message.yMin;
+        if (message.yMax != null && Object.prototype.call(message,"yMax"))
+            object.yMax = options.json && !Number.isFinite(message.yMax) ? String(message.yMax) : message.yMax;
         if (message.channels && message.channels.length) {
             object.channels = [];
             for (let j1 = 0; j1 < message.channels.length; j1+=1)
-                object.channels[j1] = options.json && !isFinite(message.channels[j1]) ? String(message.channels[j1]) : message.channels[j1];
+                object.channels[j1] = options.json && !Number.isFinite(message.channels[j1]) ? String(message.channels[j1]) : message.channels[j1];
         }
         if (message.power && message.power.length) {
             object.power = [];
             for (let j2 = 0; j2 < message.power.length; j2+=1)
-                object.power[j2] = options.json && !isFinite(message.power[j2]) ? String(message.power[j2]) : message.power[j2];
+                object.power[j2] = options.json && !Number.isFinite(message.power[j2]) ? String(message.power[j2]) : message.power[j2];
         }
         if (message.sdL && message.sdL.length) {
             object.sdL = [];
             for (let j4 = 0; j4 < message.sdL.length; j4+=1)
-                object.sdL[j4] = options.json && !isFinite(message.sdL[j4]) ? String(message.sdL[j4]) : message.sdL[j4];
+                object.sdL[j4] = options.json && !Number.isFinite(message.sdL[j4]) ? String(message.sdL[j4]) : message.sdL[j4];
         }
         if (message.sdU && message.sdU.length) {
             object.sdU = [];
             for (let j3 = 0; j3 < message.sdU.length; j3+=1)
-                object.sdU[j3] = options.json && !isFinite(message.sdU[j3]) ? String(message.sdU[j3]) : message.sdU[j3];
+                object.sdU[j3] = options.json && !Number.isFinite(message.sdU[j3]) ? String(message.sdU[j3]) : message.sdU[j3];
         }
         return object;
     };

@@ -1,8 +1,6 @@
 // Not converted to typescript as this seems to complicated. It will be done in future.
 
-
-
-const $protobuf = require("protobufjs/minimal");
+const $protobuf = await import("protobufjs/minimal");
 
 // Common aliases
 const $Reader = $protobuf.Reader; const $Writer = $protobuf.Writer; const $util = $protobuf.util;
@@ -194,16 +192,16 @@ $root.Spectrogram = (() => {
     Spectrogram.verify = function verify(message) {
         if (typeof message !== "object" || message === null)
             return "object expected";
-        if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+        if (message.timestamp != null && Object.prototype.call(message,"timestamp"))
             if (!$util.isString(message.timestamp))
                 return "timestamp: string expected";
-        if (message.baseline != null && message.hasOwnProperty("baseline"))
+        if (message.baseline != null && Object.prototype.call(message,"baseline"))
             if (!$util.isString(message.baseline))
                 return "baseline: string expected";
-        if (message.polarisation != null && message.hasOwnProperty("polarisation"))
+        if (message.polarisation != null && Object.prototype.call(message,"polarisation"))
             if (!$util.isString(message.polarisation))
                 return "polarisation: string expected";
-        if (message.phase != null && message.hasOwnProperty("phase")) {
+        if (message.phase != null && Object.prototype.call(message,"phase")) {
             if (!Array.isArray(message.phase))
                 return "phase: array expected";
             for (let i = 0; i < message.phase.length; i+=1)
@@ -261,11 +259,11 @@ $root.Spectrogram = (() => {
             object.baseline = "";
             object.polarisation = "";
         }
-        if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+        if (message.timestamp != null && Object.prototype.call(message,"timestamp"))
             object.timestamp = message.timestamp;
-        if (message.baseline != null && message.hasOwnProperty("baseline"))
+        if (message.baseline != null && Object.prototype.call(message,"baseline"))
             object.baseline = message.baseline;
-        if (message.polarisation != null && message.hasOwnProperty("polarisation"))
+        if (message.polarisation != null && Object.prototype.call(message,"polarisation"))
             object.polarisation = message.polarisation;
         if (message.phase && message.phase.length) {
             object.phase = [];
@@ -419,7 +417,7 @@ $root.Spectrograms = (function() {
     Spectrograms.verify = function verify(message) {
         if (typeof message !== "object" || message === null)
             return "object expected";
-        if (message.spectrogram != null && message.hasOwnProperty("spectrogram")) {
+        if (message.spectrogram != null && Object.prototype.call(message,"spectrogram")) {
             if (!Array.isArray(message.spectrogram))
                 return "spectrogram: array expected";
             for (let i = 0; i < message.spectrogram.length; i+=1) {
@@ -473,7 +471,7 @@ $root.Spectrograms = (function() {
             object.spectrogram = [];
         if (message.spectrogram && message.spectrogram.length) {
             object.spectrogram = [];
-            for (let j = 0; j < message.spectrogram.length; j+=1)
+            for (let j = 0; j < message.spectrogram.length; j++)
                 object.spectrogram[j] = $root.Spectrogram.toObject(message.spectrogram[j], options);
         }
         return object;

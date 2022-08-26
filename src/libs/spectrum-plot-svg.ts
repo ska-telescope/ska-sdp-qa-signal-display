@@ -9,9 +9,9 @@ export default class SpectrumPlotSvg {
 
   svg: any;
 
-  xLabel: string = 'Frequency (MHz)';
+  xLabel = 'Frequency (MHz)';
 
-  yLabel: string = 'Power (dB)';
+  yLabel = 'Power (dB)';
 
   xScale: any;
 

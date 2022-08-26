@@ -1,6 +1,6 @@
 enum Protocol {
   JSON = 'json',
-  PROTOBUF = 'protobuf',
+  PROTOBUF = 'protobuf'
 }
 
 export default Protocol;
