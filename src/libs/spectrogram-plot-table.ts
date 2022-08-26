@@ -70,7 +70,7 @@ class SpectrogramPlotTable {
           if (idx >= this.len) break;
           this.cells[i][j] = {} as Cell;
           this.cells[i][j].metadata = { ...this.unwrap(data[idx]), idx };
-          idx++;
+          idx += 1;
         }
       }
       // console.log("cells 2 = ", this.cells);
@@ -91,7 +91,7 @@ class SpectrogramPlotTable {
         }
 
         this.cells[i][j].plot?.draw(this.data[idx].phase);
-        idx++;
+        idx += 1;
       }
     }
   }
@@ -130,6 +130,7 @@ class SpectrogramPlotTable {
       .attr('id', (d) => {
         const id = this.getId(d?.metadata);
         if (id) return id;
+        return null;
       })
       .attr('style', 'canvas')
       .attr('width', this.cellWidth)

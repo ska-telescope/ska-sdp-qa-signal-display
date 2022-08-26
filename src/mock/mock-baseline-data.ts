@@ -1,4 +1,4 @@
-export default const mockBaselinesData = {
+const mockBaselinesData = {
   baselines: [
     'm033_m033_XX',
     'm033_m033_XY',
@@ -245,3 +245,5 @@ export default const mockBaselinesData = {
     'm035_m041_YX',
   ],
 };
+
+export default mockBaselinesData;

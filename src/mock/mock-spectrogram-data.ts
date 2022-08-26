@@ -1,4 +1,4 @@
-export default const mockSpectrogramsData = {
+const mockSpectrogramsData = {
   spectrogram: [
     {
       timestamp: '2022-03-15 10:23:17',
@@ -32,3 +32,5 @@ export default const mockSpectrogramsData = {
     },
   ],
 };
+
+export default mockSpectrogramsData;
