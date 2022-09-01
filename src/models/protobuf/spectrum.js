@@ -10,7 +10,7 @@ const $Reader = $protobuf.Reader; const $Writer = $protobuf.Writer; const $util 
 // Exported root namespace
 const $root = $protobuf.roots.default || ($protobuf.roots.default = {});
 
-$root.Spectrum = (function() {
+$root.Spectrum = (() => {
 
     /**
      * Properties of a Spectrum.

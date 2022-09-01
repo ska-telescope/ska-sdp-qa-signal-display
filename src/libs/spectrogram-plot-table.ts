@@ -137,11 +137,11 @@ class SpectrogramPlotTable {
       .attr('height', this.cellHeight);
   }
 
-  private getName(d: any) {
+  private getName(d) {
     return d?.baseline && d?.polarisation ? `${d?.baseline}-${d?.polarisation}` : '-';
   }
 
-  private getId(d: any) {
+  private getId(d) {
     return d?.baseline && d?.polarisation ? `canvas-${d?.baseline}-${d?.polarisation}` : undefined;
   }
 }

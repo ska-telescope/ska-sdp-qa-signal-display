@@ -68,14 +68,14 @@ export class Spectrograms implements ISpectrograms {
    * @param message Plain object to verify
    * @returns `null` if valid, otherwise the reason why it is not
    */
-  public static verify(message: { [k: string]: any }): string | null;
+  public static verify(message: { [k: string]: any }): string | null; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   /**
    * Creates a Spectrograms message from a plain object. Also converts values to their respective internal types.
    * @param object Plain object
    * @returns Spectrograms
    */
-  public static fromObject(object: { [k: string]: any }): Spectrograms;
+  public static fromObject(object: { [k: string]: any }): Spectrograms; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   /**
    * Creates a plain object from a Spectrograms message. Also converts values to other types if specified.
@@ -86,11 +86,11 @@ export class Spectrograms implements ISpectrograms {
   public static toObject(
     message: Spectrograms,
     options?: $protobuf.IConversionOptions
-  ): { [k: string]: any };
+  ): { [k: string]: any }; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   /**
    * Converts this Spectrograms to JSON.
    * @returns JSON object
    */
-  public toJSON(): { [k: string]: any };
+  public toJSON(): { [k: string]: any }; // eslint-disable-line @typescript-eslint/no-explicit-any
 }

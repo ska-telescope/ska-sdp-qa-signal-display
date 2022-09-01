@@ -78,7 +78,7 @@ export default class SpectrumPlotCanvas {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  draw(data: any) {
+  draw(data) {
     this.clear();
 
     this.xMin = data.xMin !== undefined ? data.xMin : data.x_min;

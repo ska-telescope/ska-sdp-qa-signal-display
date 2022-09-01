@@ -7,15 +7,15 @@ export default class SpectrumPlotSvg {
 
   margin = { top: 10, right: 40, bottom: 60, left: 50 };
 
-  svg: any;
+  svg;
 
   xLabel = 'Frequency (MHz)';
 
   yLabel = 'Power (dB)';
 
-  xScale: any;
+  xScale;
 
-  yScale: any;
+  yScale;
 
   constructor(selector: string, width = 1200, height = 600) {
     this.width = width;
@@ -31,7 +31,7 @@ export default class SpectrumPlotSvg {
       .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
   }
 
-  public draw(data: any) {
+  public draw(data) {
     // console.log("SpectrumPlot:draw: data = ", data);
     this.svg.selectAll('text').remove();
     this.svg.selectAll('.tick').remove();

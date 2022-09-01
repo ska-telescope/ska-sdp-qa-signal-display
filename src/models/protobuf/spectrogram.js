@@ -287,7 +287,7 @@ $root.Spectrogram = (() => {
     return Spectrogram;
 })();
 
-$root.Spectrograms = (function() {
+$root.Spectrograms = (() => {
 
     /**
      * Properties of a Spectrograms.

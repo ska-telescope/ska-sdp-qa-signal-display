@@ -28,7 +28,7 @@ export default class RfiQaPixelTable {
 
   cellData;
 
-  rfiHighlight: any;
+  rfiHighlight;
 
   constructor(tableId, width = 1600, height = 800) {
     this.tableId = tableId;
@@ -36,7 +36,7 @@ export default class RfiQaPixelTable {
     this.height = height;
   }
 
-  draw(data: any) {
+  draw(data) {
     this.cellData = data;
 
     if (

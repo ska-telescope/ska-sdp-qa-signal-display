@@ -25,7 +25,7 @@ class RfiDetailPlots {
     this.height = height - this.margin.top - this.margin.bottom;
   }
 
-  draw(data: any) {
+  draw(data) {
     // console.log("RfiDetailsPlot:draw: data = ", data);
 
     // validations
