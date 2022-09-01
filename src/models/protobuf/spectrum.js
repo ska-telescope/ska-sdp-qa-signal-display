@@ -5,12 +5,14 @@
 const $protobuf = await import("protobufjs/minimal");
 
 // Common aliases
-const $Reader = $protobuf.Reader; const $Writer = $protobuf.Writer; const $util = $protobuf.util;
+const $Reader = $protobuf.Reader; const $Writer = $protobuf.Writer;
+const $util = $protobuf.util;
 
 // Exported root namespace
-export const $root = $protobuf.roots.default || ($protobuf.roots.default = {});
+export const spectrumRoot = $protobuf.roots.default || ($protobuf.roots.default = {});
 
-$root.Spectrum = (() => {
+// eslint-disable-next-line no-multi-assign
+const SpectrumExport = spectrumRoot.Spectrum = (() => {
 
     /**
      * Properties of a Spectrum.
@@ -206,7 +208,8 @@ $root.Spectrum = (() => {
     Spectrum.decode = function decode(reader, length) {
         if (!(reader instanceof $Reader))
             reader = $Reader.create(reader);
-        const end = length === undefined ? reader.len : reader.pos + length; const message = new $root.Spectrum();
+        const end = length === undefined ? reader.len : reader.pos + length;
+        const message = new spectrumRoot.Spectrum();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
@@ -355,9 +358,9 @@ $root.Spectrum = (() => {
      * @returns {Spectrum} Spectrum
      */
     Spectrum.fromObject = function fromObject(object) {
-        if (object instanceof $root.Spectrum)
+        if (object instanceof spectrumRoot.Spectrum)
             return object;
-        const message = new $root.Spectrum();
+        const message = new spectrumRoot.Spectrum();
         if (object.timestamp != null)
             message.timestamp = String(object.timestamp);
         if (object.xMin != null)
@@ -471,3 +474,5 @@ $root.Spectrum = (() => {
 
     return Spectrum;
 })();
+
+export default SpectrumExport;

@@ -60,10 +60,11 @@ module.exports = {
 
   plugins: [
     new ModuleFederationPlugin({
-      name: 'skeleton',
+      name: 'qaMetrics',
       filename: 'remoteEntry.js',
       remotes: {},
       exposes: {
+        './qaMetrics': './src/App/App.tsx'
       },
       shared: {
         ...deps,

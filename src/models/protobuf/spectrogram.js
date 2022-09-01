@@ -287,7 +287,8 @@ $root.Spectrogram = (() => {
     return Spectrogram;
 })();
 
-$root.Spectrograms = (() => {
+// eslint-disable-next-line no-multi-assign
+const SpectrogramsExport = $root.Spectrograms = (() => {
 
     /**
      * Properties of a Spectrograms.
@@ -490,4 +491,6 @@ $root.Spectrograms = (() => {
 
     return Spectrograms;
 })();
+
+export default SpectrogramsExport;
 
