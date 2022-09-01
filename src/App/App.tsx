@@ -5,7 +5,7 @@ import { Box, CssBaseline, StyledEngineProvider, ThemeProvider } from '@mui/mate
 import { styled } from '@mui/material/styles';
 
 import { createEmotionCache } from '../utils/create-emotion-cache';
-import { theme } from '../theme/index';
+import { theme } from '../theme';
 // Import all the css files created for d3 charts
 import '../libs/css/spectrogram-plot-table.css';
 

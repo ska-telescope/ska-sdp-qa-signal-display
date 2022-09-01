@@ -1,6 +1,7 @@
+/* eslint-disable import/no-unresolved */
 import * as d3 from 'd3';
 // import * as _ from 'lodash';
-import { removeLastDirectoryPartOf } from '../utils/common';
+import removeLastDirectoryPartOf from '../utils/common';
 import { SpectrogramPlot } from './spectrogram-plot';
 
 interface Cell {

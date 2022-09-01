@@ -2,6 +2,13 @@ module.exports = {
   "root": true,
   "parser": "@typescript-eslint/parser",
   plugins: ["testing-library", "prettier"],
+  settings: {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
   extends: ["airbnb",
     "prettier",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -39,7 +46,6 @@ module.exports = {
     "consistent-return": 1,
     'jsx-a11y/click-events-have-key-events': 'off',
     'jsx-a11y/no-noninteractive-element-interactions' : 'off',
-    "consistent-return": 1,
     'react/jsx-filename-extension': [2, { 'extensions': ['.js', '.jsx', '.ts', '.tsx'] }],
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": ["error"],
