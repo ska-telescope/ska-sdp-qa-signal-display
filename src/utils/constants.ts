@@ -1,4 +1,4 @@
-import { Protocol } from '../models/protocol.ts';
+import { Protocol } from '../models/protocol';
 
 // Used for Determining sizing of cards and image grid
 export const CELL_HEIGHT = 75;

@@ -491,4 +491,3 @@ $root.Spectrograms = (() => {
     return Spectrograms;
 })();
 
-module.exports = $root;

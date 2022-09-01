@@ -1,5 +1,5 @@
-import { Spectrograms } from '../models/protobuf/spectrogram';
-import { Spectrum } from '../models/protobuf/spectrum';
+import { Spectrograms } from '../models/protobuf/spectrogram.js';
+import { Spectrum } from '../models/protobuf/spectrum.js';
 
 export async function decodeSpectrum(data: Blob): Promise<any> { // eslint-disable-line @typescript-eslint/no-explicit-any
   const buffer = await data.arrayBuffer();

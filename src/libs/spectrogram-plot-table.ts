@@ -1,14 +1,14 @@
 import * as d3 from 'd3';
 // import * as _ from 'lodash';
-import { removeLastDirectoryPartOf } from '../utils/common.ts';
-import { SpectrogramPlot } from './spectrogram-plot.ts';
+import { removeLastDirectoryPartOf } from '../utils/common';
+import { SpectrogramPlot } from './spectrogram-plot';
 
 interface Cell {
   metadata: { baseline: string; polarisation: string; idx: number };
   plot: SpectrogramPlot;
 }
 
-class SpectrogramPlotTable {
+export default class SpectrogramPlotTable {
   divId;
 
   width: number;
@@ -145,5 +145,3 @@ class SpectrogramPlotTable {
     return d?.baseline && d?.polarisation ? `canvas-${d?.baseline}-${d?.polarisation}` : undefined;
   }
 }
-
-export default SpectrogramPlotTable;

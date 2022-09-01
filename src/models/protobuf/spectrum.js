@@ -8,7 +8,7 @@ const $protobuf = await import("protobufjs/minimal");
 const $Reader = $protobuf.Reader; const $Writer = $protobuf.Writer; const $util = $protobuf.util;
 
 // Exported root namespace
-const $root = $protobuf.roots.default || ($protobuf.roots.default = {});
+export const $root = $protobuf.roots.default || ($protobuf.roots.default = {});
 
 $root.Spectrum = (() => {
 
@@ -471,5 +471,3 @@ $root.Spectrum = (() => {
 
     return Spectrum;
 })();
-
-module.exports = $root;

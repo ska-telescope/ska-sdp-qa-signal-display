@@ -43,7 +43,8 @@ module.exports = {
     'react/jsx-filename-extension': [2, { 'extensions': ['.js', '.jsx', '.ts', '.tsx'] }],
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": ["error"],
-    "no-bitwise": "off"
+    "no-bitwise": "off",
+    "@typescript-eslint/ban-ts-comment": "off"
   },
   "env": {
     "browser": true,

@@ -19,23 +19,19 @@ module.exports = {
     port: 3000,
     historyApiFallback: true
   },
-
+  experiments: {
+    topLevelAwait: true
+  },
   module: {
     rules: [
-      {
-        test: /\.m?js|\.jsx/,
-        type: 'javascript/auto',
-        resolve: {
-          fullySpecified: false
-        }
-      },
       {
         test: /\.s[ac]ss|\.css$/i,
         use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
-        test: /\.(t|j)sx?$/,
+        test: /\.(js|mjs|jsx|ts|tsx)$/,
         exclude: /node_modules/,
+        type: "javascript/esm",
         use: [
           {
             loader: 'babel-loader',
@@ -43,6 +39,7 @@ module.exports = {
               presets: [
               '@babel/preset-env',
               '@babel/preset-react'],
+              plugins: ['@babel/plugin-syntax-top-level-await'],
             },
           },
           {
