@@ -30,7 +30,7 @@ module.exports = {
       },
       {
         test: /\.(js|mjs|jsx|ts|tsx)$/,
-        exclude: /node_modules/,
+        exclude:[/node_modules/],
         type: "javascript/esm",
         use: [
           {

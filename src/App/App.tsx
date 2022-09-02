@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import { Box, CssBaseline, StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import { createEmotionCache } from '../utils/create-emotion-cache';
+//import { createEmotionCache } from '../utils/create-emotion-cache';
 import { theme } from '../theme';
 // Import all the css files created for d3 charts
 import '../libs/css/spectrogram-plot-table.css';
@@ -15,7 +15,7 @@ import SpectrumPlot from '../components/spectrumPlot/spectrumPlot';
 import Statistics from '../components/statistics/statistics';
 
 // Client-side cache, shared for the whole session of the user in the browser.
-const clientSideEmotionCache = createEmotionCache();
+//const clientSideEmotionCache = createEmotionCache();
 
 function App() {
   const DashboardLayoutRoot = styled('div')(() => ({
@@ -25,11 +25,6 @@ function App() {
   }));
 
   return (
-    <CacheProvider value={clientSideEmotionCache}>
-      <Helmet>
-        <title>QA Display</title>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Helmet>
       <StrictMode>
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>
@@ -54,7 +49,6 @@ function App() {
           </ThemeProvider>
         </StyledEngineProvider>
       </StrictMode>
-    </CacheProvider>
   );
 }
 
