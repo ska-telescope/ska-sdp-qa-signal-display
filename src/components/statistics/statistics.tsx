@@ -38,16 +38,16 @@ const Statistics = () => {
   }
 
   useEffect(() => {
-    retrieveWorkflowData();
+    retrieveProcessingBlockData();
     const interval = setInterval(async () => {
       if (processingBlockData) {
-        await retrieveWorkflowData();
+        await retrieveProcessingBlockData();
       }
     }, WORKFLOW_INTERVAL_SECONDS);
-    retrieveWorkflowStatisticsData();
+    retrieveProcessingBlockStatisticsData();
     const interval2 = setInterval(async () => {
       if (processingBlockStatisticsData) {
-        await retrieveWorkflowStatisticsData();
+        await retrieveProcessingBlockStatisticsData();
       }
     }, WORKFLOW_STATISTICS_INTERVAL_SECONDS);
     return () => {
