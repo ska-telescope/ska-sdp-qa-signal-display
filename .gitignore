@@ -40,5 +40,6 @@ package-lock.json
 
 PrivateRules.mak
 *.lock
+!yarn.lock
 
 /dist
