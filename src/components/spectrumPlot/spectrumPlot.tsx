@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, Container, Grid } from '@mui/material';
 
 import { MessageTopic } from '../../models/message-topic';
-import { decodeJson, decodeSpectrum } from '../../libs/decoder';
+import { decodeJson } from '../../libs/decoder';
 import { SpectrumPlotSvg } from '../../libs/spectrum-plot-svg';
 
 import { HEIGHT, PROTOCOL, WIDTH, WS_API_URL } from '../../utils/constants';
@@ -38,12 +38,15 @@ const SpectrumPlot = () => {
       try {
         if (data instanceof ArrayBuffer) {
           // DEBUG console.log("SpectrumPage: received, type = ArrayBuffer, data = ", data);
-        } else if (data instanceof Blob) {
-          decodeSpectrum(data).then((decoded: object) => {
-            // DEBUG console.log("SpectrumPage: received type = Blob, decoded = ", decoded);
-            window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
-          });
-        } else {
+        }
+        // - Removing Protobuff for now.
+        //  else if (data instanceof Blob) {
+        //   decodeSpectrum(data).then((decoded: object) => {
+        //     // DEBUG console.log("SpectrumPage: received type = Blob, decoded = ", decoded);
+        //     window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
+        //   });
+        // } 
+        else {
           const decoded = decodeJson(data);
           if (decoded && decoded.status) {
             setSocketStatus(decoded.status);

@@ -3,6 +3,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
 const deps = require('./package.json').dependencies;
+const dotenv = require('dotenv').config({ path: __dirname + '/.env' });
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -60,10 +61,11 @@ module.exports = {
 
   plugins: [
     new ModuleFederationPlugin({
-      name: 'skeleton',
+      name: 'qaMetrics',
       filename: 'remoteEntry.js',
       remotes: {},
       exposes: {
+        './qaMetrics': './src/App/App.tsx'
       },
       shared: {
         ...deps,
@@ -120,12 +122,7 @@ module.exports = {
       template: './public/index.html'
     }),
     new webpack.DefinePlugin({
-      'process.env.REACT_APP_WS_API': JSON.stringify(process.env.REACT_APP_WS_API),
-      'process.env.REACT_APP_MESSAGE_TYPE': JSON.stringify(process.env.REACT_APP_MESSAGE_TYPE),
-      'process.env.REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF': JSON.stringify(process.env.REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF),
-      'process.env.REACT_APP_DATA_API_URL': JSON.stringify(process.env.REACT_APP_DATA_API_URL),
-      'process.env.REACT_APP_WORKFLOW_INTERVAL_SECONDS': JSON.stringify(process.env.REACT_APP_WORKFLOW_INTERVAL_SECONDS),
-      'process.env.REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS': JSON.stringify(process.env.REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS)
+      'process.env': JSON.stringify(dotenv.parsed)
     })
   ]
 };

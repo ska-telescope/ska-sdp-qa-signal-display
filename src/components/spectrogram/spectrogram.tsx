@@ -13,7 +13,7 @@ import {
   Typography
 } from '@mui/material';
 import { MessageTopic } from '../../models/message-topic';
-import { decodeJson, decodeSpectrogram } from '../../libs/decoder';
+import { decodeJson } from '../../libs/decoder';
 import SpectrogramPlotTable from '../../libs/spectrogram-plot-table';
 import {
   CELL_HEIGHT,
@@ -77,15 +77,18 @@ const Spectrogram = () => {
         try {
           if (data instanceof ArrayBuffer) {
             // DEBUG console.log("SpectrogramsPage: received, type = ArrayBuffer, data = ", data);
-          } else if (data instanceof Blob) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            decodeSpectrogram(data).then((decoded: any) => {
-              // DEBUG console.log("SpectrogramsPage: received type = Blob, decoded = ", decoded);
-              window.requestAnimationFrame(() => {
-                spectrogramPlotTable.draw(decoded.spectrogram);
-              });
-            });
-          } else {
+          } 
+          // - Removing Protobuff for now.
+          // else if (data instanceof Blob) {
+          //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          //   decodeSpectrogram(data).then((decoded: any) => {
+          //     // DEBUG console.log("SpectrogramsPage: received type = Blob, decoded = ", decoded);
+          //     window.requestAnimationFrame(() => {
+          //       spectrogramPlotTable.draw(decoded.spectrogram);
+          //     });
+          //   });
+          // }
+           else {
             const decoded = decodeJson(data);
             // DEBUG console.log( "SpectrogramsPage: received type = string, decoded = ", decoded, );
             if (decoded && decoded.status) {
