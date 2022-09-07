@@ -18,6 +18,12 @@
     "test": "react-scripts test --env=jsdom --reporters=default --reporters=jest-junit",
     "test:coverage": "react-scripts test --coverage --coverageDirectory=build/coverage"
   },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
   "dependencies": {
     "@babel/core": "^7.9.0",
     "@emotion/cache": "^11.5.0",
@@ -106,11 +112,5 @@
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.10.1",
     "yarn-deduplicate": "^3.1.0"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  }
 }

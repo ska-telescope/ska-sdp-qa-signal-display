@@ -1,6 +1,6 @@
 import React from 'react';
 /* eslint-disable import/no-unresolved */
-import {render} from '@testing-library/react'
+import { render } from '@testing-library/react';
 import Spectrogram from './spectrogram';
 // import { mockBaselinesData } from '../../mock/mock-baseline-data';
 
@@ -13,7 +13,7 @@ describe('retrieveChartData function', () => {
   // const retrieveChartData = jest.fn();
 
   jest.mock('react', () => ({
-    useState: (chartData) => [chartData, mockSetState]
+    useState: (chartData) => [chartData, mockSetState],
   }));
 
   // it('returns data', () => {
@@ -28,7 +28,7 @@ describe('retrieveChartData function', () => {
 
 describe('Spectrogram Component', () => {
   it('renders without crashing', () => {
-    const {container} = render(<Spectrogram />);
+    const { container } = render(<Spectrogram />);
     const boxes = container.getElementsByClassName('box');
     expect(boxes.length).toBeLessThan(2);
   });

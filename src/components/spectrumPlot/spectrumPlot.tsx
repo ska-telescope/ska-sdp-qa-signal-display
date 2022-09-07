@@ -45,7 +45,7 @@ const SpectrumPlot = () => {
         //     // DEBUG console.log("SpectrumPage: received type = Blob, decoded = ", decoded);
         //     window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
         //   });
-        // } 
+        // }
         else {
           const decoded = decodeJson(data);
           if (decoded && decoded.status) {

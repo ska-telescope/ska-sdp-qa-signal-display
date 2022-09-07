@@ -42,7 +42,7 @@ class RfiDetailPlots {
       xMin,
       xMax,
       yMin,
-      yMax
+      yMax,
     } = data;
 
     // clear

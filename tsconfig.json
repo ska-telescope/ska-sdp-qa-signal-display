@@ -2,11 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "target": "es6",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -22,22 +18,11 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": [
-    "App.tsx",
-    "src/App/App.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
+  "include": ["App.tsx", "src/App/App.tsx"],
+  "exclude": ["node_modules"],
   "paths": {
-    "@components/*": [
-      "components/*"
-    ],
-    "@pages/*": [
-      "pages/*"
-    ],
-    "@hooks/*": [
-      "hooks/*"
-    ]
+    "@components/*": ["components/*"],
+    "@pages/*": ["pages/*"],
+    "@hooks/*": ["hooks/*"]
   }
 }

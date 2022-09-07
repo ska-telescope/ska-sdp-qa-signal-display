@@ -64,7 +64,7 @@ export default class RfiQaPixelTable {
         }
         this.cells[i][j].draw({
           rfi_data: this.cellData.rfi_data[i][j],
-          flags: this.cellData.flags[i][j]
+          flags: this.cellData.flags[i][j],
         });
       }
     }

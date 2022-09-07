@@ -10,7 +10,7 @@ import {
   ImageListItemBar,
   Grid,
   Modal,
-  Typography
+  Typography,
 } from '@mui/material';
 import { MessageTopic } from '../../models/message-topic';
 import { decodeJson } from '../../libs/decoder';
@@ -22,7 +22,7 @@ import {
   HEIGHT,
   PROTOCOL,
   WIDTH,
-  WS_API_URL
+  WS_API_URL,
 } from '../../utils/constants';
 
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
@@ -77,7 +77,7 @@ const Spectrogram = () => {
         try {
           if (data instanceof ArrayBuffer) {
             // DEBUG console.log("SpectrogramsPage: received, type = ArrayBuffer, data = ", data);
-          } 
+          }
           // - Removing Protobuff for now.
           // else if (data instanceof Blob) {
           //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -88,7 +88,7 @@ const Spectrogram = () => {
           //     });
           //   });
           // }
-           else {
+          else {
             const decoded = decodeJson(data);
             // DEBUG console.log( "SpectrogramsPage: received type = string, decoded = ", decoded, );
             if (decoded && decoded.status) {
@@ -179,8 +179,7 @@ const Spectrogram = () => {
 
               <div id="spectogram-image-list-Id">
                 <ImageList sx={{ width: 1150 }} cols={6} rowHeight={164}>
-                  {chartData &&
-                    chartData.length ?
+                  {chartData && chartData.length ? (
                     chartData.map((item) => (
                       <ImageListItem key={item}>
                         <ImageListItemBar title={item} position="top" />
@@ -193,11 +192,14 @@ const Spectrogram = () => {
                             maxWidth: '100%',
                             display: 'flex',
                             alignItems: 'center',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
                           }}
                         />
                       </ImageListItem>
-                    )) : <div />}
+                    ))
+                  ) : (
+                    <div />
+                  )}
                 </ImageList>
               </div>
               <div id="spectrogramId" />
