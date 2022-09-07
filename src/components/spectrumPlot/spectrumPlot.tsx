@@ -1,22 +1,20 @@
-import { useCallback, useEffect, useState } from 'react';
+/* eslint-disable import/no-unresolved */
+import React, { useCallback, useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, Container, Grid } from '@mui/material';
 
-import { Protocol } from 'src/models/protocol';
-import { MessageTopic } from 'src/models/message-topic';
-import { decodeJson, decodeSpectrum } from 'src/libs/decoder';
-import { SpectrumPlotSvg } from 'src/libs/spectrum-plot-svg';
+import { MessageTopic } from '../../models/message-topic';
+import { decodeJson } from '../../libs/decoder';
+import { SpectrumPlotSvg } from '../../libs/spectrum-plot-svg';
 
-const WIDTH = 1200;
-const HEIGHT = 300;
-const PROTOCOL = (process.env.NEXT_PUBLIC_MESSAGE_TYPE === "protobuf") ? Protocol.PROTOBUF : Protocol.JSON;
+import { HEIGHT, PROTOCOL, WIDTH, WS_API_URL } from '../../utils/constants';
+
 const MESSAGE_TOPIC = MessageTopic.SPECTRUM;
-const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
+const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
 const SpectrumPlot = () => {
   const [socketStatus, setSocketStatus] = useState('disconnected');
 
   const connectToWebSocket = useCallback(async () => {
-
     const spectrumPlot = new SpectrumPlotSvg('#sPlotId', WIDTH, HEIGHT);
     const ws = new WebSocket(WS_API);
 
@@ -40,12 +38,15 @@ const SpectrumPlot = () => {
       try {
         if (data instanceof ArrayBuffer) {
           // DEBUG console.log("SpectrumPage: received, type = ArrayBuffer, data = ", data);
-        } else if (data instanceof Blob) {
-          decodeSpectrum(data).then((decoded: object) => {
-            // DEBUG console.log("SpectrumPage: received type = Blob, decoded = ", decoded);
-            window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
-          });
-        } else {
+        }
+        // - Removing Protobuff for now.
+        //  else if (data instanceof Blob) {
+        //   decodeSpectrum(data).then((decoded: object) => {
+        //     // DEBUG console.log("SpectrumPage: received type = Blob, decoded = ", decoded);
+        //     window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
+        //   });
+        // } 
+        else {
           const decoded = decodeJson(data);
           if (decoded && decoded.status) {
             setSocketStatus(decoded.status);

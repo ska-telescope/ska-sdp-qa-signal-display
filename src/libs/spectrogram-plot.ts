@@ -2,20 +2,30 @@ const PHASE_NORM_FACTOR = 360;
 
 export const enum WaterfallDirection {
   TOP_TO_BOTTOM = 'top-to-bottom',
-  LEFT_TO_RIGHT = 'left-to-right',
+  LEFT_TO_RIGHT = 'left-to-right'
 }
 
 export class SpectrogramPlot {
   direction: WaterfallDirection;
+
   canvas;
+
   ctx;
+
   width: number;
+
   height: number;
+
   len: 0;
+
   h: number;
+
   w: number;
+
   x: number;
+
   y: number;
+
   init: boolean;
 
   data = [];
@@ -26,7 +36,7 @@ export class SpectrogramPlot {
     this.width = this.canvas.width;
     this.height = this.canvas.height;
 
-    console.log('SpectrogramPlot:constructor:', this.width, this.height);
+    // console.log('SpectrogramPlot:constructor:', this.width, this.height);
 
     this.direction = direction;
   }
@@ -56,7 +66,7 @@ export class SpectrogramPlot {
     }
 
     this.data = data;
-    //console.log("SpectrogramPlot:draw: data = ", this.data);
+    // console.log("SpectrogramPlot:draw: data = ", this.data);
 
     // window.requestAnimationFrame(this.loop.bind(this));
     this.loop();
@@ -75,7 +85,7 @@ export class SpectrogramPlot {
 
     // console.log("SpectrogramPlot:loop: data = ", this.data);
 
-    for (let i = 0; i < this.len; i = i + 1) {
+    for (let i = 0; i < this.len; i += 1) {
       const rat = this.data[i] / PHASE_NORM_FACTOR; // 0-1 normalize
       const hue = Math.round(rat * 360); // hsl normalize
       const sat = '100%';

@@ -111,14 +111,14 @@ export class Spectrum implements ISpectrum {
    * @param message Plain object to verify
    * @returns `null` if valid, otherwise the reason why it is not
    */
-  public static verify(message: { [k: string]: any }): string | null;
+  public static verify(message: { [k: string]: any }): string | null; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   /**
    * Creates a Spectrum message from a plain object. Also converts values to their respective internal types.
    * @param object Plain object
    * @returns Spectrum
    */
-  public static fromObject(object: { [k: string]: any }): Spectrum;
+  public static fromObject(object: { [k: string]: any }): Spectrum; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   /**
    * Creates a plain object from a Spectrum message. Also converts values to other types if specified.
@@ -129,11 +129,11 @@ export class Spectrum implements ISpectrum {
   public static toObject(
     message: Spectrum,
     options?: $protobuf.IConversionOptions
-  ): { [k: string]: any };
+  ): { [k: string]: any }; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   /**
    * Converts this Spectrum to JSON.
    * @returns JSON object
    */
-  public toJSON(): { [k: string]: any };
+  public toJSON(): { [k: string]: any }; // eslint-disable-line @typescript-eslint/no-explicit-any
 }

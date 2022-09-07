@@ -2,8 +2,14 @@ module.exports = {
   "root": true,
   "parser": "@typescript-eslint/parser",
   plugins: ["testing-library", "prettier"],
-  extends: ["next",
-    "airbnb",
+  settings: {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
+  extends: ["airbnb",
     "prettier",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"],
@@ -14,7 +20,7 @@ module.exports = {
     "import/no-cycle": "off",
     "import/no-extraneous-dependencies": "off",
     "import/order": 1,
-    "import/prefer-default-export": "off",
+    "import/prefer-default-export": "off", 
     "jsx-a11y/anchor-is-valid": "off",
     "max-len": "off",
     "no-console": 2,
@@ -32,7 +38,6 @@ module.exports = {
     "object-curly-newline": "off",
     "react/prop-types": "off",
     "react/forbid-prop-types": "off",
-    "react/jsx-filename-extension": "off",
     "react/jsx-props-no-spreading": "off",
     "react/react-in-jsx-scope": "off",
     "react/require-default-props": 1,
@@ -41,9 +46,18 @@ module.exports = {
     "consistent-return": 1,
     'jsx-a11y/click-events-have-key-events': 'off',
     'jsx-a11y/no-noninteractive-element-interactions' : 'off',
-    "consistent-return": 1
+    "consistent-return": 1,
+    'react/jsx-filename-extension': [2, { 'extensions': ['.js', '.jsx', '.ts', '.tsx'] }],
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"],
+    "no-bitwise": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-var-requires": "off"
   },
   "env": {
-    "jest": true
+    "browser": true,
+    "es6": true,
+    "jest": true,
+    "node": true
   }
-};
+}

@@ -1,38 +1,50 @@
-import { useCallback, useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, Container, ImageList, ImageListItem, ImageListItemBar, Grid, Modal, Typography } from '@mui/material';
-import { Protocol } from 'src/models/protocol';
-import { MessageTopic } from 'src/models/message-topic';
-import { decodeJson, decodeSpectrogram } from 'src/libs/decoder';
-import SpectrogramPlotTable from 'src/libs/spectrogram-plot-table'; 
+/* eslint-disable import/no-unresolved */
+import React, { useCallback, useEffect, useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
+  Grid,
+  Modal,
+  Typography
+} from '@mui/material';
+import { MessageTopic } from '../../models/message-topic';
+import { decodeJson } from '../../libs/decoder';
+import SpectrogramPlotTable from '../../libs/spectrogram-plot-table';
+import {
+  CELL_HEIGHT,
+  CELL_WIDTH,
+  DATA_API_URL,
+  HEIGHT,
+  PROTOCOL,
+  WIDTH,
+  WS_API_URL
+} from '../../utils/constants';
 
-const WIDTH = 1200;
-const HEIGHT = 300;
-const CELL_WIDTH = 150;
-const CELL_HEIGHT = 75;
-const PROTOCOL = (process.env.NEXT_PUBLIC_MESSAGE_TYPE === "protobuf") ? Protocol.PROTOBUF : Protocol.JSON;
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
-const WS_API = `${process.env.NEXT_PUBLIC_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
-const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.NEXT_PUBLIC_SWITCH_D3_IMAGE_CREATION_ON_OFF;
-const DATA_API_URL = process.env.NEXT_PUBLIC_DATA_API_URL
-
-
+const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
+const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF;
 
 const Spectrogram = () => {
   const [socketStatus, setSocketStatus] = useState('disconnected');
   const [open, setOpen] = useState(false);
-  const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [chartData, setChartData] = useState(null);
 
-  const handleOpen = () => setOpen(true);  
+  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-
   async function retrieveChartData() {
-      await fetch(`${DATA_API_URL}/stats/baselines`)
-          .then((response) => response.json())
-          .then((data)=> {
-          setChartData(data.baselines);
-    });
+    await fetch(`${DATA_API_URL}/stats/baselines`)
+      .then((response) => response.json())
+      .then((data) => {
+        setChartData(data.baselines);
+      })
+      .catch(() => null);
   }
   const connectWebSocket = useCallback(async () => {
     const spectrogramPlotTable = new SpectrogramPlotTable(
@@ -41,7 +53,7 @@ const Spectrogram = () => {
       HEIGHT,
       CELL_WIDTH,
       CELL_HEIGHT
-    );      
+    );
 
     const ws = new WebSocket(WS_API);
 
@@ -61,19 +73,22 @@ const Spectrogram = () => {
 
     ws.onmessage = function onMessage(msg) {
       const data = msg?.data;
-      if (SWITCH_D3_IMAGE_CREATION_ON_OFF === "on"){
+      if (SWITCH_D3_IMAGE_CREATION_ON_OFF === 'on') {
         try {
           if (data instanceof ArrayBuffer) {
             // DEBUG console.log("SpectrogramsPage: received, type = ArrayBuffer, data = ", data);
-          } else if (data instanceof Blob) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            decodeSpectrogram(data).then((decoded: any) => {
-              // DEBUG console.log("SpectrogramsPage: received type = Blob, decoded = ", decoded);
-              window.requestAnimationFrame(() => {
-                spectrogramPlotTable.draw(decoded.spectrogram);
-              });
-            });
-          } else {
+          } 
+          // - Removing Protobuff for now.
+          // else if (data instanceof Blob) {
+          //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          //   decodeSpectrogram(data).then((decoded: any) => {
+          //     // DEBUG console.log("SpectrogramsPage: received type = Blob, decoded = ", decoded);
+          //     window.requestAnimationFrame(() => {
+          //       spectrogramPlotTable.draw(decoded.spectrogram);
+          //     });
+          //   });
+          // }
+           else {
             const decoded = decodeJson(data);
             // DEBUG console.log( "SpectrogramsPage: received type = string, decoded = ", decoded, );
             if (decoded && decoded.status) {
@@ -90,7 +105,7 @@ const Spectrogram = () => {
           console.error('SpectrogramsPage: received, decoding error = ', e);
         }
       }
-    }
+    };
     return () => {
       ws.close();
     };
@@ -101,7 +116,7 @@ const Spectrogram = () => {
     retrieveChartData();
   }, [connectWebSocket, retrieveChartData]);
 
-  function getImageUrl(item: string){
+  function getImageUrl(item: string) {
     const baselines = item.split(/[-_]+/);
     return `${DATA_API_URL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
@@ -111,7 +126,7 @@ const Spectrogram = () => {
     setImageUrl(getImageUrl(item));
   }
 
-  if(SWITCH_D3_IMAGE_CREATION_ON_OFF === "on"){
+  if (SWITCH_D3_IMAGE_CREATION_ON_OFF === 'on') {
     return (
       <Container>
         <Grid container spacing={3}>
@@ -135,54 +150,63 @@ const Spectrogram = () => {
       </Container>
     );
   }
-    return (
-      <Container>
-        <Modal open={open} onClose={handleClose} style={{display:'flex',alignItems:'center',justifyContent:'center', border:'none'}}>
-          <Card sx={{ minWidth: WIDTH, border:'none'}} >
-            <CardContent style={{border:'none'}}>
-              <img src={imageUrl} 
-              loading="lazy"
-              alt=""/>
-            </CardContent>
-          </Card>
+  return (
+    <Container>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none' }}
+      >
+        <Card sx={{ minWidth: WIDTH, border: 'none' }}>
+          <CardContent style={{ border: 'none' }}>
+            <img src={imageUrl} loading="lazy" alt="" />
+          </CardContent>
+        </Card>
       </Modal>
-        
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Card sx={{ minWidth: WIDTH }}>
-              <CardHeader
-                title="Spectrograms"
-                subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
-              />
 
-              <CardContent sx={{ pt: '8px' }}>
-                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                  Click on the baseline and polarisation label to see a detailed spectrogram
-                </Typography>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Card sx={{ minWidth: WIDTH }}>
+            <CardHeader
+              title="Spectrograms"
+              subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
+            />
 
-                <div id="spectogram-image-list-Id" >
-                  <ImageList sx={{ width: 1150 }} cols={6} rowHeight={164}>
-                    {chartData && chartData.length &&  chartData.map((item) => (
+            <CardContent sx={{ pt: '8px' }}>
+              <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                Click on the baseline and polarisation label to see a detailed spectrogram
+              </Typography>
+
+              <div id="spectogram-image-list-Id">
+                <ImageList sx={{ width: 1150 }} cols={6} rowHeight={164}>
+                  {chartData &&
+                    chartData.length ?
+                    chartData.map((item) => (
                       <ImageListItem key={item}>
                         <ImageListItemBar title={item} position="top" />
                         <img
                           src={getImageUrl(item)}
                           alt={item}
                           loading="lazy"
-                          onClick={() =>imageClick(item)}
-                          style={{maxWidth: '100%', display:'flex',alignItems:'center',justifyContent:'center'}}
+                          onClick={() => imageClick(item)}
+                          style={{
+                            maxWidth: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
                         />
                       </ImageListItem>
-                    ))}
-                  </ImageList>
-                </div>
-                <div id="spectrogramId" />
-              </CardContent>
-            </Card>
-          </Grid>
+                    )) : <div />}
+                </ImageList>
+              </div>
+              <div id="spectrogramId" />
+            </CardContent>
+          </Card>
         </Grid>
-      </Container>
-    );
+      </Grid>
+    </Container>
+  );
 };
 
 export default Spectrogram;
