@@ -197,7 +197,7 @@ const Spectrogram = () => {
                           }}
                         />
                       </ImageListItem>
-                    )) : <div></div>}
+                    )) : <div/>}
                 </ImageList>
               </div>
               <div id="spectrogramId" />
