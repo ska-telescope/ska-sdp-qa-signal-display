@@ -2,7 +2,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import Spectrogram from './spectrogram';
-import { mockBaselinesData } from '../../mock/mock-baseline-data';
+// import { mockBaselinesData } from '../../mock/mock-baseline-data';
 
 describe('retrieveChartData function', () => {
   // beforeEach(() => {
