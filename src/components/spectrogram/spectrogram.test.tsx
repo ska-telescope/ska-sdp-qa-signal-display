@@ -2,12 +2,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import Spectrogram from './spectrogram';
-import { mockBaselinesData } from '../../mock/mock-baseline-data';
+// import { mockBaselinesData } from '../../mock/mock-baseline-data';
 
 describe('retrieveChartData function', () => {
-  beforeEach(() => {
-    fetchMock.resetMocks();
-  });
+  // beforeEach(() => {
+  //   fetchMock.resetMocks();
+  // });
 
   const mockSetState = jest.fn();
   // const retrieveChartData = jest.fn();
@@ -16,14 +16,14 @@ describe('retrieveChartData function', () => {
     useState: (chartData) => [chartData, mockSetState]
   }));
 
-  it('returns data', () => {
-    fetchMock.mockResponseOnce(JSON.stringify(mockBaselinesData));
-    const wrapper = shallow(<Spectrogram />);
-    expect(wrapper.state('chartData')).toBeNull();
-    const instance = wrapper.instance();
-    instance.retrieveChartData();
-    expect(wrapper.state('chartData')).toBe(mockBaselinesData);
-  });
+  // it('returns data', () => {
+  //   fetchMock.mockResponseOnce(JSON.stringify(mockBaselinesData));
+  //   const wrapper = shallow(<Spectrogram />);
+  //   expect(wrapper.state('chartData')).toBeNull();
+  //   const instance = wrapper.instance();
+  //   instance.retrieveChartData();
+  //   expect(wrapper.state('chartData')).toBe(mockBaselinesData);
+  // });
 });
 
 describe('Spectrogram Component', () => {

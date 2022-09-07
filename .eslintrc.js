@@ -2,6 +2,13 @@ module.exports = {
   "root": true,
   "parser": "@typescript-eslint/parser",
   plugins: ["testing-library", "prettier"],
+  settings: {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
   extends: ["airbnb",
     "prettier",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -44,7 +51,8 @@ module.exports = {
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": ["error"],
     "no-bitwise": "off",
-    "@typescript-eslint/ban-ts-comment": "off"
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-var-requires": "off"
   },
   "env": {
     "browser": true,
