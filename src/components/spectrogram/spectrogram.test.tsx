@@ -1,6 +1,6 @@
-/* eslint-disable import/no-unresolved */
 import React from 'react';
-import { shallow } from 'enzyme';
+/* eslint-disable import/no-unresolved */
+import {render} from '@testing-library/react'
 import Spectrogram from './spectrogram';
 // import { mockBaselinesData } from '../../mock/mock-baseline-data';
 
@@ -28,7 +28,8 @@ describe('retrieveChartData function', () => {
 
 describe('Spectrogram Component', () => {
   it('renders without crashing', () => {
-    const wrapper = shallow(<Spectrogram />);
-    expect(wrapper.exists());
+    const {container} = render(<Spectrogram />);
+    const boxes = container.getElementsByClassName('box');
+    expect(boxes.length).toBeLessThan(2);
   });
 });

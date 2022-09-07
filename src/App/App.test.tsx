@@ -1,10 +1,11 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import {render} from '@testing-library/react'
 import App from './App.tsx';
 
 describe('App Component', () => {
   it('renders without crashing', () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.exists());
+    const {container} = render(<App />);
+    const boxes = container.getElementsByClassName('box');
+    expect(boxes.length).toBeLessThan(2);
   });
 });
