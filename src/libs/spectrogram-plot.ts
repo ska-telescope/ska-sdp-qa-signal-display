@@ -2,7 +2,7 @@ const PHASE_NORM_FACTOR = 360;
 
 export const enum WaterfallDirection {
   TOP_TO_BOTTOM = 'top-to-bottom',
-  LEFT_TO_RIGHT = 'left-to-right',
+  LEFT_TO_RIGHT = 'left-to-right'
 }
 
 export class SpectrogramPlot {

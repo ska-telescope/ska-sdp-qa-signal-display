@@ -242,8 +242,8 @@ const mockBaselinesData = {
     'm034_m041_YY',
     'm035_m041_XX',
     'm035_m041_XY',
-    'm035_m041_YX',
-  ],
+    'm035_m041_YX'
+  ]
 };
 
 export default mockBaselinesData;

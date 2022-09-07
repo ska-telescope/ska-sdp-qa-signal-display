@@ -19,7 +19,7 @@ function App() {
   const DashboardLayoutRoot = styled('div')(() => ({
     display: 'flex',
     flex: '1 1 auto',
-    maxWidth: '100%',
+    maxWidth: '100%'
   }));
 
   return (
@@ -33,7 +33,7 @@ function App() {
                 display: 'flex',
                 flex: '1 1 auto',
                 flexDirection: 'column',
-                width: '100%',
+                width: '100%'
               }}
             >
               <Statistics />
