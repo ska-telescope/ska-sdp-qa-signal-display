@@ -10,7 +10,7 @@ import {
   ImageListItemBar,
   Grid,
   Modal,
-  Typography
+  Typography,
 } from '@mui/material';
 import { MessageTopic } from '../../models/message-topic';
 import { decodeJson } from '../../libs/decoder';
@@ -22,7 +22,7 @@ import {
   HEIGHT,
   PROTOCOL,
   WIDTH,
-  WS_API_URL
+  WS_API_URL,
 } from '../../utils/constants';
 
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
@@ -38,14 +38,6 @@ const Spectrogram = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  async function retrieveChartData() {
-    await fetch(`${DATA_API_URL}/stats/baselines`)
-      .then((response) => response.json())
-      .then((data) => {
-        setChartData(data.baselines);
-      })
-      .catch(() => null);
-  }
   const connectWebSocket = useCallback(async () => {
     const spectrogramPlotTable = new SpectrogramPlotTable(
       'spectrogramId',
@@ -112,9 +104,17 @@ const Spectrogram = () => {
   }, []);
 
   useEffect(() => {
+    async function retrieveChartData() {
+      await fetch(`${DATA_API_URL}/stats/baselines`)
+        .then((response) => response.json())
+        .then((data) => {
+          setChartData(data.baselines);
+        })
+        .catch(() => null);
+    }
     connectWebSocket();
     retrieveChartData();
-  }, [connectWebSocket, retrieveChartData]);
+  }, [connectWebSocket]);
 
   function getImageUrl(item: string) {
     const baselines = item.split(/[-_]+/);
@@ -192,7 +192,7 @@ const Spectrogram = () => {
                             maxWidth: '100%',
                             display: 'flex',
                             alignItems: 'center',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
                           }}
                         />
                       </ImageListItem>
