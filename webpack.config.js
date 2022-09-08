@@ -30,7 +30,7 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
-        test: /\.(js|mjs|jsx|ts|tsx)$/,
+        test: /\.(js|mjs|jsx|ts)$/,
         exclude: /node_modules/,
         type: "javascript/esm",
         use: [
@@ -49,6 +49,17 @@ module.exports = {
             loader: 'ts-loader'
           }
         ]
+      },
+      {
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
+        type: "javascript/esm",
+        options: {
+           compilerOptions: {
+              "noEmit": false
+           }
+        },
+        exclude: /node_modules/
       },
       { 
         enforce: "pre",
