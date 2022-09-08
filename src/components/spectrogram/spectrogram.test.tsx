@@ -13,7 +13,7 @@ describe('retrieveChartData function', () => {
   // const retrieveChartData = jest.fn();
 
   jest.mock('react', () => ({
-    useState: (chartData) => [chartData, mockSetState],
+    useState: (chartData) => [chartData, mockSetState]
   }));
 
   // it('returns data', () => {

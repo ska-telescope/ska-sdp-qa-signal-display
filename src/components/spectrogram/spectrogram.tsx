@@ -10,7 +10,7 @@ import {
   ImageListItemBar,
   Grid,
   Modal,
-  Typography,
+  Typography
 } from '@mui/material';
 import { MessageTopic } from '../../models/message-topic';
 import { decodeJson } from '../../libs/decoder';
@@ -22,7 +22,7 @@ import {
   HEIGHT,
   PROTOCOL,
   WIDTH,
-  WS_API_URL,
+  WS_API_URL
 } from '../../utils/constants';
 
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
@@ -192,7 +192,7 @@ const Spectrogram = () => {
                             maxWidth: '100%',
                             display: 'flex',
                             alignItems: 'center',
-                            justifyContent: 'center',
+                            justifyContent: 'center'
                           }}
                         />
                       </ImageListItem>
