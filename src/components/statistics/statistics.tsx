@@ -56,7 +56,7 @@ const Statistics = () => {
 
   return (
     <Container>
-      <Card sx={{ minWidth: WIDTH }}>
+      <Card variant="outlined" sx={{ minWidth: WIDTH }}>
         <CardHeader title="Statistics - Basic" />
         <CardContent sx={{ pt: '8px' }}>
           <div id="statistics-basics-Id">
@@ -128,7 +128,7 @@ const Statistics = () => {
           </div>
         </CardContent>
       </Card>
-      <Card sx={{ minWidth: WIDTH }}>
+      <Card variant="outlined" sx={{ minWidth: WIDTH }}>
         <CardHeader title="Statistics - Detailed" />
         <CardContent sx={{ pt: '8px' }}>
           <div id="statistics-detailed-Id">

@@ -56,7 +56,7 @@ export default class SpectrogramPlotTable {
       this.numRows = Math.ceil(this.len / this.numCols) || 1;
       // console.log(this.numCols, this.numRows);
 
-      // initialise 2d array of cells of a table
+      // initialize 2d array of cells of a table
       this.cells = new Array(this.numRows);
       for (let i = 0; i < this.numRows; i += 1) {
         this.cells[i] = new Array(this.numCols);
@@ -84,7 +84,7 @@ export default class SpectrogramPlotTable {
         if (idx >= this.len) break;
         // console.log("cells 3 = ", this.cells[i][j], idx);
 
-        // initialise spectrogram plot for each cell
+        // initialize spectrogram plot for each cell
         if (!this.cells[i][j].plot) {
           const id = this.getId(this.cells[i][j]?.metadata);
           if (id) this.cells[i][j].plot = new SpectrogramPlot(id);
@@ -102,8 +102,8 @@ export default class SpectrogramPlotTable {
 
     this.table = d3.select(`#${this.divId}`).append('table').style('class', 'table');
 
-    const tablebody = this.table.append('tbody');
-    const rows = tablebody.selectAll('tr').data(this.cells).enter().append('tr');
+    const tableBody = this.table.append('tbody');
+    const rows = tableBody.selectAll('tr').data(this.cells).enter().append('tr');
 
     // we built the rows using the nested array - now each row has its own array.
     rows

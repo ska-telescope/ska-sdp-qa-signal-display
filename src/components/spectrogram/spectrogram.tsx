@@ -8,7 +8,6 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
-  Grid,
   Modal,
   Typography
 } from '@mui/material';
@@ -28,6 +27,10 @@ import {
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF;
+
+function switchImageCreationOn() {
+  return SWITCH_D3_IMAGE_CREATION_ON_OFF === 'on';
+}
 
 const Spectrogram = () => {
   const [socketStatus, setSocketStatus] = useState('disconnected');
@@ -65,7 +68,7 @@ const Spectrogram = () => {
 
     ws.onmessage = function onMessage(msg) {
       const data = msg?.data;
-      if (SWITCH_D3_IMAGE_CREATION_ON_OFF === 'on') {
+      if (switchImageCreationOn()) {
         try {
           if (data instanceof ArrayBuffer) {
             // DEBUG console.log("SpectrogramsPage: received, type = ArrayBuffer, data = ", data);
@@ -126,27 +129,24 @@ const Spectrogram = () => {
     setImageUrl(getImageUrl(item));
   }
 
-  if (SWITCH_D3_IMAGE_CREATION_ON_OFF === 'on') {
+  if (switchImageCreationOn()) {
     return (
       <Container>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Card sx={{ minWidth: WIDTH }}>
-              <CardHeader
-                title="Spectrograms"
-                subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
-              />
 
-              <CardContent sx={{ pt: '8px' }}>
-                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                  Click on the baseline and polarisation label to see a detailed spectrogram
-                </Typography>
+        <Card variant="outlined" sx={{ minWidth: WIDTH }}>
+          <CardHeader
+            title="Spectrograms"
+            subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
+          />
 
-                <div id="spectrogramId" />
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
+          <CardContent sx={{ pt: '8px' }}>
+            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              Click on the baseline and polarisation label to see a detailed spectrogram
+            </Typography>
+
+            <div id="spectrogramId" />
+          </CardContent>
+        </Card>
       </Container>
     );
   }
@@ -157,29 +157,27 @@ const Spectrogram = () => {
         onClose={handleClose}
         style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none' }}
       >
-        <Card sx={{ minWidth: WIDTH, border: 'none' }}>
+        <Card variant="outlined" sx={{ minWidth: WIDTH, border: 'none' }}>
           <CardContent style={{ border: 'none' }}>
             <img src={imageUrl} loading="lazy" alt="" />
           </CardContent>
         </Card>
       </Modal>
 
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Card sx={{ minWidth: WIDTH }}>
-            <CardHeader
-              title="Spectrograms"
-              subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
-            />
+      <Card variant="outlined" sx={{ minWidth: WIDTH }}>
+        <CardHeader
+          title="Spectrograms"
+          subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
+        />
 
-            <CardContent sx={{ pt: '8px' }}>
-              <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                Click on the baseline and polarisation label to see a detailed spectrogram
-              </Typography>
+        <CardContent sx={{ pt: '8px' }}>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            Click on the baseline and polarisation label to see a detailed spectrogram
+          </Typography>
 
-              <div id="spectogram-image-list-Id">
-                <ImageList sx={{ width: 1150 }} cols={6} rowHeight={164}>
-                  {chartData && chartData.length ? (
+          <div id="spectogram-image-list-Id">
+            <ImageList sx={{ width: 1150 }} cols={6} rowHeight={164}>
+              {chartData && chartData.length ? (
                     chartData.map((item) => (
                       <ImageListItem key={item}>
                         <ImageListItemBar title={item} position="top" />
@@ -200,13 +198,11 @@ const Spectrogram = () => {
                   ) : (
                     <div />
                   )}
-                </ImageList>
-              </div>
-              <div id="spectrogramId" />
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+            </ImageList>
+          </div>
+          <div id="spectrogramId" />
+        </CardContent>
+      </Card>
     </Container>
   );
 };
