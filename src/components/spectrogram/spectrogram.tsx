@@ -5,6 +5,7 @@ import {
   CardContent,
   CardHeader,
   Container,
+  Grid,
   ImageList,
   ImageListItem,
   ImageListItemBar,
@@ -106,6 +107,7 @@ const Spectrogram = () => {
     };
   }, []);
 
+
   useEffect(() => {
     async function retrieveChartData() {
       await fetch(`${DATA_API_URL}/stats/baselines`)
@@ -154,11 +156,21 @@ const Spectrogram = () => {
       <Modal
         open={open}
         onClose={handleClose}
-        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none' }}
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >
-        <Card variant="outlined" sx={{ minWidth: WIDTH, border: 'none' }}>
-          <CardContent style={{ border: 'none' }}>
-            <img src={imageUrl} loading="lazy" alt="" />
+        <Card variant="outlined" className="removeBorder:focus">
+          <CardContent>
+            <Grid
+              container
+              spacing={0}
+              direction="column"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Grid item xs='auto'>
+                <img src={imageUrl} loading="lazy" alt="" />
+              </Grid>
+            </Grid>
           </CardContent>
         </Card>
       </Modal>
