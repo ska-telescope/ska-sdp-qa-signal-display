@@ -4,4 +4,3 @@ export enum MessageTopic {
   SPECTROGRAM = 'spectrogram',
   RFI = 'rfi'
 }
-

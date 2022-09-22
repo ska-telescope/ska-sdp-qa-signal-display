@@ -9,7 +9,7 @@ module.exports = {
   entry: "./src/index.tsx",
   mode: "none",
   output: {
-    publicPath: 'http://localhost:3000/'
+    publicPath: 'http://localhost:3333/'
   },
 
   resolve: {
@@ -17,7 +17,7 @@ module.exports = {
   },
 
   devServer: {
-    port: 3000,
+    port: 3333,
     historyApiFallback: true
   },
   experiments: {
@@ -39,12 +39,19 @@ module.exports = {
             options: {
               presets: [
               '@babel/preset-env',
-              '@babel/preset-react'],
+              ["@babel/preset-react", {
+                "runtime": "automatic"
+              }]],
               plugins: ['@babel/plugin-syntax-top-level-await'],
             },
           },
           {
-            loader: 'ts-loader'
+            loader: 'ts-loader',
+            options: {
+              compilerOptions: {
+                  "noEmit": false
+              }
+            }
           }
         ]
       },
@@ -104,6 +111,10 @@ module.exports = {
           eager: true,
           singleton: true,
           requiredVersion: deps['@mui/material']
+        },
+        '@ska-telescope/ska-javascript-components': {
+          requiredVersion: 'auto',
+          eager: true
         },
         '@emotion/styled': {
           eager: true,

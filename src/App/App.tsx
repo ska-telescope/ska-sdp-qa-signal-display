@@ -1,9 +1,7 @@
-import React, { StrictMode } from 'react';
-import { Box, CssBaseline, StyledEngineProvider, ThemeProvider } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import React from 'react';
+import { Box, CssBaseline, ThemeProvider } from '@mui/material';
 
-// import { createEmotionCache } from '../utils/create-emotion-cache';
-import { theme } from '../theme';
+import theme from '../theme';
 // Import all the css files created for d3 charts
 import '../libs/css/spectrogram-plot-table.css';
 
@@ -16,37 +14,29 @@ import Statistics from '../components/statistics/statistics';
 // const clientSideEmotionCache = createEmotionCache();
 
 function App() {
-  const DashboardLayoutRoot = styled('div')(() => ({
-    display: 'flex',
-    flex: '1 1 auto',
-    maxWidth: '100%'
-  }));
-
   return (
-    <StrictMode>
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <DashboardLayoutRoot>
-            <Box
-              sx={{
-                  display: 'flex',
-                  flex: '1 1 auto',
-                  flexDirection: 'column',
-                  width: '100%'
-                }}
-            >
-              <Statistics />
-              <SpectrumPlot />
-              <Spectrogram />
-              {/*      Suppressed for now.
+    <ThemeProvider theme={theme()}>
+      <CssBaseline enableColorScheme />
+      <React.Suspense fallback="...is loading">
+        <div className="App">
+          <Box
+            sx={{
+              display: 'flex',
+              flex: '1 1 auto',
+              flexDirection: 'column',
+              width: '100%'
+            }}
+          >
+            <Statistics />
+            <SpectrumPlot />
+            <Spectrogram />
+            {/*      Suppressed for now.
         <Rfi />
         */}
-            </Box>
-          </DashboardLayoutRoot>
-        </ThemeProvider>
-      </StyledEngineProvider>
-    </StrictMode>
+          </Box>
+        </div>
+      </React.Suspense>
+    </ThemeProvider>
   );
 }
 

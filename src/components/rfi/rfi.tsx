@@ -4,8 +4,8 @@ import { Card, CardContent, CardHeader, Container, Grid } from '@mui/material';
 
 import { MessageTopic } from 'src/models/message-topic';
 import { decodeJson } from 'src/libs/decoder';
-import { RfiQaPixelTable } from 'src/libs/rfi-qa-pixel-table';
-import { RfiDetailPlots } from 'src/libs/rfi-detail-plots';
+import RfiQaPixelTable from 'src/libs/rfi-qa-pixel-table';
+import RfiDetailPlots from 'src/libs/rfi-detail-plots';
 
 import { PROTOCOL, WIDTH, WS_API_URL } from 'src/utils/constants';
 
