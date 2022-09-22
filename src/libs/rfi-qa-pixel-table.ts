@@ -1,6 +1,6 @@
 import * as d3 from 'd3/dist/d3.min';
 import * as _ from 'lodash';
-import RfiQaPixel from "./rfi-qa-pixel";
+import RfiQaPixel from './rfi-qa-pixel';
 
 const GAP = 10;
 const NUM_POL = 4;

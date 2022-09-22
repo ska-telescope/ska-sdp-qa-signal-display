@@ -5,7 +5,7 @@ services:
     #depends_on:
     #  - qa-data-api
     ports:
-      - 3000:3000
+      - 3333:3333
     hostname: qa-display
     container_name: qa-display
     build:

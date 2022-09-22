@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import { selector } from 'd3';
 
 export class SpectrumPlotSvg {
   width: number;
@@ -17,22 +18,29 @@ export class SpectrumPlotSvg {
 
   yScale;
 
+  selector: string;
+
   constructor(selector: string, width = 1200, height = 600) {
     this.width = width;
     this.height = height;
+    this.selector = selector;
 
     // append the svg object to the selector
     this.svg = d3
       .select(selector)
       .append('svg')
       .attr('width', width - this.margin.left - this.margin.right)
-      .attr('height', height - this.margin.top + this.margin.bottom)
       .append('g')
       .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
   }
 
   public draw(data) {
     // console.log("SpectrumPlot:draw: data = ", data);
+    // Set height such that Axes can render properly
+    d3.select(this.selector)
+      .selectChild()
+      .attr('height', this.height - this.margin.top + this.margin.bottom);
+
     this.svg.selectAll('text').remove();
     this.svg.selectAll('.tick').remove();
     this.svg.selectAll('path').remove();

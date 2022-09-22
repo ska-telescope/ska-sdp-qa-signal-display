@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import React, { useCallback, useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, Container, Grid } from '@mui/material';
+import { Card, CardContent, CardHeader, Container } from '@mui/material';
 
 import { MessageTopic } from '../../models/message-topic';
 import { decodeJson } from '../../libs/decoder';
@@ -71,20 +71,16 @@ const SpectrumPlot = () => {
   }, [connectToWebSocket]);
 
   return (
-    <Container>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Card sx={{ minWidth: WIDTH }}>
-            <CardHeader
-              title="Spectrum Plot"
-              subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
-            />
-            <CardContent sx={{ pt: '8px' }}>
-              <div id="sPlotId" />
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+    <Container sx={{ py: '8px' }}>
+      <Card variant="outlined" sx={{ minWidth: WIDTH }}>
+        <CardHeader
+          title="Spectrum Plot"
+          subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
+        />
+        <CardContent>
+          <div id="sPlotId" />
+        </CardContent>
+      </Card>
     </Container>
   );
 };

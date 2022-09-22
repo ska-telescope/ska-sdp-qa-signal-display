@@ -132,7 +132,6 @@ const Spectrogram = () => {
   if (switchImageCreationOn()) {
     return (
       <Container>
-
         <Card variant="outlined" sx={{ minWidth: WIDTH }}>
           <CardHeader
             title="Spectrograms"
@@ -151,7 +150,7 @@ const Spectrogram = () => {
     );
   }
   return (
-    <Container>
+    <Container sx={{ py: '8px' }}>
       <Modal
         open={open}
         onClose={handleClose}
@@ -178,26 +177,26 @@ const Spectrogram = () => {
           <div id="spectogram-image-list-Id">
             <ImageList sx={{ width: 1150 }} cols={6} rowHeight={164}>
               {chartData && chartData.length ? (
-                    chartData.map((item) => (
-                      <ImageListItem key={item}>
-                        <ImageListItemBar title={item} position="top" />
-                        <img
-                          src={getImageUrl(item)}
-                          alt={item}
-                          loading="lazy"
-                          onClick={() => imageClick(item)}
-                          style={{
-                            maxWidth: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                          }}
-                        />
-                      </ImageListItem>
-                    ))
-                  ) : (
-                    <div />
-                  )}
+                chartData.map((item) => (
+                  <ImageListItem key={item}>
+                    <ImageListItemBar title={item} position="top" />
+                    <img
+                      src={getImageUrl(item)}
+                      alt={item}
+                      loading="lazy"
+                      onClick={() => imageClick(item)}
+                      style={{
+                        maxWidth: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    />
+                  </ImageListItem>
+                ))
+              ) : (
+                <div />
+              )}
             </ImageList>
           </div>
           <div id="spectrogramId" />

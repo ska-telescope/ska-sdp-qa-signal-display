@@ -1,8 +1,6 @@
 import React from 'react';
 import { Box, CssBaseline, ThemeProvider } from '@mui/material';
-// import { styled } from '@mui/material/styles';
 
-// import { createEmotionCache } from '../utils/create-emotion-cache';
 import theme from '../theme';
 // Import all the css files created for d3 charts
 import '../libs/css/spectrogram-plot-table.css';

@@ -1,6 +1,6 @@
 FROM node:16.14.0 
 
-ENV PORT 3000
+ENV PORT 3333
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
