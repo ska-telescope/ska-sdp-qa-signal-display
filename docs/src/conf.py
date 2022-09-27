@@ -22,7 +22,7 @@ project = 'ska-sdp-qa-display'
 author = 'Naledi'
 
 # The short X.Y version
-version = ''
+version = '0.2.0'
 # The full version, including alpha/beta/rc tags
 release = ''
 
