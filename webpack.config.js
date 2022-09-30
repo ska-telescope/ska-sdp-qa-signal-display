@@ -132,8 +132,10 @@ module.exports = {
       inject: true,
       template: './public/index.html'
     }),
-    new webpack.DefinePlugin({
-      'process.env': JSON.stringify(dotenv.parsed)
-    })
+    new webpack.DefinePlugin({ 
+      "process.env": {
+        NODE_ENV: JSON.stringify("production")
+      }
+    }),
   ]
 };
