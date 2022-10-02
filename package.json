@@ -14,7 +14,8 @@
     "lint:tsc": "yarn tsc --noEmit",
     "lint:yarn-deduplicate": "yarn-deduplicate --fail --list --strategy=fewer",
     "prepare": "husky install",
-    "start": "webpack serve --open --mode development",
+    "start": "webpack serve --open",
+    "dev": "webpack serve --open --mode development",
     "test": "react-scripts test --env=jsdom --reporters=default --reporters=jest-junit",
     "test:coverage": "react-scripts test --coverage --coverageDirectory=build/coverage"
   },
