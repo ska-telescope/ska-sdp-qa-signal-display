@@ -3,7 +3,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
 const deps = require('./package.json').dependencies;
-const dotenv = require('dotenv').config({ path: __dirname + '/.env' });
+const dotenv = require('dotenv').config({ path: '/.env' });
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -132,10 +132,8 @@ module.exports = {
       inject: true,
       template: './public/index.html'
     }),
-    new webpack.DefinePlugin({ 
-      "process.env": {
-        NODE_ENV: JSON.stringify("production")
-      }
-    }),
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(dotenv.parsed)
+    })
   ]
 };
