@@ -3,7 +3,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
 const deps = require('./package.json').dependencies;
-const dotenv = require('dotenv').config({ path: '/.env' });
+const dotenv = require('dotenv').config({ path: './.env' });
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -132,8 +132,17 @@ module.exports = {
       inject: true,
       template: './public/index.html'
     }),
+    new webpack.EnvironmentPlugin([
+      'REACT_APP_WS_API',
+      'REACT_APP_MESSAGE_TYPE',
+      'REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF',
+      'REACT_APP_DATA_API_URL',
+      'REACT_APP_WORKFLOW_INTERVAL_SECONDS',
+      'REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS',
+      'SKIP_PREFLIGHT_CHECK'
+    ]),
     new webpack.DefinePlugin({
-      'process.env': JSON.stringify(dotenv.parsed)
+      process: {env: {}}
     })
   ]
 };
