@@ -23,30 +23,19 @@ install_dependencies:
     - k8srunner
   script:
     - rm -rf node_modules && yarn install
-  cache:
-    paths:
-      - node_modules/
-    policy: push
+  cache: []
 
 code_lint:
   stage: lint
   tags:
     - k8srunner
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
-  script:
-    - yarn lint
+  cache: []
 
 test_and_coverage:
   stage: test
   tags:
     - k8srunner
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
+  cache: []
   before_script:
     - mkdir -p build/reports
 
@@ -63,10 +52,7 @@ unit_tests:
   stage: test
   tags:
     - k8srunner
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
+  cache: []
   script:
     - yarn test
 
@@ -75,10 +61,7 @@ list_dependencies:
   tags:
     - k8srunner
   allow_failure: true
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
+  cache: []
   script:
     - yarn list --depth=0 --json >> npm_deps.json
     - yarn list --depth=0  >> npm_deps.txt
@@ -94,10 +77,7 @@ build:
   stage: build
   tags:
     - k8srunner
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
+  cache: []
   script:
     - yarn build
 
