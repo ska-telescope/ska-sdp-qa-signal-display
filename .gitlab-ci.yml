@@ -31,7 +31,7 @@ code_lint:
     - k8srunner
   cache: []
   script:
-    - yarn lint
+    - yarn install && yarn lint
 
 test_and_coverage:
   stage: test
