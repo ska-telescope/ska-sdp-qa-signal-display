@@ -116,10 +116,10 @@ export class SpectrumPlotSvg {
           .line()
           .curve(d3.curveMonotoneX)
           .x((_d, i) => {
-            // console.log(data.channels[i]);
-            return this.xScale(data.channels[i]);
+            //console.log(this.xScale(data.channels[1]));
+            return data.channels[i];
           })
-          .y((_d, i) => this.yScale(data.power[i]))
+          .y((_d, i) => data.power[i])
       );
   }
 
@@ -135,9 +135,9 @@ export class SpectrumPlotSvg {
         d3
           .area()
           .curve(d3.curveMonotoneX)
-          .x((_d, i) => this.xScale(data.channels[i]))
-          .y0((_d, i) => this.yScale(data.power[i] + data.sdU[i]))
-          .y1((_d, i) => this.yScale(data.power[i] - data.sdL[i]))
+          .x((_d, i) => data.channels[i])
+          .y0((_d, i) => data.power[i] + data.sd_u[i])
+          .y1((_d, i) => data.power[i] - data.sd_l[i])
       );
   }
 }
