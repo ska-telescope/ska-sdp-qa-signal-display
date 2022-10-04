@@ -31,7 +31,8 @@ code_lint:
     - k8srunner
   cache: []
   script:
-    - yarn install && yarn lint
+    - yarn install
+    - yarn lint
 
 test_and_coverage:
   stage: test
@@ -46,6 +47,7 @@ test_and_coverage:
     paths:
       - build/
   script:
+    - yarn install
     - yarn test:coverage
     - mv build/coverage/clover.xml build/reports/code-coverage.xml
 
@@ -56,6 +58,7 @@ unit_tests:
     - k8srunner
   cache: []
   script:
+    - yarn install
     - yarn test
 
 list_dependencies:
@@ -81,7 +84,8 @@ build:
     - k8srunner
   cache: []
   script:
-    - yarn install && yarn build
+    - yarn install
+    - yarn build
 
 pages:
   stage: pages
