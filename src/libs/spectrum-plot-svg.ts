@@ -116,7 +116,7 @@ export class SpectrumPlotSvg {
           .line()
           .curve(d3.curveMonotoneX)
           .x((_d, i) => {
-            //console.log(this.xScale(data.channels[1]));
+            // console.log(this.xScale(data.channels[1]));
             return data.channels[i];
           })
           .y((_d, i) => data.power[i])
