@@ -30,6 +30,8 @@ code_lint:
   tags:
     - k8srunner
   cache: []
+  script:
+    - yarn lint
 
 test_and_coverage:
   stage: test
