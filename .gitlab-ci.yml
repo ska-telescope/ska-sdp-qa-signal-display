@@ -81,7 +81,7 @@ build:
     - k8srunner
   cache: []
   script:
-    - yarn build
+    - yarn install && yarn build
 
 pages:
   stage: pages
