@@ -3,13 +3,12 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
 const deps = require('./package.json').dependencies;
-const dotenv = require('dotenv').config({ path: './.env' });
 
 module.exports = {
   entry: "./src/index.tsx",
   mode: "none",
   output: {
-    publicPath: 'https://sdhp.stfc.skao.int/qa-metrics/display/'
+    publicPath: '/qa-metrics/display/'
   },
 
   resolve: {
@@ -17,9 +16,11 @@ module.exports = {
   },
 
   devServer: {
+    host: "localhost.sdhp.stfc.skao.int",
     port: 3333,
     historyApiFallback: true,
-    allowedHosts: "all"
+    allowedHosts: "all",
+    https: true
   },
   experiments: {
     topLevelAwait: true
