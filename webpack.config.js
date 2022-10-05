@@ -9,7 +9,7 @@ module.exports = {
   entry: "./src/index.tsx",
   mode: "none",
   output: {
-    publicPath: 'http://localhost:3333/'
+    publicPath: 'https://sdhp.stfc.skao.int/qa-metrics/display/'
   },
 
   resolve: {
