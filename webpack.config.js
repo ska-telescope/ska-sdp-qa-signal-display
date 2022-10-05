@@ -18,7 +18,8 @@ module.exports = {
 
   devServer: {
     port: 3333,
-    historyApiFallback: true
+    historyApiFallback: true,
+    allowedHosts: "all"
   },
   experiments: {
     topLevelAwait: true
