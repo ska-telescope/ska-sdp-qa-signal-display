@@ -16,7 +16,7 @@ module.exports = {
   },
 
   devServer: {
-    host: "localhost.sdhp.stfc.skao.int",
+    host: "sdhp.stfc.skao.int",
     port: 3333,
     historyApiFallback: true,
     allowedHosts: "all",
