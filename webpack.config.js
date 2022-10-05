@@ -7,10 +7,6 @@ const deps = require('./package.json').dependencies;
 module.exports = {
   entry: "./src/index.tsx",
   mode: "none",
-  output: {
-    publicPath: '/qa-metrics/display/'
-  },
-
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.json']
   },
