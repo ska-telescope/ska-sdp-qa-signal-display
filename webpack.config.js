@@ -7,11 +7,14 @@ const deps = require('./package.json').dependencies;
 module.exports = {
   entry: "./src/index.tsx",
   mode: "none",
+  output: {
+    publicPath: 'http://localhost:3333/'
+  },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.json']
   },
-
   devServer: {
+    host: '0.0.0.0',
     port: 3333,
     historyApiFallback: true,
     allowedHosts: "all",
