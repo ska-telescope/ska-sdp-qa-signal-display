@@ -4,21 +4,18 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 
 const deps = require('./package.json').dependencies;
 
-module.exports = {
+module.exports = (env, argv) => { return {
   entry: "./src/index.tsx",
   mode: "none",
   output: {
-    publicPath: 'http://localhost:3333/'
+    publicPath: argv.mode == 'production' ? process.env.DEPLOY_HOST : '/'
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.json']
   },
   devServer: {
-    host: '0.0.0.0',
     port: 3333,
-    historyApiFallback: true,
-    allowedHosts: "all",
-    https: true
+    historyApiFallback: true
   },
   experiments: {
     topLevelAwait: true
@@ -145,4 +142,4 @@ module.exports = {
       process: {env: {}}
     })
   ]
-};
+};};
