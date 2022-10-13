@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const deps = require('./package.json').dependencies;
 
@@ -140,6 +141,18 @@ module.exports = (env, argv) => { return {
     ]),
     new webpack.DefinePlugin({
       process: {env: {}}
+    }),
+    new CopyWebpackPlugin({
+        patterns: [
+            {
+              from: 'public',
+              globOptions: {
+                dot: true,
+                gitignore: true,
+                ignore: ["**/*.html"],
+              },
+            }
+        ]
     })
   ]
 };};
