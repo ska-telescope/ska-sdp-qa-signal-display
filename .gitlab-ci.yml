@@ -22,7 +22,8 @@ install_dependencies:
   tags:
     - k8srunner
   script:
-    - rm -rf node_modules && yarn install
+    - rm -rf node_modules
+    - yarn
   cache:
     paths:
       - node_modules/
@@ -37,6 +38,7 @@ code_lint:
       - node_modules/
     policy: pull
   script:
+    - yarn add eslint 
     - yarn lint
 
 test_and_coverage:
@@ -55,6 +57,7 @@ test_and_coverage:
     paths:
       - build/
   script:
+    - yarn add react-scripts
     - yarn test:coverage
     - mv build/coverage/clover.xml build/reports/code-coverage.xml
 
@@ -68,6 +71,7 @@ unit_tests:
       - node_modules/
     policy: pull
   script:
+    - yarn add react-scripts
     - yarn test
 
 list_dependencies:
@@ -99,6 +103,7 @@ build:
       - node_modules/
     policy: pull
   script:
+    - yarn add react-scripts
     - yarn build
 
 pages:
