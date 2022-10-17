@@ -7,7 +7,7 @@ const dotenv = require('dotenv').config({ path: __dirname + '/.env' });
 
 module.exports = {
   entry: "./src/index.tsx",
-  mode: "none",
+  // mode: "none",
   output: {
     publicPath: 'http://localhost:3333/'
   },
