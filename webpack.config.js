@@ -1,21 +1,19 @@
 const webpack = require('webpack')
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const deps = require('./package.json').dependencies;
-const dotenv = require('dotenv').config({ path: __dirname + '/.env' });
 
-module.exports = {
+module.exports = (env, argv) => { return {
   entry: "./src/index.tsx",
   // mode: "none",
   output: {
-    publicPath: 'http://localhost:3333/'
+    publicPath: argv.mode == 'production' ? process.env.DEPLOY_HOST : '/'
   },
-
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.json']
   },
-
   devServer: {
     port: 3333,
     historyApiFallback: true
@@ -132,8 +130,29 @@ module.exports = {
       inject: true,
       template: './public/index.html'
     }),
+    new webpack.EnvironmentPlugin([
+      'REACT_APP_WS_API',
+      'REACT_APP_MESSAGE_TYPE',
+      'REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF',
+      'REACT_APP_DATA_API_URL',
+      'REACT_APP_WORKFLOW_INTERVAL_SECONDS',
+      'REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS',
+      'SKIP_PREFLIGHT_CHECK'
+    ]),
     new webpack.DefinePlugin({
-      'process.env': JSON.stringify(dotenv.parsed)
+      process: {env: {}}
+    }),
+    new CopyWebpackPlugin({
+        patterns: [
+            {
+              from: 'public',
+              globOptions: {
+                dot: true,
+                gitignore: true,
+                ignore: ["**/*.html"],
+              },
+            }
+        ]
     })
   ]
-};
+};};

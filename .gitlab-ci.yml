@@ -33,22 +33,17 @@ code_lint:
   stage: lint
   tags:
     - k8srunner
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
+  cache: []
   script:
-    - yarn add eslint 
+    - yarn install
+    - yarn add eslint
     - yarn lint
 
 test_and_coverage:
   stage: test
   tags:
     - k8srunner
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
+  cache: []
   before_script:
     - mkdir -p build/reports
 
@@ -57,6 +52,7 @@ test_and_coverage:
     paths:
       - build/
   script:
+    - yarn install
     - yarn add react-scripts
     - yarn test:coverage
     - mv build/coverage/clover.xml build/reports/code-coverage.xml
@@ -66,11 +62,9 @@ unit_tests:
   stage: test
   tags:
     - k8srunner
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
+  cache: []
   script:
+    - yarn install
     - yarn add react-scripts
     - yarn test
 
@@ -79,10 +73,7 @@ list_dependencies:
   tags:
     - k8srunner
   allow_failure: true
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
+  cache: []
   script:
     - yarn list --depth=0 --json >> npm_deps.json
     - yarn list --depth=0  >> npm_deps.txt
@@ -98,10 +89,7 @@ build:
   stage: build
   tags:
     - k8srunner
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
+  cache: []
   script:
     - yarn add react-scripts
     - yarn build
