@@ -74,25 +74,36 @@ const Statistics = () => {
                   <Grid item xs={6}>
                     <Typography paragraph>Time:</Typography>
                     <Typography paragraph>
-                      Last Refresh from API: {epochToDateString(processingBlockData?.time?.now)}
+                      Last Refresh from API:
+                      {' '}
+                      {epochToDateString(processingBlockData?.time?.now)}
                     </Typography>
                     <Typography paragraph>
-                      Last Updated: {epochToDateString(processingBlockData?.time?.last_update)}
+                      Last Updated:
+                      {' '}
+                      {epochToDateString(processingBlockData?.time?.last_update)}
                     </Typography>
                     <Typography paragraph>
-                      Start: {epochToDateString(processingBlockData?.time?.start)}
+                      Start:
+                      {' '}
+                      {epochToDateString(processingBlockData?.time?.start)}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
                     <Typography paragraph>Workflow:</Typography>
                     <Typography paragraph>
-                      State: {processingBlockData?.processing_block?.state}
+                      State:
+                      {' '}
+                      {processingBlockData?.processing_block?.state}
                     </Typography>
                     <Typography paragraph>
-                      Scan ID: {processingBlockData?.processing_block?.scan_id}
+                      Scan ID:
+                      {' '}
+                      {processingBlockData?.processing_block?.scan_id}
                     </Typography>
                     <Typography paragraph>
-                      Time Since Last Payload:{' '}
+                      Time Since Last Payload:
+                      {' '}
                       {processingBlockData?.processing_block?.time_since_last_payload}
                     </Typography>
                   </Grid>
@@ -112,30 +123,38 @@ const Statistics = () => {
                   <Grid item xs={6}>
                     <Typography paragraph>Time:</Typography>
                     <Typography paragraph>
-                      Last Refresh from API:{' '}
+                      Last Refresh from API:
+                      {' '}
                       {epochToDateString(processingBlockStatisticsData?.time?.now)}
                     </Typography>
                     <Typography paragraph>
-                      Last Updated:{' '}
+                      Last Updated:
+                      {' '}
                       {epochToDateString(processingBlockStatisticsData?.time?.last_update)}
                     </Typography>
                     <Typography paragraph>
-                      Start: {epochToDateString(processingBlockStatisticsData?.time?.start)}
+                      Start:
+                      {' '}
+                      {epochToDateString(processingBlockStatisticsData?.time?.start)}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
                     <Typography paragraph>Statistics:</Typography>
                     <Typography paragraph>
-                      Ingestion Rate:{' '}
+                      Ingestion Rate:
+                      {' '}
                       {Math.round(processingBlockStatisticsData?.statistics?.ingestion_rate * 100) /
                         100}{' '}
                       p/s
                     </Typography>
                     <Typography paragraph>
-                      Packet Count: {processingBlockStatisticsData?.statistics?.packet_count}
+                      Packet Count:
+                      {' '}
+                      {processingBlockStatisticsData?.statistics?.packet_count}
                     </Typography>
                     <Typography paragraph>
-                      Payloads Received:{' '}
+                      Payloads Received:
+                      {' '}
                       {processingBlockStatisticsData?.statistics?.payloads_received}
                     </Typography>
                   </Grid>
@@ -154,32 +173,49 @@ const Statistics = () => {
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
                     <Typography paragraph>
-                      Last Update: {epochToDateString(receiverEventsData?.time)}
+                      Last Update:
+                      {' '}
+                      {epochToDateString(receiverEventsData?.time)}
                     </Typography>
                     <Typography paragraph>
-                      Current Scan ID: {receiverEventsData?.scan_id}
+                      Current Scan ID:
+                      {' '}
+                      {receiverEventsData?.scan_id}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
                     <Typography paragraph>
-                      Total Data Received:{' '}
-                      {Math.round(receiverEventsData?.total_megabytes * 100) / 100} MB
+                      Total Data Received:
+                      {' '}
+                      {Math.round(receiverEventsData?.total_megabytes * 100) / 100}
+                      {' '}
+                      MB
                     </Typography>
                     <Typography paragraph>
-                      Current speed:{' '}
+                      Current speed:
+                      {' '}
                       {Math.round(
                         (receiverEventsData?.total_megabytes / receiverEventsData?.duration) * 100
-                      ) / 100}{' '}
+                      ) / 100}
+                      {' '}
                       MB/s
                     </Typography>
                     <Typography paragraph>
-                      Number of Heaps: {receiverEventsData?.num_heaps}
+                      Number of Heaps:
+                      {' '}
+                      {receiverEventsData?.num_heaps}
                     </Typography>
                     <Typography paragraph>
-                      Number of Incomplete Heaps: {receiverEventsData?.num_incomplete}
+                      Number of Incomplete Heaps:
+                      {' '}
+                      {receiverEventsData?.num_incomplete}
                     </Typography>
                     <Typography paragraph>
-                      Duration of Current Transfer: {Math.round(receiverEventsData?.duration)} s
+                      Duration of Current Transfer:
+                      {' '}
+                      {Math.round(receiverEventsData?.duration)}
+                      {' '}
+                      s
                     </Typography>
                   </Grid>
                 </Grid>
