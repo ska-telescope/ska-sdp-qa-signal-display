@@ -7,7 +7,7 @@ const deps = require('./package.json').dependencies;
 
 module.exports = (env, argv) => { return {
   entry: "./src/index.tsx",
-  // mode: "none",
+  mode: argv.mode ? argv.mode : 'development',
   output: {
     publicPath: argv.mode == 'production' ? process.env.DEPLOY_HOST : '/'
   },
