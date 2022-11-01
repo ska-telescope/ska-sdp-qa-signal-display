@@ -143,8 +143,9 @@ const Statistics = () => {
                     <Typography paragraph>
                       Ingestion Rate:
                       {' '}
-                      {Math.round(processingBlockStatisticsData?.statistics?.ingestion_rate * 100) /
-                        100}{' '}
+                      {Math.round((processingBlockStatisticsData?.statistics?.ingestion_rate || 0) * 100) /
+                        100}
+                      {' '}
                       p/s
                     </Typography>
                     <Typography paragraph>
@@ -187,7 +188,7 @@ const Statistics = () => {
                     <Typography paragraph>
                       Total Data Received:
                       {' '}
-                      {Math.round(receiverEventsData?.total_megabytes * 100) / 100}
+                      {Math.round((receiverEventsData?.total_megabytes || 0) * 100) / 100}
                       {' '}
                       MB
                     </Typography>
@@ -195,7 +196,7 @@ const Statistics = () => {
                       Current speed:
                       {' '}
                       {Math.round(
-                        (receiverEventsData?.total_megabytes / receiverEventsData?.duration) * 100
+                        ((receiverEventsData?.total_megabytes || 0) / (receiverEventsData?.duration || 1)) * 100
                       ) / 100}
                       {' '}
                       MB/s
