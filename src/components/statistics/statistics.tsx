@@ -11,6 +11,7 @@ const WORKFLOW_STATISTICS_INTERVAL_SECONDS =
 const Statistics = () => {
   const [processingBlockData, setProcessingBlockData] = useState(null);
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = useState(null);
+  const [receiverEventsData, setReceiverEventsData] = useState(null);
   const [counter, setCounter] = useState(0);
 
   function epochToDateString(timeInMilliseconds: number) {
@@ -27,7 +28,7 @@ const Statistics = () => {
       .then((response) => response.json())
       .then((data) => {
         setProcessingBlockData(data);
-        setTimeout( retrieveProcessingBlockData, WORKFLOW_INTERVAL_SECONDS);
+        setTimeout(retrieveProcessingBlockData, WORKFLOW_INTERVAL_SECONDS);
       })
       .catch(() => null);
   }
@@ -37,19 +38,29 @@ const Statistics = () => {
       .then((response) => response.json())
       .then((data) => {
         setProcessingBlockStatisticsData(data);
-        setTimeout( retrieveProcessingBlockStatisticsData, WORKFLOW_STATISTICS_INTERVAL_SECONDS);
+        setTimeout(retrieveProcessingBlockStatisticsData, WORKFLOW_STATISTICS_INTERVAL_SECONDS);
       })
       .catch(() => null);
   }
 
-  useEffect(() =>{
-    if (counter === 0){
+  async function retrieveReceiverEventData() {
+    await fetch(`${DATA_API_URL}/stats/receiver/latest_event`)
+      .then((response) => response.json())
+      .then((data) => {
+        setReceiverEventsData(data);
+        setTimeout(retrieveReceiverEventData, WORKFLOW_STATISTICS_INTERVAL_SECONDS);
+      })
+      .catch(() => null);
+  }
+
+  useEffect(() => {
+    if (counter === 0) {
       retrieveProcessingBlockData();
       retrieveProcessingBlockStatisticsData();
+      retrieveReceiverEventData();
     }
     setCounter(1);
   });
-
 
   return (
     <Box>
@@ -60,48 +71,40 @@ const Statistics = () => {
             <div id="statistics-basics-Id">
               {processingBlockData?.time && (
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <Typography paragraph>
-                      Success:
-                      {JSON.stringify(processingBlockData?.success)}
-                    </Typography>
-                  </Grid>
                   <Grid item xs={6}>
                     <Typography paragraph>Time:</Typography>
                     <Typography paragraph>
-                      Now: 
+                      Last Refresh from API:
+                      {' '}
                       {epochToDateString(processingBlockData?.time?.now)}
                     </Typography>
                     <Typography paragraph>
-                      Last Updated: 
+                      Last Updated:
+                      {' '}
                       {epochToDateString(processingBlockData?.time?.last_update)}
                     </Typography>
                     <Typography paragraph>
-                      Start: 
+                      Start:
+                      {' '}
                       {epochToDateString(processingBlockData?.time?.start)}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
                     <Typography paragraph>Workflow:</Typography>
                     <Typography paragraph>
-                      State: 
-                      {JSON.stringify(processingBlockData?.processing_block?.state)}
-                    </Typography>
-                    <Typography paragraph>
-                      Processing ID:
+                      State:
                       {' '}
-                      {JSON.stringify(processingBlockData?.processing_block?.processing_id)}
+                      {processingBlockData?.processing_block?.state}
                     </Typography>
                     <Typography paragraph>
-                      Scan ID: 
-                      {JSON.stringify(processingBlockData?.processing_block?.scan_id)}
+                      Scan ID:
+                      {' '}
+                      {processingBlockData?.processing_block?.scan_id}
                     </Typography>
                     <Typography paragraph>
                       Time Since Last Payload:
                       {' '}
-                      {JSON.stringify(
-                        processingBlockData?.processing_block?.time_since_last_payload
-                      )}
+                      {processingBlockData?.processing_block?.time_since_last_payload}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -120,7 +123,8 @@ const Statistics = () => {
                   <Grid item xs={6}>
                     <Typography paragraph>Time:</Typography>
                     <Typography paragraph>
-                      Now: 
+                      Last Refresh from API:
+                      {' '}
                       {epochToDateString(processingBlockStatisticsData?.time?.now)}
                     </Typography>
                     <Typography paragraph>
@@ -129,7 +133,8 @@ const Statistics = () => {
                       {epochToDateString(processingBlockStatisticsData?.time?.last_update)}
                     </Typography>
                     <Typography paragraph>
-                      Start: 
+                      Start:
+                      {' '}
                       {epochToDateString(processingBlockStatisticsData?.time?.start)}
                     </Typography>
                   </Grid>
@@ -138,22 +143,80 @@ const Statistics = () => {
                     <Typography paragraph>
                       Ingestion Rate:
                       {' '}
-                      {JSON.stringify(processingBlockStatisticsData?.statistics?.ingestion_rate)}
-                    </Typography>
-                    <Typography paragraph>
-                      Error Count:
+                      {Math.round((processingBlockStatisticsData?.statistics?.ingestion_rate || 0) * 100) /
+                        100}
                       {' '}
-                      {JSON.stringify(processingBlockStatisticsData?.statistics?.error_count)}
+                      p/s
                     </Typography>
                     <Typography paragraph>
                       Packet Count:
                       {' '}
-                      {JSON.stringify(processingBlockStatisticsData?.statistics?.packet_count)}
+                      {processingBlockStatisticsData?.statistics?.packet_count}
                     </Typography>
                     <Typography paragraph>
                       Payloads Received:
                       {' '}
-                      {JSON.stringify(processingBlockStatisticsData?.statistics?.payloads_received)}
+                      {processingBlockStatisticsData?.statistics?.payloads_received}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </Container>
+      <Container sx={{ py: '8px' }}>
+        <Card variant="outlined" sx={{ minWidth: WIDTH, py: '8px' }}>
+          <CardHeader title="Statistics - Receiver" />
+          <CardContent sx={{ pt: '8px' }}>
+            <div id="statistics-receiver-events">
+              {receiverEventsData?.time && (
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <Typography paragraph>
+                      Last Update:
+                      {' '}
+                      {epochToDateString(receiverEventsData?.time)}
+                    </Typography>
+                    <Typography paragraph>
+                      Current Scan ID:
+                      {' '}
+                      {receiverEventsData?.scan_id}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography paragraph>
+                      Total Data Received:
+                      {' '}
+                      {Math.round((receiverEventsData?.total_megabytes || 0) * 100) / 100}
+                      {' '}
+                      MB
+                    </Typography>
+                    <Typography paragraph>
+                      Current speed:
+                      {' '}
+                      {Math.round(
+                        ((receiverEventsData?.total_megabytes || 0) / (receiverEventsData?.duration || 1)) * 100
+                      ) / 100}
+                      {' '}
+                      MB/s
+                    </Typography>
+                    <Typography paragraph>
+                      Number of Heaps:
+                      {' '}
+                      {receiverEventsData?.num_heaps}
+                    </Typography>
+                    <Typography paragraph>
+                      Number of Incomplete Heaps:
+                      {' '}
+                      {receiverEventsData?.num_incomplete}
+                    </Typography>
+                    <Typography paragraph>
+                      Duration of Current Transfer:
+                      {' '}
+                      {Math.round(receiverEventsData?.duration)}
+                      {' '}
+                      s
                     </Typography>
                   </Grid>
                 </Grid>
