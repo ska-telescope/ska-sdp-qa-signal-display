@@ -78,7 +78,7 @@ const SpectrumPlot = () => {
           subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
         />
         <CardContent>
-          <div id="sPlotId" />
+          <div id="sPlotId" data-testid="sPlotId" />
         </CardContent>
       </Card>
     </Container>

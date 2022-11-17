@@ -1,6 +1,6 @@
 import React from 'react';
 /* eslint-disable import/no-unresolved */
-import { render, cleanup, screen, waitFor, fireEvent } from '@testing-library/react';
+import { render, cleanup, screen, fireEvent } from '@testing-library/react';
 import Spectrogram from './spectrogram';
 import mockBaselinesData from '../../mockData/mock-baseline-data';
 import {rest} from 'msw'
@@ -10,7 +10,7 @@ import {
   WS_API_URL
 } from '../../utils/constants';
 
-const ws_api_url_http = WS_API_URL.replace('ws', 'http')
+const ws_api_url_http = WS_API_URL.replace('ws', 'http');
 
 const server = setupServer(
   rest.get(`${DATA_API_URL}/stats/baselines`, (req, res, ctx) => {

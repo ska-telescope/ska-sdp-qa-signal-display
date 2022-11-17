@@ -8,20 +8,20 @@ const WORKFLOW_INTERVAL_SECONDS = Number(process.env.REACT_APP_WORKFLOW_INTERVAL
 const WORKFLOW_STATISTICS_INTERVAL_SECONDS =
   Number(process.env.REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS) * CONVERT;
 
+function epochToDateString(timeInMilliseconds: number) {
+  if (timeInMilliseconds === undefined || timeInMilliseconds === null) {
+    return null;
+  }
+  const date = new Date(0);
+  date.setMilliseconds(timeInMilliseconds * 1000);
+  return date.toISOString();
+}
+
 const Statistics = () => {
   const [processingBlockData, setProcessingBlockData] = useState(null);
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = useState(null);
   const [receiverEventsData, setReceiverEventsData] = useState(null);
   const [counter, setCounter] = useState(0);
-
-  function epochToDateString(timeInMilliseconds: number) {
-    if (timeInMilliseconds === undefined || timeInMilliseconds === null) {
-      return null;
-    }
-    const date = new Date(0);
-    date.setMilliseconds(timeInMilliseconds * 1000);
-    return date.toISOString();
-  }
 
   async function retrieveProcessingBlockData() {
     await fetch(`${DATA_API_URL}/stats/processing_block`)
