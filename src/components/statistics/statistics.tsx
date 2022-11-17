@@ -68,7 +68,7 @@ const Statistics = () => {
         <Card variant="outlined" sx={{ minWidth: WIDTH }}>
           <CardHeader title="Statistics - Basic" />
           <CardContent sx={{ pt: '8px' }}>
-            <div id="statistics-basics-Id">
+            <div id="statistics-basics-Id" data-testid="statistics-basics-Id">
               {processingBlockData?.time && (
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
@@ -117,7 +117,7 @@ const Statistics = () => {
         <Card variant="outlined" sx={{ minWidth: WIDTH, py: '8px' }}>
           <CardHeader title="Statistics - Detailed" />
           <CardContent sx={{ pt: '8px' }}>
-            <div id="statistics-detailed-Id">
+            <div id="statistics-detailed-Id" data-testid="statistics-detailed-Id">
               {processingBlockStatisticsData?.time && (
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
