@@ -6,7 +6,7 @@ const mockStatisticsReceiverEventsData = {
     "num_heaps": 0,
     "num_incomplete": 0,
     "duration": 0.0,
-    "streams": [],
+    "streams": []
 };
   
 export default mockStatisticsReceiverEventsData;

@@ -1,19 +1,16 @@
 import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
 // eslint-disable-next-line import/no-unresolved
-import SpectrumPlot from './spectrumPlot';
 import {rest} from 'msw'
 import {setupServer} from 'msw/node'
-import {
-  DATA_API_URL,
-  WS_API_URL
-} from '../../utils/constants';
-import mockSpectrumData from 'src/mockData/mock-spectrum-data';
+import mockSpectrumData from '../../mockData/mock-spectrum-data';
+import { WS_API_URL } from '../../utils/constants';
+import SpectrumPlot from './spectrumPlot';
 
-const ws_api_url_http = WS_API_URL.replace('ws', 'http');
+const wsApiUrlHttp = WS_API_URL.replace('ws', 'http');
 
 const server = setupServer(
-  rest.get(`${ws_api_url_http}/json_spectrum`, (req, res, ctx) => {
+  rest.get(`${wsApiUrlHttp}/json_spectrum`, (req, res, ctx) => {
     return res(ctx.json(mockSpectrumData));
   })
 )
@@ -37,5 +34,5 @@ test('renders without crashing', () => {
 test('check if graph renders', async () => {
   render(<SpectrumPlot />);
   const graph = await screen.getByRole('svg');
-  expect(graph).toBeTruthy();;
+  expect(graph).toBeTruthy();
 });

@@ -1,12 +1,12 @@
 import React from 'react';
 /* eslint-disable import/no-unresolved */
 import { render, cleanup, screen } from '@testing-library/react';
-import Statistics from './statistics';
 import mockProcessingBlockData from 'src/mockData/mock-processing-block-data';
 import mockProcessingBlockStatisticsData from 'src/mockData/mock-processing-block-statistics-data';
 import mockStatisticsReceiverEventsData from 'src/mockData/mock-statistics-receiver-events-data';
 import {rest} from 'msw';
 import {setupServer} from 'msw/node';
+import Statistics from './statistics';
 import { DATA_API_URL } from '../../utils/constants';
 
 const server = setupServer(
@@ -20,7 +20,7 @@ const server = setupServer(
 
   rest.get(`${DATA_API_URL}/stats/receiver/latest_event`, (req, res, ctx) => {
     return res(ctx.json(mockStatisticsReceiverEventsData));
-  }),
+  })
 );
 
 beforeAll(() => {
