@@ -20,7 +20,7 @@ const server = setupServer(
   rest.get(`${ws_api_url_http}/json_spectrograms`, (req, res, ctx) => {
     return res(ctx.json({success: 200}));
   })
-)
+);
 
 beforeAll(() => {
   server.listen();

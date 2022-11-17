@@ -169,7 +169,7 @@ const Statistics = () => {
         <Card variant="outlined" sx={{ minWidth: WIDTH, py: '8px' }}>
           <CardHeader title="Statistics - Receiver" />
           <CardContent sx={{ pt: '8px' }}>
-            <div id="statistics-receiver-events">
+            <div id="statistics-receiver-events" data-testid='statistics-receiver-events'>
               {receiverEventsData?.time && (
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
