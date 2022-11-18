@@ -8,20 +8,20 @@ const WORKFLOW_INTERVAL_SECONDS = Number(process.env.REACT_APP_WORKFLOW_INTERVAL
 const WORKFLOW_STATISTICS_INTERVAL_SECONDS =
   Number(process.env.REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS) * CONVERT;
 
+function epochToDateString(timeInMilliseconds: number) {
+  if (timeInMilliseconds === undefined || timeInMilliseconds === null) {
+    return null;
+  }
+  const date = new Date(0);
+  date.setMilliseconds(timeInMilliseconds * 1000);
+  return date.toISOString();
+}
+
 const Statistics = () => {
   const [processingBlockData, setProcessingBlockData] = useState(null);
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = useState(null);
   const [receiverEventsData, setReceiverEventsData] = useState(null);
   const [counter, setCounter] = useState(0);
-
-  function epochToDateString(timeInMilliseconds: number) {
-    if (timeInMilliseconds === undefined || timeInMilliseconds === null) {
-      return null;
-    }
-    const date = new Date(0);
-    date.setMilliseconds(timeInMilliseconds * 1000);
-    return date.toISOString();
-  }
 
   async function retrieveProcessingBlockData() {
     await fetch(`${DATA_API_URL}/stats/processing_block`)
@@ -68,7 +68,7 @@ const Statistics = () => {
         <Card variant="outlined" sx={{ minWidth: WIDTH }}>
           <CardHeader title="Statistics - Basic" />
           <CardContent sx={{ pt: '8px' }}>
-            <div id="statistics-basics-Id">
+            <div id="statistics-basics-Id" data-testid="statistics-basics-Id">
               {processingBlockData?.time && (
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
@@ -117,7 +117,7 @@ const Statistics = () => {
         <Card variant="outlined" sx={{ minWidth: WIDTH, py: '8px' }}>
           <CardHeader title="Statistics - Detailed" />
           <CardContent sx={{ pt: '8px' }}>
-            <div id="statistics-detailed-Id">
+            <div id="statistics-detailed-Id" data-testid="statistics-detailed-Id">
               {processingBlockStatisticsData?.time && (
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
@@ -169,7 +169,7 @@ const Statistics = () => {
         <Card variant="outlined" sx={{ minWidth: WIDTH, py: '8px' }}>
           <CardHeader title="Statistics - Receiver" />
           <CardContent sx={{ pt: '8px' }}>
-            <div id="statistics-receiver-events">
+            <div id="statistics-receiver-events" data-testid='statistics-receiver-events'>
               {receiverEventsData?.time && (
                 <Grid container spacing={2}>
                   <Grid item xs={6}>

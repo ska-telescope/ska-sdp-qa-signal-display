@@ -109,8 +109,11 @@ const Spectrogram = () => {
 
 
   useEffect(() => {
+    const abortController = new AbortController();
     async function retrieveChartData() {
-      await fetch(`${DATA_API_URL}/stats/baselines`)
+      await fetch(`${DATA_API_URL}/stats/baselines`, {
+          signal: abortController.signal
+        })
         .then((response) => response.json())
         .then((data) => {
           setChartData(data.baselines);
@@ -119,6 +122,9 @@ const Spectrogram = () => {
     }
     connectWebSocket();
     retrieveChartData();
+    return () => {
+      abortController.abort();
+    }
   }, [connectWebSocket]);
 
   function getImageUrl(item: string) {
@@ -154,6 +160,7 @@ const Spectrogram = () => {
   return (
     <Container sx={{ py: '8px' }}>
       <Modal
+        data-testid='ClickedImage'
         open={open}
         onClose={handleClose}
         style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
@@ -186,7 +193,7 @@ const Spectrogram = () => {
             Click on the baseline and polarisation label to see a detailed spectrogram
           </Typography>
 
-          <div id="spectogram-image-list-Id">
+          <div id="spectogram-image-list-Id" data-testid="spectogram-image-list-Id">
             <ImageList sx={{ width: 1150 }} cols={6} rowHeight={164}>
               {chartData && chartData.length ? (
                 chartData.map((item) => (
