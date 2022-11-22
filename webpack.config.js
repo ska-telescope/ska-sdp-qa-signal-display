@@ -5,12 +5,11 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const deps = require('./package.json').dependencies;
 
-module.exports = (env, argv) => { return {
+module.exports = () => { 
+  return {
+  // mode: This is set by usin '--mode development'.  'production' is the default.
   entry: "./src/index.tsx",
-  mode: argv.mode ? argv.mode : 'development',
-  output: {
-    publicPath: argv.mode == 'production' ? process.env.DEPLOY_HOST : '/'
-  },
+
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.json']
   },
@@ -23,9 +22,7 @@ module.exports = (env, argv) => { return {
       'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
     }
   },
-  experiments: {
-    topLevelAwait: true
-  },
+
   module: {
     rules: [
       {
@@ -135,15 +132,15 @@ module.exports = (env, argv) => { return {
       inject: true,
       template: './public/index.html'
     }),
-    new webpack.EnvironmentPlugin([
-      'REACT_APP_WS_API',
-      'REACT_APP_MESSAGE_TYPE',
-      'REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF',
-      'REACT_APP_DATA_API_URL',
-      'REACT_APP_WORKFLOW_INTERVAL_SECONDS',
-      'REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS',
-      'SKIP_PREFLIGHT_CHECK'
-    ]),
+    new webpack.EnvironmentPlugin({
+      REACT_APP_WS_API: 'ws://localhost:8002/consumer',
+      REACT_APP_MESSAGE_TYPE: 'json',
+      REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF: 'off',
+      REACT_APP_DATA_API_URL: 'http://localhost:8002',
+      REACT_APP_WORKFLOW_INTERVAL_SECONDS: 60,
+      REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS: 10,
+      SKIP_PREFLIGHT_CHECK: true
+    }),
     new webpack.DefinePlugin({
       process: {env: {}}
     }),

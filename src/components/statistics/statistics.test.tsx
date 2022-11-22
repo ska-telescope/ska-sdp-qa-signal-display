@@ -41,7 +41,7 @@ test('renders without crashing', () => {
 
 test('Correct Data is displayed', async () => {
   render(<Statistics />);
-  const basicsTestValue = await screen.findAllByText(/Last Refresh from API:\s2022-11-17T19:32:02.000Z/);
+  const basicsTestValue = await screen.findAllByText(/Last Refresh from API:/);
   expect(basicsTestValue).toBeTruthy();
   const statisticsTestValue = await screen.findAllByText(/Packet Count:\s115/);
   expect(statisticsTestValue).toBeTruthy();
