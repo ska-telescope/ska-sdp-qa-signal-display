@@ -38,7 +38,7 @@ export class SpectrumPlotSvg {
     // console.log("SpectrumPlot:draw: data = ", data);
     // Set height such that Axes can render properly
     d3.select(this.selector)
-      .selectChild()
+      .select('svg')
       .attr('height', this.height - this.margin.top + this.margin.bottom);
 
     this.svg.selectAll('text').remove();
@@ -116,10 +116,7 @@ export class SpectrumPlotSvg {
         d3
           .line()
           .curve(d3.curveMonotoneX)
-          .x((_d, i) => {
-            // console.log(data.channels[i]);
-            return this.xScale(data.channels[i]);
-          })
+          .x((_d, i) => this.xScale(data.channels[i]))
           .y((_d, i) => this.yScale(data.power[i]))
       );
   }

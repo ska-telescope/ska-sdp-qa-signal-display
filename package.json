@@ -14,7 +14,7 @@
     "lint:tsc": "yarn tsc --noEmit",
     "lint:yarn-deduplicate": "yarn-deduplicate --fail --list --strategy=fewer",
     "prepare": "husky install",
-    "start": "webpack serve --open",
+    "start": "webpack serve --open --mode production",
     "dev": "webpack serve --open --mode development",
     "test": "react-scripts test --env=jsdom --reporters=default --reporters=jest-junit",
     "test:coverage": "react-scripts test --coverage --coverageDirectory=build/coverage --watchAll=false"
@@ -44,7 +44,7 @@
     "babel-preset-react": "^6.24.1",
     "bundle-loader": "^0.5.6",
     "chart.js": "^3.5.1",
-    "d3": "^6.7.0",
+    "d3": "^7.6.1",
     "date-fns": "^2.25.0",
     "eslint": "^8.23.0",
     "eslint-config-airbnb": "^19.0.4",
