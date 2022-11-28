@@ -116,5 +116,10 @@
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.10.1",
     "yarn-deduplicate": "^3.1.0"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^d3$": "<rootDir>/node_modules/d3/dist/d3.min.js"
+    }
   }
 }
