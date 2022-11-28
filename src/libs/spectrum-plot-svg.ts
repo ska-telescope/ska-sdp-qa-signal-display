@@ -48,13 +48,13 @@ export class SpectrumPlotSvg {
     // create x-scale
     this.xScale = d3
       .scaleLinear()
-      .domain([data?.xMin || 0, data.xMax])
+      .domain([data?.x_min || 0, data.x_max])
       .range([0, this.width]);
 
     // create y-scale
     this.yScale = d3
       .scaleLinear()
-      .domain([data?.yMin || 0, data.yMax])
+      .domain([data?.y_min || 0, data.y_max])
       .range([this.height, 0]);
 
     this.drawAxis();
