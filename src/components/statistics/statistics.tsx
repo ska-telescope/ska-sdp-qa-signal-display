@@ -18,23 +18,12 @@ function epochToDateString(timeInMilliseconds: number) {
 }
 
 const Statistics = () => {
-  const [processingBlockData, setProcessingBlockData] = useState(null);
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = useState(null);
   const [receiverEventsData, setReceiverEventsData] = useState(null);
   const [counter, setCounter] = useState(0);
 
-  async function retrieveProcessingBlockData() {
-    await fetch(`${DATA_API_URL}/stats/processing_block`)
-      .then((response) => response.json())
-      .then((data) => {
-        setProcessingBlockData(data);
-        setTimeout(retrieveProcessingBlockData, WORKFLOW_INTERVAL_SECONDS);
-      })
-      .catch(() => null);
-  }
-
   async function retrieveProcessingBlockStatisticsData() {
-    await fetch(`${DATA_API_URL}/stats/processing_block/statistics`)
+    await fetch(`${DATA_API_URL}/stats/processing_block/blocks/latest/statistics`)
       .then((response) => response.json())
       .then((data) => {
         setProcessingBlockStatisticsData(data);
@@ -44,7 +33,7 @@ const Statistics = () => {
   }
 
   async function retrieveReceiverEventData() {
-    await fetch(`${DATA_API_URL}/stats/receiver/latest_event`)
+    await fetch(`${DATA_API_URL}/stats/spead2/latest_event`)
       .then((response) => response.json())
       .then((data) => {
         setReceiverEventsData(data);
@@ -65,61 +54,12 @@ const Statistics = () => {
   return (
     <Box>
       <Container sx={{ py: '8px' }}>
-        <Card variant="outlined" sx={{ minWidth: WIDTH }}>
-          <CardHeader title="Statistics - Basic" />
-          <CardContent sx={{ pt: '8px' }}>
-            <div id="statistics-basics-Id" data-testid="statistics-basics-Id">
-              {processingBlockData?.time && (
-                <Grid container spacing={2}>
-                  <Grid item xs={6}>
-                    <Typography paragraph>Time:</Typography>
-                    <Typography paragraph>
-                      Last Refresh from API:
-                      {' '}
-                      {epochToDateString(processingBlockData?.time?.now)}
-                    </Typography>
-                    <Typography paragraph>
-                      Last Updated:
-                      {' '}
-                      {epochToDateString(processingBlockData?.time?.last_update)}
-                    </Typography>
-                    <Typography paragraph>
-                      Start:
-                      {' '}
-                      {epochToDateString(processingBlockData?.time?.start)}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography paragraph>Workflow:</Typography>
-                    <Typography paragraph>
-                      State:
-                      {' '}
-                      {processingBlockData?.processing_block?.state}
-                    </Typography>
-                    <Typography paragraph>
-                      Scan ID:
-                      {' '}
-                      {processingBlockData?.processing_block?.scan_id}
-                    </Typography>
-                    <Typography paragraph>
-                      Time Since Last Payload:
-                      {' '}
-                      {processingBlockData?.processing_block?.time_since_last_payload}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      </Container>
-      <Container sx={{ py: '8px' }}>
         <Card variant="outlined" sx={{ minWidth: WIDTH, py: '8px' }}>
           <CardHeader title="Statistics - Detailed" />
           <CardContent sx={{ pt: '8px' }}>
             <div id="statistics-detailed-Id" data-testid="statistics-detailed-Id">
               {processingBlockStatisticsData?.time && (
-                <Grid container spacing={2}>
+                <Grid container spacing={3}>
                   <Grid item xs={6}>
                     <Typography paragraph>Time:</Typography>
                     <Typography paragraph>
@@ -157,6 +97,29 @@ const Statistics = () => {
                       Payloads Received:
                       {' '}
                       {processingBlockStatisticsData?.statistics?.payloads_received}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography paragraph>Workflow:</Typography>
+                    <Typography paragraph>
+                      State:
+                      {' '}
+                      {processingBlockData?.processing_block?.state}
+                    </Typography>
+                    <Typography paragraph>
+                      Scan ID:
+                      {' '}
+                      {processingBlockData?.processing_block?.scan_id}
+                    </Typography>
+                    <Typography paragraph>
+                      Processing Block ID:
+                      {' '}
+                      {processingBlockData?.processing_block?.processing_block_id}
+                    </Typography>
+                    <Typography paragraph>
+                      Time Since Last Payload:
+                      {' '}
+                      {processingBlockData?.processing_block?.time_since_last_payload}
                     </Typography>
                   </Grid>
                 </Grid>
