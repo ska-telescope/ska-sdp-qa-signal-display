@@ -10,15 +10,11 @@ import Statistics from './statistics';
 import { DATA_API_URL } from '../../utils/constants';
 
 const server = setupServer(
-  rest.get(`${DATA_API_URL}/stats/processing_block`, (req, res, ctx) => {
-    return res(ctx.json(mockProcessingBlockData));
-  }),
-
-  rest.get(`${DATA_API_URL}/stats/processing_block/statistics`, (req, res, ctx) => {
+  rest.get(`${DATA_API_URL}/stats/processing_block/blocks/latest/statistics`, (req, res, ctx) => {
     return res(ctx.json(mockProcessingBlockStatisticsData));
   }),
 
-  rest.get(`${DATA_API_URL}/stats/receiver/latest_event`, (req, res, ctx) => {
+  rest.get(`${DATA_API_URL}/stats/spead2/latest_event`, (req, res, ctx) => {
     return res(ctx.json(mockStatisticsReceiverEventsData));
   })
 );

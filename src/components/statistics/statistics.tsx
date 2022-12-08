@@ -44,7 +44,6 @@ const Statistics = () => {
 
   useEffect(() => {
     if (counter === 0) {
-      retrieveProcessingBlockData();
       retrieveProcessingBlockStatisticsData();
       retrieveReceiverEventData();
     }
