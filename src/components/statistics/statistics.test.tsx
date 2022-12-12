@@ -31,7 +31,8 @@ afterAll(() => {
 
 test('renders without crashing', () => {
   render(<Statistics />);
-  expect(screen.getByTestId("statistics-basics-Id")).toBeTruthy();
+  expect(screen.getByTestId("statistics-detailed-Id")).toBeTruthy();
+  expect(screen.getByTestId("statistics-receiver-events")).toBeTruthy();
 });
 
 test('Correct Data is displayed', async () => {
