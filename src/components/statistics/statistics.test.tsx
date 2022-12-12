@@ -13,7 +13,7 @@ const server = setupServer(
     return res(ctx.json(mockProcessingBlockStatisticsData));
   }),
 
-  rest.get(`${DATA_API_URL}/stats/spead2/latest_event`, (req, res, ctx) => {
+  rest.get(`${DATA_API_URL}/stats/spead2/scans/latest/latest_event`, (req, res, ctx) => {
     return res(ctx.json(mockStatisticsReceiverEventsData));
   })
 );

@@ -33,7 +33,7 @@ const Statistics = () => {
   }
 
   async function retrieveReceiverEventData() {
-    await fetch(`${DATA_API_URL}/stats/spead2/latest_event`)
+    await fetch(`${DATA_API_URL}/stats/spead2/scans/latest/latest_event`)
       .then((response) => response.json())
       .then((data) => {
         setReceiverEventsData(data);
@@ -103,22 +103,22 @@ const Statistics = () => {
                     <Typography paragraph>
                       State:
                       {' '}
-                      {processingBlockData?.processing_block?.state}
+                      {processingBlockStatisticsData?.processing_block?.state}
                     </Typography>
                     <Typography paragraph>
                       Scan ID:
                       {' '}
-                      {processingBlockData?.processing_block?.scan_id}
+                      {processingBlockStatisticsData?.processing_block?.scan_id}
                     </Typography>
                     <Typography paragraph>
                       Processing Block ID:
                       {' '}
-                      {processingBlockData?.processing_block?.processing_block_id}
+                      {processingBlockStatisticsData?.processing_block?.processing_block_id}
                     </Typography>
                     <Typography paragraph>
                       Time Since Last Payload:
                       {' '}
-                      {processingBlockData?.processing_block?.time_since_last_payload}
+                      {processingBlockStatisticsData?.processing_block?.time_since_last_payload}
                     </Typography>
                   </Grid>
                 </Grid>
