@@ -1,7 +1,6 @@
 import React from 'react';
 /* eslint-disable import/no-unresolved */
 import { render, cleanup, screen } from '@testing-library/react';
-import mockProcessingBlockData from 'src/mockData/mock-processing-block-data';
 import mockProcessingBlockStatisticsData from 'src/mockData/mock-processing-block-statistics-data';
 import mockStatisticsReceiverEventsData from 'src/mockData/mock-statistics-receiver-events-data';
 import {rest} from 'msw';
