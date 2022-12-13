@@ -12,4 +12,8 @@ export const PROTOCOL =
 
 // Common URLs
 export const DATA_API_URL = process.env.REACT_APP_DATA_API_URL;
-export const WS_API_URL = process.env.REACT_APP_WS_API ? process.env.REACT_APP_WS_API : 'ws://localhost:8002/consumer';
+
+const processAPI = process.env.REACT_APP_WS_API ? process.env.REACT_APP_WS_API : 'ws://localhost:8002/consumer';
+export const WS_API_URL = processAPI.startsWith('/')
+  ? (window.location.protocol === 'https:' ? 'wss://' : 'ws://') +
+    window.location.hostname + processAPI : processAPI ;

@@ -8,6 +8,12 @@ const mockProcessingBlockStatisticsData = {
         "ingestion_rate": 0,
         "packet_count": 115,
         "payloads_received": 2
+    },
+    "processing_block": {
+        "state": "new",
+        "scan_id": "34",
+        "processing_block_id": "test-12345678-1234",
+        "time_since_last_payload": 1
     }
 };
   
