@@ -111,7 +111,7 @@ const Spectrogram = () => {
   useEffect(() => {
     const abortController = new AbortController();
     async function retrieveChartData() {
-      await fetch(`${DATA_API_URL}/stats/baselines`, {
+      await fetch(`${DATA_API_URL}/stats/processing_block/blocks/latest/baselines`, {
           signal: abortController.signal
         })
         .then((response) => response.json())
@@ -127,14 +127,19 @@ const Spectrogram = () => {
     }
   }, [connectWebSocket]);
 
-  function getImageUrl(item: string) {
+  function getFullImageUrl(item: string) {
     const baselines = item.split(/[-_]+/);
-    return `${DATA_API_URL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
+    return `${DATA_API_URL}/spectogram/full_image/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
+  }
+
+  function getThumbnailImageUrl(item: string){
+    const baselines = item.split(/[-_]+/);
+    return `${DATA_API_URL}/spectogram/thumbnail/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
 
   function imageClick(item: string) {
     handleOpen();
-    setImageUrl(getImageUrl(item));
+    setImageUrl(getFullImageUrl(item));
   }
 
   if (switchImageCreationOn()) {
@@ -200,7 +205,7 @@ const Spectrogram = () => {
                   <ImageListItem key={item}>
                     <ImageListItemBar title={item} position="top" />
                     <img
-                      src={getImageUrl(item)}
+                      src={getThumbnailImageUrl(item)}
                       alt={item}
                       loading="lazy"
                       onClick={() => imageClick(item)}
