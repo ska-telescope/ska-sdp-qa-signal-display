@@ -13,7 +13,7 @@ import {
 const wsApiUrlHttp = WS_API_URL.replace('ws', 'http');
 
 const server = setupServer(
-  rest.get(`${DATA_API_URL}/stats/baselines`, (req, res, ctx) => {
+  rest.get(`${DATA_API_URL}/stats/processing_block/blocks/latest/baselines`, (req, res, ctx) => {
     return res(ctx.json(mockBaselinesData));
   }),
 
