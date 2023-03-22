@@ -73,11 +73,11 @@ module.exports = () => {
 
     plugins: [
       new ModuleFederationPlugin({
-        name: 'qaMetrics',
+        name: 'signalMetrics',
         filename: 'remoteEntry.js',
         remotes: {},
         exposes: {
-          './qaMetrics': './src/App/App.tsx'
+          './signalMetrics': './src/App/App.tsx'
         },
         shared: {
           ...deps,

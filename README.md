@@ -1,4 +1,4 @@
-# SKAO QA Display
+# SKAO Signal Display
 
 # Overview
 
@@ -8,11 +8,11 @@ More information can be found in the [Read The Docs](https://developer.skao.int/
 
 # Getting Started
 
-**To get the QA Display running services should be started in the following order:**
+**To get the Signal Display running services should be started in the following order:**
 
 **Step 1:** Follow the steps in the [QA Data API](https://gitlab.com/ska-telescope/ska-sdp-qa-data-api) README to start up the the Data API, Kafka and Redis.\
 **Step 2** Then start [QA Metric Generator](https://gitlab.com/ska-telescope/ska-sdp-qa-metric-generator) using information in it's README.\
-**Step 3:** Finally start the [SKAO QA Display](https://gitlab.com/ska-telescope/sdp/ska-sdp-qa-display) in this repository, using the steps below.\
+**Step 3:** Finally start the [SKAO Signal Display](https://gitlab.com/ska-telescope/sdp/ska-sdp-qa-display) in this repository, using the steps below.\
 **Sending spoof data to display:** Consult the README in the [metric-generator](https://gitlab.com/ska-telescope/ska-sdp-qa-metric-generator/-/tree/main/metric-generator) folder.
 
 ## Option-1: Using Container
@@ -102,6 +102,6 @@ Open [http://localhost:3333](http://localhost:3333) to view the UI in a browser.
 
 # Link to Running Instance
 
-[Click here](https://sdhp.stfc.skao.int/dp-naledi/qa/display/) to access a running instance of the QA Display
+[Click here](https://sdhp.stfc.skao.int/dp-naledi/qa/display/) to access a running instance of the Signal Display
 
 

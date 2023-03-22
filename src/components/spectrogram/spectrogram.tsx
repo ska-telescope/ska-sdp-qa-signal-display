@@ -129,12 +129,12 @@ const Spectrogram = () => {
 
   function getFullImageUrl(item: string) {
     const baselines = item.split(/[-_]+/);
-    return `${DATA_API_URL}/spectogram/full_image/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
+    return `${DATA_API_URL}/spectograms/full_image/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
 
   function getThumbnailImageUrl(item: string){
     const baselines = item.split(/[-_]+/);
-    return `${DATA_API_URL}/spectogram/thumbnail/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
+    return `${DATA_API_URL}/spectograms/thumbnail/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
 
   function imageClick(item: string) {
