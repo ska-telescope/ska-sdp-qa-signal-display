@@ -2,7 +2,7 @@
 
 # Overview
 
-This connects to the [QA Data API](https://gitlab.com/ska-telescope/ska-sdp-qa-data-api) via a WebSocket and visualises the received QA metrics (e.g, spectrum plot, waterfall plot etc) in real-time.
+This connects to the [Signal Data API](https://gitlab.com/ska-telescope/ska-sdp-qa-data-api) via a WebSocket and visualises the received Signal metrics (e.g, spectrum plot, waterfall plot etc) in real-time.
 
 More information can be found in the [Read The Docs](https://developer.skao.int/projects/ska-sdp-qa-data-api/en/latest/index.html) page.
 
@@ -10,8 +10,8 @@ More information can be found in the [Read The Docs](https://developer.skao.int/
 
 **To get the Signal Display running services should be started in the following order:**
 
-**Step 1:** Follow the steps in the [QA Data API](https://gitlab.com/ska-telescope/ska-sdp-qa-data-api) README to start up the the Data API, Kafka and Redis.\
-**Step 2** Then start [QA Metric Generator](https://gitlab.com/ska-telescope/ska-sdp-qa-metric-generator) using information in it's README.\
+**Step 1:** Follow the steps in the [Signal Data API](https://gitlab.com/ska-telescope/ska-sdp-qa-data-api) README to start up the the Data API, Kafka and Redis.\
+**Step 2** Then start [Signal Metric Generator](https://gitlab.com/ska-telescope/ska-sdp-qa-metric-generator) using information in it's README.\
 **Step 3:** Finally start the [SKAO Signal Display](https://gitlab.com/ska-telescope/sdp/ska-sdp-qa-display) in this repository, using the steps below.\
 **Sending spoof data to display:** Consult the README in the [metric-generator](https://gitlab.com/ska-telescope/ska-sdp-qa-metric-generator/-/tree/main/metric-generator) folder.
 
