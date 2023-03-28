@@ -199,11 +199,10 @@ const Spectrogram = () => {
           </Typography>
 
           <div id="spectogram-image-list-Id" data-testid="spectogram-image-list-Id">
-            <ImageList sx={{ width: 1150 }} cols={6} rowHeight={164}>
+            <ImageList sx={{ width: 1150 }} cols={3}>
               {chartData && chartData.length ? (
                 chartData.map((item) => (
                   <ImageListItem key={item}>
-                    <ImageListItemBar title={item} position="top" />
                     <img
                       src={getThumbnailImageUrl(item)}
                       alt={item}
@@ -216,6 +215,7 @@ const Spectrogram = () => {
                         justifyContent: 'center'
                       }}
                     />
+                    <ImageListItemBar title={item} position="below" />
                   </ImageListItem>
                 ))
               ) : (
