@@ -27,8 +27,6 @@ const Spectrogram = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const connectWebSocket = useCallback(async () => {}, []);
-
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -42,7 +40,6 @@ const Spectrogram = () => {
         })
         .catch(() => null);
     }
-    connectWebSocket();
     retrieveChartData();
     return () => {
       abortController.abort();
