@@ -29,10 +29,6 @@ const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF;
 
-function switchImageCreationOn() {
-  return SWITCH_D3_IMAGE_CREATION_ON_OFF === 'on';
-}
-
 const Spectrogram = () => {
   const [socketStatus, setSocketStatus] = useState('disconnected');
   const [open, setOpen] = useState(false);
@@ -43,14 +39,6 @@ const Spectrogram = () => {
   const handleClose = () => setOpen(false);
 
   const connectWebSocket = useCallback(async () => {
-    const spectrogramPlotTable = new SpectrogramPlotTable(
-      'spectrogramId',
-      WIDTH,
-      HEIGHT,
-      CELL_WIDTH,
-      CELL_HEIGHT
-    );
-
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function onError(e) {
@@ -142,26 +130,6 @@ const Spectrogram = () => {
     setImageUrl(getFullImageUrl(item));
   }
 
-  if (switchImageCreationOn()) {
-    return (
-      <Container>
-        <Card variant="outlined" sx={{ minWidth: WIDTH }}>
-          <CardHeader
-            title="Spectrograms"
-            subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
-          />
-
-          <CardContent sx={{ pt: '8px' }}>
-            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-              Click on the baseline and polarisation label to see a detailed spectrogram
-            </Typography>
-
-            <div id="spectrogramId" />
-          </CardContent>
-        </Card>
-      </Container>
-    );
-  }
   return (
     <Container sx={{ py: '8px' }}>
       <Modal
