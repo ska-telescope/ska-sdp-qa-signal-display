@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Card,
   CardContent,
@@ -27,6 +27,8 @@ const Spectrogram = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const connectWebSocket = useCallback(async () => {}, []);
+
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -40,6 +42,7 @@ const Spectrogram = () => {
         })
         .catch(() => null);
     }
+    connectWebSocket();
     retrieveChartData();
     return () => {
       abortController.abort();
