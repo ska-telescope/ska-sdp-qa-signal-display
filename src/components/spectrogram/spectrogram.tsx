@@ -19,7 +19,6 @@ import {
   WIDTH
 } from '../../utils/constants';
 
-const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 
 const Spectrogram = () => {
   const [open, setOpen] = useState(false);
