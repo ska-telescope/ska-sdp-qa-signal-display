@@ -12,7 +12,6 @@ import {
   Modal,
   Typography
 } from '@mui/material';
-import { MessageTopic } from '../../models/message-topic';
 import {
   DATA_API_URL,
   PROTOCOL,
