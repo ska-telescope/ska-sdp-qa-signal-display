@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   CardContent,
@@ -13,87 +13,21 @@ import {
   Typography
 } from '@mui/material';
 import { MessageTopic } from '../../models/message-topic';
-import { decodeJson } from '../../libs/decoder';
-import SpectrogramPlotTable from '../../libs/spectrogram-plot-table';
 import {
-  CELL_HEIGHT,
-  CELL_WIDTH,
   DATA_API_URL,
-  HEIGHT,
   PROTOCOL,
-  WIDTH,
-  WS_API_URL
+  WIDTH
 } from '../../utils/constants';
 
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
-const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
-const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF;
 
 const Spectrogram = () => {
-  const [socketStatus, setSocketStatus] = useState('disconnected');
   const [open, setOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [chartData, setChartData] = useState(null);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  const connectWebSocket = useCallback(async () => {
-    const ws = new WebSocket(WS_API);
-
-    ws.onerror = function onError(e) {
-      /* eslint no-console: ["error", { allow: ["error"] }] */
-      console.error('SpectrogramsPage: ws onerror, error = ', e);
-    };
-
-    ws.onclose = function onClose() {
-      // DEBUG console.log("SpectrogramsPage: ws onclose");
-    };
-
-    ws.onopen = function onOpen() {
-      // DEBUG console.log("SpectrogramsPage: ws onopen");
-      // ws.send("status: ws open");
-    };
-
-    ws.onmessage = function onMessage(msg) {
-      const data = msg?.data;
-      if (switchImageCreationOn()) {
-        try {
-          if (data instanceof ArrayBuffer) {
-            // DEBUG console.log("SpectrogramsPage: received, type = ArrayBuffer, data = ", data);
-          }
-          // - Removing Protobuff for now.
-          // else if (data instanceof Blob) {
-          //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          //   decodeSpectrogram(data).then((decoded: any) => {
-          //     // DEBUG console.log("SpectrogramsPage: received type = Blob, decoded = ", decoded);
-          //     window.requestAnimationFrame(() => {
-          //       spectrogramPlotTable.draw(decoded.spectrogram);
-          //     });
-          //   });
-          // }
-          else {
-            const decoded = decodeJson(data);
-            // DEBUG console.log( "SpectrogramsPage: received type = string, decoded = ", decoded, );
-            if (decoded && decoded.status) {
-              setSocketStatus(decoded.status);
-            } else {
-              // DEBUG console.log("SpectrogramsPage: received type = text, decoded = ", decoded);
-              window.requestAnimationFrame(() => {
-                spectrogramPlotTable.draw(decoded.spectrogram);
-              });
-            }
-          }
-        } catch (e) {
-          /* eslint no-console: ["error", { allow: ["error"] }] */
-          console.error('SpectrogramsPage: received, decoding error = ', e);
-        }
-      }
-    };
-    return () => {
-      ws.close();
-    };
-  }, []);
 
 
   useEffect(() => {
@@ -108,12 +42,11 @@ const Spectrogram = () => {
         })
         .catch(() => null);
     }
-    connectWebSocket();
     retrieveChartData();
     return () => {
       abortController.abort();
     }
-  }, [connectWebSocket]);
+  }, []);
 
   function getFullImageUrl(item: string) {
     const baselines = item.split(/[-_]+/);
@@ -158,7 +91,7 @@ const Spectrogram = () => {
       <Card variant="outlined" sx={{ minWidth: WIDTH }}>
         <CardHeader
           title="Spectrograms"
-          subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
+          subheader={`Serialisation: ${PROTOCOL}`}
         />
 
         <CardContent sx={{ pt: '8px' }}>
