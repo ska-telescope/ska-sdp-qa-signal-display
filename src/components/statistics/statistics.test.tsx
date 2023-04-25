@@ -39,7 +39,7 @@ test('Correct Data is displayed', async () => {
   render(<Statistics />);
   const basicsTestValue = await screen.findAllByText(/Last Refresh from API:/);
   expect(basicsTestValue).toBeTruthy();
-  const statisticsTestValue = await screen.findAllByText(/Packet Count:\s115/);
+  const statisticsTestValue = await screen.findAllByText(/Visibility Receive Still Active:\sYes/);
   expect(statisticsTestValue).toBeTruthy();
   const receiverTestValue = await screen.findAllByText(/Total Data Received:\s10000\sMB/);
   expect(receiverTestValue).toBeTruthy();
