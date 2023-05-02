@@ -199,8 +199,9 @@ const Spectrogram = () => {
           </Typography>
 
           <div id="spectogram-image-list-Id" data-testid="spectogram-image-list-Id">
+            {chartData && chartData.length  && (
             <ImageList sx={{ width: 1150 }} cols={6} rowHeight={164}>
-              {chartData && chartData.length ? (
+              {
                 chartData.map((item) => (
                   <ImageListItem key={item}>
                     <ImageListItemBar title={item} position="top" />
@@ -218,10 +219,9 @@ const Spectrogram = () => {
                     />
                   </ImageListItem>
                 ))
-              ) : (
-                <div />
-              )}
+              }
             </ImageList>
+          )}
           </div>
           <div id="spectrogramId" />
         </CardContent>

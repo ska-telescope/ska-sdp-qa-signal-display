@@ -33,6 +33,6 @@ test('renders without crashing', () => {
 
 test('check if graph renders', async () => {
   render(<SpectrumPlot />);
-  const graph = await screen.getByRole('svg');
+  const graph = await screen.getByRole('img');
   expect(graph).toBeTruthy();
 });

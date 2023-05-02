@@ -29,7 +29,7 @@ export class SpectrumPlotSvg {
       .select(selector)
       .append('svg')
       .attr('width', width - this.margin.left - this.margin.right)
-      .attr('role', 'svg')
+      .attr('role', 'img')
       .append('g')
       .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
   }
