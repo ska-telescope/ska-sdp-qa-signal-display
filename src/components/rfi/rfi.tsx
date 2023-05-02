@@ -72,7 +72,7 @@ const Rfi = () => {
           </Card>
 
           <Card sx={{ minWidth: WIDTH }}>
-            <CardHeader title={`RFI: ${RFI_SUBTOPIC}`} subheader={`Socket: ${socketStatus}`} />
+            <CardHeader title={`RFI: ${RFI_SUBTOPIC}`} action={`Socket: ${socketStatus}`} />
 
             <CardContent sx={{ pt: '8px' }}>
               <div id="rfi-details-id" />

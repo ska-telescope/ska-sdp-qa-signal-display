@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, CssBaseline, ThemeProvider } from '@mui/material';
 
-import theme from '../theme/index';
+import theme from '../services/theme/theme';
 // Import all the css files created for d3 charts
 import '../libs/css/spectrogram-plot-table.css';
 

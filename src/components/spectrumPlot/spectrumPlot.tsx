@@ -75,7 +75,7 @@ const SpectrumPlot = () => {
       <Card variant="outlined" sx={{ minWidth: WIDTH }}>
         <CardHeader
           title="Spectrum Plot"
-          subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
+          action={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
         />
         <CardContent>
           <div id="sPlotId" data-testid="sPlotId" />

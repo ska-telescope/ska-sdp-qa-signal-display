@@ -9,8 +9,7 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
-  Modal,
-  Typography
+  Modal
 } from '@mui/material';
 import { MessageTopic } from '../../models/message-topic';
 import { decodeJson } from '../../libs/decoder';
@@ -25,6 +24,7 @@ import {
   WS_API_URL
 } from '../../utils/constants';
 
+const ROW_HEIGHT = 164;
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF;
@@ -148,14 +148,10 @@ const Spectrogram = () => {
         <Card variant="outlined" sx={{ minWidth: WIDTH }}>
           <CardHeader
             title="Spectrograms"
-            subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
+            action={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
+            subheader="Click on the baseline and polarisation label to see a detailed spectrogram"
           />
-
           <CardContent sx={{ pt: '8px' }}>
-            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-              Click on the baseline and polarisation label to see a detailed spectrogram
-            </Typography>
-
             <div id="spectrogramId" />
           </CardContent>
         </Card>
@@ -190,17 +186,14 @@ const Spectrogram = () => {
       <Card variant="outlined" sx={{ minWidth: WIDTH }}>
         <CardHeader
           title="Spectrograms"
-          subheader={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
+          action={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
+          subheader="Click on the baseline and polarisation label to see a detailed spectrogram"
         />
-
         <CardContent sx={{ pt: '8px' }}>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Click on the baseline and polarisation label to see a detailed spectrogram
-          </Typography>
 
           <div id="spectogram-image-list-Id" data-testid="spectogram-image-list-Id">
             {chartData && chartData.length  && (
-            <ImageList sx={{ width: 1150 }} cols={6} rowHeight={164}>
+            <ImageList sx={{ width: 1150 }} cols={6} rowHeight={ROW_HEIGHT}>
               {
                 chartData.map((item) => (
                   <ImageListItem key={item}>
@@ -211,7 +204,8 @@ const Spectrogram = () => {
                       loading="lazy"
                       onClick={() => imageClick(item)}
                       style={{
-                        maxWidth: '100%',
+                        width: '100%',
+                        height: '100%',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center'

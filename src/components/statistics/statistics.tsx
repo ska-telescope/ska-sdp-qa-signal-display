@@ -58,7 +58,7 @@ const Statistics = () => {
             <div id="statistics-detailed-Id" data-testid="statistics-detailed-Id">
               {processingBlockStatisticsData?.time && (
                 <Grid container spacing={3}>
-                  <Grid item xs={6}>
+                  <Grid item md={4} sm={6} xs={12}>
                     <Typography paragraph>Time:</Typography>
                     <Typography paragraph>
                       Last Refresh from API:
@@ -76,7 +76,7 @@ const Statistics = () => {
                       {epochToDateString(processingBlockStatisticsData?.time?.start)}
                     </Typography>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item md={4} sm={6} xs={12}>
                     <Typography paragraph>Statistics:</Typography>
                     <Typography paragraph>
                       Ingestion Rate:
@@ -97,7 +97,7 @@ const Statistics = () => {
                       {processingBlockStatisticsData?.statistics?.payloads_received}
                     </Typography>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item md={4} sm={6} xs={12}>
                     <Typography paragraph>Workflow:</Typography>
                     <Typography paragraph>
                       State:
@@ -133,7 +133,7 @@ const Statistics = () => {
             <div id="statistics-receiver-events" data-testid='statistics-receiver-events'>
               {receiverEventsData?.time && (
                 <Grid container spacing={2}>
-                  <Grid item xs={6}>
+                  <Grid item sm={6} xs={12}>
                     <Typography paragraph>
                       Last Update:
                       {' '}
@@ -145,7 +145,7 @@ const Statistics = () => {
                       {receiverEventsData?.scan_id}
                     </Typography>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item sm={6} xs={12}>
                     <Typography paragraph>
                       Total Data Received:
                       {' '}
