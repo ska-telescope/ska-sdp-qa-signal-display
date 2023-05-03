@@ -11,7 +11,7 @@ import { HEIGHT, PROTOCOL, WIDTH, WS_API_URL } from '../../utils/constants';
 const MESSAGE_TOPIC = MessageTopic.SPECTRUM;
 const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
-const SpectrumPlot = () => {
+const AmpFreq = () => {
   const [socketStatus, setSocketStatus] = useState('unknown');
 
   const cardTitle = () => { 
@@ -23,17 +23,7 @@ const SpectrumPlot = () => {
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function oneError(e) {
-      /* eslint no-console: ["error", { allow: ["error"] }] */
-      console.error('SpectrumPage: ws onerror, error = ', e);
-    };
-
-    ws.onclose = function onClose() {
-      // DEBUG console.log("SpectrumPage: ws onclose");
-    };
-
-    ws.onopen = function onOpen() {
-      // DEBUG console.log("SpectrumPage: ws onopen");
-      // ws.send("status: ws open");
+      console.error('AmpFreq: ws onerror, error = ', e);
     };
 
     ws.onmessage = function onMessage(msg) {
@@ -55,7 +45,6 @@ const SpectrumPlot = () => {
           if (decoded && decoded.status) {
             setSocketStatus(decoded.status);
           } else {
-            // DEBUG console.log("SpectrumPage: received type = text, decoded = ", decoded);
             window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
           }
         }
@@ -76,7 +65,7 @@ const SpectrumPlot = () => {
 
   return (
     <SignalCard
-      title="Spectrum Plot"
+      title="Amplitude vs Frequency"
       actionTitle={cardTitle()}
       socketStatus={socketStatus}
     >
@@ -84,4 +73,4 @@ const SpectrumPlot = () => {
     </SignalCard>
   );
 };
-export default SpectrumPlot;
+export default AmpFreq;

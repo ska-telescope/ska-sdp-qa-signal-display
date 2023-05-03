@@ -2,18 +2,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   Box, 
-  Button, 
   Card,
   CardContent,
-  CardHeader,
   Grid,
   ImageList,
   ImageListItem,
   ImageListItemBar,
-  Modal,
-  Tooltip
+  Modal
 } from '@mui/material';
-import { Status } from '@ska-telescope/ska-gui-components';
+import SignalCard from '../signalCard/SignalCard';
 import { MessageTopic } from '../../models/message-topic';
 import { decodeJson } from '../../libs/decoder';
 import SpectrogramPlotTable from '../../libs/spectrogram-plot-table';
@@ -24,7 +21,6 @@ import {
   HEIGHT,
   PROTOCOL,
   ROW_HEIGHT,
-  STATUS_SIZE,
   WIDTH,
   WS_API_URL
 } from '../../utils/constants';
@@ -32,6 +28,7 @@ import {
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF;
+const SUBHEADER = "Click on the baseline and polarisation label to see a detailed spectrogram";
 
 function switchImageCreationOn() {
   return SWITCH_D3_IMAGE_CREATION_ON_OFF === 'on';
@@ -45,14 +42,6 @@ const Spectrogram = () => {
 
   const cardTitle = () => { 
     return `Socket: ${  socketStatus  }, Serialisation: ${  PROTOCOL}`;
-  }
-
-  const getSocketStatus = () => {
-    switch (socketStatus) {
-      case 'connected': return 0;
-      case 'unknown' : return 3;
-      default : return 1;
-    }
   }
 
   const handleOpen = () => setOpen(true);
@@ -160,28 +149,18 @@ const Spectrogram = () => {
 
   if (switchImageCreationOn()) {
     return (
-      <Box m={1}>
-        <Card variant="outlined" sx={{ minWidth: WIDTH }}>
-          <CardHeader
-            title="Spectrum Plot"
-            subheader="Click on the baseline and polarisation label to see a detailed spectrogram"
-            action={(
-              <Tooltip title={cardTitle()}>
-                <Button>
-                  <Status level={getSocketStatus()} size={STATUS_SIZE} />
-                </Button>
-              </Tooltip>
-            )}
-          />
-          <CardContent sx={{ pt: '8px' }}>
-            <div id="spectrogramId" />
-          </CardContent>
-        </Card>
-      </Box>
+      <SignalCard
+        subHeader={SUBHEADER}
+        title="Spectrograms"
+        actionTitle={cardTitle()}
+        socketStatus={socketStatus}
+      >
+        <div id="spectrogramId" />
+      </SignalCard>
     );
   }
   return (
-    <Box m={1}>
+    <Box>
       <Modal
         data-testid='ClickedImage'
         open={open}
@@ -205,49 +184,42 @@ const Spectrogram = () => {
         </Card>
       </Modal>
 
-      <Card variant="outlined" sx={{ minWidth: WIDTH }}>
-        <CardHeader
-          title="Spectrograms"
-          subheader="Click on the baseline and polarisation label to see a detailed spectrogram"
-          action={(
-            <Tooltip title={cardTitle()}>
-              <Button>
-                <Status level={getSocketStatus()} size={STATUS_SIZE} />
-              </Button>
-            </Tooltip>
-          )}
-        />
-        <CardContent sx={{ pt: '8px' }}>
-
+      <SignalCard
+        subHeader="Click on the baseline and polarisation label to see a detailed spectrogram"
+        title="Spectrograms"
+        actionTitle={cardTitle()}
+        socketStatus={socketStatus}
+      >
+        <>
           <div id="spectogram-image-list-Id" data-testid="spectogram-image-list-Id">
             {chartData && chartData.length  && (
-            <ImageList sx={{ width: 1150 }} cols={6} rowHeight={ROW_HEIGHT}>
-              {
-                chartData.map((item) => (
-                  <ImageListItem key={item}>
-                    <ImageListItemBar title={item} position="top" />
-                    <img
-                      src={getThumbnailImageUrl(item)}
-                      alt={item}
-                      loading="lazy"
-                      onClick={() => imageClick(item)}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}
-                    />
-                  </ImageListItem>
-                ))
-              }
-            </ImageList>
-          )}
+              <ImageList sx={{ width: 1150 }} cols={6} rowHeight={ROW_HEIGHT}>
+                {
+                  chartData.map((item) => (
+                    <ImageListItem key={item}>
+                      <ImageListItemBar title={item} position="top" />
+                      <img
+                        src={getThumbnailImageUrl(item)}
+                        alt={item}
+                        loading="lazy"
+                        onClick={() => imageClick(item)}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}
+                      />
+                    </ImageListItem>
+                  ))
+                }
+              </ImageList>
+            )}
           </div>
           <div id="spectrogramId" />
-        </CardContent>
-      </Card>
+        </>
+      </SignalCard>
     </Box>
   );
 };

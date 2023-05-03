@@ -36,7 +36,6 @@
     "@mui/material": "^5.0.6",
     "@mui/styles": "^5.0.2",
     "@ska-telescope/ska-gui-components": "^0.1.19",
-    "@ska-telescope/ska-javascript-components": "^0.1.4",
     "@testing-library/react": "^13.4.0",
     "@types/d3": "^6.7.0",
     "@typescript-eslint/parser": "^5.20.0",
