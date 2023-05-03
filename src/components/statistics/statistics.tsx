@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Card, CardContent, CardHeader, Container, Grid, Typography } from '@mui/material';
-// eslint-disable-next-line import/no-unresolved
+import { Box, Card, CardContent, CardHeader, Grid, Typography } from '@mui/material';
+import moment from 'moment';
 import { DATA_API_URL, WIDTH } from '../../utils/constants';
 
 const CONVERT = 1000;
@@ -11,9 +11,7 @@ function epochToDateString(timeInMilliseconds: number) {
   if (timeInMilliseconds === undefined || timeInMilliseconds === null) {
     return null;
   }
-  const date = new Date(0);
-  date.setMilliseconds(timeInMilliseconds * 1000);
-  return date.toISOString();
+  return moment(0).milliseconds(timeInMilliseconds * CONVERT).format("DD MM YYYY hh:mm:ss Z");  
 }
 
 const Statistics = () => {
@@ -50,8 +48,8 @@ const Statistics = () => {
   });
 
   return (
-    <Box>
-      <Container sx={{ py: '8px' }}>
+    <>
+      <Box m={1}>
         <Card variant="outlined" sx={{ minWidth: WIDTH, py: '8px' }}>
           <CardHeader title="Statistics - Detailed" />
           <CardContent sx={{ pt: '8px' }}>
@@ -125,8 +123,8 @@ const Statistics = () => {
             </div>
           </CardContent>
         </Card>
-      </Container>
-      <Container sx={{ py: '8px' }}>
+      </Box>
+      <Box m={1}>
         <Card variant="outlined" sx={{ minWidth: WIDTH, py: '8px' }}>
           <CardHeader title="Statistics - Receiver" />
           <CardContent sx={{ pt: '8px' }}>
@@ -185,8 +183,8 @@ const Statistics = () => {
             </div>
           </CardContent>
         </Card>
-      </Container>
-    </Box>
+      </Box>
+    </>
   );
 };
 export default Statistics;

@@ -1,18 +1,31 @@
 /* eslint-disable import/no-unresolved */
 import React, { useCallback, useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, Container } from '@mui/material';
+import { Box, Button, Card, CardContent, CardHeader, Tooltip } from '@mui/material';
+import { Status } from '@ska-telescope/ska-gui-components';
 
 import { MessageTopic } from '../../models/message-topic';
 import { decodeJson } from '../../libs/decoder';
 import { SpectrumPlotSvg } from '../../libs/spectrum-plot-svg';
 
-import { HEIGHT, PROTOCOL, WIDTH, WS_API_URL } from '../../utils/constants';
+import { HEIGHT, PROTOCOL, STATUS_SIZE, WIDTH, WS_API_URL } from '../../utils/constants';
 
 const MESSAGE_TOPIC = MessageTopic.SPECTRUM;
 const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
 const SpectrumPlot = () => {
-  const [socketStatus, setSocketStatus] = useState('disconnected');
+  const [socketStatus, setSocketStatus] = useState('unknown');
+
+  const cardTitle = () => { 
+    return `Socket: ${  socketStatus  }, Serialisation: ${  PROTOCOL}`;
+  }
+
+  const getSocketStatus = () => {
+    switch (socketStatus) {
+      case 'connected': return 0;
+      case 'unknown' : return 3;
+      default : return 1;
+    }
+  }
 
   const connectToWebSocket = useCallback(async () => {
     const spectrumPlot = new SpectrumPlotSvg('#sPlotId', WIDTH, HEIGHT);
@@ -71,17 +84,23 @@ const SpectrumPlot = () => {
   }, [connectToWebSocket]);
 
   return (
-    <Container sx={{ py: '8px' }}>
+    <Box m={1}>
       <Card variant="outlined" sx={{ minWidth: WIDTH }}>
         <CardHeader
           title="Spectrum Plot"
-          action={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
+          action={(
+            <Tooltip title={cardTitle()}>
+              <Button>
+                <Status level={getSocketStatus()} size={STATUS_SIZE} />
+              </Button>
+            </Tooltip>
+          )}
         />
         <CardContent>
           <div id="sPlotId" data-testid="sPlotId" />
         </CardContent>
       </Card>
-    </Container>
+    </Box>
   );
 };
 export default SpectrumPlot;

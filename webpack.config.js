@@ -129,6 +129,11 @@ module.exports = () => {
             eager: true,
             singleton: true,
             requiredVersion: deps['d3']
+          },
+          moment: {
+            eager: true,
+            singleton: true,
+            requiredVersion: deps.moment
           }
         }
       }),

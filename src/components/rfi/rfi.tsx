@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import { useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, Container, Grid } from '@mui/material';
+import { Box, Card, CardContent, CardHeader, Grid } from '@mui/material';
 
 import { MessageTopic } from 'src/models/message-topic';
 import { decodeJson } from 'src/libs/decoder';
@@ -60,7 +60,7 @@ const Rfi = () => {
   }, []);
 
   return (
-    <Container>
+    <Box m={1}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Card sx={{ minWidth: WIDTH }}>
@@ -80,7 +80,7 @@ const Rfi = () => {
           </Card>
         </Grid>
       </Grid>
-    </Container>
+    </Box>
   );
 };
 

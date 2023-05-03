@@ -1,16 +1,19 @@
 /* eslint-disable import/no-unresolved */
 import React, { useCallback, useEffect, useState } from 'react';
 import {
+  Box, 
+  Button, 
   Card,
   CardContent,
   CardHeader,
-  Container,
   Grid,
   ImageList,
   ImageListItem,
   ImageListItemBar,
-  Modal
+  Modal,
+  Tooltip
 } from '@mui/material';
+import { Status } from '@ska-telescope/ska-gui-components';
 import { MessageTopic } from '../../models/message-topic';
 import { decodeJson } from '../../libs/decoder';
 import SpectrogramPlotTable from '../../libs/spectrogram-plot-table';
@@ -20,11 +23,12 @@ import {
   DATA_API_URL,
   HEIGHT,
   PROTOCOL,
+  ROW_HEIGHT,
+  STATUS_SIZE,
   WIDTH,
   WS_API_URL
 } from '../../utils/constants';
 
-const ROW_HEIGHT = 164;
 const MESSAGE_TOPIC = MessageTopic.SPECTROGRAMS;
 const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 const SWITCH_D3_IMAGE_CREATION_ON_OFF = process.env.REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF;
@@ -38,6 +42,18 @@ const Spectrogram = () => {
   const [open, setOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [chartData, setChartData] = useState(null);
+
+  const cardTitle = () => { 
+    return `Socket: ${  socketStatus  }, Serialisation: ${  PROTOCOL}`;
+  }
+
+  const getSocketStatus = () => {
+    switch (socketStatus) {
+      case 'connected': return 0;
+      case 'unknown' : return 3;
+      default : return 1;
+    }
+  }
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -144,22 +160,28 @@ const Spectrogram = () => {
 
   if (switchImageCreationOn()) {
     return (
-      <Container>
+      <Box m={1}>
         <Card variant="outlined" sx={{ minWidth: WIDTH }}>
           <CardHeader
-            title="Spectrograms"
-            action={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
+            title="Spectrum Plot"
             subheader="Click on the baseline and polarisation label to see a detailed spectrogram"
+            action={(
+              <Tooltip title={cardTitle()}>
+                <Button>
+                  <Status level={getSocketStatus()} size={STATUS_SIZE} />
+                </Button>
+              </Tooltip>
+            )}
           />
           <CardContent sx={{ pt: '8px' }}>
             <div id="spectrogramId" />
           </CardContent>
         </Card>
-      </Container>
+      </Box>
     );
   }
   return (
-    <Container sx={{ py: '8px' }}>
+    <Box m={1}>
       <Modal
         data-testid='ClickedImage'
         open={open}
@@ -186,8 +208,14 @@ const Spectrogram = () => {
       <Card variant="outlined" sx={{ minWidth: WIDTH }}>
         <CardHeader
           title="Spectrograms"
-          action={`Socket: ${socketStatus}, Serialisation: ${PROTOCOL}`}
           subheader="Click on the baseline and polarisation label to see a detailed spectrogram"
+          action={(
+            <Tooltip title={cardTitle()}>
+              <Button>
+                <Status level={getSocketStatus()} size={STATUS_SIZE} />
+              </Button>
+            </Tooltip>
+          )}
         />
         <CardContent sx={{ pt: '8px' }}>
 
@@ -220,7 +248,7 @@ const Spectrogram = () => {
           <div id="spectrogramId" />
         </CardContent>
       </Card>
-    </Container>
+    </Box>
   );
 };
 
