@@ -77,7 +77,7 @@ module.exports = () => {
         filename: 'remoteEntry.js',
         remotes: {},
         exposes: {
-          './signalMetrics': './src/App/App.tsx'
+          './signalMetrics': './src/components/container/Container.tsx'
         },
         shared: {
           ...deps,

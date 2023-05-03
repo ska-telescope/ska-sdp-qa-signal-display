@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Card, CardContent, CardHeader, Grid, Typography } from '@mui/material';
 import moment from 'moment';
-import { DATA_API_URL, WIDTH } from '../../utils/constants';
+import { DATA_API_URL } from '../../utils/constants';
 
 const CONVERT = 1000;
 const WORKFLOW_STATISTICS_INTERVAL_SECONDS =
@@ -50,9 +50,9 @@ const Statistics = () => {
   return (
     <>
       <Box m={1}>
-        <Card variant="outlined" sx={{ minWidth: WIDTH, py: '8px' }}>
+        <Card style={{backgroundColor: "primary"}} variant="outlined">
           <CardHeader title="Statistics - Detailed" />
-          <CardContent sx={{ pt: '8px' }}>
+          <CardContent>
             <div id="statistics-detailed-Id" data-testid="statistics-detailed-Id">
               {processingBlockStatisticsData?.time && (
                 <Grid container spacing={3}>
@@ -125,9 +125,9 @@ const Statistics = () => {
         </Card>
       </Box>
       <Box m={1}>
-        <Card variant="outlined" sx={{ minWidth: WIDTH, py: '8px' }}>
+        <Card variant="outlined">
           <CardHeader title="Statistics - Receiver" />
-          <CardContent sx={{ pt: '8px' }}>
+          <CardContent>
             <div id="statistics-receiver-events" data-testid='statistics-receiver-events'>
               {receiverEventsData?.time && (
                 <Grid container spacing={2}>

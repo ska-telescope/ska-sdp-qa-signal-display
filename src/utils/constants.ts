@@ -6,7 +6,7 @@ export const CELL_WIDTH = 150;
 export const HEIGHT = 300;
 export const ROW_HEIGHT = 164;
 export const STATUS_SIZE = 30;
-export const WIDTH = 1450;
+export const WIDTH = 1200; // 1450;
 
 // Used to determine the message type of incoming messages and the topic to which to subscribe
 export const PROTOCOL =

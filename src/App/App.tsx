@@ -1,40 +1,39 @@
 import React from 'react';
-import { Box, CssBaseline, ThemeProvider } from '@mui/material';
-
-import theme from '../services/theme/theme';
+import { CssBaseline, Paper, ThemeProvider } from '@mui/material';
+import { Header, Spacer, SPACER_VERTICAL } from '@ska-telescope/ska-gui-components';
+import theme, { THEME_DARK, THEME_LIGHT } from '../services/theme/theme';
 // Import all the css files created for d3 charts
 import '../libs/css/spectrogram-plot-table.css';
 
-// import Rfi from '../components/rfi/rfi';
-import Spectrogram from '../components/spectrogram/spectrogram';
-import SpectrumPlot from '../components/spectrumPlot/spectrumPlot';
-import Statistics from '../components/statistics/statistics';
+import Container from '../components/container/Container';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 // const clientSideEmotionCache = createEmotionCache();
 
+export interface AppProps {
+  user?: { username: string };
+  telescope?: { name: string };
+}
+
 function App() {
+
+  const HEADER_HEIGHT = 70;
+  // Theme related
+  const [themeMode, setThemeMode] = React.useState(THEME_LIGHT);
+
+  const themeToggle = () => {
+    setThemeMode(themeMode === THEME_LIGHT ? THEME_DARK : THEME_LIGHT);
+  };
+
   return (
-    <ThemeProvider theme={theme()}>
+    <ThemeProvider theme={theme(themeMode)}>
       <CssBaseline enableColorScheme />
       <React.Suspense fallback="...is loading">
-        <div className="App">
-          <Box
-            sx={{
-              display: 'flex',
-              flex: '1 1 auto',
-              flexDirection: 'column',
-              width: '100%'
-            }}
-          >
-            <Statistics />
-            <SpectrumPlot />
-            <Spectrogram />
-            {/*      Suppressed for now.
-        <Rfi />
-        */}
-          </Box>
-        </div>
+        <Header themeToggle={themeToggle} />
+        <Paper>
+          <Spacer size={HEADER_HEIGHT} axis={SPACER_VERTICAL} />
+          <Container /> 
+        </Paper>
       </React.Suspense>
     </ThemeProvider>
   );

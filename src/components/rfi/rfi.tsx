@@ -7,7 +7,7 @@ import { decodeJson } from 'src/libs/decoder';
 import RfiQaPixelTable from 'src/libs/rfi-qa-pixel-table';
 import RfiDetailPlots from 'src/libs/rfi-detail-plots';
 
-import { PROTOCOL, WIDTH, WS_API_URL } from 'src/utils/constants';
+import { PROTOCOL, WIDTH, WS_API_URL } from '../../utils/constants';
 
 const MESSAGE_TOPIC = MessageTopic.RFI;
 const RFI_SUBTOPIC = 'xx-00-01';
