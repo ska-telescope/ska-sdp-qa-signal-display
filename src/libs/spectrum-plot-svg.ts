@@ -28,7 +28,7 @@ export class SpectrumPlotSvg {
     this.svg = d3
       .select(selector)
       .append('svg')
-      .attr('width', width - this.margin.left - this.margin.right)
+      .attr('width', '100%')
       .attr('role', 'img')
       .append('g')
       .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
