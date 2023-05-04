@@ -1,5 +1,5 @@
 import React from 'react';
-import { CssBaseline, Paper, ThemeProvider } from '@mui/material';
+import { CssBaseline, Grid, Paper, ThemeProvider, Typography } from '@mui/material';
 import { Header, Spacer, SPACER_VERTICAL } from '@ska-telescope/ska-gui-components';
 import theme, { THEME_DARK, THEME_LIGHT } from '../services/theme/theme';
 // Import all the css files created for d3 charts
@@ -29,7 +29,13 @@ function App() {
     <ThemeProvider theme={theme(themeMode)}>
       <CssBaseline enableColorScheme />
       <React.Suspense fallback="...is loading">
-        <Header themeToggle={themeToggle} />
+        <Header themeToggle={themeToggle}>
+          <Grid item />
+          <Grid item>
+            <Typography variant='h4'>Signal Display</Typography>
+          </Grid>
+          <Grid item />
+        </Header>
         <Paper>
           <Spacer size={HEADER_HEIGHT} axis={SPACER_VERTICAL} />
           <Container /> 

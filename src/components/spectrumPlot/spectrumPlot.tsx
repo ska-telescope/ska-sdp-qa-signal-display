@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import SignalCard from '../signalCard/SignalCard';
 
 import { MessageTopic } from '../../models/message-topic';
@@ -12,13 +12,13 @@ const MESSAGE_TOPIC = MessageTopic.SPECTRUM;
 const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
 const SpectrumPlot = () => {
-  const [socketStatus, setSocketStatus] = useState('unknown');
+  const [socketStatus, setSocketStatus] = React.useState('unknown');
 
   const cardTitle = () => { 
     return `Socket: ${  socketStatus  }, Serialisation: ${  PROTOCOL}`;
   }
 
-  const connectToWebSocket = useCallback(async () => {
+  const connectToWebSocket = React.useCallback(async () => {
     const spectrumPlot = new SpectrumPlotSvg('#sPlotId', WIDTH, HEIGHT);
     const ws = new WebSocket(WS_API);
 
@@ -70,7 +70,7 @@ const SpectrumPlot = () => {
     };
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     connectToWebSocket();
   }, [connectToWebSocket]);
 

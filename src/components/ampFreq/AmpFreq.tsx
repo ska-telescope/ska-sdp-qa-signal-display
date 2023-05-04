@@ -4,7 +4,7 @@ import SignalCard from '../signalCard/SignalCard';
 
 import { MessageTopic } from '../../models/message-topic';
 import { decodeJson } from '../../libs/decoder';
-import { SpectrumPlotSvg } from '../../libs/spectrum-plot-svg';
+import { D3LineChart } from '../../libs/d3LineChart';
 
 import { HEIGHT, PROTOCOL, WIDTH, WS_API_URL } from '../../utils/constants';
 
@@ -19,7 +19,7 @@ const AmpFreq = () => {
   }
 
   const connectToWebSocket = useCallback(async () => {
-    const spectrumPlot = new SpectrumPlotSvg('#sPlotId', WIDTH, HEIGHT);
+    const spectrumPlot = new D3LineChart('#ampFreqSvg', WIDTH, HEIGHT);
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function oneError(e) {
@@ -31,12 +31,12 @@ const AmpFreq = () => {
 
       try {
         if (data instanceof ArrayBuffer) {
-          // DEBUG console.log("SpectrumPage: received, type = ArrayBuffer, data = ", data);
+          // DEBUG console.log("AmpFreq: received, type = ArrayBuffer, data = ", data);
         }
         // - Removing Protobuff for now.
         //  else if (data instanceof Blob) {
         //   decodeSpectrum(data).then((decoded: object) => {
-        //     // DEBUG console.log("SpectrumPage: received type = Blob, decoded = ", decoded);
+        //     // DEBUG console.log("AmpFreq: received type = Blob, decoded = ", decoded);
         //     window.requestAnimationFrame(() => spectrumPlot?.draw(decoded));
         //   });
         // }
@@ -50,7 +50,7 @@ const AmpFreq = () => {
         }
       } catch (e) {
         /* eslint no-console: ["error", { allow: ["error"] }] */
-        console.error('SpectrumPage: received, decoding error = ', e);
+        console.error('AmpFreq: received, decoding error = ', e);
       }
     };
 
@@ -69,7 +69,7 @@ const AmpFreq = () => {
       actionTitle={cardTitle()}
       socketStatus={socketStatus}
     >
-      <div id="sPlotId" data-testid="sPlotId" />
+      <div id="ampFreqSvg" data-testid="ampFreqSvg" />
     </SignalCard>
   );
 };

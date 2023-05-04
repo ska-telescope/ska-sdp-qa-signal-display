@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 
-export class SpectrumPlotSvg {
+export class D3LineChart {
   width: number;
 
   height: number;
