@@ -1,20 +1,27 @@
 import React from 'react';
 import { Box, Button, Card, CardContent, CardHeader, Checkbox, FormGroup, FormControlLabel, Grid, Tooltip } from '@mui/material';
 import { Status } from '@ska-telescope/ska-gui-components';
-import { STATUS_SIZE } from '../../utils/constants';
 
+const STATUS_SIZE = 25;
 export interface SignalCardProps {
     actionTitle?: string;
     children?: JSX.Element;
     socketStatus?: string,
     subHeader?: string;
     title: string;
+    showContent?: boolean, 
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    setShowContent?: Function
   }
 
-const SignalCard = ({ actionTitle, children, socketStatus, subHeader, title }: SignalCardProps) => {
-    const [showContent, setShowContent] = React.useState(true);
+const SignalCard = ({ actionTitle, children, socketStatus, subHeader, title, showContent, setShowContent }: SignalCardProps) => {
+    const [showLocalContent, setShowLocalContent] = React.useState(true);
     const handleToggle = () => {
-        setShowContent(!showContent);
+        if (setShowContent) {
+          setShowContent(!showContent);
+        } else {
+          setShowLocalContent(!showLocalContent);
+        }
       };
 
       const getSocketStatus = () => {
@@ -44,7 +51,7 @@ const SignalCard = ({ actionTitle, children, socketStatus, subHeader, title }: S
                 <FormGroup>
                   <FormControlLabel 
                     control={
-                      <Checkbox checked={showContent} color="secondary" onChange={handleToggle} />
+                      <Checkbox checked={setShowContent ? showContent : showLocalContent} color="secondary" onChange={handleToggle} />
                     }
                     label="Show"
                   />
@@ -55,7 +62,7 @@ const SignalCard = ({ actionTitle, children, socketStatus, subHeader, title }: S
           subHeader={subHeader} 
           title={title} 
         />
-        {showContent && (
+        {(setShowContent ? showContent : showLocalContent) && (
         <CardContent>
           {children}
         </CardContent>
@@ -69,7 +76,9 @@ SignalCard.defaultProps = {
     actionTitle: null,
     children: null,
     socketStatus: null,
-    subHeader: null
+    subHeader: null,
+    showContent: null, 
+    setShowContent: null
   };
 
 export default SignalCard;

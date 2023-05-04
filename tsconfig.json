@@ -18,7 +18,7 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["App.tsx", "src/App/App.tsx", "src/**/*.tsx", "src/**/*.ts"],
+  "include": ["App.tsx", "src/App/App.tsx", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"],
   "exclude": ["node_modules"],
   "paths": {
     "@components/*": ["components/*"],

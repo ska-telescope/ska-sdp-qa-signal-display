@@ -1,9 +1,7 @@
 import * as d3 from 'd3';
+import { HEIGHT, WIDTH } from '../utils/constants';
 
 export class SpectrumPlotSvg {
-  width: number;
-
-  height: number;
 
   margin = { top: 10, right: 40, bottom: 60, left: 50 };
 
@@ -19,13 +17,11 @@ export class SpectrumPlotSvg {
 
   selector: string;
 
-  constructor(selector: string, width = 1200, height = 300) {
-    this.width = width;
-    this.height = height;
+  constructor(selector: string) {
     this.selector = selector;
 
-    const usedWidth = width - this.margin.left - this.margin.right;
-    const usedHeight = height - this.margin.top - this.margin.bottom;
+    const usedWidth = WIDTH + this.margin.left + this.margin.right;
+    const usedHeight = HEIGHT + this.margin.top + this.margin.bottom;
     const tmp = `0 0 ${usedWidth} ${usedHeight}`;
     // append the svg object to the selector
     this.svg = d3
@@ -37,12 +33,22 @@ export class SpectrumPlotSvg {
       .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
   }
 
+  private fillColor() { 
+    // TODO : Need to make this light/dark dependant ? 
+    return '#3366CC';
+  }
+
+  private textColor() { 
+    // TODO : Need to make this light/dark dependant
+    return '#303030';
+  }
+
   public draw(data) {
     // console.log("SpectrumPlot:draw: data = ", data);
     // Set height such that Axes can render properly
     d3.select(this.selector)
       .select('svg')
-      .attr('height', this.height - this.margin.top + this.margin.bottom);
+      .attr('height', HEIGHT - this.margin.top + this.margin.bottom);
 
     this.svg.selectAll('text').remove();
     this.svg.selectAll('.tick').remove();
@@ -52,13 +58,13 @@ export class SpectrumPlotSvg {
     this.xScale = d3
       .scaleLinear()
       .domain([data?.x_min || 0, data.x_max])
-      .range([0, this.width]);
+      .range([0, WIDTH]);
 
     // create y-scale
     this.yScale = d3
       .scaleLinear()
       .domain([data?.y_min || 0, data.y_max])
-      .range([this.height, 0]);
+      .range([HEIGHT, 0]);
 
     this.drawAxis();
     this.drawLine(data);
@@ -67,8 +73,7 @@ export class SpectrumPlotSvg {
     this.svg
       .exit()
       .transition()
-      // .duration(300)
-      .attr('y', this.height)
+      .attr('y', HEIGHT)
       .attr('height', 0)
       .remove();
   }
@@ -77,7 +82,7 @@ export class SpectrumPlotSvg {
     // add x-axis
     this.svg
       .append('g')
-      .attr('transform', `translate(0,${this.height})`)
+      .attr('transform', `translate(0,${HEIGHT})`)
       .call(d3.axisBottom(this.xScale));
 
     // add y axis
@@ -86,8 +91,8 @@ export class SpectrumPlotSvg {
     // label for the x-axis
     this.svg
       .append('text')
-      .attr('transform', `translate(${this.width / 2} ,${this.height + this.margin.top + 20})`)
-      .style('fill', '#303030')
+      .attr('transform', `translate(${WIDTH / 2} ,${WIDTH + this.margin.top + 20})`)
+      .style('fill', this.textColor())
       .style('text-anchor', 'middle')
       .style('font-size', '15px')
       .text(this.xLabel);
@@ -97,9 +102,9 @@ export class SpectrumPlotSvg {
       .append('text')
       .attr('transform', 'rotate(-90)')
       .attr('y', 0 - this.margin.left)
-      .attr('x', 0 - this.height / 2)
+      .attr('x', 0 - WIDTH / 2)
       .attr('dy', '1.0em')
-      .style('fill', '#303030')
+      .style('fill', this.textColor())
       .style('text-anchor', 'middle')
       .style('font-size', '15px')
       .text(this.yLabel);
@@ -111,7 +116,7 @@ export class SpectrumPlotSvg {
       .append('path')
       .datum(data.channels)
       .attr('fill', 'none')
-      .attr('stroke', '#3366CC')
+      .attr('stroke', this.fillColor())
       .attr('stroke-width', 2)
       .attr('opacity', 1)
       .attr(

@@ -124,7 +124,7 @@ const Statistics = () => {
         <div id="statistics-receiver-events" data-testid='statistics-receiver-events'>
           {receiverEventsData?.time && (
             <Grid container spacing={2}>
-              <Grid item sm={6} xs={12}>
+              <Grid item sm={4} xs={12}>
                 <Typography paragraph>
                   Last Update:
                   {' '}
@@ -136,7 +136,19 @@ const Statistics = () => {
                   {receiverEventsData?.scan_id}
                 </Typography>
               </Grid>
-              <Grid item sm={6} xs={12}>
+              <Grid item sm={4} xs={12}>
+                <Typography paragraph>
+                  Number of Heaps:
+                  {' '}
+                  {receiverEventsData?.num_heaps}
+                </Typography>
+                <Typography paragraph>
+                  Number of Incomplete Heaps:
+                  {' '}
+                  {receiverEventsData?.num_incomplete}
+                </Typography>
+              </Grid>
+              <Grid item sm={4} xs={12}>
                 <Typography paragraph>
                   Total Data Received:
                   {' '}
@@ -152,16 +164,6 @@ const Statistics = () => {
                   ) / 100}
                   {' '}
                   MB/s
-                </Typography>
-                <Typography paragraph>
-                  Number of Heaps:
-                  {' '}
-                  {receiverEventsData?.num_heaps}
-                </Typography>
-                <Typography paragraph>
-                  Number of Incomplete Heaps:
-                  {' '}
-                  {receiverEventsData?.num_incomplete}
                 </Typography>
                 <Typography paragraph>
                   Duration of Current Transfer:
