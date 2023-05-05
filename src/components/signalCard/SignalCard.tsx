@@ -7,14 +7,14 @@ export interface SignalCardProps {
     actionTitle?: string;
     children?: JSX.Element;
     socketStatus?: string,
-    subHeader?: string;
+    subheader?: string;
     title: string;
     showContent?: boolean, 
     // eslint-disable-next-line @typescript-eslint/ban-types
     setShowContent?: Function
   }
 
-const SignalCard = ({ actionTitle, children, socketStatus, subHeader, title, showContent, setShowContent }: SignalCardProps) => {
+const SignalCard = ({ actionTitle, children, socketStatus, subheader, title, showContent, setShowContent }: SignalCardProps) => {
     const [showLocalContent, setShowLocalContent] = React.useState(true);
     const handleToggle = () => {
         if (setShowContent) {
@@ -59,7 +59,7 @@ const SignalCard = ({ actionTitle, children, socketStatus, subHeader, title, sho
               </Grid>
             </Grid>
           )}
-          subHeader={subHeader} 
+          subheader={subheader} 
           title={title} 
         />
         {(setShowContent ? showContent : showLocalContent) && (
@@ -76,7 +76,7 @@ SignalCard.defaultProps = {
     actionTitle: null,
     children: null,
     socketStatus: null,
-    subHeader: null,
+    subheader: null,
     showContent: null, 
     setShowContent: null
   };
