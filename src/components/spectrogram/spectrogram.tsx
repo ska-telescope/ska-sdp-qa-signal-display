@@ -1,29 +1,22 @@
 /* eslint-disable import/no-unresolved */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Card,
   CardContent,
-  CardHeader,
-  Container,
   Grid,
   ImageList,
   ImageListItem,
   ImageListItemBar,
-  Modal,
-  Typography
+  Modal
 } from '@mui/material';
 import SignalCard  from '../signalCard/SignalCard';
-import {
-  DATA_API_URL,
-  PROTOCOL,
-  WIDTH
-} from '../../utils/constants';
+import { DATA_API_URL, PROTOCOL } from '../../utils/constants';
 
 
 const Spectrogram = () => {
-  const [open, setOpen] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [chartData, setChartData] = useState(null);
+  const [open, setOpen] = React.useState(false);
+  const [imageUrl, setImageUrl] = React.useState<string | null>(null);
+  const [chartData, setChartData] = React.useState(null);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

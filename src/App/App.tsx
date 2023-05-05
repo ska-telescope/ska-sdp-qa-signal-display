@@ -1,5 +1,5 @@
 import React from 'react';
-import { CssBaseline, Grid, Paper, ThemeProvider, Typography } from '@mui/material';
+import { CssBaseline, Grid, ThemeProvider, Typography } from '@mui/material';
 import { Header, Spacer, SPACER_VERTICAL } from '@ska-telescope/ska-gui-components';
 import theme, { THEME_DARK, THEME_LIGHT } from '../services/theme/theme';
 import Container from '../components/container/Container';
