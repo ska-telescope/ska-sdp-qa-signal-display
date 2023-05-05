@@ -1,15 +1,11 @@
 import * as d3 from 'd3';
-import { HEIGHT, WIDTH } from '../utils/constants';
+import { HEIGHT, WIDTH } from '../../utils/constants';
 
-export class SpectrumPlotSvg {
+class D3Chart {
 
-  margin = { top: 10, right: 40, bottom: 60, left: 50 };
+  margin = { top: 10, right: 50, bottom: 50, left: 50 };
 
   svg;
-
-  xLabel = 'Frequency (MHz)';
-
-  yLabel = 'Power (dB)';
 
   xScale;
 
@@ -18,6 +14,7 @@ export class SpectrumPlotSvg {
   selector: string;
 
   constructor(selector: string) {
+
     this.selector = selector;
 
     const usedWidth = WIDTH + this.margin.left + this.margin.right;
@@ -33,19 +30,7 @@ export class SpectrumPlotSvg {
       .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
   }
 
-  private fillColor() { 
-    // TODO : Need to make this light/dark dependant ? 
-    return '#3366CC';
-  }
-
-  private textColor() { 
-    // TODO : Need to make this light/dark dependant
-    return '#303030';
-  }
-
   public draw(data) {
-    // console.log("SpectrumPlot:draw: data = ", data);
-    // Set height such that Axes can render properly
     d3.select(this.selector)
       .select('svg')
       .attr('height', HEIGHT - this.margin.top + this.margin.bottom);
@@ -68,7 +53,6 @@ export class SpectrumPlotSvg {
 
     this.drawAxis();
     this.drawLine(data);
-    this.drawConfidenceIntervals(data);
 
     this.svg
       .exit()
@@ -78,7 +62,26 @@ export class SpectrumPlotSvg {
       .remove();
   }
 
+  private isDark() {
+    // TODO : We should sort this out.
+    return false;
+  }
+
+  private fillColor() { 
+    // TODO : We should obtain the correct coloring
+    return this.isDark() ? 'yellow' : '#3366CC';
+  }
+
+  private textColor() { 
+        // TODO : We should obtain the correct coloring
+    return this.isDark() ? '#000000' : '#303030';
+  }
+
   private drawAxis() {
+    
+    const X_LABEL = 'Frequency (MHz)';
+    const Y_LABEL = 'Power (dB)';
+
     // add x-axis
     this.svg
       .append('g')
@@ -91,27 +94,25 @@ export class SpectrumPlotSvg {
     // label for the x-axis
     this.svg
       .append('text')
-      .attr('transform', `translate(${WIDTH / 2} ,${WIDTH + this.margin.top + 20})`)
+      .attr('transform', `translate(${WIDTH / 2} ,${HEIGHT + this.margin.top + 20})`)
       .style('fill', this.textColor())
       .style('text-anchor', 'middle')
       .style('font-size', '15px')
-      .text(this.xLabel);
+      .text(X_LABEL);
 
     // label for the y-axis
     this.svg
       .append('text')
       .attr('transform', 'rotate(-90)')
       .attr('y', 0 - this.margin.left)
-      .attr('x', 0 - WIDTH / 2)
+      .attr('x', 0 - HEIGHT / 2)
       .attr('dy', '1.0em')
-      .style('fill', this.textColor())
       .style('text-anchor', 'middle')
       .style('font-size', '15px')
-      .text(this.yLabel);
+      .text(Y_LABEL);
   }
 
   private drawLine(data) {
-    // add the line
     this.svg
       .append('path')
       .datum(data.channels)
@@ -128,22 +129,6 @@ export class SpectrumPlotSvg {
           .y((_d, i) => this.yScale(data.power[i]))
       );
   }
-
-  private drawConfidenceIntervals(data) {
-    this.svg
-      .append('path')
-      .datum(data.channels)
-      .attr('fill', '#1f77b4')
-      .attr('stroke', 'none')
-      .attr('opacity', 0.3)
-      .attr(
-        'd',
-        d3
-          .area()
-          .curve(d3.curveMonotoneX)
-          .x((_d, i) => data.channels[i])
-          .y0((_d, i) => data.power[i] + data.sd_u[i])
-          .y1((_d, i) => data.power[i] - data.sd_l[i])
-      );
-  }
 }
+
+export default D3Chart

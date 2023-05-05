@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 // import * as _ from 'lodash';
-import { removeLastDirectoryPartOf } from '../utils/common';
-import { SpectrogramPlot } from './spectrogram-plot';
+import { removeLastDirectoryPartOf } from '../../../../utils/common';
+import { SpectrogramPlot } from '../SpectrogramPlot';
 
 interface Cell {
   metadata: { baseline: string; polarisation: string; idx: number };

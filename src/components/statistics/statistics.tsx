@@ -53,7 +53,7 @@ const Statistics = () => {
       <SignalCard title="Statistics - Detailed">
         <div id="statistics-detailed-Id" data-testid="statistics-detailed-Id">
           {processingBlockStatisticsData?.time && (
-          <Grid container spacing={3}>
+          <Grid container direction="row" justifyContent="space-between">
             <Grid item md={4} sm={6} xs={12}>
               <Typography paragraph>Time:</Typography>
               <Typography paragraph>
@@ -83,14 +83,14 @@ const Statistics = () => {
                 p/s
               </Typography>
               <Typography paragraph>
-                Packet Count:
-                {' '}
-                {processingBlockStatisticsData?.statistics?.packet_count}
-              </Typography>
-              <Typography paragraph>
                 Payloads Received:
                 {' '}
                 {processingBlockStatisticsData?.statistics?.payloads_received}
+              </Typography>
+              <Typography paragraph>
+                Visibility Receive Still Active:
+                {' '}
+                {processingBlockStatisticsData?.statistics?.receive_active ? "Yes" : "No"}
               </Typography>
             </Grid>
             <Grid item md={4} sm={6} xs={12}>
@@ -109,6 +109,16 @@ const Statistics = () => {
                 Processing Block ID:
                 {' '}
                 {processingBlockStatisticsData?.processing_block?.processing_block_id}
+              </Typography>
+              <Typography paragraph>
+                Execution Block ID:
+                {' '}
+                {processingBlockStatisticsData?.processing_block?.execution_block_id}
+              </Typography>
+              <Typography paragraph>
+                Sub-Array:
+                {' '}
+                {processingBlockStatisticsData?.processing_block?.subarray}
               </Typography>
               <Typography paragraph>
                 Time Since Last Payload:

@@ -2,9 +2,6 @@ import React from 'react';
 import { CssBaseline, Grid, Paper, ThemeProvider, Typography } from '@mui/material';
 import { Header, Spacer, SPACER_VERTICAL } from '@ska-telescope/ska-gui-components';
 import theme, { THEME_DARK, THEME_LIGHT } from '../services/theme/theme';
-// Import all the css files created for d3 charts
-import '../libs/css/spectrogram-plot-table.css';
-
 import Container from '../components/container/Container';
 
 // Client-side cache, shared for the whole session of the user in the browser.
@@ -36,10 +33,10 @@ function App() {
           </Grid>
           <Grid item />
         </Header>
-        <Paper>
+        <>
           <Spacer size={HEADER_HEIGHT} axis={SPACER_VERTICAL} />
           <Container /> 
-        </Paper>
+        </>
       </React.Suspense>
     </ThemeProvider>
   );

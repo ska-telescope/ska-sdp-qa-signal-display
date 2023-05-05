@@ -1,10 +1,10 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
-import SignalCard from '../signalCard/SignalCard';
+import SignalCard  from '../signalCard/SignalCard';
+import D3Chart from './D3Chart';
 
 import { MessageTopic } from '../../models/message-topic';
 import { decodeJson } from '../../libs/decoder';
-import { SpectrumPlotSvg } from '../../libs/spectrum-plot-svg';
 
 import { PROTOCOL, WS_API_URL } from '../../utils/constants';
 
@@ -20,7 +20,7 @@ const SpectrumPlot = () => {
   }
 
   const connectToWebSocket = React.useCallback(async () => {
-    const spectrumPlotSvg = new SpectrumPlotSvg('#sPlotId');
+    const d3Chart = new D3Chart('#spectrumPlotSvg');
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function oneError(e) {
@@ -29,17 +29,16 @@ const SpectrumPlot = () => {
 
     ws.onmessage = function onMessage(msg) {
       const data = msg?.data;
-
       try {
         const decoded = decodeJson(data);
         if (decoded && decoded.status) {
           setSocketStatus(decoded.status);
         } else {
-          window.requestAnimationFrame(() => spectrumPlotSvg?.draw(decoded));
+          window.requestAnimationFrame(() => d3Chart?.draw(decoded));
         }
       } catch (e) {
         /* eslint no-console: ["error", { allow: ["error"] }] */
-        console.error('SpectrumPlot: received, decoding error = ', e);
+        console.error('spectrumPlot: received, decoding error = ', e);
       }
     };
 
@@ -61,7 +60,7 @@ const SpectrumPlot = () => {
       showContent={showContent}
       setShowContent={setShowContent}
     >
-      <div id="sPlotId" data-testid="sPlotId" />
+      <div id="spectrumPlotSvg" data-testid="spectrumPlotSvg" />
     </SignalCard>
   );
 };
