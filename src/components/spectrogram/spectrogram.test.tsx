@@ -3,7 +3,7 @@ import React from 'react';
 import { render, cleanup, screen, fireEvent } from '@testing-library/react';
 import {rest} from 'msw'
 import {setupServer} from 'msw/node'
-import Spectrogram from './Spectrogram';
+import Spectrogram from './spectrogram';
 import mockBaselinesData from '../../mockData/mock-baseline-data';
 import {
   DATA_API_URL,

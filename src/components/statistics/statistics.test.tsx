@@ -5,7 +5,7 @@ import mockProcessingBlockStatisticsData from 'src/mockData/mock-processing-bloc
 import mockStatisticsReceiverEventsData from 'src/mockData/mock-statistics-receiver-events-data';
 import {rest} from 'msw';
 import {setupServer} from 'msw/node';
-import Statistics from './Statistics';
+import Statistics from './statistics';
 import { DATA_API_URL } from '../../utils/constants';
 
 const server = setupServer(

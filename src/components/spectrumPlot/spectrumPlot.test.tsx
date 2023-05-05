@@ -5,7 +5,7 @@ import {rest} from 'msw'
 import {setupServer} from 'msw/node'
 import mockSpectrumData from '../../mockData/mock-spectrum-data';
 import { WS_API_URL } from '../../utils/constants';
-import SpectrumPlot from './SpectrumPlot';
+import SpectrumPlot from './spectrumPlot';
 
 const wsApiUrlHttp = WS_API_URL.replace('ws', 'http');
 
