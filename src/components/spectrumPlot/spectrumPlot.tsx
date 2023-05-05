@@ -20,7 +20,7 @@ const SpectrumPlot = () => {
   }
 
   const connectToWebSocket = React.useCallback(async () => {
-    const d3Chart = new D3Chart('#spectrumPlotSvg');
+    const d3Chart = new D3Chart('#sPlotId');
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function oneError(e) {
@@ -60,7 +60,7 @@ const SpectrumPlot = () => {
       showContent={showContent}
       setShowContent={setShowContent}
     >
-      <div id="spectrumPlotSvg" data-testid="spectrumPlotSvg" />
+      <div id="sPlotId" data-testid="sPlotId" />
     </SignalCard>
   );
 };

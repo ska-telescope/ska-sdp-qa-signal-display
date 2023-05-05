@@ -86,7 +86,7 @@ const Spectrogram = () => {
       <SignalCard
         title="Spectrograms"
         actionTitle={cardTitle()}
-        subHeader='Click on the baseline and polarisation label to see a detailed spectrogram'
+        subheader='Click on the baseline and polarisation label to see a detailed spectrogram'
       >
         <>
           <div id="spectogram-image-list-Id" data-testid="spectogram-image-list-Id">
