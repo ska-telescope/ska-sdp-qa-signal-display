@@ -77,7 +77,7 @@ module.exports = () => {
         filename: 'remoteEntry.js',
         remotes: {},
         exposes: {
-          './signalMetrics': './src/App/App.tsx'
+          './signalMetrics': './src/components/container/Container.tsx'
         },
         shared: {
           ...deps,
@@ -95,8 +95,7 @@ module.exports = () => {
             eager: true,
             singleton: true,
             requiredVersion: deps['react-helmet']
-          }
-          ,
+          },
           'prop-types': {
             eager: true,
             singleton: true,
@@ -117,7 +116,7 @@ module.exports = () => {
             singleton: true,
             requiredVersion: deps['@mui/material']
           },
-          '@ska-telescope/ska-javascript-components': {
+          '@ska-telescope/ska-gui-components': {
             requiredVersion: 'auto',
             eager: true
           },
@@ -130,6 +129,11 @@ module.exports = () => {
             eager: true,
             singleton: true,
             requiredVersion: deps['d3']
+          },
+          moment: {
+            eager: true,
+            singleton: true,
+            requiredVersion: deps.moment
           }
         }
       }),
@@ -140,9 +144,11 @@ module.exports = () => {
       new webpack.EnvironmentPlugin({
         REACT_APP_WS_API: 'ws://localhost:8002/consumer',
         REACT_APP_MESSAGE_TYPE: 'json',
+        REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF: 'off',
         REACT_APP_DATA_API_URL: 'http://localhost:8002',
         REACT_APP_WORKFLOW_INTERVAL_SECONDS: 60,
         REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS: 10,
+        REACT_APP_DASHBOARD_URL_SUBDIRECTORY: '',
         SKIP_PREFLIGHT_CHECK: true
       }),
       new webpack.DefinePlugin({

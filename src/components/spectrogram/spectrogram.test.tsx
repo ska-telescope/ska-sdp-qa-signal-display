@@ -24,12 +24,14 @@ const server = setupServer(
 
 beforeAll(() => {
   server.listen();
+  process.env.REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF = 'off';
 });
 
 afterEach(() => server.resetHandlers())
 
 afterAll(() => {
   server.close();
+  process.env.REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF = 'off';
   cleanup();
 });
 

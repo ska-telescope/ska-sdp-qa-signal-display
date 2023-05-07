@@ -11,7 +11,7 @@ import { PROTOCOL, WS_API_URL } from '../../utils/constants';
 const MESSAGE_TOPIC = MessageTopic.SPECTRUM;
 const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
-const SpectrumPlot = () => {
+const AmpFreq = () => {
   const [socketStatus, setSocketStatus] = React.useState('unknown');
   const [showContent, setShowContent] = React.useState(true);
 
@@ -20,11 +20,11 @@ const SpectrumPlot = () => {
   }
 
   const connectToWebSocket = React.useCallback(async () => {
-    const d3Chart = new D3Chart('#sPlotId');
+    const d3Chart = new D3Chart('#ampFreqSvg');
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function oneError(e) {
-      console.error('SpectrumPlot: ws onerror, error = ', e);
+      console.error('AmpFreq: ws onerror, error = ', e);
     };
 
     ws.onmessage = function onMessage(msg) {
@@ -38,7 +38,7 @@ const SpectrumPlot = () => {
         }
       } catch (e) {
         /* eslint no-console: ["error", { allow: ["error"] }] */
-        console.error('spectrumPlot: received, decoding error = ', e);
+        console.error('AmpFreq: received, decoding error = ', e);
       }
     };
 
@@ -54,14 +54,14 @@ const SpectrumPlot = () => {
 
   return (
     <SignalCard
-      title="Spectrum Plot"
+      title="Amplitude vs Frequency"
       actionTitle={cardTitle()}
       socketStatus={socketStatus}
       showContent={showContent}
       setShowContent={setShowContent}
     >
-      <div id="sPlotId" data-testid="sPlotId" />
+      <div id="ampFreqSvg" data-testid="ampFreqSvg" />
     </SignalCard>
   );
 };
-export default SpectrumPlot;
+export default AmpFreq;

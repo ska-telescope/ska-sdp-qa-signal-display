@@ -1,34 +1,28 @@
 /* eslint-disable import/no-unresolved */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Card,
   CardContent,
-  CardHeader,
-  Container,
   Grid,
   ImageList,
   ImageListItem,
   ImageListItemBar,
-  Modal,
-  Typography
+  Modal
 } from '@mui/material';
-import {
-  DATA_API_URL,
-  PROTOCOL,
-  WIDTH
-} from '../../utils/constants';
+import SignalCard  from '../signalCard/SignalCard';
+import { DATA_API_URL, PROTOCOL } from '../../utils/constants';
 
 
 const Spectrogram = () => {
-  const [open, setOpen] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [chartData, setChartData] = useState(null);
+  const [open, setOpen] = React.useState(false);
+  const [imageUrl, setImageUrl] = React.useState<string | null>(null);
+  const [chartData, setChartData] = React.useState(null);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
 
-  useEffect(() => {
+  React.useEffect(() => {
     const abortController = new AbortController();
     async function retrieveChartData() {
       await fetch(`${DATA_API_URL}/stats/processing_block/blocks/latest/baselines`, {
@@ -46,6 +40,10 @@ const Spectrogram = () => {
     }
   }, []);
 
+  const cardTitle = () => { 
+    return `Serialisation: ${PROTOCOL}`;
+  }
+
   function getFullImageUrl(item: string) {
     const baselines = item.split(/[-_]+/);
     return `${DATA_API_URL}/spectograms/full_image/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
@@ -62,7 +60,7 @@ const Spectrogram = () => {
   }
 
   return (
-    <Container sx={{ py: '8px' }}>
+    <>
       <Modal
         data-testid='ClickedImage'
         open={open}
@@ -85,18 +83,12 @@ const Spectrogram = () => {
           </CardContent>
         </Card>
       </Modal>
-
-      <Card variant="outlined" sx={{ minWidth: WIDTH }}>
-        <CardHeader
-          title="Spectrograms"
-          subheader={`Serialisation: ${PROTOCOL}`}
-        />
-
-        <CardContent sx={{ pt: '8px' }}>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Click on the baseline and polarisation label to see a detailed spectrogram
-          </Typography>
-
+      <SignalCard
+        title="Spectrograms"
+        actionTitle={cardTitle()}
+        subheader='Click on the baseline and polarisation label to see a detailed spectrogram'
+      >
+        <>
           <div id="spectogram-image-list-Id" data-testid="spectogram-image-list-Id">
             <ImageList sx={{ width: 1150 }} cols={3}>
               {chartData && chartData.length ? (
@@ -123,9 +115,9 @@ const Spectrogram = () => {
             </ImageList>
           </div>
           <div id="spectrogramId" />
-        </CardContent>
-      </Card>
-    </Container>
+        </>
+      </SignalCard>
+    </>
   );
 };
 
