@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { CssBaseline, Grid, ThemeProvider, Typography } from '@mui/material';
 import { Header, Spacer, SPACER_VERTICAL } from '@ska-telescope/ska-gui-components';
 import theme, { THEME_DARK, THEME_LIGHT } from '../services/theme/theme';
@@ -13,6 +14,7 @@ export interface AppProps {
 }
 
 function App() {
+  const { t } = useTranslation();
 
   const HEADER_HEIGHT = 70;
   // Theme related
@@ -25,11 +27,11 @@ function App() {
   return (
     <ThemeProvider theme={theme(themeMode)}>
       <CssBaseline enableColorScheme />
-      <React.Suspense fallback="...is loading">
+      <React.Suspense fallback={t("isLoading")}>
         <Header themeToggle={themeToggle}>
           <Grid item />
           <Grid item>
-            <Typography variant='h4'>Signal Display</Typography>
+            <Typography variant='h4'>{t("label.signalDisplay")}</Typography>
           </Grid>
           <Grid item />
         </Header>

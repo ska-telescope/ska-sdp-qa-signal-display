@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Grid, Typography } from '@mui/material';
 import moment from 'moment';
 import SignalCard from '../signalCard/SignalCard';
@@ -16,6 +17,8 @@ function epochToDateString(timeInMilliseconds: number) {
 }
 
 const Statistics = () => {
+  const { t } = useTranslation();
+
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = useState(null);
   const [receiverEventsData, setReceiverEventsData] = useState(null);
   const [counter, setCounter] = useState(0);
@@ -50,79 +53,79 @@ const Statistics = () => {
 
   return (
     <>
-      <SignalCard title="Statistics - Detailed">
+      <SignalCard title={t("label.statisticsDetailed")}>
         <div id="statistics-detailed-Id" data-testid="statistics-detailed-Id">
           {processingBlockStatisticsData?.time && (
           <Grid container direction="row" justifyContent="space-between">
             <Grid item md={4} sm={6} xs={12}>
-              <Typography paragraph>Time:</Typography>
-              <Typography paragraph>
-                Last Refresh from API:
-                {' '}
+              <Typography variant="h5" paragraph>{t('label.time')}</Typography>
+              <Typography variant="subtitle1">
+                {t('label.lastAPIRefresh')}
+                {': '}
                 {epochToDateString(processingBlockStatisticsData?.time?.now)}
               </Typography>
-              <Typography paragraph>
-                Last Updated:
-                {' '}
+              <Typography variant="subtitle1">
+                {t('label.lastUpdated')}
+                {': '}
                 {epochToDateString(processingBlockStatisticsData?.time?.last_update)}
               </Typography>
-              <Typography paragraph>
-                Start:
-                {' '}
+              <Typography variant="subtitle1">
+                {t('label.start')}
+                {': '}
                 {epochToDateString(processingBlockStatisticsData?.time?.start)}
               </Typography>
             </Grid>
             <Grid item md={4} sm={6} xs={12}>
-              <Typography paragraph>Statistics:</Typography>
-              <Typography paragraph>
-                Ingestion Rate:
-                {' '}
+              <Typography variant="h5" paragraph>{t('label.statistics')}</Typography>
+              <Typography variant="subtitle1">
+                {t('label.ingestionRate')}
+                {': '}
                 {Math.round((processingBlockStatisticsData?.statistics?.ingestion_rate || 0) * 100) /
                         100}
                 {' '}
-                p/s
+                {t('units.ingestionRate')}
               </Typography>
-              <Typography paragraph>
-                Payloads Received:
-                {' '}
+              <Typography variant="subtitle1">
+                {t('label.payloadsReceived')}
+                {': '}
                 {processingBlockStatisticsData?.statistics?.payloads_received}
               </Typography>
-              <Typography paragraph>
-                Visibility Receive Still Active:
-                {' '}
-                {processingBlockStatisticsData?.statistics?.receive_active ? "Yes" : "No"}
+              <Typography variant="subtitle1">
+                {t('label.visibilityReceiveActive')}
+                {': '}
+                {t(processingBlockStatisticsData?.statistics?.receive_active ? 'label.yes' : "label.no")}
               </Typography>
             </Grid>
             <Grid item md={4} sm={6} xs={12}>
-              <Typography paragraph>Workflow:</Typography>
-              <Typography paragraph>
-                State:
-                {' '}
+              <Typography variant="h5" paragraph>{t('label.workflow')}</Typography>
+              <Typography variant="subtitle1">
+                {t('label.state')}
+                {': '}
                 {processingBlockStatisticsData?.processing_block?.state}
               </Typography>
-              <Typography paragraph>
-                Scan ID:
-                {' '}
+              <Typography variant="subtitle1">
+                {t('label.scanId')}
+                {': '}
                 {processingBlockStatisticsData?.processing_block?.scan_id}
               </Typography>
-              <Typography paragraph>
-                Processing Block ID:
-                {' '}
+              <Typography variant="subtitle1">
+                {t('label.processingBlockId')}
+                {': '}
                 {processingBlockStatisticsData?.processing_block?.processing_block_id}
               </Typography>
-              <Typography paragraph>
-                Execution Block ID:
-                {' '}
+              <Typography variant="subtitle1">
+                {t('label.executingBlockId')}
+                {': '}
                 {processingBlockStatisticsData?.processing_block?.execution_block_id}
               </Typography>
-              <Typography paragraph>
-                Sub-Array:
-                {' '}
+              <Typography variant="subtitle1">
+                {t('label.subArray')}
+                {': '}
                 {processingBlockStatisticsData?.processing_block?.subarray}
               </Typography>
-              <Typography paragraph>
-                Time Since Last Payload:
-                {' '}
+              <Typography variant="subtitle1">
+                {t('label.timeSincePayload')}
+                {': '}
                 {processingBlockStatisticsData?.processing_block?.time_since_last_payload}
               </Typography>
             </Grid>
@@ -130,57 +133,57 @@ const Statistics = () => {
               )}
         </div>
       </SignalCard>
-      <SignalCard title="Statistics - Receiver">
+      <SignalCard title={t("label.statisticsReceiver")}>
         <div id="statistics-receiver-events" data-testid='statistics-receiver-events'>
           {receiverEventsData?.time && (
             <Grid container spacing={2}>
               <Grid item sm={4} xs={12}>
-                <Typography paragraph>
-                  Last Update:
-                  {' '}
+                <Typography variant="subtitle1">
+                  {t('label.state')}
+                  {': '}
                   {epochToDateString(receiverEventsData?.time)}
                 </Typography>
-                <Typography paragraph>
-                  Current Scan ID:
-                  {' '}
+                <Typography variant="subtitle1">
+                  {t('label.currentScanId')}
+                  {': '}
                   {receiverEventsData?.scan_id}
                 </Typography>
               </Grid>
               <Grid item sm={4} xs={12}>
-                <Typography paragraph>
-                  Number of Heaps:
-                  {' '}
+                <Typography variant="subtitle1">
+                  {t('label.numberHeaps')}
+                  {': '}
                   {receiverEventsData?.num_heaps}
                 </Typography>
-                <Typography paragraph>
-                  Number of Incomplete Heaps:
-                  {' '}
+                <Typography variant="subtitle1">
+                  {t('label.numberHeapsIncomplete')}
+                  {': '}
                   {receiverEventsData?.num_incomplete}
                 </Typography>
               </Grid>
               <Grid item sm={4} xs={12}>
-                <Typography paragraph>
-                  Total Data Received:
-                  {' '}
+                <Typography variant="subtitle1">
+                  {t('label.totalDataReceived')}
+                  {': '}
                   {Math.round((receiverEventsData?.total_megabytes || 0) * 100) / 100}
                   {' '}
-                  MB
+                  {t('units.totalDataReceived')}
                 </Typography>
-                <Typography paragraph>
-                  Current speed:
-                  {' '}
+                <Typography variant="subtitle1">
+                  {t('label.currentSpeed')}
+                  {': '}
                   {Math.round(
                     ((receiverEventsData?.total_megabytes || 0) / (receiverEventsData?.duration || 1)) * 100
                   ) / 100}
                   {' '}
-                  MB/s
+                  {t('units.currentSpeed')}
                 </Typography>
-                <Typography paragraph>
-                  Duration of Current Transfer:
-                  {' '}
+                <Typography variant="subtitle1">
+                  {t('label.durationCurrentTransfer')}
+                  {': '}
                   {Math.round(receiverEventsData?.duration)}
                   {' '}
-                  s
+                  {t('units.durationCurrentTransfer')}
                 </Typography>
               </Grid>
             </Grid>
