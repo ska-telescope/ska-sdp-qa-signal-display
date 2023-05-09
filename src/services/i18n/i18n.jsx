@@ -13,7 +13,7 @@ i18n
   .init({
     backend: {
       // http backend options
-      loadPath: urlSubDirectory+'/locales/{{lng}}/{{ns}}.json',
+      loadPath: `${urlSubDirectory}/locales/{{lng}}/{{ns}}.json`
     },
     fallbackLng: 'en',
     lng: 'en',
