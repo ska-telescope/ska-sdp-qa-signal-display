@@ -1,7 +1,8 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import SignalCard  from '../signalCard/SignalCard';
-import D3Chart from './D3Chart';
+import D3LineChart from '../d3/lineChart/D3LineChart';
 
 import { MessageTopic } from '../../models/message-topic';
 import { decodeJson } from '../../libs/decoder';
@@ -12,15 +13,25 @@ const MESSAGE_TOPIC = MessageTopic.SPECTRUM;
 const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
 const AmpFreq = () => {
+  const { t } = useTranslation();
+
   const [socketStatus, setSocketStatus] = React.useState('unknown');
-  const [showContent, setShowContent] = React.useState(true);
+  const [showContent, setShowContent] = React.useState(false);
+
+  const xLabel = () => { 
+    return `${t('label.frequency')} (${t('units.frequency')})`;
+  }
+
+  const yLabel = () => { 
+    return `${t('label.amplitude')} (${t('units.amplitude')})`;
+  }
 
   const cardTitle = () => { 
-    return `Socket: ${  socketStatus  }, Serialisation: ${  PROTOCOL}`;
+    return `${t('label.socket')}: ${  socketStatus  }, ${t('label.serialisation')}: ${  PROTOCOL}`;
   }
 
   const connectToWebSocket = React.useCallback(async () => {
-    const d3Chart = new D3Chart('#ampFreqSvg');
+    const d3Chart = new D3LineChart('#ampFreqSvg', xLabel(), yLabel());
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function oneError(e) {
@@ -48,13 +59,17 @@ const AmpFreq = () => {
   }, []);
 
   React.useEffect(() => {
+    setShowContent(true);
+  }, []);
+
+  React.useEffect(() => {
     if (showContent)
     connectToWebSocket();
   }, [showContent]);
 
   return (
     <SignalCard
-      title="Amplitude vs Frequency"
+      title={t('label.ampVFreq')}
       actionTitle={cardTitle()}
       socketStatus={socketStatus}
       showContent={showContent}

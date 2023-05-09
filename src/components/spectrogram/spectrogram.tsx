@@ -1,5 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Card,
   CardContent,
@@ -14,6 +15,8 @@ import { DATA_API_URL, PROTOCOL } from '../../utils/constants';
 
 
 const Spectrogram = () => {
+  const { t } = useTranslation();
+
   const [open, setOpen] = React.useState(false);
   const [imageUrl, setImageUrl] = React.useState<string | null>(null);
   const [chartData, setChartData] = React.useState(null);
@@ -84,9 +87,9 @@ const Spectrogram = () => {
         </Card>
       </Modal>
       <SignalCard
-        title="Spectrograms"
+        title={t('label.spectrograms')}
         actionTitle={cardTitle()}
-        subheader='Click on the baseline and polarisation label to see a detailed spectrogram'
+        subheader={t('prompt.spectrograms')}
       >
         <>
           <div id="spectogram-image-list-Id" data-testid="spectogram-image-list-Id">

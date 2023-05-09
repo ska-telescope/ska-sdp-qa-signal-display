@@ -1,0 +1,61 @@
+{
+  "language": "English",
+  "date_format_one": "{{-date, YYYY/MM/DD}}",
+  "date_format_two": "{{date, DD-MM-YYYY}}",
+  "date_input_format": "dd/mm/yyyy",
+  "intlNumber": "{{val, number}}",
+
+  "isLoading": "...loading",
+
+  "prompt": {
+    "spectrograms": "Click on the baseline and polarisation label to see a detailed spectrogram"
+  },
+
+  "label": {
+    "amplitude": "Amplitude",
+    "ampVFreq": "Amplitude vs Frequency",
+    "currentScanId": "Current Scan ID",
+    "currentSpeed": "Current Speed",
+    "durationCurrentTransfer": "Duration of Current Transfer", 
+    "executingBlockId": "Executing Block ID",
+    "frequency": "Frequency",
+    "ingestionRate": "Ingestion Rate",
+    "lastAPIRefresh": "Last Refresh from API",
+    "lastUpdate": "Last Update",
+    "lastUpdated": "Last Updated",
+    "payloadsReceived": "Payloads Received",
+    "power": "Power",
+    "processingBlockId": "Processing Block ID",
+    "no": "No",
+    "numberHeaps": "Number of Heaps",
+    "numberHeapsIncomplete": "Number of Incomplete Heaps",
+    "scanId": "Scan ID",
+    "serialisation": "Serialisation",
+    "show": "Show",
+    "signalDisplay": "Signal Display",
+    "socket": "Socket",
+    "spectrumPlot": "Spectrum Plot",
+    "spectrograms": "Spectrograms",
+    "start": "Start",
+    "state": "State",
+    "statistics": "Statistics", 
+    "statisticsDetailed": "Statistics - Detailed",
+    "statisticsReceiver": "Statistics - Receiver",
+    "subArray": "Sub Array",
+    "time": "Time",
+    "timeSincePayload": "Time Since Last Payload",
+    "totalDataReceived": "Total Data Received",
+    "visibilityReceiveActive": "Visibility Receive Still Active",
+    "workflow": "Workflow",
+    "yes": "Yes"
+  },
+  "units": {
+    "amplitude": "m",
+    "currentSpeed": "MB/s",
+    "durationCurrentTransfer": "s", 
+    "frequency": "MHz",
+    "ingestionRate": "p/s",
+    "power": "dB",
+    "totalDataReceived": "MB"
+  }
+}

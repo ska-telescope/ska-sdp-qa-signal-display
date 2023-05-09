@@ -1,4 +1,6 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Box, Button, Card, CardContent, CardHeader, Checkbox, FormGroup, FormControlLabel, Grid, Tooltip } from '@mui/material';
 import { Status } from '@ska-telescope/ska-gui-components';
 
@@ -15,9 +17,12 @@ export interface SignalCardProps {
   }
 
 const SignalCard = ({ actionTitle, children, socketStatus, subheader, title, showContent, setShowContent }: SignalCardProps) => {
-    const [showLocalContent, setShowLocalContent] = React.useState(true);
+  const { t } = useTranslation();
+  const [showLocalContent, setShowLocalContent] = React.useState(true);
+    const isLocal = setShowContent;
+
     const handleToggle = () => {
-        if (setShowContent) {
+        if (isLocal) {
           setShowContent(!showContent);
         } else {
           setShowLocalContent(!showLocalContent);
@@ -53,7 +58,7 @@ const SignalCard = ({ actionTitle, children, socketStatus, subheader, title, sho
                     control={
                       <Checkbox checked={setShowContent ? showContent : showLocalContent} color="secondary" onChange={handleToggle} />
                     }
-                    label="Show"
+                    label={t('label.show')}
                   />
                 </FormGroup>
               </Grid>

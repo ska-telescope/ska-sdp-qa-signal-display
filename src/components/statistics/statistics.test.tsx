@@ -37,8 +37,8 @@ test('renders without crashing', () => {
 
 test('Correct Data is displayed', async () => {
   render(<Statistics />);
-  const basicsTestValue = await screen.findAllByText(/Last Refresh from API:/);
+  const basicsTestValue = await screen.findAllByText(/label.lastAPIRefresh/);
   expect(basicsTestValue).toBeTruthy();
-  const receiverTestValue = await screen.findAllByText(/Total Data Received:\s10000\sMB/);
+  const receiverTestValue = await screen.findAllByText(/label.totalDataReceived/);
   expect(receiverTestValue).toBeTruthy();
 });

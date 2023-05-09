@@ -1,7 +1,10 @@
 import * as d3 from 'd3';
-import { HEIGHT, WIDTH } from '../../utils/constants';
+import { HEIGHT, WIDTH } from '../../../utils/constants';
 
-class D3Chart {
+const LABEL_ANCHOR = 'middle;';
+const LABEL_FONT = '15px';
+
+class D3LineChart {
 
   margin = { top: 10, right: 50, bottom: 50, left: 50 };
 
@@ -13,9 +16,15 @@ class D3Chart {
 
   selector: string;
 
-  constructor(selector: string) {
+  xLabel: string;
+
+  yLabel: string;
+
+  constructor(selector: string, xLabel: string, yLabel: string) {
 
     this.selector = selector;
+    this.xLabel = xLabel;
+    this.yLabel = yLabel;
 
     const usedWidth = WIDTH + this.margin.left + this.margin.right;
     const usedHeight = HEIGHT + this.margin.top + this.margin.bottom;
@@ -72,16 +81,13 @@ class D3Chart {
     return this.isDark() ? 'yellow' : '#3366CC';
   }
 
-  private textColor() { 
+  private labelColor() { 
         // TODO : We should obtain the correct coloring
     return this.isDark() ? '#000000' : '#303030';
   }
 
   private drawAxis() {
     
-    const X_LABEL = 'Frequency (MHz)';
-    const Y_LABEL = 'Power (dB)';
-
     // add x-axis
     this.svg
       .append('g')
@@ -95,10 +101,10 @@ class D3Chart {
     this.svg
       .append('text')
       .attr('transform', `translate(${WIDTH / 2} ,${HEIGHT + this.margin.top + 20})`)
-      .style('fill', this.textColor())
-      .style('text-anchor', 'middle')
-      .style('font-size', '15px')
-      .text(X_LABEL);
+      .style('fill', this.labelColor())
+      .style('text-anchor', LABEL_ANCHOR)
+      .style('font-size', LABEL_FONT)
+      .text(this.xLabel);
 
     // label for the y-axis
     this.svg
@@ -107,9 +113,10 @@ class D3Chart {
       .attr('y', 0 - this.margin.left)
       .attr('x', 0 - HEIGHT / 2)
       .attr('dy', '1.0em')
-      .style('text-anchor', 'middle')
-      .style('font-size', '15px')
-      .text(Y_LABEL);
+      .style('fill', this.labelColor())
+      .style('text-anchor', LABEL_ANCHOR)
+      .style('font-size', LABEL_FONT)
+      .text(this.yLabel);
   }
 
   private drawLine(data) {
@@ -131,4 +138,4 @@ class D3Chart {
   }
 }
 
-export default D3Chart
+export default D3LineChart
