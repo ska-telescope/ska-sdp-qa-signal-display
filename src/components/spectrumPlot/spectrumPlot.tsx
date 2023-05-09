@@ -15,7 +15,7 @@ const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
 const SpectrumPlot = () => {
   const [socketStatus, setSocketStatus] = React.useState('unknown');
-  const [showContent, setShowContent] = React.useState(true);
+  const [showContent, setShowContent] = React.useState(false);
 
   const cardTitle = () => { 
     return `Socket: ${  socketStatus  }, Serialisation: ${  PROTOCOL}`;
@@ -47,6 +47,10 @@ const SpectrumPlot = () => {
     return () => {
       ws.close();
     };
+  }, []);
+
+  React.useEffect(() => {
+    setShowContent(true);
   }, []);
 
   React.useEffect(() => {

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
 import { Box, Button, Card, CardContent, CardHeader, Checkbox, FormGroup, FormControlLabel, Grid, Tooltip } from '@mui/material';
 import { Status } from '@ska-telescope/ska-gui-components';
@@ -16,8 +17,10 @@ export interface SignalCardProps {
 
 const SignalCard = ({ actionTitle, children, socketStatus, subheader, title, showContent, setShowContent }: SignalCardProps) => {
     const [showLocalContent, setShowLocalContent] = React.useState(true);
+    const isLocal = setShowContent;
+
     const handleToggle = () => {
-        if (setShowContent) {
+        if (isLocal) {
           setShowContent(!showContent);
         } else {
           setShowLocalContent(!showLocalContent);
