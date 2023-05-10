@@ -39,7 +39,8 @@ class D3LineChart {
       .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
   }
 
-  public draw(data) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public draw(data: { x_min: any; x_max: any; y_min: any; y_max: any; xData: any; yData: any; }) {
     d3.select(this.selector)
       .select('svg')
       .attr('height', HEIGHT - this.margin.top + this.margin.bottom);
@@ -61,7 +62,8 @@ class D3LineChart {
       .range([HEIGHT, 0]);
 
     this.drawAxis();
-    this.drawLine(data);
+    let i = 0;
+    data.yData.forEach((yData) => this.drawLine(data.xData, yData, i++));
 
     this.svg
       .exit()
@@ -76,13 +78,24 @@ class D3LineChart {
     return false;
   }
 
-  private fillColor() { 
-    // TODO : We should obtain the correct coloring
-    return this.isDark() ? 'yellow' : '#3366CC';
+  private fillColors = [ 
+      "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#000000", 
+      "#800000", "#008000", "#000080", "#808000", "#800080", "#008080", "#808080", 
+      "#C00000", "#00C000", "#0000C0", "#C0C000", "#C000C0", "#00C0C0", "#C0C0C0", 
+      "#400000", "#004000", "#000040", "#404000", "#400040", "#004040", "#404040", 
+      "#200000", "#002000", "#000020", "#202000", "#200020", "#002020", "#202020", 
+      "#600000", "#006000", "#000060", "#606000", "#600060", "#006060", "#606060", 
+      "#A00000", "#00A000", "#0000A0", "#A0A000", "#A000A0", "#00A0A0", "#A0A0A0", 
+      "#E00000", "#00E000", "#0000E0", "#E0E000", "#E000E0", "#00E0E0", "#E0E0E0"
+  ];
+
+  private fillColor(occ: number) { 
+    // TODO : Implement darkMode alternatives
+    return this.isDark() ? 'yellow' : this.fillColors[occ];
   }
 
   private labelColor() { 
-        // TODO : We should obtain the correct coloring
+        // TODO : Implement darkMode alternatives
     return this.isDark() ? '#000000' : '#303030';
   }
 
@@ -100,7 +113,7 @@ class D3LineChart {
     // label for the x-axis
     this.svg
       .append('text')
-      .attr('transform', `translate(${WIDTH / 2} ,${HEIGHT + this.margin.top + 20})`)
+      .attr('transform', `translate(${WIDTH / 2} ,${HEIGHT + this.margin.top + 30})`)
       .style('fill', this.labelColor())
       .style('text-anchor', LABEL_ANCHOR)
       .style('font-size', LABEL_FONT)
@@ -119,12 +132,13 @@ class D3LineChart {
       .text(this.yLabel);
   }
 
-  private drawLine(data) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private drawLine(xData: any[], yData: any[], occ: number) {
     this.svg
       .append('path')
-      .datum(data.channels)
+      .datum(xData)
       .attr('fill', 'none')
-      .attr('stroke', this.fillColor())
+      .attr('stroke', this.fillColor(occ))
       .attr('stroke-width', 2)
       .attr('opacity', 1)
       .attr(
@@ -132,8 +146,8 @@ class D3LineChart {
         d3
           .line()
           .curve(d3.curveMonotoneX)
-          .x((_d, i) => this.xScale(data.channels[i]))
-          .y((_d, i) => this.yScale(data.power[i]))
+          .x((_d, i) => this.xScale(xData[i]))
+          .y((_d, i) => this.yScale(yData[i]))
       );
   }
 }

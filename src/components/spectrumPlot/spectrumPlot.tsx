@@ -45,7 +45,15 @@ const SpectrumPlot = () => {
         if (decoded && decoded.status) {
           setSocketStatus(decoded.status);
         } else {
-          window.requestAnimationFrame(() => d3Chart?.draw(decoded));
+          const chartData = {
+            x_min: decoded.x_min,
+            x_max: decoded.x_max,
+            y_min: decoded.y_min,
+            y_max: decoded.y_max,
+            xData: decoded.channels,
+            yData: Array(decoded.power)
+          }
+          window.requestAnimationFrame(() => d3Chart?.draw(chartData));
         }
       } catch (e) {
         /* eslint no-console: ["error", { allow: ["error"] }] */
