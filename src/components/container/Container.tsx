@@ -7,6 +7,7 @@ import Spectrogram from '../spectrogram/spectrogram';
 import SpectrumPlot from '../spectrumPlot/spectrumPlot';
 import Statistics from '../statistics/statistics';
 import AmpFreq from '../ampFreq/AmpFreq';
+import PhaseFreq from '../phaseFreq/PhaseFreq';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 // const clientSideEmotionCache = createEmotionCache();
@@ -18,6 +19,7 @@ function Container() {
       <Statistics />
       <SpectrumPlot />
       <AmpFreq />
+      <PhaseFreq />
       <Spectrogram />
       {/* Suppressed for now <Rfi />   */}
     </>

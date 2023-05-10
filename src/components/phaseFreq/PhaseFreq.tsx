@@ -14,7 +14,7 @@ import { PROTOCOL, WS_API_URL } from '../../utils/constants';
 const MESSAGE_TOPIC = MessageTopic.AMP_FREQ;
 const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
-const AmpFreq = () => {
+const PhaseFreq = () => {
   const { t } = useTranslation();
   const [socketStatus, setSocketStatus] = React.useState('unknown');
   const [showContent, setShowContent] = React.useState(false);
@@ -24,7 +24,7 @@ const AmpFreq = () => {
   }
 
   const yLabel = () => { 
-    return `${t('label.amplitude')} (${t('units.amplitude')})`;
+    return `${t('label.phase')}`; //  (${t('units.phase')})`;
   }
 
   const cardTitle = () => { 
@@ -34,20 +34,20 @@ const AmpFreq = () => {
   function getYData(data: any, startPos: number) {
     const arr = [];
     for (let i = startPos; i < data.length; i += 4) {
-      arr.push(data[i].amplitudes);
+      arr.push(data[i].phases);
     }
     return arr;
   }
 
   const connectToWebSocket = React.useCallback(async () => {
-    const d3ChartXX = new D3LineChart('#ampFreqXXSvg', xLabel(), yLabel());
-    const d3ChartXY = new D3LineChart('#ampFreqXYSvg', xLabel(), yLabel());
-    const d3ChartYX = new D3LineChart('#ampFreqYXSvg', xLabel(), yLabel());
-    const d3ChartYY = new D3LineChart('#ampFreqYYSvg', xLabel(), yLabel());
+    const d3ChartXX = new D3LineChart('#phaseFreqXXSvg', xLabel(), yLabel());
+    const d3ChartXY = new D3LineChart('#phaseFreqXYSvg', xLabel(), yLabel());
+    const d3ChartYX = new D3LineChart('#phaseFreqYXSvg', xLabel(), yLabel());
+    const d3ChartYY = new D3LineChart('#phaseFreqYYSvg', xLabel(), yLabel());
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function oneError(e) {
-      console.error('AmpFreq: ws onerror, error = ', e);
+      console.error('PhaseFreq: ws onerror, error = ', e);
     };
 
     ws.onmessage = function onMessage(msg) {
@@ -64,20 +64,19 @@ const AmpFreq = () => {
           let chartData = {
             x_min: Math.min(...decoded.frequencies),
             x_max: Math.max(...decoded.frequencies),
-            y_min: Math.min(...decoded.data[offset].amplitudes),
-            y_max: Math.max(...decoded.data[offset].amplitudes),
+            y_min: Math.min(...decoded.data[offset].phases),
+            y_max: Math.max(...decoded.data[offset].phases),
             xData: decoded.frequencies,
             yData: getYData(decoded.data, offset)
           }
           window.requestAnimationFrame(() => d3ChartXX?.draw(chartData));
 
-          // TODO : The y_min & y_max should cover all arrays and not just the first one
           offset = 1;
           chartData = {
             x_min: Math.min(...decoded.frequencies),
             x_max: Math.max(...decoded.frequencies),
-            y_min: Math.min(...decoded.data[offset].amplitudes),
-            y_max: Math.max(...decoded.data[offset].amplitudes),
+            y_min: Math.min(...decoded.data[offset].phases),
+            y_max: Math.max(...decoded.data[offset].phases),
             xData: decoded.frequencies,
             yData: getYData(decoded.data, offset)
           }
@@ -87,8 +86,8 @@ const AmpFreq = () => {
           chartData = {
             x_min: Math.min(...decoded.frequencies),
             x_max: Math.max(...decoded.frequencies),
-            y_min: Math.min(...decoded.data[offset].amplitudes),
-            y_max: Math.max(...decoded.data[offset].amplitudes),
+            y_min: Math.min(...decoded.data[offset].phases),
+            y_max: Math.max(...decoded.data[offset].phases),
             xData: decoded.frequencies,
             yData: getYData(decoded.data, offset)
           }
@@ -98,8 +97,8 @@ const AmpFreq = () => {
           chartData = {
             x_min: Math.min(...decoded.frequencies),
             x_max: Math.max(...decoded.frequencies),
-            y_min: Math.min(...decoded.data[offset].amplitudes),
-            y_max: Math.max(...decoded.data[offset].amplitudes),
+            y_min: Math.min(...decoded.data[offset].phases),
+            y_max: Math.max(...decoded.data[offset].phases),
             xData: decoded.frequencies,
             yData: getYData(decoded.data, offset)
           }
@@ -107,7 +106,7 @@ const AmpFreq = () => {
         }
       } catch (e) {
         /* eslint no-console: ["error", { allow: ["error"] }] */
-        console.error('AmpFreq: received, decoding error = ', e);
+        console.error('PhaseFreq: received, decoding error = ', e);
       }
     };
 
@@ -127,7 +126,7 @@ const AmpFreq = () => {
 
   return (
     <SignalCard
-      title={t('label.ampVFreq')}
+      title={t('label.phaseVFreq')}
       actionTitle={cardTitle()}
       socketStatus={socketStatus}
       showContent={showContent}
@@ -135,15 +134,15 @@ const AmpFreq = () => {
     >
       <>
         <Typography variant="subtitle2" paragraph>XX</Typography>
-        <div id="ampFreqXXSvg" data-testid="ampFreqXXSvg" />
+        <div id="phaseFreqXXSvg" data-testid="phaseFreqXXSvg" />
         <Typography variant="subtitle2" paragraph>XY</Typography>
-        <div id="ampFreqXYSvg" data-testid="ampFreqXYSvg" />
+        <div id="phaseFreqXYSvg" data-testid="phaseFreqXYSvg" />
         <Typography variant="subtitle2" paragraph>YX</Typography>
-        <div id="ampFreqYXSvg" data-testid="ampFreqYXSvg" />    
+        <div id="phaseFreqYXSvg" data-testid="phaseFreqYXSvg" />    
         <Typography variant="subtitle2" paragraph>YY</Typography>
-        <div id="ampFreqYYSvg" data-testid="ampFreqYYSvg" />
+        <div id="phaseFreqYYSvg" data-testid="phaseFreqYYSvg" />
       </>
     </SignalCard>
   );
 };
-export default AmpFreq;
+export default PhaseFreq;

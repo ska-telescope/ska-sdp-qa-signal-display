@@ -24,6 +24,8 @@
     "lastUpdate": "Last Update",
     "lastUpdated": "Last Updated",
     "payloadsReceived": "Payloads Received",
+    "phase": "Phase",
+    "phaseVFreq": "Phase vs Frequency",
     "power": "Power",
     "processingBlockId": "Processing Block ID",
     "no": "No",
@@ -55,6 +57,7 @@
     "durationCurrentTransfer": "s", 
     "frequency": "MHz",
     "ingestionRate": "p/s",
+    "phase": "m",
     "power": "dB",
     "totalDataReceived": "MB"
   }
