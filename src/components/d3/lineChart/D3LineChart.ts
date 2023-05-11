@@ -1,4 +1,6 @@
 import * as d3 from 'd3';
+import { THEME_LIGHT } from '@ska-telescope/ska-javascript-components';
+import { storageObject } from '../../../services/stateStorage';
 import { HEIGHT, WIDTH } from '../../../utils/constants';
 
 const LABEL_ANCHOR = 'middle;';
@@ -74,8 +76,8 @@ class D3LineChart {
   }
 
   private isDark() {
-    // TODO : We should sort this out.
-    return false;
+    const { themeMode } = storageObject.useStore();
+    return ( themeMode.mode === THEME_LIGHT );
   }
 
   private fillColors = [ 
