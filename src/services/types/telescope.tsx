@@ -20,10 +20,10 @@ export const TELESCOPE_LOW = {
   location: 'Dalgaranga Gold M',
   position: {
     lat: -27.685534514102958,
-    lon: 117.08484475669175,
+    lon: 117.08484475669175
   },
   image:
-    'https://res.cloudinary.com/dmwc3xvv8/image/upload/v1612505143/ska_low_dzquiv.svg',
+    'https://res.cloudinary.com/dmwc3xvv8/image/upload/v1612505143/ska_low_dzquiv.svg'
 };
 
 export const TELESCOPE_MID = {
@@ -32,10 +32,10 @@ export const TELESCOPE_MID = {
   location: 'Carnarvon',
   position: {
     lat: -30.722597428175952,
-    lon: 21.89239803559566,
+    lon: 21.89239803559566
   },
   image:
-    'https://res.cloudinary.com/dmwc3xvv8/image/upload/v1612505475/ska_mid_mnvuil.svg',
+    'https://res.cloudinary.com/dmwc3xvv8/image/upload/v1612505475/ska_mid_mnvuil.svg'
 };
 
 export type Tel = 'mid' | 'low';
@@ -49,15 +49,15 @@ export type Place = 'Carnarvon' | 'Dalgaranga Gold M';
 
 export const midPos: Position = {
   lat: -30.722597428175952,
-  lon: 21.89239803559566,
+  lon: 21.89239803559566
 };
 
 export const lowPos: Position = {
   lat: -27.685534514102958,
-  lon: 117.08484475669175,
+  lon: 117.08484475669175
 };
 
-export let tel: Tel;
-export let telescope: Telescope;
+export const tel: Tel = null;
+export const telescope: Telescope = null;
 
 export const TelescopeList = [TELESCOPE_LOW, TELESCOPE_MID];
