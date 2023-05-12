@@ -60,38 +60,32 @@ Open [http://localhost:3333](http://localhost:3333) to view the UI in a browser.
 │   ├── index.html
 │   ├── manifest.json
 │   ├── robots.txt
+│   ├── locales                         /* Language resources for supported languages ( en is the default ) */
+│       └── en
+│           └── translations.json       
 │   └── static
 │       └── ****                        /* Static Images */
 ├── src
 │   ├── App
 │   │   ├── App.test.tsx
 │   │   └── App.tsx
-│   ├── components
-│   │   ├── rfi
-│   │   │   └── rfi.tsx
-│   │   ├── spectrogram
-│   │   │   ├── spectrogram.test.tsx
-│   │   │   └── spectrogram.tsx
+│   ├── components                      /* Contains all components, below is just one as a sample */
 │   │   ├── spectrumPlot
 │   │   │   ├── spectrumPlot.test.tsx
 │   │   │   └── spectrumPlot.tsx
-│   │   └── statistics
-│   │       ├── statistics.test.tsx
-│   │       └── statistics.tsx
-│   ├── index.scss
+│   ├── index.scss                      /* Styling for the D3 charting ONLY */
 │   ├── index.tsx
-│   ├── libs                            /* the visualisation functions */
-│   │   └── ****
-│   ├── mockData                        /* Mock Data for testing */
-│   │   └── ****                        
+│   ├── mockData                        /* Mock Data for testing */                  
 │   ├── models                          /* different data models */
-│   │   └── ****
-│   ├── theme
-│   │   └── index.js                    /* MUI theme */
+│   ├── services
+│   │   └── i18n                        /* Internationalization */
+│   │   └── redux-telescope             /* Local Storage and types for telescope, Not to be accessed directly */
+│   │   └── redux-theme                 /* Local Storage and types for theme, Not to be accessed directly */
+│   │   └── redux-user                  /* Local Storage and types for user, Not to be accessed directly */
+│   │   └── stateStorage                /* Provides access for the application to all redux-xxxx services */
+│   │   └── theme                       /* Material-UI Theme */
 │   ├── types
-│   │   └── ****
 │   └── utils
-│       └── ****
 └── ****
 ```
 

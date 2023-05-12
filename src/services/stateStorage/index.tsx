@@ -4,8 +4,8 @@ import { THEME_DARK } from '@ska-telescope/ska-gui-components';
 import { telescopeSliceActions, telescopeSliceReducer } from '../redux-telescope/index';
 import { themeSliceActions, themeSliceReducer } from '../redux-theme/index';
 import { userSliceActions, userSliceReducer } from '../redux-user/index';
-import { Telescope, TELESCOPE_LOW } from '../types/telescope';
-import { User } from '../types/user';
+import { Telescope, TELESCOPE_LOW } from '../redux-telescope/telescopeTypes';
+import { User } from '../redux-user/userTypes';
 
 const store = configureStore({
     reducer: {

@@ -5,7 +5,7 @@ import SignalCard  from '../signalCard/SignalCard';
 import D3LineChart from '../d3/lineChart/D3LineChart';
 
 import { MessageTopic } from '../../models/message-topic';
-import { decodeJson } from '../../libs/decoder';
+import { decodeJson } from '../../utils/decoder';
 
 import { PROTOCOL, WS_API_URL } from '../../utils/constants';
 

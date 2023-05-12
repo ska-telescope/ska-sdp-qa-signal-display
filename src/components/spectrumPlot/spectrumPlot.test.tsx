@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
 // eslint-disable-next-line import/no-unresolved
@@ -25,6 +27,18 @@ afterAll(() => {
   server.close();
   cleanup();
 });
+
+jest.mock('react-i18next', () => ({
+  // this mock makes sure any components using the translate hook can use it without a warning being shown
+  useTranslation: () => {
+    return {
+      t: (str: any) => str,
+      i18n: {
+        changeLanguage: () => new Promise(() => {})
+      }
+    };
+  }
+}));
 
 test('renders without crashing', () => {
   render(<SpectrumPlot />);

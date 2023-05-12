@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Telescope, TelescopeState } from '../types/telescope';
+import { Telescope, TelescopeState } from './telescopeTypes';
 
 export const initialState: TelescopeState = {
     telescope: null
