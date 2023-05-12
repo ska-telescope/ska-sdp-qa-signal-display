@@ -6,6 +6,7 @@ import D3LineChart from '../d3/lineChart/D3LineChart';
 
 import { MessageTopic } from '../../models/message-topic';
 import { decodeJson } from '../../utils/decoder';
+import { storageObject } from '../../services/stateStorage';
 
 import { PROTOCOL, WS_API_URL } from '../../utils/constants';
 
@@ -17,6 +18,7 @@ const SpectrumPlot = () => {
 
   const [socketStatus, setSocketStatus] = React.useState('unknown');
   const [showContent, setShowContent] = React.useState(false);
+  const { darkMode } = storageObject.useStore();
 
   const xLabel = () => { 
     return `${t('label.frequency')} (${t('units.frequency')})`;
@@ -31,7 +33,7 @@ const SpectrumPlot = () => {
   }
 
   const connectToWebSocket = React.useCallback(async () => {
-    const d3Chart = new D3LineChart('#sPlotId', xLabel(), yLabel());
+    const d3Chart = new D3LineChart('#sPlotId', '', xLabel(), yLabel(), darkMode);
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function oneError(e) {

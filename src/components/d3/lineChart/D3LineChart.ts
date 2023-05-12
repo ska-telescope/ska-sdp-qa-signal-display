@@ -1,6 +1,5 @@
 import * as d3 from 'd3';
-import { THEME_LIGHT } from '@ska-telescope/ska-javascript-components';
-import { storageObject } from '../../../services/stateStorage';
+// import { THEME_LIGHT } from '@ska-telescope/ska-javascript-components';
 import { HEIGHT, WIDTH } from '../../../utils/constants';
 
 const LABEL_ANCHOR = 'middle;';
@@ -22,15 +21,18 @@ class D3LineChart {
 
   yLabel: string;
 
-  constructor(selector: string, xLabel: string, yLabel: string) {
+  darkMode: boolean;
+
+  constructor(selector: string, title: string, xLabel: string, yLabel: string, darkMode: boolean) {
 
     this.selector = selector;
     this.xLabel = xLabel;
     this.yLabel = yLabel;
+    this.darkMode = darkMode;
 
     const usedWidth = WIDTH + this.margin.left + this.margin.right;
     const usedHeight = HEIGHT + this.margin.top + this.margin.bottom;
-    const tmp = `0 0 ${usedWidth} ${usedHeight}`;
+    const tmp = `0 40 ${usedWidth} ${usedHeight}`;
     // append the svg object to the selector
     this.svg = d3
       .select(selector)
@@ -39,10 +41,19 @@ class D3LineChart {
       .attr('role', 'img')
       .append('g')
       .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
+
+      this.svg.append("text")
+      .attr("x", 0)             
+      .attr("y", 10)
+      .style('fill', this.labelColor())
+      .attr("text-anchor", "left")  
+      .style("font-size", "16px") 
+      .style("text-decoration", "underline")  
+      .text(title);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public draw(data: { x_min: any; x_max: any; y_min: any; y_max: any; xData: any; yData: any; }) {
+  public draw(data: { x_min: any; x_max: any; y_min: any; y_max: any; xData: any; yData: any }) {
     d3.select(this.selector)
       .select('svg')
       .attr('height', HEIGHT - this.margin.top + this.margin.bottom);
@@ -75,12 +86,7 @@ class D3LineChart {
       .remove();
   }
 
-  private isDark() {
-    const { themeMode } = storageObject.useStore();
-    return ( themeMode.mode === THEME_LIGHT );
-  }
-
-  private fillColors = [ 
+  private fillColorsLight = [ 
       "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#000000", 
       "#800000", "#008000", "#000080", "#808000", "#800080", "#008080", "#808080", 
       "#C00000", "#00C000", "#0000C0", "#C0C000", "#C000C0", "#00C0C0", "#C0C0C0", 
@@ -91,14 +97,24 @@ class D3LineChart {
       "#E00000", "#00E000", "#0000E0", "#E0E000", "#E000E0", "#00E0E0", "#E0E0E0"
   ];
 
+  private fillColorsDark = [ 
+    "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#000000", 
+    "#800000", "#008000", "#000080", "#808000", "#800080", "#008080", "#808080", 
+    "#C00000", "#00C000", "#0000C0", "#C0C000", "#C000C0", "#00C0C0", "#C0C0C0", 
+    "#400000", "#004000", "#000040", "#404000", "#400040", "#004040", "#404040", 
+    "#200000", "#002000", "#000020", "#202000", "#200020", "#002020", "#202020", 
+    "#600000", "#006000", "#000060", "#606000", "#600060", "#006060", "#606060", 
+    "#A00000", "#00A000", "#0000A0", "#A0A000", "#A000A0", "#00A0A0", "#A0A0A0", 
+    "#E00000", "#00E000", "#0000E0", "#E0E000", "#E000E0", "#00E0E0", "#E0E0E0"
+];
+
+
   private fillColor(occ: number) { 
-    // TODO : Implement darkMode alternatives
-    return this.isDark() ? 'yellow' : this.fillColors[occ];
+    return this.darkMode ? this.fillColorsDark[occ] : this.fillColorsLight[occ];
   }
 
   private labelColor() { 
-        // TODO : Implement darkMode alternatives
-    return this.isDark() ? '#000000' : '#303030';
+    return this.darkMode ? '#888888' : '#888888';
   }
 
   private drawAxis() {

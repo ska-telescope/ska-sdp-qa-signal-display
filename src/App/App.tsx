@@ -6,9 +6,6 @@ import { storageObject } from '../services/stateStorage';
 import theme from '../services/theme/theme';
 import Container from '../components/container/Container';
 
-// Client-side cache, shared for the whole session of the user in the browser.
-// const clientSideEmotionCache = createEmotionCache();
-
 export interface AppProps {
   user?: { username: string };
   telescope?: { name: string };
