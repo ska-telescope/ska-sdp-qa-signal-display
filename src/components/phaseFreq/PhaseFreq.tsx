@@ -64,7 +64,7 @@ const PhaseFreq = () => {
     const d3Chart0 = new D3LineChart('#phaseFreq0Svg', POLARIZATIONS[0], xLabel(), yLabel(), darkMode);
     const d3Chart1 = new D3LineChart('#phaseFreq1Svg', POLARIZATIONS[1], xLabel(), yLabel(), darkMode);
     const d3Chart2 = new D3LineChart('#phaseFreq2Svg', POLARIZATIONS[2], xLabel(), yLabel(), darkMode);
-    const d3Chart3 = new D3LineChart('#phaseFreq2Svg', POLARIZATIONS[3], xLabel(), yLabel(), darkMode);
+    const d3Chart3 = new D3LineChart('#phaseFreq3Svg', POLARIZATIONS[3], xLabel(), yLabel(), darkMode);
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function oneError(e) {

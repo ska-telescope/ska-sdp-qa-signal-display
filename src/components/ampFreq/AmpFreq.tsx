@@ -20,15 +20,15 @@ const AmpFreq = () => {
   const [showContent, setShowContent] = React.useState(false);
   const { darkMode } = storageObject.useStore();
 
-  const xLabel = () => { 
+  const xLabel = () => {
     return `${t('label.frequency')} (${t('units.frequency')})`;
   }
 
-  const yLabel = () => { 
+  const yLabel = () => {
     return `${t('label.amplitude')} (${t('units.amplitude')})`;
   }
 
-  const cardTitle = () => { 
+  const cardTitle = () => {
     return `${t('label.socket')}: ${  socketStatus  }, ${t('label.serialisation')}: ${  PROTOCOL}`;
   }
 
@@ -64,7 +64,7 @@ const AmpFreq = () => {
     const d3Chart0 = new D3LineChart('#ampFreq0Svg', POLARIZATIONS[0], xLabel(), yLabel(), darkMode);
     const d3Chart1 = new D3LineChart('#ampFreq1Svg', POLARIZATIONS[1], xLabel(), yLabel(), darkMode);
     const d3Chart2 = new D3LineChart('#ampFreq2Svg', POLARIZATIONS[2], xLabel(), yLabel(), darkMode);
-    const d3Chart3 = new D3LineChart('#ampFreq2Svg', POLARIZATIONS[3], xLabel(), yLabel(), darkMode);
+    const d3Chart3 = new D3LineChart('#ampFreq3Svg', POLARIZATIONS[3], xLabel(), yLabel(), darkMode);
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function oneError(e) {
@@ -114,7 +114,7 @@ const AmpFreq = () => {
       <>
         <div id="ampFreq0Svg" data-testid="ampFreq0Svg" />
         <div id="ampFreq1Svg" data-testid="ampFreq1Svg" />
-        <div id="ampFreq2Svg" data-testid="ampFreq2Svg" />    
+        <div id="ampFreq2Svg" data-testid="ampFreq2Svg" />
         <div id="ampFreq3Svg" data-testid="ampFreq3Svg" />
       </>
     </SignalCard>
