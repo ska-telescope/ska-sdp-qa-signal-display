@@ -1,6 +1,6 @@
 import React from 'react';
 // Import all the css files created for d3 charts
-import '../../libs/css/spectrogramPlotTable.css';
+import './container.css';
 
 // import Rfi from '../components/rfi/Rfi';
 import Spectrogram from '../spectrogram/spectrogram';

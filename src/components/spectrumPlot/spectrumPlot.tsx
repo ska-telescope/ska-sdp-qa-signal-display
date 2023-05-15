@@ -5,9 +5,11 @@ import SignalCard  from '../signalCard/SignalCard';
 import D3LineChart from '../d3/lineChart/D3LineChart';
 
 import { MessageTopic } from '../../models/message-topic';
-import { decodeJson } from '../../libs/decoder';
+import { decodeJson } from '../../utils/decoder';
+import { storageObject } from '../../services/stateStorage';
+import LocalData from '../../mockData/webSocket/spectrum.json';
 
-import { PROTOCOL, WS_API_URL } from '../../utils/constants';
+import { DATA_LOCAL, PROTOCOL, WS_API_URL } from '../../utils/constants';
 
 const MESSAGE_TOPIC = MessageTopic.SPECTRUM;
 const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
@@ -17,6 +19,7 @@ const SpectrumPlot = () => {
 
   const [socketStatus, setSocketStatus] = React.useState('unknown');
   const [showContent, setShowContent] = React.useState(false);
+  const { darkMode } = storageObject.useStore();
 
   const xLabel = () => { 
     return `${t('label.frequency')} (${t('units.frequency')})`;
@@ -30,8 +33,21 @@ const SpectrumPlot = () => {
     return `${t('label.socket')}: ${  socketStatus  }, ${t('label.serialisation')}: ${  PROTOCOL}`;
   }
 
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function getChartData(usedData: any) {
+    const chartData = {
+      x_min: Math.min(...usedData.channels),
+      x_max: Math.max(...usedData.channels),
+      y_min: Math.min(...usedData.power),
+      y_max: Math.round(Math.max(...usedData.power) + 1),
+      xData: usedData.channels,
+      yData: Array(usedData.power)
+    }
+    return chartData;
+  }
   const connectToWebSocket = React.useCallback(async () => {
-    const d3Chart = new D3LineChart('#sPlotId', xLabel(), yLabel());
+    const d3Chart = new D3LineChart('#sPlotId', '', xLabel(), yLabel(), darkMode);
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function oneError(e) {
@@ -45,15 +61,7 @@ const SpectrumPlot = () => {
         if (decoded && decoded.status) {
           setSocketStatus(decoded.status);
         } else {
-          const chartData = {
-            x_min: decoded.x_min,
-            x_max: decoded.x_max,
-            y_min: decoded.y_min,
-            y_max: decoded.y_max,
-            xData: decoded.channels,
-            yData: Array(decoded.power)
-          }
-          window.requestAnimationFrame(() => d3Chart?.draw(chartData));
+          window.requestAnimationFrame(() => d3Chart?.draw(getChartData(decoded)));
         }
       } catch (e) {
         /* eslint no-console: ["error", { allow: ["error"] }] */
@@ -72,7 +80,12 @@ const SpectrumPlot = () => {
 
   React.useEffect(() => {
     if (showContent)
-    connectToWebSocket();
+    if (DATA_LOCAL) {
+      const d3Chart = new D3LineChart('#sPlotId', '', xLabel(), yLabel(), darkMode);
+      window.requestAnimationFrame(() => d3Chart?.draw(getChartData(LocalData)));
+    } else {
+      connectToWebSocket();
+    }
   }, [showContent]);
 
   return (

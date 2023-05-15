@@ -111,11 +111,13 @@ module.exports = () => {
             singleton: true,
             requiredVersion: deps['@emotion/cache']
           },
-          '@mui/material': {
-            eager: true,
-            singleton: true,
-            requiredVersion: deps['@mui/material']
-          },
+          '@mui/material': { singleton: true, requiredVersion: deps['@mui/material'], eager: true  },
+          '@mui/icons-material': { singleton: true, requiredVersion: deps['@mui/icons-material'], eager: true  },
+          // Redux
+          'react-redux': { singleton: true, requiredVersion: deps['react-redux'], eager: true },
+          'redux': { singleton: true, requiredVersion: deps['redux'], eager: true },
+          '@reduxjs/toolkit': { singleton: true, requiredVersion: deps['@reduxjs/toolkit'], eager: true },
+          // SKAO components  
           '@ska-telescope/ska-gui-components': {
             requiredVersion: 'auto',
             eager: true
@@ -149,6 +151,7 @@ module.exports = () => {
         REACT_APP_WORKFLOW_INTERVAL_SECONDS: 60,
         REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS: 10,
         REACT_APP_DASHBOARD_URL_SUBDIRECTORY: '',
+        REACT_USE_LOCAL_DATA: false,  // Ensure set to false for production
         SKIP_PREFLIGHT_CHECK: true
       }),
       new webpack.DefinePlugin({

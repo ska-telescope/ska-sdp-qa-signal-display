@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Box, Card, CardContent, CardHeader, Grid } from '@mui/material';
 
 import { MessageTopic } from 'src/models/message-topic';
-import { decodeJson } from 'src/libs/decoder';
+import { decodeJson } from 'src/utils/decoder';
 import RfiQaPixelTable from './qa/RfiQaPixelTable';
 import RfiDetailPlots from './detail/RfiDetailPlots';
 
