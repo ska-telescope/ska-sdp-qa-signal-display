@@ -93,6 +93,10 @@ Open [http://localhost:3333](http://localhost:3333) to view the UI in a browser.
 
 [2] To our knowledge, none of the packages or libraries used in this project require any license. Please let us know if any package or component require license or acknowledgement.
 
+# Using mocked data so that links to API & Generator is not required locally.
+
+This is achieved by changing the setting of REACT_USE_LOCAL_DATA within the webpack.config to 'true'
+IMportent to ensure that this is set to false for production
 
 # Link to Running Instance
 
