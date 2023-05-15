@@ -4,10 +4,11 @@ import { HEIGHT, WIDTH } from '../../../utils/constants';
 
 const LABEL_ANCHOR = 'middle;';
 const LABEL_FONT = '15px';
+const TITLE_FONT = '24px';
 
 class D3LineChart {
 
-  margin = { top: 10, right: 50, bottom: 50, left: 50 };
+  margin = { top: 50, right: 0, bottom: 50, left: 50 };
 
   svg;
 
@@ -16,6 +17,8 @@ class D3LineChart {
   yScale;
 
   selector: string;
+
+  title: string;
 
   xLabel: string;
 
@@ -26,6 +29,7 @@ class D3LineChart {
   constructor(selector: string, title: string, xLabel: string, yLabel: string, darkMode: boolean) {
 
     this.selector = selector;
+    this.title = title;
     this.xLabel = xLabel;
     this.yLabel = yLabel;
     this.darkMode = darkMode;
@@ -41,15 +45,6 @@ class D3LineChart {
       .attr('role', 'img')
       .append('g')
       .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
-
-      this.svg.append("text")
-      .attr("x", 0)             
-      .attr("y", 10)
-      .style('fill', this.labelColor())
-      .attr("text-anchor", "left")  
-      .style("font-size", "16px") 
-      .style("text-decoration", "underline")  
-      .text(title);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -75,6 +70,7 @@ class D3LineChart {
       .range([HEIGHT, 0]);
 
     this.drawAxis();
+    this.drawTitle();
     let i = 0;
     data.yData.forEach((yData) => this.drawLine(data.xData, yData, i++));
 
@@ -86,8 +82,9 @@ class D3LineChart {
       .remove();
   }
 
+  // 55 Values  ( Blacked removed )
   private fillColorsLight = [ 
-      "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#000000", 
+      "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", 
       "#800000", "#008000", "#000080", "#808000", "#800080", "#008080", "#808080", 
       "#C00000", "#00C000", "#0000C0", "#C0C000", "#C000C0", "#00C0C0", "#C0C0C0", 
       "#400000", "#004000", "#000040", "#404000", "#400040", "#004040", "#404040", 
@@ -98,7 +95,7 @@ class D3LineChart {
   ];
 
   private fillColorsDark = [ 
-    "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#000000", 
+    "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", 
     "#800000", "#008000", "#000080", "#808000", "#800080", "#008080", "#808080", 
     "#C00000", "#00C000", "#0000C0", "#C0C000", "#C000C0", "#00C0C0", "#C0C0C0", 
     "#400000", "#004000", "#000040", "#404000", "#400040", "#004040", "#404040", 
@@ -117,6 +114,16 @@ class D3LineChart {
     return this.darkMode ? '#888888' : '#888888';
   }
 
+  private drawTitle() {          
+    this.svg.append("text")
+      .attr('transform', `translate(0  ,${HEIGHT + this.margin.top})`)
+      .style('fill', this.labelColor())
+      .style('text-anchor', LABEL_ANCHOR)
+      .style('font-size', TITLE_FONT)
+      .style("text-decoration", "underline")  
+      .text(this.title);
+  }
+
   private drawAxis() {
     
     // add x-axis
@@ -129,20 +136,18 @@ class D3LineChart {
     this.svg.append('g').call(d3.axisLeft(this.yScale));
 
     // label for the x-axis
-    this.svg
-      .append('text')
-      .attr('transform', `translate(${WIDTH / 2} ,${HEIGHT + this.margin.top + 30})`)
+    this.svg.append('text')
+      .attr('transform', `translate(${WIDTH / 2} ,${HEIGHT + this.margin.top })`)
       .style('fill', this.labelColor())
       .style('text-anchor', LABEL_ANCHOR)
       .style('font-size', LABEL_FONT)
       .text(this.xLabel);
 
     // label for the y-axis
-    this.svg
-      .append('text')
+    this.svg.append('text')
       .attr('transform', 'rotate(-90)')
       .attr('y', 0 - this.margin.left)
-      .attr('x', 0 - HEIGHT / 2)
+      .attr('x', 0 - HEIGHT / 2 - this.margin.top)
       .attr('dy', '1.0em')
       .style('fill', this.labelColor())
       .style('text-anchor', LABEL_ANCHOR)

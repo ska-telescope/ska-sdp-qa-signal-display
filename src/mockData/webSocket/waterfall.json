@@ -1,0 +1,142 @@
+{"spectrogram": [
+    {
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C10", 
+        "polarisation": "XX", 
+        "phase": [180, 360, 180, 180, 360, 360, 360, 180 ]
+    }, 
+    {
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C10", 
+        "polarisation": "XY", 
+        "phase": [360, 180, 360, 180, 360, 180, 360, 180]
+    }, 
+    {
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C10", 
+        "polarisation": "YX", 
+        "phase": [360, 180, 180, 360, 180, 360, 180, 360]
+    }, 
+    {
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C10", 
+        "polarisation": "YY", 
+        "phase": [360, 180, 360, 360, 180, 360, 180, 360]
+    }, 
+    {
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C136", 
+        "polarisation": "XX", 
+        "phase": [332, 196, 71, 240, 326, 290, 42, 350]
+    }, 
+    {
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C136", 
+        "polarisation": "XY", 
+        "phase": [30, 142, 40, 254, 127, 316, 79, 257]
+    }, 
+    {
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C136", 
+        "polarisation": "YX", 
+        "phase": [32, 106, 298, 257, 202, 288, 159, 96]
+    }, 
+    {   
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C136", 
+        "polarisation": "YY", 
+        "phase": [318, 21, 10, 133, 172, 147, 96, 329]
+    }, 
+    {
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C1", 
+        "polarisation": "XX", 
+        "phase": [285, 201, 188, 106, 73, 217, 334, 158 ]
+    }, 
+    {
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C1", 
+        "polarisation": "XY", 
+        "phase": [291, 45, 114, 95, 165, 58, 102, 309 ]
+    }, 
+    {
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C1", 
+        "polarisation": "YX",
+         "phase": [313, 93, 125, 50, 107, 74, 50, 108 ]
+    }, 
+    {
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C1", 
+        "polarisation": "YY", 
+        "phase": [31, 200, 165, 324, 95, 233, 74, 106 ]
+    }, 
+    {
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C217", 
+        "polarisation": "XX", 
+        "phase": [25, 146, 107, 307, 148, 247, 344, 168]
+    }, 
+    {
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C217",
+         "polarisation": "XY", 
+         "phase": [22, 339, 297, 354, 39, 19, 68, 331 ]
+    }, 
+    {
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C217", 
+        "polarisation": "YX", 
+        "phase": [120, 354, 200, 190, 234, 12, 75, 255 ]
+    }, 
+    {   
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C217", 
+        "polarisation": "YY", 
+        "phase": [158, 199, 163, 237, 356, 1, 317, 239 ]
+    }, 
+    {   
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C13", 
+        "polarisation": "XX", 
+        "phase": [296, 295, 236, 257, 333, 257, 355, 251 ]
+    }, 
+    {
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C13", 
+        "polarisation": "XY", 
+        "phase": [298, 3, 240, 171, 310, 178, 121, 275 ]
+    }, 
+    {
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C13", 
+        "polarisation": "YX", 
+        "phase": [236, 82, 5, 161, 206, 182, 30, 35 ]
+    }, 
+    {
+        "timestamp": "2023-05-15 07:31:06", 
+        "time_index": 0, 
+        "baseline": "C10_C13", 
+        "polarisation": "YY", 
+        "phase": [359, 336, 163, 181, 131, 155, 262, 156 ]
+    }
+]}

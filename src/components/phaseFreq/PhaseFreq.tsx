@@ -8,8 +8,9 @@ import D3LineChart from '../d3/lineChart/D3LineChart';
 import { MessageTopic } from '../../models/message-topic';
 import { storageObject } from '../../services/stateStorage';
 import { decodeJson } from '../../utils/decoder';
+import LocalData from '../../mockData/webSocket/phase.json';
 
-import { POLARIZATIONS, PROTOCOL, WS_API_URL } from '../../utils/constants';
+import { DATA_LOCAL, POLARIZATIONS, PROTOCOL, WS_API_URL } from '../../utils/constants';
 
 const MESSAGE_TOPIC = MessageTopic.AMP_FREQ;
 const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
@@ -42,19 +43,19 @@ const PhaseFreq = () => {
     return arr;
   }
 
-  function getChartData(decoded: any, offset: number) {
-    const yData = getYData(decoded.data, POLARIZATIONS[offset]);
+  function getChartData(usedData: any, offset: number) {
+    const yData = getYData(usedData.data, POLARIZATIONS[offset]);
     const yValues = [];
     for (let i = 0; i < yData.length; i++) {
       yValues.push(Math.min(...yData[i]));
       yValues.push(Math.max(...yData[i]));
     }
     const chartData = {
-      x_min: Math.min(...decoded.frequencies),
-      x_max: Math.max(...decoded.frequencies),
+      x_min: Math.min(...usedData.frequencies),
+      x_max: Math.max(...usedData.frequencies),
       y_min: Math.min(...yValues),
       y_max: Math.max(...yValues),
-      xData: decoded.frequencies,
+      xData: usedData.frequencies,
       yData
     }
     return chartData;
@@ -103,7 +104,18 @@ const PhaseFreq = () => {
 
   React.useEffect(() => {
     if (showContent)
-    connectToWebSocket();
+      if (DATA_LOCAL) {
+        const d3Chart0 = new D3LineChart('#phaseFreq0Svg', POLARIZATIONS[0], xLabel(), yLabel(), darkMode);
+        const d3Chart1 = new D3LineChart('#phaseFreq1Svg', POLARIZATIONS[1], xLabel(), yLabel(), darkMode);
+        const d3Chart2 = new D3LineChart('#phaseFreq2Svg', POLARIZATIONS[2], xLabel(), yLabel(), darkMode);
+        const d3Chart3 = new D3LineChart('#phaseFreq3Svg', POLARIZATIONS[3], xLabel(), yLabel(), darkMode);
+        window.requestAnimationFrame(() => d3Chart0?.draw(getChartData(LocalData, 0)));
+        window.requestAnimationFrame(() => d3Chart1?.draw(getChartData(LocalData, 1)));
+        window.requestAnimationFrame(() => d3Chart2?.draw(getChartData(LocalData, 2)));
+        window.requestAnimationFrame(() => d3Chart3?.draw(getChartData(LocalData, 3)));
+      } else {
+        connectToWebSocket();
+      }
   }, [showContent]);
 
   return (
