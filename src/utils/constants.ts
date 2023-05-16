@@ -3,9 +3,8 @@ import { Protocol } from '../models/protocol';
 // Used for Determining sizing of cards and image grid
 export const CELL_HEIGHT = 75;
 export const CELL_WIDTH = 150;
-export const HEIGHT = 300;
 export const ROW_HEIGHT = 164;
-export const WIDTH = 1200; // 1450;
+export const WIDTH = 1600;
 
 export const POLARIZATIONS = [ 'XX', 'XY', 'YX', 'YY' ];
 
