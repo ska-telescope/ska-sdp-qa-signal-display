@@ -1,10 +1,11 @@
 import * as d3 from 'd3';
 // import { THEME_LIGHT } from '@ska-telescope/ska-javascript-components';
-import { HEIGHT, WIDTH } from '../../../utils/constants';
+import { WIDTH } from '../../../utils/constants';
 
 const LABEL_ANCHOR = 'middle;';
 const LABEL_FONT = '15px';
 const TITLE_FONT = '24px';
+const RATIO = 4;
 
 class D3LineChart {
 
@@ -26,6 +27,12 @@ class D3LineChart {
 
   darkMode: boolean;
 
+  baseWidth: number;
+
+  usedHeight: number;
+
+  usedWidth: number;
+
   constructor(selector: string, title: string, xLabel: string, yLabel: string, darkMode: boolean) {
 
     this.selector = selector;
@@ -33,15 +40,15 @@ class D3LineChart {
     this.xLabel = xLabel;
     this.yLabel = yLabel;
     this.darkMode = darkMode;
+    this.baseWidth = WIDTH;
+    this.usedWidth = this.baseWidth + this.margin.left + this.margin.right;
+    this.usedHeight = (this.baseWidth / RATIO) + this.margin.top + this.margin.bottom;
 
-    const usedWidth = WIDTH + this.margin.left + this.margin.right;
-    const usedHeight = HEIGHT + this.margin.top + this.margin.bottom;
-    const tmp = `0 40 ${usedWidth} ${usedHeight}`;
     // append the svg object to the selector
     this.svg = d3
       .select(selector)
       .append('svg')
-      .attr("viewBox", tmp)
+      .attr("viewBox", `0 40 ${this.usedWidth} ${this.usedHeight}`)
       .attr('role', 'img')
       .append('g')
       .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
@@ -51,7 +58,7 @@ class D3LineChart {
   public draw(data: { x_min: any; x_max: any; y_min: any; y_max: any; xData: any; yData: any }) {
     d3.select(this.selector)
       .select('svg')
-      .attr('height', HEIGHT - this.margin.top + this.margin.bottom);
+      .attr('height', (this.baseWidth / RATIO) - this.margin.top + this.margin.bottom);
 
     this.svg.selectAll('text').remove();
     this.svg.selectAll('.tick').remove();
@@ -61,13 +68,13 @@ class D3LineChart {
     this.xScale = d3
       .scaleLinear()
       .domain([data?.x_min || 0, data.x_max])
-      .range([0, WIDTH]);
+      .range([0, this.baseWidth]);
 
     // create y-scale
     this.yScale = d3
       .scaleLinear()
       .domain([data?.y_min || 0, data.y_max])
-      .range([HEIGHT, 0]);
+      .range([(this.baseWidth / RATIO), 0]);
 
     this.drawAxis();
     this.drawTitle();
@@ -77,7 +84,7 @@ class D3LineChart {
     this.svg
       .exit()
       .transition()
-      .attr('y', HEIGHT)
+      .attr('y', (this.baseWidth / RATIO))
       .attr('height', 0)
       .remove();
   }
@@ -116,7 +123,7 @@ class D3LineChart {
 
   private drawTitle() {          
     this.svg.append("text")
-      .attr('transform', `translate(0  ,${HEIGHT + this.margin.top})`)
+      .attr('transform', `translate(0  ,${(this.baseWidth / RATIO) + this.margin.top})`)
       .style('fill', this.labelColor())
       .style('text-anchor', LABEL_ANCHOR)
       .style('font-size', TITLE_FONT)
@@ -129,7 +136,7 @@ class D3LineChart {
     // add x-axis
     this.svg
       .append('g')
-      .attr('transform', `translate(0,${HEIGHT})`)
+      .attr('transform', `translate(0,${(this.baseWidth / RATIO)})`)
       .call(d3.axisBottom(this.xScale));
 
     // add y axis
@@ -137,7 +144,7 @@ class D3LineChart {
 
     // label for the x-axis
     this.svg.append('text')
-      .attr('transform', `translate(${WIDTH / 2} ,${HEIGHT + this.margin.top })`)
+      .attr('transform', `translate(${this.baseWidth / 2} ,${(this.baseWidth / RATIO) + this.margin.top })`)
       .style('fill', this.labelColor())
       .style('text-anchor', LABEL_ANCHOR)
       .style('font-size', LABEL_FONT)
@@ -147,7 +154,7 @@ class D3LineChart {
     this.svg.append('text')
       .attr('transform', 'rotate(-90)')
       .attr('y', 0 - this.margin.left)
-      .attr('x', 0 - HEIGHT / 2 - this.margin.top)
+      .attr('x', 0 - (this.baseWidth / RATIO) / 2 - this.margin.top)
       .attr('dy', '1.0em')
       .style('fill', this.labelColor())
       .style('text-anchor', LABEL_ANCHOR)
