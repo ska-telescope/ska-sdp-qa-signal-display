@@ -19,6 +19,7 @@ const PhaseFreq = () => {
   const { t } = useTranslation();
   const [socketStatus, setSocketStatus] = React.useState('unknown');
   const [showContent, setShowContent] = React.useState(false);
+  const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
 
   const xLabel = () => { 
@@ -117,6 +118,20 @@ const PhaseFreq = () => {
         connectToWebSocket();
       }
   }, [showContent]);
+
+  React.useEffect(() => {
+    if (showContent) {
+      setShowContent(false);
+      setRefresh(true);
+    }
+  }, [darkMode]);
+
+  React.useEffect(() => {
+    if (!refresh) 
+      setShowContent(true);
+    else
+      setRefresh(false);
+  }, [refresh]);
 
   return (
     <SignalCard

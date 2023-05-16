@@ -1,5 +1,6 @@
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import { THEME_DARK } from '@ska-telescope/ska-gui-components';
 import { telescopeSliceActions, telescopeSliceReducer } from '../redux-telescope/index';
 import { themeSliceActions, themeSliceReducer } from '../redux-theme/index';
 import { userSliceActions, userSliceReducer } from '../redux-user/index';
@@ -31,7 +32,7 @@ export const storageObject = {
     const themeMode = useSelector((state: RootState) => state.themeMode);
     const user = useSelector((state: RootState) => state.user?.user);
 
-    const darkMode = false; // themeMode?.mode === THEME_DARK;
+    const darkMode = themeMode?.mode === THEME_DARK;
     const dispatch = useDispatch();
     return {
       telescope,
