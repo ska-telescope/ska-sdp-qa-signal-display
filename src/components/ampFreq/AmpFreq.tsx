@@ -15,12 +15,20 @@ import { DATA_LOCAL, POLARIZATIONS, PROTOCOL, WS_API_URL } from '../../utils/con
 const MESSAGE_TOPIC = MessageTopic.AMP_FREQ;
 const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
-const AmpFreq = () => {
+interface AmpFreqProps {
+  resize: number;
+}
+
+const AmpFreq = ({ resize }: AmpFreqProps) => {
   const { t } = useTranslation();
   const [socketStatus, setSocketStatus] = React.useState('unknown');
   const [showContent, setShowContent] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
+  const ampFreq0Ref = React.useRef(null);
+  const ampFreq1Ref = React.useRef(null);
+  const ampFreq2Ref = React.useRef(null);
+  const ampFreq3Ref = React.useRef(null);
 
   const xLabel = () => {
     return `${t('label.frequency')} (${t('units.frequency')})`;
@@ -32,6 +40,10 @@ const AmpFreq = () => {
 
   const cardTitle = () => {
     return `${t('label.socket')}: ${  socketStatus  }, ${t('label.serialisation')}: ${  PROTOCOL}`;
+  }
+
+  const getChart = (id: string, width: number) => {
+    return new D3LineChart(id, '', xLabel(), yLabel(), darkMode, width);
   }
 
   function getYData(data: any, polarisation: string) {
@@ -63,10 +75,10 @@ const AmpFreq = () => {
   }
 
   const connectToWebSocket = React.useCallback(async () => {
-    const d3Chart0 = new D3LineChart('#ampFreq0Svg', POLARIZATIONS[0], xLabel(), yLabel(), darkMode);
-    const d3Chart1 = new D3LineChart('#ampFreq1Svg', POLARIZATIONS[1], xLabel(), yLabel(), darkMode);
-    const d3Chart2 = new D3LineChart('#ampFreq2Svg', POLARIZATIONS[2], xLabel(), yLabel(), darkMode);
-    const d3Chart3 = new D3LineChart('#ampFreq3Svg', POLARIZATIONS[3], xLabel(), yLabel(), darkMode);
+    const d3Chart0 = getChart('#ampFreq0Svg', ampFreq0Ref.current.offsetWidth);
+    const d3Chart1 = getChart('#ampFreq1Svg', ampFreq1Ref.current.offsetWidth);
+    const d3Chart2 = getChart('#ampFreq2Svg', ampFreq2Ref.current.offsetWidth);
+    const d3Chart3 = getChart('#ampFreq3Svg', ampFreq3Ref.current.offsetWidth);
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function oneError(e) {
@@ -103,10 +115,10 @@ const AmpFreq = () => {
   React.useEffect(() => {
     if (showContent) {
       if (DATA_LOCAL) {
-        const d3Chart0 = new D3LineChart('#ampFreq0Svg', POLARIZATIONS[0], xLabel(), yLabel(), darkMode);
-        const d3Chart1 = new D3LineChart('#ampFreq1Svg', POLARIZATIONS[1], xLabel(), yLabel(), darkMode);
-        const d3Chart2 = new D3LineChart('#ampFreq2Svg', POLARIZATIONS[2], xLabel(), yLabel(), darkMode);
-        const d3Chart3 = new D3LineChart('#ampFreq3Svg', POLARIZATIONS[3], xLabel(), yLabel(), darkMode);
+        const d3Chart0 = getChart('#ampFreq0Svg', ampFreq0Ref.current.offsetWidth);
+        const d3Chart1 = getChart('#ampFreq1Svg', ampFreq1Ref.current.offsetWidth);
+        const d3Chart2 = getChart('#ampFreq2Svg', ampFreq2Ref.current.offsetWidth);
+        const d3Chart3 = getChart('#ampFreq3Svg', ampFreq3Ref.current.offsetWidth);
         window.requestAnimationFrame(() => d3Chart0?.draw(getChartData(LocalData, 0)));
         window.requestAnimationFrame(() => d3Chart1?.draw(getChartData(LocalData, 1)));
         window.requestAnimationFrame(() => d3Chart2?.draw(getChartData(LocalData, 2)));
@@ -118,18 +130,18 @@ const AmpFreq = () => {
   }, [showContent]);
 
   React.useEffect(() => {
-    if (showContent) {
-      setShowContent(false);
-      setRefresh(true);
-    }
-  }, [darkMode]);
-
-  React.useEffect(() => {
     if (!refresh) 
       setShowContent(true);
     else
       setRefresh(false);
   }, [refresh]);
+
+  React.useEffect(() => {
+    if (showContent) {
+      setShowContent(false);
+      setRefresh(true);
+    }
+  }, [resize]);
 
   return (
     <SignalCard
@@ -140,10 +152,10 @@ const AmpFreq = () => {
       setShowContent={setShowContent}
     >
       <>
-        <div id="ampFreq0Svg" data-testid="ampFreq0Svg" />
-        <div id="ampFreq1Svg" data-testid="ampFreq1Svg" />
-        <div id="ampFreq2Svg" data-testid="ampFreq2Svg" />
-        <div id="ampFreq3Svg" data-testid="ampFreq3Svg" />
+        <div id="ampFreq0Svg" data-testid="ampFreq0Svg" ref={ampFreq0Ref} />
+        <div id="ampFreq1Svg" data-testid="ampFreq1Svg" ref={ampFreq1Ref} />
+        <div id="ampFreq2Svg" data-testid="ampFreq2Svg" ref={ampFreq2Ref} />
+        <div id="ampFreq3Svg" data-testid="ampFreq3Svg" ref={ampFreq3Ref} />
       </>
     </SignalCard>
   );

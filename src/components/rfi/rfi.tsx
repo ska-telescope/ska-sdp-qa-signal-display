@@ -7,8 +7,9 @@ import { decodeJson } from 'src/utils/decoder';
 import RfiQaPixelTable from './qa/RfiQaPixelTable';
 import RfiDetailPlots from './detail/RfiDetailPlots';
 
-import { PROTOCOL, WIDTH, WS_API_URL } from '../../utils/constants';
+import { PROTOCOL, WS_API_URL } from '../../utils/constants';
 
+const WIDTH = 1600;
 const MESSAGE_TOPIC = MessageTopic.RFI;
 const RFI_SUBTOPIC = 'xx-00-01';
 const RFI_API = `${process.env.REACT_APP_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
@@ -27,7 +28,6 @@ const Rfi = () => {
 
     rfiWs.onmessage = (event) => {
       const payload = decodeJson(event.data);
-      // console.log("Rfi:onMessage: rfiWs received payload = ", payload);
 
       if ('status' in payload) {
         // DEBUG console.log(payload.status);
@@ -41,7 +41,7 @@ const Rfi = () => {
 
     rfiDetailsWs.onmessage = (event) => {
       const payload = decodeJson(event.data);
-      // console.log("Rfi:onMessage: rfiDetailsWs received payload = ", payload);
+      // DEBUG console.log("Rfi:onMessage: rfiDetailsWs received payload = ", payload);
 
       if ('status' in payload) {
         // DEBUG console.log(payload.status);

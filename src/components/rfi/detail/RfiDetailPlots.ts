@@ -26,8 +26,6 @@ class RfiDetailPlots {
   }
 
   draw(data) {
-    // console.log("RfiDetailsPlot:draw: data = ", data);
-
     // validations
     // if (!data || !data.spectrum_values || !data.spectrum_values.length || !width || !height) return;
     const {

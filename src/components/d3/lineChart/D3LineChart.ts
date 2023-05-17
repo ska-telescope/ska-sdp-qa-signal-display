@@ -1,6 +1,4 @@
 import * as d3 from 'd3';
-// import { THEME_LIGHT } from '@ska-telescope/ska-javascript-components';
-import { WIDTH } from '../../../utils/constants';
 
 const LABEL_ANCHOR = 'middle;';
 const LABEL_FONT = '15px';
@@ -33,14 +31,14 @@ class D3LineChart {
 
   usedWidth: number;
 
-  constructor(selector: string, title: string, xLabel: string, yLabel: string, darkMode: boolean) {
+  constructor(selector: string, title: string, xLabel: string, yLabel: string, darkMode: boolean, width?: number) {
 
     this.selector = selector;
     this.title = title;
     this.xLabel = xLabel;
     this.yLabel = yLabel;
     this.darkMode = darkMode;
-    this.baseWidth = WIDTH;
+    this.baseWidth = width;
     this.usedWidth = this.baseWidth + this.margin.left + this.margin.right;
     this.usedHeight = (this.baseWidth / RATIO) + this.margin.top + this.margin.bottom;
 

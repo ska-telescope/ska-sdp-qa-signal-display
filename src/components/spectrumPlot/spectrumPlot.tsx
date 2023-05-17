@@ -14,15 +14,20 @@ import { DATA_LOCAL, PROTOCOL, WS_API_URL } from '../../utils/constants';
 const MESSAGE_TOPIC = MessageTopic.SPECTRUM;
 const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 
-const SpectrumPlot = () => {
+interface SpectrumPlotProps {
+  resize: number;
+}
+
+const SpectrumPlot = ({ resize }: SpectrumPlotProps) => {
   const { t } = useTranslation();
 
   const [socketStatus, setSocketStatus] = React.useState('unknown');
   const [showContent, setShowContent] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
+  const sPlotRef = React.useRef(null);
 
-  const xLabel = () => { 
+  function xLabel() {
     return `${t('label.frequency')} (${t('units.frequency')})`;
   }
 
@@ -34,6 +39,9 @@ const SpectrumPlot = () => {
     return `${t('label.socket')}: ${  socketStatus  }, ${t('label.serialisation')}: ${  PROTOCOL}`;
   }
 
+  const getChart = (id: string, width: number) => {
+    return new D3LineChart(id, '', xLabel(), yLabel(), darkMode, width);
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function getChartData(usedData: any) {
@@ -47,8 +55,9 @@ const SpectrumPlot = () => {
     }
     return chartData;
   }
+
   const connectToWebSocket = React.useCallback(async () => {
-    const d3Chart = new D3LineChart('#sPlotId', '', xLabel(), yLabel(), darkMode);
+    const d3Chart = getChart('#sPlotId', sPlotRef.current.offsetWidth);
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function oneError(e) {
@@ -82,7 +91,7 @@ const SpectrumPlot = () => {
   React.useEffect(() => {
     if (showContent)
     if (DATA_LOCAL) {
-      const d3Chart = new D3LineChart('#sPlotId', '', xLabel(), yLabel(), darkMode);
+      const d3Chart = getChart('#sPlotId', sPlotRef.current.offsetWidth);
       window.requestAnimationFrame(() => d3Chart?.draw(getChartData(LocalData)));
     } else {
       connectToWebSocket();
@@ -103,6 +112,13 @@ const SpectrumPlot = () => {
       setRefresh(false);
   }, [refresh]);
 
+  React.useEffect(() => {
+    if (showContent) {
+      setShowContent(false);
+      setRefresh(true);
+    }
+  }, [resize]);
+
   return (
     <SignalCard
       title={t('label.spectrumPlot')}
@@ -111,7 +127,7 @@ const SpectrumPlot = () => {
       showContent={showContent}
       setShowContent={setShowContent}
     >
-      <div id="sPlotId" data-testid="sPlotId" />
+      <div id="sPlotId" data-testid="sPlotId" ref={sPlotRef} />
     </SignalCard>
   );
 };
