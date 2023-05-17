@@ -122,9 +122,9 @@ class D3LineChart {
   private drawTitle() {          
     this.svg.append("text")
       .attr('transform', `translate(0  ,${(this.baseWidth / RATIO) + this.margin.top})`)
-      .style('fill', this.labelColor())
-      .style('text-anchor', LABEL_ANCHOR)
-      .style('font-size', TITLE_FONT)
+    .style('fill', this.labelColor())
+    .style('text-anchor', LABEL_ANCHOR)
+    .style('font-size', LABEL_FONT)
       .style("text-decoration", "underline")  
       .text(this.title);
   }
