@@ -8881,6 +8881,11 @@ pkg-up@^3.1.0:
   dependencies:
     find-up "^3.0.0"
 
+plotly.js-dist@^2.23.0:
+  version "2.23.0"
+  resolved "https://registry.yarnpkg.com/plotly.js-dist/-/plotly.js-dist-2.23.0.tgz#3a4117f6e06fd5ec66e9bdab4e34494666f9e623"
+  integrity sha512-zzjLw62xRGGPEbmjL+j+W4NQpyl3W4e0X4olzFkHntkWba2kOINWkyjPaIiFmQX2DJVCV9+D/MHJ2SgQjzkySw==
+
 postcss-attribute-case-insensitive@^5.0.2:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/postcss-attribute-case-insensitive/-/postcss-attribute-case-insensitive-5.0.2.tgz#03d761b24afc04c09e757e92ff53716ae8ea2741"
@@ -9743,6 +9748,11 @@ react-perfect-scrollbar@^1.5.8:
   dependencies:
     perfect-scrollbar "^1.5.0"
     prop-types "^15.6.1"
+
+react-plotly@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-plotly/-/react-plotly-1.0.0.tgz#addff804d47abe4e2abc49ad96f8a038cfe7f498"
+  integrity sha512-vVwqUePJ9gIdezCrT3dQDT4r6sL5bDGwdkhy/yR3cuXt9BWlwwyQ5wst5ouTdK6xCGSBB324Ok+EjcWTRo9qQQ==
 
 react-redux@^8.0.5:
   version "8.0.5"
@@ -11465,6 +11475,16 @@ vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
+
+vis-data@^7.1.6:
+  version "7.1.6"
+  resolved "https://registry.yarnpkg.com/vis-data/-/vis-data-7.1.6.tgz#81dcf4d024d23183cacb680ad605e644cdd6ee6c"
+  integrity sha512-lG7LJdkawlKSXsdcEkxe/zRDyW29a4r7N7PMwxCPxK12/QIdqxJwcMxwjVj9ozdisRhP5TyWDHZwsgjmj0g6Dg==
+
+vis-network@^9.1.6:
+  version "9.1.6"
+  resolved "https://registry.yarnpkg.com/vis-network/-/vis-network-9.1.6.tgz#943df07e829248943656a2f19a7ec87cc1b707de"
+  integrity sha512-Eiwx1JleAsUqfy4pzcsFngCVlCEdjAtRPB/OwCV7PHBm+o2jtE4IZPcPITAEGUlxvL4Fdw7/lZsfD32dL+IL6g==
 
 void-elements@3.1.0:
   version "3.1.0"

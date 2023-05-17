@@ -35,9 +35,6 @@ export class SpectrogramPlot {
     this.ctx = this.canvas.getContext('2d');
     this.width = this.canvas.width;
     this.height = this.canvas.height;
-
-    // console.log('SpectrogramPlot:constructor:', this.width, this.height);
-
     this.direction = direction;
   }
 
@@ -66,9 +63,6 @@ export class SpectrogramPlot {
     }
 
     this.data = data;
-    // console.log("SpectrogramPlot:draw: data = ", this.data);
-
-    // window.requestAnimationFrame(this.loop.bind(this));
     this.loop();
   }
 
@@ -83,16 +77,11 @@ export class SpectrogramPlot {
       this.ctx.putImageData(imgData, 0, 0);
     }
 
-    // console.log("SpectrogramPlot:loop: data = ", this.data);
-
     for (let i = 0; i < this.len; i += 1) {
       const rat = this.data[i] / PHASE_NORM_FACTOR; // 0-1 normalize
       const hue = Math.round(rat * 360); // hsl normalize
       const sat = '100%';
       const lit = '50%';
-
-      // console.log(`rat = ${rat}, hue = ${hue}, sat = ${sat}, lit = ${lit}`);
-      // console.log(`SpectrogramPlot:loop: h = ${this.h}, w = ${this.w}, x = ${this.x}, y = ${this.y}`);
 
       this.ctx.beginPath();
       this.ctx.strokeStyle = `hsl(${hue}, ${sat}, ${lit})`;

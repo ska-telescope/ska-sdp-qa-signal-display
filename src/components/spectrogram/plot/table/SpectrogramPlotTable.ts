@@ -54,14 +54,12 @@ export default class SpectrogramPlotTable {
       this.len = data.length;
       this.numCols = Math.floor(this.width / (this.cellWidth + this.cellGap));
       this.numRows = Math.ceil(this.len / this.numCols) || 1;
-      // console.log(this.numCols, this.numRows);
 
       // initialize 2d array of cells of a table
       this.cells = new Array(this.numRows);
       for (let i = 0; i < this.numRows; i += 1) {
         this.cells[i] = new Array(this.numCols);
       }
-      // console.log("cells 1 = ", this.cells);
 
       // fill each cell with a data object
       let idx = 0;
@@ -73,8 +71,6 @@ export default class SpectrogramPlotTable {
           idx += 1;
         }
       }
-      // console.log("cells 2 = ", this.cells);
-
       this.drawTable();
     }
 
@@ -82,7 +78,6 @@ export default class SpectrogramPlotTable {
     for (let i = 0; i < this.numRows; i += 1) {
       for (let j = 0; j < this.numCols; j += 1) {
         if (idx >= this.len) break;
-        // console.log("cells 3 = ", this.cells[i][j], idx);
 
         // initialize spectrogram plot for each cell
         if (!this.cells[i][j].plot) {

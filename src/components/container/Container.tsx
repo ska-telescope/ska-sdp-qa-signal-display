@@ -13,13 +13,21 @@ import PhaseFreq from '../phaseFreq/PhaseFreq';
 // const clientSideEmotionCache = createEmotionCache();
 
 function Container() {
+  const [resize, setRefresh] = React.useState(0);
+
+  // We have a delay to reduce screen flicker
+  function resizeIncrement()
+  {
+    setTimeout(() => { setRefresh(resize + 1); }, 1000);    
+  }
+  window.onresize = resizeIncrement;
 
   return (
     <>
       <Statistics />
-      <SpectrumPlot />
-      <AmpFreq />
-      <PhaseFreq />
+      <SpectrumPlot resize={resize} />
+      <AmpFreq resize={resize} />
+      <PhaseFreq resize={resize} />
       <Spectrogram />
       {/* Suppressed for now <Rfi />   */}
     </>

@@ -23,7 +23,6 @@ export default class RfiQaPixel {
   }
 
   draw(data: { rfiData: number[]; flags: number[] }) {
-    // console.log("RfiStat:draw: data = ", data);
     // validation
     // if (!data || !data.spectrum_values || !data.spectrum_values.length || !width || !height) return;
     const { rfiData, flags } = data;
