@@ -8,6 +8,7 @@ import SpectrumPlot from '../spectrumPlot/spectrumPlot';
 import Statistics from '../statistics/statistics';
 import AmpFreq from '../ampFreq/AmpFreq';
 import PhaseFreq from '../phaseFreq/PhaseFreq';
+import Polarization from '../polarization/Polarization';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 // const clientSideEmotionCache = createEmotionCache();
@@ -26,9 +27,15 @@ function Container() {
     <>
       <Statistics />
       <SpectrumPlot resize={resize} />
-      <AmpFreq resize={resize} />
-      <PhaseFreq resize={resize} />
-      <Spectrogram />
+      <Polarization polarization='XX' resize={resize} />
+      <Polarization polarization='XY' resize={resize} />
+      <Polarization polarization='YX' resize={resize} />
+      <Polarization polarization='YY' resize={resize} />
+      {/* Suppressed whilst charts to display is confirmed
+        <AmpFreq resize={resize} />
+        <PhaseFreq resize={resize} />
+        <Spectrogram />
+      */}
       {/* Suppressed for now <Rfi />   */}
     </>
   );

@@ -28,8 +28,8 @@
     "payloadsReceived": "Payloads Received",
     "phase": "Phase",
     "phaseVFreq": "Phase vs Frequency",
-    "power": "Power",
     "processingBlockId": "Processing Block ID",
+    "polarization": "Polarization",
     "no": "No",
     "numberHeaps": "Number of Heaps",
     "numberHeapsIncomplete": "Number of Incomplete Heaps",
@@ -54,13 +54,12 @@
     "yes": "Yes"
   },
   "units": {
-    "amplitude": "m",
+    "amplitude": "",
     "currentSpeed": "MB/s",
     "durationCurrentTransfer": "s", 
     "frequency": "MHz",
     "ingestionRate": "p/s",
     "phase": "m",
-    "power": "dB",
     "totalDataReceived": "MB"
   }
 }
