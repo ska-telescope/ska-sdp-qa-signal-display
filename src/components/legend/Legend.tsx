@@ -6,11 +6,10 @@ import SignalCard  from '../signalCard/SignalCard';
 import D3Legend from '../d3/legend/D3Legend';
 
 import { MessageTopic } from '../../models/message-topic';
-import { storageObject } from '../../services/stateStorage';
 import { decodeJson } from '../../utils/decoder';
 import LocalData from '../../mockData/webSocket/phase.json';
 
-import { DATA_LOCAL, POLARIZATIONS, PROTOCOL, WS_API_URL } from '../../utils/constants';
+import { DATA_LOCAL, PROTOCOL, WS_API_URL } from '../../utils/constants';
 
 const MESSAGE_TOPIC = MessageTopic.AMP_FREQ;
 const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
