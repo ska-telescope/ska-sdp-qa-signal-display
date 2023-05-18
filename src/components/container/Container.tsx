@@ -8,7 +8,7 @@ import SpectrumPlot from '../spectrumPlot/spectrumPlot';
 import Statistics from '../statistics/statistics';
 // import AmpFreq from '../ampFreq/AmpFreq';
 // import PhaseFreq from '../phaseFreq/PhaseFreq';
-// import Legend from '../legend/D3Legend';
+import Legend from '../legend/Legend';
 import Polarization from '../polarization/Polarization';
 // import BarChart from '../d3/barChart/BarChart';
 // import D3BarChart from '../d3/barChart/D3BarChart';
@@ -26,7 +26,7 @@ function Container() {
   }
   window.onresize = resizeIncrement;
 
-  /* TODO : Retained for future work
+  /*
   const data = [
     {year: 1980, efficiency: 24.3, sales: 8949000},
     {year: 1985, efficiency: 27.6, sales: 10979000},
@@ -65,8 +65,8 @@ function Container() {
     <>
       <Statistics />
       <SpectrumPlot resize={resize} />
-      {/* TODO : Retained for future work  <Legend resize={resize} />  */}
-      {/* TODO : Retained for future work  <BarChart data={data} />  */}
+      <Legend resize={resize} />
+      {/* <BarChart id="barChartId" data={data} /> */}
       {/* TODO : Retained for future work   <D3BarChart data={[5,10,1,3]} size={[500,500]} />  */}
       <Polarization polarization='XX' resize={resize} />
       <Polarization polarization='XY' resize={resize} />
