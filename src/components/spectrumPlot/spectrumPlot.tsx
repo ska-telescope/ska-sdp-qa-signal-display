@@ -32,7 +32,7 @@ const SpectrumPlot = ({ resize }: SpectrumPlotProps) => {
   }
 
   const yLabel = () => { 
-    return `${t('label.amplitude')} (${t('units.amplitude')})`;
+    return `${t('label.amplitude')}`;
   }
 
   const cardTitle = () => { 

@@ -127,11 +127,8 @@ module.exports = () => {
             singleton: true,
             requiredVersion: deps['@emotion/styled']
           },
-          'd3': {
-            eager: true,
-            singleton: true,
-            requiredVersion: deps['d3']
-          },
+          'd3': { eager: true,  singleton: true,  requiredVersion: deps['d3'] },
+          'd3-scale': { eager: true, singleton: true, requiredVersion: deps['d3-scale'] },
           moment: {
             eager: true,
             singleton: true,

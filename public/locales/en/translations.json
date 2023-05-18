@@ -25,6 +25,7 @@
     "lastAPIRefresh": "Last Refresh from API",
     "lastUpdate": "Last Update",
     "lastUpdated": "Last Updated",
+    "legend": "Legend",
     "payloadsReceived": "Payloads Received",
     "phase": "Phase",
     "phaseVFreq": "Phase vs Frequency",
