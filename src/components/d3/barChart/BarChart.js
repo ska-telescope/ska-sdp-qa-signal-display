@@ -2,7 +2,8 @@ import React from 'react';
 import * as d3 from 'd3';
 import { useD3 } from '../useD3';
 
-function BarChart({ data }) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function BarChart({ id, data }) {
   const ref = useD3(
     (svg) => {
       const height = 500;

@@ -39,8 +39,10 @@ const Polarization = ({ polarization, resize }: PolarizationProps) => {
     return `${t('label.frequency')} (${t('units.frequency')})`;
   }
 
-  const yLabel = () => {
-    return `${t('label.amplitude')}`;
+  const yLabel = (amplitude: boolean) => {
+    if (amplitude)
+      return `${t('label.amplitude')}`;
+    return `${t('label.phase')}`;
   }
 
   const cardTitle = () => {
@@ -52,7 +54,7 @@ const Polarization = ({ polarization, resize }: PolarizationProps) => {
   }
 
   const getChart = (id: string, amplitude: boolean) => {
-    return new D3LineChart(id, chartTitle(amplitude), xLabel(), yLabel(), darkMode);
+    return new D3LineChart(id, chartTitle(amplitude), xLabel(), yLabel(amplitude), darkMode);
   }
 
   function getYData(data: any, polarisation: string, amplitude: boolean) {
