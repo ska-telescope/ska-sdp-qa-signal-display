@@ -1,11 +1,9 @@
+/* eslint-disable func-names */
 import * as d3 from 'd3';
 
-const LABEL_ANCHOR = 'middle;';
-const LABEL_FONT = '16px';
-const TITLE_FONT = '20px';
 const RATIO = 3;
 
-class D3LineChart {
+class D3Legend {
 
   margin = { top: 50, right: 0, bottom: 50, left: 50 };
 
@@ -49,21 +47,15 @@ class D3LineChart {
       .append('svg')
       .attr("viewBox", `0 40 ${this.usedWidth} ${this.usedHeight}`)
       .attr('role', 'img')
-      .append('g')
-      .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
-  }
+   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public draw(data: { x_min: any; x_max: any; y_min: any; y_max: any; xData: any; yData: any }) {
-
-    this.baseWidth = parseInt(d3.select(this.selector).style("width"), 10);
-    this.usedWidth = this.baseWidth + this.margin.left + this.margin.right;
-    this.usedHeight = (this.baseWidth / RATIO) + this.margin.top + this.margin.bottom;
+  public draw(data: { x_min: any; x_max: any; y_min: any; y_max: any; xData: any; bData: any; yData: any }) {
 
     d3.select(this.selector)
       .select('svg')
       .attr("viewBox", `0 40 ${this.usedWidth} ${this.usedHeight}`)
-      .attr('height', (this.baseWidth / RATIO) - this.margin.top + this.margin.bottom);
+      .attr('height', (this.baseWidth / RATIO) - this.margin.top + this.margin.bottom);      
 
     this.svg.selectAll('text').remove();
     this.svg.selectAll('.tick').remove();
@@ -81,10 +73,9 @@ class D3LineChart {
       .domain([data?.y_min || 0, data.y_max])
       .range([(this.baseWidth / RATIO), 0]);
 
-    this.drawAxis();
-    this.drawTitle();
     let i = 0;
     data.yData.forEach((yData) => this.drawLine(data.xData, yData, i++));
+    this.drawLegend(data.bData);
 
     this.svg
       .exit()
@@ -126,47 +117,6 @@ class D3LineChart {
     return this.darkMode ? 'white' : 'black';
   }
 
-  private drawTitle() {          
-    this.svg.append("text")
-      .attr('transform', `translate(0  ,${(this.baseWidth / RATIO) + this.margin.top})`)
-      .style('fill', this.labelColor())
-      .style('text-anchor', LABEL_ANCHOR)
-      .style('font-size', TITLE_FONT)
-      .style("text-decoration", "underline")  
-      .text(this.title);
-  }
-
-  private drawAxis() {
-    
-    // add x-axis
-    this.svg
-      .append('g')
-      .attr('transform', `translate(0,${(this.baseWidth / RATIO)})`)
-      .call(d3.axisBottom(this.xScale));
-
-    // add y axis
-    this.svg.append('g').call(d3.axisLeft(this.yScale));
-
-    // label for the x-axis
-    this.svg.append('text')
-      .attr('transform', `translate(${this.baseWidth / 2} ,${(this.baseWidth / RATIO) + this.margin.top })`)
-      .style('fill', this.labelColor())
-      .style('text-anchor', LABEL_ANCHOR)
-      .style('font-size', LABEL_FONT)
-      .text(this.xLabel);
-
-    // label for the y-axis
-    this.svg.append('text')
-      .attr('transform', 'rotate(-90)')
-      .attr('y', 0 - this.margin.left)
-      .attr('x', 0 - (this.baseWidth / RATIO) / 2 - this.margin.top)
-      .attr('dy', '1.0em')
-      .style('fill', this.labelColor())
-      .style('text-anchor', LABEL_ANCHOR)
-      .style('font-size', LABEL_FONT)
-      .text(this.yLabel);
-  }
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private drawLine(xData: any[], yData: any[], occ: number) {
     this.svg
@@ -185,6 +135,20 @@ class D3LineChart {
           .y((_d, i) => this.yScale(yData[i]))
       );
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private drawLegend(bData: any[]) {
+    this.svg
+    .selectAll("mydots")
+    .data(bData)
+    .enter()
+    .append("circle")
+      .attr("cx", 100)
+      .attr("cy", function(d,i){ return 100 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+      .attr("r", 7)
+      .style("fill", function(d){ return this.fillColorsLight[d]})
+  }
+
 }
 
-export default D3LineChart
+export default D3Legend

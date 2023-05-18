@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React from 'react';
 /* eslint-disable import/no-unresolved */
 import { render, cleanup, screen } from '@testing-library/react';
@@ -17,6 +18,19 @@ const server = setupServer(
     return res(ctx.json(mockStatisticsReceiverEventsData));
   })
 );
+
+jest.mock('react-i18next', () => ({
+  // this mock makes sure any components using the translate hook can use it without a warning being shown
+  useTranslation: () => {
+    return {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      t: (str: any) => str,
+      i18n: {
+        changeLanguage: () => new Promise(() => {})
+      }
+    };
+  }
+}));
 
 beforeAll(() => {
   server.listen();

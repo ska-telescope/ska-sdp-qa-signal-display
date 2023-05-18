@@ -42,8 +42,8 @@ const AmpFreq = ({ resize }: AmpFreqProps) => {
     return `${t('label.socket')}: ${  socketStatus  }, ${t('label.serialisation')}: ${  PROTOCOL}`;
   }
 
-  const getChart = (id: string, width: number) => {
-    return new D3LineChart(id, '', xLabel(), yLabel(), darkMode, width);
+  const getChart = (id: string, occ: number) => {
+    return new D3LineChart(id, POLARIZATIONS[occ], xLabel(), yLabel(), darkMode);
   }
 
   function getYData(data: any, polarisation: string) {
@@ -75,10 +75,10 @@ const AmpFreq = ({ resize }: AmpFreqProps) => {
   }
 
   const connectToWebSocket = React.useCallback(async () => {
-    const d3Chart0 = getChart('#ampFreq0Svg', ampFreq0Ref.current.offsetWidth);
-    const d3Chart1 = getChart('#ampFreq1Svg', ampFreq1Ref.current.offsetWidth);
-    const d3Chart2 = getChart('#ampFreq2Svg', ampFreq2Ref.current.offsetWidth);
-    const d3Chart3 = getChart('#ampFreq3Svg', ampFreq3Ref.current.offsetWidth);
+    const d3Chart0 = getChart('#ampFreq0Svg', 0);
+    const d3Chart1 = getChart('#ampFreq1Svg', 1);
+    const d3Chart2 = getChart('#ampFreq2Svg', 2);
+    const d3Chart3 = getChart('#ampFreq3Svg', 3);
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function oneError(e) {
@@ -115,10 +115,10 @@ const AmpFreq = ({ resize }: AmpFreqProps) => {
   React.useEffect(() => {
     if (showContent) {
       if (DATA_LOCAL) {
-        const d3Chart0 = getChart('#ampFreq0Svg', ampFreq0Ref.current.offsetWidth);
-        const d3Chart1 = getChart('#ampFreq1Svg', ampFreq1Ref.current.offsetWidth);
-        const d3Chart2 = getChart('#ampFreq2Svg', ampFreq2Ref.current.offsetWidth);
-        const d3Chart3 = getChart('#ampFreq3Svg', ampFreq3Ref.current.offsetWidth);
+        const d3Chart0 = getChart('#ampFreq0Svg', 0);
+        const d3Chart1 = getChart('#ampFreq1Svg', 1);
+        const d3Chart2 = getChart('#ampFreq2Svg', 2);
+        const d3Chart3 = getChart('#ampFreq3Svg', 3);
         window.requestAnimationFrame(() => d3Chart0?.draw(getChartData(LocalData, 0)));
         window.requestAnimationFrame(() => d3Chart1?.draw(getChartData(LocalData, 1)));
         window.requestAnimationFrame(() => d3Chart2?.draw(getChartData(LocalData, 2)));

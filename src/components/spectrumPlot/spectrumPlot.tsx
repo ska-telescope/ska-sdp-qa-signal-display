@@ -32,15 +32,15 @@ const SpectrumPlot = ({ resize }: SpectrumPlotProps) => {
   }
 
   const yLabel = () => { 
-    return `${t('label.power')} (${t('units.power')})`;
+    return `${t('label.amplitude')}`;
   }
 
   const cardTitle = () => { 
     return `${t('label.socket')}: ${  socketStatus  }, ${t('label.serialisation')}: ${  PROTOCOL}`;
   }
 
-  const getChart = (id: string, width: number) => {
-    return new D3LineChart(id, '', xLabel(), yLabel(), darkMode, width);
+  const getChart = (id: string) => {
+    return new D3LineChart(id, '', xLabel(), yLabel(), darkMode);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -57,7 +57,7 @@ const SpectrumPlot = ({ resize }: SpectrumPlotProps) => {
   }
 
   const connectToWebSocket = React.useCallback(async () => {
-    const d3Chart = getChart('#sPlotId', sPlotRef.current.offsetWidth);
+    const d3Chart = getChart('#sPlotId');
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function oneError(e) {
@@ -91,7 +91,7 @@ const SpectrumPlot = ({ resize }: SpectrumPlotProps) => {
   React.useEffect(() => {
     if (showContent)
     if (DATA_LOCAL) {
-      const d3Chart = getChart('#sPlotId', sPlotRef.current.offsetWidth);
+      const d3Chart = getChart('#sPlotId');
       window.requestAnimationFrame(() => d3Chart?.draw(getChartData(LocalData)));
     } else {
       connectToWebSocket();
