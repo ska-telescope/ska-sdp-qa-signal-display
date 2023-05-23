@@ -1,9 +1,9 @@
 import * as d3 from 'd3';
 
 const LABEL_ANCHOR = 'middle;';
-const LABEL_FONT = '15px';
-const TITLE_FONT = '24px';
-const RATIO = 4;
+const LABEL_FONT = '16px';
+const TITLE_FONT = '20px';
+const RATIO = 3;
 
 class D3LineChart {
 
@@ -31,14 +31,15 @@ class D3LineChart {
 
   usedWidth: number;
 
-  constructor(selector: string, title: string, xLabel: string, yLabel: string, darkMode: boolean, width?: number) {
+  constructor(selector: string, title: string, xLabel: string, yLabel: string, darkMode: boolean) {
 
     this.selector = selector;
     this.title = title;
     this.xLabel = xLabel;
     this.yLabel = yLabel;
     this.darkMode = darkMode;
-    this.baseWidth = width;
+
+    this.baseWidth = parseInt(d3.select(selector).style("width"), 10);
     this.usedWidth = this.baseWidth + this.margin.left + this.margin.right;
     this.usedHeight = (this.baseWidth / RATIO) + this.margin.top + this.margin.bottom;
 
@@ -54,8 +55,14 @@ class D3LineChart {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public draw(data: { x_min: any; x_max: any; y_min: any; y_max: any; xData: any; yData: any }) {
+
+    this.baseWidth = parseInt(d3.select(this.selector).style("width"), 10);
+    this.usedWidth = this.baseWidth + this.margin.left + this.margin.right;
+    this.usedHeight = (this.baseWidth / RATIO) + this.margin.top + this.margin.bottom;
+
     d3.select(this.selector)
       .select('svg')
+      .attr("viewBox", `0 40 ${this.usedWidth} ${this.usedHeight}`)
       .attr('height', (this.baseWidth / RATIO) - this.margin.top + this.margin.bottom);
 
     this.svg.selectAll('text').remove();

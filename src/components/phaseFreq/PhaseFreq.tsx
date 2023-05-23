@@ -42,8 +42,8 @@ const PhaseFreq = ({ resize }: PhaseFreqProps) => {
     return `${t('label.socket')}: ${  socketStatus  }, ${t('label.serialisation')}: ${  PROTOCOL}`;
   }
 
-  const getChart = (id: string, width: number) => {
-    return new D3LineChart(id, '', xLabel(), yLabel(), darkMode, width);
+  const getChart = (id: string,occ: number) => {
+    return new D3LineChart(id, POLARIZATIONS[occ], xLabel(), yLabel(), darkMode);
   }
 
   function getYData(data: any, polarisation: string) {
@@ -75,10 +75,10 @@ const PhaseFreq = ({ resize }: PhaseFreqProps) => {
   }
 
   const connectToWebSocket = React.useCallback(async () => {
-    const d3Chart0 = getChart('#phaseFreq0Svg', phaseFreq0Ref.current.offsetWidth);
-    const d3Chart1 = getChart('#phaseFreq1Svg', phaseFreq1Ref.current.offsetWidth);
-    const d3Chart2 = getChart('#phaseFreq2Svg', phaseFreq2Ref.current.offsetWidth);
-    const d3Chart3 = getChart('#phaseFreq3Svg', phaseFreq3Ref.current.offsetWidth);
+    const d3Chart0 = getChart('#phaseFreq0Svg', 0);
+    const d3Chart1 = getChart('#phaseFreq1Svg', 1);
+    const d3Chart2 = getChart('#phaseFreq2Svg', 2);
+    const d3Chart3 = getChart('#phaseFreq3Svg', 3);
     const ws = new WebSocket(WS_API);
 
     ws.onerror = function oneError(e) {
@@ -86,9 +86,6 @@ const PhaseFreq = ({ resize }: PhaseFreqProps) => {
     };
 
     ws.onmessage = function onMessage(msg) {
-
-      // TODO : The y_min & y_max should cover all arrays and not just the first one
-
       const data = msg?.data;
       try {
         const decoded = decodeJson(data);
@@ -118,10 +115,10 @@ const PhaseFreq = ({ resize }: PhaseFreqProps) => {
   React.useEffect(() => {
     if (showContent)
       if (DATA_LOCAL) {
-        const d3Chart0 = getChart('#phaseFreq0Svg', phaseFreq0Ref.current.offsetWidth);
-        const d3Chart1 = getChart('#phaseFreq1Svg', phaseFreq1Ref.current.offsetWidth);
-        const d3Chart2 = getChart('#phaseFreq2Svg', phaseFreq2Ref.current.offsetWidth);
-        const d3Chart3 = getChart('#phaseFreq3Svg', phaseFreq3Ref.current.offsetWidth);
+        const d3Chart0 = getChart('#phaseFreq0Svg', 0);
+        const d3Chart1 = getChart('#phaseFreq1Svg', 1);
+        const d3Chart2 = getChart('#phaseFreq2Svg', 2);
+        const d3Chart3 = getChart('#phaseFreq3Svg', 3);
         window.requestAnimationFrame(() => d3Chart0?.draw(getChartData(LocalData, 0)));
         window.requestAnimationFrame(() => d3Chart1?.draw(getChartData(LocalData, 1)));
         window.requestAnimationFrame(() => d3Chart2?.draw(getChartData(LocalData, 2)));
