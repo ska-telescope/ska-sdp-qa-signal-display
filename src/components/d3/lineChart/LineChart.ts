@@ -5,7 +5,7 @@ const LABEL_FONT = '16px';
 const TITLE_FONT = '20px';
 const RATIO = 3;
 
-class D3LineChart {
+class LineChart {
 
   margin = { top: 50, right: 0, bottom: 50, left: 50 };
 
@@ -24,6 +24,8 @@ class D3LineChart {
   yLabel: string;
 
   darkMode: boolean;
+  
+  baseHeight: number;
 
   baseWidth: number;
 
@@ -39,31 +41,33 @@ class D3LineChart {
     this.yLabel = yLabel;
     this.darkMode = darkMode;
 
-    this.baseWidth = parseInt(d3.select(selector).style("width"), 10);
-    this.usedWidth = this.baseWidth + this.margin.left + this.margin.right;
-    this.usedHeight = (this.baseWidth / RATIO) + this.margin.top + this.margin.bottom;
-
     // append the svg object to the selector
     this.svg = d3
       .select(selector)
       .append('svg')
-      .attr("viewBox", `0 40 ${this.usedWidth} ${this.usedHeight}`)
       .attr('role', 'img')
       .append('g')
       .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
+
+    this.setDimensions();
+  }
+
+  public setDimensions() {
+    this.baseWidth = parseInt(d3.select(this.selector).style("width"), 10);
+    this.usedWidth = this.baseWidth + this.margin.left + this.margin.right;
+    this.baseHeight = (this.baseWidth / RATIO);
+    this.usedHeight = this.baseHeight + this.margin.top + this.margin.bottom;
+    
+    d3.select(this.selector)
+      .select('svg')
+      .attr("viewBox", `0 ${this.margin.top} ${this.usedWidth} ${this.usedHeight}`)
+      .attr('height', this.baseHeight + this.margin.bottom);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public draw(data: { x_min: any; x_max: any; y_min: any; y_max: any; xData: any; yData: any }) {
 
-    this.baseWidth = parseInt(d3.select(this.selector).style("width"), 10);
-    this.usedWidth = this.baseWidth + this.margin.left + this.margin.right;
-    this.usedHeight = (this.baseWidth / RATIO) + this.margin.top + this.margin.bottom;
-
-    d3.select(this.selector)
-      .select('svg')
-      .attr("viewBox", `0 40 ${this.usedWidth} ${this.usedHeight}`)
-      .attr('height', (this.baseWidth / RATIO) - this.margin.top + this.margin.bottom);
+    this.setDimensions();
 
     this.svg.selectAll('text').remove();
     this.svg.selectAll('.tick').remove();
@@ -187,4 +191,4 @@ class D3LineChart {
   }
 }
 
-export default D3LineChart
+export default LineChart

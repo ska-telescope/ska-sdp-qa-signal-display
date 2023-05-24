@@ -4,26 +4,21 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Grid } from "@mui/material";
 import SignalCard  from '../signalCard/SignalCard';
-import D3LineChart from '../d3/lineChart/D3LineChart';
+import LineChart from '../d3/lineChart/LineChart';
 
-import { MessageTopic } from '../../models/message-topic';
 import { storageObject } from '../../services/stateStorage';
-import { decodeJson } from '../../utils/decoder';
-import LocalData from '../../mockData/webSocket/phase.json';
 
-import { DATA_LOCAL, PROTOCOL, WS_API_URL } from '../../utils/constants';
-
-const MESSAGE_TOPIC = MessageTopic.AMP_FREQ;
-const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
+import { PROTOCOL } from '../../utils/constants';
 
 interface PolarizationProps {
   polarization: string;
   resize: number;
+  socketStatus: string; 
+  data: object;
 }
 
-const Polarization = ({ polarization, resize }: PolarizationProps) => {
+const Polarization = ({ polarization, resize, socketStatus, data }: PolarizationProps) => {
   const { t } = useTranslation();
-  const [socketStatus, setSocketStatus] = React.useState('unknown');
   const [showContent, setShowContent] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
@@ -54,14 +49,14 @@ const Polarization = ({ polarization, resize }: PolarizationProps) => {
   }
 
   const getChart = (id: string, amplitude: boolean) => {
-    return new D3LineChart(id, chartTitle(amplitude), xLabel(), yLabel(amplitude), darkMode);
+    return new LineChart(id, chartTitle(amplitude), xLabel(), yLabel(amplitude), darkMode);
   }
 
-  function getYData(data: any, polarisation: string, amplitude: boolean) {
+  function getYData(inData: any, polarisation: string, amplitude: boolean) {
     const arr = [];
-    for (let i = 0; i < data.length; i += 1) {
-      if (data[i].polarisation === polarisation) {
-        arr.push(amplitude ? data[i].amplitudes : data[i].phases);
+    for (let i = 0; i < inData.length; i += 1) {
+      if (inData[i].polarisation === polarisation) {
+        arr.push(amplitude ? inData[i].amplitudes : inData[i].phases);
       }
     }
     return arr;
@@ -85,52 +80,26 @@ const Polarization = ({ polarization, resize }: PolarizationProps) => {
     return chartData;
   }
 
-  const connectToWebSocket = React.useCallback(async () => {
-    const d3Chart0 = getChart(divId0hash, true);
-    const d3Chart1 = getChart(divId1hash, false);
-    const ws = new WebSocket(WS_API);
-
-    ws.onerror = function oneError(e) {
-      console.error('Polarization: ws onerror, error = ', e);
-    };
-
-    ws.onmessage = function onMessage(msg) {
-      const data = msg?.data;
-      try {
-        const decoded = decodeJson(data);
-        if (decoded && decoded.status) {
-          setSocketStatus(decoded.status);
-        } else {
-          window.requestAnimationFrame(() => d3Chart0?.draw(getChartData(decoded, true)));
-          window.requestAnimationFrame(() => d3Chart1?.draw(getChartData(decoded, false)));
-        }
-      } catch (e) {
-        /* eslint no-console: ["error", { allow: ["error"] }] */
-        console.error('Polarization: received, decoding error = ', e);
-      }
-    };
-
-    return () => {
-      ws.close();
-    };
-  }, []);
-
   React.useEffect(() => {
     setShowContent(true);
   }, []);
 
+  let d3Chart0 = null;
+  let d3Chart1 = null;
+
   React.useEffect(() => {
     if (showContent) {
-      if (DATA_LOCAL) {
-        const d3Chart0 = getChart(divId0hash, true);
-        const d3Chart1 = getChart(divId1hash, false);
-        window.requestAnimationFrame(() => d3Chart0?.draw(getChartData(LocalData, true)));
-        window.requestAnimationFrame(() => d3Chart1?.draw(getChartData(LocalData, false)));
-      } else {
-        connectToWebSocket();
-      }
+      d3Chart0 = getChart(divId0hash, true);
+      d3Chart1 = getChart(divId1hash, false);
     }
   }, [showContent]);
+
+  React.useEffect(() => {
+    if (showContent) {
+      window.requestAnimationFrame(() => d3Chart0?.draw(getChartData(data, true)));
+      window.requestAnimationFrame(() => d3Chart1?.draw(getChartData(data, false)));
+    }
+  }, [data]);
 
   React.useEffect(() => {
     if (!refresh) 

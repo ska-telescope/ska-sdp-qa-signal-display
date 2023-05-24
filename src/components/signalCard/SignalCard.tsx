@@ -33,6 +33,7 @@ const SignalCard = ({ actionTitle, children, socketStatus, subheader, title, sho
     const getSocketStatus = () => {
       switch (socketStatus) {
         case 'connected': return 0;
+        case 'local': return 9;     // This value suppresses the Status Component
         case 'unknown' : return 3;
         default : return 1;
       }

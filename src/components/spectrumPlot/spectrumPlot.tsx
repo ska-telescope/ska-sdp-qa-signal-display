@@ -2,7 +2,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import SignalCard  from '../signalCard/SignalCard';
-import D3LineChart from '../d3/lineChart/D3LineChart';
+import LineChart from '../d3/lineChart/LineChart';
 
 import { MessageTopic } from '../../models/message-topic';
 import { decodeJson } from '../../utils/decoder';
@@ -11,17 +11,16 @@ import LocalData from '../../mockData/webSocket/spectrum.json';
 
 import { DATA_LOCAL, PROTOCOL, WS_API_URL } from '../../utils/constants';
 
-const MESSAGE_TOPIC = MessageTopic.SPECTRUM;
-const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
-
 interface SpectrumPlotProps {
   resize: number;
+  socketStatus: string; 
+  data: object;
 }
 
-const SpectrumPlot = ({ resize }: SpectrumPlotProps) => {
+const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
   const { t } = useTranslation();
 
-  const [socketStatus, setSocketStatus] = React.useState('unknown');
+  const [oldSocketStatus, setOldSocketStatus] = React.useState('unknown');
   const [showContent, setShowContent] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
@@ -36,11 +35,11 @@ const SpectrumPlot = ({ resize }: SpectrumPlotProps) => {
   }
 
   const cardTitle = () => { 
-    return `${t('label.socket')}: ${  socketStatus  }, ${t('label.serialisation')}: ${  PROTOCOL}`;
+    return `${t('label.socket')}: ${  oldSocketStatus  }, ${t('label.serialisation')}: ${  PROTOCOL}`;
   }
 
   const getChart = (id: string) => {
-    return new D3LineChart(id, '', xLabel(), yLabel(), darkMode);
+    return new LineChart(id, '', xLabel(), yLabel(), darkMode);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -58,7 +57,7 @@ const SpectrumPlot = ({ resize }: SpectrumPlotProps) => {
 
   const connectToWebSocket = React.useCallback(async () => {
     const d3Chart = getChart('#sPlotId');
-    const ws = new WebSocket(WS_API);
+    const ws = new WebSocket(`${WS_API_URL}/${PROTOCOL}_${MessageTopic.SPECTRUM}`);
 
     ws.onerror = function oneError(e) {
       console.error('SpectrumPlot: ws onerror, error = ', e);
@@ -69,7 +68,7 @@ const SpectrumPlot = ({ resize }: SpectrumPlotProps) => {
       try {
         const decoded = decodeJson(data);
         if (decoded && decoded.status) {
-          setSocketStatus(decoded.status);
+          setOldSocketStatus(decoded.status);
         } else {
           window.requestAnimationFrame(() => d3Chart?.draw(getChartData(decoded)));
         }
@@ -123,7 +122,7 @@ const SpectrumPlot = ({ resize }: SpectrumPlotProps) => {
     <SignalCard
       title={t('label.spectrumPlot')}
       actionTitle={cardTitle()}
-      socketStatus={socketStatus}
+      socketStatus={oldSocketStatus}
       showContent={showContent}
       setShowContent={setShowContent}
     >

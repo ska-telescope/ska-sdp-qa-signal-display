@@ -6,18 +6,49 @@ import './container.css';
 import Spectrogram from '../spectrogram/spectrogram';
 import SpectrumPlot from '../spectrumPlot/spectrumPlot';
 import Statistics from '../statistics/statistics';
-// import AmpFreq from '../ampFreq/AmpFreq';
-// import PhaseFreq from '../phaseFreq/PhaseFreq';
 import Legend from '../legend/Legend';
 import Polarization from '../polarization/Polarization';
-// import BarChart from '../d3/barChart/BarChart';
-// import D3BarChart from '../d3/barChart/D3BarChart';
+import LocalData from '../../mockData/webSocket/phase.json';
+import { decodeJson } from '../../utils/decoder';
+import { DATA_LOCAL, PROTOCOL, WS_API_URL } from '../../utils/constants';
+import { MessageTopic } from '../../models/message-topic';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 // const clientSideEmotionCache = createEmotionCache();
 
 function Container() {
   const [resize, setRefresh] = React.useState(0);
+  const [socketStatus1, setSocketStatus1] = React.useState('unknown');
+  const [chartData1, setChartData1] = React.useState(null);
+
+  const connectToWebSocket1 = React.useCallback(async () => {
+    const ws = new WebSocket(`${WS_API_URL}/${PROTOCOL}_${MessageTopic.AMP_FREQ}`);
+
+    ws.onerror = function oneError(e) {
+      console.error('WebSocket: onerror, error = ', e);
+      setSocketStatus1('error');
+    };
+
+    ws.onmessage = function onMessage(msg) {
+      const inData = msg?.data;
+      try {
+        const decoded = decodeJson(inData);
+        if (decoded && decoded.status) {
+          setSocketStatus1(decoded.status);
+        } else {
+          setChartData1(decoded);
+        }
+      } catch (e) {
+        /* eslint no-console: ["error", { allow: ["error"] }] */
+        console.error('WebSocket: received, decoding error = ', e);
+        setSocketStatus1('error');
+      }
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, []);
 
   // We have a delay to reduce screen flicker
   function resizeIncrement()
@@ -26,56 +57,27 @@ function Container() {
   }
   window.onresize = resizeIncrement;
 
-  /*
-  const data = [
-    {year: 1980, efficiency: 24.3, sales: 8949000},
-    {year: 1985, efficiency: 27.6, sales: 10979000},
-    {year: 1990, efficiency: 28, sales: 9303000},
-    {year: 1991, efficiency: 28.4, sales: 8185000},
-    {year: 1992, efficiency: 27.9, sales: 8213000},
-    {year: 1993, efficiency: 28.4, sales: 8518000},
-    {year: 1994, efficiency: 28.3, sales: 8991000},
-    {year: 1995, efficiency: 28.6, sales: 8620000},
-    {year: 1996, efficiency: 28.5, sales: 8479000},
-    {year: 1997, efficiency: 28.7, sales: 8217000},
-    {year: 1998, efficiency: 28.8, sales: 8085000},
-    {year: 1999, efficiency: 28.3, sales: 8638000},
-    {year: 2000, efficiency: 28.5, sales: 8778000},
-    {year: 2001, efficiency: 28.8, sales: 8352000},
-    {year: 2002, efficiency: 29, sales: 8042000},
-    {year: 2003, efficiency: 29.5, sales: 7556000},
-    {year: 2004, efficiency: 29.5, sales: 7483000},
-    {year: 2005, efficiency: 30.3, sales: 7660000},
-    {year: 2006, efficiency: 30.1, sales: 7762000},
-    {year: 2007, efficiency: 31.2, sales: 7562000},
-    {year: 2008, efficiency: 31.5, sales: 6769000},
-    {year: 2009, efficiency: 32.9, sales: 5402000},
-    {year: 2010, efficiency: 33.9, sales: 5636000},
-    {year: 2011, efficiency: 33.1, sales: 6093000},
-    {year: 2012, efficiency: 35.3, sales: 7245000},
-    {year: 2013, efficiency: 36.4, sales: 7586000},
-    {year: 2014, efficiency: 36.5, sales: 7708000},
-    {year: 2015, efficiency: 37.2, sales: 7517000},
-    {year: 2016, efficiency: 37.7, sales: 6873000},
-    {year: 2017, efficiency: 39.4, sales: 6081000}
-  ]
-  */
+  React.useEffect(() => {
+    if (DATA_LOCAL) {
+      setSocketStatus1('local');
+      setChartData1(LocalData);
+    } 
+    else
+    {
+      connectToWebSocket1();
+    } 
+  }, []);
 
   return (
     <>
       <Statistics />
-      <SpectrumPlot resize={resize} />
-      <Legend resize={resize} />
-      {/* <BarChart id="barChartId" data={data} /> */}
-      {/* TODO : Retained for future work   <D3BarChart data={[5,10,1,3]} size={[500,500]} />  */}
-      <Polarization polarization='XX' resize={resize} />
-      <Polarization polarization='XY' resize={resize} />
-      <Polarization polarization='YX' resize={resize} />
-      <Polarization polarization='YY' resize={resize} />
-      {/* Suppressed whilst charts to display is confirmed
-        <AmpFreq resize={resize} />
-        <PhaseFreq resize={resize} />
-      */}
+      {/* TODO : Change the following to access the correct data */}
+      <SpectrumPlot resize={resize} socketStatus={socketStatus1} data={chartData1} />
+      <Legend resize={resize} socketStatus={socketStatus1} data={chartData1} />
+      <Polarization polarization='XX' resize={resize} socketStatus={socketStatus1} data={chartData1} />
+      <Polarization polarization='XY' resize={resize} socketStatus={socketStatus1} data={chartData1} />
+      <Polarization polarization='YX' resize={resize} socketStatus={socketStatus1} data={chartData1} />
+      <Polarization polarization='YY' resize={resize} socketStatus={socketStatus1} data={chartData1} />
       <Spectrogram />
       {/* Suppressed for now <Rfi />   */}
     </>
