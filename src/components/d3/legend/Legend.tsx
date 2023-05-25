@@ -16,6 +16,8 @@ class D3Legend {
 
   xCount: number;
 
+  xOffset:number;
+
   yOffset:number;
 
   constructor(selector: string) {
@@ -61,18 +63,22 @@ class D3Legend {
       "#E00000", "#00E000", "#0000E0", "#E0E000", "#E000E0", "#00E0E0", "#E0E0E0"
     ];
 
-    const elementWidth = (xStart + size + xGap) + (size + offset + textWidth);
-    this.yOffset = 0;
-    let testLength = elementWidth * occ;
-    while (testLength > this.usedWidth) {
-      this.yOffset++;
-      testLength -= this.usedWidth;
-    }
-    if ( this.yOffset < 1 )
-      this.xCount++;
-    const xOffset = occ - ( this.yOffset * this.xCount );
+    const elementWidth = (xStart + size + xGap) + (size + offset + textWidth + xGap);
+    const numElements = Math.floor(this.usedWidth / elementWidth);
+    const textSpace = size + offset + textWidth + xGap;
 
-    let xPos = xStart + xOffset * (size + offset + textWidth);
+    this.xOffset = 0;
+    this.yOffset = 0;
+    for (let i = 0; i < occ; i++)
+    {
+      this.xOffset++;
+      if (this.xOffset > numElements) {
+        this.yOffset++;
+        this.xOffset = 0;
+      }
+    }
+
+    let xPos = xStart + this.xOffset * textSpace;
     let yPos = yStart + this.yOffset * (size + offset);
 
     this.svg
@@ -83,7 +89,7 @@ class D3Legend {
         .attr("height", size)
         .style("fill", color[occ]);
 
-    xPos = (xStart + size + xGap) + xOffset * (size + offset + textWidth);
+    xPos = (xStart + size + xGap) + this.xOffset * textSpace;
     yPos = yStart + this.yOffset * (size + offset) + (size / 2);
 
     this.svg

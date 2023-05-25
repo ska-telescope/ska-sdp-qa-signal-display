@@ -7,7 +7,7 @@ const RATIO = 3;
 
 class LineChart {
 
-  margin = { top: 50, right: 0, bottom: 50, left: 50 };
+  margin = { top: 50, right: 0, bottom: 50, left: 70 };
 
   svg;
 

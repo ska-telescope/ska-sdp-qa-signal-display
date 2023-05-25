@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 // Import all the css files created for d3 charts
 import './container.css';
@@ -8,7 +9,8 @@ import SpectrumPlot from '../spectrumPlot/spectrumPlot';
 import Statistics from '../statistics/statistics';
 import Legend from '../legend/Legend';
 import Polarization from '../polarization/Polarization';
-import LocalData from '../../mockData/webSocket/phase.json';
+import PlotData from '../../mockData/webSocket/spectrum.json';
+import PhaseData from '../../mockData/webSocket/phase.json';
 import { decodeJson } from '../../utils/decoder';
 import { DATA_LOCAL, PROTOCOL, WS_API_URL } from '../../utils/constants';
 import { MessageTopic } from '../../models/message-topic';
@@ -19,11 +21,13 @@ import { MessageTopic } from '../../models/message-topic';
 function Container() {
   const [resize, setRefresh] = React.useState(0);
   const [socketStatus1, setSocketStatus1] = React.useState('unknown');
+  const [socketStatus2, setSocketStatus2] = React.useState('unknown');
   const [chartData1, setChartData1] = React.useState(null);
+  const [chartData2, setChartData2] = React.useState(null);
+  const [legendData, setLegendData] = React.useState(null);
 
   const connectToWebSocket1 = React.useCallback(async () => {
     const tmp = `${WS_API_URL}/${PROTOCOL}_${MessageTopic.PHASE_AMP}`;
-    console.error(tmp);
     const ws = new WebSocket(tmp);
 
     ws.onerror = function oneError(e) {
@@ -52,6 +56,36 @@ function Container() {
     };
   }, []);
 
+  const connectToWebSocket2 = React.useCallback(async () => {
+    const tmp = `${WS_API_URL}/${PROTOCOL}_${MessageTopic.SPECTRUM}`;
+    const ws = new WebSocket(tmp);
+
+    ws.onerror = function oneError(e) {
+      console.error('WebSocket: onerror, error = ', e);
+      setSocketStatus2('error');
+    };
+
+    ws.onmessage = function onMessage(msg) {
+      const inData = msg?.data;
+      try {
+        const decoded = decodeJson(inData);
+        if (decoded && decoded.status) {
+          setSocketStatus2(decoded.status);
+        } else {
+          setChartData2(decoded);
+        }
+      } catch (e) {
+        /* eslint no-console: ["error", { allow: ["error"] }] */
+        console.error('WebSocket: received, decoding error = ', e);
+        setSocketStatus2('error');
+      }
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, []);
+
   // We have a delay to reduce screen flicker
   function resizeIncrement()
   {
@@ -60,13 +94,36 @@ function Container() {
   window.onresize = resizeIncrement;
 
   React.useEffect(() => {
+
+    function getBData(inData: any) {
+      const arr = [];
+      for (let i = 0; i < inData.length; i += 1) {
+        arr.push(inData[i].baseline);
+      }
+      return arr;
+    }
+    function getLegendData(usedData: any) {
+      const values = getBData(usedData?.data);
+      const elements = values.filter((value, index, array) => array.indexOf(value) === index);
+      return elements;
+    }
+
+    if (!legendData && chartData1) {
+      setLegendData(getLegendData(chartData1));
+    }
+  }, [chartData1]);
+
+  React.useEffect(() => {
     if (DATA_LOCAL) {
       setSocketStatus1('local');
-      setChartData1(LocalData);
+      setChartData1(PhaseData);
+      setSocketStatus2('local');
+      setChartData2(PlotData);
     } 
     else
     {
       connectToWebSocket1();
+      connectToWebSocket2();
     } 
   }, []);
 
@@ -74,8 +131,8 @@ function Container() {
     <>
       <Statistics />
       {/* TODO : Change the following to access the correct data */}
-      <SpectrumPlot resize={resize} socketStatus={socketStatus1} data={chartData1} />
-      <Legend resize={resize} socketStatus={socketStatus1} data={chartData1} />
+      <SpectrumPlot resize={resize} socketStatus={socketStatus2} data={chartData2} />
+      <Legend resize={resize} socketStatus={socketStatus1} data={legendData} />
       <Polarization polarization='XX' resize={resize} socketStatus={socketStatus1} data={chartData1} />
       <Polarization polarization='XY' resize={resize} socketStatus={socketStatus1} data={chartData1} />
       <Polarization polarization='YX' resize={resize} socketStatus={socketStatus1} data={chartData1} />

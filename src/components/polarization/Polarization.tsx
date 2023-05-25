@@ -5,9 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Grid } from "@mui/material";
 import SignalCard  from '../signalCard/SignalCard';
 import LineChart from '../d3/lineChart/LineChart';
-
 import { storageObject } from '../../services/stateStorage';
-
 import { PROTOCOL } from '../../utils/constants';
 
 interface PolarizationProps {
@@ -19,6 +17,7 @@ interface PolarizationProps {
 
 const Polarization = ({ polarization, resize, socketStatus, data }: PolarizationProps) => {
   const { t } = useTranslation();
+
   const [showContent, setShowContent] = React.useState(false);
   const [d3Chart0, setD3Chart0] = React.useState(null);
   const [d3Chart1, setD3Chart1] = React.useState(null);
@@ -26,9 +25,6 @@ const Polarization = ({ polarization, resize, socketStatus, data }: Polarization
   const { darkMode } = storageObject.useStore();
   const divId0 = `polar0${  polarization  }Svg`;
   const divId1 = `polar1${  polarization  }Svg`;
-  const divId0hash = `#polar0${  polarization  }Svg`;
-  const divId1hash = `#polar1${  polarization  }Svg`;
-
   const polar0Ref = React.useRef(null);
   const polar1Ref = React.useRef(null);
 
@@ -37,9 +33,7 @@ const Polarization = ({ polarization, resize, socketStatus, data }: Polarization
   }
 
   const yLabel = (amplitude: boolean) => {
-    if (amplitude)
-      return `${t('label.amplitude')}`;
-    return `${t('label.phase')}`;
+    return `${t((amplitude) ? 'label.amplitude' : 'label.phase')}`;
   }
 
   const cardTitle = () => {
@@ -55,7 +49,6 @@ const Polarization = ({ polarization, resize, socketStatus, data }: Polarization
   }
 
   function getYData(inData: any, polarisation: string, amplitude: boolean) {
-    console.log(inData);
     const arr = [];
     for (let i = 0; i < inData.length; i += 1) {
       if (inData[i].polarisation === polarisation) {
@@ -66,18 +59,19 @@ const Polarization = ({ polarization, resize, socketStatus, data }: Polarization
   }
 
   function getChartData(usedData: any, amplitude: boolean) {
-    const yData = getYData(usedData.complex_numbers, polarization, amplitude);
+    const xData = usedData.channels;
+    const yData = getYData(usedData.data, polarization, amplitude);
     const yValues = [];
     for (let i = 0; i < yData.length; i++) {
       yValues.push(Math.min(...yData[i]));
       yValues.push(Math.max(...yData[i]));
     }
     const chartData = {
-      x_min: Math.min(...usedData.channels),
-      x_max: Math.max(...usedData.channels),
+      x_min: Math.min(...xData),
+      x_max: Math.max(...xData),
       y_min: Math.min(...yValues),
-      y_max: Math.round(Math.max(...yValues) + 1),
-      xData: usedData.channels,
+      y_max: Math.round(Math.max(...yValues)),
+      xData,
       yData
     }
     return chartData;
@@ -88,16 +82,16 @@ const Polarization = ({ polarization, resize, socketStatus, data }: Polarization
   }, []);
 
   React.useEffect(() => {
-    setD3Chart0(showContent ? getChart(divId0hash, true) : null);
-    setD3Chart1(showContent ? getChart(divId1hash, false) : null);
+    setD3Chart0(showContent ? getChart(`#${divId0}`, true) : null);
+    setD3Chart1(showContent ? getChart(`#${divId1}`, false) : null);
   }, [showContent]);
 
   React.useEffect(() => {
-    if (showContent) {
+    if (showContent && d3Chart0 && d3Chart1) {
       window.requestAnimationFrame(() => d3Chart0.draw(getChartData(data, true)));
       window.requestAnimationFrame(() => d3Chart1.draw(getChartData(data, false)));
     }
-  }, [data]);
+  }, [data, d3Chart0, d3Chart1]);
 
   React.useEffect(() => {
     if (!refresh) 

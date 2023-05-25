@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Grid, Typography } from '@mui/material';
 import moment from 'moment';
+import mockProcessingBlockStatisticsData from '../../mockData/mock-processing-block-statistics-data';
+import mockStatisticsReceiverEventsData from '../../mockData/mock-statistics-receiver-events-data';
 import SignalCard from '../signalCard/SignalCard';
-import { DATA_API_URL } from '../../utils/constants';
+import { DATA_LOCAL, DATA_API_URL } from '../../utils/constants';
 
 const CONVERT = 1000;
 const WORKFLOW_STATISTICS_INTERVAL_SECONDS =
@@ -19,9 +21,8 @@ function epochToDateString(timeInMilliseconds: number) {
 const Statistics = () => {
   const { t } = useTranslation();
 
-  const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = useState(null);
-  const [receiverEventsData, setReceiverEventsData] = useState(null);
-  const [counter, setCounter] = useState(0);
+  const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = React.useState(null);
+  const [receiverEventsData, setReceiverEventsData] = React.useState(null);
 
   async function retrieveProcessingBlockStatisticsData() {
     await fetch(`${DATA_API_URL}/stats/processing_block/blocks/latest/statistics`)
@@ -43,13 +44,19 @@ const Statistics = () => {
       .catch(() => null);
   }
 
-  useEffect(() => {
-    if (counter === 0) {
+  React.useEffect(() => {
+    if (DATA_LOCAL) 
+    {
+      setProcessingBlockStatisticsData(mockProcessingBlockStatisticsData);
+      setReceiverEventsData(mockStatisticsReceiverEventsData);
+    } 
+    else
+    {
       retrieveProcessingBlockStatisticsData();
       retrieveReceiverEventData();
     }
-    setCounter(1);
-  });
+  }, []);
+
 
   return (
     <>

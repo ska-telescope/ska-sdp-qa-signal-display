@@ -1,15 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+
 import SignalCard  from '../signalCard/SignalCard';
 import LineChart from '../d3/lineChart/LineChart';
-
-import { MessageTopic } from '../../models/message-topic';
-import { decodeJson } from '../../utils/decoder';
 import { storageObject } from '../../services/stateStorage';
-import LocalData from '../../mockData/webSocket/spectrum.json';
-
-import { DATA_LOCAL, PROTOCOL, WS_API_URL } from '../../utils/constants';
+import { PROTOCOL } from '../../utils/constants';
 
 interface SpectrumPlotProps {
   resize: number;
@@ -17,13 +14,16 @@ interface SpectrumPlotProps {
   data: object;
 }
 
+
 const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
   const { t } = useTranslation();
 
-  const [oldSocketStatus, setOldSocketStatus] = React.useState('unknown');
   const [showContent, setShowContent] = React.useState(false);
+  const [d3Chart0, setD3Chart0] = React.useState(null);
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
+  const divId0 = "sPlotSvg";
+
   const sPlotRef = React.useRef(null);
 
   function xLabel() {
@@ -35,14 +35,17 @@ const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
   }
 
   const cardTitle = () => { 
-    return `${t('label.socket')}: ${  oldSocketStatus  }, ${t('label.serialisation')}: ${  PROTOCOL}`;
+    return `${t('label.socket')}: ${  socketStatus  }, ${t('label.serialisation')}: ${  PROTOCOL}`;
+  }
+
+  const chartTitle = () => {
+    return '';
   }
 
   const getChart = (id: string) => {
-    return new LineChart(id, '', xLabel(), yLabel(), darkMode);
+    return new LineChart(id, chartTitle(), xLabel(), yLabel(), darkMode);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function getChartData(usedData: any) {
     const chartData = {
       x_min: Math.min(...usedData.channels),
@@ -55,54 +58,19 @@ const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
     return chartData;
   }
 
-  const connectToWebSocket = React.useCallback(async () => {
-    const d3Chart = getChart('#sPlotId');
-    const ws = new WebSocket(`${WS_API_URL}/${PROTOCOL}_${MessageTopic.SPECTRUM}`);
-
-    ws.onerror = function oneError(e) {
-      console.error('SpectrumPlot: ws onerror, error = ', e);
-    };
-
-    ws.onmessage = function onMessage(msg) {
-      const inData = msg?.data;
-      try {
-        const decoded = decodeJson(inData);
-        if (decoded && decoded.status) {
-          setOldSocketStatus(decoded.status);
-        } else {
-          window.requestAnimationFrame(() => d3Chart?.draw(getChartData(decoded)));
-        }
-      } catch (e) {
-        /* eslint no-console: ["error", { allow: ["error"] }] */
-        console.error('spectrumPlot: received, decoding error = ', e);
-      }
-    };
-
-    return () => {
-      ws.close();
-    };
-  }, []);
-
   React.useEffect(() => {
     setShowContent(true);
   }, []);
 
   React.useEffect(() => {
-    if (showContent)
-    if (DATA_LOCAL) {
-      const d3Chart = getChart('#sPlotId');
-      window.requestAnimationFrame(() => d3Chart?.draw(getChartData(LocalData)));
-    } else {
-      connectToWebSocket();
-    }
+    setD3Chart0(showContent ? getChart(`#${divId0}`) : null);
   }, [showContent]);
 
-  React.useEffect(() => {
-    if (showContent) {
-      setShowContent(false);
-      setRefresh(true);
+  React.useEffect(() => {      
+    if (showContent && d3Chart0) {
+      window.requestAnimationFrame(() => d3Chart0.draw(getChartData(data)));
     }
-  }, [darkMode]);
+  }, [data, d3Chart0]);
 
   React.useEffect(() => {
     if (!refresh) 
@@ -118,15 +86,22 @@ const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
     }
   }, [resize]);
 
+  React.useEffect(() => {
+    if (showContent) {
+      setShowContent(false);
+      setRefresh(true);
+    }
+  }, [darkMode]);
+
   return (
     <SignalCard
       title={t('label.spectrumPlot')}
       actionTitle={cardTitle()}
-      socketStatus={oldSocketStatus}
+      socketStatus={socketStatus}
       showContent={showContent}
       setShowContent={setShowContent}
     >
-      <div id="sPlotId" data-testid="sPlotId" ref={sPlotRef} />
+      <div id={divId0} data-testid={divId0} ref={sPlotRef} />
     </SignalCard>
   );
 };

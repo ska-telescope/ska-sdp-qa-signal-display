@@ -3,7 +3,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import SignalCard  from '../signalCard/SignalCard';
-import D3Legend from '../d3/legend/D3Legend';
+import D3Legend from '../d3/legend/Legend';
 
 import { PROTOCOL } from '../../utils/constants';
 
@@ -28,20 +28,6 @@ const Legend = ({ resize, socketStatus, data }: LegendProps) => {
     return new D3Legend(id);
   }
 
-  function getBData(inData: any) {
-    const arr = [];
-    for (let i = 0; i < inData.length; i += 1) {
-      arr.push(inData[i].baseline);
-    }
-    return arr;
-  }
-
-  function getLegendData(usedData: any) {
-    const values = getBData(usedData?.complex_numbers);
-    const elements = values.filter((value, index, array) => array.indexOf(value) === index);
-    return elements;
-  }
-
   React.useEffect(() => {
     setD3Legend(showContent ? getLegend('#legendSvg') : null);
   }, [showContent]);
@@ -52,7 +38,7 @@ const Legend = ({ resize, socketStatus, data }: LegendProps) => {
 
   React.useEffect(() => {
     if (showContent) {
-      window.requestAnimationFrame(() => d3Legend?.draw(getLegendData(data)));
+      window.requestAnimationFrame(() => d3Legend?.draw(data));
     }
   }, [data]);
 
