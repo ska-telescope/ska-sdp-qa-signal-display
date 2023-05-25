@@ -1,5 +1,5 @@
 export enum MessageTopic {
-  AMP_FREQ = 'phase_and_amplitude_vs_frequency',
+  PHASE_AMP = 'phase_and_amplitude',
   SPECTRUM = 'spectrum',
   SPECTROGRAMS = 'spectrograms',
   SPECTROGRAM = 'spectrogram',

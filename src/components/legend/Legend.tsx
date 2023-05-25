@@ -10,11 +10,12 @@ import { PROTOCOL } from '../../utils/constants';
 interface LegendProps {
   resize: number;  
   socketStatus: string; 
-  data: object;
+  data: any;
 }
 
 const Legend = ({ resize, socketStatus, data }: LegendProps) => {
   const { t } = useTranslation();
+  const [d3Legend, setD3Legend] = React.useState(null);
   const [showContent, setShowContent] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
   const legendRef = React.useRef(null);
@@ -36,22 +37,18 @@ const Legend = ({ resize, socketStatus, data }: LegendProps) => {
   }
 
   function getLegendData(usedData: any) {
-    const values = getBData(usedData.data);
+    const values = getBData(usedData?.complex_numbers);
     const elements = values.filter((value, index, array) => array.indexOf(value) === index);
     return elements;
   }
 
   React.useEffect(() => {
-    setShowContent(true);
-  }, []);
-
-  let d3Legend = null;
+    setD3Legend(showContent ? getLegend('#legendSvg') : null);
+  }, [showContent]);
 
   React.useEffect(() => {
-    if (showContent) {
-      d3Legend = getLegend('#legendSvg');
-    }
-  }, [showContent]);
+    setShowContent(true);
+  }, []);
 
   React.useEffect(() => {
     if (showContent) {

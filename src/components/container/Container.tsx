@@ -22,7 +22,9 @@ function Container() {
   const [chartData1, setChartData1] = React.useState(null);
 
   const connectToWebSocket1 = React.useCallback(async () => {
-    const ws = new WebSocket(`${WS_API_URL}/${PROTOCOL}_${MessageTopic.AMP_FREQ}`);
+    const tmp = `${WS_API_URL}/${PROTOCOL}_${MessageTopic.PHASE_AMP}`;
+    console.error(tmp);
+    const ws = new WebSocket(tmp);
 
     ws.onerror = function oneError(e) {
       console.error('WebSocket: onerror, error = ', e);

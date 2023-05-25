@@ -20,6 +20,8 @@ interface PolarizationProps {
 const Polarization = ({ polarization, resize, socketStatus, data }: PolarizationProps) => {
   const { t } = useTranslation();
   const [showContent, setShowContent] = React.useState(false);
+  const [d3Chart0, setD3Chart0] = React.useState(null);
+  const [d3Chart1, setD3Chart1] = React.useState(null);
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
   const divId0 = `polar0${  polarization  }Svg`;
@@ -53,6 +55,7 @@ const Polarization = ({ polarization, resize, socketStatus, data }: Polarization
   }
 
   function getYData(inData: any, polarisation: string, amplitude: boolean) {
+    console.log(inData);
     const arr = [];
     for (let i = 0; i < inData.length; i += 1) {
       if (inData[i].polarisation === polarisation) {
@@ -63,7 +66,7 @@ const Polarization = ({ polarization, resize, socketStatus, data }: Polarization
   }
 
   function getChartData(usedData: any, amplitude: boolean) {
-    const yData = getYData(usedData.data, polarization, amplitude);
+    const yData = getYData(usedData.complex_numbers, polarization, amplitude);
     const yValues = [];
     for (let i = 0; i < yData.length; i++) {
       yValues.push(Math.min(...yData[i]));
@@ -84,20 +87,15 @@ const Polarization = ({ polarization, resize, socketStatus, data }: Polarization
     setShowContent(true);
   }, []);
 
-  let d3Chart0 = null;
-  let d3Chart1 = null;
-
   React.useEffect(() => {
-    if (showContent) {
-      d3Chart0 = getChart(divId0hash, true);
-      d3Chart1 = getChart(divId1hash, false);
-    }
+    setD3Chart0(showContent ? getChart(divId0hash, true) : null);
+    setD3Chart1(showContent ? getChart(divId1hash, false) : null);
   }, [showContent]);
 
   React.useEffect(() => {
     if (showContent) {
-      window.requestAnimationFrame(() => d3Chart0?.draw(getChartData(data, true)));
-      window.requestAnimationFrame(() => d3Chart1?.draw(getChartData(data, false)));
+      window.requestAnimationFrame(() => d3Chart0.draw(getChartData(data, true)));
+      window.requestAnimationFrame(() => d3Chart1.draw(getChartData(data, false)));
     }
   }, [data]);
 

@@ -64,9 +64,9 @@ const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
     };
 
     ws.onmessage = function onMessage(msg) {
-      const data = msg?.data;
+      const inData = msg?.data;
       try {
-        const decoded = decodeJson(data);
+        const decoded = decodeJson(inData);
         if (decoded && decoded.status) {
           setOldSocketStatus(decoded.status);
         } else {
