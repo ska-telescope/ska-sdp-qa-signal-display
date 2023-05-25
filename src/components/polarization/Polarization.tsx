@@ -73,11 +73,11 @@ const Polarization = ({ polarization, resize, socketStatus, data }: Polarization
       yValues.push(Math.max(...yData[i]));
     }
     const chartData = {
-      x_min: Math.min(...usedData.frequencies),
-      x_max: Math.max(...usedData.frequencies),
+      x_min: Math.min(...usedData.channels),
+      x_max: Math.max(...usedData.channels),
       y_min: Math.min(...yValues),
       y_max: Math.round(Math.max(...yValues) + 1),
-      xData: usedData.frequencies,
+      xData: usedData.channels,
       yData
     }
     return chartData;
