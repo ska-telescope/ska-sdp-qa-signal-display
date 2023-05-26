@@ -109,7 +109,6 @@ function Container() {
     }
 
     if (!legendData && chartData1) {
-      console.log("TREVOR GETS HERE");
       setLegendData(getLegendData(chartData1));
     }
   }, [chartData1]);
