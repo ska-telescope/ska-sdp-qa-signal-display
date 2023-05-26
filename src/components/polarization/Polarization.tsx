@@ -12,7 +12,7 @@ interface PolarizationProps {
   polarization: string;
   resize: number;
   socketStatus: string; 
-  data: object;
+  data: any;
 }
 
 const Polarization = ({ polarization, resize, socketStatus, data }: PolarizationProps) => {
@@ -86,7 +86,9 @@ const Polarization = ({ polarization, resize, socketStatus, data }: Polarization
   }
 
   React.useEffect(() => {
-    setShowContent(canShow());
+    if (data && data.data) {
+      setShowContent(canShow());
+    }
   }, [data]);
 
   React.useEffect(() => {

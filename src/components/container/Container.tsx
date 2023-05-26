@@ -103,13 +103,19 @@ function Container() {
       return arr;
     }
     function getLegendData(usedData: any) {
-      const values = getBData(usedData?.data);
+      const values = getBData(usedData.data);
       const elements = values.filter((value, index, array) => array.indexOf(value) === index);
       return elements;
     }
 
     if (!legendData && chartData1) {
-      setLegendData(getLegendData(chartData1));
+      if (chartData1 && chartData1.data) {
+        setLegendData(getLegendData(chartData1));
+      }
+      else {
+        console.error('WebSocket: received, unexpected content error');
+        setSocketStatus1(SOCKET_STATUS[1]);
+      }
     }
   }, [chartData1]);
 
