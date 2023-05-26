@@ -17,6 +17,7 @@ import { DATA_API_URL, PROTOCOL } from '../../utils/constants';
 const Spectrogram = () => {
   const { t } = useTranslation();
 
+  const [showContent, setShowContent] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [imageUrl, setImageUrl] = React.useState<string | null>(null);
   const [chartData, setChartData] = React.useState(null);
@@ -24,6 +25,13 @@ const Spectrogram = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const canShow = () => { 
+    return chartData !== null;
+  }
+
+  const showToggle = () => { 
+    setShowContent(showContent ? false : canShow());
+  }
 
   React.useEffect(() => {
     const abortController = new AbortController();
@@ -33,6 +41,7 @@ const Spectrogram = () => {
         })
         .then((response) => response.json())
         .then((data) => {
+          setShowContent(true);
           setChartData(data.baselines);
         })
         .catch(() => null);
@@ -90,6 +99,8 @@ const Spectrogram = () => {
         title={t('label.spectrograms')}
         actionTitle={cardTitle()}
         subheader={t('prompt.spectrograms')}
+        showContent={showContent}
+        setShowContent={showToggle}
       >
         <>
           <div id="spectogram-image-list-Id" data-testid="spectogram-image-list-Id">

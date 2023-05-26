@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Box, Card, CardContent, CardHeader, Grid, IconButton, Tooltip } from '@mui/material';
 import { Status } from '@ska-telescope/ska-gui-components';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { SOCKET_STATUS } from '../../utils/constants';
 
 const STATUS_SIZE = 20;
 export interface SignalCardProps {
@@ -12,30 +13,24 @@ export interface SignalCardProps {
     socketStatus?: string,
     subheader?: string;
     title: string;
-    showContent?: boolean, 
+    showContent: boolean, 
     // eslint-disable-next-line @typescript-eslint/ban-types
-    setShowContent?: Function
+    setShowContent: Function
   }
 
 const SignalCard = ({ actionTitle, children, socketStatus, subheader, title, showContent, setShowContent }: SignalCardProps) => {
   const { t } = useTranslation();
-  const [showLocalContent, setShowLocalContent] = React.useState(true);
-  const isProvided = setShowContent;
 
   const handleToggle = () => {
-      if (isProvided) {
-        setShowContent(!showContent);
-      } else {
-        setShowLocalContent(!showLocalContent);
-      }
+      setShowContent(!showContent);
     };
 
     const getSocketStatus = () => {
       switch (socketStatus) {
-        case 'connected': return 0;
-        case 'local': return 9;     // This value suppresses the Status Component
-        case 'unknown' : return 3;
-        default : return 1;
+        case SOCKET_STATUS[2]: return 0;
+        case SOCKET_STATUS[3]: return 9;      // This value suppresses the Status Component
+        case SOCKET_STATUS[0]: return 3;
+        default : return 1;                   // Everything else shown as an error
       }
     }
 
@@ -67,7 +62,7 @@ const SignalCard = ({ actionTitle, children, socketStatus, subheader, title, sho
                     onClick={handleToggle}
                     color="inherit"
                   >
-                    {(isProvided ? showContent : showLocalContent) ? <Visibility /> : <VisibilityOff />}
+                    {showContent ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </Tooltip>
               </Grid>
@@ -76,7 +71,7 @@ const SignalCard = ({ actionTitle, children, socketStatus, subheader, title, sho
           subheader={subheader} 
           title={title} 
         />
-        {(setShowContent ? showContent : showLocalContent) && (
+        {showContent && (
         <CardContent>
           {children}
         </CardContent>
@@ -90,9 +85,7 @@ SignalCard.defaultProps = {
     actionTitle: null,
     children: null,
     socketStatus: null,
-    subheader: null,
-    showContent: null, 
-    setShowContent: null
+    subheader: null
   };
 
 export default SignalCard;

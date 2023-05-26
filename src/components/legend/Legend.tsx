@@ -15,7 +15,6 @@ interface LegendProps {
 
 const Legend = ({ resize, socketStatus, data }: LegendProps) => {
   const { t } = useTranslation();
-  const [d3Legend, setD3Legend] = React.useState(null);
   const [showContent, setShowContent] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
   const legendRef = React.useRef(null);
@@ -24,27 +23,28 @@ const Legend = ({ resize, socketStatus, data }: LegendProps) => {
     return `${t('label.socket')}: ${  socketStatus  }, ${t('label.serialisation')}: ${  PROTOCOL}`;
   }
 
-  const getLegend = (id: string) => {
-    return new D3Legend(id);
+  const canShow = () => { 
+    return data !== null;
+  }
+
+  const showToggle = () => { 
+    setShowContent(showContent ? false : canShow());
   }
 
   React.useEffect(() => {
-    setD3Legend(showContent ? getLegend('#legendSvg') : null);
-  }, [showContent]);
-
-  React.useEffect(() => {
-    setShowContent(true);
-  }, []);
-
-  React.useEffect(() => {
-    if (showContent) {
-      window.requestAnimationFrame(() => d3Legend?.draw(data));
-    }
+    setShowContent(canShow());
   }, [data]);
 
   React.useEffect(() => {
+    if (showContent && data) {
+      const d3LegendLocal = new D3Legend('#legendSvg');
+      window.requestAnimationFrame(() => d3LegendLocal.draw(data));
+    }
+  }, [showContent]);
+
+  React.useEffect(() => {
     if (!refresh) 
-      setShowContent(true);
+      setShowContent(canShow());
     else
       setRefresh(false);
   }, [refresh]);
@@ -61,7 +61,7 @@ const Legend = ({ resize, socketStatus, data }: LegendProps) => {
       title={t('label.legend')}
       actionTitle={cardTitle()}
       showContent={showContent}
-      setShowContent={setShowContent}
+      setShowContent={showToggle}
     >
       <div id="legendSvg" data-testid="legendSvg" ref={legendRef} />
     </SignalCard>

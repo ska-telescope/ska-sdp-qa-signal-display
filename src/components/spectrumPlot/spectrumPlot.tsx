@@ -14,7 +14,6 @@ interface SpectrumPlotProps {
   data: object;
 }
 
-
 const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
   const { t } = useTranslation();
 
@@ -58,23 +57,31 @@ const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
     return chartData;
   }
 
+  const canShow = () => { 
+    return data !== null;
+  }
+
+  const showToggle = () => { 
+    setShowContent(showContent ? false : canShow());
+  }
+
   React.useEffect(() => {
-    setShowContent(true);
-  }, []);
+    setShowContent(canShow());
+  }, [data]);
 
   React.useEffect(() => {
     setD3Chart0(showContent ? getChart(`#${divId0}`) : null);
   }, [showContent]);
 
   React.useEffect(() => {      
-    if (showContent && d3Chart0) {
+    if (showContent && data && d3Chart0) {
       window.requestAnimationFrame(() => d3Chart0.draw(getChartData(data)));
     }
   }, [data, d3Chart0]);
 
   React.useEffect(() => {
     if (!refresh) 
-      setShowContent(true);
+      setShowContent(canShow());
     else
       setRefresh(false);
   }, [refresh]);
@@ -99,7 +106,7 @@ const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
       actionTitle={cardTitle()}
       socketStatus={socketStatus}
       showContent={showContent}
-      setShowContent={setShowContent}
+      setShowContent={showToggle}
     >
       <div id={divId0} data-testid={divId0} ref={sPlotRef} />
     </SignalCard>

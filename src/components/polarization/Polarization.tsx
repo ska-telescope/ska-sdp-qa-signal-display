@@ -77,9 +77,17 @@ const Polarization = ({ polarization, resize, socketStatus, data }: Polarization
     return chartData;
   }
 
+  const canShow = () => { 
+    return data !== null;
+  }
+
+  const showToggle = () => { 
+    setShowContent(showContent ? false : canShow());
+  }
+
   React.useEffect(() => {
-    setShowContent(true);
-  }, []);
+    setShowContent(canShow());
+  }, [data]);
 
   React.useEffect(() => {
     setD3Chart0(showContent ? getChart(`#${divId0}`, true) : null);
@@ -87,7 +95,7 @@ const Polarization = ({ polarization, resize, socketStatus, data }: Polarization
   }, [showContent]);
 
   React.useEffect(() => {
-    if (showContent && d3Chart0 && d3Chart1) {
+    if (showContent && data && d3Chart0 && d3Chart1) {
       window.requestAnimationFrame(() => d3Chart0.draw(getChartData(data, true)));
       window.requestAnimationFrame(() => d3Chart1.draw(getChartData(data, false)));
     }
@@ -95,7 +103,7 @@ const Polarization = ({ polarization, resize, socketStatus, data }: Polarization
 
   React.useEffect(() => {
     if (!refresh) 
-      setShowContent(true);
+      setShowContent(canShow());
     else
       setRefresh(false);
   }, [refresh]);
@@ -113,7 +121,7 @@ const Polarization = ({ polarization, resize, socketStatus, data }: Polarization
       actionTitle={cardTitle()}
       socketStatus={socketStatus}
       showContent={showContent}
-      setShowContent={setShowContent}
+      setShowContent={showToggle}
     >
       <Grid container direction="row" justifyContent="space-between">
         <Grid item md={6} xs={12}>
