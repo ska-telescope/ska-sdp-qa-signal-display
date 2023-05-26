@@ -5,9 +5,9 @@ const LABEL_FONT = '16px';
 const TITLE_FONT = '20px';
 const RATIO = 3;
 
-class D3LineChart {
+class LineChart {
 
-  margin = { top: 50, right: 0, bottom: 50, left: 50 };
+  margin = { top: 50, right: 0, bottom: 50, left: 70 };
 
   svg;
 
@@ -24,6 +24,8 @@ class D3LineChart {
   yLabel: string;
 
   darkMode: boolean;
+  
+  baseHeight: number;
 
   baseWidth: number;
 
@@ -39,31 +41,33 @@ class D3LineChart {
     this.yLabel = yLabel;
     this.darkMode = darkMode;
 
-    this.baseWidth = parseInt(d3.select(selector).style("width"), 10);
-    this.usedWidth = this.baseWidth + this.margin.left + this.margin.right;
-    this.usedHeight = (this.baseWidth / RATIO) + this.margin.top + this.margin.bottom;
-
     // append the svg object to the selector
     this.svg = d3
       .select(selector)
       .append('svg')
-      .attr("viewBox", `0 40 ${this.usedWidth} ${this.usedHeight}`)
       .attr('role', 'img')
       .append('g')
       .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
+
+    this.setDimensions();
+  }
+
+  public setDimensions() {
+    this.baseWidth = parseInt(d3.select(this.selector).style("width"), 10);
+    this.usedWidth = this.baseWidth + this.margin.left + this.margin.right;
+    this.baseHeight = (this.baseWidth / RATIO);
+    this.usedHeight = this.baseHeight + this.margin.top + this.margin.bottom;
+    
+    d3.select(this.selector)
+      .select('svg')
+      .attr("viewBox", `0 ${this.margin.top} ${this.usedWidth} ${this.usedHeight}`)
+      .attr('height', this.baseHeight + this.margin.bottom);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public draw(data: { x_min: any; x_max: any; y_min: any; y_max: any; xData: any; yData: any }) {
 
-    this.baseWidth = parseInt(d3.select(this.selector).style("width"), 10);
-    this.usedWidth = this.baseWidth + this.margin.left + this.margin.right;
-    this.usedHeight = (this.baseWidth / RATIO) + this.margin.top + this.margin.bottom;
-
-    d3.select(this.selector)
-      .select('svg')
-      .attr("viewBox", `0 40 ${this.usedWidth} ${this.usedHeight}`)
-      .attr('height', (this.baseWidth / RATIO) - this.margin.top + this.margin.bottom);
+    this.setDimensions();
 
     this.svg.selectAll('text').remove();
     this.svg.selectAll('.tick').remove();
@@ -96,23 +100,23 @@ class D3LineChart {
 
   // 55 Values  ( Blacked removed )
   private fillColorsLight = [ 
-      "#FF0000", "#00FF00", "#0000FF", "#800000", "#FF00FF", "#00FFFF", 
-      "#008000", "#000080", "#808000", "#800080", "#008080", "#808080", 
-      "#C00000", "#00C000", "#0000C0", "#C0C000", "#C000C0", "#00C0C0", "#C0C0C0", 
-      "#400000", "#004000", "#000040", "#404000", "#400040", "#004040", "#404040", 
-      "#200000", "#002000", "#000020", "#202000", "#200020", "#002020", "#202020", 
-      "#600000", "#006000", "#000060", "#606000", "#600060", "#006060", "#606060", 
-      "#A00000", "#00A000", "#0000A0", "#A0A000", "#A000A0", "#00A0A0", "#A0A0A0", 
-      "#E00000", "#00E000", "#0000E0", "#E0E000", "#E000E0", "#00E0E0", "#E0E0E0"
+    "#FF0000", "#00FF00", "#0000FF", "#FF00FF", "#00FFFF", "#008000", 
+    "#000080", "#808000", "#800080", "#008080", "#808080", "#C00000", 
+    "#00C000", "#0000C0", "#C0C000", "#C000C0", "#00C0C0", "#C0C0C0", 
+    "#004000", "#404000", "#004040", "#404040", "#200000", "#002000", 
+    "#000020", "#202000", "#200020", "#002020", "#202020", "#600000", 
+    "#006000", "#000060", "#606000", "#600060", "#006060", "#606060", 
+    "#A00000", "#00A000", "#0000A0", "#A0A000", "#A000A0", "#00A0A0", "#A0A0A0", 
+    "#E00000", "#00E000", "#0000E0", "#E0E000", "#E000E0", "#00E0E0", "#E0E0E0"
   ];
 
   private fillColorsDark = [ 
-    "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", 
-    "#008000", "#000080", "#808000", "#800080", "#008080", "#808080", 
-    "#C00000", "#00C000", "#0000C0", "#C0C000", "#C000C0", "#00C0C0", "#C0C0C0", 
-    "#400000", "#004000", "#000040", "#404000", "#400040", "#004040", "#404040", 
-    "#200000", "#002000", "#000020", "#202000", "#200020", "#002020", "#202020", 
-    "#600000", "#006000", "#000060", "#606000", "#600060", "#006060", "#606060", 
+    "#FF0000", "#00FF00", "#0000FF", "#FF00FF", "#00FFFF", "#008000", 
+    "#000080", "#808000", "#800080", "#008080", "#808080", "#C00000", 
+    "#00C000", "#0000C0", "#C0C000", "#C000C0", "#00C0C0", "#C0C0C0", 
+    "#004000", "#404000", "#004040", "#404040", "#200000", "#002000", 
+    "#000020", "#202000", "#200020", "#002020", "#202020", "#600000", 
+    "#006000", "#000060", "#606000", "#600060", "#006060", "#606060", 
     "#A00000", "#00A000", "#0000A0", "#A0A000", "#A000A0", "#00A0A0", "#A0A0A0", 
     "#E00000", "#00E000", "#0000E0", "#E0E000", "#E000E0", "#00E0E0", "#E0E0E0"
 ];
@@ -187,4 +191,4 @@ class D3LineChart {
   }
 }
 
-export default D3LineChart
+export default LineChart

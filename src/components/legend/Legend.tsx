@@ -3,24 +3,18 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import SignalCard  from '../signalCard/SignalCard';
-import D3Legend from '../d3/legend/D3Legend';
+import D3Legend from '../d3/legend/Legend';
 
-import { MessageTopic } from '../../models/message-topic';
-import { decodeJson } from '../../utils/decoder';
-import LocalData from '../../mockData/webSocket/phase.json';
-
-import { DATA_LOCAL, PROTOCOL, WS_API_URL } from '../../utils/constants';
-
-const MESSAGE_TOPIC = MessageTopic.AMP_FREQ;
-const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
+import { PROTOCOL } from '../../utils/constants';
 
 interface LegendProps {
-  resize: number;
+  resize: number;  
+  socketStatus: string; 
+  data: any;
 }
 
-const Legend = ({ resize }: LegendProps) => {
+const Legend = ({ resize, socketStatus, data }: LegendProps) => {
   const { t } = useTranslation();
-  const [socketStatus, setSocketStatus] = React.useState('unknown');
   const [showContent, setShowContent] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
   const legendRef = React.useRef(null);
@@ -29,69 +23,28 @@ const Legend = ({ resize }: LegendProps) => {
     return `${t('label.socket')}: ${  socketStatus  }, ${t('label.serialisation')}: ${  PROTOCOL}`;
   }
 
-  const getLegend = (id: string) => {
-    return new D3Legend(id);
+  const canShow = () => { 
+    return data !== null;
   }
 
-  function getBData(data: any) {
-    const arr = [];
-    for (let i = 0; i < data.length; i += 1) {
-      arr.push(data[i].baseline);
+  const showToggle = () => { 
+    setShowContent(showContent ? false : canShow());
+  }
+
+  React.useEffect(() => {
+    setShowContent(canShow());
+  }, [data]);
+
+  React.useEffect(() => {
+    if (showContent && data) {
+      const d3LegendLocal = new D3Legend('#legendSvg');
+      window.requestAnimationFrame(() => d3LegendLocal.draw(data));
     }
-    return arr;
-  }
-
-  function getLegendData(usedData: any) {
-    const values = getBData(usedData.data);
-    const elements = values.filter((value, index, array) => array.indexOf(value) === index);
-    return elements;
-  }
-
-  const connectToWebSocket = React.useCallback(async () => {
-    const d3Legend = getLegend('#legendSvg');
-    const ws = new WebSocket(WS_API);
-
-    ws.onerror = function oneError(e) {
-      console.error('Legend: ws onerror, error = ', e);
-    };
-
-    ws.onmessage = function onMessage(msg) {
-      const data = msg?.data;
-      try {
-        const decoded = decodeJson(data);
-        if (decoded && decoded.status) {
-          setSocketStatus(decoded.status);
-        } else {
-          window.requestAnimationFrame(() => d3Legend?.draw(getLegendData(decoded)));
-        }
-      } catch (e) {
-        /* eslint no-console: ["error", { allow: ["error"] }] */
-        console.error('Legend: received, decoding error = ', e);
-      }
-    };
-
-    return () => {
-      ws.close();
-    };
-  }, []);
-
-  React.useEffect(() => {
-    setShowContent(true);
-  }, []);
-
-  React.useEffect(() => {
-    if (showContent)
-      if (DATA_LOCAL) {
-        const d3Legend = getLegend('#legendSvg');
-        window.requestAnimationFrame(() => d3Legend?.draw(getLegendData(LocalData)));
-      } else {
-        connectToWebSocket();
-      }
   }, [showContent]);
 
   React.useEffect(() => {
     if (!refresh) 
-      setShowContent(true);
+      setShowContent(canShow());
     else
       setRefresh(false);
   }, [refresh]);
@@ -108,7 +61,7 @@ const Legend = ({ resize }: LegendProps) => {
       title={t('label.legend')}
       actionTitle={cardTitle()}
       showContent={showContent}
-      setShowContent={setShowContent}
+      setShowContent={showToggle}
     >
       <div id="legendSvg" data-testid="legendSvg" ref={legendRef} />
     </SignalCard>

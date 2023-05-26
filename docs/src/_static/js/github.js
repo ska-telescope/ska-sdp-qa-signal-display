@@ -5,7 +5,6 @@ jQuery(function(){
         list.empty();
         $.getJSON(github_v3_endpoint, function(data){
             $.each(data, function(key, val){
-               //console.log(val);
                if(val["description"])
                    description = val["description"];
                else
@@ -21,6 +20,5 @@ jQuery(function(){
             }); //end each
         }); //end getJSON
     }else{ //if list not found
-        //console.log("list not found")
     }
 });

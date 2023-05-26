@@ -4,34 +4,27 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Grid } from "@mui/material";
 import SignalCard  from '../signalCard/SignalCard';
-import D3LineChart from '../d3/lineChart/D3LineChart';
-
-import { MessageTopic } from '../../models/message-topic';
+import LineChart from '../d3/lineChart/LineChart';
 import { storageObject } from '../../services/stateStorage';
-import { decodeJson } from '../../utils/decoder';
-import LocalData from '../../mockData/webSocket/phase.json';
-
-import { DATA_LOCAL, PROTOCOL, WS_API_URL } from '../../utils/constants';
-
-const MESSAGE_TOPIC = MessageTopic.AMP_FREQ;
-const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
+import { PROTOCOL } from '../../utils/constants';
 
 interface PolarizationProps {
   polarization: string;
   resize: number;
+  socketStatus: string; 
+  data: any;
 }
 
-const Polarization = ({ polarization, resize }: PolarizationProps) => {
+const Polarization = ({ polarization, resize, socketStatus, data }: PolarizationProps) => {
   const { t } = useTranslation();
-  const [socketStatus, setSocketStatus] = React.useState('unknown');
+
   const [showContent, setShowContent] = React.useState(false);
+  const [d3Chart0, setD3Chart0] = React.useState(null);
+  const [d3Chart1, setD3Chart1] = React.useState(null);
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
   const divId0 = `polar0${  polarization  }Svg`;
   const divId1 = `polar1${  polarization  }Svg`;
-  const divId0hash = `#polar0${  polarization  }Svg`;
-  const divId1hash = `#polar1${  polarization  }Svg`;
-
   const polar0Ref = React.useRef(null);
   const polar1Ref = React.useRef(null);
 
@@ -40,9 +33,7 @@ const Polarization = ({ polarization, resize }: PolarizationProps) => {
   }
 
   const yLabel = (amplitude: boolean) => {
-    if (amplitude)
-      return `${t('label.amplitude')}`;
-    return `${t('label.phase')}`;
+    return `${t((amplitude) ? 'label.amplitude' : 'label.phase')}`;
   }
 
   const cardTitle = () => {
@@ -54,20 +45,21 @@ const Polarization = ({ polarization, resize }: PolarizationProps) => {
   }
 
   const getChart = (id: string, amplitude: boolean) => {
-    return new D3LineChart(id, chartTitle(amplitude), xLabel(), yLabel(amplitude), darkMode);
+    return new LineChart(id, chartTitle(amplitude), xLabel(), yLabel(amplitude), darkMode);
   }
 
-  function getYData(data: any, polarisation: string, amplitude: boolean) {
+  function getYData(inData: any, polarisation: string, amplitude: boolean) {
     const arr = [];
-    for (let i = 0; i < data.length; i += 1) {
-      if (data[i].polarisation === polarisation) {
-        arr.push(amplitude ? data[i].amplitudes : data[i].phases);
+    for (let i = 0; i < inData.length; i += 1) {
+      if (inData[i].polarisation === polarisation) {
+        arr.push(amplitude ? inData[i].amplitudes : inData[i].phases);
       }
     }
     return arr;
   }
 
   function getChartData(usedData: any, amplitude: boolean) {
+    const xData = usedData.channels;
     const yData = getYData(usedData.data, polarization, amplitude);
     const yValues = [];
     for (let i = 0; i < yData.length; i++) {
@@ -75,66 +67,45 @@ const Polarization = ({ polarization, resize }: PolarizationProps) => {
       yValues.push(Math.max(...yData[i]));
     }
     const chartData = {
-      x_min: Math.min(...usedData.channels),
-      x_max: Math.max(...usedData.channels),
+      x_min: Math.min(...xData),
+      x_max: Math.max(...xData),
       y_min: Math.min(...yValues),
-      y_max: Math.round(Math.max(...yValues) + 1),
-      xData: usedData.channels,
+      y_max: Math.round(Math.max(...yValues)),
+      xData,
       yData
     }
     return chartData;
   }
 
-  const connectToWebSocket = React.useCallback(async () => {
-    const d3Chart0 = getChart(divId0hash, true);
-    const d3Chart1 = getChart(divId1hash, false);
-    const ws = new WebSocket(WS_API);
+  const canShow = () => { 
+    return data !== null;
+  }
 
-    ws.onerror = function oneError(e) {
-      console.error('Polarization: ws onerror, error = ', e);
-    };
-
-    ws.onmessage = function onMessage(msg) {
-      const data = msg?.data;
-      try {
-        const decoded = decodeJson(data);
-        if (decoded && decoded.status) {
-          setSocketStatus(decoded.status);
-        } else {
-          window.requestAnimationFrame(() => d3Chart0?.draw(getChartData(decoded, true)));
-          window.requestAnimationFrame(() => d3Chart1?.draw(getChartData(decoded, false)));
-        }
-      } catch (e) {
-        /* eslint no-console: ["error", { allow: ["error"] }] */
-        console.error('Polarization: received, decoding error = ', e);
-      }
-    };
-
-    return () => {
-      ws.close();
-    };
-  }, []);
+  const showToggle = () => { 
+    setShowContent(showContent ? false : canShow());
+  }
 
   React.useEffect(() => {
-    setShowContent(true);
-  }, []);
-
-  React.useEffect(() => {
-    if (showContent) {
-      if (DATA_LOCAL) {
-        const d3Chart0 = getChart(divId0hash, true);
-        const d3Chart1 = getChart(divId1hash, false);
-        window.requestAnimationFrame(() => d3Chart0?.draw(getChartData(LocalData, true)));
-        window.requestAnimationFrame(() => d3Chart1?.draw(getChartData(LocalData, false)));
-      } else {
-        connectToWebSocket();
-      }
+    if (data && data.data) {
+      setShowContent(canShow());
     }
+  }, [data]);
+
+  React.useEffect(() => {
+    setD3Chart0(showContent ? getChart(`#${divId0}`, true) : null);
+    setD3Chart1(showContent ? getChart(`#${divId1}`, false) : null);
   }, [showContent]);
 
   React.useEffect(() => {
+    if (showContent && data && d3Chart0 && d3Chart1) {
+      window.requestAnimationFrame(() => d3Chart0.draw(getChartData(data, true)));
+      window.requestAnimationFrame(() => d3Chart1.draw(getChartData(data, false)));
+    }
+  }, [data, d3Chart0, d3Chart1]);
+
+  React.useEffect(() => {
     if (!refresh) 
-      setShowContent(true);
+      setShowContent(canShow());
     else
       setRefresh(false);
   }, [refresh]);
@@ -144,7 +115,7 @@ const Polarization = ({ polarization, resize }: PolarizationProps) => {
       setShowContent(false);
       setRefresh(true);
     }
-  }, [resize]);
+  }, [resize, darkMode]);
 
   return (
     <SignalCard
@@ -152,7 +123,7 @@ const Polarization = ({ polarization, resize }: PolarizationProps) => {
       actionTitle={cardTitle()}
       socketStatus={socketStatus}
       showContent={showContent}
-      setShowContent={setShowContent}
+      setShowContent={showToggle}
     >
       <Grid container direction="row" justifyContent="space-between">
         <Grid item md={6} xs={12}>

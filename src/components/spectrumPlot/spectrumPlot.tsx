@@ -1,30 +1,28 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+
 import SignalCard  from '../signalCard/SignalCard';
-import D3LineChart from '../d3/lineChart/D3LineChart';
-
-import { MessageTopic } from '../../models/message-topic';
-import { decodeJson } from '../../utils/decoder';
+import LineChart from '../d3/lineChart/LineChart';
 import { storageObject } from '../../services/stateStorage';
-import LocalData from '../../mockData/webSocket/spectrum.json';
-
-import { DATA_LOCAL, PROTOCOL, WS_API_URL } from '../../utils/constants';
-
-const MESSAGE_TOPIC = MessageTopic.SPECTRUM;
-const WS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}`;
+import { PROTOCOL } from '../../utils/constants';
 
 interface SpectrumPlotProps {
   resize: number;
+  socketStatus: string; 
+  data: object;
 }
 
-const SpectrumPlot = ({ resize }: SpectrumPlotProps) => {
+const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
   const { t } = useTranslation();
 
-  const [socketStatus, setSocketStatus] = React.useState('unknown');
   const [showContent, setShowContent] = React.useState(false);
+  const [d3Chart0, setD3Chart0] = React.useState(null);
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
+  const divId0 = "sPlotSvg";
+
   const sPlotRef = React.useRef(null);
 
   function xLabel() {
@@ -39,11 +37,14 @@ const SpectrumPlot = ({ resize }: SpectrumPlotProps) => {
     return `${t('label.socket')}: ${  socketStatus  }, ${t('label.serialisation')}: ${  PROTOCOL}`;
   }
 
-  const getChart = (id: string) => {
-    return new D3LineChart(id, '', xLabel(), yLabel(), darkMode);
+  const chartTitle = () => {
+    return '';
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const getChart = (id: string) => {
+    return new LineChart(id, chartTitle(), xLabel(), yLabel(), darkMode);
+  }
+
   function getChartData(usedData: any) {
     const chartData = {
       x_min: Math.min(...usedData.channels),
@@ -56,58 +57,31 @@ const SpectrumPlot = ({ resize }: SpectrumPlotProps) => {
     return chartData;
   }
 
-  const connectToWebSocket = React.useCallback(async () => {
-    const d3Chart = getChart('#sPlotId');
-    const ws = new WebSocket(WS_API);
+  const canShow = () => { 
+    return data !== null;
+  }
 
-    ws.onerror = function oneError(e) {
-      console.error('SpectrumPlot: ws onerror, error = ', e);
-    };
-
-    ws.onmessage = function onMessage(msg) {
-      const data = msg?.data;
-      try {
-        const decoded = decodeJson(data);
-        if (decoded && decoded.status) {
-          setSocketStatus(decoded.status);
-        } else {
-          window.requestAnimationFrame(() => d3Chart?.draw(getChartData(decoded)));
-        }
-      } catch (e) {
-        /* eslint no-console: ["error", { allow: ["error"] }] */
-        console.error('spectrumPlot: received, decoding error = ', e);
-      }
-    };
-
-    return () => {
-      ws.close();
-    };
-  }, []);
+  const showToggle = () => { 
+    setShowContent(showContent ? false : canShow());
+  }
 
   React.useEffect(() => {
-    setShowContent(true);
-  }, []);
+    setShowContent(canShow());
+  }, [data]);
 
   React.useEffect(() => {
-    if (showContent)
-    if (DATA_LOCAL) {
-      const d3Chart = getChart('#sPlotId');
-      window.requestAnimationFrame(() => d3Chart?.draw(getChartData(LocalData)));
-    } else {
-      connectToWebSocket();
-    }
+    setD3Chart0(showContent ? getChart(`#${divId0}`) : null);
   }, [showContent]);
 
-  React.useEffect(() => {
-    if (showContent) {
-      setShowContent(false);
-      setRefresh(true);
+  React.useEffect(() => {      
+    if (showContent && data && d3Chart0) {
+      window.requestAnimationFrame(() => d3Chart0.draw(getChartData(data)));
     }
-  }, [darkMode]);
+  }, [data, d3Chart0]);
 
   React.useEffect(() => {
     if (!refresh) 
-      setShowContent(true);
+      setShowContent(canShow());
     else
       setRefresh(false);
   }, [refresh]);
@@ -117,7 +91,7 @@ const SpectrumPlot = ({ resize }: SpectrumPlotProps) => {
       setShowContent(false);
       setRefresh(true);
     }
-  }, [resize]);
+  }, [resize, darkMode]);
 
   return (
     <SignalCard
@@ -125,9 +99,9 @@ const SpectrumPlot = ({ resize }: SpectrumPlotProps) => {
       actionTitle={cardTitle()}
       socketStatus={socketStatus}
       showContent={showContent}
-      setShowContent={setShowContent}
+      setShowContent={showToggle}
     >
-      <div id="sPlotId" data-testid="sPlotId" ref={sPlotRef} />
+      <div id={divId0} data-testid={divId0} ref={sPlotRef} />
     </SignalCard>
   );
 };
