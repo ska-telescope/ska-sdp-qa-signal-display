@@ -115,7 +115,7 @@ const Polarization = ({ polarization, resize, socketStatus, data }: Polarization
       setShowContent(false);
       setRefresh(true);
     }
-  }, [resize]);
+  }, [resize, darkMode]);
 
   return (
     <SignalCard

@@ -91,14 +91,7 @@ const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
       setShowContent(false);
       setRefresh(true);
     }
-  }, [resize]);
-
-  React.useEffect(() => {
-    if (showContent) {
-      setShowContent(false);
-      setRefresh(true);
-    }
-  }, [darkMode]);
+  }, [resize, darkMode]);
 
   return (
     <SignalCard
