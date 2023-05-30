@@ -1,7 +1,7 @@
 module.exports = {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  plugins: ["testing-library", "prettier"],
+  plugins: ["prettier"],
   settings: {
     "import/resolver": {
       "node": {

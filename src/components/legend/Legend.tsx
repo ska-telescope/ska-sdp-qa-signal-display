@@ -4,7 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import SignalCard  from '../signalCard/SignalCard';
 import D3Legend from '../d3/legend/Legend';
-
+import { storageObject } from '../../services/stateStorage';
 import { PROTOCOL } from '../../utils/constants';
 
 interface LegendProps {
@@ -17,6 +17,7 @@ const Legend = ({ resize, socketStatus, data }: LegendProps) => {
   const { t } = useTranslation();
   const [showContent, setShowContent] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
+  const { darkMode } = storageObject.useStore();
   const legendRef = React.useRef(null);
 
   const cardTitle = () => { 
@@ -37,7 +38,7 @@ const Legend = ({ resize, socketStatus, data }: LegendProps) => {
 
   React.useEffect(() => {
     if (showContent && data) {
-      const d3LegendLocal = new D3Legend('#legendSvg');
+      const d3LegendLocal = new D3Legend('#legendSvg', darkMode);
       window.requestAnimationFrame(() => d3LegendLocal.draw(data));
     }
   }, [showContent]);

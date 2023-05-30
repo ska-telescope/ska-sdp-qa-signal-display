@@ -102,9 +102,11 @@ function Container() {
       }
       return arr;
     }
+
     function getLegendData(usedData: any) {
       const values = getBData(usedData.data);
-      const elements = values.filter((value, index, array) => array.indexOf(value) === index);
+      const filtered = values.filter((value, index, array) => array.indexOf(value) === index);
+      const elements = filtered.map((e) => { return {'name': e, 'active': true} }); 
       return elements;
     }
 

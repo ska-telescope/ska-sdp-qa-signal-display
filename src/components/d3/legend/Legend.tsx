@@ -8,6 +8,8 @@ class D3Legend {
 
   selector: string;
 
+  darkMode: boolean;
+
   baseWidth: number;
 
   usedHeight: number;
@@ -20,9 +22,11 @@ class D3Legend {
 
   yOffset:number;
 
-  constructor(selector: string) {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  constructor(selector: string, darkMode: boolean) {
 
     this.selector = selector;
+    this.darkMode = darkMode;
 
     this.usedWidth = parseInt(d3.select(selector).style("width"), 10);
 
@@ -37,13 +41,17 @@ class D3Legend {
   public draw(elements: any) {
     let i = 0;
     this.xCount = 0;
-    elements.forEach((element: string) => this.drawElement(element, i++));
+    elements.forEach((element: { name: string, active: boolean }) => this.drawElement(element, i++));
     const height = (this.yOffset + 1) * 40;
     this.svg.attr("viewBox", `0 0 ${this.usedWidth} ${height}`);
   }
 
+  private fillColor() { 
+    return this.darkMode ? 'black' : 'white';
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private drawElement(element: string, occ: number) {
+  private drawElement(element: { name: string, active: boolean }, occ: number) {
 
     const size = 20;
     const offset = 5;
@@ -83,11 +91,13 @@ class D3Legend {
 
     this.svg
       .append("rect")
+        // eslint-disable-next-line no-alert
         .attr("x", xPos)
         .attr("y", yPos) 
         .attr("width", size)
         .attr("height", size)
-        .style("fill", color[occ]);
+        .attr("style", `outline: thin solid ${color[occ]};`) 
+        .style("fill", element.active ? color[occ] : this.fillColor());
 
     xPos = (xStart + size + xGap) + this.xOffset * textSpace;
     yPos = yStart + this.yOffset * (size + offset) + (size / 2);
@@ -97,7 +107,7 @@ class D3Legend {
         .attr("x", xPos)
         .attr("y", yPos)
         .style("fill", color[occ])
-        .text(element)
+        .text(element.name)
         .attr("text-anchor", "left")
         .style("alignment-baseline", "middle");
   }

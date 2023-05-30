@@ -31,7 +31,7 @@ module.exports = () => {
       rules: [
         {
           test: /\.s[ac]ss|\.css$/i,
-          use: ['style-loader', 'css-loader', 'sass-loader']
+          use: ['style-loader', 'css-loader']
         },
         {
           test: /\.(js|mjs|jsx|ts|tsx)$/,
@@ -81,36 +81,12 @@ module.exports = () => {
         },
         shared: {
           ...deps,
-          react: {
-            eager: true,
-            singleton: true,
-            requiredVersion: deps['react']
-          },
-          'react-dom': {
-            eager: true,
-            singleton: true,
-            requiredVersion: deps['react-dom']
-          },
-          'react-helmet': {
-            eager: true,
-            singleton: true,
-            requiredVersion: deps['react-helmet']
-          },
-          'prop-types': {
-            eager: true,
-            singleton: true,
-            requiredVersion: deps['prop-types']
-          },
-          '@emotion/react': {
-            eager: true,
-            singleton: true,
-            requiredVersion: deps['@emotion/react']
-          },
-          '@emotion/cache': {
-            eager: true,
-            singleton: true,
-            requiredVersion: deps['@emotion/cache']
-          },
+          react: { eager: true, singleton: true, requiredVersion: deps['react'] },
+          'react-dom': { eager: true, singleton: true, requiredVersion: deps['react-dom'] },
+          'react-helmet': { eager: true, singleton: true, requiredVersion: deps['react-helmet'] },
+          'prop-types': { eager: true, singleton: true, requiredVersion: deps['prop-types'] },
+          '@emotion/react': { eager: true, singleton: true, requiredVersion: deps['@emotion/react'] },
+          '@emotion/cache': { eager: true, singleton: true, requiredVersion: deps['@emotion/cache'] },
           '@mui/material': { singleton: true, requiredVersion: deps['@mui/material'], eager: true  },
           '@mui/icons-material': { singleton: true, requiredVersion: deps['@mui/icons-material'], eager: true  },
           // Redux
@@ -118,22 +94,12 @@ module.exports = () => {
           'redux': { singleton: true, requiredVersion: deps['redux'], eager: true },
           '@reduxjs/toolkit': { singleton: true, requiredVersion: deps['@reduxjs/toolkit'], eager: true },
           // SKAO components  
-          '@ska-telescope/ska-gui-components': {
-            requiredVersion: 'auto',
-            eager: true
-          },
-          '@emotion/styled': {
-            eager: true,
-            singleton: true,
-            requiredVersion: deps['@emotion/styled']
+          '@ska-telescope/ska-gui-components': { eager: true, singleton: true, requiredVersion: 'auto' },
+          '@emotion/styled': { eager: true, singleton: true,  requiredVersion: deps['@emotion/styled']
           },
           'd3': { eager: true,  singleton: true,  requiredVersion: deps['d3'] },
           'd3-scale': { eager: true, singleton: true, requiredVersion: deps['d3-scale'] },
-          moment: {
-            eager: true,
-            singleton: true,
-            requiredVersion: deps.moment
-          }
+          moment: { eager: true, singleton: true, requiredVersion: deps.moment }
         }
       }),
       new HtmlWebPackPlugin({

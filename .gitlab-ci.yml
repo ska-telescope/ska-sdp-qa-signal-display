@@ -39,34 +39,28 @@ code_lint:
     - yarn add eslint
     - yarn lint
 
+# run the cypress test coverage reports
 test_and_coverage:
+  image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
   stage: test
   tags:
     - k8srunner
-  cache: []
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
   before_script:
     - mkdir -p build/reports
-
-  coverage: /All\sfiles.*?\s+(\d+.\d+)/
+    - yarn install --immutable
+  script:
+    - yarn start &
+    - yarn test:e2e:headless
+    - yarn test:coverage:report:ci
+    - cp build/reports/cobertura-coverage.xml build/reports/code-coverage.xml
+    - yarn test:coverage:summary
   artifacts:
     paths:
       - build/
-  script:
-    - yarn install
-    - yarn add react-scripts
-    - yarn test:coverage
-    - mv build/coverage/clover.xml build/reports/code-coverage.xml
-
-# run the unit tests
-unit_tests:
-  stage: test
-  tags:
-    - k8srunner
-  cache: []
-  script:
-    - yarn install
-    - yarn add react-scripts
-    - yarn test
 
 list_dependencies:
   stage: test
