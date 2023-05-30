@@ -11,7 +11,7 @@ import Legend from '../legend/Legend';
 import Polarization from '../polarization/Polarization';
 import PlotData from '../../mockData/webSocket/spectrum.json';
 import PhaseData from '../../mockData/webSocket/phase.json';
-import { decodeJson } from '../../utils/decoder';
+import Socket from '../../services/webSocket/Socket';
 import { DATA_LOCAL, PROTOCOL, SOCKET_STATUS, WS_API_URL } from '../../utils/constants';
 import { MessageTopic } from '../../models/message-topic';
 
@@ -25,66 +25,6 @@ function Container() {
   const [chartData1, setChartData1] = React.useState(null);
   const [chartData2, setChartData2] = React.useState(null);
   const [legendData, setLegendData] = React.useState(null);
-
-  const connectToWebSocket1 = React.useCallback(async () => {
-    const tmp = `${WS_API_URL}/${PROTOCOL}_${MessageTopic.PHASE_AMP}`;
-    const ws = new WebSocket(tmp);
-
-    ws.onerror = function oneError(e) {
-      console.error('WebSocket: onerror, error = ', e);
-      setSocketStatus1(SOCKET_STATUS[1]);
-    };
-
-    ws.onmessage = function onMessage(msg) {
-      const inData = msg?.data;
-      try {
-        const decoded = decodeJson(inData);
-        if (decoded && decoded.status) {
-          setSocketStatus1(decoded.status);
-        } else {
-          setChartData1(decoded);
-        }
-      } catch (e) {
-        /* eslint no-console: ["error", { allow: ["error"] }] */
-        console.error('WebSocket: received, decoding error = ', e);
-        setSocketStatus1(SOCKET_STATUS[1]);
-      }
-    };
-
-    return () => {
-      ws.close();
-    };
-  }, []);
-
-  const connectToWebSocket2 = React.useCallback(async () => {
-    const tmp = `${WS_API_URL}/${PROTOCOL}_${MessageTopic.SPECTRUM}`;
-    const ws = new WebSocket(tmp);
-
-    ws.onerror = function oneError(e) {
-      console.error('WebSocket: onerror, error = ', e);
-      setSocketStatus2(SOCKET_STATUS[1]);
-    };
-
-    ws.onmessage = function onMessage(msg) {
-      const inData = msg?.data;
-      try {
-        const decoded = decodeJson(inData);
-        if (decoded && decoded.status) {
-          setSocketStatus2(decoded.status);
-        } else {
-          setChartData2(decoded);
-        }
-      } catch (e) {
-        /* eslint no-console: ["error", { allow: ["error"] }] */
-        console.error('WebSocket: received, decoding error = ', e);
-        setSocketStatus2(SOCKET_STATUS[1]);
-      }
-    };
-
-    return () => {
-      ws.close();
-    };
-  }, []);
 
   // We have a delay to reduce screen flicker
   function resizeIncrement()
@@ -115,6 +55,7 @@ function Container() {
         setLegendData(getLegendData(chartData1));
       }
       else {
+        // eslint-disable-next-line no-console
         console.error('WebSocket: received, unexpected content error');
         setSocketStatus1(SOCKET_STATUS[1]);
       }
@@ -130,8 +71,20 @@ function Container() {
     } 
     else
     {
-      connectToWebSocket1();
-      connectToWebSocket2();
+      Socket({ 
+        apiUrl: WS_API_URL, 
+        protocol: PROTOCOL, 
+        suffix: MessageTopic.PHASE_AMP, 
+        statusFunction: setSocketStatus1, 
+        dataFunction: setChartData1}
+      );
+      Socket({ 
+        apiUrl: WS_API_URL, 
+        protocol: PROTOCOL, 
+        suffix: MessageTopic.SPECTRUM, 
+        statusFunction: setSocketStatus2, 
+        dataFunction: setChartData2}
+      );
     } 
   }, []);
 
