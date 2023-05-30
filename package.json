@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "webpack --mode production",
-    "code-analysis": "./node_modules/.bin/eslint \"src/**\" --ignore-path .eslintignore -f junit -o linting.xml",
+    "code-analysis": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --ignore-path .eslintignore -f junit -o linting.xml",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "cypress:run:component": "cypress run --component",
