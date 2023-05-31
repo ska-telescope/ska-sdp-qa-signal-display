@@ -107,7 +107,7 @@ module.exports = () => {
         REACT_APP_WORKFLOW_INTERVAL_SECONDS: 60,
         REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS: 10,
         REACT_APP_DASHBOARD_URL_SUBDIRECTORY: '',
-        REACT_USE_LOCAL_DATA: false,  // Ensure set to false for production
+        REACT_USE_LOCAL_DATA: true,  // Ensure set to false for production
         SKIP_PREFLIGHT_CHECK: true
       })
     ]
