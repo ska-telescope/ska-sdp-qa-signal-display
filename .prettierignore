@@ -23,9 +23,11 @@
 /node_modules
 /.pnp
 .pnp.js
+.make
 
 # testing
 /coverage
+/cypress/downloads
 
 # production
 /build
@@ -50,6 +52,8 @@ __pycache__/
 # tests and coverage
 *.pytest_cache
 .coverage
+.nyc_output
+charts/*
 
 # database & logs
 *.db

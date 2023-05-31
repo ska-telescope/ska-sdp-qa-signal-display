@@ -1,7 +1,12 @@
 module.exports = {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  plugins: ["prettier"],
+  extends: ["airbnb",
+  "prettier",
+  "plugin:cypress/recommended",
+  "plugin:@typescript-eslint/eslint-recommended",
+  "plugin:@typescript-eslint/recommended"],
+  plugins: ["prettier", "cypress"],
   settings: {
     "import/resolver": {
       "node": {
@@ -9,10 +14,6 @@ module.exports = {
       }
     }
   },
-  extends: ["airbnb",
-    "prettier",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"],
   rules: {
     "@typescript-eslint/comma-dangle": 1,
     "class-methods-use-this": "off",
@@ -46,7 +47,6 @@ module.exports = {
     "consistent-return": 1,
     'jsx-a11y/click-events-have-key-events': 'off',
     'jsx-a11y/no-noninteractive-element-interactions' : 'off',
-    "consistent-return": 1,
     'react/jsx-filename-extension': [2, { 'extensions': ['.js', '.jsx', '.ts', '.tsx'] }],
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": ["error"],
@@ -57,7 +57,6 @@ module.exports = {
   "env": {
     "browser": true,
     "es6": true,
-    "jest": true,
     "node": true
   }
 }
