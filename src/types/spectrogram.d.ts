@@ -1,4 +1,4 @@
-import * as $protobuf from 'protobufjs';
+// import * as $protobuf from 'protobufjs';
 /** Properties of a Spectrogram. */
 export interface ISpectrogram {
   /** Spectrogram timestamp */

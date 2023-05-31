@@ -1,7 +1,6 @@
 const webpack = require('webpack')
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const deps = require('./package.json').dependencies;
 
@@ -31,7 +30,7 @@ module.exports = () => {
       rules: [
         {
           test: /\.s[ac]ss|\.css$/i,
-          use: ['style-loader', 'css-loader', 'sass-loader']
+          use: ['style-loader', 'css-loader']
         },
         {
           test: /\.(js|mjs|jsx|ts|tsx)$/,
@@ -80,64 +79,24 @@ module.exports = () => {
           './signalMetrics': './src/components/container/Container.tsx'
         },
         shared: {
-          ...deps,
-          react: {
-            eager: true,
-            singleton: true,
-            requiredVersion: deps['react']
-          },
-          'react-dom': {
-            eager: true,
-            singleton: true,
-            requiredVersion: deps['react-dom']
-          },
-          'react-helmet': {
-            eager: true,
-            singleton: true,
-            requiredVersion: deps['react-helmet']
-          },
-          'prop-types': {
-            eager: true,
-            singleton: true,
-            requiredVersion: deps['prop-types']
-          },
-          '@emotion/react': {
-            eager: true,
-            singleton: true,
-            requiredVersion: deps['@emotion/react']
-          },
-          '@emotion/cache': {
-            eager: true,
-            singleton: true,
-            requiredVersion: deps['@emotion/cache']
-          },
-          '@mui/material': { singleton: true, requiredVersion: deps['@mui/material'], eager: true  },
-          '@mui/icons-material': { singleton: true, requiredVersion: deps['@mui/icons-material'], eager: true  },
+          // ...deps,
+          react: { eager: true, singleton: true, requiredVersion: deps['react'] },
+          'react-dom': { eager: true, singleton: true, requiredVersion: deps['react-dom'] },
+          // Material-UI
+          '@mui/material': { eager: true, singleton: true,  requiredVersion: deps['@mui/material'] },
+          '@mui/icons-material': { eager: true, singleton: true, requiredVersion: deps['@mui/icons-material'] },
           // Redux
-          'react-redux': { singleton: true, requiredVersion: deps['react-redux'], eager: true },
-          'redux': { singleton: true, requiredVersion: deps['redux'], eager: true },
-          '@reduxjs/toolkit': { singleton: true, requiredVersion: deps['@reduxjs/toolkit'], eager: true },
+          'react-redux': { eager: true, singleton: true, requiredVersion: deps['react-redux'] },
+          'redux': { eager: true, singleton: true, requiredVersion: deps['redux'] },
+          '@reduxjs/toolkit': { eager: true, singleton: true, requiredVersion: deps['@reduxjs/toolkit'] },
           // SKAO components  
-          '@ska-telescope/ska-gui-components': {
-            requiredVersion: 'auto',
-            eager: true
-          },
-          '@emotion/styled': {
-            eager: true,
-            singleton: true,
-            requiredVersion: deps['@emotion/styled']
-          },
-          'd3': { eager: true,  singleton: true,  requiredVersion: deps['d3'] },
-          'd3-scale': { eager: true, singleton: true, requiredVersion: deps['d3-scale'] },
-          moment: {
-            eager: true,
-            singleton: true,
-            requiredVersion: deps.moment
-          }
+          '@ska-telescope/ska-gui-components': { eager: true, singleton: true, requiredVersion: deps['@ska-telescope/ska-gui-components'] },
+          // Other
+          'd3': { eager: true,  singleton: true },
+          moment: { eager: true, singleton: true }
         }
       }),
-      new HtmlWebPackPlugin({
-        inject: true,
+      new HtmlWebPackPlugin({     // Simplifies HTML creation
         template: './public/index.html'
       }),
       new webpack.EnvironmentPlugin({
@@ -150,21 +109,6 @@ module.exports = () => {
         REACT_APP_DASHBOARD_URL_SUBDIRECTORY: '',
         REACT_USE_LOCAL_DATA: false,  // Ensure set to false for production
         SKIP_PREFLIGHT_CHECK: true
-      }),
-      new webpack.DefinePlugin({
-        process: { env: {} }
-      }),
-      new CopyWebpackPlugin({
-        patterns: [
-          {
-            from: 'public',
-            globOptions: {
-              dot: true,
-              gitignore: true,
-              ignore: ["**/*.html"],
-            },
-          }
-        ]
       })
     ]
   };

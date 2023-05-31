@@ -1,5 +1,5 @@
-import * as $protobuf from 'protobufjs';
-import ISpectrogram from './spectrogram.d.ts';
+// import * as $protobuf from 'protobufjs';
+// import ISpectrogram from './spectrogram.d.ts';
 
 /** Properties of a Spectrograms. */
 export interface ISpectrograms {
