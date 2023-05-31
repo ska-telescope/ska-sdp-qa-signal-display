@@ -91,7 +91,6 @@ function Container() {
   return (
     <>
       <Statistics />
-      {/* TODO : Change the following to access the correct data */}
       <SpectrumPlot resize={resize} socketStatus={socketStatus2} data={chartData2} />
       <Legend resize={resize} socketStatus={socketStatus1} data={legendData} />
       <Polarization polarization='XX' resize={resize} socketStatus={socketStatus1} data={chartData1} />
