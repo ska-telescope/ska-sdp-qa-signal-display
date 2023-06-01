@@ -11,7 +11,7 @@ export const SOCKET_STATUS = [ 'unknown', 'error', 'connected', 'local'];
 
 // Used to determine the message type of incoming messages and the topic to which to subscribe
 export const PROTOCOL =
-  process.env.REACT_APP_MESSAGE_TYPE === Protocol.PROTOBUF ? Protocol.PROTOBUF : Protocol.JSON;
+  process.env.REACT_APP_MESSAGE_TYPE === 'protobuf' ? Protocol.PROTOBUF : Protocol.JSON;
 
 // Common URLs
 export const DATA_API_URL = process.env.REACT_APP_DATA_API_URL;
