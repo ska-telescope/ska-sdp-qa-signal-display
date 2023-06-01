@@ -47,14 +47,6 @@ module.exports = () => {
                   }]],
                 plugins: ['@babel/plugin-syntax-top-level-await'],
               },
-            },
-            {
-              loader: 'ts-loader',
-              options: {
-                compilerOptions: {
-                  "noEmit": false
-                }
-              }
             }
           ]
         },
@@ -103,11 +95,9 @@ module.exports = () => {
         REACT_APP_WS_API: 'ws://localhost:8002/consumer',
         REACT_APP_MESSAGE_TYPE: 'json',
         REACT_APP_DATA_API_URL: 'http://localhost:8002',
-        REACT_APP_WORKFLOW_INTERVAL_SECONDS: 60,
         REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS: 10,
         REACT_APP_DASHBOARD_URL_SUBDIRECTORY: '',
-        REACT_USE_LOCAL_DATA: true,  // Ensure set to false for production
-        SKIP_PREFLIGHT_CHECK: true
+        REACT_USE_LOCAL_DATA: false  // Ensure set to false for production
       })
     ]
   };
