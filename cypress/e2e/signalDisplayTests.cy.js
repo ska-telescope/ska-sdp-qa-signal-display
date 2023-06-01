@@ -9,6 +9,7 @@ context('Signal display', () => {
         cy.findByText("Statistics - Detailed").should("be.visible")
         cy.findByText("Statistics - Receiver").should("be.visible")
         cy.findByText("Spectrum Plot").should("be.visible")
+        cy.get("#sPlotSvg").should("be.visible")
         cy.findByText("Legend").should("be.visible")
         cy.findByText("Polarization XX").should("be.visible")
         cy.get("#polar0XXSvg").should("be.visible")
