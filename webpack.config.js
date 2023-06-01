@@ -48,6 +48,14 @@ module.exports = () => {
                 plugins: ['@babel/plugin-syntax-top-level-await'],
               },
             },
+            {
+              loader: 'ts-loader',
+              options: {
+                compilerOptions: {
+                  "noEmit": false
+                }
+              }
+            }
           ]
         },
         {
