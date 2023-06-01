@@ -7,6 +7,9 @@
 
 # testing
 /coverage
+/cypress/screenshots
+/cypress/videos
+/cypress/downloads
 
 # production
 /build
@@ -32,8 +35,6 @@ tsconfig.tsbuildinfo
 
 /.vs
 /.vscode
-/coverage
-/cypress/videos
 junit.xml
 linting.xml
 

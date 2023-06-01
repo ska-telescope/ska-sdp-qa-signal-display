@@ -102,12 +102,11 @@ module.exports = () => {
       new webpack.EnvironmentPlugin({
         REACT_APP_WS_API: 'ws://localhost:8002/consumer',
         REACT_APP_MESSAGE_TYPE: 'json',
-        REACT_APP_SWITCH_D3_IMAGE_CREATION_ON_OFF: 'off',
         REACT_APP_DATA_API_URL: 'http://localhost:8002',
         REACT_APP_WORKFLOW_INTERVAL_SECONDS: 60,
         REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS: 10,
         REACT_APP_DASHBOARD_URL_SUBDIRECTORY: '',
-        REACT_USE_LOCAL_DATA: false,  // Ensure set to false for production
+        REACT_USE_LOCAL_DATA: true,  // Ensure set to false for production
         SKIP_PREFLIGHT_CHECK: true
       })
     ]
