@@ -62,6 +62,7 @@ test_and_coverage:
   before_script:
     - mkdir -p build/reports
     - yarn install --immutable
+    - export REACT_USE_LOCAL_DATA=true
   script:
     - yarn start &
     - yarn test:e2e:headless
