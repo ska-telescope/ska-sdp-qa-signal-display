@@ -1,3 +1,4 @@
+/*
 import * as d3 from 'd3/dist/d3.min';
 
 // const FLAG_LEGENDS = ['TP', 'TN', 'FP', 'FN'];
@@ -65,3 +66,4 @@ export default class RfiQaPixel {
     svg.exit().transition().duration(300).attr('y', this.height).attr('height', 0).remove();
   }
 }
+*/

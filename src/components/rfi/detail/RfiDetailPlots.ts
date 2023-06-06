@@ -1,4 +1,4 @@
-import * as d3 from 'd3/dist/d3.min';
+/* import * as d3 from 'd3/dist/d3.min';
 
 const Y_OFFSET = 10;
 const LEGEND_DOT_RAD = 6;
@@ -211,3 +211,4 @@ class RfiDetailPlots {
 }
 
 export default RfiDetailPlots;
+*/

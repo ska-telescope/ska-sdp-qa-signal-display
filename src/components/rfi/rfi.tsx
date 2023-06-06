@@ -1,6 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import { useEffect, useState } from 'react';
 import { Box, Card, CardContent, CardHeader, Grid } from '@mui/material';
+import './container.css';
 
 import { MessageTopic } from 'src/models/message-topic';
 import { decodeJson } from 'src/utils/decoder';
@@ -26,7 +27,7 @@ const Rfi = () => {
     const rfiDetailsWs = new WebSocket(RFI_DETAILS_API);
     // DEBUG console.log(`RfiPage: connecting to RFI_SUMMARY_API = ${RFI_API}, RFI_DETAILS_API = ${RFI_DETAILS_API}`);
 
-    rfiWs.onmessage = (event) => {
+    rfiWs.onmessage = event => {
       const payload = decodeJson(event.data);
 
       if ('status' in payload) {
@@ -39,7 +40,7 @@ const Rfi = () => {
       }
     };
 
-    rfiDetailsWs.onmessage = (event) => {
+    rfiDetailsWs.onmessage = event => {
       const payload = decodeJson(event.data);
       // DEBUG console.log("Rfi:onMessage: rfiDetailsWs received payload = ", payload);
 

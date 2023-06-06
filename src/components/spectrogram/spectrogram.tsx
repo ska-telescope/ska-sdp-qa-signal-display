@@ -10,9 +10,8 @@ import {
   ImageListItemBar,
   Modal
 } from '@mui/material';
-import SignalCard  from '../signalCard/SignalCard';
+import SignalCard from '../SignalCard/SignalCard';
 import { DATA_API_URL, PROTOCOL } from '../../utils/constants';
-
 
 const Spectrogram = () => {
   const { t } = useTranslation();
@@ -25,22 +24,22 @@ const Spectrogram = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const canShow = () => { 
+  const canShow = () => {
     return chartData !== null;
-  }
+  };
 
-  const showToggle = () => { 
+  const showToggle = () => {
     setShowContent(showContent ? false : canShow());
-  }
+  };
 
   React.useEffect(() => {
     const abortController = new AbortController();
     async function retrieveChartData() {
       await fetch(`${DATA_API_URL}/stats/processing_block/blocks/latest/baselines`, {
-          signal: abortController.signal
-        })
-        .then((response) => response.json())
-        .then((data) => {
+        signal: abortController.signal
+      })
+        .then(response => response.json())
+        .then(data => {
           setShowContent(true);
           setChartData(data.baselines);
         })
@@ -49,19 +48,19 @@ const Spectrogram = () => {
     retrieveChartData();
     return () => {
       abortController.abort();
-    }
+    };
   }, []);
 
-  const cardTitle = () => { 
+  const cardTitle = () => {
     return `Serialisation: ${PROTOCOL}`;
-  }
+  };
 
   function getFullImageUrl(item: string) {
     const baselines = item.split(/[-_]+/);
     return `${DATA_API_URL}/spectograms/full_image/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
 
-  function getThumbnailImageUrl(item: string){
+  function getThumbnailImageUrl(item: string) {
     const baselines = item.split(/[-_]+/);
     return `${DATA_API_URL}/spectograms/thumbnail/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
@@ -74,7 +73,7 @@ const Spectrogram = () => {
   return (
     <>
       <Modal
-        data-testid='ClickedImage'
+        data-testid="ClickedImage"
         open={open}
         onClose={handleClose}
         style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
@@ -88,7 +87,7 @@ const Spectrogram = () => {
               alignItems="center"
               justifyContent="center"
             >
-              <Grid item xs='auto'>
+              <Grid item xs="auto">
                 <img src={imageUrl} loading="lazy" alt="" />
               </Grid>
             </Grid>
@@ -106,7 +105,7 @@ const Spectrogram = () => {
           <div id="spectogram-image-list-Id" data-testid="spectogram-image-list-Id">
             <ImageList sx={{ width: 1150 }} cols={3}>
               {chartData && chartData.length ? (
-                chartData.map((item) => (
+                chartData.map(item => (
                   <ImageListItem key={item}>
                     <img
                       src={getThumbnailImageUrl(item)}

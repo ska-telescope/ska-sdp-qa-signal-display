@@ -1,3 +1,4 @@
+import React from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { THEME_DARK } from '@ska-telescope/ska-gui-components';
@@ -8,11 +9,11 @@ import { Telescope, TELESCOPE_LOW } from '../redux-telescope/telescopeTypes';
 import { User } from '../redux-user/userTypes';
 
 const store = configureStore({
-    reducer: {
-        telescope: telescopeSliceReducer,
-        themeMode: themeSliceReducer,
-        user: userSliceReducer
-    }
+  reducer: {
+    telescope: telescopeSliceReducer,
+    themeMode: themeSliceReducer,
+    user: userSliceReducer
+  }
 });
 
 interface StoreProviderProps {
@@ -21,14 +22,16 @@ interface StoreProviderProps {
 }
 
 export function StoreProvider({ children }: StoreProviderProps) {
-  return <Provider store={store}>{children}</Provider>
+  return <Provider store={store}>{children}</Provider>;
 }
 
 export type RootState = ReturnType<typeof store.getState>;
 
 export const storageObject = {
   useStore() {
-    const telescope = useSelector((state: RootState) => state?.telescope?.telescope ? state.telescope.telescope : TELESCOPE_LOW);
+    const telescope = useSelector((state: RootState) =>
+      state?.telescope?.telescope ? state.telescope.telescope : TELESCOPE_LOW
+    );
     const themeMode = useSelector((state: RootState) => state.themeMode);
     const user = useSelector((state: RootState) => state.user?.user);
 
@@ -39,12 +42,12 @@ export const storageObject = {
       updateTelescope: (inValue: Telescope) => dispatch(telescopeSliceActions.change(inValue)),
       //
       themeMode,
-      darkMode, 
+      darkMode,
       toggleTheme: () => dispatch(themeSliceActions.toggle()),
       //
       user,
       clearUser: () => dispatch(userSliceActions.clear()),
       updateUser: (inValue: User) => dispatch(userSliceActions.update(inValue))
-    }
+    };
   }
-}
+};

@@ -4,7 +4,7 @@ import { CssBaseline, Grid, ThemeProvider, Typography } from '@mui/material';
 import { Header, Spacer, SPACER_VERTICAL } from '@ska-telescope/ska-gui-components';
 import { storageObject } from '../services/stateStorage';
 import theme from '../services/theme/theme';
-import Container from '../components/container/Container';
+import Container from '../components/Container/Container';
 
 export interface AppProps {
   user?: { username: string };
@@ -20,17 +20,17 @@ function App() {
   return (
     <ThemeProvider theme={theme(themeMode.mode)}>
       <CssBaseline enableColorScheme />
-      <React.Suspense fallback={t("isLoading")}>
+      <React.Suspense fallback={t('isLoading')}>
         <Header data-testid="skaHeader" themeToggle={toggleTheme}>
           <Grid item />
           <Grid item>
-            <Typography variant='h4'>{t("label.signalDisplay")}</Typography>
+            <Typography variant="h4">{t('label.signalDisplay')}</Typography>
           </Grid>
           <Grid item />
         </Header>
         <>
           <Spacer size={HEADER_HEIGHT} axis={SPACER_VERTICAL} />
-          <Container /> 
+          <Container />
         </>
       </React.Suspense>
     </ThemeProvider>

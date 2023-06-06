@@ -92,26 +92,35 @@ export default class SpectrogramPlotTable {
 
   drawTable() {
     // clear/remove existing table
-    d3.select(`#${this.divId}`).selectAll('table').remove();
+    d3.select(`#${this.divId}`)
+      .selectAll('table')
+      .remove();
 
-    this.table = d3.select(`#${this.divId}`).append('table').style('class', 'table');
+    this.table = d3
+      .select(`#${this.divId}`)
+      .append('table')
+      .style('class', 'table');
 
     const tableBody = this.table.append('tbody');
-    const rows = tableBody.selectAll('tr').data(this.cells).enter().append('tr');
+    const rows = tableBody
+      .selectAll('tr')
+      .data(this.cells)
+      .enter()
+      .append('tr');
 
     // we built the rows using the nested array - now each row has its own array.
     rows
       .selectAll('td')
       // each row has data associated; we get it and enter it for the cells.
-      .data((d) => {
+      .data(d => {
         return d;
       })
       .enter()
       .append('td')
-      .text((d) => {
+      .text(d => {
         return this.getName(d?.metadata);
       })
-      .on('click', (i) => {
+      .on('click', i => {
         if (i?.metadata?.idx !== undefined) {
           window.open(
             `${removeLastDirectoryPartOf(window.location.href)}/spectrogram/?idx=${
@@ -121,7 +130,7 @@ export default class SpectrogramPlotTable {
         }
       })
       .append('canvas')
-      .attr('id', (d) => {
+      .attr('id', d => {
         const id = this.getId(d?.metadata);
         if (id) return id;
         return null;

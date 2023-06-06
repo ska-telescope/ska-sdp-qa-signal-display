@@ -2,88 +2,77 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import Plot from 'react-plotly.js';
 
-import SignalCard  from '../signalCard/SignalCard';
-import LineChart from '../d3/lineChart/LineChart';
+import SignalCard from '../SignalCard/SignalCard';
 import { storageObject } from '../../services/stateStorage';
-import { PROTOCOL } from '../../utils/constants';
+import { COLOR, PROTOCOL } from '../../utils/constants';
 
 interface SpectrumPlotProps {
   resize: number;
-  socketStatus: string; 
+  socketStatus: string;
   data: object;
 }
+
+const RATIO = 2;
 
 const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
   const { t } = useTranslation();
 
+  const [chartData, setChartData] = React.useState(null);
   const [showContent, setShowContent] = React.useState(false);
-  const [d3Chart0, setD3Chart0] = React.useState(null);
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
-  const divId0 = "sPlotSvg";
 
-  const sPlotRef = React.useRef(null);
+  const cardTitle = () =>
+    `${t('label.socket')}: ${socketStatus}, ${t('label.serialisation')}: ${PROTOCOL}`;
+
+  const chartTitle = () => '';
 
   function xLabel() {
     return `${t('label.frequency')} (${t('units.frequency')})`;
   }
 
-  const yLabel = () => { 
-    return `${t('label.amplitude')}`;
-  }
+  const yLabel = () => `${t('label.amplitude')}`;
 
-  const cardTitle = () => { 
-    return `${t('label.socket')}: ${  socketStatus  }, ${t('label.serialisation')}: ${  PROTOCOL}`;
-  }
+  const canShow = () => data !== null;
 
-  const chartTitle = () => {
-    return '';
-  }
+  const showToggle = () => {
+    setShowContent(showContent ? false : canShow());
+  };
 
-  const getChart = (id: string) => {
-    return new LineChart(id, chartTitle(), xLabel(), yLabel(), darkMode);
+  function parentWidth() {
+    // TODO : Make this responsive
+    return 1400;
   }
 
   function getChartData(usedData: any) {
-    const chartData = {
-      x_min: Math.min(...usedData.channels),
-      x_max: Math.max(...usedData.channels),
-      y_min: Math.min(...usedData.power),
-      y_max: Math.round(Math.max(...usedData.power) + 1),
-      xData: usedData.channels,
-      yData: Array(usedData.power)
+    if (!usedData.channels) {
+      return [];
     }
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    const chartData = [
+      {
+        x: usedData.channels,
+        y: usedData.power,
+        marker: {
+          color: COLOR[0]
+        }
+      }
+    ];
     return chartData;
   }
 
-  const canShow = () => { 
-    return data !== null;
-  }
-
-  const showToggle = () => { 
-    setShowContent(showContent ? false : canShow());
-  }
-
   React.useEffect(() => {
+    if (data) {
+      setChartData(getChartData(data));
+    }
     setShowContent(canShow());
   }, [data]);
 
   React.useEffect(() => {
-    setD3Chart0(showContent ? getChart(`#${divId0}`) : null);
-  }, [showContent]);
-
-  React.useEffect(() => {      
-    if (showContent && data && d3Chart0) {
-      window.requestAnimationFrame(() => d3Chart0.draw(getChartData(data)));
-    }
-  }, [data, d3Chart0]);
-
-  React.useEffect(() => {
-    if (!refresh) 
-      setShowContent(canShow());
-    else
-      setRefresh(false);
+    if (!refresh) setShowContent(canShow());
+    else setRefresh(false);
   }, [refresh]);
 
   React.useEffect(() => {
@@ -91,17 +80,38 @@ const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
       setShowContent(false);
       setRefresh(true);
     }
-  }, [resize, darkMode]);
+  }, [resize]);
 
   return (
     <SignalCard
+      data-testid="signalCardId"
       title={t('label.spectrumPlot')}
       actionTitle={cardTitle()}
       socketStatus={socketStatus}
       showContent={showContent}
       setShowContent={showToggle}
     >
-      <div id={divId0} data-testid={divId0} ref={sPlotRef} />
+      <Plot
+        data={chartData}
+        layout={{
+          autosize: false,
+          title: chartTitle(),
+          plot_bgcolor: darkMode ? 'black' : 'white',
+          paper_bgcolor: darkMode ? 'black' : 'white',
+          width: parentWidth(),
+          height: parentWidth() / RATIO,
+          xaxis: {
+            title: xLabel(),
+            color: darkMode ? 'white' : 'black',
+            automargin: true
+          },
+          yaxis: {
+            title: yLabel(),
+            color: darkMode ? 'white' : 'black',
+            automargin: true
+          }
+        }}
+      />
     </SignalCard>
   );
 };

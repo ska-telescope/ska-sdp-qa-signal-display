@@ -2,112 +2,125 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Grid } from "@mui/material";
-import SignalCard  from '../signalCard/SignalCard';
-import LineChart from '../d3/lineChart/LineChart';
+import Plot from 'react-plotly.js';
+
+import { Grid } from '@mui/material';
+import SignalCard from '../SignalCard/SignalCard';
 import { storageObject } from '../../services/stateStorage';
-import { PROTOCOL } from '../../utils/constants';
+import { COLOR, PROTOCOL } from '../../utils/constants';
 
 interface PolarizationProps {
   polarization: string;
   resize: number;
-  socketStatus: string; 
+  socketStatus: string;
   data: any;
+  legend: any;
 }
 
-const Polarization = ({ polarization, resize, socketStatus, data }: PolarizationProps) => {
+const RATIO = 2;
+
+const Polarization = ({ polarization, resize, socketStatus, data, legend }: PolarizationProps) => {
   const { t } = useTranslation();
 
   const [showContent, setShowContent] = React.useState(false);
-  const [d3Chart0, setD3Chart0] = React.useState(null);
-  const [d3Chart1, setD3Chart1] = React.useState(null);
+  const [chartData1, setChartData1] = React.useState(null);
+  const [chartData2, setChartData2] = React.useState(null);
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
-  const divId0 = `polar0${  polarization  }Svg`;
-  const divId1 = `polar1${  polarization  }Svg`;
-  const polar0Ref = React.useRef(null);
-  const polar1Ref = React.useRef(null);
 
   const xLabel = () => {
     return `${t('label.frequency')} (${t('units.frequency')})`;
-  }
+  };
 
   const yLabel = (amplitude: boolean) => {
-    return `${t((amplitude) ? 'label.amplitude' : 'label.phase')}`;
-  }
+    return `${t(amplitude ? 'label.amplitude' : 'label.phase')}`;
+  };
 
   const cardTitle = () => {
-    return `${t('label.socket')}: ${  socketStatus  }, ${t('label.serialisation')}: ${  PROTOCOL}`;
-  }
+    return `${t('label.socket')}: ${socketStatus}, ${t('label.serialisation')}: ${PROTOCOL}`;
+  };
 
   const chartTitle = (amplitude: boolean) => {
-    return t((amplitude) ? 'label.amplitude' : 'label.phase');
-  }
+    return t(amplitude ? 'label.amplitude' : 'label.phase');
+  };
 
-  const getChart = (id: string, amplitude: boolean) => {
-    return new LineChart(id, chartTitle(amplitude), xLabel(), yLabel(amplitude), darkMode);
-  }
-
-  function getYData(inData: any, polarisation: string, amplitude: boolean) {
-    const arr = [];
+  function getBaseData(inData: any, polarisation: string, amplitude: boolean) {
+    const tmp = [];
     for (let i = 0; i < inData.length; i += 1) {
       if (inData[i].polarisation === polarisation) {
-        arr.push(amplitude ? inData[i].amplitudes : inData[i].phases);
+        tmp.push({
+          name: inData[i].baseline,
+          data: amplitude ? inData[i].amplitudes : inData[i].phases
+        });
       }
     }
+    if (!legend) {
+      return tmp;
+    }
+
+    const arr = [];
+    for (let i = 0; i < tmp.length; i += 1) {
+      if (tmp[i].name === legend[i].text && legend[i].active) {
+        arr.push(tmp[i]);
+      }
+    }
+
     return arr;
   }
 
-  function getChartData(usedData: any, amplitude: boolean) {
-    const xData = usedData.channels;
-    const yData = getYData(usedData.data, polarization, amplitude);
-    const yValues = [];
-    for (let i = 0; i < yData.length; i++) {
-      yValues.push(Math.min(...yData[i]));
-      yValues.push(Math.max(...yData[i]));
+  function parentWidth() {
+    return 600;
+  }
+
+  function getLegendColor(name: string) {
+    if (legend) {
+      for (let i = 0; i < legend.length; i++) {
+        if (legend[i].text === name) {
+          return legend[i].color;
+        }
+      }
     }
-    const chartData = {
-      x_min: Math.min(...xData),
-      x_max: Math.max(...xData),
-      y_min: Math.min(...yValues),
-      y_max: Math.round(Math.max(...yValues)),
-      xData,
-      yData
+    return COLOR[0]; // Only here for completeness.
+  }
+
+  function getChartData(usedData: any, amplitude: boolean) {
+    let chartData = [];
+    if (!usedData.channels) {
+      return chartData;
+    }
+    const baseData = getBaseData(usedData.data, polarization, amplitude);
+    for (let i = 0; i < baseData.length; i++) {
+      chartData.push({
+        x: usedData.channels,
+        y: baseData[i].data,
+        name: baseData[i].name,
+        marker: {
+          color: getLegendColor(baseData[i].name)
+        }
+      });
     }
     return chartData;
   }
 
-  const canShow = () => { 
+  const canShow = () => {
     return data !== null;
-  }
+  };
 
-  const showToggle = () => { 
+  const showToggle = () => {
     setShowContent(showContent ? false : canShow());
-  }
+  };
 
   React.useEffect(() => {
     if (data && data.data) {
-      setShowContent(canShow());
+      setChartData1(getChartData(data, true));
+      setChartData2(getChartData(data, false));
     }
-  }, [data]);
+    setShowContent(canShow());
+  }, [data, legend]);
 
   React.useEffect(() => {
-    setD3Chart0(showContent ? getChart(`#${divId0}`, true) : null);
-    setD3Chart1(showContent ? getChart(`#${divId1}`, false) : null);
-  }, [showContent]);
-
-  React.useEffect(() => {
-    if (showContent && data && d3Chart0 && d3Chart1) {
-      window.requestAnimationFrame(() => d3Chart0.draw(getChartData(data, true)));
-      window.requestAnimationFrame(() => d3Chart1.draw(getChartData(data, false)));
-    }
-  }, [data, d3Chart0, d3Chart1]);
-
-  React.useEffect(() => {
-    if (!refresh) 
-      setShowContent(canShow());
-    else
-      setRefresh(false);
+    if (!refresh) setShowContent(canShow());
+    else setRefresh(false);
   }, [refresh]);
 
   React.useEffect(() => {
@@ -115,11 +128,11 @@ const Polarization = ({ polarization, resize, socketStatus, data }: Polarization
       setShowContent(false);
       setRefresh(true);
     }
-  }, [resize, darkMode]);
+  }, [resize]);
 
   return (
     <SignalCard
-      title={`${t('label.polarization')  } ${  polarization}`}
+      title={`${t('label.polarization')} ${polarization}`}
       actionTitle={cardTitle()}
       socketStatus={socketStatus}
       showContent={showContent}
@@ -127,10 +140,50 @@ const Polarization = ({ polarization, resize, socketStatus, data }: Polarization
     >
       <Grid container direction="row" justifyContent="space-between">
         <Grid item md={6} xs={12}>
-          <div id={divId0} data-testid={divId0} ref={polar0Ref} />
+          <Plot
+            data={chartData1}
+            layout={{
+              autosize: false,
+              title: chartTitle(true),
+              plot_bgcolor: darkMode ? 'black' : 'white',
+              paper_bgcolor: darkMode ? 'black' : 'white',
+              width: parentWidth(),
+              height: parentWidth() / RATIO,
+              xaxis: {
+                title: xLabel(),
+                color: darkMode ? 'white' : 'black',
+                automargin: true
+              },
+              yaxis: {
+                title: yLabel(true),
+                color: darkMode ? 'white' : 'black',
+                automargin: true
+              }
+            }}
+          />
         </Grid>
         <Grid item md={6} xs={12}>
-          <div id={divId1} data-testid={divId1} ref={polar1Ref} />
+          <Plot
+            data={chartData2}
+            layout={{
+              autosize: false,
+              title: chartTitle(false),
+              plot_bgcolor: darkMode ? 'black' : 'white',
+              paper_bgcolor: darkMode ? 'black' : 'white',
+              width: parentWidth(),
+              height: parentWidth() / RATIO,
+              xaxis: {
+                title: xLabel(),
+                color: darkMode ? 'white' : 'black',
+                automargin: true
+              },
+              yaxis: {
+                title: yLabel(false),
+                color: darkMode ? 'white' : 'black',
+                automargin: true
+              }
+            }}
+          />
         </Grid>
       </Grid>
     </SignalCard>
