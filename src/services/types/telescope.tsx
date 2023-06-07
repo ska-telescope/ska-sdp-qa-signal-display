@@ -9,9 +9,8 @@ export type Telescope = {
   image: string;
 };
 
-
 export interface TelescopeState {
-    telescope: Telescope | null,
+  telescope: Telescope | null;
 }
 
 export const TELESCOPE_LOW = {
@@ -22,8 +21,7 @@ export const TELESCOPE_LOW = {
     lat: -27.685534514102958,
     lon: 117.08484475669175
   },
-  image:
-    'https://res.cloudinary.com/dmwc3xvv8/image/upload/v1612505143/ska_low_dzquiv.svg'
+  image: 'https://res.cloudinary.com/dmwc3xvv8/image/upload/v1612505143/ska_low_dzquiv.svg'
 };
 
 export const TELESCOPE_MID = {
@@ -34,8 +32,7 @@ export const TELESCOPE_MID = {
     lat: -30.722597428175952,
     lon: 21.89239803559566
   },
-  image:
-    'https://res.cloudinary.com/dmwc3xvv8/image/upload/v1612505475/ska_mid_mnvuil.svg'
+  image: 'https://res.cloudinary.com/dmwc3xvv8/image/upload/v1612505475/ska_mid_mnvuil.svg'
 };
 
 export type Tel = 'mid' | 'low';
@@ -57,7 +54,7 @@ export const lowPos: Position = {
   lon: 117.08484475669175
 };
 
-export const tel: Tel = null;
-export const telescope: Telescope = null;
+export let tel: Tel;
+export let telescope: Telescope;
 
 export const TelescopeList = [TELESCOPE_LOW, TELESCOPE_MID];

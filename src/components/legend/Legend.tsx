@@ -1,36 +1,35 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React from 'react';
+import { Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import SignalCard  from '../signalCard/SignalCard';
-import D3Legend from '../d3/legend/Legend';
-import { storageObject } from '../../services/stateStorage';
+import SignalCard from '../SignalCard/SignalCard';
 import { PROTOCOL } from '../../utils/constants';
+import { colorFlip } from '../../utils/colorFlip';
 
 interface LegendProps {
-  resize: number;  
-  socketStatus: string; 
+  resize: number;
+  socketStatus: string;
   data: any;
+  onClick: Function;
 }
 
-const Legend = ({ resize, socketStatus, data }: LegendProps) => {
+const Legend = ({ resize, socketStatus, data, onClick }: LegendProps) => {
   const { t } = useTranslation();
   const [showContent, setShowContent] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
-  const { darkMode } = storageObject.useStore();
-  const legendRef = React.useRef(null);
 
-  const cardTitle = () => { 
-    return `${t('label.socket')}: ${  socketStatus  }, ${t('label.serialisation')}: ${  PROTOCOL}`;
-  }
+  const cardTitle = () => {
+    return `${t('label.socket')}: ${socketStatus}, ${t('label.serialisation')}: ${PROTOCOL}`;
+  };
 
-  const canShow = () => { 
+  const canShow = () => {
     return data !== null;
-  }
+  };
 
-  const showToggle = () => { 
+  const showToggle = () => {
     setShowContent(showContent ? false : canShow());
-  }
+  };
 
   React.useEffect(() => {
     setShowContent(canShow());
@@ -38,16 +37,12 @@ const Legend = ({ resize, socketStatus, data }: LegendProps) => {
 
   React.useEffect(() => {
     if (showContent && data) {
-      const d3LegendLocal = new D3Legend('#legendSvg', darkMode);
-      window.requestAnimationFrame(() => d3LegendLocal.draw(data));
     }
   }, [showContent]);
 
   React.useEffect(() => {
-    if (!refresh) 
-      setShowContent(canShow());
-    else
-      setRefresh(false);
+    if (!refresh) setShowContent(canShow());
+    else setRefresh(false);
   }, [refresh]);
 
   React.useEffect(() => {
@@ -64,7 +59,29 @@ const Legend = ({ resize, socketStatus, data }: LegendProps) => {
       showContent={showContent}
       setShowContent={showToggle}
     >
-      <div id="legendSvg" data-testid="legendSvg" ref={legendRef} />
+      <>
+        {data &&
+          data.map(function(item: { active: boolean; color: string; text: string }, i: any) {
+            return (
+              <Button
+                key={i}
+                onClick={e => {
+                  onClick(e.currentTarget.innerText);
+                }}
+                size="small"
+                sx={{
+                  m: 1,
+                  '&:hover': item.active ? item.color : 'inherited',
+                  backgroundColor: item.active ? item.color : 'inherited',
+                  color: item.active ? colorFlip(item.color, true) : 'inherited'
+                }}
+                variant="contained"
+              >
+                {item.text}
+              </Button>
+            );
+          })}
+      </>
     </SignalCard>
   );
 };
