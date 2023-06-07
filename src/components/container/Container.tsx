@@ -105,6 +105,7 @@ const Container = () => {
         resize={refresh}
         socketStatus={socketStatus1}
         data={legendData}
+        // eslint-disable-next-line react/jsx-no-bind
         onClick={legendOnClick}
       />
       <Polarization

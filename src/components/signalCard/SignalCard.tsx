@@ -8,49 +8,37 @@ import { SOCKET_STATUS } from '../../Utils/constants';
 
 const STATUS_SIZE = 20;
 export interface SignalCardProps {
-  actionTitle?: string;
-  children?: JSX.Element;
-  socketStatus?: string;
-  subheader?: string;
-  title: string;
-  showContent: boolean;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  setShowContent: Function;
-}
+    actionTitle?: string;
+    children?: JSX.Element;
+    socketStatus?: string,
+    subheader?: string;
+    title: string;
+    showContent: boolean, 
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    setShowContent: Function
+  }
 
-const SignalCard = ({
-  actionTitle,
-  children,
-  socketStatus,
-  subheader,
-  title,
-  showContent,
-  setShowContent
-}: SignalCardProps) => {
+const SignalCard = ({ actionTitle, children, socketStatus, subheader, title, showContent, setShowContent }: SignalCardProps) => {
   const { t } = useTranslation();
 
   const handleToggle = () => {
-    setShowContent(!showContent);
-  };
+      setShowContent(!showContent);
+    };
 
-  const getSocketStatus = () => {
-    switch (socketStatus) {
-      case SOCKET_STATUS[2]:
-        return 0;
-      case SOCKET_STATUS[3]:
-        return 9; // This value suppresses the Status Component
-      case SOCKET_STATUS[0]:
-        return 3;
-      default:
-        return 1; // Everything else shown as an error
+    const getSocketStatus = () => {
+      switch (socketStatus) {
+        case SOCKET_STATUS[2]: return 0;
+        case SOCKET_STATUS[3]: return 9;      // This value suppresses the Status Component
+        case SOCKET_STATUS[0]: return 3;
+        default : return 1;                   // Everything else shown as an error
+      }
     }
-  };
 
   return (
     <Box m={1}>
-      <Card style={{ backgroundColor: 'primary' }} variant="outlined">
-        <CardHeader
-          action={
+      <Card style={{backgroundColor: "primary"}} variant="outlined">
+        <CardHeader 
+          action={(
             <Grid container spacing={0}>
               <Grid item>
                 {socketStatus && (
@@ -64,7 +52,7 @@ const SignalCard = ({
                       <Status level={getSocketStatus()} size={STATUS_SIZE} />
                     </IconButton>
                   </Tooltip>
-                )}
+            )}
               </Grid>
               <Grid item>
                 <Tooltip title={t('label.hideShowToggle')}>
@@ -79,21 +67,25 @@ const SignalCard = ({
                 </Tooltip>
               </Grid>
             </Grid>
-          }
-          subheader={subheader}
-          title={title}
+          )}
+          subheader={subheader} 
+          title={title} 
         />
-        {showContent && <CardContent>{children}</CardContent>}
+        {showContent && (
+        <CardContent>
+          {children}
+        </CardContent>
+)}
       </Card>
     </Box>
   );
 };
 
 SignalCard.defaultProps = {
-  actionTitle: null,
-  children: null,
-  socketStatus: null,
-  subheader: null
-};
+    actionTitle: null,
+    children: null,
+    socketStatus: null,
+    subheader: null
+  };
 
 export default SignalCard;
