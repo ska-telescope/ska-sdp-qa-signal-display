@@ -28,21 +28,14 @@ const Polarization = ({ polarization, resize, socketStatus, data, legend }: Pola
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
 
-  const xLabel = () => {
-    return `${t('label.frequency')} (${t('units.frequency')})`;
-  };
+  const xLabel = () => `${t('label.frequency')} (${t('units.frequency')})`;
 
-  const yLabel = (amplitude: boolean) => {
-    return `${t(amplitude ? 'label.amplitude' : 'label.phase')}`;
-  };
+  const yLabel = (amplitude: boolean) => `${t(amplitude ? 'label.amplitude' : 'label.phase')}`;
 
-  const cardTitle = () => {
-    return `${t('label.socket')}: ${socketStatus}, ${t('label.serialisation')}: ${PROTOCOL}`;
-  };
+  const cardTitle = () =>
+    `${t('label.socket')}: ${socketStatus}, ${t('label.serialisation')}: ${PROTOCOL}`;
 
-  const chartTitle = (amplitude: boolean) => {
-    return t(amplitude ? 'label.amplitude' : 'label.phase');
-  };
+  const chartTitle = (amplitude: boolean) => t(amplitude ? 'label.amplitude' : 'label.phase');
 
   function getBaseData(inData: any, polarisation: string, amplitude: boolean) {
     const tmp = [];
@@ -84,7 +77,7 @@ const Polarization = ({ polarization, resize, socketStatus, data, legend }: Pola
   }
 
   function getChartData(usedData: any, amplitude: boolean) {
-    let chartData = [];
+    const chartData = [];
     if (!usedData.channels) {
       return chartData;
     }
@@ -102,9 +95,7 @@ const Polarization = ({ polarization, resize, socketStatus, data, legend }: Pola
     return chartData;
   }
 
-  const canShow = () => {
-    return data !== null;
-  };
+  const canShow = () => data !== null;
 
   const showToggle = () => {
     setShowContent(showContent ? false : canShow());

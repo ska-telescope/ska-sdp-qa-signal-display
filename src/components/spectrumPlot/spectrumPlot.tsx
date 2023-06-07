@@ -24,25 +24,18 @@ const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
 
-  const cardTitle = () => {
-    return `${t('label.socket')}: ${socketStatus}, ${t('label.serialisation')}: ${PROTOCOL}`;
-  };
+  const cardTitle = () =>
+    `${t('label.socket')}: ${socketStatus}, ${t('label.serialisation')}: ${PROTOCOL}`;
 
-  const chartTitle = () => {
-    return '';
-  };
+  const chartTitle = () => '';
 
   function xLabel() {
     return `${t('label.frequency')} (${t('units.frequency')})`;
   }
 
-  const yLabel = () => {
-    return `${t('label.amplitude')}`;
-  };
+  const yLabel = () => `${t('label.amplitude')}`;
 
-  const canShow = () => {
-    return data !== null;
-  };
+  const canShow = () => data !== null;
 
   const showToggle = () => {
     setShowContent(showContent ? false : canShow());
@@ -57,7 +50,7 @@ const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
     if (!usedData.channels) {
       return [];
     }
-    const chartData = [
+    const chartDataTmp = [
       {
         x: usedData.channels,
         y: usedData.power,
@@ -66,7 +59,7 @@ const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
         }
       }
     ];
-    return chartData;
+    return chartDataTmp;
   }
 
   React.useEffect(() => {
@@ -75,8 +68,6 @@ const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
     }
     setShowContent(canShow());
   }, [data]);
-
-  React.useEffect(() => {}, [showContent]);
 
   React.useEffect(() => {
     if (!refresh) setShowContent(canShow());

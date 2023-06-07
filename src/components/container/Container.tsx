@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import React from 'react';
 import Legend from '../Legend/Legend';
 import Polarization from '../Polarization/Polarization';
@@ -71,6 +72,7 @@ const Container = () => {
   }, []);
 
   React.useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function getBData(inData: any) {
       const arr = [];
       for (let i = 0; i < inData.length; i += 1) {
@@ -79,6 +81,7 @@ const Container = () => {
       return arr;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function getLegendData(usedData: any) {
       const values = getBData(usedData.data);
       const filtered = values.filter((value, index, array) => array.indexOf(value) === index);

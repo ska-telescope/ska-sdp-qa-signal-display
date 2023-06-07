@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React from 'react';
@@ -19,13 +20,10 @@ const Legend = ({ resize, socketStatus, data, onClick }: LegendProps) => {
   const [showContent, setShowContent] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
 
-  const cardTitle = () => {
-    return `${t('label.socket')}: ${socketStatus}, ${t('label.serialisation')}: ${PROTOCOL}`;
-  };
+  const cardTitle = () =>
+    `${t('label.socket')}: ${socketStatus}, ${t('label.serialisation')}: ${PROTOCOL}`;
 
-  const canShow = () => {
-    return data !== null;
-  };
+  const canShow = () => data !== null;
 
   const showToggle = () => {
     setShowContent(showContent ? false : canShow());
@@ -34,11 +32,6 @@ const Legend = ({ resize, socketStatus, data, onClick }: LegendProps) => {
   React.useEffect(() => {
     setShowContent(canShow());
   }, [data]);
-
-  React.useEffect(() => {
-    if (showContent && data) {
-    }
-  }, [showContent]);
 
   React.useEffect(() => {
     if (!refresh) setShowContent(canShow());
@@ -61,26 +54,25 @@ const Legend = ({ resize, socketStatus, data, onClick }: LegendProps) => {
     >
       <>
         {data &&
-          data.map(function(item: { active: boolean; color: string; text: string }, i: any) {
-            return (
-              <Button
-                key={i}
-                onClick={e => {
-                  onClick(e.currentTarget.innerText);
-                }}
-                size="small"
-                sx={{
-                  m: 1,
-                  '&:hover': item.active ? item.color : 'inherited',
-                  backgroundColor: item.active ? item.color : 'inherited',
-                  color: item.active ? colorFlip(item.color, true) : 'inherited'
-                }}
-                variant="contained"
-              >
-                {item.text}
-              </Button>
-            );
-          })}
+          data.map((item: { active: boolean; color: string; text: string }, i: any) => (
+            <Button
+              // eslint-disable-next-line react/no-array-index-key
+              key={i}
+              onClick={e => {
+                onClick(e.currentTarget.innerText);
+              }}
+              size="small"
+              sx={{
+                m: 1,
+                '&:hover': item.active ? item.color : 'inherited',
+                backgroundColor: item.active ? item.color : 'inherited',
+                color: item.active ? colorFlip(item.color, true) : 'inherited'
+              }}
+              variant="contained"
+            >
+              {item.text}
+            </Button>
+          ))}
       </>
     </SignalCard>
   );

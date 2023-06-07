@@ -24,9 +24,7 @@ const Spectrogram = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const canShow = () => {
-    return chartData !== null;
-  };
+  const canShow = () => chartData !== null;
 
   const showToggle = () => {
     setShowContent(showContent ? false : canShow());
@@ -51,9 +49,7 @@ const Spectrogram = () => {
     };
   }, []);
 
-  const cardTitle = () => {
-    return `Serialisation: ${PROTOCOL}`;
-  };
+  const cardTitle = () => `Serialisation: ${PROTOCOL}`;
 
   function getFullImageUrl(item: string) {
     const baselines = item.split(/[-_]+/);
