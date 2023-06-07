@@ -3,15 +3,13 @@ import { useEffect, useState } from 'react';
 import { Box, Card, CardContent, CardHeader, Grid } from '@mui/material';
 import './container.css';
 
-import { MessageTopic } from 'src/models/message-topic';
-import { decodeJson } from 'src/utils/decoder';
 import RfiQaPixelTable from './qa/RfiQaPixelTable';
 import RfiDetailPlots from './detail/RfiDetailPlots';
 
-import { PROTOCOL, WS_API_URL } from '../../utils/constants';
+import { PROTOCOL, WS_API_URL } from '../../../Utils/constants';
 
 const WIDTH = 1600;
-const MESSAGE_TOPIC = MessageTopic.RFI;
+const MESSAGE_TOPIC = 'rfi';
 const RFI_SUBTOPIC = 'xx-00-01';
 const RFI_API = `${process.env.REACT_APP_WS_API}/${PROTOCOL}_${MESSAGE_TOPIC}`;
 const RFI_DETAILS_API = `${WS_API_URL}/${PROTOCOL}_${MESSAGE_TOPIC}_${RFI_SUBTOPIC}`;
@@ -28,7 +26,7 @@ const Rfi = () => {
     // DEBUG console.log(`RfiPage: connecting to RFI_SUMMARY_API = ${RFI_API}, RFI_DETAILS_API = ${RFI_DETAILS_API}`);
 
     rfiWs.onmessage = event => {
-      const payload = decodeJson(event.data);
+      const payload = JSON.parse(event.data);
 
       if ('status' in payload) {
         // DEBUG console.log(payload.status);
@@ -41,7 +39,7 @@ const Rfi = () => {
     };
 
     rfiDetailsWs.onmessage = event => {
-      const payload = decodeJson(event.data);
+      const payload = JSON.parse(event.data);
       // DEBUG console.log("Rfi:onMessage: rfiDetailsWs received payload = ", payload);
 
       if ('status' in payload) {

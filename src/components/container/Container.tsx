@@ -4,9 +4,9 @@ import Polarization from '../Polarization/Polarization';
 import Spectrogram from '../Spectrogram/Spectrogram';
 import SpectrumPlot from '../SpectrumPlot/SpectrumPlot';
 import Statistics from '../Statistics/Statistics';
-import Socket from '../../services/WebSocket/Socket';
-import PhaseData from '../../mockData/webSocket/phase.json';
-import PlotData from '../../mockData/WebSocket/spectrum.json';
+import Socket from '../../Services/WebSocket/Socket';
+import PhaseData from '../../MockData/WebSocket/phase.json';
+import PlotData from '../../MockData/WebSocket/spectrum.json';
 import {
   COLOR,
   DATA_LOCAL,
@@ -15,7 +15,7 @@ import {
   PROTOCOL,
   SOCKET_STATUS,
   WS_API_URL
-} from '../../utils/constants';
+} from '../../Utils/constants';
 
 const Container = () => {
   const [refresh, setRefresh] = React.useState(0);
@@ -34,8 +34,8 @@ const Container = () => {
   window.onresize = resizeIncrement;
 
   function legendOnClick(val: string) {
-    let tmp = [];
-    for (var i = 0; i < legendData.length; i++) {
+    const tmp = [];
+    for (let i = 0; i < legendData.length; i++) {
       tmp.push({
         text: legendData[i].text,
         color: legendData[i].color,
@@ -71,7 +71,7 @@ const Container = () => {
   }, []);
 
   React.useEffect(() => {
-    function getBData(inData: any) {
+    function getBData(inData) {
       const arr = [];
       for (let i = 0; i < inData.length; i += 1) {
         arr.push(inData[i].baseline);
@@ -82,9 +82,7 @@ const Container = () => {
     function getLegendData(usedData: any) {
       const values = getBData(usedData.data);
       const filtered = values.filter((value, index, array) => array.indexOf(value) === index);
-      const elements = filtered.map((e, i) => {
-        return { text: e, active: true, color: COLOR[i] };
-      });
+      const elements = filtered.map((e, i) => ({ text: e, active: true, color: COLOR[i] }));
       return elements;
     }
 

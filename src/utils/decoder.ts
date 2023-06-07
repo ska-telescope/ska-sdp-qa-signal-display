@@ -13,7 +13,3 @@
 //   const bytes = new Uint8Array(buffer);
 //   return SpectrogramsExport.decode(bytes);
 // }
-
-export function decodeJson(data: string) {
-  return JSON.parse(data);
-}

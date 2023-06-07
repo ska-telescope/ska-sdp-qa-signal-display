@@ -69,23 +69,22 @@ Open [http://localhost:3333](http://localhost:3333) to view the UI in a browser.
 │   ├── App
 │   │   ├── App.test.tsx
 │   │   └── App.tsx
-│   ├── components                      /* Contains all components, below is just one as a sample */
-│   │   ├── spectrumPlot
-│   │   │   ├── spectrumPlot.test.tsx
+│   ├── Components                      /* Contains all components, below is just one as a sample */
+│   │   ├── SpectrumPlot
+│   │   │   ├── SpectrumPlot.cy.tsx
 │   │   │   └── spectrumPlot.tsx
-│   ├── index.scss                      /* Styling for the D3 charting ONLY */
+│   │   ├── Archive                     /* Code retained for later usage */
 │   ├── index.tsx
-│   ├── mockData                        /* Mock Data for testing */
-│   ├── models                          /* different data models */
-│   ├── services
+│   ├── MockData                        /* Mock Data for testing */
+│   ├── Services
 │   │   └── i18n                        /* Internationalization */
 │   │   └── redux-telescope             /* Local Storage and types for telescope, Not to be accessed directly */
 │   │   └── redux-theme                 /* Local Storage and types for theme, Not to be accessed directly */
 │   │   └── redux-user                  /* Local Storage and types for user, Not to be accessed directly */
 │   │   └── stateStorage                /* Provides access for the application to all redux-xxxx services */
 │   │   └── theme                       /* Material-UI Theme */
-│   ├── types
-│   └── utils
+│   ├── Types
+│   └── Utils
 └── ****
 ```
 

@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import Plot from 'react-plotly.js';
 
 import SignalCard from '../SignalCard/SignalCard';
-import { storageObject } from '../../services/stateStorage';
-import { COLOR, PROTOCOL } from '../../utils/constants';
+import { storageObject } from '../../Services/stateStorage';
+import { COLOR, PROTOCOL } from '../../Utils/constants';
 
 interface SpectrumPlotProps {
   resize: number;

@@ -62,6 +62,7 @@ test_and_coverage:
   before_script:
     - mkdir -p build/reports
     - yarn install --immutable
+    # This forces the use of local data, so should be replaced at some point
     - export REACT_USE_LOCAL_DATA=true
   script:
     - yarn start &

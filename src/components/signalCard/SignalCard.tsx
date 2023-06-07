@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Box, Card, CardContent, CardHeader, Grid, IconButton, Tooltip } from '@mui/material';
 import { Status } from '@ska-telescope/ska-gui-components';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { SOCKET_STATUS } from '../../utils/constants';
+import { SOCKET_STATUS } from '../../Utils/constants';
 
 const STATUS_SIZE = 20;
 export interface SignalCardProps {

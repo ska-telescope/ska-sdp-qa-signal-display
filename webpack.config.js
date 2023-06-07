@@ -72,7 +72,7 @@ module.exports = () => {
           counterStore: 'counterStore@http://localhost:8094/remoteEntry.js'
         },
         exposes: {
-          './signalMetrics': './src/components/Container/Container.tsx'
+          './signalMetrics': './src/Components/Container/Container.tsx'
         },
         shared: {
           ...deps,

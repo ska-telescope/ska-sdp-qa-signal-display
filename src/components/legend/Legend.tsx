@@ -4,8 +4,8 @@ import React from 'react';
 import { Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import SignalCard from '../SignalCard/SignalCard';
-import { PROTOCOL } from '../../utils/constants';
-import { colorFlip } from '../../utils/colorFlip';
+import { PROTOCOL } from '../../Utils/constants';
+import { colorFlip } from '../../Utils/colorFlip';
 
 interface LegendProps {
   resize: number;

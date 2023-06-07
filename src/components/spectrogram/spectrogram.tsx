@@ -1,6 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import './Spectrogram.scss';
 import {
   Card,
   CardContent,
@@ -11,7 +12,7 @@ import {
   Modal
 } from '@mui/material';
 import SignalCard from '../SignalCard/SignalCard';
-import { DATA_API_URL, PROTOCOL } from '../../utils/constants';
+import { DATA_API_URL, PROTOCOL } from '../../Utils/constants';
 
 const Spectrogram = () => {
   const { t } = useTranslation();

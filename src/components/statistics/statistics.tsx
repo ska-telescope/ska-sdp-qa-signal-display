@@ -2,10 +2,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Grid, Typography } from '@mui/material';
 import moment from 'moment';
-import mockProcessingBlockStatisticsData from '../../mockData/mock-processing-block-statistics-data';
-import mockStatisticsReceiverEventsData from '../../mockData/mock-statistics-receiver-events-data';
+import mockProcessingBlockStatisticsData from '../../MockData/mock-processing-block-statistics-data';
+import mockStatisticsReceiverEventsData from '../../MockData/mock-statistics-receiver-events-data';
 import SignalCard from '../SignalCard/SignalCard';
-import { DATA_LOCAL, DATA_API_URL } from '../../utils/constants';
+import { DATA_LOCAL, DATA_API_URL } from '../../Utils/constants';
 
 const CONVERT = 1000;
 const WORKFLOW_STATISTICS_INTERVAL_SECONDS =
@@ -48,13 +48,9 @@ const Statistics = () => {
       .catch(() => null);
   }
 
-  const canShowBasic = () => {
-    return processingBlockStatisticsData !== null;
-  };
+  const canShowBasic = () => processingBlockStatisticsData !== null;
 
-  const canShowDetail = () => {
-    return receiverEventsData !== null;
-  };
+  const canShowDetail = () => receiverEventsData !== null;
 
   const showBasicToggle = () => {
     setShowBasicContent(showBasicContent ? false : canShowBasic());
