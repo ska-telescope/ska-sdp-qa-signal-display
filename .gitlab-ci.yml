@@ -31,7 +31,6 @@ install_dependencies:
 #Run the static code analysis
 code_analysis:
   stage: lint
-  allow_failure: true
   tags:
     - k8srunner
   cache:
