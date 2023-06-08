@@ -1,17 +1,16 @@
-import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { StoreProvider } from './services/stateStorage';
+import React, { Suspense } from 'react';
 import './services/i18n/i18n';
-import './index.scss';
-import App from './App/App';
+import { StoreProvider } from './services/stateStorage';
+import App from './components/App/App';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(
-  <React.StrictMode>
+  <Suspense fallback="...is loading">
     <StoreProvider>
       <App />
     </StoreProvider>
-  </React.StrictMode>
+  </Suspense>
 );

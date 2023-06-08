@@ -10,8 +10,15 @@ module.exports = () => {
     entry: "./src/index.tsx",
 
     resolve: {
-      extensions: ['.tsx', '.ts', '.jsx', '.js', '.json']
+      extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
+      // Add support for TypeScripts fully qualified ESM imports.
+      extensionAlias: {
+       ".js": [".js", ".ts"],
+       ".cjs": [".cjs", ".cts"],
+       ".mjs": [".mjs", ".mts"]
+      }
     },
+
     devServer: {
       port: 3333,
       historyApiFallback: true,
@@ -21,54 +28,35 @@ module.exports = () => {
         'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
       }
     },
-    performance: {
-      maxEntrypointSize: 786432000,
-      maxAssetSize: 786432000
-    },
 
     module: {
       rules: [
         {
-          test: /\.s[ac]ss|\.css$/i,
+          test: /\.m?js|\.jsx/,
+          type: 'javascript/auto',
+          resolve: {
+            fullySpecified: false
+          }
+        },
+        {
+          test: /\.s[ac]ss$/i,
           use: ['style-loader', 'css-loader']
         },
         {
-          test: /\.(js|mjs|jsx|ts|tsx)$/,
+          test: /\.(ts|tsx|js|jsx)$/,
           exclude: /node_modules/,
-          type: "javascript/esm",
-          use: [
-            {
-              loader: 'babel-loader',
-              options: {
-                presets: [
-                  '@babel/preset-env',
-                  ["@babel/preset-react", {
-                    "runtime": "automatic"
-                  }]],
-                plugins: ['@babel/plugin-syntax-top-level-await'],
-              },
-            },
-            {
-              loader: 'ts-loader',
-              options: {
-                compilerOptions: {
-                  "noEmit": false
-                }
-              }
-            }
-          ]
+          use: {
+            loader: 'babel-loader'
+          }
         },
         {
-          enforce: "pre",
-          test: /\.js$/,
-          exclude: /node_modules/,
-          loader: "source-map-loader"
+          test: /\.json$/,
+          loader: 'json-loader'
         }
       ]
     },
 
-
-    devtool: "source-map",
+    devtool: 'source-map',
 
     plugins: [
       new ModuleFederationPlugin({
@@ -76,27 +64,65 @@ module.exports = () => {
         filename: 'remoteEntry.js',
         remotes: {},
         exposes: {
-          './signalMetrics': './src/components/container/Container.tsx'
+          './signalMetrics': './src/components/Container/Container.tsx'
         },
         shared: {
-          // ...deps,
-          react: { eager: true, singleton: true, requiredVersion: deps['react'] },
-          'react-dom': { eager: true, singleton: true, requiredVersion: deps['react-dom'] },
+          ...deps,
+          react: {
+            eager: true,
+            singleton: true,
+            requiredVersion: deps['react']
+          },
+          'react-dom': {
+            eager: true,
+            singleton: true,
+            requiredVersion: deps['react-dom']
+          },
+          // i18n
+          i18next: {
+            eager: true,
+            singleton: true,
+            requiredVersion: deps.i18next
+          },
+          'react-i18next': {
+            eager: true,
+            singleton: true,
+            requiredVersion: deps['react-i18next']
+          },
+          'i18next-browser-languagedetector': {
+            eager: true,
+            singleton: true,
+            requiredVersion: deps['i18next-browser-languagedetector']
+          },
+          'i18next-http-backend': {
+            eager: true,
+            singleton: true,
+            requiredVersion: deps['i18next-http-backend']
+          },
           // Material-UI
           '@mui/material': { eager: true, singleton: true,  requiredVersion: deps['@mui/material'] },
           '@mui/icons-material': { eager: true, singleton: true, requiredVersion: deps['@mui/icons-material'] },
           // Redux
-          'react-redux': { eager: true, singleton: true, requiredVersion: deps['react-redux'] },
-          'redux': { eager: true, singleton: true, requiredVersion: deps['redux'] },
-          '@reduxjs/toolkit': { eager: true, singleton: true, requiredVersion: deps['@reduxjs/toolkit'] },
+          'react-redux': { singleton: true, requiredVersion: deps['react-redux'], eager: true },
+          'redux': { singleton: true, requiredVersion: deps['redux'], eager: true },
+          '@reduxjs/toolkit': { singleton: true, requiredVersion: deps['@reduxjs/toolkit'], eager: true },
           // SKAO components  
-          '@ska-telescope/ska-gui-components': { eager: true, singleton: true, requiredVersion: deps['@ska-telescope/ska-gui-components'] },
-          // Other
-          'd3': { eager: true,  singleton: true },
-          moment: { eager: true, singleton: true }
+          '@ska-telescope/ska-gui-components': {
+            requiredVersion: deps['@ska-telescope/ska-gui-components'],
+            eager: true
+          },
+          // mixture
+          'react-plotly.js': { singleton: true, requiredVersion: deps['react-plotly.js'], eager: true },
+          '@emotion/react': { singleton: true, requiredVersion: deps['@emotion/react'], eager: true },
+          '@emotion/styled': { singleton: true, requiredVersion: deps['@emotion/styled'], eager: true },
+          moment: {
+            eager: true,
+            singleton: true,
+            requiredVersion: deps.moment
+          }
         }
       }),
-      new HtmlWebPackPlugin({     // Simplifies HTML creation
+      new HtmlWebPackPlugin({
         template: './public/index.html'
       }),
       new webpack.EnvironmentPlugin({

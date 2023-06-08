@@ -62,7 +62,7 @@ Open [http://localhost:3333](http://localhost:3333) to view the UI in a browser.
 │   ├── robots.txt
 │   ├── locales                         /* Language resources for supported languages ( en is the default ) */
 │       └── en
-│           └── translations.json       
+│           └── translations.json
 │   └── static
 │       └── ****                        /* Static Images */
 ├── src
@@ -75,7 +75,7 @@ Open [http://localhost:3333](http://localhost:3333) to view the UI in a browser.
 │   │   │   └── spectrumPlot.tsx
 │   ├── index.scss                      /* Styling for the D3 charting ONLY */
 │   ├── index.tsx
-│   ├── mockData                        /* Mock Data for testing */                  
+│   ├── mockData                        /* Mock Data for testing */
 │   ├── models                          /* different data models */
 │   ├── services
 │   │   └── i18n                        /* Internationalization */
@@ -101,5 +101,3 @@ IMportent to ensure that this is set to false for production
 # Link to Running Instance
 
 [Click here](https://sdhp.stfc.skao.int/dp-naledi/qa/display/) to access a running instance of the Signal Display
-
-
