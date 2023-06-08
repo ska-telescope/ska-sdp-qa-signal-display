@@ -20,7 +20,6 @@
     "lint:prettier": "prettier --check \"**/*\"",
     "lint:tsc": "yarn tsc --noEmit",
     "lint:yarn-deduplicate": "yarn-deduplicate --fail --list --strategy=fewer",
-    "run": "webpack serve --mode development --open",
     "start": "NODE_ENV=test webpack serve --mode development --open",
     "dev": "webpack serve --open --mode development",
     "test": "yarn cypress:open",
