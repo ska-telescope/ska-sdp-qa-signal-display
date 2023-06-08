@@ -5,7 +5,7 @@ import Polarization from '../polarization/Polarization';
 import Spectrogram from '../spectrogram/spectrogram';
 import SpectrumPlot from '../spectrumPlot/spectrumPlot';
 import Statistics from '../statistics/statistics';
-import Socket from '../../services/WebSocket/Socket';
+import Socket from '../../services/webSocket/Socket';
 import PhaseData from '../../mockData/WebSocket/phase.json';
 import PlotData from '../../mockData/WebSocket/spectrum.json';
 import {
