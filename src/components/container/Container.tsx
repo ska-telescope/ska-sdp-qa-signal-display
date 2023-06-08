@@ -6,8 +6,8 @@ import Spectrogram from '../spectrogram/spectrogram';
 import SpectrumPlot from '../spectrumPlot/spectrumPlot';
 import Statistics from '../statistics/statistics';
 import Socket from '../../services/webSocket/Socket';
-import PhaseData from '../../mockData/WebSocket/phase.json';
-import PlotData from '../../mockData/WebSocket/spectrum.json';
+import PhaseData from '../../mockData/Socket/phase.json';
+import PlotData from '../../mockData/Socket/spectrum.json';
 import {
   COLOR,
   DATA_LOCAL,
