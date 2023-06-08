@@ -4,7 +4,7 @@
 import React from 'react';
 import { Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import SignalCard from '../signalCard/SignalCard';
+import SignalCard from '../xSignalCard/SignalCard';
 import { PROTOCOL } from '../../utils/constants';
 import { colorFlip } from '../../utils/colorFlip';
 

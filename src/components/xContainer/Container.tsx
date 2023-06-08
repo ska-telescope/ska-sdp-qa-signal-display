@@ -1,13 +1,13 @@
 /* eslint-disable react/jsx-no-bind */
 import React from 'react';
-import Legend from '../legend/Legend';
-import Polarization from '../polarization/Polarization';
-import Spectrogram from '../spectrogram/spectrogram';
-import SpectrumPlot from '../spectrumPlot/spectrumPlot';
-import Statistics from '../statistics/statistics';
+import Legend from '../xLegend/Legend';
+import Polarization from '../xPolarization/Polarization';
+import Spectrogram from '../xSpectrogram/xSpectrogram';
+import SpectrumPlot from '../xSpectrumPlot/xSpectrumPlot';
+import Statistics from '../xStatistics/xStatistics';
 import Socket from '../../services/webSocket/Socket';
-import PhaseData from '../../mockData/Socket/phase.json';
-import PlotData from '../../mockData/Socket/spectrum.json';
+import PhaseData from '../../mockData/WebSocket/phase.json';
+import PlotData from '../../mockData/WebSocket/spectrum.json';
 import {
   COLOR,
   DATA_LOCAL,

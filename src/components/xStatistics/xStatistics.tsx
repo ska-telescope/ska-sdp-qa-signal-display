@@ -4,7 +4,7 @@ import { Grid, Typography } from '@mui/material';
 import moment from 'moment';
 import mockStatisticsProcessingBlock from '../../mockData/Statistics/processingBlock';
 import mockStatisticsReceiverEvents from '../../mockData/Statistics/receiverEvents';
-import SignalCard from '../signalCard/SignalCard';
+import SignalCard from '../xSignalCard/SignalCard';
 import { DATA_LOCAL, DATA_API_URL } from '../../utils/constants';
 
 const CONVERT = 1000;

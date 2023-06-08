@@ -4,7 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Plot from 'react-plotly.js';
 
-import SignalCard from '../signalCard/SignalCard';
+import SignalCard from '../xSignalCard/SignalCard';
 import { storageObject } from '../../services/stateStorage';
 import { COLOR, PROTOCOL } from '../../utils/constants';
 
