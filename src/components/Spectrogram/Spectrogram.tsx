@@ -10,7 +10,7 @@ import {
   ImageListItemBar,
   Modal
 } from '@mui/material';
-import SignalCard from '../xSignalCard/SignalCard';
+import SignalCard from '../SignalCard/SignalCard';
 import { DATA_API_URL, PROTOCOL } from '../../utils/constants';
 
 const Spectrogram = () => {

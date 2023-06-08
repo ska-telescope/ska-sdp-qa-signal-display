@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Plot from 'react-plotly.js';
 
 import { Grid } from '@mui/material';
-import SignalCard from '../xSignalCard/SignalCard';
+import SignalCard from '../SignalCard/SignalCard';
 import { storageObject } from '../../services/stateStorage';
 import { COLOR, PROTOCOL } from '../../utils/constants';
 
