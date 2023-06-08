@@ -1,3 +1,4 @@
+/* eslint-disable import/no-mutable-exports */
 export type Telescope = {
   code: string;
   name: string;
@@ -54,7 +55,7 @@ export const lowPos: Position = {
   lon: 117.08484475669175
 };
 
-export const tel: Tel;
-export const telescope: Telescope;
+export let tel: Tel;
+export let telescope: Telescope;
 
 export const TelescopeList = [TELESCOPE_LOW, TELESCOPE_MID];
