@@ -22,7 +22,6 @@ install_dependencies:
   before_script:
     - rm -rf node_modules
   script:
-    - npm config set registry https://registry.npmjs.org/
     - yarn install --immutable
   cache:
     paths:
@@ -41,7 +40,6 @@ code_analysis:
   before_script:
     - mkdir -p build/reports
   script:
-    - npm config set registry https://registry.npmjs.org/
     - yarn install --immutable
     - yarn code-analysis
     - mv linting.xml build/reports/linting.xml
@@ -61,6 +59,7 @@ test_and_coverage:
     policy: pull
   before_script:
     - mkdir -p build/reports
+    - mkdir -p build/.nyc_output
     - yarn install --immutable
     - export REACT_USE_LOCAL_DATA=true
   script:
@@ -84,7 +83,6 @@ list_dependencies:
       - node_modules/
     policy: pull
   script:
-    - npm config set registry https://registry.npmjs.org/
     - yarn install --immutable
     - yarn list --depth=0 --json >> npm_deps.json
     - yarn list --depth=0  >> npm_deps.txt
@@ -105,7 +103,6 @@ build:
       - node_modules/
     policy: pull
   script:
-    - npm config set registry https://registry.npmjs.org/
     - yarn install --immutable
     - yarn build
 
