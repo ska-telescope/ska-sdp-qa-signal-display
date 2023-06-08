@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { CssBaseline, Grid, Paper, ThemeProvider, Typography } from '@mui/material';
 import { Footer, Header, Spacer, SPACER_VERTICAL } from '@ska-telescope/ska-gui-components';
-import Container from '../Container/Container';
+import Container from '../container/Container';
 import { storageObject } from '../../services/stateStorage';
 import theme from '../../services/theme/theme';
 
