@@ -105,6 +105,7 @@ test-counts:
     - mkdir -p build/tests
     - yarn install --immutable
   script:
+    - yarn start &
     - yarn test:cypress:ci
     - yarn merge-reports
   artifacts:
