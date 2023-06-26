@@ -37,6 +37,7 @@ tsconfig.tsbuildinfo
 /.vscode
 junit.xml
 linting.xml
+unit-tests.xml
 
 package-lock.json
 *.mp4
