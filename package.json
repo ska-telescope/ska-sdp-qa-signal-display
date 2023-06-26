@@ -30,7 +30,7 @@
     "test:coverage:report:ci": "npx nyc report --report-dir=build/reports --reporter=cobertura",
     "test:coverage:summary": "npx nyc report --reporter=text-summary",
     "merge-reports": "jrm build/reports/unit-tests.xml \"build/tests/*.xml\"",
-    "test:cypress:ci": "cypress run --component --headless --browser chrome --reporter junit --reporter-options mochaFile=build/tests/unit-tests[hash].xml"
+    "test:cypress:ci": "cypress run --e2e --headless --browser chrome --reporter junit --reporter-options mochaFile=build/tests/unit-tests[hash].xml"
   },
   "dependencies": {
     "@babel/preset-env": "^7.21.4",
