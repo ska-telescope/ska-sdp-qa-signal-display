@@ -1,5 +1,5 @@
 default:
-  image: node:alpine
+  image: node:20.2.0-alpine3.18
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
@@ -104,8 +104,9 @@ test-counts:
     - mkdir -p build/tests
     - yarn install --immutable
   script:
+    - yarn test:cypress:component:ci
     - yarn start &
-    - yarn test:cypress:ci
+    - yarn test:cypress:e2e:ci
     - yarn merge-reports
   artifacts:
     paths:
