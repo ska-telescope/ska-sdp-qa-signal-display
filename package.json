@@ -24,6 +24,8 @@
     "dev": "webpack serve --open --mode development",
     "test": "yarn cypress:open",
     "test:component:headless": "cypress run --component --headless --browser chrome",
+    "test:cypress:component:ci": "cypress run --component --headless --browser chrome --reporter junit --reporter-options mochaFile=build/tests/unit-tests[hash].xml",
+    "test:cypress:e2e:ci": "cypress run --e2e --headless --browser chrome --reporter junit --reporter-options mochaFile=build/tests/unit-tests[hash].xml",
     "test:e2e:headless": "cypress run --e2e --headless --browser chrome",
     "test:headless": "yarn cypress:run",
     "test:coverage:report": "npx nyc report --report-dir=build/reports --reporter=html",
