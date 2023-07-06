@@ -13,8 +13,8 @@ i18n
   .init({
     fallbackLng: 'en',
     lng: 'en',
-    ns: ['translations'],
-    defaultNS: 'translations',
+    ns: ['signalDisplay'],
+    defaultNS: 'signalDisplay',
     initImmediate: false,
     useSuspense: true,
     debug: true,

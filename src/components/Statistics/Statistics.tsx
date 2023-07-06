@@ -21,7 +21,7 @@ function epochToDateString(timeInMilliseconds: number) {
 }
 
 const Statistics = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('signalDisplay');
 
   const [showBasicContent, setShowBasicContent] = React.useState(false);
   const [showDetailContent, setShowDetailContent] = React.useState(false);

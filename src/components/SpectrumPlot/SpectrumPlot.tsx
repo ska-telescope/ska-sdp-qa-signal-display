@@ -17,7 +17,7 @@ interface SpectrumPlotProps {
 const RATIO = 2;
 
 const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('signalDisplay');
 
   const [chartData, setChartData] = React.useState(null);
   const [showContent, setShowContent] = React.useState(false);

@@ -14,7 +14,7 @@ import SignalCard from '../SignalCard/SignalCard';
 import { DATA_API_URL, PROTOCOL } from '../../utils/constants';
 
 const Spectrogram = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('signalDisplay');
 
   const [showContent, setShowContent] = React.useState(false);
   const [open, setOpen] = React.useState(false);

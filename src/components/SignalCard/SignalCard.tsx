@@ -27,7 +27,7 @@ const SignalCard = ({
   showContent,
   setShowContent
 }: SignalCardProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('signalDisplay');
 
   const handleToggle = () => {
     setShowContent(!showContent);
