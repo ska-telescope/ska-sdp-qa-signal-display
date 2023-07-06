@@ -1,6 +1,6 @@
 {
   "name": "ska-webapps-react-skeleton",
-  "version": "0.0.0",
+  "version": "0.8.0",
   "private": true,
   "license": "BSD 3-Clause",
   "description": "SKA React Web App Skeleton",
@@ -25,6 +25,8 @@
     "dev": "webpack serve --open --mode development",
     "test": "yarn cypress:open",
     "test:component:headless": "cypress run --component --headless --browser chrome --config video=false",
+    "test:cypress:component:ci": "cypress run --component --headless --browser chrome --config video=false --reporter junit --reporter-options mochaFile=build/tests/unit-tests[hash].xml",
+    "test:cypress:e2e:ci": "cypress run --e2e --headless --browser chrome --reporter junit --config video=false --reporter-options mochaFile=build/tests/unit-tests[hash].xml",
     "test:e2e:headless": "cypress run --e2e --headless --browser chrome --config video=false",
     "test:headless": "yarn cypress:run",
     "test:coverage:report": "npx nyc report --report-dir=build/reports --reporter=html",
