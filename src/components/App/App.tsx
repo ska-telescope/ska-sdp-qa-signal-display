@@ -10,7 +10,7 @@ const HEADER_HEIGHT = 70;
 const FOOTER_HEIGHT = 70;
 
 function App() {
-  const { t } = useTranslation();
+  const { t } = useTranslation('signalDisplay');
   const { themeMode, toggleTheme } = storageObject.useStore();
 
   return (

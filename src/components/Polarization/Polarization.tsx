@@ -20,7 +20,7 @@ interface PolarizationProps {
 const RATIO = 2;
 
 const Polarization = ({ polarization, resize, socketStatus, data, legend }: PolarizationProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('signalDisplay');
 
   const [showContent, setShowContent] = React.useState(false);
   const [chartData1, setChartData1] = React.useState(null);

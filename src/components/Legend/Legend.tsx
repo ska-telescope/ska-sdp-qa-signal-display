@@ -16,7 +16,7 @@ interface LegendProps {
 }
 
 const Legend = ({ resize, socketStatus, data, onClick }: LegendProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('signalDisplay');
   const [showContent, setShowContent] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
 
