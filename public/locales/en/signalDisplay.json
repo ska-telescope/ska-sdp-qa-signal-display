@@ -2,6 +2,7 @@
   "language": "English",
   "date_format_one": "{{-date, YYYY/MM/DD}}",
   "date_format_two": "{{date, DD-MM-YYYY}}",
+  "date_time": "{{date, DD-MMM-YYYY HH:MM Z}}",
   "date_input_format": "dd/mm/yyyy",
   "intlNumber": "{{val, number}}",
 
@@ -53,6 +54,12 @@
     "visibilityReceiveActive": "Visibility Receive Still Active",
     "workflow": "Workflow",
     "yes": "Yes"
+  },
+  "toolTip": {
+    "button": {
+      "mode": "Colour mode toggle",
+      "skao": "SKAO WebSite"
+    }
   },
   "units": {
     "amplitude": "",

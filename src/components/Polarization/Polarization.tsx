@@ -102,11 +102,14 @@ const Polarization = ({ polarization, resize, socketStatus, data, legend }: Pola
   };
 
   React.useEffect(() => {
+    const firstRender = chartData1 === null;
     if (data && data.data) {
       setChartData1(getChartData(data, true));
       setChartData2(getChartData(data, false));
     }
-    setShowContent(canShow());
+    if (firstRender) {
+      setShowContent(canShow());
+    }
   }, [data, legend]);
 
   React.useEffect(() => {

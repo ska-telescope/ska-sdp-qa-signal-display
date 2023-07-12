@@ -12,6 +12,11 @@ const FOOTER_HEIGHT = 70;
 function App() {
   const { t } = useTranslation('signalDisplay');
   const { themeMode, toggleTheme } = storageObject.useStore();
+  const version = process.env.VERSION;
+
+  const skao = t('toolTip.button.skao');
+  const mode = t('toolTip.button.mode');
+  const toolTip = { skao, mode };
 
   return (
     <ThemeProvider theme={theme(themeMode.mode)}>
@@ -23,7 +28,7 @@ function App() {
           // Logo with URL link included
           // Button for light/dark mode included, and sample implementation provided.
         }
-        <Header data-testid="skaHeader" themeToggle={toggleTheme}>
+        <Header data-testid="skaHeader" themeToggle={toggleTheme} toolTip={toolTip}>
           <Grid item />
           <Grid item>
             <Typography variant="h4">{t('label.signalDisplay')}</Typography>
@@ -35,7 +40,9 @@ function App() {
           <Container data-testid="containerId" />
           <Spacer size={FOOTER_HEIGHT} axis={SPACER_VERTICAL} />
         </Paper>
-        <Footer />
+        <Footer>
+          <Grid item>{version}</Grid>
+        </Footer>
       </React.Suspense>
     </ThemeProvider>
   );
