@@ -68,7 +68,6 @@ const Container = () => {
           abortController.abort();
         });
     }
-
     fetchConfig();
   }, []);
 
@@ -83,14 +82,14 @@ const Container = () => {
       setChartData2(PlotData);
     } else {
       Socket({
-        apiUrl: WS_API_URL,
+        apiUrl: WS_API_URL + config.paths.websocket,
         protocol: config.api_format,
         suffix: MSG_PHASE_AMP,
         statusFunction: setSocketStatus1,
         dataFunction: setChartData1
       });
       Socket({
-        apiUrl: WS_API_URL,
+        apiUrl: WS_API_URL + config.paths.websocket,
         protocol: config.api_format,
         suffix: MSG_SPECTRUM,
         statusFunction: setSocketStatus2,
@@ -141,7 +140,7 @@ const Container = () => {
 
   return (
     <>
-      <Statistics />
+      <Statistics config={config} />
       <SpectrumPlot
         resize={refresh}
         socketStatus={socketStatus2}
