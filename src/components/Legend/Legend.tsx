@@ -5,23 +5,24 @@ import React from 'react';
 import { Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import SignalCard from '../SignalCard/SignalCard';
-import { PROTOCOL } from '../../utils/constants';
 import { colorFlip } from '../../utils/colorFlip';
 
 interface LegendProps {
   resize: number;
   socketStatus: string;
+  config: any;
   data: any;
   onClick: Function;
 }
 
-const Legend = ({ resize, socketStatus, data, onClick }: LegendProps) => {
+const Legend = ({ resize, socketStatus, config, data, onClick }: LegendProps) => {
   const { t } = useTranslation('signalDisplay');
   const [showContent, setShowContent] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
 
+  const apiFormat = config ? config.api_format : '?????';
   const cardTitle = () =>
-    `${t('label.socket')}: ${socketStatus}, ${t('label.serialisation')}: ${PROTOCOL}`;
+    `${t('label.socket')}: ${socketStatus}, ${t('label.serialisation')}: ${apiFormat}`;
 
   const canShow = () => data !== null;
 

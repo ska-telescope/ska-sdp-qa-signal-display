@@ -10,10 +10,10 @@ import PhaseData from '../../mockData/WebSocket/phase.json';
 import PlotData from '../../mockData/WebSocket/spectrum.json';
 import {
   COLOR,
+  DATA_API_URL,
   DATA_LOCAL,
   MSG_PHASE_AMP,
   MSG_SPECTRUM,
-  PROTOCOL,
   SOCKET_STATUS,
   WS_API_URL
 } from '../../utils/constants';
@@ -25,6 +25,7 @@ const Container = () => {
   const [socketStatus2, setSocketStatus2] = React.useState(SOCKET_STATUS[0]);
   const [chartData2, setChartData2] = React.useState(null);
   const [legendData, setLegendData] = React.useState(null);
+  const [config, setConfig] = React.useState(null);
 
   // We have a delay to reduce screen flicker
   function resizeIncrement() {
@@ -49,6 +50,33 @@ const Container = () => {
 
   React.useEffect(() => {
     if (DATA_LOCAL) {
+      setConfig('DATA LOCAL');
+      return;
+    }
+    const abortController = new AbortController();
+    async function fetchConfig() {
+      await fetch(`${DATA_API_URL}/config`, {
+        signal: abortController.signal
+      })
+        .then(response => response.json())
+        .then(data => {
+          setConfig(data);
+          abortController.abort();
+        })
+        .catch(() => {
+          // TODO : What do we put in here ?
+          abortController.abort();
+        });
+    }
+
+    fetchConfig();
+  }, []);
+
+  React.useEffect(() => {
+    if (config === null) {
+      return;
+    }
+    if (DATA_LOCAL) {
       setSocketStatus1(SOCKET_STATUS[3]);
       setChartData1(PhaseData);
       setSocketStatus2(SOCKET_STATUS[3]);
@@ -56,20 +84,20 @@ const Container = () => {
     } else {
       Socket({
         apiUrl: WS_API_URL,
-        protocol: PROTOCOL,
+        protocol: config.api_format,
         suffix: MSG_PHASE_AMP,
         statusFunction: setSocketStatus1,
         dataFunction: setChartData1
       });
       Socket({
         apiUrl: WS_API_URL,
-        protocol: PROTOCOL,
+        protocol: config.api_format,
         suffix: MSG_SPECTRUM,
         statusFunction: setSocketStatus2,
         dataFunction: setChartData2
       });
     }
-  }, []);
+  }, [config]);
 
   React.useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -100,45 +128,38 @@ const Container = () => {
     }
   }, [chartData1]);
 
+  const Polar = (inValue: string): React.JSX.Element => (
+    <Polarization
+      polarization={inValue}
+      resize={refresh}
+      socketStatus={socketStatus1}
+      config={config}
+      data={chartData1}
+      legend={legendData}
+    />
+  );
+
   return (
     <>
       <Statistics />
-      <SpectrumPlot resize={refresh} socketStatus={socketStatus2} data={chartData2} />
+      <SpectrumPlot
+        resize={refresh}
+        socketStatus={socketStatus2}
+        config={config}
+        data={chartData2}
+      />
       <Legend
         resize={refresh}
         socketStatus={socketStatus1}
+        config={config}
         data={legendData}
         onClick={legendOnClick}
       />
-      <Polarization
-        polarization="XX"
-        resize={refresh}
-        socketStatus={socketStatus1}
-        data={chartData1}
-        legend={legendData}
-      />
-      <Polarization
-        polarization="XY"
-        resize={refresh}
-        socketStatus={socketStatus1}
-        data={chartData1}
-        legend={legendData}
-      />
-      <Polarization
-        polarization="YX"
-        resize={refresh}
-        socketStatus={socketStatus1}
-        data={chartData1}
-        legend={legendData}
-      />
-      <Polarization
-        polarization="YY"
-        resize={refresh}
-        socketStatus={socketStatus1}
-        data={chartData1}
-        legend={legendData}
-      />
-      <Spectrogram />
+      {Polar('XX')}
+      {Polar('XY')}
+      {Polar('YX')}
+      {Polar('YY')}
+      <Spectrogram config={config} />
     </>
   );
 };

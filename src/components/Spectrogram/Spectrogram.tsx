@@ -11,9 +11,14 @@ import {
   Modal
 } from '@mui/material';
 import SignalCard from '../SignalCard/SignalCard';
-import { DATA_API_URL, PROTOCOL } from '../../utils/constants';
+import { DATA_API_URL } from '../../utils/constants';
 
-const Spectrogram = () => {
+interface SpectrogramProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  config: any;
+}
+
+const Spectrogram = ({ config }: SpectrogramProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [showContent, setShowContent] = React.useState(false);
@@ -49,7 +54,8 @@ const Spectrogram = () => {
     };
   }, []);
 
-  const cardTitle = () => `Serialisation: ${PROTOCOL}`;
+  const apiFormat = config ? config.api_format : '?????';
+  const cardTitle = () => `Serialisation: ${apiFormat}`;
 
   function getFullImageUrl(item: string) {
     const baselines = item.split(/[-_]+/);

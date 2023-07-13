@@ -130,7 +130,6 @@ module.exports = () => {
       }),
       new webpack.EnvironmentPlugin({
         REACT_APP_WS_API: 'ws://localhost:8002/consumer',
-        REACT_APP_MESSAGE_TYPE: 'json',
         REACT_APP_DATA_API_URL: 'http://localhost:8002',
         REACT_APP_WORKFLOW_INTERVAL_SECONDS: 60,
         REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS: 10,
