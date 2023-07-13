@@ -2015,7 +2015,7 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/utils@^5.13.7":
+"@mui/utils@^5.13.6", "@mui/utils@^5.13.7":
   version "5.13.7"
   resolved "https://registry.yarnpkg.com/@mui/utils/-/utils-5.13.7.tgz#7e6a8336e05eb2642667a5c02eb605351e27ec20"
   integrity sha512-/3BLptG/q0u36eYED7Nhf4fKXmcKb6LjjT7ZMwhZIZSdSxVqDqSTmATW3a56n3KEPQUXCU9TpxAfCBQhs6brVA==
@@ -2025,6 +2025,17 @@
     "@types/react-is" "^18.2.1"
     prop-types "^15.8.1"
     react-is "^18.2.0"
+
+"@mui/x-data-grid@^6.9.2":
+  version "6.9.2"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-6.9.2.tgz#530497b7592bc8242d591fbdedea771eb130d1c3"
+  integrity sha512-hrjVq3FrbUpioi2GYSWJtU4NR3V4bPwLbXngw07+I21TGOWV1TKeTslkPI+FGVYU3gMjGSSJRFN8gehPlh5Evw==
+  dependencies:
+    "@babel/runtime" "^7.22.5"
+    "@mui/utils" "^5.13.6"
+    clsx "^1.2.1"
+    prop-types "^15.8.1"
+    reselect "^4.1.8"
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
@@ -2258,14 +2269,17 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@ska-telescope/ska-gui-components@^0.1.24":
-  version "0.1.24"
-  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-gui-components/-/ska-gui-components-0.1.24.tgz#1f8e8036e77a72c8943467a86a1be39d0c5f51f0"
-  integrity sha512-7XFEZ6TDXx0H3GubRTJ4F9tKJ4TI0aRDvVxSY+XjSm6ACpc+hI0JVibQPcnutdG26Yn0srabuAtxco6/C6momA==
+"@ska-telescope/ska-gui-components@^0.1.29":
+  version "0.1.29"
+  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-gui-components/-/ska-gui-components-0.1.29.tgz#c509fc5a239ead940baa67c27fb806367a1fb8e9"
+  integrity sha512-TNadgZaKQdvpfyO2HJb/XhVHj61KMUfOJj74TqGIbOhas+6e2vwWieR5+xnVAGdOzPnCEt666EN7Q8fIn0jrzA==
   dependencies:
     "@mui/lab" "^5.0.0-alpha.135"
+    "@mui/system" "^5.13.7"
+    "@mui/x-data-grid" "^6.9.2"
     "@react-spring/web" "^9.7.3"
     "@ska-telescope/ska-javascript-components" "^0.1.21"
+    junit-report-merger "^6.0.2"
 
 "@ska-telescope/ska-javascript-components@^0.1.21":
   version "0.1.22"
@@ -8806,7 +8820,7 @@ mkdirp@~0.5.1:
   dependencies:
     minimist "^1.2.6"
 
-moment@^2.29.1:
+moment@^2.29.4:
   version "2.29.4"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
   integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
@@ -10349,7 +10363,7 @@ react-i18next@^11.15.3:
     "@babel/runtime" "^7.14.5"
     html-parse-stringify "^3.0.1"
 
-react-is@^16.13.1, react-is@^16.7.0, react-is@^16.8.6:
+react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
@@ -10442,16 +10456,6 @@ react-scripts@^5.0.0:
     workbox-webpack-plugin "^6.4.1"
   optionalDependencies:
     fsevents "^2.3.2"
-
-react-test-renderer@^16.7.0:
-  version "16.14.0"
-  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.14.0.tgz#e98360087348e260c56d4fe2315e970480c228ae"
-  integrity sha512-L8yPjqPE5CZO6rKsKXRO/rVPiaCOy0tQQJbC+UjPNlobl5mad59lvPjwFsQHTvL03caVDIVr9x9/OSgDe6I5Eg==
-  dependencies:
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    react-is "^16.8.6"
-    scheduler "^0.19.1"
 
 react-transition-group@^4.4.5:
   version "4.4.5"
@@ -10944,14 +10948,6 @@ saxes@^5.0.1:
   integrity sha512-5LBh1Tls8c9xgGjw3QrMwETmTMVk0oFgvrFSvWx62llR2hcEInrKNZ2GZCCuuy2lvWrdl5jhbpeqc5hRYKFOcw==
   dependencies:
     xmlchars "^2.2.0"
-
-scheduler@^0.19.1:
-  version "0.19.1"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.19.1.tgz#4f3e2ed2c1a7d65681f4c854fa8c5a1ccb40f196"
-  integrity sha512-n/zwRWRYSUj0/3g/otKDRPMh6qv2SYMWNq85IEa8iZyAv8od9zDYpGSnpBEjNgcMNq6Scbu5KfIPxNF72R/2EA==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
 
 scheduler@^0.23.0:
   version "0.23.0"

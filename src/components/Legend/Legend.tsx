@@ -30,10 +30,6 @@ const Legend = ({ resize, socketStatus, data, onClick }: LegendProps) => {
   };
 
   React.useEffect(() => {
-    setShowContent(canShow());
-  }, [data]);
-
-  React.useEffect(() => {
     if (!refresh) setShowContent(canShow());
     else setRefresh(false);
   }, [refresh]);

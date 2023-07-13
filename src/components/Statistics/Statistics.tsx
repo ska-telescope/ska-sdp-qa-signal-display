@@ -1,23 +1,20 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Grid, Typography } from '@mui/material';
-import moment from 'moment';
 import mockStatisticsProcessingBlock from '../../mockData/Statistics/processingBlock';
 import mockStatisticsReceiverEvents from '../../mockData/Statistics/receiverEvents';
 import SignalCard from '../SignalCard/SignalCard';
-import { DATA_LOCAL, DATA_API_URL } from '../../utils/constants';
+import { DATA_LOCAL, DATA_API_URL, SOCKET_STATUS } from '../../utils/constants';
 
 const CONVERT = 1000;
 const WORKFLOW_STATISTICS_INTERVAL_SECONDS =
   Number(process.env.REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS) * CONVERT;
 
-function epochToDateString(timeInMilliseconds: number) {
+function epochToDate(timeInMilliseconds: number) {
   if (timeInMilliseconds === undefined || timeInMilliseconds === null) {
     return null;
   }
-  return moment(0)
-    .milliseconds(timeInMilliseconds * CONVERT)
-    .format('DD MM YYYY hh:mm:ss Z');
+  return new Date(timeInMilliseconds * CONVERT);
 }
 
 const Statistics = () => {
@@ -61,14 +58,6 @@ const Statistics = () => {
   };
 
   React.useEffect(() => {
-    setShowBasicContent(canShowBasic());
-  }, [processingBlockStatisticsData]);
-
-  React.useEffect(() => {
-    setShowDetailContent(canShowDetail());
-  }, [receiverEventsData]);
-
-  React.useEffect(() => {
     if (DATA_LOCAL) {
       setProcessingBlockStatisticsData(mockStatisticsProcessingBlock);
       setReceiverEventsData(mockStatisticsReceiverEvents);
@@ -82,6 +71,7 @@ const Statistics = () => {
     <>
       <SignalCard
         title={t('label.statisticsDetailed')}
+        socketStatus={SOCKET_STATUS[processingBlockStatisticsData === null ? 1 : 2]}
         showContent={showBasicContent}
         setShowContent={showBasicToggle}
       >
@@ -95,17 +85,21 @@ const Statistics = () => {
                 <Typography variant="subtitle1">
                   {t('label.lastAPIRefresh')}
                   {': '}
-                  {epochToDateString(processingBlockStatisticsData?.time?.now)}
+                  {t('date_time', { date: epochToDate(processingBlockStatisticsData?.time?.now) })}
                 </Typography>
                 <Typography variant="subtitle1">
                   {t('label.lastUpdated')}
                   {': '}
-                  {epochToDateString(processingBlockStatisticsData?.time?.last_update)}
+                  {t('date_time', {
+                    date: epochToDate(processingBlockStatisticsData?.time?.last_update)
+                  })}
                 </Typography>
                 <Typography variant="subtitle1">
                   {t('label.start')}
                   {': '}
-                  {epochToDateString(processingBlockStatisticsData?.time?.start)}
+                  {t('date_time', {
+                    date: epochToDate(processingBlockStatisticsData?.time?.start)
+                  })}
                 </Typography>
               </Grid>
               <Grid item md={4} sm={6} xs={12}>
@@ -177,6 +171,7 @@ const Statistics = () => {
       </SignalCard>
       <SignalCard
         title={t('label.statisticsReceiver')}
+        socketStatus={SOCKET_STATUS[receiverEventsData === null ? 1 : 2]}
         showContent={showDetailContent}
         setShowContent={showDetailToggle}
       >
@@ -187,7 +182,7 @@ const Statistics = () => {
                 <Typography variant="subtitle1">
                   {t('label.state')}
                   {': '}
-                  {epochToDateString(receiverEventsData?.time)}
+                  {t('date_time', { date: epochToDate(receiverEventsData?.time) })}
                 </Typography>
                 <Typography variant="subtitle1">
                   {t('label.currentScanId')}

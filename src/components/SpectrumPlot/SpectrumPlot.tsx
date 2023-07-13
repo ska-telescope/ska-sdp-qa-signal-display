@@ -63,10 +63,13 @@ const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
   }
 
   React.useEffect(() => {
+    const firstRender = chartData === null;
     if (data) {
       setChartData(getChartData(data));
     }
-    setShowContent(canShow());
+    if (firstRender) {
+      setShowContent(canShow());
+    }
   }, [data]);
 
   React.useEffect(() => {
@@ -91,7 +94,7 @@ const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
       setShowContent={showToggle}
     >
       <Plot
-        data={chartData}
+        data={showContent ? chartData : null}
         layout={{
           autosize: false,
           title: chartTitle(),

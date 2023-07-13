@@ -59,6 +59,9 @@ module.exports = () => {
     devtool: 'source-map',
 
     plugins: [
+      new webpack.DefinePlugin({
+        'process.env.VERSION': JSON.stringify(process.env.npm_package_version)
+      }),
       new ModuleFederationPlugin({
         name: 'signalMetrics',
         filename: 'remoteEntry.js',
