@@ -39,7 +39,7 @@ const Spectrogram = ({ config }: SpectrogramProps) => {
     if (config === null) {
       return;
     }
-    
+
     const abortController = new AbortController();
     async function retrieveChartData() {
       await fetch(`${DATA_API_URL}${config.paths.processing_blocks}/latest/baselines`, {
@@ -49,20 +49,21 @@ const Spectrogram = ({ config }: SpectrogramProps) => {
         .then(data => {
           setShowContent(true);
           setChartData(data.baselines);
+          abortController.abort();
         })
-        .catch(() => null);
+        .catch(() => {
+          // TODO : What do we put in here ?
+          abortController.abort();
+        });
     }
     retrieveChartData();
-    return () => {
-      abortController.abort();
-    };
   }, [config]);
 
   const apiFormat = config ? config.api_format : '?????';
   const cardTitle = () => `Serialisation: ${apiFormat}`;
 
   function getImageUrl(item: string, full: boolean) {
-    const imageType = (full) ? 'full_image' : 'thumbnail';
+    const imageType = full ? 'full_image' : 'thumbnail';
     const baselines = item.split(/[-_]+/);
     return `${DATA_API_URL}/spectograms/${imageType}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }

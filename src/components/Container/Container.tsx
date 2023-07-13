@@ -25,6 +25,7 @@ const Container = () => {
   const [socketStatus2, setSocketStatus2] = React.useState(SOCKET_STATUS[0]);
   const [chartData2, setChartData2] = React.useState(null);
   const [legendData, setLegendData] = React.useState(null);
+  const [legendPole, setLegendPole] = React.useState(null);
   const [config, setConfig] = React.useState(null);
 
   // We have a delay to reduce screen flicker
@@ -35,14 +36,47 @@ const Container = () => {
   }
   window.onresize = resizeIncrement;
 
-  function legendOnClick(val: string) {
+  const isSelf = (inValue: string) => {
+    const arr = inValue.split('_');
+    return arr[0] === arr[1] ? arr[0] : '';
+  };
+
+  function legendOnClick(val: string): void {
     const tmp = [];
     for (let i = 0; i < legendData.length; i++) {
       tmp.push({
+        self: legendData[i].self,
         text: legendData[i].text,
         color: legendData[i].color,
         active:
           legendData[i].text.toUpperCase() === val ? !legendData[i].active : legendData[i].active
+      });
+    }
+    setLegendData(tmp);
+  }
+  function poleOnClick(val: string): void {
+    const poles = [];
+    for (let i = 0; i < legendPole.length; i++) {
+      poles.push({
+        text: legendPole[i].text,
+        color: legendPole[i].color,
+        active:
+          legendPole[i].text.toUpperCase() === val ? !legendData[i].active : legendData[i].active
+      });
+    }
+    setLegendPole(poles);
+
+    const tmp = [];
+    for (let i = 0; i < legendData.length; i++) {
+      const arr = legendData[i].text.split('_');
+      tmp.push({
+        self: legendData[i].self,
+        text: legendData[i].text,
+        color: legendData[i].color,
+        active:
+          arr[0].toUpperCase() === val || arr[1].toUpperCase() === val
+            ? !legendData[i].active
+            : legendData[i].active
       });
     }
     setLegendData(tmp);
@@ -112,7 +146,19 @@ const Container = () => {
     function getLegendData(usedData: any) {
       const values = getBData(usedData.data);
       const filtered = values.filter((value, index, array) => array.indexOf(value) === index);
-      const elements = filtered.map((e, i) => ({ text: e, active: true, color: COLOR[i] }));
+      const elements = filtered.map((e, i) => ({
+        text: e,
+        active: true,
+        self: isSelf(e),
+        color: COLOR[i]
+      }));
+      const poles = [];
+      for (let i = 0; i < elements.length; i++) {
+        if (elements[i].self.length) {
+          poles.push({ text: elements[i].self, active: true, color: elements[i].color });
+        }
+      }
+      setLegendPole(poles);
       return elements;
     }
 
@@ -153,6 +199,8 @@ const Container = () => {
         config={config}
         data={legendData}
         onClick={legendOnClick}
+        pole={legendPole}
+        poleUpdate={poleOnClick}
       />
       {Polar('XX')}
       {Polar('XY')}
