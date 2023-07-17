@@ -7,19 +7,26 @@ import Plot from 'react-plotly.js';
 import { Grid } from '@mui/material';
 import SignalCard from '../SignalCard/SignalCard';
 import { storageObject } from '../../services/stateStorage';
-import { COLOR, PROTOCOL } from '../../utils/constants';
+import { COLOR } from '../../utils/constants';
 
+const RATIO = 2;
 interface PolarizationProps {
   polarization: string;
   resize: number;
   socketStatus: string;
+  config: any;
   data: any;
   legend: any;
 }
 
-const RATIO = 2;
-
-const Polarization = ({ polarization, resize, socketStatus, data, legend }: PolarizationProps) => {
+const Polarization = ({
+  polarization,
+  resize,
+  socketStatus,
+  config,
+  data,
+  legend
+}: PolarizationProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [showContent, setShowContent] = React.useState(false);
@@ -28,12 +35,13 @@ const Polarization = ({ polarization, resize, socketStatus, data, legend }: Pola
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
 
+  const apiFormat = config ? config.api_format : '?????';
   const xLabel = () => `${t('label.frequency')} (${t('units.frequency')})`;
 
   const yLabel = (amplitude: boolean) => `${t(amplitude ? 'label.amplitude' : 'label.phase')}`;
 
   const cardTitle = () =>
-    `${t('label.socket')}: ${socketStatus}, ${t('label.serialisation')}: ${PROTOCOL}`;
+    `${t('label.socket')}: ${socketStatus}, ${t('label.serialisation')}: ${apiFormat}`;
 
   const chartTitle = (amplitude: boolean) => t(amplitude ? 'label.amplitude' : 'label.phase');
 

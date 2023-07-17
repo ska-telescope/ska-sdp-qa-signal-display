@@ -11,9 +11,14 @@ import {
   Modal
 } from '@mui/material';
 import SignalCard from '../SignalCard/SignalCard';
-import { DATA_API_URL, PROTOCOL } from '../../utils/constants';
+import { DATA_API_URL } from '../../utils/constants';
 
-const Spectrogram = () => {
+interface SpectrogramProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  config: any;
+}
+
+const Spectrogram = ({ config }: SpectrogramProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [showContent, setShowContent] = React.useState(false);
@@ -31,39 +36,41 @@ const Spectrogram = () => {
   };
 
   React.useEffect(() => {
+    if (config === null) {
+      return;
+    }
+
     const abortController = new AbortController();
     async function retrieveChartData() {
-      await fetch(`${DATA_API_URL}/stats/processing_block/blocks/latest/baselines`, {
+      await fetch(`${DATA_API_URL}${config.paths.processing_blocks}/latest/baselines`, {
         signal: abortController.signal
       })
         .then(response => response.json())
         .then(data => {
           setShowContent(true);
           setChartData(data.baselines);
+          abortController.abort();
         })
-        .catch(() => null);
+        .catch(() => {
+          // TODO : What do we put in here ?
+          abortController.abort();
+        });
     }
     retrieveChartData();
-    return () => {
-      abortController.abort();
-    };
-  }, []);
+  }, [config]);
 
-  const cardTitle = () => `Serialisation: ${PROTOCOL}`;
+  const apiFormat = config ? config.api_format : '?????';
+  const cardTitle = () => `Serialisation: ${apiFormat}`;
 
-  function getFullImageUrl(item: string) {
+  function getImageUrl(item: string, full: boolean) {
+    const imageType = full ? 'full_image' : 'thumbnail';
     const baselines = item.split(/[-_]+/);
-    return `${DATA_API_URL}/spectograms/full_image/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
-  }
-
-  function getThumbnailImageUrl(item: string) {
-    const baselines = item.split(/[-_]+/);
-    return `${DATA_API_URL}/spectograms/thumbnail/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
+    return `${DATA_API_URL}/spectograms/${imageType}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
 
   function imageClick(item: string) {
     handleOpen();
-    setImageUrl(getFullImageUrl(item));
+    setImageUrl(getImageUrl(item, true));
   }
 
   return (
@@ -104,7 +111,7 @@ const Spectrogram = () => {
                 chartData.map(item => (
                   <ImageListItem key={item}>
                     <img
-                      src={getThumbnailImageUrl(item)}
+                      src={getImageUrl(item, false)}
                       alt={item}
                       loading="lazy"
                       onClick={() => imageClick(item)}

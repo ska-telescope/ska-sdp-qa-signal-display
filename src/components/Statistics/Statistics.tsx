@@ -17,7 +17,12 @@ function epochToDate(timeInMilliseconds: number) {
   return new Date(timeInMilliseconds * CONVERT);
 }
 
-const Statistics = () => {
+interface StatisticsProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  config: any;
+}
+
+const Statistics = ({ config }: StatisticsProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [showBasicContent, setShowBasicContent] = React.useState(false);
@@ -26,7 +31,7 @@ const Statistics = () => {
   const [receiverEventsData, setReceiverEventsData] = React.useState(null);
 
   async function retrieveProcessingBlockStatisticsData() {
-    await fetch(`${DATA_API_URL}/stats/processing_block/blocks/latest/statistics`)
+    await fetch(`${DATA_API_URL}${config.paths.processing_blocks}/latest/statistics`)
       .then(response => response.json())
       .then(data => {
         setProcessingBlockStatisticsData(data);
@@ -36,7 +41,7 @@ const Statistics = () => {
   }
 
   async function retrieveReceiverEventData() {
-    await fetch(`${DATA_API_URL}/stats/spead2/scans/latest/latest_event`)
+    await fetch(`${DATA_API_URL}${config.paths.spead2_scans}/latest/latest_event`)
       .then(response => response.json())
       .then(data => {
         setReceiverEventsData(data);
@@ -61,11 +66,11 @@ const Statistics = () => {
     if (DATA_LOCAL) {
       setProcessingBlockStatisticsData(mockStatisticsProcessingBlock);
       setReceiverEventsData(mockStatisticsReceiverEvents);
-    } else {
+    } else if (config !== null) {
       retrieveProcessingBlockStatisticsData();
       retrieveReceiverEventData();
     }
-  }, []);
+  }, [config]);
 
   return (
     <>

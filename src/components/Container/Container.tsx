@@ -10,10 +10,10 @@ import PhaseData from '../../mockData/WebSocket/phase.json';
 import PlotData from '../../mockData/WebSocket/spectrum.json';
 import {
   COLOR,
+  DATA_API_URL,
   DATA_LOCAL,
   MSG_PHASE_AMP,
   MSG_SPECTRUM,
-  PROTOCOL,
   SOCKET_STATUS,
   WS_API_URL
 } from '../../utils/constants';
@@ -25,6 +25,8 @@ const Container = () => {
   const [socketStatus2, setSocketStatus2] = React.useState(SOCKET_STATUS[0]);
   const [chartData2, setChartData2] = React.useState(null);
   const [legendData, setLegendData] = React.useState(null);
+  const [legendPole, setLegendPole] = React.useState(null);
+  const [config, setConfig] = React.useState(null);
 
   // We have a delay to reduce screen flicker
   function resizeIncrement() {
@@ -34,10 +36,16 @@ const Container = () => {
   }
   window.onresize = resizeIncrement;
 
-  function legendOnClick(val: string) {
+  const isSelf = (inValue: string) => {
+    const arr = inValue.split('_');
+    return arr[0] === arr[1] ? arr[0] : '';
+  };
+
+  function legendOnClick(val: string): void {
     const tmp = [];
     for (let i = 0; i < legendData.length; i++) {
       tmp.push({
+        self: legendData[i].self,
         text: legendData[i].text,
         color: legendData[i].color,
         active:
@@ -46,8 +54,61 @@ const Container = () => {
     }
     setLegendData(tmp);
   }
+  function poleOnClick(val: string): void {
+    const poles = [];
+    for (let i = 0; i < legendPole.length; i++) {
+      poles.push({
+        text: legendPole[i].text,
+        color: legendPole[i].color,
+        active:
+          legendPole[i].text.toUpperCase() === val ? !legendData[i].active : legendData[i].active
+      });
+    }
+    setLegendPole(poles);
+
+    const tmp = [];
+    for (let i = 0; i < legendData.length; i++) {
+      const arr = legendData[i].text.split('_');
+      tmp.push({
+        self: legendData[i].self,
+        text: legendData[i].text,
+        color: legendData[i].color,
+        active:
+          arr[0].toUpperCase() === val || arr[1].toUpperCase() === val
+            ? !legendData[i].active
+            : legendData[i].active
+      });
+    }
+    setLegendData(tmp);
+  }
 
   React.useEffect(() => {
+    if (DATA_LOCAL) {
+      setConfig('DATA LOCAL');
+      return;
+    }
+    const abortController = new AbortController();
+    async function fetchConfig() {
+      await fetch(`${DATA_API_URL}/config`, {
+        signal: abortController.signal
+      })
+        .then(response => response.json())
+        .then(data => {
+          setConfig(data);
+          abortController.abort();
+        })
+        .catch(() => {
+          // TODO : What do we put in here ?
+          abortController.abort();
+        });
+    }
+    fetchConfig();
+  }, []);
+
+  React.useEffect(() => {
+    if (config === null) {
+      return;
+    }
     if (DATA_LOCAL) {
       setSocketStatus1(SOCKET_STATUS[3]);
       setChartData1(PhaseData);
@@ -55,21 +116,21 @@ const Container = () => {
       setChartData2(PlotData);
     } else {
       Socket({
-        apiUrl: WS_API_URL,
-        protocol: PROTOCOL,
+        apiUrl: WS_API_URL + config.paths.websocket,
+        protocol: config.api_format,
         suffix: MSG_PHASE_AMP,
         statusFunction: setSocketStatus1,
         dataFunction: setChartData1
       });
       Socket({
-        apiUrl: WS_API_URL,
-        protocol: PROTOCOL,
+        apiUrl: WS_API_URL + config.paths.websocket,
+        protocol: config.api_format,
         suffix: MSG_SPECTRUM,
         statusFunction: setSocketStatus2,
         dataFunction: setChartData2
       });
     }
-  }, []);
+  }, [config]);
 
   React.useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -85,7 +146,19 @@ const Container = () => {
     function getLegendData(usedData: any) {
       const values = getBData(usedData.data);
       const filtered = values.filter((value, index, array) => array.indexOf(value) === index);
-      const elements = filtered.map((e, i) => ({ text: e, active: true, color: COLOR[i] }));
+      const elements = filtered.map((e, i) => ({
+        text: e,
+        active: true,
+        self: isSelf(e),
+        color: COLOR[i]
+      }));
+      const poles = [];
+      for (let i = 0; i < elements.length; i++) {
+        if (elements[i].self.length) {
+          poles.push({ text: elements[i].self, active: true, color: elements[i].color });
+        }
+      }
+      setLegendPole(poles);
       return elements;
     }
 
@@ -100,45 +173,40 @@ const Container = () => {
     }
   }, [chartData1]);
 
+  const Polar = (inValue: string): React.JSX.Element => (
+    <Polarization
+      polarization={inValue}
+      resize={refresh}
+      socketStatus={socketStatus1}
+      config={config}
+      data={chartData1}
+      legend={legendData}
+    />
+  );
+
   return (
     <>
-      <Statistics />
-      <SpectrumPlot resize={refresh} socketStatus={socketStatus2} data={chartData2} />
+      <Statistics config={config} />
+      <SpectrumPlot
+        resize={refresh}
+        socketStatus={socketStatus2}
+        config={config}
+        data={chartData2}
+      />
       <Legend
         resize={refresh}
         socketStatus={socketStatus1}
+        config={config}
         data={legendData}
         onClick={legendOnClick}
+        pole={legendPole}
+        poleUpdate={poleOnClick}
       />
-      <Polarization
-        polarization="XX"
-        resize={refresh}
-        socketStatus={socketStatus1}
-        data={chartData1}
-        legend={legendData}
-      />
-      <Polarization
-        polarization="XY"
-        resize={refresh}
-        socketStatus={socketStatus1}
-        data={chartData1}
-        legend={legendData}
-      />
-      <Polarization
-        polarization="YX"
-        resize={refresh}
-        socketStatus={socketStatus1}
-        data={chartData1}
-        legend={legendData}
-      />
-      <Polarization
-        polarization="YY"
-        resize={refresh}
-        socketStatus={socketStatus1}
-        data={chartData1}
-        legend={legendData}
-      />
-      <Spectrogram />
+      {Polar('XX')}
+      {Polar('XY')}
+      {Polar('YX')}
+      {Polar('YY')}
+      <Spectrogram config={config} />
     </>
   );
 };

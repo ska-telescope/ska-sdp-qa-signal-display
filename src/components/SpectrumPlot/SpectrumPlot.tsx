@@ -1,22 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable import/no-unresolved */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Plot from 'react-plotly.js';
 
 import SignalCard from '../SignalCard/SignalCard';
 import { storageObject } from '../../services/stateStorage';
-import { COLOR, PROTOCOL } from '../../utils/constants';
+import { COLOR } from '../../utils/constants';
 
 interface SpectrumPlotProps {
   resize: number;
   socketStatus: string;
+  config: any;
   data: object;
 }
 
 const RATIO = 2;
 
-const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
+const SpectrumPlot = ({ resize, socketStatus, config, data }: SpectrumPlotProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [chartData, setChartData] = React.useState(null);
@@ -24,8 +24,9 @@ const SpectrumPlot = ({ resize, socketStatus, data }: SpectrumPlotProps) => {
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
 
+  const apiFormat = config ? config.api_format : '?????';
   const cardTitle = () =>
-    `${t('label.socket')}: ${socketStatus}, ${t('label.serialisation')}: ${PROTOCOL}`;
+    `${t('label.socket')}: ${socketStatus}, ${t('label.serialisation')}: ${apiFormat}`;
 
   const chartTitle = () => '';
 
