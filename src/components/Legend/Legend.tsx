@@ -77,55 +77,23 @@ const Legend = ({ resize, socketStatus, config, data, onClick, pole, poleUpdate 
           {data &&
             data.map(
               (item: { active: boolean; color: string; self: boolean; text: string }, i: any) => (
-                <>
-                  {item.self && (
-                    <Button
-                      // eslint-disable-next-line react/no-array-index-key
-                      key={i}
-                      onClick={e => {
-                        onClick(e.currentTarget.innerText);
-                      }}
-                      size="small"
-                      sx={{
-                        m: 1,
-                        '&:hover': item.active ? item.color : 'inherited',
-                        backgroundColor: item.active ? item.color : 'inherited',
-                        color: item.active ? colorFlip(item.color, true) : 'inherited'
-                      }}
-                      variant="contained"
-                    >
-                      {item.text}
-                    </Button>
-                  )}
-                </>
-              )
-            )}
-        </Grid>
-        <Grid item>
-          {data &&
-            data.map(
-              (item: { active: boolean; color: string; self: boolean; text: string }, i: any) => (
-                <>
-                  {!item.self && (
-                    <Button
-                      // eslint-disable-next-line react/no-array-index-key
-                      key={i}
-                      onClick={e => {
-                        onClick(e.currentTarget.innerText);
-                      }}
-                      size="small"
-                      sx={{
-                        m: 1,
-                        '&:hover': item.active ? item.color : 'inherited',
-                        backgroundColor: item.active ? item.color : 'inherited',
-                        color: item.active ? colorFlip(item.color, true) : 'inherited'
-                      }}
-                      variant="contained"
-                    >
-                      {item.text}
-                    </Button>
-                  )}
-                </>
+                <Button
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={i}
+                  onClick={e => {
+                    onClick(e.currentTarget.innerText);
+                  }}
+                  size="small"
+                  sx={{
+                    m: 1,
+                    '&:hover': item.active ? item.color : 'inherited',
+                    backgroundColor: item.active ? item.color : 'inherited',
+                    color: item.active ? colorFlip(item.color, true) : 'inherited'
+                  }}
+                  variant="contained"
+                >
+                  {item.text}
+                </Button>
               )
             )}
         </Grid>

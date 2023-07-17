@@ -1315,6 +1315,21 @@
     js-yaml "4.1.0"
     nyc "15.1.0"
 
+"@cypress/code-coverage@^3.11.0":
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/@cypress/code-coverage/-/code-coverage-3.11.0.tgz#f695b53f5e2b89144ca418fd6608a63720e2880f"
+  integrity sha512-ihSO1s03gmLRE224oIjrbdG1ey63vw/UY+VSqQ5m/TKkAvyz6GIiniq6juk3AV/+0vQC1Eb4UWFu8ndtji4M1g==
+  dependencies:
+    "@cypress/webpack-preprocessor" "^5.11.0"
+    chalk "4.1.2"
+    dayjs "1.11.9"
+    debug "4.3.4"
+    execa "4.1.0"
+    globby "11.0.4"
+    istanbul-lib-coverage "3.0.0"
+    js-yaml "4.1.0"
+    nyc "15.1.0"
+
 "@cypress/request@^2.88.10":
   version "2.88.11"
   resolved "https://registry.yarnpkg.com/@cypress/request/-/request-2.88.11.tgz#5a4c7399bc2d7e7ed56e92ce5acb620c8b187047"
@@ -2269,11 +2284,12 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@ska-telescope/ska-gui-components@^0.1.29":
-  version "0.1.29"
-  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-gui-components/-/ska-gui-components-0.1.29.tgz#c509fc5a239ead940baa67c27fb806367a1fb8e9"
-  integrity sha512-TNadgZaKQdvpfyO2HJb/XhVHj61KMUfOJj74TqGIbOhas+6e2vwWieR5+xnVAGdOzPnCEt666EN7Q8fIn0jrzA==
+"@ska-telescope/ska-gui-components@^0.1.31":
+  version "0.1.31"
+  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-gui-components/-/ska-gui-components-0.1.31.tgz#a9c599a60b6a09b3351b0c158a84c7aff73ca95f"
+  integrity sha512-oIYHHFHgNFbqo01YYbKa4ReUUcqgmpvttCEnXOMXTmbJ2bns92G9yWgMnV+Eg6G9xpSKrBOxFm72cGHBBIa7EQ==
   dependencies:
+    "@cypress/code-coverage" "^3.11.0"
     "@mui/lab" "^5.0.0-alpha.135"
     "@mui/system" "^5.13.7"
     "@mui/x-data-grid" "^6.9.2"
@@ -5009,6 +5025,11 @@ dayjs@1.10.7:
   version "1.10.7"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.7.tgz#2cf5f91add28116748440866a0a1d26f3a6ce468"
   integrity sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==
+
+dayjs@1.11.9:
+  version "1.11.9"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.9.tgz#9ca491933fadd0a60a2c19f6c237c03517d71d1a"
+  integrity sha512-QvzAURSbQ0pKdIye2txOzNaHmxtUBXerpY0FJsFXUMKbIZeFm5ht1LS/jFsrncjnmtv8HsG0W2g6c0zUjZWmpA==
 
 dayjs@^1.10.4:
   version "1.11.7"
