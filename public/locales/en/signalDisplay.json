@@ -4,12 +4,19 @@
   "date_format_two": "{{date, DD-MM-YYYY}}",
   "date_time": "{{date, DD-MMM-YYYY HH:MM Z}}",
   "date_input_format": "dd/mm/yyyy",
+
+  "error": {
+    "subArray": "No subArrays located"
+  },
+
   "intlNumber": "{{val, number}}",
 
   "isLoading": "...loading",
 
   "prompt": {
-    "spectrograms": "Click on the baseline and polarisation label to see a detailed spectrogram"
+    "spectrograms": "Click on the baseline and polarisation label to see a detailed spectrogram",
+    "subArrayMany": "Choose the SubArray that you wish to see charting for",
+    "subArrayOne": "There is only one active Subarray at present"
   },
 
   "label": {
@@ -47,7 +54,7 @@
     "statistics": "Statistics",
     "statisticsDetailed": "Statistics - Detailed",
     "statisticsReceiver": "Statistics - Receiver",
-    "subArray": "Sub Array",
+    "subArray": "SubArray",
     "time": "Time",
     "timeSincePayload": "Time Since Last Payload",
     "totalDataReceived": "Total Data Received",

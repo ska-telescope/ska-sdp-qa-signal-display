@@ -11,7 +11,7 @@ import {
   Modal
 } from '@mui/material';
 import SignalCard from '../SignalCard/SignalCard';
-import { DATA_API_URL } from '../../utils/constants';
+import { DATA_LOCAL, DATA_API_URL } from '../../utils/constants';
 
 interface SpectrogramProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -56,7 +56,12 @@ const Spectrogram = ({ config }: SpectrogramProps) => {
           abortController.abort();
         });
     }
-    retrieveChartData();
+
+    if (DATA_LOCAL) {
+      // TODO : Should I set something into here ?
+    } else if (config !== null) {
+      retrieveChartData();
+    }
   }, [config]);
 
   const apiFormat = config ? config.api_format : '?????';

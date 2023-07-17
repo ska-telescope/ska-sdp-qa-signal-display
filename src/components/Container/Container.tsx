@@ -1,5 +1,9 @@
+/* eslint-disable no-inner-declarations */
 /* eslint-disable react/jsx-no-bind */
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Box, Grid } from '@mui/material';
+import { DropDown, InfoCard } from '@ska-telescope/ska-gui-components';
 import Legend from '../Legend/Legend';
 import Polarization from '../Polarization/Polarization';
 import Spectrogram from '../Spectrogram/Spectrogram';
@@ -19,6 +23,8 @@ import {
 } from '../../utils/constants';
 
 const Container = () => {
+  const { t } = useTranslation('signalDisplay');
+
   const [refresh, setRefresh] = React.useState(0);
   const [socketStatus1, setSocketStatus1] = React.useState(SOCKET_STATUS[0]);
   const [chartData1, setChartData1] = React.useState(null);
@@ -27,6 +33,8 @@ const Container = () => {
   const [legendData, setLegendData] = React.useState(null);
   const [legendPole, setLegendPole] = React.useState(null);
   const [config, setConfig] = React.useState(null);
+  const [subArray, setSubArray] = React.useState('');
+  const [subArrays, setSubArrays] = React.useState(null);
 
   // We have a delay to reduce screen flicker
   function resizeIncrement() {
@@ -54,6 +62,7 @@ const Container = () => {
     }
     setLegendData(tmp);
   }
+
   function poleOnClick(val: string): void {
     const poles = [];
     for (let i = 0; i < legendPole.length; i++) {
@@ -110,6 +119,45 @@ const Container = () => {
       return;
     }
     if (DATA_LOCAL) {
+      setSubArray('1');
+    } else {
+      const abortController = new AbortController();
+
+      const clear = () => {
+        setSubArrays([]);
+        setSubArray('');
+      };
+
+      async function fetchSubArray() {
+        await fetch(`${DATA_API_URL}/stats/subarrays`, {
+          signal: abortController.signal
+        })
+          .then(response => response.json())
+          .then(data => {
+            const obj = data && data.all ? Object.values(data.all) : null;
+            if (obj) {
+              const elements = obj.map(e => ({ label: e[0], value: e[0] }));
+              setSubArrays(elements);
+              setSubArray(elements?.length > 0 ? elements[0].value : '');
+            } else {
+              clear();
+            }
+            abortController.abort();
+          })
+          .catch(() => {
+            clear();
+            abortController.abort();
+          });
+      }
+      fetchSubArray();
+    }
+  }, [config]);
+
+  React.useEffect(() => {
+    if (subArray === '') {
+      return;
+    }
+    if (DATA_LOCAL) {
       setSocketStatus1(SOCKET_STATUS[3]);
       setChartData1(PhaseData);
       setSocketStatus2(SOCKET_STATUS[3]);
@@ -130,7 +178,7 @@ const Container = () => {
         dataFunction: setChartData2
       });
     }
-  }, [config]);
+  }, [subArray]);
 
   React.useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -184,8 +232,29 @@ const Container = () => {
     />
   );
 
+  const Selection = (): React.JSX.Element => (
+    <Box m={1}>
+      <Grid container direction="row" justifyContent="space-between">
+        <Grid item xs={3}>
+          {subArrays && (
+            <DropDown
+              disabled={!subArrays || subArrays.length < 2}
+              helperText={t(subArrays.length < 2 ? 'prompt.subArrayOne' : 'prompt.subArrayMany')}
+              label={t('label.subArray')}
+              options={subArrays}
+              value={subArray}
+              setValue={setSubArray}
+            />
+          )}
+          {!subArrays && <InfoCard fontSize={25} level={1} message={t('error.subArray')} />}
+        </Grid>
+      </Grid>
+    </Box>
+  );
+
   return (
     <>
+      {Selection()}
       <Statistics config={config} />
       <SpectrumPlot
         resize={refresh}
