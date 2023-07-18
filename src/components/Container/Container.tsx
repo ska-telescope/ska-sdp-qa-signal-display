@@ -108,10 +108,10 @@ const Container = () => {
       setCounter(0);
     }
     const interval = setInterval(() => {
-      setCounter(counter + 1);
+        setCounter(counter + 1);
     }, 1000);
     return () => clearInterval(interval);
-  }, [counter]);
+}, [counter]);
 
   React.useEffect(() => {
     if (fetchConfig === false) {
@@ -131,14 +131,13 @@ const Container = () => {
       })
         .then(response => response.json())
         .then(data => {
-          console.error(data);
+          // TODO : Keep whilst in PI19.3 for development assistance :  console.error(data);
           setConfig(data);
           setFetchConfig(false);
           setFetchSubarrayList(true);
           abortController.abort();
         })
         .catch(() => {
-          // TODO : What do we put in here ?
           setFetchConfig(false);
           abortController.abort();
         });
@@ -272,12 +271,8 @@ const Container = () => {
     />
   );
 
-  const labelCounter = () => +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS - counter;
-  const refreshClicked = () => {
-    if (!fetchSubArrayList) {
-      setFetchSubarrayList(true);
-    }
-  };
+  const labelCounter = () => +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS - counter; 
+  const refreshClicked = () => { if ( !fetchSubArrayList ) {setFetchSubarrayList(true)}};
 
   const Selection = (): React.JSX.Element => (
     <Box m={1}>
