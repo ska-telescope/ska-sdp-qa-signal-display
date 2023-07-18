@@ -1,3 +1,5 @@
+import { toInteger } from 'cypress/types/lodash';
+
 // Used for Determining sizing of cards and image grid
 export const CELL_HEIGHT = 75;
 export const CELL_WIDTH = 150;
