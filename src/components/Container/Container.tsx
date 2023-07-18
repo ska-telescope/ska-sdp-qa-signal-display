@@ -108,10 +108,10 @@ const Container = () => {
       setCounter(0);
     }
     const interval = setInterval(() => {
-        setCounter(counter + 1);
+      setCounter(counter + 1);
     }, 1000);
     return () => clearInterval(interval);
-}, [counter]);
+  }, [counter]);
 
   React.useEffect(() => {
     if (fetchConfig === false) {
@@ -271,8 +271,12 @@ const Container = () => {
     />
   );
 
-  const labelCounter = () => +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS - counter; 
-  const refreshClicked = () => { if ( !fetchSubArrayList ) {setFetchSubarrayList(true)}};
+  const labelCounter = () => +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS - counter;
+  const refreshClicked = () => {
+    if (!fetchSubArrayList) {
+      setFetchSubarrayList(true);
+    }
+  };
 
   const Selection = (): React.JSX.Element => (
     <Box m={1}>
