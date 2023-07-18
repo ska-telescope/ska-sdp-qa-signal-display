@@ -3,13 +3,15 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
-import { DropDown, InfoCard } from '@ska-telescope/ska-gui-components';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import { Button, DropDown, InfoCard } from '@ska-telescope/ska-gui-components';
 import Legend from '../Legend/Legend';
 import Polarization from '../Polarization/Polarization';
 import Spectrogram from '../Spectrogram/Spectrogram';
 import SpectrumPlot from '../SpectrumPlot/SpectrumPlot';
 import Statistics from '../Statistics/Statistics';
 import Socket from '../../services/webSocket/Socket';
+
 import PhaseData from '../../mockData/WebSocket/phase.json';
 import PlotData from '../../mockData/WebSocket/spectrum.json';
 import {
@@ -35,6 +37,10 @@ const Container = () => {
   const [config, setConfig] = React.useState(null);
   const [subArray, setSubArray] = React.useState('');
   const [subArrays, setSubArrays] = React.useState(null);
+
+  const [counter, setCounter] = React.useState(0);
+  const [fetchConfig, setFetchConfig] = React.useState(false);
+  const [fetchSubArrayList, setFetchSubarrayList] = React.useState(false);
 
   // We have a delay to reduce screen flicker
   function resizeIncrement() {
@@ -92,44 +98,75 @@ const Container = () => {
   }
 
   React.useEffect(() => {
+    setFetchConfig(true);
+  }, []);
+
+  React.useEffect(() => {
+    const subarrayRefresh = +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS;
+    if (counter >= subarrayRefresh) {
+      setFetchConfig(true);
+      setCounter(0);
+    }
+    const interval = setInterval(() => {
+      setCounter(counter + 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [counter]);
+
+  React.useEffect(() => {
+    if (fetchConfig === false) {
+      return;
+    }
     if (DATA_LOCAL) {
       setConfig('DATA LOCAL');
+      setFetchConfig(false);
+      setFetchSubarrayList(true);
       return;
     }
     const abortController = new AbortController();
-    async function fetchConfig() {
+
+    async function fetchConfigFromAPI() {
       await fetch(`${DATA_API_URL}/config`, {
         signal: abortController.signal
       })
         .then(response => response.json())
         .then(data => {
+          // TODO : Keep whilst in PI19.3 for development assistance :  console.error(data);
           setConfig(data);
+          setFetchConfig(false);
+          setFetchSubarrayList(true);
           abortController.abort();
         })
         .catch(() => {
-          // TODO : What do we put in here ?
+          setFetchConfig(false);
           abortController.abort();
         });
     }
-    fetchConfig();
-  }, []);
+    fetchConfigFromAPI();
+  }, [fetchConfig]);
 
   React.useEffect(() => {
+    if (fetchSubArrayList === false) {
+      return;
+    }
     if (config === null) {
+      setFetchSubarrayList(false);
       return;
     }
     if (DATA_LOCAL) {
       setSubArray('1');
+      setFetchSubarrayList(false);
     } else {
       const abortController = new AbortController();
 
       const clear = () => {
         setSubArrays([]);
         setSubArray('');
+        setFetchSubarrayList(false);
       };
 
-      async function fetchSubArray() {
-        await fetch(`${DATA_API_URL}/stats/subarrays`, {
+      async function fetchSubArrayFromAPI() {
+        await fetch(`${DATA_API_URL}${config.paths.subarrays}`, {
           signal: abortController.signal
         })
           .then(response => response.json())
@@ -139,6 +176,7 @@ const Container = () => {
               const elements = obj.map(e => ({ label: e[0], value: e[0] }));
               setSubArrays(elements);
               setSubArray(elements?.length > 0 ? elements[0].value : '');
+              setFetchSubarrayList(false);
             } else {
               clear();
             }
@@ -149,9 +187,10 @@ const Container = () => {
             abortController.abort();
           });
       }
-      fetchSubArray();
+      fetchSubArrayFromAPI();
     }
-  }, [config]);
+    setFetchSubarrayList(false);
+  }, [fetchSubArrayList]);
 
   React.useEffect(() => {
     if (subArray === '') {
@@ -232,9 +271,16 @@ const Container = () => {
     />
   );
 
+  const labelCounter = () => +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS - counter;
+  const refreshClicked = () => {
+    if (!fetchSubArrayList) {
+      setFetchSubarrayList(true);
+    }
+  };
+
   const Selection = (): React.JSX.Element => (
     <Box m={1}>
-      <Grid container direction="row" justifyContent="space-between">
+      <Grid container direction="row" gap={2} justifyContent="justify-left">
         <Grid item xs={3}>
           {subArrays && (
             <DropDown
@@ -247,6 +293,15 @@ const Container = () => {
             />
           )}
           {!subArrays && <InfoCard fontSize={25} level={1} message={t('error.subArray')} />}
+        </Grid>
+        <Grid item>
+          <Button
+            color="secondary"
+            icon={<RefreshIcon />}
+            label={t('label.button.refresh', { count: labelCounter() })}
+            onClick={refreshClicked}
+            toolTip={t('toolTip.button.refresh')}
+          />
         </Grid>
       </Grid>
     </Box>

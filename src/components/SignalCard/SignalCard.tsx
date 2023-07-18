@@ -50,7 +50,7 @@ const SignalCard = ({
     <Box m={1}>
       <Card style={{ backgroundColor: 'primary' }} variant="outlined">
         <CardHeader
-          action={(
+          action={
             <Grid container spacing={0}>
               <Grid item>
                 {socketStatus && (
@@ -79,7 +79,7 @@ const SignalCard = ({
                 </Tooltip>
               </Grid>
             </Grid>
-          )}
+          }
           subheader={subheader}
           title={title}
         />
