@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
-import { decodeJson } from '../../utils/decoder';
+import { decode } from '../../utils/decoder';
 import { SOCKET_STATUS } from '../../utils/constants';
 
 interface WebSocketProps {
@@ -23,7 +23,7 @@ const Socket = ({ apiUrl, protocol, suffix, statusFunction, dataFunction }: WebS
   ws.onmessage = function onMessage(msg) {
     const inData = msg?.data;
     try {
-      const decoded = decodeJson(inData);
+      const decoded = decode(protocol, inData);
       if (decoded && decoded.status) {
         statusFunction(decoded.status);
       } else {

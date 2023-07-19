@@ -8,6 +8,7 @@ import { storageObject } from '../../services/stateStorage';
 import { COLOR } from '../../utils/constants';
 
 interface SpectrumPlotProps {
+  polarization: string;
   resize: number;
   socketStatus: string;
   config: any;
@@ -16,7 +17,7 @@ interface SpectrumPlotProps {
 
 const RATIO = 2;
 
-const SpectrumPlot = ({ resize, socketStatus, config, data }: SpectrumPlotProps) => {
+const SpectrumPlot = ({ polarization, resize, socketStatus, config, data }: SpectrumPlotProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [chartData, setChartData] = React.useState(null);
@@ -88,7 +89,7 @@ const SpectrumPlot = ({ resize, socketStatus, config, data }: SpectrumPlotProps)
   return (
     <SignalCard
       data-testid="signalCardId"
-      title={t('label.spectrumPlot')}
+      title={`${t('label.spectrumPlot')} ${polarization}`}
       actionTitle={cardTitle()}
       socketStatus={socketStatus}
       showContent={showContent}
