@@ -132,8 +132,8 @@ const Container = () => {
         .then(response => response.json())
         .then(data => {
           // TODO : Leave the following line in place as further work required.
-          console.error(data);
-          
+          // console.error(data);
+
           setConfig(data);
           setFetchConfig(false);
           setFetchSubarrayList(true);

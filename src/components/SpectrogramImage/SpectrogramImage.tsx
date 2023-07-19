@@ -15,19 +15,17 @@ const FULL = 'full_image';
 const THUMBNAIL = 'thumbnail';
 
 const SpectrogramImage = ({ element, full, onClick, config }: SpectrogramImageProps) => {
+  function getImageFULL(item: string) {
+    const baselines = item.split(/[-_]+/);
+    return `${DATA_API_URL}/spectograms/${FULL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
+  }
 
-    function getImageFULL(item: string) {
-        const baselines = item.split(/[-_]+/);
-        return `${DATA_API_URL}/spectograms/${FULL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
-    }
+  function getImageTN(item: string) {
+    const baselines = item.split(/[-_]+/);
+    return `${DATA_API_URL}/spectograms/${THUMBNAIL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
+  }
 
-    function getImageTN(item: string) {
-        const baselines = item.split(/[-_]+/);
-        return `${DATA_API_URL}/spectograms/${THUMBNAIL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
-    }
-    
-
-    // m043_m043_YX 
+  // m043_m043_YX
   function getImageUrl(item: string) {
     return full ? getImageFULL(item) : getImageTN(item);
   }
@@ -36,8 +34,8 @@ const SpectrogramImage = ({ element, full, onClick, config }: SpectrogramImagePr
     return onClick ? onClick(item) : null;
   }
 
-  const width = () => full ? '85vw' : config.waterfall_plots.thumbnail_width;
-  const height = () => full ? '85vh' : config.waterfall_plots.thumbnail_max_height;
+  const width = () => (full ? '85vw' : config.waterfall_plots.thumbnail_width);
+  const height = () => (full ? '85vh' : config.waterfall_plots.thumbnail_max_height);
 
   return (
     <ImageListItem key={element}>
@@ -48,11 +46,11 @@ const SpectrogramImage = ({ element, full, onClick, config }: SpectrogramImagePr
         loading="lazy"
         onClick={() => imageClick(element)}
         style={{
-        width: width(),
-        height: height(),
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
+          width: width(),
+          height: height(),
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}
       />
       <ImageListItemBar title={element} position="below" />
@@ -61,8 +59,8 @@ const SpectrogramImage = ({ element, full, onClick, config }: SpectrogramImagePr
 };
 
 SpectrogramImage.defaultProps = {
-    full: false,
-    onClick: null
-  };
+  full: false,
+  onClick: null
+};
 
 export default SpectrogramImage;

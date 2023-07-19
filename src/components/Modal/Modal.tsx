@@ -18,5 +18,5 @@ const SKAOModal = ({ open, onClose, children }: SKAOModalProps) => (
   >
     {children}
   </Modal>
-  );
+);
 export default SKAOModal;

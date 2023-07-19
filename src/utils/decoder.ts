@@ -18,9 +18,13 @@ import { PROTOCOL } from './constants';
 
 export function decode(protocol: string, data: string) {
   switch (protocol) {
-    case PROTOCOL.JSON: return JSON.parse(data);
-    case PROTOCOL.MESSAGE_PACK: return 'TREVOR';
-    case PROTOCOL.PROTOBUF: return 'TREVOR';
-    default: return 'TREVOR';
+    case PROTOCOL.JSON:
+      return JSON.parse(data);
+    case PROTOCOL.MESSAGE_PACK:
+      return 'TREVOR';
+    case PROTOCOL.PROTOBUF:
+      return 'TREVOR';
+    default:
+      return 'TREVOR';
   }
 }

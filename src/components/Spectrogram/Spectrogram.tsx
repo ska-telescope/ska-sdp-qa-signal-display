@@ -10,7 +10,7 @@ import { DATA_LOCAL, DATA_API_URL } from '../../utils/constants';
 interface SpectrogramProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   config: any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   legend: any;
 }
 
@@ -24,7 +24,7 @@ const Spectrogram = ({ config, legend }: SpectrogramProps) => {
   const [chartData, setChartData] = React.useState(null);
 
   const PATH_SUFFIX = '/latest/baselines';
-  
+
   const showToggle = () => {
     setShowContent(showContent ? false : chartData !== null);
   };
@@ -64,11 +64,11 @@ const Spectrogram = ({ config, legend }: SpectrogramProps) => {
     }
     const newData = [];
     for (let i = 0; i < legend.length; i += 1) {
-      if (`${legend[i].text  }_XX` === baseData[(i * 4)] && legend[i].active) {
-        newData.push(baseData[(i * 4) + 0]);
-        newData.push(baseData[(i * 4) + 1]);
-        newData.push(baseData[(i * 4) + 2]);
-        newData.push(baseData[(i * 4) + 3]);
+      if (`${legend[i].text}_XX` === baseData[i * 4] && legend[i].active) {
+        newData.push(baseData[i * 4 + 0]);
+        newData.push(baseData[i * 4 + 1]);
+        newData.push(baseData[i * 4 + 2]);
+        newData.push(baseData[i * 4 + 3]);
       }
     }
     setChartData(newData);
@@ -85,14 +85,14 @@ const Spectrogram = ({ config, legend }: SpectrogramProps) => {
   return (
     <>
       {selected && (
-      <SKAOModal open={open} onClose={() => setOpen(false)}>
-        <Card variant="outlined" className="removeBorder:focus">
-          <CardContent>
-            <SpectrogramImage config={config} element={selected} full />
-          </CardContent>
-        </Card>
-      </SKAOModal>
-)}
+        <SKAOModal open={open} onClose={() => setOpen(false)}>
+          <Card variant="outlined" className="removeBorder:focus">
+            <CardContent>
+              <SpectrogramImage config={config} element={selected} full />
+            </CardContent>
+          </Card>
+        </SKAOModal>
+      )}
       <SignalCard
         title={t('label.spectrograms')}
         actionTitle={cardTitle()}
@@ -103,14 +103,18 @@ const Spectrogram = ({ config, legend }: SpectrogramProps) => {
         <>
           <Grid container direction="row" justifyContent="space-evenly">
             {chartData && chartData.length ? (
-                chartData.map((item) => (
-                  <Grid key={item} item>
-                    <SpectrogramImage config={config} element={item} onClick={() => imageClick(item)} />
-                  </Grid>
-                ))
-              ) : (
-                <div />
-              )}
+              chartData.map(item => (
+                <Grid key={item} item>
+                  <SpectrogramImage
+                    config={config}
+                    element={item}
+                    onClick={() => imageClick(item)}
+                  />
+                </Grid>
+              ))
+            ) : (
+              <div />
+            )}
           </Grid>
           <div id="spectrogramId" />
         </>
