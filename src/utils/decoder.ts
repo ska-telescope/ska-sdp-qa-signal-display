@@ -1,3 +1,5 @@
+import { PROTOCOL } from './constants';
+
 // Removing Protobuff for now.
 // import SpectrogramsExport from '../models/protobuf/spectrogram.js';
 // import SpectrumExport from '../models/protobuf/spectrum.js';
@@ -14,6 +16,11 @@
 //   return SpectrogramsExport.decode(bytes);
 // }
 
-export function decodeJson(data: string) {
-  return JSON.parse(data);
+export function decode(protocol: string, data: string) {
+  switch (protocol) {
+    case PROTOCOL.JSON: return JSON.parse(data);
+    case PROTOCOL.MESSAGE_PACK: return 'TREVOR';
+    case PROTOCOL.PROTOBUF: return 'TREVOR';
+    default: return 'TREVOR';
+  }
 }

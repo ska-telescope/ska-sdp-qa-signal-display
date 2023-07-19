@@ -43,7 +43,7 @@
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.12.1",
     "@reduxjs/toolkit": "^1.9.5",
-    "@ska-telescope/ska-gui-components": "^0.1.33",
+    "@ska-telescope/ska-gui-components": "^0.1.34",
     "@types/react-plotly.js": "^2.6.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "i18next": "^21.8.9",

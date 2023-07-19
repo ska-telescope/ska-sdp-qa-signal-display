@@ -131,7 +131,9 @@ const Container = () => {
       })
         .then(response => response.json())
         .then(data => {
-          // TODO : Keep whilst in PI19.3 for development assistance :  console.error(data);
+          // TODO : Leave the following line in place as further work required.
+          console.error(data);
+          
           setConfig(data);
           setFetchConfig(false);
           setFetchSubarrayList(true);
@@ -260,6 +262,16 @@ const Container = () => {
     }
   }, [chartData1]);
 
+  const Plot = (inValue: string): React.JSX.Element => (
+    <SpectrumPlot
+      polarization={inValue}
+      resize={refresh}
+      socketStatus={socketStatus2}
+      config={config}
+      data={chartData2}
+    />
+  );
+
   const Polar = (inValue: string): React.JSX.Element => (
     <Polarization
       polarization={inValue}
@@ -311,12 +323,10 @@ const Container = () => {
     <>
       {Selection()}
       <Statistics config={config} />
-      <SpectrumPlot
-        resize={refresh}
-        socketStatus={socketStatus2}
-        config={config}
-        data={chartData2}
-      />
+      {Plot('XX')}
+      {Plot('XY')}
+      {Plot('YX')}
+      {Plot('YY')}
       <Legend
         resize={refresh}
         socketStatus={socketStatus1}
@@ -330,7 +340,7 @@ const Container = () => {
       {Polar('XY')}
       {Polar('YX')}
       {Polar('YY')}
-      <Spectrogram config={config} />
+      <Spectrogram config={config} legend={legendData} />
     </>
   );
 };

@@ -56,8 +56,11 @@ export const COLOR = [
   '#E0E0E0'
 ];
 
-export const JSON = 'json';
-export const PROTOBUF = 'protobuf';
+export const PROTOCOL = {
+  JSON: 'json',
+  MESSAGE_PACK: 'msgPack',
+  PROTOBUF: 'protobuf'
+};
 
 export const MSG_PHASE_AMP = 'phase_and_amplitude_vs_frequency';
 export const MSG_SPECTRUM = 'spectrum';
