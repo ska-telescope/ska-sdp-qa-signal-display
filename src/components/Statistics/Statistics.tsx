@@ -83,7 +83,7 @@ const Statistics = ({ config }: StatisticsProps) => {
         <div id="statistics-detailed-Id" data-testid="statistics-detailed-Id">
           {processingBlockStatisticsData?.time && (
             <Grid container direction="row" justifyContent="space-between">
-              <Grid item md={4} sm={6} xs={12}>
+              <Grid data-testid="timeDetails" item md={4} sm={6} xs={12}>
                 <Typography variant="h5" paragraph>
                   {t('label.time')}
                 </Typography>
@@ -107,7 +107,7 @@ const Statistics = ({ config }: StatisticsProps) => {
                   })}
                 </Typography>
               </Grid>
-              <Grid item md={4} sm={6} xs={12}>
+              <Grid data-testid="statisticsDetails" item md={4} sm={6} xs={12}>
                 <Typography variant="h5" paragraph>
                   {t('label.statistics')}
                 </Typography>
@@ -116,7 +116,8 @@ const Statistics = ({ config }: StatisticsProps) => {
                   {': '}
                   {Math.round(
                     (processingBlockStatisticsData?.statistics?.ingestion_rate || 0) * 100
-                  ) / 100}{' '}
+                  ) / 100}
+                  {' '}
                   {t('units.ingestionRate')}
                 </Typography>
                 <Typography variant="subtitle1">
@@ -134,7 +135,7 @@ const Statistics = ({ config }: StatisticsProps) => {
                   )}
                 </Typography>
               </Grid>
-              <Grid item md={4} sm={6} xs={12}>
+              <Grid data-testid="workflowDetails" item md={4} sm={6} xs={12}>
                 <Typography variant="h5" paragraph>
                   {t('label.workflow')}
                 </Typography>
@@ -182,7 +183,7 @@ const Statistics = ({ config }: StatisticsProps) => {
         <div id="statistics-receiver-events" data-testid="statistics-receiver-events">
           {receiverEventsData?.time && (
             <Grid container spacing={2}>
-              <Grid item sm={4} xs={12}>
+              <Grid data-testid="currentScanDetails" item sm={4} xs={12}>
                 <Typography variant="subtitle1">
                   {t('label.state')}
                   {': '}
@@ -194,7 +195,7 @@ const Statistics = ({ config }: StatisticsProps) => {
                   {receiverEventsData?.scan_id}
                 </Typography>
               </Grid>
-              <Grid item sm={4} xs={12}>
+              <Grid data-testid="heapDetails" item sm={4} xs={12}>
                 <Typography variant="subtitle1">
                   {t('label.numberHeaps')}
                   {': '}
@@ -206,11 +207,12 @@ const Statistics = ({ config }: StatisticsProps) => {
                   {receiverEventsData?.num_incomplete}
                 </Typography>
               </Grid>
-              <Grid item sm={4} xs={12}>
+              <Grid data-testid="dataReceivedDetails" item sm={4} xs={12}>
                 <Typography variant="subtitle1">
                   {t('label.totalDataReceived')}
                   {': '}
-                  {Math.round((receiverEventsData?.total_megabytes || 0) * 100) / 100}{' '}
+                  {Math.round((receiverEventsData?.total_megabytes || 0) * 100) / 100}
+                  {' '}
                   {t('units.totalDataReceived')}
                 </Typography>
                 <Typography variant="subtitle1">
@@ -220,13 +222,16 @@ const Statistics = ({ config }: StatisticsProps) => {
                     ((receiverEventsData?.total_megabytes || 0) /
                       (receiverEventsData?.duration || 1)) *
                       100
-                  ) / 100}{' '}
+                  ) / 100}
+                  {' '}
                   {t('units.currentSpeed')}
                 </Typography>
                 <Typography variant="subtitle1">
                   {t('label.durationCurrentTransfer')}
                   {': '}
-                  {Math.round(receiverEventsData?.duration)} {t('units.durationCurrentTransfer')}
+                  {Math.round(receiverEventsData?.duration)} 
+                  {' '}
+                  {t('units.durationCurrentTransfer')}
                 </Typography>
               </Grid>
             </Grid>

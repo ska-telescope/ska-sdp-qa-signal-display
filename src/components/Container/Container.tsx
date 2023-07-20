@@ -292,7 +292,7 @@ const Container = () => {
 
   const Selection = (): React.JSX.Element => (
     <Box m={1}>
-      <Grid container direction="row" gap={2} justifyContent="justify-left">
+      <Grid  container direction="row" gap={2} justifyContent="justify-left">
         <Grid item xs={3}>
           {subArrays && (
             <DropDown
