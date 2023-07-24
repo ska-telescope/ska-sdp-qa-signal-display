@@ -39,6 +39,15 @@ context('Signal display', () => {
         cy.visit("http://localhost:3333")
     })
 
+    it('Verify external link to skao site', () => {
+        cy.findByLabelText("skaWebsite").click()
+    })
+
+    it('Verify light/dark mode is available', () => {
+        cy.findByTestId("Brightness7Icon").click()
+        cy.findByTestId('Brightness4Icon').should("be.visible");
+    })
+
     it('Verify expected diagrams are present and can be hidden', () => {
         cy.get('h4').contains('Signal Display').should("be.visible")
         cy.findAllByLabelText("Hide/Show Toggle").click({ multiple: true })
@@ -59,14 +68,5 @@ context('Signal display', () => {
         cy.findAllByTestId("sectionHeader").contains("Polarization YY").should("be.visible")
 
         cy.findAllByTestId("sectionHeader").contains("Spectrograms").should("be.visible")
-    })
-
-    it('Verify external link to skao site', () => {
-        cy.findByLabelText("skaWebsite").click()
-    })
-
-    it('Verify light/dark mode is available', () => {
-        cy.findByTestId("Brightness7Icon").click()
-        cy.findByTestId('Brightness4Icon').should("be.visible");
     })
 })
