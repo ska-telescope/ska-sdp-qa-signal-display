@@ -14,15 +14,9 @@ import Socket from '../../services/webSocket/Socket';
 
 import PhaseData from '../../mockData/WebSocket/phase.json';
 import PlotData from '../../mockData/WebSocket/spectrum.json';
-import {
-  COLOR,
-  DATA_API_URL,
-  DATA_LOCAL,
-  MSG_PHASE_AMP,
-  MSG_SPECTRUM,
-  SOCKET_STATUS,
-  WS_API_URL
-} from '../../utils/constants';
+import { COLOR, DATA_API_URL, DATA_LOCAL, SOCKET_STATUS, WS_API_URL } from '../../utils/constants';
+
+const items = ['XX', 'XY', 'YX', 'YY'];
 
 const Container = () => {
   const { t } = useTranslation('signalDisplay');
@@ -71,7 +65,11 @@ const Container = () => {
 
   function poleOnClick(val: string): void {
     const poles = [];
+    let newValue = null;
     for (let i = 0; i < legendPole.length; i++) {
+      if (legendPole[i].text.toUpperCase() === val) {
+        newValue = !legendData[i].active;
+      }
       poles.push({
         text: legendPole[i].text,
         color: legendPole[i].color,
@@ -90,7 +88,7 @@ const Container = () => {
         color: legendData[i].color,
         active:
           arr[0].toUpperCase() === val || arr[1].toUpperCase() === val
-            ? !legendData[i].active
+            ? newValue
             : legendData[i].active
       });
     }
@@ -131,9 +129,6 @@ const Container = () => {
       })
         .then(response => response.json())
         .then(data => {
-          // TODO : Leave the following line in place as further work required.
-          // console.error(data);
-
           setConfig(data);
           setFetchConfig(false);
           setFetchSubarrayList(true);
@@ -173,11 +168,13 @@ const Container = () => {
         })
           .then(response => response.json())
           .then(data => {
-            const obj = data && data.all ? Object.values(data.all) : null;
+            const obj: { id: string }[] = data && data.all ? Object.values(data.all) : null;
             if (obj) {
-              const elements = obj.map(e => ({ label: e[0], value: e[0] }));
+              const elements = obj.map(e => ({ label: e.id, value: e.id }));
+              const latest = data && data?.latest ? data.latest : '';
+              const eDefault = elements?.length > 0 ? elements[0].value : '';
               setSubArrays(elements);
-              setSubArray(elements?.length > 0 ? elements[0].value : '');
+              setSubArray(latest.length ? latest : eDefault);
               setFetchSubarrayList(false);
             } else {
               clear();
@@ -207,14 +204,14 @@ const Container = () => {
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
         protocol: config.api_format,
-        suffix: MSG_PHASE_AMP,
+        suffix: `${config.topics.phase_and_amplitude}-${subArray}`,
         statusFunction: setSocketStatus1,
         dataFunction: setChartData1
       });
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
         protocol: config.api_format,
-        suffix: MSG_SPECTRUM,
+        suffix: `${config.topics.spectrum}-${subArray}`,
         statusFunction: setSocketStatus2,
         dataFunction: setChartData2
       });
@@ -262,27 +259,6 @@ const Container = () => {
     }
   }, [chartData1]);
 
-  const Plot = (inValue: string): React.JSX.Element => (
-    <SpectrumPlot
-      polarization={inValue}
-      resize={refresh}
-      socketStatus={socketStatus2}
-      config={config}
-      data={chartData2}
-    />
-  );
-
-  const Polar = (inValue: string): React.JSX.Element => (
-    <Polarization
-      polarization={inValue}
-      resize={refresh}
-      socketStatus={socketStatus1}
-      config={config}
-      data={chartData1}
-      legend={legendData}
-    />
-  );
-
   const labelCounter = () => +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS - counter;
   const refreshClicked = () => {
     if (!fetchSubArrayList) {
@@ -290,43 +266,46 @@ const Container = () => {
     }
   };
 
-  const Selection = (): React.JSX.Element => (
-    <Box m={1}>
-      <Grid container direction="row" gap={2} justifyContent="justify-left">
-        <Grid item xs={3}>
-          {subArrays && (
-            <DropDown
-              disabled={!subArrays || subArrays.length < 2}
-              helperText={t(subArrays.length < 2 ? 'prompt.subArrayOne' : 'prompt.subArrayMany')}
-              label={t('label.subArray')}
-              options={subArrays}
-              value={subArray}
-              setValue={setSubArray}
-            />
-          )}
-          {!subArrays && <InfoCard fontSize={25} level={1} message={t('error.subArray')} />}
-        </Grid>
-        <Grid item>
-          <Button
-            color="secondary"
-            icon={<RefreshIcon />}
-            label={t('label.button.refresh', { count: labelCounter() })}
-            onClick={refreshClicked}
-            toolTip={t('toolTip.button.refresh')}
-          />
-        </Grid>
-      </Grid>
-    </Box>
-  );
-
   return (
     <>
-      {Selection()}
+      <Box m={1}>
+        <Grid container direction="row" gap={2} justifyContent="justify-left">
+          <Grid item xs={3}>
+            {subArrays && (
+              <DropDown
+                disabled={!subArrays || subArrays.length < 2}
+                helperText={t(subArrays.length < 2 ? 'prompt.subArrayOne' : 'prompt.subArrayMany')}
+                label={t('label.subArray')}
+                options={subArrays}
+                value={subArray}
+                setValue={setSubArray}
+              />
+            )}
+            {!subArrays && <InfoCard fontSize={25} level={1} message={t('error.subArray')} />}
+          </Grid>
+          <Grid item>
+            <Button
+              color="secondary"
+              icon={<RefreshIcon />}
+              label={t('label.button.refresh', { count: labelCounter() })}
+              onClick={refreshClicked}
+              toolTip={t('toolTip.button.refresh')}
+            />
+          </Grid>
+        </Grid>
+      </Box>
+
       <Statistics config={config} />
-      {Plot('XX')}
-      {Plot('XY')}
-      {Plot('YX')}
-      {Plot('YY')}
+      {items.map(item => (
+        <SpectrumPlot
+          key={`SpectrumPlot${item}`}
+          polarization={item}
+          resize={refresh}
+          socketStatus={socketStatus2}
+          config={config}
+          data={chartData2}
+        />
+      ))}
       <Legend
         resize={refresh}
         socketStatus={socketStatus1}
@@ -336,10 +315,17 @@ const Container = () => {
         pole={legendPole}
         poleUpdate={poleOnClick}
       />
-      {Polar('XX')}
-      {Polar('XY')}
-      {Polar('YX')}
-      {Polar('YY')}
+      {items.map(item => (
+        <Polarization
+          key={`Polarization${item}`}
+          polarization={item}
+          resize={refresh}
+          socketStatus={socketStatus1}
+          config={config}
+          data={chartData1}
+          legend={legendData}
+        />
+      ))}
       <Spectrogram config={config} legend={legendData} />
     </>
   );

@@ -48,6 +48,18 @@ const SpectrumPlot = ({ polarization, resize, socketStatus, config, data }: Spec
     return 1400;
   }
 
+  function getYData(inData: any, polar: string) {
+    switch (polar) {
+      case 'XX':
+        return inData.XX.power;
+      case 'XY':
+        return inData.XY.power;
+      case 'YX':
+        return inData.YX.power;
+      default:
+        return inData.YY.power;
+    }
+  }
   function getChartData(usedData: any) {
     if (!usedData.channels) {
       return [];
@@ -55,7 +67,7 @@ const SpectrumPlot = ({ polarization, resize, socketStatus, config, data }: Spec
     const chartDataTmp = [
       {
         x: usedData.channels,
-        y: usedData.power,
+        y: getYData(usedData.polarisations, polarization),
         marker: {
           color: COLOR[0]
         }
