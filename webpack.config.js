@@ -118,6 +118,7 @@ module.exports = () => {
           'react-plotly.js': { singleton: true, requiredVersion: deps['react-plotly.js'], eager: true },
           '@emotion/react': { singleton: true, requiredVersion: deps['@emotion/react'], eager: true },
           '@emotion/styled': { singleton: true, requiredVersion: deps['@emotion/styled'], eager: true },
+          '@msgpack/msgpack': { singleton: true, requiredVersion: deps['@msgpack/msgpack'], eager: true },
           moment: {
             eager: true,
             singleton: true,

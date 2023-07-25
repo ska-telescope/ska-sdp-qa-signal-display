@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
-import { decode } from '../../utils/decoder';
-import { SOCKET_STATUS } from '../../utils/constants';
+import { decodeAsync } from '@msgpack/msgpack';
+import { PROTOCOL, SOCKET_STATUS } from '../../utils/constants';
 
 interface WebSocketProps {
   apiUrl: string;
@@ -12,7 +12,9 @@ interface WebSocketProps {
 }
 
 const Socket = ({ apiUrl, protocol, suffix, statusFunction, dataFunction }: WebSocketProps) => {
-  const tmp = `${apiUrl}/${protocol}_${suffix}`;
+  const tmpSplit = suffix.split('-<subarray>');
+
+  const tmp = `${apiUrl}/${tmpSplit[0]}${tmpSplit[1]}`;
   const ws = new WebSocket(tmp);
 
   ws.onerror = function oneError(e) {
@@ -23,11 +25,25 @@ const Socket = ({ apiUrl, protocol, suffix, statusFunction, dataFunction }: WebS
   ws.onmessage = function onMessage(msg) {
     const inData = msg?.data;
     try {
-      const decoded = decode(protocol, inData);
-      if (decoded && decoded.status) {
-        statusFunction(decoded.status);
+      if (protocol === PROTOCOL.JSON) {
+        const decoded = JSON.parse(inData);
+        if (decoded && decoded.status) {
+          statusFunction(decoded.status);
+        } else {
+          dataFunction(decoded);
+        }
       } else {
-        dataFunction(decoded);
+        decodeAsync(inData.stream())
+          .then(decoded => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const dAny: any = decoded;
+            if (dAny && dAny.status) {
+              statusFunction(dAny.status);
+            } else {
+              dataFunction(decoded);
+            }
+          })
+          .catch(() => 'ERROR');
       }
     } catch (e) {
       /* eslint no-console: ["error", { allow: ["error"] }] */

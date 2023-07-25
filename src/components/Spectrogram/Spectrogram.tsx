@@ -46,13 +46,13 @@ const Spectrogram = ({ config, legend }: SpectrogramProps) => {
           abortController.abort();
         })
         .catch(() => {
-          // TODO : What do we put in here ?
+          // TODO : Should we put something in here ?
           abortController.abort();
         });
     }
 
     if (DATA_LOCAL) {
-      // TODO : Should I set something into here ?
+      // TODO : Should we put something in here ?
     } else if (config !== null) {
       retrieveBaseData();
     }
