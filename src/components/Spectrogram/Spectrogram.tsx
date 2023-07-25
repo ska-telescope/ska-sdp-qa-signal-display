@@ -52,13 +52,17 @@ const Spectrogram = ({ config, legend }: SpectrogramProps) => {
     }
 
     if (DATA_LOCAL) {
-      // TODO : Should we put something in here ?
+      setShowContent(true);
+      setBaseData('DATA_LOCAL');
     } else if (config !== null) {
       retrieveBaseData();
     }
   }, [config]);
 
   React.useEffect(() => {
+    if (DATA_LOCAL) {
+      setChartData(['DUMMY_DATA']);
+    }
     if (legend === null || baseData === null) {
       return;
     }

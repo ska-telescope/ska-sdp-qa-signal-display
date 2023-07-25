@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { ImageListItem, ImageListItemBar } from '@mui/material';
-import { DATA_API_URL } from '../../utils/constants';
+import { DATA_API_URL, DATA_LOCAL } from '../../utils/constants';
 
 interface SpectrogramImageProps {
   element: any;
@@ -38,23 +38,28 @@ const SpectrogramImage = ({ element, full, onClick, config }: SpectrogramImagePr
   const height = () => (full ? '85vh' : config.waterfall_plots.thumbnail_max_height);
 
   return (
-    <ImageListItem key={element}>
-      <img
-        src={getImageUrl(element)}
-        // placeholder={getImageTN(element)}
-        alt={element}
-        loading="lazy"
-        onClick={() => imageClick(element)}
-        style={{
-          width: width(),
-          height: height(),
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      />
-      <ImageListItemBar title={element} position="below" />
-    </ImageListItem>
+    <>
+      {DATA_LOCAL && 'MOCK DATA PLACEHOLDER'}
+      {!DATA_LOCAL && (
+        <ImageListItem key={element}>
+          <img
+            src={getImageUrl(element)}
+            // placeholder={getImageTN(element)}
+            alt={element}
+            loading="lazy"
+            onClick={() => imageClick(element)}
+            style={{
+              width: width(),
+              height: height(),
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          />
+          <ImageListItemBar title={element} position="below" />
+        </ImageListItem>
+      )}
+    </>
   );
 };
 
