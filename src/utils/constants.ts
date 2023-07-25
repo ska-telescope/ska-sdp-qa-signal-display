@@ -58,12 +58,9 @@ export const COLOR = [
 
 export const PROTOCOL = {
   JSON: 'json',
-  MESSAGE_PACK: 'msgPack',
+  MESSAGE_PACK: 'msgpack',
   PROTOBUF: 'protobuf'
 };
-
-export const MSG_PHASE_AMP = 'phase_and_amplitude_vs_frequency';
-export const MSG_SPECTRUM = 'spectrum';
 
 export const POLARIZATIONS = ['XX', 'XY', 'YX', 'YY'];
 

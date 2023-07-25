@@ -46,10 +46,16 @@ const SignalCard = ({
     }
   };
 
+  const isDisabled = () => {
+    const status = getSocketStatus();
+    return status > 1 && status < 4;
+  };
+
   return (
     <Box m={1}>
       <Card style={{ backgroundColor: 'primary' }} variant="outlined">
         <CardHeader
+          data-testid="sectionHeader"
           action={
             <Grid container spacing={0}>
               <Grid item>
@@ -58,7 +64,6 @@ const SignalCard = ({
                     <IconButton
                       aria-label={t('label.socketStatus')}
                       sx={{ '&:hover': { backgroundColor: 'primary.dark' }, p: 1.3 }}
-                      onClick={handleToggle}
                       color="inherit"
                     >
                       <Status level={getSocketStatus()} size={STATUS_SIZE} />
@@ -67,16 +72,18 @@ const SignalCard = ({
                 )}
               </Grid>
               <Grid item>
-                <Tooltip title={t('label.hideShowToggle')}>
-                  <IconButton
-                    aria-label={t('label.hideShowToggle')}
-                    sx={{ '&:hover': { backgroundColor: 'primary.dark' }, ml: 1 }}
-                    onClick={handleToggle}
-                    color="inherit"
-                  >
-                    {showContent ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </Tooltip>
+                {!isDisabled() && (
+                  <Tooltip title={t('label.hideShowToggle')}>
+                    <IconButton
+                      aria-label={t('label.hideShowToggle')}
+                      sx={{ '&:hover': { backgroundColor: 'primary.dark' }, ml: 1 }}
+                      onClick={handleToggle}
+                      color="inherit"
+                    >
+                      {showContent ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </Tooltip>
+                )}
               </Grid>
             </Grid>
           }

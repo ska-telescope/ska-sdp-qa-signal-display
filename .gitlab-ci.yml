@@ -52,6 +52,8 @@ code_analysis:
 test_and_coverage:
   image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
   stage: test
+  variables:
+    REACT_USE_LOCAL_DATA: 'true'
   tags:
     - k8srunner
   cache:
