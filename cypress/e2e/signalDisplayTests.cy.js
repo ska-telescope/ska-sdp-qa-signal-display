@@ -48,27 +48,25 @@ context('Signal display', () => {
         cy.findByTestId('Brightness4Icon').should("be.visible");
     })
 
-    // TODO: NAL-682: Refactor to solve test failure
+    it('Verify expected diagrams are present and can be hidden', () => {
+        cy.get('h4').contains('Signal Display').should("be.visible")
+        cy.findAllByLabelText("Hide/Show Toggle").click({ multiple: true })
 
-    // it('Verify expected diagrams are present and can be hidden', () => {
-    //     cy.get('h4').contains('Signal Display').should("be.visible")
-    //     cy.findAllByLabelText("Hide/Show Toggle").click({ multiple: true })
-    //
-    //     statisticsDetailed();
-    //     statisticsReceiver();
-    //
-    //     cy.findAllByTestId("sectionHeader").contains("Spectrum Plot XX").should("be.visible")
-    //     cy.findAllByTestId("sectionHeader").contains("Spectrum Plot XY").should("be.visible")
-    //     cy.findAllByTestId("sectionHeader").contains("Spectrum Plot YX").should("be.visible")
-    //     cy.findAllByTestId("sectionHeader").contains("Spectrum Plot YY").should("be.visible")
-    //
-    //     cy.findAllByTestId("sectionHeader").contains("Legend").should("be.visible")
-    //
-    //     cy.findAllByTestId("sectionHeader").contains("Polarization XX").should("be.visible")
-    //     cy.findAllByTestId("sectionHeader").contains("Polarization XY").should("be.visible")
-    //     cy.findAllByTestId("sectionHeader").contains("Polarization YX").should("be.visible")
-    //     cy.findAllByTestId("sectionHeader").contains("Polarization YY").should("be.visible")
-    //
-    //     cy.findAllByTestId("sectionHeader").contains("Spectrograms").should("be.visible")
-    // })
+        statisticsDetailed();
+        statisticsReceiver();
+
+        cy.findAllByTestId("sectionHeader").contains("Spectrum Plot XX").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Spectrum Plot XY").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Spectrum Plot YX").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Spectrum Plot YY").should("be.visible")
+
+        cy.findAllByTestId("sectionHeader").contains("Legend").should("be.visible")
+
+        cy.findAllByTestId("sectionHeader").contains("Polarization XX").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Polarization XY").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Polarization YX").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Polarization YY").should("be.visible")
+
+        cy.findAllByTestId("sectionHeader").contains("Spectrograms").should("be.visible")
+    })
 })

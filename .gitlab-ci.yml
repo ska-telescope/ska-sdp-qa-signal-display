@@ -52,8 +52,6 @@ code_analysis:
 test_and_coverage:
   image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
   stage: test
-  variables:
-    REACT_USE_LOCAL_DATA: 'true'
   tags:
     - k8srunner
   cache:
@@ -65,7 +63,7 @@ test_and_coverage:
     - mkdir -p build/.nyc_output
     - yarn install --immutable
   script:
-    - yarn start &
+    - REACT_USE_LOCAL_DATA=true yarn start &
     - yarn test:e2e:headless
     - yarn test:coverage:report:ci
     - cp build/reports/cobertura-coverage.xml build/reports/code-coverage.xml
