@@ -56,7 +56,7 @@ const SignalCard = ({
       <Card style={{ backgroundColor: 'primary' }} variant="outlined">
         <CardHeader
           data-testid="sectionHeader"
-          action={
+          action={(
             <Grid container spacing={0}>
               <Grid item>
                 {socketStatus && (
@@ -86,7 +86,7 @@ const SignalCard = ({
                 )}
               </Grid>
             </Grid>
-          }
+          )}
           subheader={subheader}
           title={title}
         />
