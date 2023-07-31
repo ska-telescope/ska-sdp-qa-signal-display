@@ -5,17 +5,17 @@ import { mount } from 'cypress/react18';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { THEME_DARK, THEME_LIGHT } from '@ska-telescope/ska-gui-components';
 import theme from '../../services/theme/theme';
-import Container from './Container';
+import Statistics from './Statistics';
 
 const THEME = [THEME_DARK, THEME_LIGHT];
 
-describe('<Container />', () => {
+describe('<Statistics />', () => {
   for (const theTheme of THEME) {
     it(`Theme ${theTheme}: Renders`, () => {
       mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
-          <Container />
+          <Statistics config={undefined} />
         </ThemeProvider>
       );
     });
