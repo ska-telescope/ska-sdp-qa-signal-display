@@ -2,7 +2,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Card, CardContent, CardHeader, Grid, IconButton, Tooltip } from '@mui/material';
-import { Status } from '@ska-telescope/ska-gui-components';
+import { ButtonColorTypes, Status } from '@ska-telescope/ska-gui-components';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { SOCKET_STATUS } from '../../utils/constants';
 
@@ -64,7 +64,7 @@ const SignalCard = ({
                     <IconButton
                       aria-label={t('label.socketStatus')}
                       sx={{ '&:hover': { backgroundColor: 'primary.dark' }, p: 1.3 }}
-                      color="inherit"
+                      color={ButtonColorTypes.Inherit}
                     >
                       <Status level={getSocketStatus()} size={STATUS_SIZE} />
                     </IconButton>
@@ -78,7 +78,7 @@ const SignalCard = ({
                       aria-label={t('label.hideShowToggle')}
                       sx={{ '&:hover': { backgroundColor: 'primary.dark' }, ml: 1 }}
                       onClick={handleToggle}
-                      color="inherit"
+                      color={ButtonColorTypes.Inherit}
                     >
                       {showContent ? <Visibility /> : <VisibilityOff />}
                     </IconButton>

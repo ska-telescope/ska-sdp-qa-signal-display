@@ -4,7 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { Button, DropDown, InfoCard } from '@ska-telescope/ska-gui-components';
+import { Button, ButtonColorTypes, DropDown, InfoCard } from '@ska-telescope/ska-gui-components';
 import Legend from '../Legend/Legend';
 import Polarization from '../Polarization/Polarization';
 import Spectrogram from '../Spectrogram/Spectrogram';
@@ -285,7 +285,7 @@ const Container = () => {
           </Grid>
           <Grid item>
             <Button
-              color="secondary"
+              color={ButtonColorTypes.Secondary}
               icon={<RefreshIcon />}
               label={t('label.button.refresh', { count: labelCounter() })}
               onClick={refreshClicked}
