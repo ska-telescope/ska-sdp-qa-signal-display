@@ -56,7 +56,7 @@ const SignalCard = ({
       <Card style={{ backgroundColor: 'primary' }} variant="outlined">
         <CardHeader
           data-testid="sectionHeader"
-          action={
+          action={(
             <Grid container spacing={0}>
               <Grid item>
                 {socketStatus && (
@@ -66,7 +66,7 @@ const SignalCard = ({
                       sx={{ '&:hover': { backgroundColor: 'primary.dark' }, p: 1.3 }}
                       color={ButtonColorTypes.Inherit}
                     >
-                      <Status level={getSocketStatus()} size={STATUS_SIZE} />
+                      <Status testId="statusId" level={getSocketStatus()} size={STATUS_SIZE} />
                     </IconButton>
                   </Tooltip>
                 )}
@@ -86,7 +86,7 @@ const SignalCard = ({
                 )}
               </Grid>
             </Grid>
-          }
+          )}
           subheader={subheader}
           title={title}
         />

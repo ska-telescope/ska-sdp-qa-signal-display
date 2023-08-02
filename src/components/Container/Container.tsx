@@ -49,6 +49,16 @@ const Container = () => {
     return arr[0] === arr[1] ? arr[0] : '';
   };
 
+  const isActive = (inValue: string) => {
+    const found = legendData ? legendData.find((e: { text: string }) => e.text === inValue) : false;
+    return found ? found.active : true;
+  };
+
+  const isPoleActive = (inValue: string) => {
+    const found = legendPole ? legendPole.find((e: { text: string }) => e.text === inValue) : false;
+    return found ? found.active : true;
+  };
+
   function legendOnClick(val: string): void {
     const tmp = [];
     for (let i = 0; i < legendData.length; i++) {
@@ -234,28 +244,31 @@ const Container = () => {
       const filtered = values.filter((value, index, array) => array.indexOf(value) === index);
       const elements = filtered.map((e, i) => ({
         text: e,
-        active: true,
+        active: isActive(e),
         self: isSelf(e),
         color: COLOR[i]
       }));
       const poles = [];
       for (let i = 0; i < elements.length; i++) {
         if (elements[i].self.length) {
-          poles.push({ text: elements[i].self, active: true, color: elements[i].color });
+          poles.push({
+            text: elements[i].self,
+            active: isPoleActive(elements[i].self),
+            color: elements[i].color
+          });
         }
       }
       setLegendPole(poles);
       return elements;
     }
 
-    if (!legendData && chartData1) {
-      if (chartData1 && chartData1.data) {
-        setLegendData(getLegendData(chartData1));
-      } else {
-        // eslint-disable-next-line no-console
-        console.error('WebSocket: received, unexpected content error');
-        setSocketStatus1(SOCKET_STATUS[1]);
-      }
+    if (chartData1 && chartData1.data && chartData1.data.length > 0) {
+      setLegendData(getLegendData(chartData1));
+    } else {
+      // eslint-disable-next-line no-console
+      console.error('WebSocket: received, unexpected content error');
+      setSocketStatus1(SOCKET_STATUS[1]);
+      setLegendData([]);
     }
   }, [chartData1]);
 
@@ -277,11 +290,19 @@ const Container = () => {
                 helperText={t(subArrays.length < 2 ? 'prompt.subArrayOne' : 'prompt.subArrayMany')}
                 label={t('label.subArray')}
                 options={subArrays}
+                testId="subArraySelection"
                 value={subArray}
                 setValue={setSubArray}
               />
             )}
-            {!subArrays && <InfoCard fontSize={25} level={1} message={t('error.subArray')} />}
+            {!subArrays && (
+              <InfoCard
+                testId="noSubArrayCard"
+                fontSize={25}
+                level={1}
+                message={t('error.subArray')}
+              />
+            )}
           </Grid>
           <Grid item>
             <Button
@@ -289,6 +310,7 @@ const Container = () => {
               icon={<RefreshIcon />}
               label={t('label.button.refresh', { count: labelCounter() })}
               onClick={refreshClicked}
+              testId="refreshButton"
               toolTip={t('toolTip.button.refresh')}
             />
           </Grid>

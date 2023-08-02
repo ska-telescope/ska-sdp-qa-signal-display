@@ -6,6 +6,7 @@
   "date_input_format": "dd/mm/yyyy",
 
   "error": {
+    "noData": "No data currently available for this chart",
     "subArray": "No subArrays located"
   },
 

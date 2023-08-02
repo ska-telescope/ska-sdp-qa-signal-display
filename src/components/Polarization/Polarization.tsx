@@ -4,7 +4,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Plot from 'react-plotly.js';
 
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
+import { InfoCard } from '@ska-telescope/ska-gui-components';
 import SignalCard from '../SignalCard/SignalCard';
 import { storageObject } from '../../services/stateStorage';
 import { COLOR } from '../../utils/constants';
@@ -29,9 +30,9 @@ const Polarization = ({
 }: PolarizationProps) => {
   const { t } = useTranslation('signalDisplay');
 
-  const [showContent, setShowContent] = React.useState(false);
   const [chartData1, setChartData1] = React.useState(null);
   const [chartData2, setChartData2] = React.useState(null);
+  const [showContent, setShowContent] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
 
@@ -55,7 +56,7 @@ const Polarization = ({
         });
       }
     }
-    if (!legend) {
+    if (!legend || legend.length === 0) {
       return tmp;
     }
 
@@ -103,22 +104,11 @@ const Polarization = ({
     return chartData;
   }
 
-  const canShow = () => data !== null;
+  const canShow = () => data && data.data;
 
   const showToggle = () => {
     setShowContent(showContent ? false : canShow());
   };
-
-  React.useEffect(() => {
-    const firstRender = chartData1 === null;
-    if (data && data.data) {
-      setChartData1(getChartData(data, true));
-      setChartData2(getChartData(data, false));
-    }
-    if (firstRender) {
-      setShowContent(canShow());
-    }
-  }, [data, legend]);
 
   React.useEffect(() => {
     if (!refresh) setShowContent(canShow());
@@ -132,6 +122,17 @@ const Polarization = ({
     }
   }, [resize]);
 
+  React.useEffect(() => {
+    const firstRender = chartData1 === null;
+    if (data) {
+      setChartData1(canShow() ? getChartData(data, true) : null);
+      setChartData2(canShow() ? getChartData(data, false) : null);
+    }
+    if (firstRender) {
+      setShowContent(canShow());
+    }
+  }, [data]);
+
   return (
     <SignalCard
       title={`${t('label.polarization')} ${polarization}`}
@@ -142,50 +143,74 @@ const Polarization = ({
     >
       <Grid container direction="row" justifyContent="space-between">
         <Grid item md={6} xs={12}>
-          <Plot
-            data={chartData1}
-            layout={{
-              autosize: false,
-              title: chartTitle(true),
-              plot_bgcolor: darkMode ? 'black' : 'white',
-              paper_bgcolor: darkMode ? 'black' : 'white',
-              width: parentWidth(),
-              height: parentWidth() / RATIO,
-              xaxis: {
-                title: xLabel(),
-                color: darkMode ? 'white' : 'black',
-                automargin: true
-              },
-              yaxis: {
-                title: yLabel(true),
-                color: darkMode ? 'white' : 'black',
-                automargin: true
-              }
-            }}
-          />
+          {(!legend || !chartData1 || chartData1.length === 0) && (
+            <Box m={1}>
+              <InfoCard
+                testId="noChartData1Card"
+                fontSize={25}
+                level={1}
+                message={t('error.noData')}
+              />
+            </Box>
+          )}
+          {legend && chartData1 && chartData1.length > 0 && (
+            <Plot
+              data={showContent ? chartData1 : null}
+              layout={{
+                autosize: false,
+                title: chartTitle(true),
+                plot_bgcolor: darkMode ? 'black' : 'white',
+                paper_bgcolor: darkMode ? 'black' : 'white',
+                width: parentWidth(),
+                height: parentWidth() / RATIO,
+                xaxis: {
+                  title: xLabel(),
+                  color: darkMode ? 'white' : 'black',
+                  automargin: true
+                },
+                yaxis: {
+                  title: yLabel(true),
+                  color: darkMode ? 'white' : 'black',
+                  automargin: true
+                }
+              }}
+            />
+          )}
         </Grid>
         <Grid item md={6} xs={12}>
-          <Plot
-            data={chartData2}
-            layout={{
-              autosize: false,
-              title: chartTitle(false),
-              plot_bgcolor: darkMode ? 'black' : 'white',
-              paper_bgcolor: darkMode ? 'black' : 'white',
-              width: parentWidth(),
-              height: parentWidth() / RATIO,
-              xaxis: {
-                title: xLabel(),
-                color: darkMode ? 'white' : 'black',
-                automargin: true
-              },
-              yaxis: {
-                title: yLabel(false),
-                color: darkMode ? 'white' : 'black',
-                automargin: true
-              }
-            }}
-          />
+          {(!chartData2 || chartData2.length === 0) && (
+            <Box m={1}>
+              <InfoCard
+                testId="noChartData2Card"
+                fontSize={25}
+                level={1}
+                message={t('error.noData')}
+              />
+            </Box>
+          )}
+          {chartData2 && chartData2.length > 0 && (
+            <Plot
+              data={showContent ? chartData2 : null}
+              layout={{
+                autosize: false,
+                title: chartTitle(false),
+                plot_bgcolor: darkMode ? 'black' : 'white',
+                paper_bgcolor: darkMode ? 'black' : 'white',
+                width: parentWidth(),
+                height: parentWidth() / RATIO,
+                xaxis: {
+                  title: xLabel(),
+                  color: darkMode ? 'white' : 'black',
+                  automargin: true
+                },
+                yaxis: {
+                  title: yLabel(false),
+                  color: darkMode ? 'white' : 'black',
+                  automargin: true
+                }
+              }}
+            />
+          )}
         </Grid>
       </Grid>
     </SignalCard>
