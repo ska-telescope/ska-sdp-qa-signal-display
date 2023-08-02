@@ -63,7 +63,7 @@ const Spectrogram = ({ config, legend }: SpectrogramProps) => {
     if (DATA_LOCAL) {
       setChartData(['DUMMY_DATA']);
     }
-    if (legend === null || baseData === null) {
+    if (legend === null || legend.length === 0 || baseData === null) {
       return;
     }
     const newData = [];
