@@ -10,3 +10,4 @@ The `ska-sdp-qa-display` repository contains the code to present the charting av
    overview
    gettingStarted
    references
+   structure
