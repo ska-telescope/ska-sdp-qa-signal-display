@@ -67,7 +67,7 @@ const Spectrogram = ({ config, legend }: SpectrogramProps) => {
       return;
     }
     const newData = [];
-    if (legend?.length > 0) {
+    if (legend?.length > 0 && baseData?.length === legend.length * 4) {
       for (let i = 0; i < legend.length; i += 1) {
         if (`${legend[i].text}_XX` === baseData[i * 4] && legend[i].active) {
           newData.push(baseData[i * 4 + 0]);
