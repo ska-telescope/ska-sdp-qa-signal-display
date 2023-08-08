@@ -105,12 +105,14 @@ const Container = () => {
     setLegendData(tmp);
   }
 
+  const limit = () => subArrays && subArrays.length > 0 ? +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS : 10;
+
   React.useEffect(() => {
     setFetchConfig(true);
   }, []);
 
   React.useEffect(() => {
-    const subarrayRefresh = +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS;
+    const subarrayRefresh = limit();
     if (counter >= subarrayRefresh) {
       setFetchConfig(true);
       setCounter(0);
@@ -274,7 +276,7 @@ const Container = () => {
     }
   }, [chartData1]);
 
-  const labelCounter = () => +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS - counter;
+  const labelCounter = () => limit() - counter;
   const refreshClicked = () => {
     if (!fetchSubArrayList) {
       setFetchSubarrayList(true);
