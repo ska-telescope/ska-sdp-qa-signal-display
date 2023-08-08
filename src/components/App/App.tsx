@@ -28,7 +28,7 @@ function App() {
           // Logo with URL link included
           // Button for light/dark mode included, and sample implementation provided.
         }
-        <Header data-testid="skaHeader" themeToggle={toggleTheme} toolTip={toolTip}>
+        <Header testId="headerId" themeToggle={toggleTheme} toolTip={toolTip}>
           <Grid item />
           <Grid item>
             <Typography variant="h4">{t('label.signalDisplay')}</Typography>
@@ -40,8 +40,9 @@ function App() {
           <Container data-testid="containerId" />
           <Spacer size={FOOTER_HEIGHT} axis={SPACER_VERTICAL} />
         </Paper>
-        <Footer>
+        <Footer testId="footerId">
           <Grid item>{version}</Grid>
+          <Grid item />
         </Footer>
       </React.Suspense>
     </ThemeProvider>
