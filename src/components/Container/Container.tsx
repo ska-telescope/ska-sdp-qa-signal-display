@@ -262,13 +262,15 @@ const Container = () => {
       return elements;
     }
 
-    if (chartData1 && chartData1.data && chartData1.data.length > 0) {
-      setLegendData(getLegendData(chartData1));
-    } else {
-      // eslint-disable-next-line no-console
-      console.error('WebSocket: received, unexpected content error');
-      setSocketStatus1(SOCKET_STATUS[1]);
-      setLegendData([]);
+    if (chartData1) {
+      if (chartData1.data && chartData1.data.length > 0) {
+        setLegendData(getLegendData(chartData1));
+      } else {
+        // eslint-disable-next-line no-console
+        console.error('WebSocket: received, unexpected content error');
+        setSocketStatus1(SOCKET_STATUS[1]);
+        setLegendData([]);
+      }
     }
   }, [chartData1]);
 
@@ -300,19 +302,21 @@ const Container = () => {
                 testId="noSubArrayCard"
                 fontSize={25}
                 level={1}
-                message={t('error.subArray')}
+                message={t(config ? 'error.subArray' : 'error.config')}
               />
             )}
           </Grid>
           <Grid item>
-            <Button
-              color={ButtonColorTypes.Secondary}
-              icon={<RefreshIcon />}
-              label={t('label.button.refresh', { count: labelCounter() })}
-              onClick={refreshClicked}
-              testId="refreshButton"
-              toolTip={t('toolTip.button.refresh')}
-            />
+            {config && (
+              <Button
+                color={ButtonColorTypes.Secondary}
+                icon={<RefreshIcon />}
+                label={t('label.button.refresh', { count: labelCounter() })}
+                onClick={refreshClicked}
+                testId="refreshButton"
+                toolTip={t('toolTip.button.refresh')}
+              />
+            )}
           </Grid>
         </Grid>
       </Box>

@@ -8,7 +8,7 @@ import { DATA_LOCAL, DATA_API_URL, SOCKET_STATUS } from '../../utils/constants';
 
 const CONVERT = 1000;
 const WORKFLOW_STATISTICS_INTERVAL_SECONDS =
-  Number(process.env.REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS) * CONVERT;
+  Number(process.env.REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS) * CONVERT * 2;
 
 function epochToDate(timeInMilliseconds: number) {
   if (timeInMilliseconds === undefined || timeInMilliseconds === null) {
