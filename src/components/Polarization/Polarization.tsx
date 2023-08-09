@@ -2,10 +2,10 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Plot from 'react-plotly.js';
 
 import { Box, Grid } from '@mui/material';
 import { InfoCard } from '@ska-telescope/ska-gui-components';
+import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
 import { storageObject } from '../../services/stateStorage';
 import { COLOR } from '../../utils/constants';
@@ -154,26 +154,14 @@ const Polarization = ({
             </Box>
           )}
           {legend && chartData1 && chartData1.length > 0 && (
-            <Plot
+            <Plotly
+              darkMode={darkMode}
               data={showContent ? chartData1 : null}
-              layout={{
-                autosize: false,
-                title: chartTitle(true),
-                plot_bgcolor: darkMode ? 'black' : 'white',
-                paper_bgcolor: darkMode ? 'black' : 'white',
-                width: parentWidth(),
-                height: parentWidth() / RATIO,
-                xaxis: {
-                  title: xLabel(),
-                  color: darkMode ? 'white' : 'black',
-                  automargin: true
-                },
-                yaxis: {
-                  title: yLabel(true),
-                  color: darkMode ? 'white' : 'black',
-                  automargin: true
-                }
-              }}
+              height={parentWidth() / RATIO}
+              title={chartTitle(true)}
+              width={parentWidth()}
+              xLabel={xLabel()}
+              yLabel={yLabel(true)}
             />
           )}
         </Grid>
@@ -189,26 +177,14 @@ const Polarization = ({
             </Box>
           )}
           {chartData2 && chartData2.length > 0 && (
-            <Plot
+            <Plotly
+              darkMode={darkMode}
               data={showContent ? chartData2 : null}
-              layout={{
-                autosize: false,
-                title: chartTitle(false),
-                plot_bgcolor: darkMode ? 'black' : 'white',
-                paper_bgcolor: darkMode ? 'black' : 'white',
-                width: parentWidth(),
-                height: parentWidth() / RATIO,
-                xaxis: {
-                  title: xLabel(),
-                  color: darkMode ? 'white' : 'black',
-                  automargin: true
-                },
-                yaxis: {
-                  title: yLabel(false),
-                  color: darkMode ? 'white' : 'black',
-                  automargin: true
-                }
-              }}
+              height={parentWidth() / RATIO}
+              title={chartTitle(false)}
+              width={parentWidth()}
+              xLabel={xLabel()}
+              yLabel={yLabel(true)}
             />
           )}
         </Grid>
