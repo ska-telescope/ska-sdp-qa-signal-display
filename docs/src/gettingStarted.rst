@@ -14,6 +14,7 @@ Consult the README in the [metric-generator](https://gitlab.com/ska-telescope/sk
 **Option-1: Using Container**
 
 ```docker-compose up -d```
+
 ```docker-compose ps```
 
 The docker container's working/source directory ```/usr/src/app``` is 
@@ -30,12 +31,15 @@ Prerequisite
 - material UI ( MUI )
 
 Install the dependencies
+
 ```yarn````
 
 Run the app in development mode.
+
 ```yarn dev````
 
 # run the app in production mode
+
 ```yarn start````
 
 
