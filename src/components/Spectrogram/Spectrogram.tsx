@@ -85,7 +85,7 @@ const Spectrogram = ({ config, legend }: SpectrogramProps) => {
 
   function imageClick(item: string) {
     setOpen(true);
-    setSelected(item);
+    setSelected(DATA_LOCAL ? 'THUMBNAIL' : item);
   }
 
   return (
@@ -108,16 +108,50 @@ const Spectrogram = ({ config, legend }: SpectrogramProps) => {
       >
         <>
           <Grid container direction="row" justifyContent="space-evenly">
-            {chartData && chartData.length ? (
-              chartData.map(item => (
-                <Grid key={item} item>
+            {DATA_LOCAL && (
+              <>
+                <Grid item>
                   <SpectrogramImage
                     config={config}
-                    element={item}
-                    onClick={() => imageClick(item)}
+                    element={null}
+                    onClick={() => imageClick(null)}
                   />
                 </Grid>
-              ))
+                <Grid item>
+                  <SpectrogramImage
+                    config={config}
+                    element={null}
+                    onClick={() => imageClick(null)}
+                  />
+                </Grid>
+                <Grid item>
+                  <SpectrogramImage
+                    config={config}
+                    element={null}
+                    onClick={() => imageClick(null)}
+                  />
+                </Grid>
+                <Grid item>
+                  <SpectrogramImage
+                    config={config}
+                    element={null}
+                    onClick={() => imageClick(null)}
+                  />
+                </Grid>
+              </>
+            )}
+            {!DATA_LOCAL && chartData && chartData.length ? (
+              chartData.map(
+                (item): React.JSX.Element => (
+                  <Grid key={item} item>
+                    <SpectrogramImage
+                      config={config}
+                      element={item}
+                      onClick={() => imageClick(item)}
+                    />
+                  </Grid>
+                )
+              )
             ) : (
               <div />
             )}

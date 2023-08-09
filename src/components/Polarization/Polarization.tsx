@@ -87,7 +87,7 @@ const Polarization = ({
 
   function getChartData(usedData: any, amplitude: boolean) {
     const chartData = [];
-    if (!usedData.channels) {
+    if (!usedData.channels || !legend) {
       return chartData;
     }
     const baseData = getBaseData(usedData.data, polarization, amplitude);
@@ -124,14 +124,14 @@ const Polarization = ({
 
   React.useEffect(() => {
     const firstRender = chartData1 === null;
-    if (data) {
+    if (data && legend) {
       setChartData1(canShow() ? getChartData(data, true) : null);
       setChartData2(canShow() ? getChartData(data, false) : null);
     }
     if (firstRender) {
       setShowContent(canShow());
     }
-  }, [data]);
+  }, [data, legend]);
 
   return (
     <SignalCard
