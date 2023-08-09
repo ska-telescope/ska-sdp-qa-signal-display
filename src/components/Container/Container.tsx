@@ -105,12 +105,23 @@ const Container = () => {
     setLegendData(tmp);
   }
 
-  const limit = () => subArrays && subArrays.length > 0 ? +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS : 10;
+  const displayError = () => {
+    if (DATA_LOCAL) {
+      return t('error.local');
+    }
+    return t(config ? 'error.subArray' : 'error.config');
+  };
+
+  const limit = () =>
+    subArrays && subArrays.length > 0
+      ? +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS
+      : +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS_FAST;
 
   React.useEffect(() => {
     setFetchConfig(true);
   }, []);
 
+  // eslint-disable-next-line consistent-return
   React.useEffect(() => {
     const subarrayRefresh = limit();
     if (counter >= subarrayRefresh) {
@@ -118,7 +129,7 @@ const Container = () => {
       setCounter(0);
     }
     const interval = setInterval(() => {
-      setCounter(counter + 1);
+      setCounter(DATA_LOCAL ? counter : counter + 1);
     }, 1000);
     return () => clearInterval(interval);
   }, [counter]);
@@ -300,12 +311,7 @@ const Container = () => {
               />
             )}
             {!subArrays && (
-              <InfoCard
-                testId="noSubArrayCard"
-                fontSize={25}
-                level={1}
-                message={t(config ? 'error.subArray' : 'error.config')}
-              />
+              <InfoCard testId="noSubArrayCard" fontSize={25} level={1} message={displayError()} />
             )}
           </Grid>
           <Grid item>
