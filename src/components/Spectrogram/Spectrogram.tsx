@@ -63,11 +63,12 @@ const Spectrogram = ({ config, legend }: SpectrogramProps) => {
     if (DATA_LOCAL) {
       setChartData(['DUMMY_DATA']);
     }
-    if (legend === null || legend.length === 0 || baseData === null) {
+    if (baseData === null) {
+      setChartData([]);
       return;
     }
-    const newData = [];
     if (legend?.length > 0 && baseData?.length === legend.length * 4) {
+      const newData = [];
       for (let i = 0; i < legend.length; i += 1) {
         if (`${legend[i].text}_XX` === baseData[i * 4] && legend[i].active) {
           newData.push(baseData[i * 4 + 0]);
@@ -76,8 +77,10 @@ const Spectrogram = ({ config, legend }: SpectrogramProps) => {
           newData.push(baseData[i * 4 + 3]);
         }
       }
+      setChartData(newData);
+    } else {
+      setChartData(baseData);
     }
-    setChartData(newData);
   }, [baseData, legend]);
 
   const apiFormat = config ? config.api_format : '?????';
