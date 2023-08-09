@@ -318,6 +318,7 @@ const Container = () => {
             {config && (
               <Button
                 color={ButtonColorTypes.Secondary}
+                disabled={!!DATA_LOCAL}
                 icon={<RefreshIcon />}
                 label={t('label.button.refresh', { count: labelCounter() })}
                 onClick={refreshClicked}
