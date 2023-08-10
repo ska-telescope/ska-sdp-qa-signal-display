@@ -3,7 +3,6 @@
 .env
 .gitignore
 Dockerfile
-Makefile
 README.md
 node_modules
 version
