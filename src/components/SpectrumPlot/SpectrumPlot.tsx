@@ -6,6 +6,7 @@ import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
 import { storageObject } from '../../services/stateStorage';
 import { COLOR } from '../../utils/constants';
+import { generateChannels } from '../../utils/generateChannels';
 
 interface SpectrumPlotProps {
   polarization: string;
@@ -66,7 +67,7 @@ const SpectrumPlot = ({ polarization, resize, socketStatus, config, data }: Spec
     }
     const chartDataTmp = [
       {
-        x: usedData.channels,
+        x: generateChannels(usedData.channels),
         y: getYData(usedData.polarisations, polarization),
         marker: {
           color: COLOR[0]

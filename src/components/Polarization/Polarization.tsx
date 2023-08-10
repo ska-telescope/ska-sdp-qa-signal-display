@@ -9,6 +9,7 @@ import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
 import { storageObject } from '../../services/stateStorage';
 import { COLOR } from '../../utils/constants';
+import { generateChannels } from '../../utils/generateChannels';
 
 const RATIO = 2;
 interface PolarizationProps {
@@ -93,7 +94,7 @@ const Polarization = ({
     const baseData = getBaseData(usedData.data, polarization, amplitude);
     for (let i = 0; i < baseData.length; i++) {
       chartData.push({
-        x: usedData.channels,
+        x: generateChannels(usedData.channels),
         y: baseData[i].data,
         name: baseData[i].name,
         marker: {
