@@ -18,11 +18,11 @@ More information can be found in the [Read The Docs](https://developer.skao.int/
 ## Option-1: Using Container
 
 ```bash
-docker-compose up -d
-docker-compose ps
+make build
+make run
 ```
 
-The docker container's working/source directory `/usr/src/app` is mapped/mounted to the host's `./` folder.
+This method does not map any directory, so no changes will be shown, until after a rebuild.
 
 ## Option-2: Start Locally
 
