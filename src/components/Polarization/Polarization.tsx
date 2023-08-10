@@ -91,10 +91,11 @@ const Polarization = ({
     if (!usedData.channels || !legend) {
       return chartData;
     }
+    const xValues = generateChannels(usedData.spectral_window);
     const baseData = getBaseData(usedData.data, polarization, amplitude);
     for (let i = 0; i < baseData.length; i++) {
       chartData.push({
-        x: generateChannels(usedData.channels),
+        x: xValues,
         y: baseData[i].data,
         name: baseData[i].name,
         marker: {
