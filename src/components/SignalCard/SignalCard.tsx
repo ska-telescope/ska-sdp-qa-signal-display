@@ -2,7 +2,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Card, CardContent, CardHeader, Grid, IconButton, Tooltip } from '@mui/material';
-import { ButtonColorTypes, Status } from '@ska-telescope/ska-gui-components';
+import { Alert, ButtonColorTypes, Status } from '@ska-telescope/ska-gui-components';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { SOCKET_STATUS } from '../../utils/constants';
 
@@ -52,14 +52,50 @@ const SignalCard = ({
   };
 
   return (
-    <Box m={1}>
-      <Card style={{ backgroundColor: 'primary' }} variant="outlined">
-        <CardHeader
-          data-testid="sectionHeader"
-          action={(
-            <Grid container spacing={0}>
-              <Grid item>
-                {socketStatus && (
+    <>
+      <Alert
+        testId="TESTID"
+        key="alerts"
+        severity={0}
+      >
+        <Grid container spacing={0}>
+          <Grid item>
+            {socketStatus && (
+            <Tooltip title={actionTitle}>
+              <IconButton
+                aria-label={t('label.socketStatus')}
+                sx={{ '&:hover': { backgroundColor: 'primary.dark' }, p: 1.3 }}
+                color={ButtonColorTypes.Inherit}
+              >
+                <Status testId="statusId" level={getSocketStatus()} size={STATUS_SIZE} />
+              </IconButton>
+            </Tooltip>
+                )}
+          </Grid>
+          <Grid item>
+            {!isDisabled() && (
+            <Tooltip title={t('label.hideShowToggle')}>
+              <IconButton
+                aria-label={t('label.hideShowToggle')}
+                sx={{ '&:hover': { backgroundColor: 'primary.dark' }, ml: 1 }}
+                onClick={handleToggle}
+                color={ButtonColorTypes.Inherit}
+              >
+                {showContent ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            </Tooltip>
+                )}
+          </Grid>
+        </Grid>
+      </Alert>
+      <Box m={1}>
+        <Card style={{ backgroundColor: 'primary' }} variant="outlined">
+          <CardHeader
+            data-testid="sectionHeader"
+            action={(
+              <Grid container spacing={0}>
+                <Grid item>
+                  {socketStatus && (
                   <Tooltip title={actionTitle}>
                     <IconButton
                       aria-label={t('label.socketStatus')}
@@ -70,9 +106,9 @@ const SignalCard = ({
                     </IconButton>
                   </Tooltip>
                 )}
-              </Grid>
-              <Grid item>
-                {!isDisabled() && (
+                </Grid>
+                <Grid item>
+                  {!isDisabled() && (
                   <Tooltip title={t('label.hideShowToggle')}>
                     <IconButton
                       aria-label={t('label.hideShowToggle')}
@@ -84,15 +120,16 @@ const SignalCard = ({
                     </IconButton>
                   </Tooltip>
                 )}
+                </Grid>
               </Grid>
-            </Grid>
           )}
-          subheader={subheader}
-          title={title}
-        />
-        {showContent && <CardContent>{children}</CardContent>}
-      </Card>
-    </Box>
+            subheader={subheader}
+            title={title}
+          />
+          {showContent && <CardContent>{children}</CardContent>}
+        </Card>
+      </Box>
+    </>
   );
 };
 

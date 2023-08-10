@@ -1,14 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Grid, Typography } from '@mui/material';
-import mockStatisticsProcessingBlock from '../../mockData/Statistics/processingBlock';
-import mockStatisticsReceiverEvents from '../../mockData/Statistics/receiverEvents';
 import SignalCard from '../SignalCard/SignalCard';
-import { DATA_LOCAL, DATA_API_URL, SOCKET_STATUS } from '../../utils/constants';
+import { SOCKET_STATUS } from '../../utils/constants';
 
 const CONVERT = 1000;
-const WORKFLOW_STATISTICS_INTERVAL_SECONDS =
-  Number(process.env.REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS) * CONVERT;
 
 function epochToDate(timeInMilliseconds: number) {
   if (timeInMilliseconds === undefined || timeInMilliseconds === null) {
@@ -18,37 +15,15 @@ function epochToDate(timeInMilliseconds: number) {
 }
 
 interface StatisticsProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  config: any;
+  processingBlockStatisticsData: any;
+  receiverEventsData: any;
 }
 
-const Statistics = ({ config }: StatisticsProps) => {
+const Statistics = ({ processingBlockStatisticsData, receiverEventsData }: StatisticsProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [showBasicContent, setShowBasicContent] = React.useState(false);
   const [showDetailContent, setShowDetailContent] = React.useState(false);
-  const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = React.useState(null);
-  const [receiverEventsData, setReceiverEventsData] = React.useState(null);
-
-  async function retrieveProcessingBlockStatisticsData() {
-    await fetch(`${DATA_API_URL}${config.paths.processing_blocks}/latest/statistics`)
-      .then(response => response.json())
-      .then(data => {
-        setProcessingBlockStatisticsData(data);
-        setTimeout(retrieveProcessingBlockStatisticsData, WORKFLOW_STATISTICS_INTERVAL_SECONDS);
-      })
-      .catch(() => null);
-  }
-
-  async function retrieveReceiverEventData() {
-    await fetch(`${DATA_API_URL}${config.paths.spead2_scans}/latest/latest_event`)
-      .then(response => response.json())
-      .then(data => {
-        setReceiverEventsData(data);
-        setTimeout(retrieveReceiverEventData, WORKFLOW_STATISTICS_INTERVAL_SECONDS);
-      })
-      .catch(() => null);
-  }
 
   const canShowBasic = () => processingBlockStatisticsData !== null;
 
@@ -61,16 +36,6 @@ const Statistics = ({ config }: StatisticsProps) => {
   const showDetailToggle = () => {
     setShowDetailContent(showDetailContent ? false : canShowDetail());
   };
-
-  React.useEffect(() => {
-    if (DATA_LOCAL) {
-      setProcessingBlockStatisticsData(mockStatisticsProcessingBlock);
-      setReceiverEventsData(mockStatisticsReceiverEvents);
-    } else if (config !== null) {
-      retrieveProcessingBlockStatisticsData();
-      retrieveReceiverEventData();
-    }
-  }, [config]);
 
   return (
     <>

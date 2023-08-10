@@ -25,6 +25,7 @@
   "label": {
     "amplitude": "Amplitude",
     "ampVFreq": "Amplitude vs Frequency",
+    "api": "API",
     "button": {
       "refresh_zero": "Refreshing...",
       "refresh_one": "Refreshing in {{count}} second",
