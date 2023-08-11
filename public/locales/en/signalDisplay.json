@@ -6,7 +6,10 @@
   "date_input_format": "dd/mm/yyyy",
 
   "error": {
-    "subArray": "No subArrays located"
+    "config": "No configuration",
+    "local": "Using local data",
+    "noData": "No data currently available for this chart",
+    "subArray": "No subarrays located"
   },
 
   "intlNumber": "{{val, number}}",

@@ -1,6 +1,11 @@
 {
   "timestamp": "2023-05-25T13:28:15.442543+00:00",
-  "time_index": 0,
+  "time_index": 0,  
+  "spectral_window": {
+    "freq_min": 715.459,
+    "freq_max": 1456.123,
+    "count": 1024
+  },
   "channels": [
     856.0,
     856.8359375,

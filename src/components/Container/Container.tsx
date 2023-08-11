@@ -4,7 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { Button, DropDown, InfoCard } from '@ska-telescope/ska-gui-components';
+import { Button, ButtonColorTypes, DropDown, InfoCard } from '@ska-telescope/ska-gui-components';
 import Legend from '../Legend/Legend';
 import Polarization from '../Polarization/Polarization';
 import Spectrogram from '../Spectrogram/Spectrogram';
@@ -47,6 +47,16 @@ const Container = () => {
   const isSelf = (inValue: string) => {
     const arr = inValue.split('_');
     return arr[0] === arr[1] ? arr[0] : '';
+  };
+
+  const isActive = (inValue: string) => {
+    const found = legendData ? legendData.find((e: { text: string }) => e.text === inValue) : false;
+    return found ? found.active : true;
+  };
+
+  const isPoleActive = (inValue: string) => {
+    const found = legendPole ? legendPole.find((e: { text: string }) => e.text === inValue) : false;
+    return found ? found.active : true;
   };
 
   function legendOnClick(val: string): void {
@@ -95,18 +105,31 @@ const Container = () => {
     setLegendData(tmp);
   }
 
+  const displayError = () => {
+    if (DATA_LOCAL) {
+      return t('error.local');
+    }
+    return t(config ? 'error.subArray' : 'error.config');
+  };
+
+  const limit = () =>
+    subArrays && subArrays.length > 0
+      ? +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS
+      : +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS_FAST;
+
   React.useEffect(() => {
     setFetchConfig(true);
   }, []);
 
+  // eslint-disable-next-line consistent-return
   React.useEffect(() => {
-    const subarrayRefresh = +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS;
+    const subarrayRefresh = limit();
     if (counter >= subarrayRefresh) {
       setFetchConfig(true);
       setCounter(0);
     }
     const interval = setInterval(() => {
-      setCounter(counter + 1);
+      setCounter(DATA_LOCAL ? counter : counter + 1);
     }, 1000);
     return () => clearInterval(interval);
   }, [counter]);
@@ -234,32 +257,37 @@ const Container = () => {
       const filtered = values.filter((value, index, array) => array.indexOf(value) === index);
       const elements = filtered.map((e, i) => ({
         text: e,
-        active: true,
+        active: isActive(e),
         self: isSelf(e),
         color: COLOR[i]
       }));
       const poles = [];
       for (let i = 0; i < elements.length; i++) {
         if (elements[i].self.length) {
-          poles.push({ text: elements[i].self, active: true, color: elements[i].color });
+          poles.push({
+            text: elements[i].self,
+            active: isPoleActive(elements[i].self),
+            color: elements[i].color
+          });
         }
       }
       setLegendPole(poles);
       return elements;
     }
 
-    if (!legendData && chartData1) {
-      if (chartData1 && chartData1.data) {
+    if (chartData1) {
+      if (chartData1.data && chartData1.data.length > 0) {
         setLegendData(getLegendData(chartData1));
       } else {
         // eslint-disable-next-line no-console
         console.error('WebSocket: received, unexpected content error');
         setSocketStatus1(SOCKET_STATUS[1]);
+        setLegendData([]);
       }
     }
   }, [chartData1]);
 
-  const labelCounter = () => +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS - counter;
+  const labelCounter = () => limit() - counter;
   const refreshClicked = () => {
     if (!fetchSubArrayList) {
       setFetchSubarrayList(true);
@@ -277,20 +305,27 @@ const Container = () => {
                 helperText={t(subArrays.length < 2 ? 'prompt.subArrayOne' : 'prompt.subArrayMany')}
                 label={t('label.subArray')}
                 options={subArrays}
+                testId="subArraySelection"
                 value={subArray}
                 setValue={setSubArray}
               />
             )}
-            {!subArrays && <InfoCard fontSize={25} level={1} message={t('error.subArray')} />}
+            {!subArrays && (
+              <InfoCard testId="noSubArrayCard" fontSize={25} level={1} message={displayError()} />
+            )}
           </Grid>
           <Grid item>
-            <Button
-              color="secondary"
-              icon={<RefreshIcon />}
-              label={t('label.button.refresh', { count: labelCounter() })}
-              onClick={refreshClicked}
-              toolTip={t('toolTip.button.refresh')}
-            />
+            {config && (
+              <Button
+                color={ButtonColorTypes.Secondary}
+                disabled={!!DATA_LOCAL}
+                icon={<RefreshIcon />}
+                label={t('label.button.refresh', { count: labelCounter() })}
+                onClick={refreshClicked}
+                testId="refreshButton"
+                toolTip={t('toolTip.button.refresh')}
+              />
+            )}
           </Grid>
         </Grid>
       </Box>

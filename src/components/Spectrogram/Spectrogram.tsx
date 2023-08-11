@@ -63,19 +63,24 @@ const Spectrogram = ({ config, legend }: SpectrogramProps) => {
     if (DATA_LOCAL) {
       setChartData(['DUMMY_DATA']);
     }
-    if (legend === null || baseData === null) {
+    if (baseData === null) {
+      setChartData([]);
       return;
     }
-    const newData = [];
-    for (let i = 0; i < legend.length; i += 1) {
-      if (`${legend[i].text}_XX` === baseData[i * 4] && legend[i].active) {
-        newData.push(baseData[i * 4 + 0]);
-        newData.push(baseData[i * 4 + 1]);
-        newData.push(baseData[i * 4 + 2]);
-        newData.push(baseData[i * 4 + 3]);
+    if (legend?.length > 0 && baseData?.length === legend.length * 4) {
+      const newData = [];
+      for (let i = 0; i < legend.length; i += 1) {
+        if (`${legend[i].text}_XX` === baseData[i * 4] && legend[i].active) {
+          newData.push(baseData[i * 4 + 0]);
+          newData.push(baseData[i * 4 + 1]);
+          newData.push(baseData[i * 4 + 2]);
+          newData.push(baseData[i * 4 + 3]);
+        }
       }
+      setChartData(newData);
+    } else {
+      setChartData(baseData);
     }
-    setChartData(newData);
   }, [baseData, legend]);
 
   const apiFormat = config ? config.api_format : '?????';
@@ -83,7 +88,7 @@ const Spectrogram = ({ config, legend }: SpectrogramProps) => {
 
   function imageClick(item: string) {
     setOpen(true);
-    setSelected(item);
+    setSelected(DATA_LOCAL ? 'THUMBNAIL' : item);
   }
 
   return (
@@ -106,16 +111,50 @@ const Spectrogram = ({ config, legend }: SpectrogramProps) => {
       >
         <>
           <Grid container direction="row" justifyContent="space-evenly">
-            {chartData && chartData.length ? (
-              chartData.map(item => (
-                <Grid key={item} item>
+            {DATA_LOCAL && (
+              <>
+                <Grid item>
                   <SpectrogramImage
                     config={config}
-                    element={item}
-                    onClick={() => imageClick(item)}
+                    element={null}
+                    onClick={() => imageClick(null)}
                   />
                 </Grid>
-              ))
+                <Grid item>
+                  <SpectrogramImage
+                    config={config}
+                    element={null}
+                    onClick={() => imageClick(null)}
+                  />
+                </Grid>
+                <Grid item>
+                  <SpectrogramImage
+                    config={config}
+                    element={null}
+                    onClick={() => imageClick(null)}
+                  />
+                </Grid>
+                <Grid item>
+                  <SpectrogramImage
+                    config={config}
+                    element={null}
+                    onClick={() => imageClick(null)}
+                  />
+                </Grid>
+              </>
+            )}
+            {!DATA_LOCAL && chartData && chartData.length ? (
+              chartData.map(
+                (item): React.JSX.Element => (
+                  <Grid key={item} item>
+                    <SpectrogramImage
+                      config={config}
+                      element={item}
+                      onClick={() => imageClick(item)}
+                    />
+                  </Grid>
+                )
+              )
             ) : (
               <div />
             )}

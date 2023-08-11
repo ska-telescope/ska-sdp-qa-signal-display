@@ -13,14 +13,22 @@ interface SpectrogramImageProps {
 
 const FULL = 'full_image';
 const THUMBNAIL = 'thumbnail';
+const MOCK_FULL = '/static/images/mock/full.png';
+const MOCK_THUMBNAIL = '/static/images/mock/thumbnail.png';
 
 const SpectrogramImage = ({ element, full, onClick, config }: SpectrogramImageProps) => {
   function getImageFULL(item: string) {
+    if (DATA_LOCAL) {
+      return MOCK_FULL;
+    }
     const baselines = item.split(/[-_]+/);
     return `${DATA_API_URL}/spectograms/${FULL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
 
   function getImageTN(item: string) {
+    if (DATA_LOCAL) {
+      return MOCK_THUMBNAIL;
+    }
     const baselines = item.split(/[-_]+/);
     return `${DATA_API_URL}/spectograms/${THUMBNAIL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
@@ -34,32 +42,38 @@ const SpectrogramImage = ({ element, full, onClick, config }: SpectrogramImagePr
     return onClick ? onClick(item) : null;
   }
 
-  const width = () => (full ? '85vw' : config.waterfall_plots.thumbnail_width);
-  const height = () => (full ? '85vh' : config.waterfall_plots.thumbnail_max_height);
+  const width = () => {
+    if (DATA_LOCAL) {
+      return full ? '85vw' : '22vw';
+    }
+    return full ? '85vw' : config.waterfall_plots.thumbnail_width;
+  };
+
+  const height = () => {
+    if (DATA_LOCAL) {
+      return full ? '85vh' : '22vh';
+    }
+    return full ? '85vh' : config.waterfall_plots.thumbnail_max_height;
+  };
 
   return (
-    <>
-      {DATA_LOCAL && 'MOCK DATA PLACEHOLDER'}
-      {!DATA_LOCAL && (
-        <ImageListItem key={element}>
-          <img
-            src={getImageUrl(element)}
-            // placeholder={getImageTN(element)}
-            alt={element}
-            loading="lazy"
-            onClick={() => imageClick(element)}
-            style={{
-              width: width(),
-              height: height(),
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          />
-          <ImageListItemBar title={element} position="below" />
-        </ImageListItem>
-      )}
-    </>
+    <ImageListItem key={element}>
+      <img
+        src={getImageUrl(element)}
+        // placeholder={getImageTN(element)}
+        alt={element}
+        loading="lazy"
+        onClick={() => imageClick(element)}
+        style={{
+          width: width(),
+          height: height(),
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      />
+      <ImageListItemBar title={element} position="below" />
+    </ImageListItem>
   );
 };
 

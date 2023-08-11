@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Plot from 'react-plotly.js';
 
+import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
 import { storageObject } from '../../services/stateStorage';
 import { COLOR } from '../../utils/constants';
+import { generateChannels } from '../../utils/generateChannels';
 
 interface SpectrumPlotProps {
   polarization: string;
@@ -64,9 +65,10 @@ const SpectrumPlot = ({ polarization, resize, socketStatus, config, data }: Spec
     if (!usedData.channels) {
       return [];
     }
+    const xValues = generateChannels(usedData.spectral_window);
     const chartDataTmp = [
       {
-        x: usedData.channels,
+        x: xValues,
         y: getYData(usedData.polarisations, polarization),
         marker: {
           color: COLOR[0]
@@ -107,26 +109,14 @@ const SpectrumPlot = ({ polarization, resize, socketStatus, config, data }: Spec
       showContent={showContent}
       setShowContent={showToggle}
     >
-      <Plot
+      <Plotly
+        darkMode={darkMode}
         data={showContent ? chartData : null}
-        layout={{
-          autosize: false,
-          title: chartTitle(),
-          plot_bgcolor: darkMode ? 'black' : 'white',
-          paper_bgcolor: darkMode ? 'black' : 'white',
-          width: parentWidth(),
-          height: parentWidth() / RATIO,
-          xaxis: {
-            title: xLabel(),
-            color: darkMode ? 'white' : 'black',
-            automargin: true
-          },
-          yaxis: {
-            title: yLabel(),
-            color: darkMode ? 'white' : 'black',
-            automargin: true
-          }
-        }}
+        height={parentWidth() / RATIO}
+        title={chartTitle()}
+        width={parentWidth()}
+        xLabel={xLabel()}
+        yLabel={yLabel()}
       />
     </SignalCard>
   );
