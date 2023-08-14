@@ -95,15 +95,14 @@ const Spectrogram = ({ config, legend }: SpectrogramProps) => {
     <>
       {selected && (
         <SKAOModal open={open} onClose={() => setOpen(false)}>
-          <Card data-testId="chloe1" variant="outlined" className="removeBorder:focus">
-            <CardContent data-testId="chloe4">
-              <SpectrogramImage data-testId="chloe3" config={config} element={selected} full />
+          <Card variant="outlined" className="removeBorder:focus">
+            <CardContent>
+              <SpectrogramImage config={config} element={selected} full />
             </CardContent>
           </Card>
         </SKAOModal>
       )}
       <SignalCard
-        data-testId="chloe2"
         title={t('label.spectrograms')}
         actionTitle={cardTitle()}
         subheader={t('prompt.spectrograms')}
@@ -111,7 +110,7 @@ const Spectrogram = ({ config, legend }: SpectrogramProps) => {
         setShowContent={showToggle}
       >
         <>
-          <Grid data-testId="chloe5" container direction="row" justifyContent="space-evenly">
+          <Grid container direction="row" justifyContent="space-evenly">
             {DATA_LOCAL && (
               <>
                 <Grid data-testId="spectrogram1Id" item>
