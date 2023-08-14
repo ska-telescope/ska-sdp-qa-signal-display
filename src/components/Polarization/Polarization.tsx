@@ -88,7 +88,7 @@ const Polarization = ({
 
   function getChartData(usedData: any, amplitude: boolean) {
     const chartData = [];
-    if (!usedData.channels || !legend) {
+    if (!legend) {
       return chartData;
     }
     const xValues = generateChannels(usedData.spectral_window);

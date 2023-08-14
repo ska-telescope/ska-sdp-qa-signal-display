@@ -15,7 +15,7 @@ i18n
     lng: 'en',
     ns: ['signalDisplay'],
     defaultNS: 'signalDisplay',
-    backendOptions: {
+    backend: {
       loadPath: './locales/{{lng}}/{{ns}}.json'
     },    
     initImmediate: false,
