@@ -65,9 +65,6 @@ const SpectrumPlot = ({
     }
   }
   function getChartData(usedData: any) {
-    if (!usedData.channels) {
-      return [];
-    }
     const xValues = generateChannels(usedData.spectral_window);
     const chartDataTmp = [
       {
