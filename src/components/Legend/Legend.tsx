@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
@@ -10,8 +11,6 @@ import { colorFlip } from '../../utils/colorFlip';
 
 interface LegendProps {
   resize: number;
-  socketStatus: string;
-  config: any;
   data: any;
   displaySettings: any;
   onClick: Function;
@@ -19,14 +18,7 @@ interface LegendProps {
   poleUpdate: Function;
 }
 
-const Legend = ({
-  resize,
-  data,
-  displaySettings,
-  onClick,
-  pole,
-  poleUpdate
-}: LegendProps) => {
+const Legend = ({ resize, data, displaySettings, onClick, pole, poleUpdate }: LegendProps) => {
   const { t } = useTranslation('signalDisplay');
   const [showContent, setShowContent] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
@@ -60,44 +52,17 @@ const Legend = ({
   }, [resize]);
 
   return (
-    {canShowLegend() && 
-      <SignalCard
-        title={t('label.legend')}
-        showContent={showContent}
-        setShowContent={showToggle}
-      >
-        <Grid container direction="column">
-          <Grid item>
-            {pole &&
-              pole.map((item: { active: boolean; color: string; text: string }) => (
-                <Button
-                  key={item.text}
-                  onClick={e => {
-                    poleUpdate(e.currentTarget.innerText);
-                  }}
-                  size="small"
-                  sx={{
-                    m: 1,
-                    '&:hover': item.active ? item.color : 'inherited',
-                    backgroundColor: item.active ? item.color : 'inherited',
-                    color: item.active ? colorFlip(item.color, true) : 'inherited'
-                  }}
-                  testId="legendGroupingId"
-                  variant={ButtonVariantTypes.Contained}
-                >
-                  {item.text}
-                </Button>
-              ))}
-          </Grid>
-          <Grid item>
-            {data &&
-              data.map(
-                (item: { active: boolean; color: string; self: boolean; text: string }, i: any) => (
+    <>
+      {canShowLegend() && (
+        <SignalCard title={t('label.legend')} showContent={showContent} setShowContent={showToggle}>
+          <Grid container direction="column">
+            <Grid item>
+              {pole &&
+                pole.map((item: { active: boolean; color: string; text: string }) => (
                   <Button
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={i}
+                    key={item.text}
                     onClick={e => {
-                      onClick(e.currentTarget.innerText);
+                      poleUpdate(e.currentTarget.innerText);
                     }}
                     size="small"
                     sx={{
@@ -106,16 +71,44 @@ const Legend = ({
                       backgroundColor: item.active ? item.color : 'inherited',
                       color: item.active ? colorFlip(item.color, true) : 'inherited'
                     }}
+                    testId="legendGroupingId"
                     variant={ButtonVariantTypes.Contained}
                   >
                     {item.text}
                   </Button>
-                )
-              )}
+                ))}
+            </Grid>
+            <Grid item>
+              {data &&
+                data.map(
+                  (
+                    item: { active: boolean; color: string; self: boolean; text: string },
+                    i: any
+                  ) => (
+                    <Button
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={i}
+                      onClick={e => {
+                        onClick(e.currentTarget.innerText);
+                      }}
+                      size="small"
+                      sx={{
+                        m: 1,
+                        '&:hover': item.active ? item.color : 'inherited',
+                        backgroundColor: item.active ? item.color : 'inherited',
+                        color: item.active ? colorFlip(item.color, true) : 'inherited'
+                      }}
+                      variant={ButtonVariantTypes.Contained}
+                    >
+                      {item.text}
+                    </Button>
+                  )
+                )}
+            </Grid>
           </Grid>
-        </Grid>
-      </SignalCard>
-    }
+        </SignalCard>
+      )}
+    </>
   );
 };
 export default Legend;

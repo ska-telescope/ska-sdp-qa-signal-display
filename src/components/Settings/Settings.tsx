@@ -105,9 +105,7 @@ export default function Settings({
               </Grid>
             </Grid>
             <Typography variant="h5">
-              {`${t('label.polarization')} / ${t(
-              'label.amplitude'
-            )}`}
+              {`${t('label.polarization')} / ${t('label.amplitude')}`}
             </Typography>
             <Grid container m={0}>
               <Grid item xs={3}>
@@ -154,9 +152,7 @@ export default function Settings({
               </Grid>
             </Grid>
             <Typography variant="h5">
-              {`${t('label.polarization')} / ${t(
-              'label.phase'
-            )}`}
+              {`${t('label.polarization')} / ${t('label.phase')}`}
             </Typography>
             <Grid container m={0}>
               <Grid item xs={3}>
