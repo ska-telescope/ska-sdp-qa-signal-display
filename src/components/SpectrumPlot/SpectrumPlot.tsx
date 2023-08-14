@@ -65,9 +65,10 @@ const SpectrumPlot = ({ polarization, resize, socketStatus, config, data }: Spec
     if (!usedData.channels) {
       return [];
     }
+    const xValues = generateChannels(usedData.spectral_window);
     const chartDataTmp = [
       {
-        x: generateChannels(usedData.channels),
+        x: xValues,
         y: getYData(usedData.polarisations, polarization),
         marker: {
           color: COLOR[0]

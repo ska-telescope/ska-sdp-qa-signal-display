@@ -2,6 +2,7 @@
 export const CELL_HEIGHT = 75;
 export const CELL_WIDTH = 150;
 export const ROW_HEIGHT = 164;
+export const HZ_TO_MHZ = 1000000;
 
 export const COLOR = [
   '#FF0000',
