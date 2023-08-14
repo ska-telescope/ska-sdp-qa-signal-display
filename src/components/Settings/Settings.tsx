@@ -1,147 +1,222 @@
-/* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable react/jsx-no-bind */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Card, CardHeader, Grid, IconButton, Tooltip, Typography } from '@mui/material';
-import { ButtonColorTypes, Status } from '@ska-telescope/ska-gui-components';
-import SettingsIcon from '@mui/icons-material/Settings';
-import { SOCKET_STATUS } from '../../utils/constants';
+import { Box, Drawer, Grid, Stack, Typography } from '@mui/material';
+import HideShowToggle from '../HideShowToggle/HideShowToggle';
+import { QASettings } from '../../services/types/qaSettings';
 
-const STATUS_SIZE = 20;
-
-interface SettingsProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  config: any;
-  status1: string;
-  status2: string;
-  status3: string;
-  status4: string;
+export interface SettingsProps {
+  open: boolean;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  openToggle: Function;
+  displaySettings: QASettings;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  setSettings: Function;
 }
 
-const Settings = ({ config, status1, status2, status3, status4 }: SettingsProps) => {
+export default function Settings({
+  open,
+  openToggle,
+  displaySettings,
+  setSettings
+}: SettingsProps) {
   const { t } = useTranslation('signalDisplay');
 
-  const apiFormat = config ? config.api_format : '?????';
-  const toolTipFormat = (label: string, statusType: string, status) => (
-    <>
-      <Typography color="inherit">
-        <u>{t(label)}</u>
-      </Typography>
-      <Typography color="inherit">
-        {t(statusType)}
-        :
-        <b>{status}</b>
-      </Typography>
-      <Typography color="inherit">
-        {t('label.serialisation')}
-        :
-        <b>{apiFormat}</b>
-      </Typography>
-    </>
-  );
-  const toolTip1 = () => toolTipFormat('label.polarization', 'label.socket', status1);
-  const toolTip2 = () => toolTipFormat('label.spectrumPlot', 'label.socket', status2);
-  const toolTip3 = () => toolTipFormat('label.statisticsDetailed', 'label.api', status3);
-  const toolTip4 = () => toolTipFormat('label.statisticsReceiver', 'label.api', status4);
+  function settingsToggle() {
+    openToggle();
+  }
 
-  const getSocketStatus = (status: string) => {
-    switch (status) {
-      case SOCKET_STATUS[2]:
-        return 0;
-      case SOCKET_STATUS[3]:
-        return 4; // This value suppresses the Status Component
-      case SOCKET_STATUS[0]:
-        return 3;
-      default:
-        return 1; // Everything else shown as an error
-    }
-  };
+  function setValue(e: QASettings) {
+    setSettings(e);
+  }
 
   return (
-    <Box m={1}>
-      <Card style={{ backgroundColor: 'primary' }} variant="outlined">
-        <CardHeader
-          data-testid="sectionHeader"
-          action={(
-            <Grid container spacing={0}>
-              <Grid item>
-                <Tooltip title={toolTip1()}>
-                  <IconButton
-                    aria-label={t('label.socketStatus')}
-                    sx={{ '&:hover': { backgroundColor: 'primary.dark' }, p: 1.3 }}
-                    color={ButtonColorTypes.Inherit}
-                  >
-                    <Status
-                      testId="status1Id"
-                      level={getSocketStatus(status1)}
-                      size={STATUS_SIZE}
-                    />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
-              <Grid item>
-                <Tooltip title={toolTip2()}>
-                  <IconButton
-                    aria-label={t('label.socketStatus')}
-                    sx={{ '&:hover': { backgroundColor: 'primary.dark' }, p: 1.3 }}
-                    color={ButtonColorTypes.Inherit}
-                  >
-                    <Status
-                      testId="status2Id"
-                      level={getSocketStatus(status2)}
-                      size={STATUS_SIZE}
-                    />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
-              <Grid item>
-                <Tooltip title={toolTip3()}>
-                  <IconButton
-                    aria-label={t('label.socketStatus')}
-                    sx={{ '&:hover': { backgroundColor: 'primary.dark' }, p: 1.3 }}
-                    color={ButtonColorTypes.Inherit}
-                  >
-                    <Status
-                      testId="status3Id"
-                      level={getSocketStatus(status3)}
-                      size={STATUS_SIZE}
-                    />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
-              <Grid item>
-                <Tooltip title={toolTip4()}>
-                  <IconButton
-                    aria-label={t('label.socketStatus')}
-                    sx={{ '&:hover': { backgroundColor: 'primary.dark' }, p: 1.3 }}
-                    color={ButtonColorTypes.Inherit}
-                  >
-                    <Status
-                      testId="status4Id"
-                      level={getSocketStatus(status4)}
-                      size={STATUS_SIZE}
-                    />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
-              <Grid item>
-                <Tooltip title={t('label.hideShowToggle')}>
-                  <IconButton
-                    aria-label={t('label.hideShowToggle')}
-                    sx={{ '&:hover': { backgroundColor: 'primary.dark' }, ml: 1 }}
-                    color={ButtonColorTypes.Inherit}
-                  >
-                    <SettingsIcon />
-                  </IconButton>
-                </Tooltip>
+    <div>
+      <Drawer anchor="right" open={open} onClose={settingsToggle}>
+        <Box m={1} sx={{ minWidth: '25vw' }}>
+          <Stack sx={{ height: '95%' }} spacing={0}>
+            <Typography variant="h4">{t('label.settings')}</Typography>
+            <Typography variant="h5">{t('label.statistics')}</Typography>
+            <Grid container m={0}>
+              <Grid item xs={3}>
+                <HideShowToggle
+                  label={t('label.detailed')}
+                  testId="statisticsDetailedButtonTestId"
+                  displaySettings={displaySettings}
+                  value="showStatisticsDetailed"
+                  setValue={setValue}
+                />
               </Grid>
             </Grid>
-          )}
-        />
-      </Card>
-    </Box>
+            <Grid container m={0}>
+              <Grid item xs={3}>
+                <HideShowToggle
+                  label={t('label.receiver')}
+                  testId="statisticsReceiverButtonTestId"
+                  displaySettings={displaySettings}
+                  value="showStatisticsReceiver"
+                  setValue={setValue}
+                />
+              </Grid>
+            </Grid>
+            <Typography variant="h5">{t('label.spectrumPlot')}</Typography>
+            <Grid container m={0}>
+              <Grid item xs={3}>
+                <HideShowToggle
+                  label="XX"
+                  testId="spectrumPlotXXButtonTestId"
+                  displaySettings={displaySettings}
+                  value="showSpectrumPlotXX"
+                  setValue={setValue}
+                />
+              </Grid>
+            </Grid>
+            <Grid container m={0}>
+              <Grid item xs={3}>
+                <HideShowToggle
+                  label="XY"
+                  testId="spectrumPlotXYButtonTestId"
+                  displaySettings={displaySettings}
+                  value="showSpectrumPlotXY"
+                  setValue={setValue}
+                />
+              </Grid>
+            </Grid>
+            <Grid container m={0}>
+              <Grid item xs={3}>
+                <HideShowToggle
+                  label="YX"
+                  testId="spectrumPlotYXButtonTestId"
+                  displaySettings={displaySettings}
+                  value="showSpectrumPlotYX"
+                  setValue={setValue}
+                />
+              </Grid>
+            </Grid>
+            <Grid container m={0}>
+              <Grid item xs={3}>
+                <HideShowToggle
+                  label="YY"
+                  testId="spectrumPlotYYButtonTestId"
+                  displaySettings={displaySettings}
+                  value="showSpectrumPlotYY"
+                  setValue={setValue}
+                />
+              </Grid>
+            </Grid>
+            <Typography variant="h5">
+              {`${t('label.polarization')} / ${t(
+              'label.amplitude'
+            )}`}
+            </Typography>
+            <Grid container m={0}>
+              <Grid item xs={3}>
+                <HideShowToggle
+                  label="XX"
+                  testId="polarizationAmplitudeXXButtonTestId"
+                  displaySettings={displaySettings}
+                  value="showPolarizationAmplitudeXX"
+                  setValue={setValue}
+                />
+              </Grid>
+            </Grid>
+            <Grid container m={0}>
+              <Grid item xs={3}>
+                <HideShowToggle
+                  label="XY"
+                  testId="polarizationAmplitudeXYButtonTestId"
+                  displaySettings={displaySettings}
+                  value="showPolarizationAmplitudeXY"
+                  setValue={setValue}
+                />
+              </Grid>
+            </Grid>
+            <Grid container m={0}>
+              <Grid item xs={3}>
+                <HideShowToggle
+                  label="YX"
+                  testId="polarizationAmplitudeYXButtonTestId"
+                  displaySettings={displaySettings}
+                  value="showPolarizationAmplitudeYX"
+                  setValue={setValue}
+                />
+              </Grid>
+            </Grid>
+            <Grid container m={0}>
+              <Grid item xs={3}>
+                <HideShowToggle
+                  label="YY"
+                  testId="polarizationAmplitudeYYButtonTestId"
+                  displaySettings={displaySettings}
+                  value="showPolarizationAmplitudeYY"
+                  setValue={setValue}
+                />
+              </Grid>
+            </Grid>
+            <Typography variant="h5">
+              {`${t('label.polarization')} / ${t(
+              'label.phase'
+            )}`}
+            </Typography>
+            <Grid container m={0}>
+              <Grid item xs={3}>
+                <HideShowToggle
+                  label="XX"
+                  testId="polarizationPhaseXXButtonTestId"
+                  displaySettings={displaySettings}
+                  value="showPolarizationPhaseXX"
+                  setValue={setValue}
+                />
+              </Grid>
+            </Grid>
+            <Grid container m={0}>
+              <Grid item xs={3}>
+                <HideShowToggle
+                  label="XY"
+                  testId="polarizationPhaseXYButtonTestId"
+                  displaySettings={displaySettings}
+                  value="showPolarizationPhaseXY"
+                  setValue={setValue}
+                />
+              </Grid>
+            </Grid>
+            <Grid container m={0}>
+              <Grid item xs={3}>
+                <HideShowToggle
+                  label="YX"
+                  testId="polarizationPhaseYXButtonTestId"
+                  displaySettings={displaySettings}
+                  value="showPolarizationPhaseYX"
+                  setValue={setValue}
+                />
+              </Grid>
+            </Grid>
+            <Grid container m={0}>
+              <Grid item xs={3}>
+                <HideShowToggle
+                  label="YY"
+                  testId="polarizationPhaseYYButtonTestId"
+                  displaySettings={displaySettings}
+                  value="showPolarizationPhaseYY"
+                  setValue={setValue}
+                />
+              </Grid>
+            </Grid>
+            <Typography variant="h5">{t('label.spectrograms')}</Typography>
+            <Grid container m={0}>
+              <Grid item>
+                <HideShowToggle
+                  label={t('label.spectrograms')}
+                  testId="spectrogramsButtonTestId"
+                  displaySettings={displaySettings}
+                  value="showSpectrograms"
+                  setValue={setValue}
+                />
+              </Grid>
+            </Grid>
+          </Stack>
+        </Box>
+      </Drawer>
+    </div>
   );
-};
-
-Settings.defaultProps = {};
-
-export default Settings;
+}

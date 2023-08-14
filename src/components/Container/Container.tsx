@@ -8,6 +8,7 @@ import { Button, ButtonColorTypes, DropDown, InfoCard } from '@ska-telescope/ska
 import Legend from '../Legend/Legend';
 import Polarization from '../Polarization/Polarization';
 import Settings from '../Settings/Settings';
+import Summary from '../Summary/Summary';
 import Spectrogram from '../Spectrogram/Spectrogram';
 import SpectrumPlot from '../SpectrumPlot/SpectrumPlot';
 import Statistics from '../Statistics/Statistics';
@@ -32,6 +33,25 @@ const Container = () => {
   const [legendData, setLegendData] = React.useState(null);
   const [legendPole, setLegendPole] = React.useState(null);
   const [config, setConfig] = React.useState(null);
+  const [displaySettings, setDisplaySettings] = React.useState({
+    showStatisticsDetailed: true,
+    showStatisticsReceiver: true,
+    showSpectrumPlotXX: true,
+    showSpectrumPlotXY: true,
+    showSpectrumPlotYX: true,
+    showSpectrumPlotYY: true,
+    showLegend: true,
+    showPolarizationAmplitudeXX: true,
+    showPolarizationAmplitudeXY: true,
+    showPolarizationAmplitudeYX: true,
+    showPolarizationAmplitudeYY: true,
+    showPolarizationPhaseXX: true,
+    showPolarizationPhaseXY: true,
+    showPolarizationPhaseYX: true,
+    showPolarizationPhaseYY: true,
+    showSpectrograms: true
+  });
+  const [openSettings, setOpenSettings] = React.useState(false);
   const [subArray, setSubArray] = React.useState('');
   const [subArrays, setSubArrays] = React.useState(null);
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = React.useState(null);
@@ -66,6 +86,14 @@ const Container = () => {
   const isPoleActive = (inValue: string) => {
     const found = legendPole ? legendPole.find((e: { text: string }) => e.text === inValue) : false;
     return found ? found.active : true;
+  };
+
+  const settingsClick = () => {
+    setOpenSettings(o => !o);
+  };
+
+  const settingsUpdate = e => {
+    setDisplaySettings(e);
   };
 
   function legendOnClick(val: string): void {
@@ -336,6 +364,12 @@ const Container = () => {
   return (
     <>
       <Box m={0}>
+        <Settings
+          open={openSettings}
+          openToggle={settingsClick}
+          displaySettings={displaySettings}
+          setSettings={settingsUpdate}
+        />
         <Grid container direction="row" gap={2} justifyContent="space-between">
           <Grid item xs={6}>
             <Grid container direction="row" gap={2} justifyContent="justify-left">
@@ -378,12 +412,13 @@ const Container = () => {
             </Grid>
           </Grid>
           <Grid item>
-            <Settings
+            <Summary
               config={config}
               status1={socketStatus1}
               status2={socketStatus2}
               status3={SOCKET_STATUS[processingBlockStatisticsData === null ? 1 : 2]}
               status4={SOCKET_STATUS[receiverEventsData === null ? 1 : 2]}
+              clickFunction={settingsClick}
             />
           </Grid>
         </Grid>
@@ -392,6 +427,7 @@ const Container = () => {
       <Statistics
         processingBlockStatisticsData={processingBlockStatisticsData}
         receiverEventsData={receiverEventsData}
+        displaySettings={displaySettings}
       />
       {items.map(item => (
         <SpectrumPlot
@@ -399,31 +435,34 @@ const Container = () => {
           polarization={item}
           resize={refresh}
           socketStatus={socketStatus2}
-          config={config}
+          displaySettings={displaySettings}
           data={chartData2}
         />
       ))}
-      <Legend
-        resize={refresh}
-        socketStatus={socketStatus1}
-        config={config}
-        data={legendData}
-        onClick={legendOnClick}
-        pole={legendPole}
-        poleUpdate={poleOnClick}
-      />
+      {displaySettings.showLegend && (
+        <Legend
+          resize={refresh}
+          socketStatus={socketStatus1}
+          config={config}
+          data={legendData}
+          displaySettings={displaySettings}
+          onClick={legendOnClick}
+          pole={legendPole}
+          poleUpdate={poleOnClick}
+        />
+      )}
       {items.map(item => (
         <Polarization
           key={`Polarization${item}`}
           polarization={item}
           resize={refresh}
           socketStatus={socketStatus1}
-          config={config}
+          displaySettings={displaySettings}
           data={chartData1}
           legend={legendData}
         />
       ))}
-      <Spectrogram config={config} legend={legendData} />
+      <Spectrogram config={config} legend={legendData} displaySettings={displaySettings} />
     </>
   );
 };

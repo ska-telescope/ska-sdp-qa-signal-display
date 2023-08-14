@@ -1,26 +1,14 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Box,
-  Card,
-  CardContent,
-  CardHeader,
-  Grid,
-  IconButton,
-  Tooltip,
-  Typography
-} from '@mui/material';
-import { Alert, ButtonColorTypes, Status } from '@ska-telescope/ska-gui-components';
+import { Box, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { Alert, ButtonColorTypes } from '@ska-telescope/ska-gui-components';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { SOCKET_STATUS } from '../../utils/constants';
 
-const STATUS_SIZE = 20;
 export interface SignalCardProps {
-  actionTitle?: string;
   children?: JSX.Element;
   socketStatus?: string;
-  subheader?: string;
   title: string;
   showContent: boolean;
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -28,10 +16,8 @@ export interface SignalCardProps {
 }
 
 const SignalCard = ({
-  actionTitle,
   children,
   socketStatus,
-  subheader,
   title,
   showContent,
   setShowContent
@@ -69,9 +55,9 @@ const SignalCard = ({
           </Grid>
           <Grid item>
             {!isDisabled() && (
-              <Tooltip title={t('label.hideShowToggle')}>
+              <Tooltip title={t('label.settings')}>
                 <IconButton
-                  aria-label={t('label.hideShowToggle')}
+                  aria-label={t('label.settings')}
                   sx={{ '&:hover': { backgroundColor: 'primary.dark' }, ml: 1 }}
                   onClick={handleToggle}
                   color={ButtonColorTypes.Inherit}
@@ -89,10 +75,8 @@ const SignalCard = ({
 };
 
 SignalCard.defaultProps = {
-  actionTitle: null,
   children: null,
-  socketStatus: null,
-  subheader: null
+  socketStatus: null
 };
 
 export default SignalCard;
