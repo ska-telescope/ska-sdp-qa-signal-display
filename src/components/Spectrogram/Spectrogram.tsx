@@ -85,9 +85,6 @@ const Spectrogram = ({ config, legend, displaySettings }: SpectrogramProps) => {
     }
   }, [baseData, legend]);
 
-  const apiFormat = config ? config.api_format : '?????';
-  const cardTitle = () => `Serialisation: ${apiFormat}`;
-
   function imageClick(item: string) {
     setOpen(true);
     setSelected(DATA_LOCAL ? 'THUMBNAIL' : item);
@@ -97,18 +94,17 @@ const Spectrogram = ({ config, legend, displaySettings }: SpectrogramProps) => {
     <>
       {selected && (
         <SKAOModal open={open} onClose={() => setOpen(false)}>
-          <Card variant="outlined" className="removeBorder:focus">
-            <CardContent>
-              <SpectrogramImage config={config} element={selected} full />
+          <Card data-testId="chloe1" variant="outlined" className="removeBorder:focus">
+            <CardContent data-testId="chloe4">
+              <SpectrogramImage data-testId="chloe3" config={config} element={selected} full />
             </CardContent>
           </Card>
         </SKAOModal>
       )}
       {displaySettings.showSpectrograms && (
         <SignalCard
+          data-testId="chloe2"
           title={t('label.spectrograms')}
-          actionTitle={cardTitle()}
-          subheader={t('prompt.spectrograms')}
           showContent={showContent}
           setShowContent={showToggle}
         >

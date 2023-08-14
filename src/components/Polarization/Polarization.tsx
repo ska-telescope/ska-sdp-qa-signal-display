@@ -174,7 +174,7 @@ const Polarization = ({
         >
           <Grid container direction="row" justifyContent="space-between">
             {canShowChartAmplitude() && (
-              <Grid item md={6} xs={12}>
+              <Grid data-testId="chartData1NoContent" item md={6} xs={12}>
                 {(!legend || !chartData1 || chartData1.length === 0) && (
                   <Box m={1}>
                     <InfoCard
@@ -199,7 +199,7 @@ const Polarization = ({
               </Grid>
             )}
             {canShowChartPhase() && (
-              <Grid item md={6} xs={12}>
+              <Grid data-testId="chartData2NoContent" item md={6} xs={12}>
                 {(!chartData2 || chartData2.length === 0) && (
                   <Box m={1}>
                     <InfoCard
