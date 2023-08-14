@@ -3,8 +3,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
 import React from 'react';
-import { Grid } from '@mui/material';
-import { Button, ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
+import { Button, Grid } from '@mui/material';
+import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import SignalCard from '../SignalCard/SignalCard';
 import { colorFlip } from '../../utils/colorFlip';
@@ -60,6 +60,7 @@ const Legend = ({ resize, data, displaySettings, onClick, pole, poleUpdate }: Le
               {pole &&
                 pole.map((item: { active: boolean; color: string; text: string }) => (
                   <Button
+                    data-testId="legendGroupingId"
                     key={item.text}
                     onClick={e => {
                       poleUpdate(e.currentTarget.innerText);
@@ -71,7 +72,6 @@ const Legend = ({ resize, data, displaySettings, onClick, pole, poleUpdate }: Le
                       backgroundColor: item.active ? item.color : 'inherited',
                       color: item.active ? colorFlip(item.color, true) : 'inherited'
                     }}
-                    testId="legendGroupingId"
                     variant={ButtonVariantTypes.Contained}
                   >
                     {item.text}
@@ -98,7 +98,7 @@ const Legend = ({ resize, data, displaySettings, onClick, pole, poleUpdate }: Le
                         backgroundColor: item.active ? item.color : 'inherited',
                         color: item.active ? colorFlip(item.color, true) : 'inherited'
                       }}
-                      variant={ButtonVariantTypes.Contained}
+                      variant="contained"
                     >
                       {item.text}
                     </Button>

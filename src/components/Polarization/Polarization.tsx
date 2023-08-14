@@ -173,55 +173,59 @@ const Polarization = ({
           setShowContent={showToggle}
         >
           <Grid container direction="row" justifyContent="space-between">
-            {canShowChartAmplitude() && (
-              <Grid data-testId="chartData1NoContent" item md={6} xs={12}>
-                {(!legend || !chartData1 || chartData1.length === 0) && (
-                  <Box m={1}>
-                    <InfoCard
-                      testId="noChartData1Card"
-                      fontSize={25}
-                      level={1}
-                      message={t('error.noData')}
+            {canShowChartAmplitude && (
+              <>
+                <Grid data-testId="chartData1NoContent" item md={6} xs={12}>
+                  {(!legend || !chartData1 || chartData1.length === 0) && (
+                    <Box m={1}>
+                      <InfoCard
+                        testId="noChartData1Card"
+                        fontSize={25}
+                        level={1}
+                        message={t('error.noData')}
+                      />
+                    </Box>
+                  )}
+                  {legend && chartData1 && chartData1.length > 0 && (
+                    <Plotly
+                      darkMode={darkMode}
+                      data={showContent ? chartData1 : null}
+                      height={parentWidth() / RATIO}
+                      title={chartTitle(true)}
+                      width={parentWidth()}
+                      xLabel={xLabel()}
+                      yLabel={yLabel(true)}
                     />
-                  </Box>
-                )}
-                {legend && chartData1 && chartData1.length > 0 && (
-                  <Plotly
-                    darkMode={darkMode}
-                    data={showContent ? chartData1 : null}
-                    height={parentWidth() / RATIO}
-                    title={chartTitle(true)}
-                    width={parentWidth()}
-                    xLabel={xLabel()}
-                    yLabel={yLabel(true)}
-                  />
-                )}
-              </Grid>
+                  )}
+                </Grid>
+              </>
             )}
-            {canShowChartPhase() && (
-              <Grid data-testId="chartData2NoContent" item md={6} xs={12}>
-                {(!chartData2 || chartData2.length === 0) && (
-                  <Box m={1}>
-                    <InfoCard
-                      testId="noChartData2Card"
-                      fontSize={25}
-                      level={1}
-                      message={t('error.noData')}
+            {canShowChartPhase && (
+              <>
+                <Grid data-testId="chartData2NoContent" item md={6} xs={12}>
+                  {(!chartData2 || chartData2.length === 0) && (
+                    <Box m={1}>
+                      <InfoCard
+                        testId="noChartData2Card"
+                        fontSize={25}
+                        level={1}
+                        message={t('error.noData')}
+                      />
+                    </Box>
+                  )}
+                  {chartData2 && chartData2.length > 0 && (
+                    <Plotly
+                      darkMode={darkMode}
+                      data={showContent ? chartData2 : null}
+                      height={parentWidth() / RATIO}
+                      title={chartTitle(false)}
+                      width={parentWidth()}
+                      xLabel={xLabel()}
+                      yLabel={yLabel(true)}
                     />
-                  </Box>
-                )}
-                {chartData2 && chartData2.length > 0 && (
-                  <Plotly
-                    darkMode={darkMode}
-                    data={showContent ? chartData2 : null}
-                    height={parentWidth() / RATIO}
-                    title={chartTitle(false)}
-                    width={parentWidth()}
-                    xLabel={xLabel()}
-                    yLabel={yLabel(true)}
-                  />
-                )}
-              </Grid>
+                  )}
+                </Grid>
+              </>
             )}
           </Grid>
         </SignalCard>

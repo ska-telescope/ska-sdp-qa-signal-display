@@ -63,16 +63,18 @@ context('Signal display', () => {
         cy.findAllByTestId("sectionHeader").contains("Spectrum Plot YY").should("be.visible")
 
         cy.findAllByTestId("sectionHeader").contains("Legend").should("be.visible")
-
         cy.findAllByTestId("VisibilityOffIcon").eq(2).click({ multiple: true, force: true })
         cy.findAllByTestId("legendGroupingId").click({ multiple: true })
         cy.findAllByTestId("noChartData1Card").should("be.visible")
         cy.findAllByTestId("noChartData2Card").should("be.visible")
+        cy.findAllByTestId("legendKey").should("be.visible")
 
         cy.findAllByTestId("sectionHeader").contains("Polarization XX").should("be.visible")
         cy.findAllByTestId("sectionHeader").contains("Polarization XY").should("be.visible")
         cy.findAllByTestId("sectionHeader").contains("Polarization YX").should("be.visible")
         cy.findAllByTestId("sectionHeader").contains("Polarization YY").should("be.visible")
+        cy.findAllByTestId('chartData1Content').should("be.visible");
+        cy.findAllByTestId('chartData2Content').should("be.visible");
 
         cy.findAllByTestId("sectionHeader").contains("Spectrograms").should("be.visible")
         cy.findByTestId('spectrogram1Id').should("be.visible");
