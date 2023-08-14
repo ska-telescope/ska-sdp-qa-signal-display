@@ -79,6 +79,7 @@ const Legend = ({ resize, socketStatus, config, data, onClick, pole, poleUpdate 
             data.map(
               (item: { active: boolean; color: string; self: boolean; text: string }, i: any) => (
                 <Button
+                  data-testId="legendKey"
                   // eslint-disable-next-line react/no-array-index-key
                   key={i}
                   onClick={e => {
