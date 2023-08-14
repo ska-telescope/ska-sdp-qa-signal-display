@@ -194,7 +194,6 @@ const Container = () => {
     fetchConfigFromAPI();
   }, [fetchConfig]);
 
-  
   React.useEffect(() => {
     if (DATA_LOCAL) {
       setProcessingBlockStatisticsData(mockStatisticsProcessingBlock);
@@ -204,7 +203,6 @@ const Container = () => {
       retrieveReceiverEventData();
     }
   }, [config]);
-
 
   React.useEffect(() => {
     if (fetchSubArrayList === false) {
@@ -345,7 +343,9 @@ const Container = () => {
                 {subArrays && (
                   <DropDown
                     disabled={!subArrays || subArrays.length < 2}
-                    helperText={t(subArrays.length < 2 ? 'prompt.subArrayOne' : 'prompt.subArrayMany')}
+                    helperText={t(
+                      subArrays.length < 2 ? 'prompt.subArrayOne' : 'prompt.subArrayMany'
+                    )}
                     label={t('label.subArray')}
                     options={subArrays}
                     testId="subArraySelection"
@@ -354,9 +354,14 @@ const Container = () => {
                   />
                 )}
                 {!subArrays && (
-                  <InfoCard testId="noSubArrayCard" fontSize={25} level={1} message={displayError()} />
+                  <InfoCard
+                    testId="noSubArrayCard"
+                    fontSize={25}
+                    level={1}
+                    message={displayError()}
+                  />
                 )}
-              </Grid>              
+              </Grid>
               <Grid item>
                 {config && (
                   <Button
@@ -373,7 +378,7 @@ const Container = () => {
             </Grid>
           </Grid>
           <Grid item>
-            <Settings 
+            <Settings
               config={config}
               status1={socketStatus1}
               status2={socketStatus2}
@@ -384,7 +389,10 @@ const Container = () => {
         </Grid>
       </Box>
 
-      <Statistics processingBlockStatisticsData={processingBlockStatisticsData} receiverEventsData={receiverEventsData} />
+      <Statistics
+        processingBlockStatisticsData={processingBlockStatisticsData}
+        receiverEventsData={receiverEventsData}
+      />
       {items.map(item => (
         <SpectrumPlot
           key={`SpectrumPlot${item}`}

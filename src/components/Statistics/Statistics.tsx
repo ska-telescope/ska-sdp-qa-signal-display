@@ -81,8 +81,7 @@ const Statistics = ({ processingBlockStatisticsData, receiverEventsData }: Stati
                   {': '}
                   {Math.round(
                     (processingBlockStatisticsData?.statistics?.ingestion_rate || 0) * 100
-                  ) / 100}
-                  {' '}
+                  ) / 100}{' '}
                   {t('units.ingestionRate')}
                 </Typography>
                 <Typography variant="subtitle1">
@@ -176,8 +175,7 @@ const Statistics = ({ processingBlockStatisticsData, receiverEventsData }: Stati
                 <Typography variant="subtitle1">
                   {t('label.totalDataReceived')}
                   {': '}
-                  {Math.round((receiverEventsData?.total_megabytes || 0) * 100) / 100}
-                  {' '}
+                  {Math.round((receiverEventsData?.total_megabytes || 0) * 100) / 100}{' '}
                   {t('units.totalDataReceived')}
                 </Typography>
                 <Typography variant="subtitle1">
@@ -187,16 +185,13 @@ const Statistics = ({ processingBlockStatisticsData, receiverEventsData }: Stati
                     ((receiverEventsData?.total_megabytes || 0) /
                       (receiverEventsData?.duration || 1)) *
                       100
-                  ) / 100}
-                  {' '}
+                  ) / 100}{' '}
                   {t('units.currentSpeed')}
                 </Typography>
                 <Typography variant="subtitle1">
                   {t('label.durationCurrentTransfer')}
                   {': '}
-                  {Math.round(receiverEventsData?.duration)} 
-                  {' '}
-                  {t('units.durationCurrentTransfer')}
+                  {Math.round(receiverEventsData?.duration)} {t('units.durationCurrentTransfer')}
                 </Typography>
               </Grid>
             </Grid>
