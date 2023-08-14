@@ -144,7 +144,7 @@ const Polarization = ({
       setShowContent={showToggle}
     >
       <Grid container direction="row" justifyContent="space-between">
-        <Grid item md={6} xs={12}>
+        <Grid data-testId="chartData1NoContent" item md={6} xs={12}>
           {(!legend || !chartData1 || chartData1.length === 0) && (
             <Box m={1}>
               <InfoCard
@@ -167,7 +167,7 @@ const Polarization = ({
             />
           )}
         </Grid>
-        <Grid item md={6} xs={12}>
+        <Grid data-testId="chartData2NoContent" item md={6} xs={12}>
           {(!chartData2 || chartData2.length === 0) && (
             <Box m={1}>
               <InfoCard

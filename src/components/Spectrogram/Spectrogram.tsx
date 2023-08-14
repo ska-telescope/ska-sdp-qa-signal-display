@@ -95,14 +95,15 @@ const Spectrogram = ({ config, legend }: SpectrogramProps) => {
     <>
       {selected && (
         <SKAOModal open={open} onClose={() => setOpen(false)}>
-          <Card variant="outlined" className="removeBorder:focus">
-            <CardContent>
-              <SpectrogramImage config={config} element={selected} full />
+          <Card data-testId="chloe1" variant="outlined" className="removeBorder:focus">
+            <CardContent data-testId="chloe4">
+              <SpectrogramImage data-testId="chloe3" config={config} element={selected} full />
             </CardContent>
           </Card>
         </SKAOModal>
       )}
       <SignalCard
+        data-testId="chloe2"
         title={t('label.spectrograms')}
         actionTitle={cardTitle()}
         subheader={t('prompt.spectrograms')}
@@ -110,31 +111,31 @@ const Spectrogram = ({ config, legend }: SpectrogramProps) => {
         setShowContent={showToggle}
       >
         <>
-          <Grid container direction="row" justifyContent="space-evenly">
+          <Grid data-testId="chloe5" container direction="row" justifyContent="space-evenly">
             {DATA_LOCAL && (
               <>
-                <Grid item>
+                <Grid data-testId="spectrogram1Id" item>
                   <SpectrogramImage
                     config={config}
                     element={null}
                     onClick={() => imageClick(null)}
                   />
                 </Grid>
-                <Grid item>
+                <Grid data-testId="spectrogram2Id" item>
                   <SpectrogramImage
                     config={config}
                     element={null}
                     onClick={() => imageClick(null)}
                   />
                 </Grid>
-                <Grid item>
+                <Grid data-testId="spectrogram3Id" item>
                   <SpectrogramImage
                     config={config}
                     element={null}
                     onClick={() => imageClick(null)}
                   />
                 </Grid>
-                <Grid item>
+                <Grid data-testId="spectrogram4Id" item>
                   <SpectrogramImage
                     config={config}
                     element={null}

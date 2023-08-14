@@ -11,6 +11,7 @@ function statisticsDetailed() {
     cy.findByTestId("statisticsDetails").contains("Payloads Received:").should("be.visible");
     cy.findByTestId("statisticsDetails").contains("Visibility Receive Still Active:").should("be.visible");
 
+    cy.findByTestId("workflowDetails").contains("Workflow").should("be.visible");
     cy.findByTestId("workflowDetails").contains("State").should("be.visible");
     cy.findByTestId("workflowDetails").contains("Scan ID:").should("be.visible");
     cy.findByTestId("workflowDetails").contains("Processing Block ID:").should("be.visible");
@@ -51,6 +52,7 @@ context('Signal display', () => {
     it('Verify expected diagrams are present and can be hidden', () => {
         cy.get('h4').contains('Signal Display').should("be.visible")
         cy.findAllByLabelText("Hide/Show Toggle").click({ multiple: true })
+        cy.findAllByTestId("statusId").should("be.visible");
 
         statisticsDetailed();
         statisticsReceiver();
@@ -62,11 +64,20 @@ context('Signal display', () => {
 
         cy.findAllByTestId("sectionHeader").contains("Legend").should("be.visible")
 
+        cy.findAllByTestId("VisibilityOffIcon").eq(2).click({ multiple: true, force: true })
+        cy.findAllByTestId("legendGroupingId").click({ multiple: true })
+        cy.findAllByTestId("noChartData1Card").should("be.visible")
+        cy.findAllByTestId("noChartData2Card").should("be.visible")
+
         cy.findAllByTestId("sectionHeader").contains("Polarization XX").should("be.visible")
         cy.findAllByTestId("sectionHeader").contains("Polarization XY").should("be.visible")
         cy.findAllByTestId("sectionHeader").contains("Polarization YX").should("be.visible")
         cy.findAllByTestId("sectionHeader").contains("Polarization YY").should("be.visible")
 
         cy.findAllByTestId("sectionHeader").contains("Spectrograms").should("be.visible")
+        cy.findByTestId('spectrogram1Id').should("be.visible");
+        cy.findByTestId('spectrogram2Id').should("be.visible");
+        cy.findByTestId('spectrogram3Id').should("be.visible");
+        cy.findByTestId('spectrogram4Id').should("be.visible");
     })
 })
