@@ -56,6 +56,7 @@ const Legend = ({ resize, socketStatus, config, data, onClick, pole, poleUpdate 
           {pole &&
             pole.map((item: { active: boolean; color: string; text: string }) => (
               <Button
+                data-testId="legendGroupingId"
                 key={item.text}
                 onClick={e => {
                   poleUpdate(e.currentTarget.innerText);
