@@ -55,7 +55,7 @@ const SignalCard = ({
           </Grid>
           <Grid item>
             {!isDisabled() && (
-              <Tooltip title={t('label.settings')}>
+              <Tooltip title={t('label.hideShowToggle')}>
                 <IconButton
                   aria-label={t('label.settings')}
                   sx={{ '&:hover': { backgroundColor: 'primary.dark' }, ml: 1 }}

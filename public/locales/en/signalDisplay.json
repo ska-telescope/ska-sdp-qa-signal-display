@@ -38,6 +38,7 @@
     "executingBlockId": "Executing Block ID",
     "frequency": "Frequency",
     "hideContent": "Hide Content",
+    "hideShowToggle": "Hide/Show Toggle",
     "ingestionRate": "Ingestion Rate",
     "lastAPIRefresh": "Last Refresh from API",
     "lastUpdate": "Last Update",
