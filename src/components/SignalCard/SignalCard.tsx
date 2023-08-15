@@ -1,17 +1,14 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Card, CardContent, CardHeader, Grid, IconButton, Tooltip } from '@mui/material';
-import { ButtonColorTypes, Status } from '@ska-telescope/ska-gui-components';
+import { Box, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { Alert, ButtonColorTypes } from '@ska-telescope/ska-gui-components';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { SOCKET_STATUS } from '../../utils/constants';
 
-const STATUS_SIZE = 20;
 export interface SignalCardProps {
-  actionTitle?: string;
   children?: JSX.Element;
   socketStatus?: string;
-  subheader?: string;
   title: string;
   showContent: boolean;
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -19,10 +16,8 @@ export interface SignalCardProps {
 }
 
 const SignalCard = ({
-  actionTitle,
   children,
   socketStatus,
-  subheader,
   title,
   showContent,
   setShowContent
@@ -52,55 +47,37 @@ const SignalCard = ({
   };
 
   return (
-    <Box m={1}>
-      <Card style={{ backgroundColor: 'primary' }} variant="outlined">
-        <CardHeader
-          data-testid="sectionHeader"
-          action={(
-            <Grid container spacing={0}>
-              <Grid item>
-                {socketStatus && (
-                  <Tooltip title={actionTitle}>
-                    <IconButton
-                      aria-label={t('label.socketStatus')}
-                      sx={{ '&:hover': { backgroundColor: 'primary.dark' }, p: 1.3 }}
-                      color={ButtonColorTypes.Inherit}
-                    >
-                      <Status testId="statusId" level={getSocketStatus()} size={STATUS_SIZE} />
-                    </IconButton>
-                  </Tooltip>
-                )}
-              </Grid>
-              <Grid item>
-                {!isDisabled() && (
-                  <Tooltip title={t('label.hideShowToggle')}>
-                    <IconButton
-                      aria-label={t('label.hideShowToggle')}
-                      sx={{ '&:hover': { backgroundColor: 'primary.dark' }, ml: 1 }}
-                      onClick={handleToggle}
-                      color={ButtonColorTypes.Inherit}
-                    >
-                      {showContent ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </Tooltip>
-                )}
-              </Grid>
-            </Grid>
-          )}
-          subheader={subheader}
-          title={title}
-        />
-        {showContent && <CardContent>{children}</CardContent>}
-      </Card>
-    </Box>
+    <Alert testId="signalCardId" key="alerts" severity={0}>
+      <>
+        <Grid container spacing={0} justifyContent="justify-left">
+          <Grid item data-testid="sectionHeader">
+            <Typography variant="h4">{title}</Typography>
+          </Grid>
+          <Grid item>
+            {!isDisabled() && (
+              <Tooltip title={t('label.hideShowToggle')}>
+                <IconButton
+                  aria-label={t('label.settings')}
+                  data-testId="hideShowToggle"
+                  sx={{ '&:hover': { backgroundColor: 'primary.dark' }, ml: 1 }}
+                  onClick={handleToggle}
+                  color={ButtonColorTypes.Inherit}
+                >
+                  {showContent ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </Tooltip>
+            )}
+          </Grid>
+        </Grid>
+        {showContent && <Box sx={{ width: '80vw' }}>{children}</Box>}
+      </>
+    </Alert>
   );
 };
 
 SignalCard.defaultProps = {
-  actionTitle: null,
   children: null,
-  socketStatus: null,
-  subheader: null
+  socketStatus: null
 };
 
 export default SignalCard;

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,26 +10,28 @@ import { COLOR } from '../../utils/constants';
 import { generateChannels } from '../../utils/generateChannels';
 
 interface SpectrumPlotProps {
+  displaySettings: any;
   polarization: string;
   resize: number;
   socketStatus: string;
-  config: any;
   data: object;
 }
 
 const RATIO = 2;
 
-const SpectrumPlot = ({ polarization, resize, socketStatus, config, data }: SpectrumPlotProps) => {
+const SpectrumPlot = ({
+  displaySettings,
+  polarization,
+  resize,
+  socketStatus,
+  data
+}: SpectrumPlotProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [chartData, setChartData] = React.useState(null);
   const [showContent, setShowContent] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
-
-  const apiFormat = config ? config.api_format : '?????';
-  const cardTitle = () =>
-    `${t('label.socket')}: ${socketStatus}, ${t('label.serialisation')}: ${apiFormat}`;
 
   const chartTitle = () => '';
 
@@ -75,6 +78,21 @@ const SpectrumPlot = ({ polarization, resize, socketStatus, config, data }: Spec
     return chartDataTmp;
   }
 
+  function canShowChart() {
+    switch (polarization) {
+      case 'XX':
+        return displaySettings.showSpectrumPlotXX;
+      case 'XY':
+        return displaySettings.showSpectrumPlotXY;
+      case 'YX':
+        return displaySettings.showSpectrumPlotYX;
+      case 'YY':
+        return displaySettings.showSpectrumPlotYY;
+      default:
+        return false;
+    }
+  }
+
   React.useEffect(() => {
     const firstRender = chartData === null;
     if (data) {
@@ -98,24 +116,27 @@ const SpectrumPlot = ({ polarization, resize, socketStatus, config, data }: Spec
   }, [resize]);
 
   return (
-    <SignalCard
-      data-testid="signalCardId"
-      title={`${t('label.spectrumPlot')} ${polarization}`}
-      actionTitle={cardTitle()}
-      socketStatus={socketStatus}
-      showContent={showContent}
-      setShowContent={showToggle}
-    >
-      <Plotly
-        darkMode={darkMode}
-        data={showContent ? chartData : null}
-        height={parentWidth() / RATIO}
-        title={chartTitle()}
-        width={parentWidth()}
-        xLabel={xLabel()}
-        yLabel={yLabel()}
-      />
-    </SignalCard>
+    <>
+      {canShowChart() && (
+        <SignalCard
+          data-testid="signalCardId"
+          title={`${t('label.spectrumPlot')} ${polarization}`}
+          socketStatus={socketStatus}
+          showContent={showContent}
+          setShowContent={showToggle}
+        >
+          <Plotly
+            darkMode={darkMode}
+            data={showContent ? chartData : null}
+            height={parentWidth() / RATIO}
+            title={chartTitle()}
+            width={parentWidth()}
+            xLabel={xLabel()}
+            yLabel={yLabel()}
+          />
+        </SignalCard>
+      )}
+    </>
   );
 };
 export default SpectrumPlot;

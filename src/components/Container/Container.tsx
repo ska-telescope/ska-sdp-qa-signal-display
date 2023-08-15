@@ -7,11 +7,15 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { Button, ButtonColorTypes, DropDown, InfoCard } from '@ska-telescope/ska-gui-components';
 import Legend from '../Legend/Legend';
 import Polarization from '../Polarization/Polarization';
+import Settings from '../Settings/Settings';
+import Summary from '../Summary/Summary';
 import Spectrogram from '../Spectrogram/Spectrogram';
 import SpectrumPlot from '../SpectrumPlot/SpectrumPlot';
 import Statistics from '../Statistics/Statistics';
 import Socket from '../../services/webSocket/Socket';
 
+import mockStatisticsProcessingBlock from '../../mockData/Statistics/processingBlock';
+import mockStatisticsReceiverEvents from '../../mockData/Statistics/receiverEvents';
 import PhaseData from '../../mockData/WebSocket/phase.json';
 import PlotData from '../../mockData/WebSocket/spectrum.json';
 import { COLOR, DATA_API_URL, DATA_LOCAL, SOCKET_STATUS, WS_API_URL } from '../../utils/constants';
@@ -29,12 +33,37 @@ const Container = () => {
   const [legendData, setLegendData] = React.useState(null);
   const [legendPole, setLegendPole] = React.useState(null);
   const [config, setConfig] = React.useState(null);
+  const [displaySettings, setDisplaySettings] = React.useState({
+    showStatisticsDetailed: true,
+    showStatisticsReceiver: true,
+    showSpectrumPlotXX: true,
+    showSpectrumPlotXY: true,
+    showSpectrumPlotYX: true,
+    showSpectrumPlotYY: true,
+    showLegend: true,
+    showPolarizationAmplitudeXX: true,
+    showPolarizationAmplitudeXY: true,
+    showPolarizationAmplitudeYX: true,
+    showPolarizationAmplitudeYY: true,
+    showPolarizationPhaseXX: true,
+    showPolarizationPhaseXY: true,
+    showPolarizationPhaseYX: true,
+    showPolarizationPhaseYY: true,
+    showSpectrograms: true
+  });
+  const [openSettings, setOpenSettings] = React.useState(false);
   const [subArray, setSubArray] = React.useState('');
   const [subArrays, setSubArrays] = React.useState(null);
+  const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = React.useState(null);
+  const [receiverEventsData, setReceiverEventsData] = React.useState(null);
 
   const [counter, setCounter] = React.useState(0);
   const [fetchConfig, setFetchConfig] = React.useState(false);
   const [fetchSubArrayList, setFetchSubarrayList] = React.useState(false);
+
+  const CONVERT = 1000;
+  const WORKFLOW_STATISTICS_INTERVAL_SECONDS =
+    Number(process.env.REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS) * CONVERT;
 
   // We have a delay to reduce screen flicker
   function resizeIncrement() {
@@ -57,6 +86,14 @@ const Container = () => {
   const isPoleActive = (inValue: string) => {
     const found = legendPole ? legendPole.find((e: { text: string }) => e.text === inValue) : false;
     return found ? found.active : true;
+  };
+
+  const settingsClick = () => {
+    setOpenSettings(o => !o);
+  };
+
+  const settingsUpdate = e => {
+    setDisplaySettings(e);
   };
 
   function legendOnClick(val: string): void {
@@ -112,6 +149,26 @@ const Container = () => {
     return t(config ? 'error.subArray' : 'error.config');
   };
 
+  async function retrieveProcessingBlockStatisticsData() {
+    await fetch(`${DATA_API_URL}${config.paths.processing_blocks}/latest/statistics`)
+      .then(response => response.json())
+      .then(data => {
+        setProcessingBlockStatisticsData(data);
+        setTimeout(retrieveProcessingBlockStatisticsData, WORKFLOW_STATISTICS_INTERVAL_SECONDS);
+      })
+      .catch(() => null);
+  }
+
+  async function retrieveReceiverEventData() {
+    await fetch(`${DATA_API_URL}${config.paths.spead2_scans}/latest/latest_event`)
+      .then(response => response.json())
+      .then(data => {
+        setReceiverEventsData(data);
+        setTimeout(retrieveReceiverEventData, WORKFLOW_STATISTICS_INTERVAL_SECONDS);
+      })
+      .catch(() => null);
+  }
+
   const limit = () =>
     subArrays && subArrays.length > 0
       ? +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS
@@ -164,6 +221,16 @@ const Container = () => {
     }
     fetchConfigFromAPI();
   }, [fetchConfig]);
+
+  React.useEffect(() => {
+    if (DATA_LOCAL) {
+      setProcessingBlockStatisticsData(mockStatisticsProcessingBlock);
+      setReceiverEventsData(mockStatisticsReceiverEvents);
+    } else if (config !== null) {
+      retrieveProcessingBlockStatisticsData();
+      retrieveReceiverEventData();
+    }
+  }, [config]);
 
   React.useEffect(() => {
     if (fetchSubArrayList === false) {
@@ -296,72 +363,106 @@ const Container = () => {
 
   return (
     <>
-      <Box m={1}>
-        <Grid container direction="row" gap={2} justifyContent="justify-left">
-          <Grid item xs={3}>
-            {subArrays && (
-              <DropDown
-                disabled={!subArrays || subArrays.length < 2}
-                helperText={t(subArrays.length < 2 ? 'prompt.subArrayOne' : 'prompt.subArrayMany')}
-                label={t('label.subArray')}
-                options={subArrays}
-                testId="subArraySelection"
-                value={subArray}
-                setValue={setSubArray}
-              />
-            )}
-            {!subArrays && (
-              <InfoCard testId="noSubArrayCard" fontSize={25} level={1} message={displayError()} />
-            )}
+      <Box m={0}>
+        <Settings
+          open={openSettings}
+          openToggle={settingsClick}
+          displaySettings={displaySettings}
+          setSettings={settingsUpdate}
+        />
+        <Grid container direction="row" gap={2} justifyContent="space-between">
+          <Grid item xs={6}>
+            <Grid container direction="row" gap={2} justifyContent="justify-left">
+              <Grid item>
+                {subArrays && (
+                  <DropDown
+                    disabled={!subArrays || subArrays.length < 2}
+                    helperText={t(
+                      subArrays.length < 2 ? 'prompt.subArrayOne' : 'prompt.subArrayMany'
+                    )}
+                    label={t('label.subArray')}
+                    options={subArrays}
+                    testId="subArraySelection"
+                    value={subArray}
+                    setValue={setSubArray}
+                  />
+                )}
+                {!subArrays && (
+                  <InfoCard
+                    testId="noSubArrayCard"
+                    fontSize={25}
+                    level={1}
+                    message={displayError()}
+                  />
+                )}
+              </Grid>
+              <Grid item>
+                {config && (
+                  <Button
+                    color={ButtonColorTypes.Secondary}
+                    disabled={!!DATA_LOCAL}
+                    icon={<RefreshIcon />}
+                    label={t('label.button.refresh', { count: labelCounter() })}
+                    onClick={refreshClicked}
+                    testId="refreshButton"
+                    toolTip={t('toolTip.button.refresh')}
+                  />
+                )}
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item>
-            {config && (
-              <Button
-                color={ButtonColorTypes.Secondary}
-                disabled={!!DATA_LOCAL}
-                icon={<RefreshIcon />}
-                label={t('label.button.refresh', { count: labelCounter() })}
-                onClick={refreshClicked}
-                testId="refreshButton"
-                toolTip={t('toolTip.button.refresh')}
-              />
-            )}
+            <Summary
+              config={config}
+              status1={socketStatus1}
+              status2={socketStatus2}
+              status3={SOCKET_STATUS[processingBlockStatisticsData === null ? 1 : 2]}
+              status4={SOCKET_STATUS[receiverEventsData === null ? 1 : 2]}
+              clickFunction={settingsClick}
+            />
           </Grid>
         </Grid>
       </Box>
 
-      <Statistics config={config} />
+      <Statistics
+        processingBlockStatisticsData={processingBlockStatisticsData}
+        receiverEventsData={receiverEventsData}
+        displaySettings={displaySettings}
+      />
       {items.map(item => (
         <SpectrumPlot
           key={`SpectrumPlot${item}`}
           polarization={item}
           resize={refresh}
           socketStatus={socketStatus2}
-          config={config}
+          displaySettings={displaySettings}
           data={chartData2}
         />
       ))}
-      <Legend
-        resize={refresh}
-        socketStatus={socketStatus1}
-        config={config}
-        data={legendData}
-        onClick={legendOnClick}
-        pole={legendPole}
-        poleUpdate={poleOnClick}
-      />
+      {displaySettings.showLegend && (
+        <Legend
+          resize={refresh}
+          socketStatus={socketStatus1}
+          config={config}
+          data={legendData}
+          displaySettings={displaySettings}
+          onClick={legendOnClick}
+          pole={legendPole}
+          poleUpdate={poleOnClick}
+        />
+      )}
       {items.map(item => (
         <Polarization
           key={`Polarization${item}`}
           polarization={item}
           resize={refresh}
           socketStatus={socketStatus1}
-          config={config}
+          displaySettings={displaySettings}
           data={chartData1}
           legend={legendData}
         />
       ))}
-      <Spectrogram config={config} legend={legendData} />
+      <Spectrogram config={config} legend={legendData} displaySettings={displaySettings} />
     </>
   );
 };

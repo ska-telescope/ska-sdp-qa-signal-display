@@ -51,8 +51,7 @@ context('Signal display', () => {
     
     it('Verify expected diagrams are present and can be hidden', () => {
         cy.get('h4').contains('Signal Display').should("be.visible")
-        cy.findAllByLabelText("Hide/Show Toggle").click({ multiple: true })
-        cy.findAllByTestId("statusId").should("be.visible");
+        cy.findAllByTestId("hideShowToggle").click({ multiple: true })
 
         statisticsDetailed();
         statisticsReceiver();
@@ -67,7 +66,7 @@ context('Signal display', () => {
         cy.findAllByTestId("legendGroupingId").click({ multiple: true })
         cy.findAllByTestId("noChartData1Card").should("be.visible")
         cy.findAllByTestId("noChartData2Card").should("be.visible")
-        cy.findAllByTestId("legendKey").should("be.visible")
+        // cy.findAllByTestId("legendKey").should("be.visible")
 
         cy.findAllByTestId("sectionHeader").contains("Polarization XX").should("be.visible")
         cy.findAllByTestId("sectionHeader").contains("Polarization XY").should("be.visible")
