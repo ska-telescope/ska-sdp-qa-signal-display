@@ -86,6 +86,7 @@ const Legend = ({ resize, data, displaySettings, onClick, pole, poleUpdate }: Le
                     i: any
                   ) => (
                     <Button
+                      data-testid="legendKey"
                       // eslint-disable-next-line react/no-array-index-key
                       key={i}
                       onClick={e => {

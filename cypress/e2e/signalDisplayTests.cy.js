@@ -34,6 +34,25 @@ function statisticsReceiver() {
     cy.findByTestId("dataReceivedDetails").contains("Duration of Current Transfer:").should("be.visible");
 }
 
+function settings() {
+    cy.findAllByTestId("SettingsIcon").should("be.visible").click();
+    cy.findAllByTestId("statisticsDetailedButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("statisticsReceiverButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("spectrumPlotXXButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("spectrumPlotXYButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("spectrumPlotYXButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("spectrumPlotYYButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("polarizationAmplitudeXXButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("polarizationAmplitudeXYButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("polarizationAmplitudeYXButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("polarizationAmplitudeYYButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("polarizationPhaseXXButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("polarizationPhaseXYButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("polarizationPhaseYXButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("polarizationPhaseYYButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("spectrogramsButtonTestId").should("be.visible").click();
+}
+
 context('Signal display', () => {
 
     beforeEach(() => {
@@ -53,6 +72,9 @@ context('Signal display', () => {
         cy.get('h4').contains('Signal Display').should("be.visible")
         cy.findAllByTestId("hideShowToggle").click({ multiple: true })
 
+        cy.findByTestId("noSubArrayCard").should("be.visible");
+        cy.findAllByTestId("status1Id").should("be.visible");
+
         statisticsDetailed();
         statisticsReceiver();
 
@@ -66,7 +88,7 @@ context('Signal display', () => {
         cy.findAllByTestId("legendGroupingId").click({ multiple: true })
         cy.findAllByTestId("noChartData1Card").should("be.visible")
         cy.findAllByTestId("noChartData2Card").should("be.visible")
-        // cy.findAllByTestId("legendKey").should("be.visible")
+        cy.findAllByTestId("legendKey").should("be.visible")
 
         cy.findAllByTestId("sectionHeader").contains("Polarization XX").should("be.visible")
         cy.findAllByTestId("sectionHeader").contains("Polarization XY").should("be.visible")
@@ -80,5 +102,7 @@ context('Signal display', () => {
         cy.findByTestId('spectrogram2Id').should("be.visible");
         cy.findByTestId('spectrogram3Id').should("be.visible");
         cy.findByTestId('spectrogram4Id').should("be.visible");
+
+        settings();
     })
 })
