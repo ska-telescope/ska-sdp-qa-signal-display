@@ -58,7 +58,7 @@ const SignalCard = ({
               <Tooltip title={t('label.hideShowToggle')}>
                 <IconButton
                   aria-label={t('label.settings')}
-                  data-testId="hideShowToggle"
+                  data-testid="hideShowToggle"
                   sx={{ '&:hover': { backgroundColor: 'primary.dark' }, ml: 1 }}
                   onClick={handleToggle}
                   color={ButtonColorTypes.Inherit}

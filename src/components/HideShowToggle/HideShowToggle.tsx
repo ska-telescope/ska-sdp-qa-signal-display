@@ -36,7 +36,7 @@ function HideShowToggle({
     <Button
       label={label}
       testId={testId}
-      color={setting ? ButtonColorTypes.Success : ButtonColorTypes.Secondary}
+      color={ButtonColorTypes.Secondary}
       variant={setting ? ButtonVariantTypes.Contained : ButtonVariantTypes.Outlined}
       // eslint-disable-next-line react/jsx-no-bind
       onClick={update}

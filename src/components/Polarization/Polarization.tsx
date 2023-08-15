@@ -10,21 +10,33 @@ import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
 import { storageObject } from '../../services/stateStorage';
 import { COLOR } from '../../utils/constants';
-import { generateChannels } from '../../utils/generateChannels';
-import { QASettings } from '../../services/types/qaSettings';
+import {
+  calculateChannels,
+  calculateDB,
+  calculateDegrees,
+  calculateLog
+} from '../../utils/calculate';
+import {
+  polarizationAmplitudeAxisY,
+  polarizationPhaseAxisY,
+  QASettings
+} from '../../services/types/qaSettings';
 
 const RATIO = 2;
+
 interface PolarizationProps {
   polarization: string;
+  redraw: boolean;
   resize: number;
   socketStatus: string;
   data: any;
-  displaySettings: QASettings;
+  displaySettings: typeof QASettings;
   legend: any;
 }
 
 const Polarization = ({
   polarization,
+  redraw,
   resize,
   socketStatus,
   data,
@@ -39,11 +51,32 @@ const Polarization = ({
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
 
+  const setting = (amplitude: boolean) =>
+    displaySettings[`showPolarization${amplitude ? 'Amplitude' : 'Phase'}${polarization}axisY`];
+
   const xLabel = () => `${t('label.frequency')} (${t('units.frequency')})`;
 
-  const yLabel = (amplitude: boolean) => `${t(amplitude ? 'label.amplitude' : 'label.phase')}`;
+  const yLabel = (amplitude: boolean) =>
+    `${t('label.amplitude')} (${t(`units.${setting(amplitude)}`)})`;
 
   const chartTitle = (amplitude: boolean) => t(amplitude ? 'label.amplitude' : 'label.phase');
+
+  function calculateYData(inData: any, i: number, amplitude: boolean) {
+    switch (setting(amplitude)) {
+      case polarizationPhaseAxisY[0]: // radians
+        return inData[i].phases;
+      case polarizationPhaseAxisY[1]: // degrees
+        return inData[i].phases.map((item: number) => calculateDegrees(item));
+      case polarizationAmplitudeAxisY[0]: // amplitude
+        return inData[i].amplitudes;
+      case polarizationAmplitudeAxisY[1]: // db
+        return inData[i].amplitudes.map((item: number) => calculateDB(item));
+      case polarizationAmplitudeAxisY[2]: // log
+        return inData[i].amplitudes.map((item: number) => calculateLog(item));
+      default:
+        return 0;
+    }
+  }
 
   function getBaseData(inData: any, polarisation: string, amplitude: boolean) {
     const tmp = [];
@@ -51,7 +84,7 @@ const Polarization = ({
       if (inData[i].polarisation === polarisation) {
         tmp.push({
           name: inData[i].baseline,
-          data: amplitude ? inData[i].amplitudes : inData[i].phases
+          data: calculateYData(inData, i, amplitude)
         });
       }
     }
@@ -89,7 +122,7 @@ const Polarization = ({
     if (!legend) {
       return chartData;
     }
-    const xValues = generateChannels(usedData.spectral_window);
+    const xValues = calculateChannels(usedData.spectral_window);
     const baseData = getBaseData(usedData.data, polarization, amplitude);
     for (let i = 0; i < baseData.length; i++) {
       chartData.push({
@@ -110,35 +143,8 @@ const Polarization = ({
     setShowContent(showContent ? false : canShow());
   };
 
-  function canShowChartAmplitude() {
-    switch (polarization) {
-      case 'XX':
-        return displaySettings.showPolarizationAmplitudeXX;
-      case 'XY':
-        return displaySettings.showPolarizationAmplitudeXY;
-      case 'YX':
-        return displaySettings.showPolarizationAmplitudeYX;
-      case 'YY':
-        return displaySettings.showPolarizationAmplitudeYY;
-      default:
-        return false;
-    }
-  }
-
-  function canShowChartPhase() {
-    switch (polarization) {
-      case 'XX':
-        return displaySettings.showPolarizationPhaseXX;
-      case 'XY':
-        return displaySettings.showPolarizationPhaseXY;
-      case 'YX':
-        return displaySettings.showPolarizationPhaseYX;
-      case 'YY':
-        return displaySettings.showPolarizationPhaseYY;
-      default:
-        return false;
-    }
-  }
+  const canShowChartAmplitude = () => displaySettings[`showPolarizationAmplitude${polarization}`];
+  const canShowChartPhase = () => displaySettings[`showPolarizationPhase${polarization}`];
 
   React.useEffect(() => {
     if (!refresh) setShowContent(canShow());
@@ -161,7 +167,7 @@ const Polarization = ({
     if (firstRender) {
       setShowContent(canShow());
     }
-  }, [data, legend]);
+  }, [data, legend, redraw]);
 
   return (
     <>
@@ -173,9 +179,9 @@ const Polarization = ({
           setShowContent={showToggle}
         >
           <Grid container direction="row" justifyContent="space-between">
-            {canShowChartAmplitude && (
+            {canShowChartAmplitude() && (
               <>
-                <Grid data-testId="chartData1Content" item md={6} xs={12}>
+                <Grid data-testid="chartData1Content" item md={6} xs={12}>
                   {(!legend || !chartData1 || chartData1.length === 0) && (
                     <Box m={1}>
                       <InfoCard
@@ -200,9 +206,9 @@ const Polarization = ({
                 </Grid>
               </>
             )}
-            {canShowChartPhase && (
+            {canShowChartPhase() && (
               <>
-                <Grid data-testId="chartData2Content" item md={6} xs={12}>
+                <Grid data-testid="chartData2Content" item md={6} xs={12}>
                   {(!chartData2 || chartData2.length === 0) && (
                     <Box m={1}>
                       <InfoCard
@@ -221,7 +227,7 @@ const Polarization = ({
                       title={chartTitle(false)}
                       width={parentWidth()}
                       xLabel={xLabel()}
-                      yLabel={yLabel(true)}
+                      yLabel={yLabel(false)}
                     />
                   )}
                 </Grid>

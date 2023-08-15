@@ -109,31 +109,31 @@ const Spectrogram = ({ config, legend, displaySettings }: SpectrogramProps) => {
           setShowContent={showToggle}
         >
           <>
-            <Grid data-testId="chloe5" container direction="row" justifyContent="space-evenly">
+            <Grid data-testid="chloe5" container direction="row" justifyContent="space-evenly">
               {DATA_LOCAL && (
                 <>
-                  <Grid data-testId="spectrogram1Id" item>
+                  <Grid data-testid="spectrogram1Id" item>
                     <SpectrogramImage
                       config={config}
                       element={null}
                       onClick={() => imageClick(null)}
                     />
                   </Grid>
-                  <Grid data-testId="spectrogram2Id" item>
+                  <Grid data-testid="spectrogram2Id" item>
                     <SpectrogramImage
                       config={config}
                       element={null}
                       onClick={() => imageClick(null)}
                     />
                   </Grid>
-                  <Grid data-testId="spectrogram3Id" item>
+                  <Grid data-testid="spectrogram3Id" item>
                     <SpectrogramImage
                       config={config}
                       element={null}
                       onClick={() => imageClick(null)}
                     />
                   </Grid>
-                  <Grid data-testId="spectrogram4Id" item>
+                  <Grid data-testid="spectrogram4Id" item>
                     <SpectrogramImage
                       config={config}
                       element={null}

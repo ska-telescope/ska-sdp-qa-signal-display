@@ -7,11 +7,13 @@ import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
 import { storageObject } from '../../services/stateStorage';
 import { COLOR } from '../../utils/constants';
-import { generateChannels } from '../../utils/generateChannels';
+import { calculateChannels, calculateDB } from '../../utils/calculate';
+import { polarizationAmplitudeAxisY } from '../../services/types/qaSettings';
 
 interface SpectrumPlotProps {
   displaySettings: any;
   polarization: string;
+  redraw: boolean;
   resize: number;
   socketStatus: string;
   data: object;
@@ -22,6 +24,7 @@ const RATIO = 2;
 const SpectrumPlot = ({
   displaySettings,
   polarization,
+  redraw,
   resize,
   socketStatus,
   data
@@ -35,11 +38,11 @@ const SpectrumPlot = ({
 
   const chartTitle = () => '';
 
-  function xLabel() {
-    return `${t('label.frequency')} (${t('units.frequency')})`;
-  }
+  const setting = () => displaySettings[`showSpectrumPlot${polarization}axisY`];
 
-  const yLabel = () => `${t('label.amplitude')}`;
+  const xLabel = () => `${t('label.frequency')} (${t('units.frequency')})`;
+
+  const yLabel = () => `${t('label.amplitude')} (${t(`units.${setting()}`)})`;
 
   const canShow = () => data !== null;
 
@@ -52,20 +55,33 @@ const SpectrumPlot = ({
     return 1400;
   }
 
+  function calculateYData(inData: any) {
+    switch (setting()) {
+      case polarizationAmplitudeAxisY[0]: // amplitude
+        return inData;
+      case polarizationAmplitudeAxisY[1]: // db
+        return inData.map((item: number) => calculateDB(item));
+      case polarizationAmplitudeAxisY[2]: // log
+        return inData.map((item: number) => Math.log10(item));
+      default:
+        return 0;
+    }
+  }
+
   function getYData(inData: any, polar: string) {
     switch (polar) {
       case 'XX':
-        return inData.XX.power;
+        return calculateYData(inData.XX.power);
       case 'XY':
-        return inData.XY.power;
+        return calculateYData(inData.XY.power);
       case 'YX':
-        return inData.YX.power;
+        return calculateYData(inData.YX.power);
       default:
-        return inData.YY.power;
+        return calculateYData(inData.YY.power);
     }
   }
   function getChartData(usedData: any) {
-    const xValues = generateChannels(usedData.spectral_window);
+    const xValues = calculateChannels(usedData.spectral_window);
     const chartDataTmp = [
       {
         x: xValues,
@@ -101,7 +117,7 @@ const SpectrumPlot = ({
     if (firstRender) {
       setShowContent(canShow());
     }
-  }, [data]);
+  }, [data, redraw]);
 
   React.useEffect(() => {
     if (!refresh) setShowContent(canShow());

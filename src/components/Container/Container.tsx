@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Button, ButtonColorTypes, DropDown, InfoCard } from '@ska-telescope/ska-gui-components';
+import { QASettings } from '../../services/types/qaSettings';
 import Legend from '../Legend/Legend';
 import Polarization from '../Polarization/Polarization';
 import Settings from '../Settings/Settings';
@@ -25,6 +26,7 @@ const items = ['XX', 'XY', 'YX', 'YY'];
 const Container = () => {
   const { t } = useTranslation('signalDisplay');
 
+  const [redraw, setRedraw] = React.useState(false);
   const [refresh, setRefresh] = React.useState(0);
   const [socketStatus1, setSocketStatus1] = React.useState(SOCKET_STATUS[0]);
   const [chartData1, setChartData1] = React.useState(null);
@@ -33,24 +35,7 @@ const Container = () => {
   const [legendData, setLegendData] = React.useState(null);
   const [legendPole, setLegendPole] = React.useState(null);
   const [config, setConfig] = React.useState(null);
-  const [displaySettings, setDisplaySettings] = React.useState({
-    showStatisticsDetailed: true,
-    showStatisticsReceiver: true,
-    showSpectrumPlotXX: true,
-    showSpectrumPlotXY: true,
-    showSpectrumPlotYX: true,
-    showSpectrumPlotYY: true,
-    showLegend: true,
-    showPolarizationAmplitudeXX: true,
-    showPolarizationAmplitudeXY: true,
-    showPolarizationAmplitudeYX: true,
-    showPolarizationAmplitudeYY: true,
-    showPolarizationPhaseXX: true,
-    showPolarizationPhaseXY: true,
-    showPolarizationPhaseYX: true,
-    showPolarizationPhaseYY: true,
-    showSpectrograms: true
-  });
+  const [displaySettings, setDisplaySettings] = React.useState(QASettings);
   const [openSettings, setOpenSettings] = React.useState(false);
   const [subArray, setSubArray] = React.useState('');
   const [subArrays, setSubArrays] = React.useState(null);
@@ -88,11 +73,23 @@ const Container = () => {
     return found ? found.active : true;
   };
 
+  const showLegend = () =>
+    displaySettings.showPolarizationAmplitudeXX ||
+    displaySettings.showPolarizationAmplitudeXY ||
+    displaySettings.showPolarizationAmplitudeYX ||
+    displaySettings.showPolarizationAmplitudeYY ||
+    displaySettings.showPolarizationPhaseXX ||
+    displaySettings.showPolarizationPhaseXY ||
+    displaySettings.showPolarizationPhaseYX ||
+    displaySettings.showPolarizationPhaseYY ||
+    displaySettings.showSpectrograms;
+
   const settingsClick = () => {
     setOpenSettings(o => !o);
+    setRedraw(!redraw);
   };
 
-  const settingsUpdate = e => {
+  const settingsUpdate = (e: typeof QASettings) => {
     setDisplaySettings(e);
   };
 
@@ -433,17 +430,16 @@ const Container = () => {
         <SpectrumPlot
           key={`SpectrumPlot${item}`}
           polarization={item}
+          redraw={redraw}
           resize={refresh}
           socketStatus={socketStatus2}
           displaySettings={displaySettings}
           data={chartData2}
         />
       ))}
-      {displaySettings.showLegend && (
+      {showLegend() && (
         <Legend
           resize={refresh}
-          socketStatus={socketStatus1}
-          config={config}
           data={legendData}
           displaySettings={displaySettings}
           onClick={legendOnClick}
@@ -455,6 +451,7 @@ const Container = () => {
         <Polarization
           key={`Polarization${item}`}
           polarization={item}
+          redraw={redraw}
           resize={refresh}
           socketStatus={socketStatus1}
           displaySettings={displaySettings}

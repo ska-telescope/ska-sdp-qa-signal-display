@@ -3,13 +3,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Drawer, Grid, Stack, Typography } from '@mui/material';
 import HideShowToggle from '../HideShowToggle/HideShowToggle';
+import YAxisToggle from '../YAxisToggle/YAxisToggle';
 import { QASettings } from '../../services/types/qaSettings';
 
 export interface SettingsProps {
   open: boolean;
   // eslint-disable-next-line @typescript-eslint/ban-types
   openToggle: Function;
-  displaySettings: QASettings;
+  displaySettings: typeof QASettings;
   // eslint-disable-next-line @typescript-eslint/ban-types
   setSettings: Function;
 }
@@ -26,7 +27,7 @@ export default function Settings({
     openToggle();
   }
 
-  function setValue(e: QASettings) {
+  function setValue(e: typeof QASettings) {
     setSettings(e);
   }
 
@@ -37,7 +38,7 @@ export default function Settings({
           <Stack sx={{ height: '95%' }} spacing={0}>
             <Typography variant="h4">{t('label.settings')}</Typography>
             <Typography variant="h5">{t('label.statistics')}</Typography>
-            <Grid container m={0}>
+            <Grid container m={0} spacing={1}>
               <Grid item xs={3}>
                 <HideShowToggle
                   label={t('label.detailed')}
@@ -48,7 +49,7 @@ export default function Settings({
                 />
               </Grid>
             </Grid>
-            <Grid container m={0}>
+            <Grid container m={0} spacing={1}>
               <Grid item xs={3}>
                 <HideShowToggle
                   label={t('label.receiver')}
@@ -60,7 +61,7 @@ export default function Settings({
               </Grid>
             </Grid>
             <Typography variant="h5">{t('label.spectrumPlot')}</Typography>
-            <Grid container m={0}>
+            <Grid container m={0} spacing={1}>
               <Grid item xs={3}>
                 <HideShowToggle
                   label="XX"
@@ -70,8 +71,17 @@ export default function Settings({
                   setValue={setValue}
                 />
               </Grid>
+              <Grid item xs={3}>
+                <YAxisToggle
+                  setValue={setValue}
+                  testId="spectrumPlotXXButtonTestIdAxisY"
+                  type="amplitude"
+                  value="showSpectrumPlotXXaxisY"
+                  displaySettings={displaySettings}
+                />
+              </Grid>
             </Grid>
-            <Grid container m={0}>
+            <Grid container m={0} spacing={1}>
               <Grid item xs={3}>
                 <HideShowToggle
                   label="XY"
@@ -81,8 +91,17 @@ export default function Settings({
                   setValue={setValue}
                 />
               </Grid>
+              <Grid item xs={3}>
+                <YAxisToggle
+                  setValue={setValue}
+                  testId="spectrumPlotXYButtonTestIdAxisY"
+                  type="amplitude"
+                  value="showSpectrumPlotXYaxisY"
+                  displaySettings={displaySettings}
+                />
+              </Grid>
             </Grid>
-            <Grid container m={0}>
+            <Grid container m={0} spacing={1}>
               <Grid item xs={3}>
                 <HideShowToggle
                   label="YX"
@@ -92,8 +111,17 @@ export default function Settings({
                   setValue={setValue}
                 />
               </Grid>
+              <Grid item xs={3}>
+                <YAxisToggle
+                  setValue={setValue}
+                  testId="spectrumPlotYXButtonTestIdAxisY"
+                  type="amplitude"
+                  value="showSpectrumPlotYXaxisY"
+                  displaySettings={displaySettings}
+                />
+              </Grid>
             </Grid>
-            <Grid container m={0}>
+            <Grid container m={0} spacing={1}>
               <Grid item xs={3}>
                 <HideShowToggle
                   label="YY"
@@ -103,11 +131,20 @@ export default function Settings({
                   setValue={setValue}
                 />
               </Grid>
+              <Grid item xs={3}>
+                <YAxisToggle
+                  setValue={setValue}
+                  testId="spectrumPlotYYButtonTestIdAxisY"
+                  type="amplitude"
+                  value="showSpectrumPlotYYaxisY"
+                  displaySettings={displaySettings}
+                />
+              </Grid>
             </Grid>
             <Typography variant="h5">
               {`${t('label.polarization')} / ${t('label.amplitude')}`}
             </Typography>
-            <Grid container m={0}>
+            <Grid container m={0} spacing={1}>
               <Grid item xs={3}>
                 <HideShowToggle
                   label="XX"
@@ -117,8 +154,17 @@ export default function Settings({
                   setValue={setValue}
                 />
               </Grid>
+              <Grid item xs={3}>
+                <YAxisToggle
+                  setValue={setValue}
+                  testId="polarizationAmplitudeXXButtonTestIdAxisY"
+                  type="amplitude"
+                  value="showPolarizationAmplitudeXXaxisY"
+                  displaySettings={displaySettings}
+                />
+              </Grid>
             </Grid>
-            <Grid container m={0}>
+            <Grid container m={0} spacing={1}>
               <Grid item xs={3}>
                 <HideShowToggle
                   label="XY"
@@ -128,8 +174,17 @@ export default function Settings({
                   setValue={setValue}
                 />
               </Grid>
+              <Grid item xs={3}>
+                <YAxisToggle
+                  setValue={setValue}
+                  testId="polarizationAmplitudeXYButtonTestIdAxisY"
+                  type="amplitude"
+                  value="showPolarizationAmplitudeXYaxisY"
+                  displaySettings={displaySettings}
+                />
+              </Grid>
             </Grid>
-            <Grid container m={0}>
+            <Grid container m={0} spacing={1}>
               <Grid item xs={3}>
                 <HideShowToggle
                   label="YX"
@@ -139,8 +194,17 @@ export default function Settings({
                   setValue={setValue}
                 />
               </Grid>
+              <Grid item xs={3}>
+                <YAxisToggle
+                  setValue={setValue}
+                  testId="polarizationAmplitudeYXButtonTestIdAxisY"
+                  type="amplitude"
+                  value="showPolarizationAmplitudeYXaxisY"
+                  displaySettings={displaySettings}
+                />
+              </Grid>
             </Grid>
-            <Grid container m={0}>
+            <Grid container m={0} spacing={1}>
               <Grid item xs={3}>
                 <HideShowToggle
                   label="YY"
@@ -150,11 +214,20 @@ export default function Settings({
                   setValue={setValue}
                 />
               </Grid>
+              <Grid item xs={3}>
+                <YAxisToggle
+                  setValue={setValue}
+                  testId="polarizationAmplitudeYYButtonTestIdAxisY"
+                  type="amplitude"
+                  value="showPolarizationAmplitudeYYaxisY"
+                  displaySettings={displaySettings}
+                />
+              </Grid>
             </Grid>
             <Typography variant="h5">
               {`${t('label.polarization')} / ${t('label.phase')}`}
             </Typography>
-            <Grid container m={0}>
+            <Grid container m={0} spacing={1}>
               <Grid item xs={3}>
                 <HideShowToggle
                   label="XX"
@@ -164,8 +237,17 @@ export default function Settings({
                   setValue={setValue}
                 />
               </Grid>
+              <Grid item xs={3}>
+                <YAxisToggle
+                  setValue={setValue}
+                  testId="polarizationPhaseXXButtonTestIdAxisY"
+                  type="phase"
+                  value="showPolarizationPhaseXXaxisY"
+                  displaySettings={displaySettings}
+                />
+              </Grid>
             </Grid>
-            <Grid container m={0}>
+            <Grid container m={0} spacing={1}>
               <Grid item xs={3}>
                 <HideShowToggle
                   label="XY"
@@ -175,8 +257,17 @@ export default function Settings({
                   setValue={setValue}
                 />
               </Grid>
+              <Grid item xs={3}>
+                <YAxisToggle
+                  setValue={setValue}
+                  testId="polarizationPhaseXYButtonTestIdAxisY"
+                  type="phase"
+                  value="showPolarizationPhaseXYaxisY"
+                  displaySettings={displaySettings}
+                />
+              </Grid>
             </Grid>
-            <Grid container m={0}>
+            <Grid container m={0} spacing={1}>
               <Grid item xs={3}>
                 <HideShowToggle
                   label="YX"
@@ -186,8 +277,17 @@ export default function Settings({
                   setValue={setValue}
                 />
               </Grid>
+              <Grid item xs={3}>
+                <YAxisToggle
+                  setValue={setValue}
+                  testId="polarizationPhaseYXButtonTestIdAxisY"
+                  type="phase"
+                  value="showPolarizationPhaseYXaxisY"
+                  displaySettings={displaySettings}
+                />
+              </Grid>
             </Grid>
-            <Grid container m={0}>
+            <Grid container m={0} spacing={1}>
               <Grid item xs={3}>
                 <HideShowToggle
                   label="YY"
@@ -197,9 +297,18 @@ export default function Settings({
                   setValue={setValue}
                 />
               </Grid>
+              <Grid item xs={3}>
+                <YAxisToggle
+                  setValue={setValue}
+                  testId="polarizationPhaseYYButtonTestIdAxisY"
+                  type="phase"
+                  value="showPolarizationPhaseYYaxisY"
+                  displaySettings={displaySettings}
+                />
+              </Grid>
             </Grid>
             <Typography variant="h5">{t('label.spectrograms')}</Typography>
-            <Grid container m={0}>
+            <Grid container m={0} spacing={1}>
               <Grid item>
                 <HideShowToggle
                   label={t('label.spectrograms')}
