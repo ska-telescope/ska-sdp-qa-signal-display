@@ -143,7 +143,7 @@ const Polarization = ({
 
   const canShowChartAmplitude = () => displaySettings[`showPolarizationAmplitude${polarization}`];
   const canShowChartPhase = () => displaySettings[`showPolarizationPhase${polarization}`];
-  const parentWidth = () => canShowChartAmplitude() && canShowChartPhase() ? 600 : 1400;
+  const parentWidth = () => (canShowChartAmplitude() && canShowChartPhase() ? 600 : 1400);
 
   React.useEffect(() => {
     if (!refresh) setShowContent(canShow());

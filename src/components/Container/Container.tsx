@@ -374,26 +374,26 @@ const Container = () => {
               <Grid item>
                 <Box m={1}>
                   {subArrays && (
-                  <DropDown
-                    disabled={!subArrays || subArrays.length < 2}
-                    helperText={t(
-                      subArrays.length < 2 ? 'prompt.subArrayOne' : 'prompt.subArrayMany'
-                    )}
-                    label={t('label.subArray')}
-                    options={subArrays}
-                    testId="subArraySelection"
-                    value={subArray}
-                    setValue={setSubArray}
-                  />
-                )}
+                    <DropDown
+                      disabled={!subArrays || subArrays.length < 2}
+                      helperText={t(
+                        subArrays.length < 2 ? 'prompt.subArrayOne' : 'prompt.subArrayMany'
+                      )}
+                      label={t('label.subArray')}
+                      options={subArrays}
+                      testId="subArraySelection"
+                      value={subArray}
+                      setValue={setSubArray}
+                    />
+                  )}
                   {!subArrays && (
-                  <InfoCard
-                    testId="noSubArrayCard"
-                    fontSize={25}
-                    level={1}
-                    message={displayError()}
-                  />
-                )}
+                    <InfoCard
+                      testId="noSubArrayCard"
+                      fontSize={25}
+                      level={1}
+                      message={displayError()}
+                    />
+                  )}
                 </Box>
               </Grid>
               <Grid item>

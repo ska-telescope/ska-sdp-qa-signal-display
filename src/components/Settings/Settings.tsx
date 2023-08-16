@@ -61,6 +61,7 @@ export default function Settings({
       {basicToggle(title, value)}
       <Grid item xs={4}>
         <YAxisToggle
+          disabled={!displaySettings[value]}
           setValue={setValue}
           testId={`${value2}ButtonTestId`}
           type={type}

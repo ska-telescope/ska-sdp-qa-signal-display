@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-no-bind */
-/* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ButtonToggle } from '@ska-telescope/ska-gui-components';
@@ -8,6 +7,7 @@ import { QASettings, amplitudeAxisY, phaseAxisY } from '../Settings/qaSettings';
 export interface YAxisToggleProps {
   testId: string;
   type: string;
+  disabled: boolean;
   displaySettings: typeof QASettings;
   value: string;
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -18,11 +18,11 @@ function YAxisToggle({
   testId,
   type,
   value,
+  disabled,
   displaySettings,
   setValue
 }: YAxisToggleProps): React.JSX.Element {
   const { t } = useTranslation('signalDisplay');
-  const [setting, setSetting] = React.useState(displaySettings[value]);
 
   const toggleOptions = () => {
     const results: { id: string; label: string; value: string }[] = [];
@@ -41,7 +41,7 @@ function YAxisToggle({
   function update(e) {
     const tmp = displaySettings;
     tmp[value] = e.target.id;
-    setSetting(e.target.id);
+    // setSetting(e.target.id);
     setValue(tmp);
   }
 
@@ -49,12 +49,13 @@ function YAxisToggle({
     <ButtonToggle
       ariaDescription={t(`toolTip.settings.${type}`)}
       ariaTitle="ariaTitle"
+      disabled={disabled}
       options={toggleOptions()}
       setValue={update}
       testId={testId}
       toolTip={t(`toolTip.settings.${type}`)}
-      value={setting}
-      current={setting}
+      value={displaySettings[value]}
+      current={displaySettings[value]}
     />
   );
 }

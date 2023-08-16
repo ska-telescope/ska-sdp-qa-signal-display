@@ -73,10 +73,12 @@ const SignalCard = ({
 
   return (
     <Alert action={actionButtons()} testId="signalCardId" key="alerts" severity={0}>
-      <>
-        <Typography data-testid="sectionHeader" variant="h5">{title}</Typography>
-        {showContent && <Box sx={{ width: '100%' }}>{children}</Box>}
-      </>
+      <Box width="80vw">
+        <Typography data-testid="sectionHeader" variant="h5">
+          {title}
+        </Typography>
+        {showContent && <>{children}</>}
+      </Box>
     </Alert>
   );
 };
