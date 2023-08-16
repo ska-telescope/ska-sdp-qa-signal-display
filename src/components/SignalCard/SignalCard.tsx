@@ -57,6 +57,7 @@ const SignalCard = ({
             <Tooltip title={t('label.settings')}>
               <IconButton
                 aria-label={t('label.settings')}
+                data-testid="hideShowToggle"
                 sx={{ '&:hover': { backgroundColor: 'primary.dark' }, ml: 1 }}
                 onClick={handleToggle}
                 color={ButtonColorTypes.Inherit}
@@ -73,7 +74,7 @@ const SignalCard = ({
   return (
     <Alert action={actionButtons()} testId="signalCardId" key="alerts" severity={0}>
       <>
-        <Typography variant="h5">{title}</Typography>
+        <Typography data-testid="sectionHeader" variant="h5">{title}</Typography>
         {showContent && <Box sx={{ width: '100%' }}>{children}</Box>}
       </>
     </Alert>

@@ -36,21 +36,21 @@ function statisticsReceiver() {
 
 function settings() {
     cy.findAllByTestId("SettingsIcon").should("be.visible").click();
-    cy.findAllByTestId("statisticsDetailedButtonTestId").should("be.visible").click();
-    cy.findAllByTestId("statisticsReceiverButtonTestId").should("be.visible").click();
-    cy.findAllByTestId("spectrumPlotXXButtonTestId").should("be.visible").click();
-    cy.findAllByTestId("spectrumPlotXYButtonTestId").should("be.visible").click();
-    cy.findAllByTestId("spectrumPlotYXButtonTestId").should("be.visible").click();
-    cy.findAllByTestId("spectrumPlotYYButtonTestId").should("be.visible").click();
-    cy.findAllByTestId("polarizationAmplitudeXXButtonTestId").should("be.visible").click();
-    cy.findAllByTestId("polarizationAmplitudeXYButtonTestId").should("be.visible").click();
-    cy.findAllByTestId("polarizationAmplitudeYXButtonTestId").should("be.visible").click();
-    cy.findAllByTestId("polarizationAmplitudeYYButtonTestId").should("be.visible").click();
-    cy.findAllByTestId("polarizationPhaseXXButtonTestId").should("be.visible").click();
-    cy.findAllByTestId("polarizationPhaseXYButtonTestId").should("be.visible").click();
-    cy.findAllByTestId("polarizationPhaseYXButtonTestId").should("be.visible").click();
-    cy.findAllByTestId("polarizationPhaseYYButtonTestId").should("be.visible").click();
-    cy.findAllByTestId("spectrogramsButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showStatisticsDetailedButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showStatisticsReceiverButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showSpectrumPlotXXButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showSpectrumPlotXYButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showSpectrumPlotYXButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showSpectrumPlotYYButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showPolarizationAmplitudeXXButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showPolarizationAmplitudeXYButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showPolarizationAmplitudeYXButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showPolarizationAmplitudeYYButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showPolarizationPhaseXXButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showPolarizationPhaseXYButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showPolarizationPhaseYXButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showPolarizationPhaseYYButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showSpectrogramsButtonTestId").should("be.visible").click();
 }
 
 context('Signal display', () => {
@@ -90,10 +90,14 @@ context('Signal display', () => {
         cy.findAllByTestId("noChartData2Card").should("be.visible")
         cy.findAllByTestId("legendKey").should("be.visible")
 
-        cy.findAllByTestId("sectionHeader").contains("Polarization XX").should("be.visible")
-        cy.findAllByTestId("sectionHeader").contains("Polarization XY").should("be.visible")
-        cy.findAllByTestId("sectionHeader").contains("Polarization YX").should("be.visible")
-        cy.findAllByTestId("sectionHeader").contains("Polarization YY").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XX").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XY").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude YX").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude YY").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase XX").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase XY").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase YX").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase YY").should("be.visible")
         cy.findAllByTestId('chartData1Content').should("be.visible");
         cy.findAllByTestId('chartData2Content').should("be.visible");
 
