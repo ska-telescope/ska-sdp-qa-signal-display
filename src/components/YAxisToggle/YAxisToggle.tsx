@@ -2,13 +2,8 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box } from '@mui/material';
 import { ButtonToggle } from '@ska-telescope/ska-gui-components';
-import {
-  QASettings,
-  polarizationAmplitudeAxisY,
-  polarizationPhaseAxisY
-} from '../../services/types/qaSettings';
+import { QASettings, amplitudeAxisY, phaseAxisY } from '../Settings/qaSettings';
 
 export interface YAxisToggleProps {
   testId: string;
@@ -32,11 +27,11 @@ function YAxisToggle({
   const toggleOptions = () => {
     const results: { id: string; label: string; value: string }[] = [];
     if (type === 'amplitude') {
-      polarizationAmplitudeAxisY.forEach((el: string): void => {
+      amplitudeAxisY.forEach((el: string): void => {
         results.push({ id: el, label: t(`label.${el}`), value: el });
       });
     } else {
-      polarizationPhaseAxisY.forEach((el: string): void => {
+      phaseAxisY.forEach((el: string): void => {
         results.push({ id: el, label: t(`label.${el}`), value: el });
       });
     }
@@ -51,18 +46,16 @@ function YAxisToggle({
   }
 
   return (
-    <Box m={2}>
-      <ButtonToggle
-        ariaDescription={t(`toolTip.settings.${type}`)}
-        ariaTitle="ariaTitle"
-        options={toggleOptions()}
-        setValue={update}
-        testId={testId}
-        toolTip={t(`toolTip.settings.${type}`)}
-        value={setting}
-        current={setting}
-      />
-    </Box>
+    <ButtonToggle
+      ariaDescription={t(`toolTip.settings.${type}`)}
+      ariaTitle="ariaTitle"
+      options={toggleOptions()}
+      setValue={update}
+      testId={testId}
+      toolTip={t(`toolTip.settings.${type}`)}
+      value={setting}
+      current={setting}
+    />
   );
 }
 

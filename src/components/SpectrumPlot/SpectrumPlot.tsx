@@ -5,29 +5,33 @@ import { useTranslation } from 'react-i18next';
 
 import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
+import YAxisToggle from '../YAxisToggle/YAxisToggle';
 import { storageObject } from '../../services/stateStorage';
 import { COLOR } from '../../utils/constants';
 import { calculateChannels, calculateDB } from '../../utils/calculate';
-import { polarizationAmplitudeAxisY } from '../../services/types/qaSettings';
+import { amplitudeAxisY, QASettings } from '../Settings/qaSettings';
 
 interface SpectrumPlotProps {
+  data: object;
   displaySettings: any;
   polarization: string;
   redraw: boolean;
   resize: number;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  setSettings: Function;
   socketStatus: string;
-  data: object;
 }
 
 const RATIO = 2;
 
 const SpectrumPlot = ({
+  data,
   displaySettings,
   polarization,
   redraw,
   resize,
-  socketStatus,
-  data
+  setSettings,
+  socketStatus
 }: SpectrumPlotProps) => {
   const { t } = useTranslation('signalDisplay');
 
@@ -38,7 +42,8 @@ const SpectrumPlot = ({
 
   const chartTitle = () => '';
 
-  const setting = () => displaySettings[`showSpectrumPlot${polarization}axisY`];
+  const settingElement = () => `showSpectrumPlot${polarization}axisY`;
+  const setting = () => displaySettings[settingElement()];
 
   const xLabel = () => `${t('label.frequency')} (${t('units.frequency')})`;
 
@@ -57,11 +62,11 @@ const SpectrumPlot = ({
 
   function calculateYData(inData: any) {
     switch (setting()) {
-      case polarizationAmplitudeAxisY[0]: // amplitude
+      case amplitudeAxisY[0]: // amplitude
         return inData;
-      case polarizationAmplitudeAxisY[1]: // db
+      case amplitudeAxisY[1]: // db
         return inData.map((item: number) => calculateDB(item));
-      case polarizationAmplitudeAxisY[2]: // log
+      case amplitudeAxisY[2]: // log
         return inData.map((item: number) => Math.log10(item));
       default:
         return 0;
@@ -131,10 +136,26 @@ const SpectrumPlot = ({
     }
   }, [resize]);
 
+  function setValue(e: typeof QASettings) {
+    setSettings(e);
+  }
+
+  const chartToggle = () => (
+    <YAxisToggle
+      // eslint-disable-next-line react/jsx-no-bind
+      setValue={setValue}
+      testId={`${settingElement()}ButtonTestId`}
+      type="amplitude"
+      value={settingElement()}
+      displaySettings={displaySettings}
+    />
+  );
+
   return (
     <>
       {canShowChart() && (
         <SignalCard
+          action={chartToggle()}
           data-testid="signalCardId"
           title={`${t('label.spectrumPlot')} ${polarization}`}
           socketStatus={socketStatus}

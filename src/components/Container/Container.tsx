@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Button, ButtonColorTypes, DropDown, InfoCard } from '@ska-telescope/ska-gui-components';
-import { QASettings } from '../../services/types/qaSettings';
+import { QASettings } from '../Settings/qaSettings';
 import Legend from '../Legend/Legend';
 import Polarization from '../Polarization/Polarization';
 import Settings from '../Settings/Settings';
@@ -91,6 +91,7 @@ const Container = () => {
 
   const settingsUpdate = (e: typeof QASettings) => {
     setDisplaySettings(e);
+    setRedraw(!redraw);
   };
 
   function legendOnClick(val: string): void {
@@ -371,7 +372,8 @@ const Container = () => {
           <Grid item xs={6}>
             <Grid container direction="row" gap={2} justifyContent="justify-left">
               <Grid item>
-                {subArrays && (
+                <Box m={1}>
+                  {subArrays && (
                   <DropDown
                     disabled={!subArrays || subArrays.length < 2}
                     helperText={t(
@@ -384,7 +386,7 @@ const Container = () => {
                     setValue={setSubArray}
                   />
                 )}
-                {!subArrays && (
+                  {!subArrays && (
                   <InfoCard
                     testId="noSubArrayCard"
                     fontSize={25}
@@ -392,18 +394,21 @@ const Container = () => {
                     message={displayError()}
                   />
                 )}
+                </Box>
               </Grid>
               <Grid item>
                 {config && (
-                  <Button
-                    color={ButtonColorTypes.Secondary}
-                    disabled={!!DATA_LOCAL}
-                    icon={<RefreshIcon />}
-                    label={t('label.button.refresh', { count: labelCounter() })}
-                    onClick={refreshClicked}
-                    testId="refreshButton"
-                    toolTip={t('toolTip.button.refresh')}
-                  />
+                  <Box mt={1}>
+                    <Button
+                      color={ButtonColorTypes.Secondary}
+                      disabled={!!DATA_LOCAL}
+                      icon={<RefreshIcon />}
+                      label={t('label.button.refresh', { count: labelCounter() })}
+                      onClick={refreshClicked}
+                      testId="refreshButton"
+                      toolTip={t('toolTip.button.refresh')}
+                    />
+                  </Box>
                 )}
               </Grid>
             </Grid>
@@ -432,6 +437,7 @@ const Container = () => {
           polarization={item}
           redraw={redraw}
           resize={refresh}
+          setSettings={settingsUpdate}
           socketStatus={socketStatus2}
           displaySettings={displaySettings}
           data={chartData2}
@@ -453,6 +459,7 @@ const Container = () => {
           polarization={item}
           redraw={redraw}
           resize={refresh}
+          setSettings={settingsUpdate}
           socketStatus={socketStatus1}
           displaySettings={displaySettings}
           data={chartData1}

@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
 import { Button, ButtonColorTypes, ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
-import { QASettings } from '../../services/types/qaSettings';
+import { QASettings } from '../Settings/qaSettings';
 
 export interface HideShowToggleProps {
   label: string;
   testId: string;
-  displaySettings: QASettings;
+  displaySettings: typeof QASettings;
   value: string;
   // eslint-disable-next-line @typescript-eslint/ban-types
   setValue: Function;

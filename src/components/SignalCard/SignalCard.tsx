@@ -8,6 +8,7 @@ import { SOCKET_STATUS } from '../../utils/constants';
 
 export interface SignalCardProps {
   children?: JSX.Element;
+  action?: JSX.Element;
   socketStatus?: string;
   title: string;
   showContent: boolean;
@@ -16,6 +17,7 @@ export interface SignalCardProps {
 }
 
 const SignalCard = ({
+  action,
   children,
   socketStatus,
   title,
@@ -46,36 +48,40 @@ const SignalCard = ({
     return status > 1 && status < 4;
   };
 
-  return (
-    <Alert testId="signalCardId" key="alerts" severity={0}>
-      <>
-        <Grid container spacing={0} justifyContent="justify-left">
-          <Grid item data-testid="sectionHeader">
-            <Typography variant="h4">{title}</Typography>
-          </Grid>
+  const actionButtons = () => (
+    <>
+      {!isDisabled() && (
+        <Grid container spacing={0} justifyContent="justify-right">
+          {action && <Grid item>{action}</Grid>}
           <Grid item>
-            {!isDisabled() && (
-              <Tooltip title={t('label.hideShowToggle')}>
-                <IconButton
-                  aria-label={t('label.settings')}
-                  data-testid="hideShowToggle"
-                  sx={{ '&:hover': { backgroundColor: 'primary.dark' }, ml: 1 }}
-                  onClick={handleToggle}
-                  color={ButtonColorTypes.Inherit}
-                >
-                  {showContent ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </Tooltip>
-            )}
+            <Tooltip title={t('label.settings')}>
+              <IconButton
+                aria-label={t('label.settings')}
+                sx={{ '&:hover': { backgroundColor: 'primary.dark' }, ml: 1 }}
+                onClick={handleToggle}
+                color={ButtonColorTypes.Inherit}
+              >
+                {showContent ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            </Tooltip>
           </Grid>
         </Grid>
-        {showContent && <Box sx={{ width: '80vw' }}>{children}</Box>}
+      )}
+    </>
+  );
+
+  return (
+    <Alert action={actionButtons()} testId="signalCardId" key="alerts" severity={0}>
+      <>
+        <Typography variant="h5">{title}</Typography>
+        {showContent && <Box sx={{ width: '100%' }}>{children}</Box>}
       </>
     </Alert>
   );
 };
 
 SignalCard.defaultProps = {
+  action: null,
   children: null,
   socketStatus: null
 };
