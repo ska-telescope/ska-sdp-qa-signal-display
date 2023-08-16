@@ -19,8 +19,6 @@ import {
 } from '../../utils/calculate';
 import { amplitudeAxisY, phaseAxisY, QASettings } from '../Settings/qaSettings';
 
-const RATIO = 1;
-
 interface PolarizationProps {
   data: any;
   displaySettings: typeof QASettings;
@@ -32,6 +30,8 @@ interface PolarizationProps {
   setSettings: Function;
   socketStatus: string;
 }
+
+const RATIO = 2;
 
 const Polarization = ({
   data,
@@ -104,10 +104,6 @@ const Polarization = ({
     return arr;
   }
 
-  function parentWidth() {
-    return 600;
-  }
-
   function getLegendColor(name: string) {
     if (legend) {
       for (let i = 0; i < legend.length; i++) {
@@ -147,6 +143,7 @@ const Polarization = ({
 
   const canShowChartAmplitude = () => displaySettings[`showPolarizationAmplitude${polarization}`];
   const canShowChartPhase = () => displaySettings[`showPolarizationPhase${polarization}`];
+  const parentWidth = () => canShowChartAmplitude() && canShowChartPhase() ? 600 : 1400;
 
   React.useEffect(() => {
     if (!refresh) setShowContent(canShow());
@@ -189,7 +186,7 @@ const Polarization = ({
   return (
     <Grid container direction="row" justifyContent="space-between">
       {canShowChartAmplitude() && (
-        <Grid item xs={6}>
+        <Grid item xs={canShowChartPhase() ? 6 : 12}>
           <SignalCard
             action={chartToggle(true)}
             title={`${t('label.polarization')} / ${chartTitle(true)} ${polarization}`}
@@ -226,7 +223,7 @@ const Polarization = ({
         </Grid>
       )}
       {canShowChartPhase() && (
-        <Grid item xs={6}>
+        <Grid item xs={canShowChartAmplitude() ? 6 : 12}>
           <SignalCard
             action={chartToggle(false)}
             title={`${t('label.polarization')} / ${chartTitle(false)}  ${polarization}`}
