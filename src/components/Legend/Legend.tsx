@@ -60,7 +60,7 @@ const Legend = ({ resize, data, displaySettings, onClick, pole, poleUpdate }: Le
               {pole &&
                 pole.map((item: { active: boolean; color: string; text: string }) => (
                   <Button
-                    data-testId="legendGroupingId"
+                    data-testid="legendGroupingId"
                     key={item.text}
                     onClick={e => {
                       poleUpdate(e.currentTarget.innerText);
@@ -86,6 +86,7 @@ const Legend = ({ resize, data, displaySettings, onClick, pole, poleUpdate }: Le
                     i: any
                   ) => (
                     <Button
+                      data-testid="legendKey"
                       // eslint-disable-next-line react/no-array-index-key
                       key={i}
                       onClick={e => {

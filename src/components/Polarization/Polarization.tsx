@@ -8,28 +8,40 @@ import { Box, Grid } from '@mui/material';
 import { InfoCard } from '@ska-telescope/ska-gui-components';
 import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
+import YAxisToggle from '../YAxisToggle/YAxisToggle';
 import { storageObject } from '../../services/stateStorage';
 import { COLOR } from '../../utils/constants';
-import { generateChannels } from '../../utils/generateChannels';
-import { QASettings } from '../../services/types/qaSettings';
+import {
+  calculateChannels,
+  calculateDB,
+  calculateDegrees,
+  calculateLog
+} from '../../utils/calculate';
+import { amplitudeAxisY, phaseAxisY, QASettings } from '../Settings/qaSettings';
 
-const RATIO = 2;
 interface PolarizationProps {
-  polarization: string;
-  resize: number;
-  socketStatus: string;
   data: any;
-  displaySettings: QASettings;
+  displaySettings: typeof QASettings;
   legend: any;
+  polarization: string;
+  redraw: boolean;
+  resize: number;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  setSettings: Function;
+  socketStatus: string;
 }
 
+const RATIO = 2;
+
 const Polarization = ({
-  polarization,
-  resize,
-  socketStatus,
   data,
   displaySettings,
-  legend
+  legend,
+  polarization,
+  redraw,
+  resize,
+  setSettings,
+  socketStatus
 }: PolarizationProps) => {
   const { t } = useTranslation('signalDisplay');
 
@@ -39,11 +51,34 @@ const Polarization = ({
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
 
+  const settingElement = (amplitude: boolean) =>
+    `showPolarization${amplitude ? 'Amplitude' : 'Phase'}${polarization}axisY`;
+
+  const setting = (amplitude: boolean) => displaySettings[settingElement(amplitude)];
+
   const xLabel = () => `${t('label.frequency')} (${t('units.frequency')})`;
 
-  const yLabel = (amplitude: boolean) => `${t(amplitude ? 'label.amplitude' : 'label.phase')}`;
+  const yLabel = (amplitude: boolean) =>
+    `${t('label.amplitude')} (${t(`units.${setting(amplitude)}`)})`;
 
   const chartTitle = (amplitude: boolean) => t(amplitude ? 'label.amplitude' : 'label.phase');
+
+  function calculateYData(inData: any, i: number, amplitude: boolean) {
+    switch (setting(amplitude)) {
+      case phaseAxisY[0]: // radians
+        return inData[i].phases;
+      case phaseAxisY[1]: // degrees
+        return inData[i].phases.map((item: number) => calculateDegrees(item));
+      case amplitudeAxisY[0]: // amplitude
+        return inData[i].amplitudes;
+      case amplitudeAxisY[1]: // db
+        return inData[i].amplitudes.map((item: number) => calculateDB(item));
+      case amplitudeAxisY[2]: // log
+        return inData[i].amplitudes.map((item: number) => calculateLog(item));
+      default:
+        return 0;
+    }
+  }
 
   function getBaseData(inData: any, polarisation: string, amplitude: boolean) {
     const tmp = [];
@@ -51,7 +86,7 @@ const Polarization = ({
       if (inData[i].polarisation === polarisation) {
         tmp.push({
           name: inData[i].baseline,
-          data: amplitude ? inData[i].amplitudes : inData[i].phases
+          data: calculateYData(inData, i, amplitude)
         });
       }
     }
@@ -67,10 +102,6 @@ const Polarization = ({
     }
 
     return arr;
-  }
-
-  function parentWidth() {
-    return 600;
   }
 
   function getLegendColor(name: string) {
@@ -89,7 +120,7 @@ const Polarization = ({
     if (!legend) {
       return chartData;
     }
-    const xValues = generateChannels(usedData.spectral_window);
+    const xValues = calculateChannels(usedData.spectral_window);
     const baseData = getBaseData(usedData.data, polarization, amplitude);
     for (let i = 0; i < baseData.length; i++) {
       chartData.push({
@@ -110,35 +141,9 @@ const Polarization = ({
     setShowContent(showContent ? false : canShow());
   };
 
-  function canShowChartAmplitude() {
-    switch (polarization) {
-      case 'XX':
-        return displaySettings.showPolarizationAmplitudeXX;
-      case 'XY':
-        return displaySettings.showPolarizationAmplitudeXY;
-      case 'YX':
-        return displaySettings.showPolarizationAmplitudeYX;
-      case 'YY':
-        return displaySettings.showPolarizationAmplitudeYY;
-      default:
-        return false;
-    }
-  }
-
-  function canShowChartPhase() {
-    switch (polarization) {
-      case 'XX':
-        return displaySettings.showPolarizationPhaseXX;
-      case 'XY':
-        return displaySettings.showPolarizationPhaseXY;
-      case 'YX':
-        return displaySettings.showPolarizationPhaseYX;
-      case 'YY':
-        return displaySettings.showPolarizationPhaseYY;
-      default:
-        return false;
-    }
-  }
+  const canShowChartAmplitude = () => displaySettings[`showPolarizationAmplitude${polarization}`];
+  const canShowChartPhase = () => displaySettings[`showPolarizationPhase${polarization}`];
+  const parentWidth = () => (canShowChartAmplitude() && canShowChartPhase() ? 600 : 1400);
 
   React.useEffect(() => {
     if (!refresh) setShowContent(canShow());
@@ -161,76 +166,100 @@ const Polarization = ({
     if (firstRender) {
       setShowContent(canShow());
     }
-  }, [data, legend]);
+  }, [data, legend, redraw]);
+
+  function setValue(e: typeof QASettings) {
+    setSettings(e);
+  }
+
+  const chartToggle = (type: boolean) => (
+    <YAxisToggle
+      // eslint-disable-next-line react/jsx-no-bind
+      setValue={setValue}
+      testId={`${settingElement(type)}ButtonTestId`}
+      type={type ? 'amplitude' : 'phase'}
+      value={settingElement(type)}
+      displaySettings={displaySettings}
+    />
+  );
 
   return (
-    <>
-      {(canShowChartAmplitude() || canShowChartPhase()) && (
-        <SignalCard
-          title={`${t('label.polarization')} ${polarization}`}
-          socketStatus={socketStatus}
-          showContent={showContent}
-          setShowContent={showToggle}
-        >
-          <Grid container direction="row" justifyContent="space-between">
-            {canShowChartAmplitude && (
-              <>
-                <Grid data-testId="chartData1Content" item md={6} xs={12}>
-                  {(!legend || !chartData1 || chartData1.length === 0) && (
-                    <Box m={1}>
-                      <InfoCard
-                        testId="noChartData1Card"
-                        fontSize={25}
-                        level={1}
-                        message={t('error.noData')}
-                      />
-                    </Box>
-                  )}
-                  {legend && chartData1 && chartData1.length > 0 && (
-                    <Plotly
-                      darkMode={darkMode}
-                      data={showContent ? chartData1 : null}
-                      height={parentWidth() / RATIO}
-                      title={chartTitle(true)}
-                      width={parentWidth()}
-                      xLabel={xLabel()}
-                      yLabel={yLabel(true)}
+    <Grid container direction="row" justifyContent="space-between">
+      {canShowChartAmplitude() && (
+        <Grid item xs={canShowChartPhase() ? 6 : 12}>
+          <SignalCard
+            action={chartToggle(true)}
+            title={`${t('label.polarization')} / ${chartTitle(true)} ${polarization}`}
+            socketStatus={socketStatus}
+            showContent={showContent}
+            setShowContent={showToggle}
+          >
+            <Grid container direction="row" justifyContent="space-between">
+              <Grid data-testid="chartData1Content" item md={6} xs={12}>
+                {(!legend || !chartData1 || chartData1.length === 0) && (
+                  <Box m={1}>
+                    <InfoCard
+                      testId="noChartData1Card"
+                      fontSize={25}
+                      level={1}
+                      message={t('error.noData')}
                     />
-                  )}
-                </Grid>
-              </>
-            )}
-            {canShowChartPhase && (
-              <>
-                <Grid data-testId="chartData2Content" item md={6} xs={12}>
-                  {(!chartData2 || chartData2.length === 0) && (
-                    <Box m={1}>
-                      <InfoCard
-                        testId="noChartData2Card"
-                        fontSize={25}
-                        level={1}
-                        message={t('error.noData')}
-                      />
-                    </Box>
-                  )}
-                  {chartData2 && chartData2.length > 0 && (
-                    <Plotly
-                      darkMode={darkMode}
-                      data={showContent ? chartData2 : null}
-                      height={parentWidth() / RATIO}
-                      title={chartTitle(false)}
-                      width={parentWidth()}
-                      xLabel={xLabel()}
-                      yLabel={yLabel(true)}
-                    />
-                  )}
-                </Grid>
-              </>
-            )}
-          </Grid>
-        </SignalCard>
+                  </Box>
+                )}
+                {legend && chartData1 && chartData1.length > 0 && (
+                  <Plotly
+                    darkMode={darkMode}
+                    data={showContent ? chartData1 : null}
+                    height={parentWidth() / RATIO}
+                    title=""
+                    width={parentWidth()}
+                    xLabel={xLabel()}
+                    yLabel={yLabel(true)}
+                  />
+                )}
+              </Grid>
+            </Grid>
+          </SignalCard>
+        </Grid>
       )}
-    </>
+      {canShowChartPhase() && (
+        <Grid item xs={canShowChartAmplitude() ? 6 : 12}>
+          <SignalCard
+            action={chartToggle(false)}
+            title={`${t('label.polarization')} / ${chartTitle(false)}  ${polarization}`}
+            socketStatus={socketStatus}
+            showContent={showContent}
+            setShowContent={showToggle}
+          >
+            <Grid container direction="row" justifyContent="space-between">
+              <Grid data-testid="chartData2Content" item md={6} xs={12}>
+                {(!chartData2 || chartData2.length === 0) && (
+                  <Box m={1}>
+                    <InfoCard
+                      testId="noChartData2Card"
+                      fontSize={25}
+                      level={1}
+                      message={t('error.noData')}
+                    />
+                  </Box>
+                )}
+                {chartData2 && chartData2.length > 0 && (
+                  <Plotly
+                    darkMode={darkMode}
+                    data={showContent ? chartData2 : null}
+                    height={parentWidth() / RATIO}
+                    title=""
+                    width={parentWidth()}
+                    xLabel={xLabel()}
+                    yLabel={yLabel(false)}
+                  />
+                )}
+              </Grid>
+            </Grid>
+          </SignalCard>
+        </Grid>
+      )}
+    </Grid>
   );
 };
 export default Polarization;

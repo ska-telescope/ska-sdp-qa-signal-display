@@ -33,6 +33,8 @@
     },
     "currentScanId": "Current Scan ID",
     "currentSpeed": "Current Speed",
+    "db": "dB",
+    "degrees": "Degrees",
     "detailed": "Detailed",
     "durationCurrentTransfer": "Duration of Current Transfer",
     "executingBlockId": "Executing Block ID",
@@ -44,6 +46,7 @@
     "lastUpdate": "Last Update",
     "lastUpdated": "Last Updated",
     "legend": "Legend",
+    "log": "Log",
     "payloadsReceived": "Payloads Received",
     "phase": "Phase",
     "phaseVFreq": "Phase vs Frequency",
@@ -52,6 +55,7 @@
     "no": "No",
     "numberHeaps": "Number of Heaps",
     "numberHeapsIncomplete": "Number of Incomplete Heaps",
+    "radians": "Radians",
     "receiver": "Receiver",
     "scanId": "Scan ID",
     "serialisation": "Serialisation",
@@ -77,15 +81,23 @@
       "mode": "Colour mode toggle",
       "refresh": "Click if a refresh is required quicker than the scheduled interval",
       "skao": "SKAO WebSite"
+    },
+    "settings": {
+      "amplitude": "Determines the scale to be used for the Y-Axis",
+      "phase": "Determines the scale to be used for the Y-Axis"
     }
   },
   "units": {
-    "amplitude": "",
+    "amplitude": "A",
     "currentSpeed": "MB/s",
+    "db": "dB",
+    "degrees": "degrees",
     "durationCurrentTransfer": "s",
     "frequency": "MHz",
     "ingestionRate": "p/s",
+    "log": "log",
     "phase": "m",
+    "radians": "radians",
     "totalDataReceived": "MB"
   }
 }

@@ -51,101 +51,104 @@ const Statistics = ({
           showContent={showBasicContent}
           setShowContent={showBasicToggle}
         >
-          <div id="statistics-detailed-Id" data-testid="statistics-detailed-Id">
-            {processingBlockStatisticsData?.time && (
-              <Grid container direction="row" justifyContent="space-between">
-                <Grid data-testid="timeDetails" item md={4} sm={6} xs={12}>
-                  <Typography variant="h5" paragraph>
-                    {t('label.time')}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    {t('label.lastAPIRefresh')}
-                    {': '}
-                    {t('date_time', {
-                      date: epochToDate(processingBlockStatisticsData?.time?.now)
-                    })}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    {t('label.lastUpdated')}
-                    {': '}
-                    {t('date_time', {
-                      date: epochToDate(processingBlockStatisticsData?.time?.last_update)
-                    })}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    {t('label.start')}
-                    {': '}
-                    {t('date_time', {
-                      date: epochToDate(processingBlockStatisticsData?.time?.start)
-                    })}
-                  </Typography>
-                </Grid>
-                <Grid data-testid="statisticsDetails" item md={4} sm={6} xs={12}>
-                  <Typography variant="h5" paragraph>
-                    {t('label.statistics')}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    {t('label.ingestionRate')}
-                    {': '}
-                    {Math.round(
-                      (processingBlockStatisticsData?.statistics?.ingestion_rate || 0) * 100
-                    ) / 100}
-                    {' '}
-                    {t('units.ingestionRate')}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    {t('label.payloadsReceived')}
-                    {': '}
-                    {processingBlockStatisticsData?.statistics?.payloads_received}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    {t('label.visibilityReceiveActive')}
-                    {': '}
-                    {t(
-                      processingBlockStatisticsData?.statistics?.receive_active
-                        ? 'label.yes'
-                        : 'label.no'
-                    )}
-                  </Typography>
-                </Grid>
-                <Grid data-testid="workflowDetails" item md={4} sm={6} xs={12}>
-                  <Typography variant="h5" paragraph>
-                    {t('label.workflow')}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    {t('label.state')}
-                    {': '}
-                    {processingBlockStatisticsData?.processing_block?.state}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    {t('label.scanId')}
-                    {': '}
-                    {processingBlockStatisticsData?.processing_block?.scan_id}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    {t('label.processingBlockId')}
-                    {': '}
-                    {processingBlockStatisticsData?.processing_block?.processing_block_id}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    {t('label.executingBlockId')}
-                    {': '}
-                    {processingBlockStatisticsData?.processing_block?.execution_block_id}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    {t('label.subArray')}
-                    {': '}
-                    {processingBlockStatisticsData?.processing_block?.subarray}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    {t('label.timeSincePayload')}
-                    {': '}
-                    {processingBlockStatisticsData?.processing_block?.time_since_last_payload}
-                  </Typography>
-                </Grid>
+          {processingBlockStatisticsData?.time && (
+            <Grid
+              data-testid="statistics-detailed-Id"
+              container
+              direction="row"
+              justifyContent="space-between"
+              width="100%"
+            >
+              <Grid data-testid="timeDetails" item md={4} sm={6} xs={12}>
+                <Typography variant="h6" paragraph>
+                  {t('label.time')}
+                </Typography>
+                <Typography variant="subtitle1">
+                  {t('label.lastAPIRefresh')}
+                  {': '}
+                  {t('date_time', {
+                    date: epochToDate(processingBlockStatisticsData?.time?.now)
+                  })}
+                </Typography>
+                <Typography variant="subtitle1">
+                  {t('label.lastUpdated')}
+                  {': '}
+                  {t('date_time', {
+                    date: epochToDate(processingBlockStatisticsData?.time?.last_update)
+                  })}
+                </Typography>
+                <Typography variant="subtitle1">
+                  {t('label.start')}
+                  {': '}
+                  {t('date_time', {
+                    date: epochToDate(processingBlockStatisticsData?.time?.start)
+                  })}
+                </Typography>
               </Grid>
-            )}
-          </div>
+              <Grid data-testid="statisticsDetails" item md={4} sm={6} xs={12}>
+                <Typography variant="h6" paragraph>
+                  {t('label.statistics')}
+                </Typography>
+                <Typography variant="subtitle1">
+                  {t('label.ingestionRate')}
+                  {': '}
+                  {Math.round(
+                    (processingBlockStatisticsData?.statistics?.ingestion_rate || 0) * 100
+                  ) / 100}{' '}
+                  {t('units.ingestionRate')}
+                </Typography>
+                <Typography variant="subtitle1">
+                  {t('label.payloadsReceived')}
+                  {': '}
+                  {processingBlockStatisticsData?.statistics?.payloads_received}
+                </Typography>
+                <Typography variant="subtitle1">
+                  {t('label.visibilityReceiveActive')}
+                  {': '}
+                  {t(
+                    processingBlockStatisticsData?.statistics?.receive_active
+                      ? 'label.yes'
+                      : 'label.no'
+                  )}
+                </Typography>
+              </Grid>
+              <Grid data-testid="workflowDetails" item md={4} sm={6} xs={12}>
+                <Typography variant="h6" paragraph>
+                  {t('label.workflow')}
+                </Typography>
+                <Typography variant="subtitle1">
+                  {t('label.state')}
+                  {': '}
+                  {processingBlockStatisticsData?.processing_block?.state}
+                </Typography>
+                <Typography variant="subtitle1">
+                  {t('label.scanId')}
+                  {': '}
+                  {processingBlockStatisticsData?.processing_block?.scan_id}
+                </Typography>
+                <Typography variant="subtitle1">
+                  {t('label.processingBlockId')}
+                  {': '}
+                  {processingBlockStatisticsData?.processing_block?.processing_block_id}
+                </Typography>
+                <Typography variant="subtitle1">
+                  {t('label.executingBlockId')}
+                  {': '}
+                  {processingBlockStatisticsData?.processing_block?.execution_block_id}
+                </Typography>
+                <Typography variant="subtitle1">
+                  {t('label.subArray')}
+                  {': '}
+                  {processingBlockStatisticsData?.processing_block?.subarray}
+                </Typography>
+                <Typography variant="subtitle1">
+                  {t('label.timeSincePayload')}
+                  {': '}
+                  {processingBlockStatisticsData?.processing_block?.time_since_last_payload}
+                </Typography>
+              </Grid>
+            </Grid>
+          )}
         </SignalCard>
       )}
       {displaySettings.showStatisticsReceiver && (
@@ -186,8 +189,7 @@ const Statistics = ({
                   <Typography variant="subtitle1">
                     {t('label.totalDataReceived')}
                     {': '}
-                    {Math.round((receiverEventsData?.total_megabytes || 0) * 100) / 100}
-                    {' '}
+                    {Math.round((receiverEventsData?.total_megabytes || 0) * 100) / 100}{' '}
                     {t('units.totalDataReceived')}
                   </Typography>
                   <Typography variant="subtitle1">
@@ -197,16 +199,13 @@ const Statistics = ({
                       ((receiverEventsData?.total_megabytes || 0) /
                         (receiverEventsData?.duration || 1)) *
                         100
-                    ) / 100}
-                    {' '}
+                    ) / 100}{' '}
                     {t('units.currentSpeed')}
                   </Typography>
                   <Typography variant="subtitle1">
                     {t('label.durationCurrentTransfer')}
                     {': '}
-                    {Math.round(receiverEventsData?.duration)} 
-                    {' '}
-                    {t('units.durationCurrentTransfer')}
+                    {Math.round(receiverEventsData?.duration)} {t('units.durationCurrentTransfer')}
                   </Typography>
                 </Grid>
               </Grid>

@@ -5,26 +5,33 @@ import { useTranslation } from 'react-i18next';
 
 import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
+import YAxisToggle from '../YAxisToggle/YAxisToggle';
 import { storageObject } from '../../services/stateStorage';
 import { COLOR } from '../../utils/constants';
-import { generateChannels } from '../../utils/generateChannels';
+import { calculateChannels, calculateDB } from '../../utils/calculate';
+import { amplitudeAxisY, QASettings } from '../Settings/qaSettings';
 
 interface SpectrumPlotProps {
+  data: object;
   displaySettings: any;
   polarization: string;
+  redraw: boolean;
   resize: number;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  setSettings: Function;
   socketStatus: string;
-  data: object;
 }
 
 const RATIO = 2;
 
 const SpectrumPlot = ({
+  data,
   displaySettings,
   polarization,
+  redraw,
   resize,
-  socketStatus,
-  data
+  setSettings,
+  socketStatus
 }: SpectrumPlotProps) => {
   const { t } = useTranslation('signalDisplay');
 
@@ -35,11 +42,12 @@ const SpectrumPlot = ({
 
   const chartTitle = () => '';
 
-  function xLabel() {
-    return `${t('label.frequency')} (${t('units.frequency')})`;
-  }
+  const settingElement = () => `showSpectrumPlot${polarization}axisY`;
+  const setting = () => displaySettings[settingElement()];
 
-  const yLabel = () => `${t('label.amplitude')}`;
+  const xLabel = () => `${t('label.frequency')} (${t('units.frequency')})`;
+
+  const yLabel = () => `${t('label.amplitude')} (${t(`units.${setting()}`)})`;
 
   const canShow = () => data !== null;
 
@@ -52,20 +60,33 @@ const SpectrumPlot = ({
     return 1400;
   }
 
+  function calculateYData(inData: any) {
+    switch (setting()) {
+      case amplitudeAxisY[0]: // amplitude
+        return inData;
+      case amplitudeAxisY[1]: // db
+        return inData.map((item: number) => calculateDB(item));
+      case amplitudeAxisY[2]: // log
+        return inData.map((item: number) => Math.log10(item));
+      default:
+        return 0;
+    }
+  }
+
   function getYData(inData: any, polar: string) {
     switch (polar) {
       case 'XX':
-        return inData.XX.power;
+        return calculateYData(inData.XX.power);
       case 'XY':
-        return inData.XY.power;
+        return calculateYData(inData.XY.power);
       case 'YX':
-        return inData.YX.power;
+        return calculateYData(inData.YX.power);
       default:
-        return inData.YY.power;
+        return calculateYData(inData.YY.power);
     }
   }
   function getChartData(usedData: any) {
-    const xValues = generateChannels(usedData.spectral_window);
+    const xValues = calculateChannels(usedData.spectral_window);
     const chartDataTmp = [
       {
         x: xValues,
@@ -101,7 +122,7 @@ const SpectrumPlot = ({
     if (firstRender) {
       setShowContent(canShow());
     }
-  }, [data]);
+  }, [data, redraw]);
 
   React.useEffect(() => {
     if (!refresh) setShowContent(canShow());
@@ -115,10 +136,26 @@ const SpectrumPlot = ({
     }
   }, [resize]);
 
+  function setValue(e: typeof QASettings) {
+    setSettings(e);
+  }
+
+  const chartToggle = () => (
+    <YAxisToggle
+      // eslint-disable-next-line react/jsx-no-bind
+      setValue={setValue}
+      testId={`${settingElement()}ButtonTestId`}
+      type="amplitude"
+      value={settingElement()}
+      displaySettings={displaySettings}
+    />
+  );
+
   return (
     <>
       {canShowChart() && (
         <SignalCard
+          action={chartToggle()}
           data-testid="signalCardId"
           title={`${t('label.spectrumPlot')} ${polarization}`}
           socketStatus={socketStatus}
