@@ -33,7 +33,6 @@ release = '0.10.1'
 # needs_sphinx = '1.0'
 
 def setup(app):
-    app.add_css_file('css/custom.css')
     app.add_js_file('js/github.js')
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -82,7 +81,7 @@ pygments_style = 'sphinx'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'ska_Ser_sphinx_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -91,8 +90,6 @@ html_theme = 'sphinx_rtd_theme'
 # html_theme_options = {}
 
 html_context = {
-    'logo': 'img/logo.jpg',
-    'theme_logo_only' : True,
     'display_github': True, # Integrate GitHub
     'github_user': 'flyingfrog81', # Username
     'github_repo': 'developer.skatelescope.org', # Repo name
