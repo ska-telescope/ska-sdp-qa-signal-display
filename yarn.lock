@@ -2497,10 +2497,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@ska-telescope/ska-gui-components@^0.1.50":
-  version "0.1.50"
-  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-gui-components/-/ska-gui-components-0.1.50.tgz#9006ba8523bb8022513c3c21dc00868343f627af"
-  integrity sha512-ZZistQSJ1dH4z3R2zc8nNLcZMzFsikUHybSMkGy5WNj0lqkVNm9xj5qHScBWVWVk4STjxGUOitIkpGDq0/HtIw==
+"@ska-telescope/ska-gui-components@^0.1.52":
+  version "0.1.52"
+  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-gui-components/-/ska-gui-components-0.1.52.tgz#e880b8d634aeef250ecd1ee4a5de676ad056e832"
+  integrity sha512-vffcV6Vz1FrE+DFhDGRnQk+NE4gzXwuinDLNCYG9Klx/4Q+LiRqazFZCZKqSF55xAn6VdNybNm+jcrdt2SzTMg==
   dependencies:
     "@mui/lab" "^5.0.0-alpha.135"
     "@mui/system" "^5.13.7"

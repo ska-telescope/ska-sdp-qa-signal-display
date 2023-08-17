@@ -1,4 +1,4 @@
-const AMP_MULTIPLIER = 20;
+const AMP_MULTIPLIER = 10;
 const AMP_REF = 1;
 export const HZ_TO_MHZ = 1000000;
 

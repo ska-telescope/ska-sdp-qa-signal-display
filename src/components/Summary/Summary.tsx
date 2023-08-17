@@ -33,10 +33,14 @@ const Summary = ({ config, status1, status2, status3, status4, clickFunction }: 
         <u>{t(label)}</u>
       </Typography>
       <Typography color="inherit">
-        {t(statusType)}:<b>{status}</b>
+        {t(statusType)}
+        :
+        <b>{status}</b>
       </Typography>
       <Typography color="inherit">
-        {t('label.serialisation')}:<b>{apiFormat}</b>
+        {t('label.serialisation')}
+        :
+        <b>{apiFormat}</b>
       </Typography>
     </>
   );
@@ -63,7 +67,7 @@ const Summary = ({ config, status1, status2, status3, status4, clickFunction }: 
       <Card style={{ backgroundColor: 'primary' }} variant="outlined">
         <CardHeader
           data-testid="sectionHeader"
-          action={
+          action={(
             <Grid container spacing={0}>
               <Grid item>
                 <Tooltip title={toolTip1()}>
@@ -138,7 +142,7 @@ const Summary = ({ config, status1, status2, status3, status4, clickFunction }: 
                 </Tooltip>
               </Grid>
             </Grid>
-          }
+          )}
         />
       </Card>
     </Box>
