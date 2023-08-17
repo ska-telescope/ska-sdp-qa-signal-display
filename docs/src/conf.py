@@ -35,8 +35,6 @@ source_suffix = '.rst'
 
 master_doc = 'index'
 
-language = English
-
 exclude_patterns = []
 
 pygments_style = 'sphinx'
