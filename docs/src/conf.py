@@ -3,7 +3,7 @@
 
 project = 'ska-sdp-qa-display'
 copyright = '2023, SKAO'
-author = 'Naledi'
+author = 'SKAO, Naledi'
 
 # The short X.Y version
 version = '0.10'
@@ -15,7 +15,6 @@ release = '0.10.1'
 import sphinx_rtd_theme
 
 def setup(app):
-    app.add_css_file('css/custom.css')
     app.add_js_file('js/github.js')
 
 extensions = [
@@ -35,16 +34,17 @@ source_suffix = '.rst'
 
 master_doc = 'index'
 
+language = "En-en"
+
 exclude_patterns = []
 
 pygments_style = 'sphinx'
 
 # -- Options for HTML output -------------------------------------------------
 
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'ska_ser_sphinx_theme'
 
 html_context = {
-    'logo': 'img/logo.jpg',
     'theme_logo_only' : True,
     'display_github': True, # Integrate GitHub
     'github_user': 'flyingfrog81', # Username
@@ -66,7 +66,7 @@ latex_elements = {
 
 latex_documents = [
     (master_doc, 'ska-sdp-qa-display.tex', 'ska-sdp-qa-display Documentation',
-     'Naledi', 'manual'),
+     'SKAO, Naledi', 'manual'),
 ]
 
 # -- Options for manual page output ------------------------------------------
