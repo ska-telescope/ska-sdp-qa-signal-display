@@ -1,5 +1,5 @@
 Getting Started
-===============
+~~~~~~~~~~~~~~~
 
 To get the Signal Display running services should be started in the following order:
 

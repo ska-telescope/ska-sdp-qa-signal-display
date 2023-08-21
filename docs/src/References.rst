@@ -1,5 +1,5 @@
 References
-==========
+~~~~~~~~~~
 
 - Using React [MUI](https://mui.com)
 
