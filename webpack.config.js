@@ -110,7 +110,7 @@ module.exports = () => {
           'react-redux': { singleton: true, requiredVersion: deps['react-redux'], eager: true },
           'redux': { singleton: true, requiredVersion: deps['redux'], eager: true },
           '@reduxjs/toolkit': { singleton: true, requiredVersion: deps['@reduxjs/toolkit'], eager: true },
-          // SKAO components  
+          // SKAO components
           '@ska-telescope/ska-gui-components': {
             requiredVersion: deps['@ska-telescope/ska-gui-components'],
             eager: true
@@ -138,7 +138,7 @@ module.exports = () => {
         REACT_APP_WORKFLOW_INTERVAL_SECONDS: 60,
         REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS: 10,
         REACT_APP_DASHBOARD_URL_SUBDIRECTORY: '',
-        REACT_USE_LOCAL_DATA: true,  // Ensure set to false for production
+        REACT_USE_LOCAL_DATA: false,  // Ensure set to false for production
         SKIP_PREFLIGHT_CHECK: true
       }),
       new CopyWebpackPlugin({
