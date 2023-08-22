@@ -21,6 +21,7 @@ describe('<Legend />', () => {
             onClick={undefined}
             pole={undefined}
             poleUpdate={undefined}
+          />
         </ThemeProvider>
       );
     });
