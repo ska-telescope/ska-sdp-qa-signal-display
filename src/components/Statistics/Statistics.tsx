@@ -46,6 +46,7 @@ const Statistics = ({
     <>
       {displaySettings.showStatisticsDetailed && (
         <SignalCard
+          testId="statDetailed"
           title={`${t('label.statistics')} - ${t('label.detailed')}`}
           socketStatus={SOCKET_STATUS[processingBlockStatisticsData === null ? 1 : 2]}
           showContent={showBasicContent}
@@ -154,6 +155,7 @@ const Statistics = ({
       )}
       {displaySettings.showStatisticsReceiver && (
         <SignalCard
+          testId="statReceiver"
           title={`${t('label.statistics')} - ${t('label.receiver')}`}
           socketStatus={SOCKET_STATUS[receiverEventsData === null ? 1 : 2]}
           showContent={showDetailContent}

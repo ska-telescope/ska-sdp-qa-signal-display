@@ -10,6 +10,7 @@ export interface SignalCardProps {
   children?: JSX.Element;
   action?: JSX.Element;
   socketStatus?: string;
+  testId: string;
   title: string;
   showContent: boolean;
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -20,6 +21,7 @@ const SignalCard = ({
   action,
   children,
   socketStatus,
+  testId,
   title,
   showContent,
   setShowContent
@@ -57,7 +59,7 @@ const SignalCard = ({
             <Tooltip title={t('label.settings')}>
               <IconButton
                 aria-label={t('label.settings')}
-                data-testid="hideShowToggle"
+                data-testid={`${testId}HideShowToggle`}
                 sx={{ '&:hover': { backgroundColor: 'primary.dark' }, ml: 1 }}
                 onClick={handleToggle}
                 color={ButtonColorTypes.Inherit}
@@ -72,9 +74,9 @@ const SignalCard = ({
   );
 
   return (
-    <Alert action={actionButtons()} testId="signalCardId" key="alerts" severity={0}>
+    <Alert action={actionButtons()} testId={`${testId}SignalCardId`} key="alerts" severity={0}>
       <Box width="80vw">
-        <Typography data-testid="sectionHeader" variant="h5">
+        <Typography data-testid={`${testId}SignalCardTitleId`} variant="h5">
           {title}
         </Typography>
         {showContent && <>{children}</>}

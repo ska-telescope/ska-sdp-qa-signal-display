@@ -189,17 +189,18 @@ const Polarization = ({
         <Grid item xs={canShowChartPhase() ? 6 : 12}>
           <SignalCard
             action={chartToggle(true)}
+            testId={`poleAmplitude${polarization}`}
             title={`${t('label.polarization')} / ${chartTitle(true)} ${polarization}`}
             socketStatus={socketStatus}
             showContent={showContent}
             setShowContent={showToggle}
           >
             <Grid container direction="row" justifyContent="space-between">
-              <Grid data-testid="chartData1Content" item md={6} xs={12}>
+              <Grid data-testid={`poleAmplitude${polarization}Content`} item md={6} xs={12}>
                 {(!legend || !chartData1 || chartData1.length === 0) && (
                   <Box m={1}>
                     <InfoCard
-                      testId="noChartData1Card"
+                      testId={`poleAmplitude${polarization}NoData`}
                       fontSize={25}
                       level={1}
                       message={t('error.noData')}
@@ -226,17 +227,18 @@ const Polarization = ({
         <Grid item xs={canShowChartAmplitude() ? 6 : 12}>
           <SignalCard
             action={chartToggle(false)}
+            testId={`polePhase${polarization}`}
             title={`${t('label.polarization')} / ${chartTitle(false)}  ${polarization}`}
             socketStatus={socketStatus}
             showContent={showContent}
             setShowContent={showToggle}
           >
             <Grid container direction="row" justifyContent="space-between">
-              <Grid data-testid="chartData2Content" item md={6} xs={12}>
+              <Grid data-testid={`polePhase${polarization}Content`} item md={6} xs={12}>
                 {(!chartData2 || chartData2.length === 0) && (
                   <Box m={1}>
                     <InfoCard
-                      testId="noChartData2Card"
+                      testId={`polePhase${polarization}NoData`}
                       fontSize={25}
                       level={1}
                       message={t('error.noData')}

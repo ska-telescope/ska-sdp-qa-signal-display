@@ -103,7 +103,7 @@ const Spectrogram = ({ config, legend, displaySettings }: SpectrogramProps) => {
       )}
       {displaySettings.showSpectrograms && (
         <SignalCard
-          data-testId="chloe2"
+          testId="spectrograms"
           title={t('label.spectrograms')}
           showContent={showContent}
           setShowContent={showToggle}

@@ -148,6 +148,7 @@ const SpectrumPlot = ({
       type="amplitude"
       value={settingElement()}
       displaySettings={displaySettings}
+      disabled={false}
     />
   );
 
@@ -156,7 +157,7 @@ const SpectrumPlot = ({
       {canShowChart() && (
         <SignalCard
           action={chartToggle()}
-          data-testid="signalCardId"
+          testId={`spectrumPlot${polarization}`}
           title={`${t('label.spectrumPlot')} ${polarization}`}
           socketStatus={socketStatus}
           showContent={showContent}
