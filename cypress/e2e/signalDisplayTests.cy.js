@@ -35,7 +35,7 @@ function statisticsReceiver() {
 }
 
 function settings() {
-    cy.findAllByTestId("SettingsIcon").should("be.visible").click();
+    cy.findByTestId("SettingsIcon").should("be.visible").click();
     cy.findAllByTestId("showStatisticsDetailedButtonTestId").should("be.visible").click();
     cy.findAllByTestId("showStatisticsReceiverButtonTestId").should("be.visible").click();
     cy.findAllByTestId("showSpectrumPlotXXButtonTestId").should("be.visible").click();
