@@ -60,25 +60,25 @@ const Statistics = ({
               justifyContent="space-between"
               width="100%"
             >
-              <Grid data-testid="timeDetails" item md={4} sm={6} xs={12}>
-                <Typography variant="h6" paragraph>
+              <Grid item md={4} sm={6} xs={12}>
+                <Typography data-testid="timeDetailsTime" variant="h6" paragraph>
                   {t('label.time')}
                 </Typography>
-                <Typography variant="subtitle1">
+                <Typography data-testid="timeDetailsLastAPI" variant="subtitle1">
                   {t('label.lastAPIRefresh')}
                   {': '}
                   {t('date_time', {
                     date: epochToDate(processingBlockStatisticsData?.time?.now)
                   })}
                 </Typography>
-                <Typography variant="subtitle1">
+                <Typography data-testid="timeDetailsLastUpdate" variant="subtitle1">
                   {t('label.lastUpdated')}
                   {': '}
                   {t('date_time', {
                     date: epochToDate(processingBlockStatisticsData?.time?.last_update)
                   })}
                 </Typography>
-                <Typography variant="subtitle1">
+                <Typography data-testid="timeDetailsStart" variant="subtitle1">
                   {t('label.start')}
                   {': '}
                   {t('date_time', {

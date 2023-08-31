@@ -54,7 +54,12 @@ const Legend = ({ resize, data, displaySettings, onClick, pole, poleUpdate }: Le
   return (
     <>
       {canShowLegend() && (
-        <SignalCard testId="legend" title={t('label.legend')} showContent={showContent} setShowContent={showToggle}>
+        <SignalCard
+          testId="legend"
+          title={t('label.legend')}
+          showContent={showContent}
+          setShowContent={showToggle}
+        >
           <Grid container direction="column">
             <Grid item>
               {pole &&

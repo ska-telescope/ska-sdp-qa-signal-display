@@ -32,7 +32,9 @@ function App() {
         <Header testId="headerId" themeToggle={toggleTheme} toolTip={toolTip}>
           <Grid item />
           <Grid item>
-            <Typography data-testId="headerTItleId" variant="h4">{t('label.signalDisplay')}</Typography>
+            <Typography data-testId="headerTItleId" variant="h4">
+              {t('label.signalDisplay')}
+            </Typography>
           </Grid>
           <Grid item />
         </Header>
