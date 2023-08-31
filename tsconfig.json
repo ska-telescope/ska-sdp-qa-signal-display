@@ -16,9 +16,10 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "types": ["cypress", "node"]
   },
-  "include": ["src", "cypress", "./cypress.d.ts"],
+  "include": ["src", "cypress", "./cypress.d.ts", "./cypress/support/index.d.ts"],
   "exclude": ["node_modules"],
   "paths": {
     "@components/*": ["components/*"],

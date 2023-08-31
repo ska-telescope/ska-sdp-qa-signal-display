@@ -14,8 +14,6 @@
 
   "intlNumber": "{{val, number}}",
 
-  "isLoading": "...loading",
-
   "prompt": {
     "spectrograms": "Click on the baseline and polarisation label to see a detailed spectrogram",
     "subArrayMany": "Choose the SubArray that you wish to see charting for",
