@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const deps = require('./package.json').dependencies;
 
@@ -60,9 +61,9 @@ module.exports = () => {
     devtool: 'source-map',
 
     plugins: [
-      new webpack.DefinePlugin({
-        'process.env.VERSION': JSON.stringify(process.env.npm_package_version)
-      }),
+      // new webpack.DefinePlugin({
+      //   process: {env: {}}
+      // }),
       new ModuleFederationPlugin({
         name: 'signalMetrics',
         filename: 'remoteEntry.js',
@@ -130,17 +131,18 @@ module.exports = () => {
       new HtmlWebPackPlugin({
         template: './public/index.html'
       }),
-      new webpack.EnvironmentPlugin({
-        REACT_APP_WS_API: 'ws://localhost:8002',
-        REACT_APP_DATA_API_URL: 'http://localhost:8002',
-        REACT_APP_SUBARRAY_REFRESH_SECONDS: 60,
-        REACT_APP_SUBARRAY_REFRESH_SECONDS_FAST: 2,   // Used if no subArray values have been captured
-        REACT_APP_WORKFLOW_INTERVAL_SECONDS: 60,
-        REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS: 10,
-        REACT_APP_DASHBOARD_URL_SUBDIRECTORY: '',
-        REACT_USE_LOCAL_DATA: false,  // Ensure set to false for production
-        SKIP_PREFLIGHT_CHECK: true
-      }),
+      // new webpack.EnvironmentPlugin({
+      //   REACT_APP_WS_API: 'ws://localhost:8002',
+      //   REACT_APP_DATA_API_URL: 'http://localhost:8002',
+      //   REACT_APP_SUBARRAY_REFRESH_SECONDS: 60,
+      //   REACT_APP_SUBARRAY_REFRESH_SECONDS_FAST: 2,   // Used if no subArray values have been captured
+      //   REACT_APP_WORKFLOW_INTERVAL_SECONDS: 60,
+      //   REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS: 10,
+      //   REACT_APP_DASHBOARD_URL_SUBDIRECTORY: '',
+      //   REACT_APP_USE_LOCAL_DATA: false,  // Ensure set to false for production
+      //   SKIP_PREFLIGHT_CHECK: true,
+      //   REACT_APP_VERSION: '9.9.9'
+      // }),
       new CopyWebpackPlugin({
         patterns: [
           {
@@ -152,6 +154,9 @@ module.exports = () => {
             },
           },
         ],
+      }),
+      new Dotenv({
+        path: '.env',
       }),
     ]
   };

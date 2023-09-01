@@ -95,7 +95,7 @@ Open [http://localhost:3333](http://localhost:3333) to view the UI in a browser.
 
 # Using mocked data so that links to API & Generator is not required locally.
 
-This is achieved by changing the setting of REACT_USE_LOCAL_DATA within the webpack.config to 'true'
+This is achieved by changing the setting of REACT_APP_USE_LOCAL_DATA within the webpack.config to 'true'
 IMportent to ensure that this is set to false for production
 
 # Link to Running Instance
