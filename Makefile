@@ -17,7 +17,7 @@ build:
 run:
 	docker run \
 		--name signal-display --rm \
-		-p 80:80 -it \
+		-p 80:80 -d \
 		signal-display
 
 down:
