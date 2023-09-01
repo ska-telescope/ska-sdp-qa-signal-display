@@ -25,8 +25,8 @@ build:
 run:
 	docker run \
 		--name signal-display --rm \
-		-p 3333:3333 -d \
-		signal-display
+		-p 80:80 -it \
+		signal-display bash
 
 down:
 	-docker kill signal-display
