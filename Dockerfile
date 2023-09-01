@@ -12,11 +12,11 @@ RUN yarn install --frozen-lockfile
 
 COPY . /usr/src/app
 
-CMD ["make", "dev-run"]
+CMD ["yarn", "start"]
 
 FROM dev AS builder
 
-RUN yarn webpack build \
+RUN yarn webpack build --stats verbose \
     --mode production \
     --optimization-concatenate-modules \
     --optimization-minimize \
@@ -27,4 +27,6 @@ RUN yarn webpack build \
 FROM nginx:1.25.2 as final
 
 # Copy built files
+COPY .env /.env
+COPY --chmod=0755 nginx_env_config.sh /docker-entrypoint.d/
 COPY --from=builder /dist/* /usr/share/nginx/html/
