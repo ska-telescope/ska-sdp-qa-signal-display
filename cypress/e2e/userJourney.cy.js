@@ -8,7 +8,6 @@ function spectrumPlot(pole) {
 function poleAmplitude(pole) {
     cy.findByTestId(`poleAmplitude${pole}SignalCardId`).should("be.visible")
     cy.findByTestId(`poleAmplitude${pole}SignalCardTitleId`).contains(`Polarization / Amplitude ${pole}`).should("be.visible")
-    cy.findByTestId(`poleAmplitude${pole}HideShowToggle`).click();
     // cy.findByTestId(`poleAmplitude${pole}Content`).should("be.visible");
 }
 
@@ -22,12 +21,11 @@ function polePhase(pole) {
 function spectrograms() {
     cy.findByTestId(`spectrogramsSignalCardId`).should("be.visible")
     cy.findByTestId(`spectrogramsSignalCardTitleId`).contains(`Spectrograms`).should("be.visible")
-    cy.findByTestId(`spectrogramsHideShowToggle`).click();
 
-    // cy.findByTestId('spectrogram1Id').should("be.visible");
-    // cy.findByTestId('spectrogram2Id').should("be.visible");
-    // cy.findByTestId('spectrogram3Id').should("be.visible");
-    // cy.findByTestId('spectrogram4Id').should("be.visible");
+    cy.findByTestId('spectrogram1Id').should("be.visible");
+    cy.findByTestId('spectrogram2Id').should("be.visible");
+    cy.findByTestId('spectrogram3Id').should("be.visible");
+    cy.findByTestId('spectrogram4Id').should("be.visible");
 }
 
 function settings() {
@@ -61,7 +59,7 @@ context('Signal display', () => {
     })
 
     it('Header : Verify title and external link to skao site', () => {
-        cy.findByTestId('headerTItleId').contains('Signal Display').should("be.visible");
+        cy.findByTestId('headerTitleId').contains('Signal Display').should("be.visible");
         cy.findByTestId("skaoLogo").click();
     })
 
@@ -95,8 +93,6 @@ context('Signal display', () => {
         cy.findByTestId("workflowDetails").contains("SubArray:").should("be.visible");
         cy.findByTestId("workflowDetails").contains("Time Since Last Payload:").should("be.visible");
 
-        ///
-
         cy.findByTestId("statReceiverSignalCardId").should("be.visible")
         cy.findByTestId("statReceiverSignalCardTitleId").contains("Statistics - Receiver").should("be.visible")
         cy.findByTestId("statReceiverHideShowToggle").click();
@@ -122,13 +118,10 @@ context('Signal display', () => {
     it('Legend : Exists and can be opened and viewed', () => {
         cy.findByTestId(`legendSignalCardId`).should("be.visible")
         cy.findByTestId(`legendSignalCardTitleId`).contains(`Legend`).should("be.visible")
-        // cy.findByTestId(`legendHideShowToggle`).click();
+        cy.findByTestId(`legendHideShowToggle`).click();
     
-        // cy.findAllByTestId("legendGroupingId").click({ multiple: true })
-    
-        // cy.findAllByTestId("noChartData1Card").should("be.visible")
-        // cy.findAllByTestId("noChartData2Card").should("be.visible")
-        // cy.findAllByTestId("legendKey").should("be.visible")
+        cy.findAllByTestId("legendGroupingId").click({ multiple: true })
+        cy.findAllByTestId("legendKey").should("be.visible")
     })
 
     it('Polarization : Exists and can be opened and viewed', () => {

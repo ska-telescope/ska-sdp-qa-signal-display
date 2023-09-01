@@ -109,7 +109,7 @@ const Spectrogram = ({ config, legend, displaySettings }: SpectrogramProps) => {
           setShowContent={showToggle}
         >
           <>
-            <Grid data-testid="chloe5" container direction="row" justifyContent="space-evenly">
+            <Grid container direction="row" justifyContent="space-evenly">
               {DATA_LOCAL && (
                 <>
                   <Grid data-testid="spectrogram1Id" item>
