@@ -17,8 +17,6 @@ build:
 run:
 	docker run \
 		--name signal-display --rm \
-		-e REACT_APP_SUBARRAY_REFRESH_SECONDS=5 \
-		-e REACT_APP_USE_LOCAL_DATA=false \
 		-p 80:80 -it \
 		signal-display
 
