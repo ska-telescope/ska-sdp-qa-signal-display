@@ -16,7 +16,7 @@ CMD ["yarn", "start"]
 
 FROM dev AS builder
 
-RUN yarn webpack build --stats verbose \
+RUN yarn webpack build \
     --mode production \
     --optimization-concatenate-modules \
     --optimization-minimize \
