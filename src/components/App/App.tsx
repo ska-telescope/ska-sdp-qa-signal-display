@@ -21,7 +21,6 @@ function App() {
 
   return (
     <ThemeProvider theme={theme(themeMode.mode)}>
-      <script src='/env.js' />
       <CssBaseline enableColorScheme />
       <React.Suspense fallback="...is loading">
         {
