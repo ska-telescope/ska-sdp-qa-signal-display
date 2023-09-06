@@ -23,6 +23,7 @@ out
 .env.production.local
 .eslintcache
 .idea
+public/env.js
 
 npm-debug.log*
 yarn-debug.log*

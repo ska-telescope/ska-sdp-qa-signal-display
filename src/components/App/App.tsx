@@ -6,6 +6,7 @@ import Container from '../Container/Container';
 import Loader from '../Loader/Loader';
 import { storageObject } from '../../services/stateStorage';
 import theme from '../../services/theme/theme';
+import { env } from '../../env'
 
 const HEADER_HEIGHT = 70;
 const FOOTER_HEIGHT = 70;
@@ -13,7 +14,7 @@ const FOOTER_HEIGHT = 70;
 function App() {
   const { t } = useTranslation('signalDisplay');
   const { themeMode, toggleTheme } = storageObject.useStore();
-  const version = process.env.VERSION;
+  const version = env.REACT_APP_VERSION;
 
   const skao = t('toolTip.button.skao');
   const mode = t('toolTip.button.mode');

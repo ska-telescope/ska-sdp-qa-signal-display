@@ -1,9 +1,9 @@
 .dockerignore
 .editorconfig
-.env
+.git
 .gitignore
 Dockerfile
-README.md
+Makefile
 node_modules
+README.md
 version
-.git

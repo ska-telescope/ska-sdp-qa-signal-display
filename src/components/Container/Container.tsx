@@ -1,10 +1,12 @@
 /* eslint-disable no-inner-declarations */
 /* eslint-disable react/jsx-no-bind */
+
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Button, ButtonColorTypes, DropDown, InfoCard } from '@ska-telescope/ska-gui-components';
+import { env } from '../../env'
 import { QASettings } from '../Settings/qaSettings';
 import Legend from '../Legend/Legend';
 import Polarization from '../Polarization/Polarization';
@@ -48,7 +50,7 @@ const Container = () => {
 
   const CONVERT = 1000;
   const WORKFLOW_STATISTICS_INTERVAL_SECONDS =
-    Number(process.env.REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS) * CONVERT;
+    Number(env.REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS) * CONVERT;
 
   // We have a delay to reduce screen flicker
   function resizeIncrement() {
@@ -169,8 +171,8 @@ const Container = () => {
 
   const limit = () =>
     subArrays && subArrays.length > 0
-      ? +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS
-      : +process.env.REACT_APP_SUBARRAY_REFRESH_SECONDS_FAST;
+      ? +env.REACT_APP_SUBARRAY_REFRESH_SECONDS
+      : +env.REACT_APP_SUBARRAY_REFRESH_SECONDS_FAST;
 
   React.useEffect(() => {
     setFetchConfig(true);

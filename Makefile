@@ -8,14 +8,6 @@ include .make/oci.mk
 docs-pre-build:
 	pip install -r docs/requirements.txt
 
-prod-build:
-	yarn webpack build \
-		--optimization-concatenate-modules \
-		--mode production \
-		--optimization-minimize \
-		--output-clean \
-		--output-path /dist/
-
 dev-run:
 	yarn start
 
@@ -25,7 +17,7 @@ build:
 run:
 	docker run \
 		--name signal-display --rm \
-		-p 3333:3333 -d \
+		-p 80:80 -d \
 		signal-display
 
 down:
