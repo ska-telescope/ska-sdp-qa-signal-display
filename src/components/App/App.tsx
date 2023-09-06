@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { CssBaseline, Grid, Paper, ThemeProvider, Typography } from '@mui/material';
 import { Footer, Header, Spacer, SPACER_VERTICAL } from '@ska-telescope/ska-gui-components';
 import Container from '../Container/Container';
+import Loader from '../Loader/Loader';
 import { storageObject } from '../../services/stateStorage';
 import theme from '../../services/theme/theme';
 import { env } from '../../env'
@@ -22,7 +23,7 @@ function App() {
   return (
     <ThemeProvider theme={theme(themeMode.mode)}>
       <CssBaseline enableColorScheme />
-      <React.Suspense fallback="...is loading">
+      <React.Suspense fallback={<Loader />}>
         {
           // Header container :
           // Even distribution of the children is built in
