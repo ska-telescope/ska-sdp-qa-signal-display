@@ -21,7 +21,7 @@ const LogLinks = ({ subArray }: LogLinksProps) => {
 
   React.useEffect( () => {
     const fetchData = async () => {
-      await fetch(`${DATA_API_URL}/log-urls/${subArray}`)
+      await fetch(`${DATA_API_URL}/config/log-urls/${subArray}/`)
       .then(response => response.json())
       .then(data => {
         setKibanaLink(data.kibana);
