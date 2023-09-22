@@ -399,7 +399,7 @@ const Container = () => {
                   )}
                 </Box>
                 <Box m={1}>
-                  <LogLinks subArray={subArray} config=config/>
+                  <LogLinks subArray={subArray} config={config} />
                 </Box>
               </Grid>
               <Grid item>
