@@ -5,9 +5,11 @@ import { DATA_API_URL } from '../../utils/constants';
 
 interface LogLinksProps {
     subArray: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    config: any;
 }
   
-const LogLinks = ({ subArray }: LogLinksProps) => {
+const LogLinks = ({ subArray, config }: LogLinksProps) => {
   const [kibanaLink, setKibanaLink] = React.useState('');
   const [grafanaLink, setGrafanaLink] = React.useState('');
 
@@ -21,7 +23,7 @@ const LogLinks = ({ subArray }: LogLinksProps) => {
 
   React.useEffect( () => {
     const fetchData = async () => {
-      await fetch(`${DATA_API_URL}/config/log-urls/${subArray}/`)
+      await fetch(`${DATA_API_URL }${config.paths.log_url}/${subArray}`)
       .then(response => response.json())
       .then(data => {
         setKibanaLink(data.kibana);
