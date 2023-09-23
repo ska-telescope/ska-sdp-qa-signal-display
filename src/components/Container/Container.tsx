@@ -16,6 +16,7 @@ import Spectrogram from '../Spectrogram/Spectrogram';
 import SpectrumPlot from '../SpectrumPlot/SpectrumPlot';
 import Statistics from '../Statistics/Statistics';
 import Socket from '../../services/webSocket/Socket';
+import LogLinks from '../LogLinks/LogLinks';
 
 import mockStatisticsProcessingBlock from '../../mockData/Statistics/processingBlock';
 import mockStatisticsReceiverEvents from '../../mockData/Statistics/receiverEvents';
@@ -396,6 +397,9 @@ const Container = () => {
                       message={displayError()}
                     />
                   )}
+                </Box>
+                <Box m={1}>
+                  <LogLinks subArray={subArray} config={config} />
                 </Box>
               </Grid>
               <Grid item>
