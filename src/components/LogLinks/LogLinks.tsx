@@ -11,7 +11,8 @@ interface LogLinksProps {
   
 const LogLinks = ({ subArray, config }: LogLinksProps) => {
   const [kibanaLink, setKibanaLink] = React.useState('');
-  const [grafanaLink, setGrafanaLink] = React.useState('');
+  const [grafanaSDPLink, setGrafanaSDPLink] = React.useState('');
+  const [grafanaPipelineLink, setGrafanaPipelineLink] = React.useState('');
 
   const openLink = (link) => {
     if (link === ''){
@@ -27,7 +28,8 @@ const LogLinks = ({ subArray, config }: LogLinksProps) => {
       .then(response => response.json())
       .then(data => {
         setKibanaLink(data.kibana);
-        setGrafanaLink(data.grafana);
+        setGrafanaSDPLink(data.grafana.sdp);
+        setGrafanaPipelineLink(data.grafana.pipeline);
       })
     .catch(() => null);
     }
@@ -40,7 +42,8 @@ const LogLinks = ({ subArray, config }: LogLinksProps) => {
   return (
     <Box>
       <Typography color="inherit">
-        <td onClick={()=> openLink(grafanaLink)}><u>Grafana Dashboard</u></td>
+        <td onClick={()=> openLink(grafanaSDPLink)}><u>Grafana SDP Dashboard</u></td>
+        <td onClick={()=> openLink(grafanaPipelineLink)}><u>Grafana Pipeline Dashboard</u></td>
         <br />
         <td onClick={()=> openLink(kibanaLink)}><u>Kibana Logs</u></td>
       </Typography>
