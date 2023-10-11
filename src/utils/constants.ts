@@ -71,8 +71,7 @@ export const SOCKET_STATUS = ['unknown', 'error', 'connected', 'local'];
 // Common URLs
 export const DATA_API_URL = env.REACT_APP_DATA_API_URL;
 
-export const DATA_LOCAL =
-  env.REACT_APP_USE_LOCAL_DATA === true || env.REACT_APP_USE_LOCAL_DATA === 'true';
+export const DATA_LOCAL = env.REACT_APP_USE_LOCAL_DATA === 'true';
 
 const processAPI = env.REACT_APP_WS_API
   ? env.REACT_APP_WS_API
