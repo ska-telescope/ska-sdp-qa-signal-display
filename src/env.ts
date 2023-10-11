@@ -15,4 +15,8 @@ declare global {
     REACT_APP_VERSION: string,
     REACT_APP_USE_LOCAL_DATA: string,
   }
-  export const env: EnvType = { ...process.env, ...window.env }
+  export const env: EnvType = {
+    ...process.env,
+    ...window.env,
+    ...(typeof Cypress !== 'undefined' ? Cypress.env() : {})
+  };
