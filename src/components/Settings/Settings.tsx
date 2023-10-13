@@ -113,6 +113,10 @@ export default function Settings({
           {headerRow(t('label.spectrograms'), 'h6')}
 
           {basicRow('label.spectrograms', 'showSpectrograms')}
+
+          {headerRow(t('label.lagplots'), 'h6')}
+
+          {basicRow('label.lagplots', 'showLagPlots')}
         </Grid>
       </Box>
     </Drawer>
