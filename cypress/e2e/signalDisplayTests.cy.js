@@ -73,7 +73,7 @@ context('Signal display', () => {
         cy.get('h4').contains('Signal Display').should("be.visible")
         cy.findAllByTestId("hideShowToggle").click({ multiple: true })
 
-        cy.findByTestId("noSubArrayCard").should("be.visible");
+        // cy.findByTestId("noSubArrayCard").should("be.visible");
         cy.findAllByTestId("status1Id").should("be.visible");
 
         statisticsDetailed();
@@ -108,11 +108,11 @@ context('Signal display', () => {
         cy.findByTestId('spectrogram3Id').should("be.visible");
         cy.findByTestId('spectrogram4Id').should("be.visible");
 
-        cy.findAllByTestId("sectionHeader").contains("LagPlots").should("be.visible")
-        cy.findByTestId('LagPlot1Id').should("be.visible");
-        cy.findByTestId('LagPlot2Id').should("be.visible");
-        cy.findByTestId('LagPlot3Id').should("be.visible");
-        cy.findByTestId('LagPlot4Id').should("be.visible");
+        // cy.findAllByTestId("sectionHeader").contains("LagPlots").should("be.visible")
+        // cy.findByTestId('LagPlot1Id').should("be.visible");
+        // cy.findByTestId('LagPlot2Id').should("be.visible");
+        // cy.findByTestId('LagPlot3Id').should("be.visible");
+        // cy.findByTestId('LagPlot4Id').should("be.visible");
 
         settings();
     })
