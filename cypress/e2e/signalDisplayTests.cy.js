@@ -51,6 +51,7 @@ function settings() {
     cy.findAllByTestId("showPolarizationPhaseYXButtonTestId").should("be.visible").click();
     cy.findAllByTestId("showPolarizationPhaseYYButtonTestId").should("be.visible").click();
     cy.findAllByTestId("showSpectrogramsButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showLagPlotsButtonTestId").should("be.visible").click();
 }
 
 context('Signal display', () => {
@@ -106,6 +107,12 @@ context('Signal display', () => {
         cy.findByTestId('spectrogram2Id').should("be.visible");
         cy.findByTestId('spectrogram3Id').should("be.visible");
         cy.findByTestId('spectrogram4Id').should("be.visible");
+
+        cy.findAllByTestId("sectionHeader").contains("LagPlots").should("be.visible")
+        cy.findByTestId('LagPlot1Id').should("be.visible");
+        cy.findByTestId('LagPlot2Id').should("be.visible");
+        cy.findByTestId('LagPlot3Id').should("be.visible");
+        cy.findByTestId('LagPlot4Id').should("be.visible");
 
         settings();
     })
