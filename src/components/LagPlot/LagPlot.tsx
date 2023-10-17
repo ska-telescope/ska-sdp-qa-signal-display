@@ -102,15 +102,15 @@ const LagPlot = ({ config, legend, displaySettings }: LagPlotProps) => {
           </Card>
         </SKAOModal>
       )}
-      {displaySettings.showSpectrograms && (
+      {displaySettings.showLagPlots && (
         <SignalCard
-          data-testId="chloe2"
+          data-testId="jacob2"
           title={t('label.lagplots')}
           showContent={showContent}
           setShowContent={showToggle}
         >
           <>
-            <Grid data-testid="chloe5" container direction="row" justifyContent="space-evenly">
+            <Grid data-testid="jacob5" container direction="row" justifyContent="space-evenly">
               {DATA_LOCAL && (
                 <>
                   <Grid data-testid="LagPlot1Id" item>
