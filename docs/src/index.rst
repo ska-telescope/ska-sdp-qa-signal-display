@@ -11,3 +11,5 @@ The `ska-sdp-qa-display` repository contains the code to present the charting av
    GettingStarted
    References
    Structure
+   ExternalLinks
+   Graphs

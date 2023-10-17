@@ -1,0 +1,29 @@
+#Dependencies to resolve security vulnerabilities
+python = "^3.10"
+cryptography = "41.0.1"
+urllib3 = "2.0.3"
+
+[tool.poetry]
+name = "ska-sdp-qa-display"
+version = "0.12.0"
+description = "Signal Display frontend"
+authors = ["NALEDI <naledi@sarao.ac.za>"]
+license = "BSD-3-Clause"
+packages = []
+
+[[tool.poetry.source]]
+name = 'ska-nexus'
+url = 'https://artefact.skao.int/repository/pypi-internal/simple'
+secondary = true
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "6.2.1"
+ska-ser-sphinx-theme = "0.1.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+

@@ -5,9 +5,6 @@ include .make/oci.mk
 
 .PHONY: build run shell prod-build dev-run down logs
 
-docs-pre-build:
-	pip install -r docs/requirements.txt
-
 dev-run:
 	yarn start
 
