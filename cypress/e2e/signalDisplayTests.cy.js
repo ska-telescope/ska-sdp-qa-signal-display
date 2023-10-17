@@ -108,11 +108,11 @@ context('Signal display', () => {
         cy.findByTestId('spectrogram3Id').should("be.visible");
         cy.findByTestId('spectrogram4Id').should("be.visible");
 
-        // cy.findAllByTestId("sectionHeader").contains("Lag Plots").should("be.visible")
-        // cy.findByTestId('LagPlot1Id').should("be.visible");
-        // cy.findByTestId('LagPlot2Id').should("be.visible");
-        // cy.findByTestId('LagPlot3Id').should("be.visible");
-        // cy.findByTestId('LagPlot4Id').should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Lag Plots").should("be.visible")
+        cy.findByTestId('LagPlot1Id').should("be.visible");
+        cy.findByTestId('LagPlot2Id').should("be.visible");
+        cy.findByTestId('LagPlot3Id').should("be.visible");
+        cy.findByTestId('LagPlot4Id').should("be.visible");
 
         settings();
     })
