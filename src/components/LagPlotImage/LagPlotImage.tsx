@@ -14,8 +14,8 @@ interface LagPlotImageProps {
 
 const FULL = 'full_image';
 const THUMBNAIL = 'thumbnail';
-const MOCK_FULL = '/static/images/mock/full.png';
-const MOCK_THUMBNAIL = '/static/images/mock/thumbnail.png';
+const MOCK_FULL = '/static/images/mock/lag_plot_full.png';
+const MOCK_THUMBNAIL = '/static/images/mock/lag_plot_thumbnail.png';
 
 const LagPlotImage = ({ element, full, onClick, config }: LagPlotImageProps) => {
   function getImageFULL(item: string) {
