@@ -32,5 +32,7 @@ export const QASettings = {
   showPolarizationPhaseYXaxisY: phaseAxisY[0],
   showPolarizationPhaseYYaxisY: phaseAxisY[0],
   //
-  showSpectrograms: true
+  showSpectrograms: true,
+  //
+  showLagPlots: true
 };

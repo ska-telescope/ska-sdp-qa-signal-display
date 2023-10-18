@@ -16,6 +16,7 @@ import Spectrogram from '../Spectrogram/Spectrogram';
 import SpectrumPlot from '../SpectrumPlot/SpectrumPlot';
 import Statistics from '../Statistics/Statistics';
 import Socket from '../../services/webSocket/Socket';
+import LagPlot from '../LagPlot/LagPlot';
 import LogLinks from '../LogLinks/LogLinks';
 
 import mockStatisticsProcessingBlock from '../../mockData/Statistics/processingBlock';
@@ -85,7 +86,8 @@ const Container = () => {
     displaySettings.showPolarizationPhaseXY ||
     displaySettings.showPolarizationPhaseYX ||
     displaySettings.showPolarizationPhaseYY ||
-    displaySettings.showSpectrograms;
+    displaySettings.showSpectrograms ||
+    displaySettings.showLagPlots;
 
   const settingsClick = () => {
     setOpenSettings(o => !o);
@@ -473,6 +475,7 @@ const Container = () => {
         />
       ))}
       <Spectrogram config={config} legend={legendData} displaySettings={displaySettings} />
+      <LagPlot config={config} legend={legendData} displaySettings={displaySettings}/>
     </>
   );
 };
