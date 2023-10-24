@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Grid, Card, CardHeader, CardContent } from '@mui/material';
 import { DATA_API_URL } from '../../utils/constants';
 
 
@@ -9,18 +9,41 @@ interface LogLinksProps {
     config: any;
 }
   
+interface LogLink{
+  link: string; 
+  title: string; 
+  description: string;
+}
+
+const LinkElement = ({link, title, description}: LogLink) => {
+  const openLink = (navLink) => {
+    if (navLink === ''){
+      alert('Logs Unavailable');
+    } else {
+      window.open(navLink, "_blank");
+    }
+  }
+
+  return (
+    <Grid item xs={12} sm={6} md={4} onClick={()=> openLink(link)}>
+      <Card style={{ backgroundColor: 'primary' }} variant="outlined">
+        <CardHeader title={title} />
+        <CardContent>
+          <Typography variant="body1" component="div">
+            <Typography variant="body1" component="div">
+              {description}
+            </Typography>
+          </Typography>
+        </CardContent>
+      </Card>
+    </Grid>
+  )
+}
+
 const LogLinks = ({ subArray, config }: LogLinksProps) => {
   const [kibanaLink, setKibanaLink] = React.useState('');
   const [grafanaSDPLink, setGrafanaSDPLink] = React.useState('');
   const [grafanaPipelineLink, setGrafanaPipelineLink] = React.useState('');
-
-  const openLink = (link) => {
-    if (link === ''){
-      alert('Logs Unavailable');
-    } else {
-      window.open(link, "_blank");
-    }
-  }
 
   React.useEffect( () => {
     const fetchData = async () => {
@@ -38,16 +61,28 @@ const LogLinks = ({ subArray, config }: LogLinksProps) => {
     }
 
   },[subArray])
-
+ 
   return (
     <Box>
-      <Typography color="inherit">
-        <td onClick={()=> openLink(grafanaSDPLink)}><u>Grafana SDP Dashboard</u></td>
-        <td onClick={()=> openLink(grafanaPipelineLink)}><u>Grafana Pipeline Dashboard</u></td>
-        <br />
-        <td onClick={()=> openLink(kibanaLink)}><u>Kibana Logs</u></td>
-      </Typography>
+      <Grid container direction="row" justifyContent="space-evenly" spacing={6}>
+        <LinkElement 
+          link={grafanaSDPLink} 
+          title="SDP Control" 
+          description="The grafana dashboard shows the current resource usage of the kubernetes namespace the SDP Control is deployed in." 
+        />
+        <LinkElement 
+          link={grafanaPipelineLink} 
+          title="SDP Pipeline" 
+          description="The grafana dashboard shows the current resource usage of the kubernetes namespace the SDP Workflow Pipeline is deployed in." 
+        />
+        <LinkElement 
+          link={kibanaLink} 
+          title="SDP Logs" 
+          description="View the system logs, filtered to both the SDP Control system as well as the SDP Workflow Pipeline." 
+        />
+      </Grid>
     </Box>
   );
 };
 export default LogLinks;
+
