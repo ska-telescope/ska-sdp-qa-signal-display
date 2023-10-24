@@ -68,17 +68,17 @@ const LogLinks = ({ subArray, config }: LogLinksProps) => {
         <LinkElement 
           link={grafanaSDPLink} 
           title="SDP Control" 
-          description="The grafana dashboard shows the current status of the SDP Control." 
+          description="The grafana dashboard shows the current resource usage of the kubernetes namespace the SDP Control is deployed in." 
         />
         <LinkElement 
           link={grafanaPipelineLink} 
           title="SDP Pipeline" 
-          description="The grafana dashboard shows the current status of the SDP Workflow Pipeline." 
+          description="The grafana dashboard shows the current resource usage of the kubernetes namespace the SDP Workflow Pipeline is deployed in." 
         />
         <LinkElement 
           link={kibanaLink} 
           title="SDP Logs" 
-          description="View system the logs filtered to both the SDP Control system as well as the SDP Workflow Pipeline." 
+          description="View the system logs, filtered to both the SDP Control system as well as the SDP Workflow Pipeline." 
         />
       </Grid>
     </Box>
