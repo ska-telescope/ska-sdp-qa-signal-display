@@ -1,7 +1,8 @@
 Available Graphs
 ================
 
-There are quite a few different graphs available. Descriptions of each and how they respond follows.
+The signal display provides a number of key visualisations of the data. Descriptions of each and 
+how they respond follows.
 
 Spectrum
 ----------
