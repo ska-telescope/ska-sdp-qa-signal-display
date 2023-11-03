@@ -79,10 +79,6 @@ Open [http://localhost:3333](http://localhost:3333) to view the UI in a browser.
 │   ├── models                          /* different data models */
 │   ├── services
 │   │   └── i18n                        /* Internationalization */
-│   │   └── redux-telescope             /* Local Storage and types for telescope, Not to be accessed directly */
-│   │   └── redux-theme                 /* Local Storage and types for theme, Not to be accessed directly */
-│   │   └── redux-user                  /* Local Storage and types for user, Not to be accessed directly */
-│   │   └── stateStorage                /* Provides access for the application to all redux-xxxx services */
 │   │   └── theme                       /* Material-UI Theme */
 │   ├── types
 │   └── utils

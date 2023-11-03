@@ -375,7 +375,7 @@ const Container = () => {
         />
         <Grid container direction="row" gap={2} justifyContent="space-between">
           <Grid item xs={6}>
-            <Grid container direction="row" gap={2} justifyContent="justify-left">
+            <Grid container direction="column" gap={2} justifyContent="justify-left">
               <Grid item>
                 <Box m={1}>
                   {subArrays && (
@@ -399,9 +399,6 @@ const Container = () => {
                       message={displayError()}
                     />
                   )}
-                </Box>
-                <Box m={1}>
-                  <LogLinks subArray={subArray} config={config} />
                 </Box>
               </Grid>
               <Grid item>
@@ -433,7 +430,7 @@ const Container = () => {
           </Grid>
         </Grid>
       </Box>
-
+      <LogLinks subArray={subArray} config={config} />
       <Statistics
         processingBlockStatisticsData={processingBlockStatisticsData}
         receiverEventsData={receiverEventsData}
@@ -475,7 +472,7 @@ const Container = () => {
         />
       ))}
       <Spectrogram config={config} legend={legendData} displaySettings={displaySettings} />
-      <LagPlot config={config} legend={legendData} displaySettings={displaySettings}/>
+      <LagPlot config={config} legend={legendData} displaySettings={displaySettings} />
     </>
   );
 };

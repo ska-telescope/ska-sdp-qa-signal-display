@@ -6,10 +6,10 @@ import { useTranslation } from 'react-i18next';
 
 import { Box, Grid } from '@mui/material';
 import { InfoCard } from '@ska-telescope/ska-gui-components';
+import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
 import YAxisToggle from '../YAxisToggle/YAxisToggle';
-import { storageObject } from '../../services/stateStorage';
 import { COLOR } from '../../utils/constants';
 import {
   calculateChannels,
