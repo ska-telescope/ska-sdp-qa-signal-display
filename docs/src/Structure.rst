@@ -25,10 +25,6 @@ Project Structure
 | │   │   └── **** 
 | │   ├── services
 | │   │   └── i18n                        
-| │   │   └── redux-telescope             
-| │   │   └── redux-theme                
-| │   │   └── redux-user                
-| │   │   └── stateStorage               
 | │   │   └── theme                    
 | │   └── utils
 | │       └── constants.ts

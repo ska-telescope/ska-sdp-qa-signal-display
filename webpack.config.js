@@ -113,6 +113,10 @@ module.exports = () => {
             requiredVersion: deps['@ska-telescope/ska-gui-components'],
             eager: true
           },
+          '@ska-telescope/ska-gui-local-storage': {
+            requiredVersion: deps['@ska-telescope/ska-gui-local-storage'],
+            eager: true
+          },
           // mixture
           'react-plotly.js': { singleton: true, requiredVersion: deps['react-plotly.js'], eager: true },
           '@emotion/react': { singleton: true, requiredVersion: deps['@emotion/react'], eager: true },
