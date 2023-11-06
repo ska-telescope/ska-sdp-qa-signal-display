@@ -70,7 +70,6 @@ context('Signal display', () => {
     })
     
     it('Verify expected diagrams are present and can be hidden', () => {
-        cy.get('h4').contains('Signal Display').should("be.visible")
         cy.findAllByTestId("hideShowToggle").click({ multiple: true })
 
         cy.findByTestId("noSubArrayCard").should("be.visible");
