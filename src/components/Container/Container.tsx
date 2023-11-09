@@ -18,6 +18,7 @@ import Statistics from '../Statistics/Statistics';
 import Socket from '../../services/webSocket/Socket';
 import LagPlot from '../LagPlot/LagPlot';
 import LogLinks from '../LogLinks/LogLinks';
+import InfoModal from '../InfoModal/InfoModal';
 
 import mockStatisticsProcessingBlock from '../../mockData/Statistics/processingBlock';
 import mockStatisticsReceiverEvents from '../../mockData/Statistics/receiverEvents';
@@ -436,6 +437,10 @@ const Container = () => {
         receiverEventsData={receiverEventsData}
         displaySettings={displaySettings}
       />
+      {<InfoModal 
+        title={t('modalInfo.spectrumPlot.title')} 
+        content={t('modalInfo.spectrumPlot.content')} 
+        site={t('modalInfo.spectrumPlot.site')}/>}
       {items.map(item => (
         <SpectrumPlot
           key={`SpectrumPlot${item}`}
@@ -458,6 +463,10 @@ const Container = () => {
           poleUpdate={poleOnClick}
         />
       )}
+      {<InfoModal 
+        title={t('modalInfo.amplitudePhase.title')} 
+        content={t('modalInfo.amplitudePhase.content')} 
+        site={t('modalInfo.amplitudePhase.site')}/>}
       {items.map(item => (
         <Polarization
           key={`Polarization${item}`}
@@ -471,7 +480,15 @@ const Container = () => {
           legend={legendData}
         />
       ))}
+      {<InfoModal 
+        title={t('modalInfo.spectrograms.title')} 
+        content={t('modalInfo.spectrograms.content')} 
+        site={t('modalInfo.spectrograms.site')}/>}
       <Spectrogram config={config} legend={legendData} displaySettings={displaySettings} />
+      {<InfoModal 
+        title={t('modalInfo.lagPlots.title')} 
+        content={t('modalInfo.lagPlots.content')} 
+        site={t('modalInfo.lagPlots.site')}/>}
       <LagPlot config={config} legend={legendData} displaySettings={displaySettings} />
     </>
   );
