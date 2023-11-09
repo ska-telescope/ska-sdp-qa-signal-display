@@ -98,5 +98,27 @@
     "phase": "m",
     "radians": "radians",
     "totalDataReceived": "MB"
+  },
+  "modalInfo": {
+    "spectrumPlot": {
+      "title": "",
+      "content": ""
+    },
+    "polarisationAmplitude": {
+      "title": "",
+      "content": ""
+    },
+    "polarisationPhase": {
+      "title": "",
+      "content": ""
+    },
+    "spectrograms": {
+      "title": "",
+      "content": ""
+    },
+    "lagPlots": {
+      "title": "",
+      "content": ""
+    }
   }
 }
