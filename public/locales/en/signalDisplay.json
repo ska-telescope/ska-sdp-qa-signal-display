@@ -101,24 +101,24 @@
   },
   "modalInfo": {
     "spectrumPlot": {
-      "title": "",
-      "content": ""
+      "title": "Spectrum Plot",
+      "content": "For each polarisation, we present the mean autospectrum averaged over all channels and baselines. This is the broad continuum spectrum of the source. For more information, see the ReadTheDocs page."
     },
     "polarisationAmplitude": {
-      "title": "",
-      "content": ""
+      "title": "Polarisation/Amplitude",
+      "content": "For each baseline and polarisation, a plot of the amplitude of the visibility spectrum is displayed. This provides information about whether a source has been resolved. For more information, see the ReadTheDocs page."
     },
     "polarisationPhase": {
-      "title": "",
-      "content": ""
+      "title": "Polarisation/Phase",
+      "content": "For each baseline and polarisation, a plot of the phase of the visibility spectrum is displayed. This provides information about the source's offset from the phase centre. For more information, see the ReadTheDocs page."
     },
     "spectrograms": {
-      "title": "",
-      "content": ""
+      "title": "Spectrograms",
+      "content": "For each baseline and polarisation, we present a waterfall plot of the phases of the visibilities as a function of frequency. A flat spectrum of phases is synonomous with zero residual delay. For more information, see the ReadTheDocs page."
     },
     "lagPlots": {
-      "title": "",
-      "content": ""
+      "title": "Lag Plots",
+      "content": "For each baseline and polarisation, we present a waterfall plot of the inverse Fast Fourier Transform of the visibility spectrum. This is the cross correlation power as a function of lag and any residual delay manifests itself in a shift of the peak from zero. For more information, see the ReadTheDocs page."
     }
   }
 }
