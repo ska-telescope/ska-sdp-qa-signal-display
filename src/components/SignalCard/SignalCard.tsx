@@ -22,7 +22,7 @@ const SignalCard = ({
   socketStatus,
   title,
   showContent,
-  setShowContent
+  setShowContent,
 }: SignalCardProps) => {
   const { t } = useTranslation('signalDisplay');
 
@@ -61,7 +61,7 @@ const SignalCard = ({
                 sx={{ '&:hover': { backgroundColor: 'primary.dark' }, ml: 1 }}
                 onClick={handleToggle}
                 color={ButtonColorTypes.Inherit}
-              >
+              > 
                 {showContent ? <Visibility /> : <VisibilityOff />}
               </IconButton>
             </Tooltip>
