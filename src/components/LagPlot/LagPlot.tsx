@@ -108,6 +108,10 @@ const LagPlot = ({ config, legend, displaySettings }: LagPlotProps) => {
           title={t('label.lagplots')}
           showContent={showContent}
           setShowContent={showToggle}
+          showInfoModal='true'
+          infoTitle={t('modalInfo.lagPlot.title')}
+          infoContent={t('modalInfo.lagPlot.content')}
+          infoSite={t('modalInfo.lagPlot.site')}
         >
           <>
             <Grid data-testid="jacob5" container direction="row" justifyContent="space-evenly">

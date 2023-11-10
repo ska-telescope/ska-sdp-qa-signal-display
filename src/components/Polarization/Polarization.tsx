@@ -193,6 +193,10 @@ const Polarization = ({
             socketStatus={socketStatus}
             showContent={showContent}
             setShowContent={showToggle}
+            showInfoModal='true'
+            infoTitle={t('modalInfo.amplitudePlot.title')}
+            infoContent={t('modalInfo.amplitudePlot.content')}
+            infoSite={t('modalInfo.amplitudePlot.site')}
           >
             <Grid container direction="row" justifyContent="space-between">
               <Grid data-testid="chartData1Content" item md={6} xs={12}>
@@ -230,6 +234,10 @@ const Polarization = ({
             socketStatus={socketStatus}
             showContent={showContent}
             setShowContent={showToggle}
+            showInfoModal='true'
+            infoTitle={t('modalInfo.phasePlot.title')}
+            infoContent={t('modalInfo.phasePlot.content')}
+            infoSite={t('modalInfo.phasePlot.site')}
           >
             <Grid container direction="row" justifyContent="space-between">
               <Grid data-testid="chartData2Content" item md={6} xs={12}>
