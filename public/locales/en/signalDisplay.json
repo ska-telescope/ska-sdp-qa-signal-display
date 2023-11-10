@@ -105,9 +105,14 @@
       "content": "For each polarisation, we present the mean autospectrum averaged over all channels and baselines. This is the broad continuum spectrum of the source.",
       "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#spectrum"
     },
-    "amplitudePhase": {
+    "amplitudePlot": {
       "title": "Power vs Phase",
-      "content": "For each baseline and polarisation, a plot of the amplitude of the visibility spectrum is displayed. This provides information about whether a source has been resolved. Plots of the phase of the visibility spectrum are also displayed. This provides information about the source's offset from the phase centre.",
+      "content": "For each baseline and polarisation, a plot of the amplitude of the visibility spectrum is displayed. This provides information about whether a source has been resolved.",
+      "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#power-vs-phase"
+    },
+    "phasePlot": {
+      "title": "Power vs Phase",
+      "content": "For each baseline and polarisation, a plot of the phase of the visibility spectrum is displayed. This provides information about the source's offset from the phase centre.",
       "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#power-vs-phase"
     },
     "spectrograms": {
