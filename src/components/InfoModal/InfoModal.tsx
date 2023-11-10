@@ -31,13 +31,13 @@ export default function InfoModal({title, content, site}: InfoModalProps) {
 
   return (
     <div>
-      <IconButton onClick={handleOpen}><InfoOutlinedIcon/></IconButton>
+      <IconButton onClick={handleOpen} data-testid="test-info-modal"><InfoOutlinedIcon/></IconButton>
       <SKAOModal
         open={open}
         onClose={handleClose}
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography id="modal-modal-title" variant="h6" component="h2" data-testid='test-info-modal-header'>
             {title}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
