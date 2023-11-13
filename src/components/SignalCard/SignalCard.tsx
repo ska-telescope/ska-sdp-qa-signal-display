@@ -5,6 +5,7 @@ import { Box, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { Alert, ButtonColorTypes } from '@ska-telescope/ska-gui-components';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { SOCKET_STATUS } from '../../utils/constants';
+import InfoModal from '../InfoModal/InfoModal';
 
 export interface SignalCardProps {
   children?: JSX.Element;
@@ -14,6 +15,10 @@ export interface SignalCardProps {
   showContent: boolean;
   // eslint-disable-next-line @typescript-eslint/ban-types
   setShowContent: Function;
+  showInfoModal?: string
+  infoTitle?: string
+  infoContent?: string
+  infoSite?: string
 }
 
 const SignalCard = ({
@@ -22,7 +27,11 @@ const SignalCard = ({
   socketStatus,
   title,
   showContent,
-  setShowContent
+  setShowContent,
+  showInfoModal,
+  infoTitle,
+  infoContent,
+  infoSite
 }: SignalCardProps) => {
   const { t } = useTranslation('signalDisplay');
 
@@ -54,6 +63,9 @@ const SignalCard = ({
         <Grid container spacing={0} justifyContent="justify-right">
           {action && <Grid item>{action}</Grid>}
           <Grid item>
+            {showInfoModal === 'true' && <InfoModal title={infoTitle} content={infoContent} site={infoSite}/>}
+          </Grid>
+          <Grid item>
             <Tooltip title={t('label.settings')}>
               <IconButton
                 aria-label={t('label.settings')}
@@ -61,7 +73,7 @@ const SignalCard = ({
                 sx={{ '&:hover': { backgroundColor: 'primary.dark' }, ml: 1 }}
                 onClick={handleToggle}
                 color={ButtonColorTypes.Inherit}
-              >
+              > 
                 {showContent ? <Visibility /> : <VisibilityOff />}
               </IconButton>
             </Tooltip>

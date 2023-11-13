@@ -115,4 +115,8 @@ context('Signal display', () => {
 
         settings();
     })
+
+    it("Verify modals operate as expected", () => {
+        cy.findAllByTestId('test-info-modal').should("be.visible").click({ multiple: true , force: true })
+    })
 })

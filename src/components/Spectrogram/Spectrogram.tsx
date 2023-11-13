@@ -107,6 +107,10 @@ const Spectrogram = ({ config, legend, displaySettings }: SpectrogramProps) => {
           title={t('label.spectrograms')}
           showContent={showContent}
           setShowContent={showToggle}
+          showInfoModal='true'
+          infoTitle={t('modalInfo.spectrogram.title')}
+          infoContent={t('modalInfo.spectrogram.content')}
+          infoSite={t('modalInfo.spectrogram.site')}
         >
           <>
             <Grid data-testid="chloe5" container direction="row" justifyContent="space-evenly">

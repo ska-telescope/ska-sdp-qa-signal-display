@@ -161,6 +161,10 @@ const SpectrumPlot = ({
           socketStatus={socketStatus}
           showContent={showContent}
           setShowContent={showToggle}
+          showInfoModal='true'
+          infoTitle={t('modalInfo.spectrumPlot.title')}
+          infoContent={t('modalInfo.spectrumPlot.content')}
+          infoSite={t('modalInfo.spectrumPlot.site')}
         >
           <Plotly
             darkMode={darkMode}
