@@ -115,12 +115,12 @@
       "content": "For each baseline and polarisation, a plot of the phase of the visibility spectrum is displayed. This provides information about the source's offset from the phase centre.",
       "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#power-vs-phase"
     },
-    "spectrograms": {
+    "spectrogram": {
       "title": "Spectrograms",
       "content": "For each baseline and polarisation, we present a waterfall plot of the phases of the visibilities as a function of frequency. A flat spectrum of phases is synonomous with zero residual delay.",
       "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#spectrum-waterfall"
     },
-    "lagPlots": {
+    "lagPlot": {
       "title": "Lag Plots",
       "content": "For each baseline and polarisation, we present a waterfall plot of the inverse Fast Fourier Transform of the visibility spectrum. This is the cross correlation power as a function of lag and any residual delay manifests itself in a shift of the peak from zero.",
       "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#cross-correlation-power-vs-time-lag"
