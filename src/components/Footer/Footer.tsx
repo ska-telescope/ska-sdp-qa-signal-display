@@ -2,8 +2,6 @@ import React from 'react';
 import {Footer} from '@ska-telescope/ska-gui-components';
 import { Grid, Typography } from '@mui/material';
 
-/* tslint:disable:no-empty */
-
 
 interface SKAOFooterProps {
     version: string
@@ -16,6 +14,7 @@ const SKAOFooter = ({version, config}: SKAOFooterProps) => {
     let apiVersionNumber = "API Version Number: API Unreachable"
 
     React.useEffect(() => {
+      /* tslint:disable:no-empty */
         if (config === null) {
           return;
         }
