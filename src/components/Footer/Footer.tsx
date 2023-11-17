@@ -11,7 +11,7 @@ interface SKAOFooterProps {
 
 const SKAOFooter = ({version, config}: SKAOFooterProps) => {
 
-    var api_version_number = "API Version Number: API Unreachable"
+    let apiVersionNumber = "API Version Number: API Unreachable"
 
     React.useEffect(() => {
         if (config === null) {
@@ -20,16 +20,16 @@ const SKAOFooter = ({version, config}: SKAOFooterProps) => {
     }, [config]);
 
     if (config != null) {
-        api_version_number = `API Version Number: ${config.app_version}`
+        apiVersionNumber = `API Version Number: ${config.app_version}`
     }
 
     return (
-        <Footer testId="footerId" version={version}>
-          <Grid item>
-          <Typography variant='body1'>{api_version_number}</Typography>
-          </Grid>
-          <Grid/>
-        </Footer>
+      <Footer testId="footerId" version={version}>
+        <Grid item>
+          <Typography variant='body1'>{apiVersionNumber}</Typography>
+        </Grid>
+        <Grid />
+      </Footer>
         )
     }
 

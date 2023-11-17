@@ -63,7 +63,7 @@ const SignalCard = ({
         <Grid container spacing={0} justifyContent="justify-right">
           {action && <Grid item>{action}</Grid>}
           <Grid item>
-            {showInfoModal === 'true' && <InfoModal title={infoTitle} content={infoContent} site={infoSite}/>}
+            {showInfoModal === 'true' && <InfoModal title={infoTitle} content={infoContent} site={infoSite} />}
           </Grid>
           <Grid item>
             <Tooltip title={t('label.settings')}>

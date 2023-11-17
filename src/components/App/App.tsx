@@ -37,10 +37,10 @@ function App() {
         />
         <Paper>
           <Spacer size={HEADER_HEIGHT} axis={SPACER_VERTICAL} />
-          <Container data-testid="containerId" childToParent={childToParent}/>
+          <Container data-testid="containerId" childToParent={childToParent} />
           <Spacer size={FOOTER_HEIGHT} axis={SPACER_VERTICAL} />
         </Paper>
-        <SKAOFooter data-testid="footerId" version={version} config={data}/>
+        <SKAOFooter data-testid="footerId" version={version} config={data} />
       </React.Suspense>
     </ThemeProvider>
   );
