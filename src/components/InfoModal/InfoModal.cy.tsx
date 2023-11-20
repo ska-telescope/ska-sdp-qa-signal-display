@@ -15,7 +15,7 @@ describe('<InfoModal />', () => {
       cy.mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
-          <InfoModal title="dummy" content="dummy" site="dummy"/>
+          <InfoModal title="dummy" content="dummy" site="dummy" />
         </ThemeProvider>
       );
     });

@@ -27,7 +27,7 @@ import { COLOR, DATA_API_URL, DATA_LOCAL, SOCKET_STATUS, WS_API_URL } from '../.
 
 const items = ['XX', 'XY', 'YX', 'YY'];
 
-const Container = () => {
+const Container = ({ childToParent }) => {
   const { t } = useTranslation('signalDisplay');
 
   const [redraw, setRedraw] = React.useState(false);
@@ -234,6 +234,10 @@ const Container = () => {
       retrieveReceiverEventData();
     }
   }, [config]);
+
+  React.useEffect(() => {
+    childToParent(config);
+  }, [config, childToParent]);
 
   React.useEffect(() => {
     if (fetchSubArrayList === false) {
