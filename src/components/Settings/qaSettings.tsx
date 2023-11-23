@@ -14,6 +14,8 @@ export const QASettings = {
   showSpectrumPlotYXaxisY: amplitudeAxisY[0],
   showSpectrumPlotYYaxisY: amplitudeAxisY[0],
   //
+  gridView: true,
+  //
   showPolarizationAmplitudeXX: true,
   showPolarizationAmplitudeXY: true,
   showPolarizationAmplitudeYX: true,
