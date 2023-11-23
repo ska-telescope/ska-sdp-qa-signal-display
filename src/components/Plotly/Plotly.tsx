@@ -41,7 +41,8 @@ const Plotly = ({
         title: yLabel,
         color: darkMode ? 'white' : 'black',
         automargin: true
-      }
+      },
+      margin:{t:25, r:0}
     }}
   />
 );
