@@ -368,6 +368,15 @@ const Container = ({ childToParent }) => {
     }
   };
 
+  const gridWidth = () => {
+    if (displaySettings.gridView) {
+      return 6
+    } else{
+      return 12
+    }
+
+  }
+
   return (
     <>
       <Box m={0}>
@@ -440,7 +449,9 @@ const Container = ({ childToParent }) => {
         receiverEventsData={receiverEventsData}
         displaySettings={displaySettings}
       />
+      <Grid container>
       {items.map(item => (
+        <Grid item xs={gridWidth()}>
         <SpectrumPlot
           key={`SpectrumPlot${item}`}
           polarization={item}
@@ -451,7 +462,9 @@ const Container = ({ childToParent }) => {
           displaySettings={displaySettings}
           data={chartData2}
         />
+        </Grid>
       ))}
+      </Grid>
       {showLegend() && (
         <Legend
           resize={refresh}

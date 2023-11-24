@@ -57,7 +57,11 @@ const SpectrumPlot = ({
 
   function parentWidth() {
     // TODO : Make this responsive
-    return 1400;
+    if (displaySettings.gridView) {
+    return 700;
+    } else {
+      return 1400
+    }
   }
 
   function calculateYData(inData: any) {
