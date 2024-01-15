@@ -10,6 +10,7 @@ import { env } from '../../env'
 import { QASettings } from '../Settings/qaSettings';
 import Legend from '../Legend/Legend';
 import Polarization from '../Polarization/Polarization';
+import PointingOffsets from '../PointingOffsets/PointingOffsets';
 import Settings from '../Settings/Settings';
 import Summary from '../Summary/Summary';
 import Spectrogram from '../Spectrogram/Spectrogram';
@@ -23,9 +24,11 @@ import mockStatisticsProcessingBlock from '../../mockData/Statistics/processingB
 import mockStatisticsReceiverEvents from '../../mockData/Statistics/receiverEvents';
 import PhaseData from '../../mockData/WebSocket/phase.json';
 import PlotData from '../../mockData/WebSocket/spectrum.json';
+import pointingOffsetData from '../../mockData/WebSocket/pointingOffsets.json'
 import { COLOR, DATA_API_URL, DATA_LOCAL, SOCKET_STATUS, WS_API_URL } from '../../utils/constants';
 
 const items = ['XX', 'XY', 'YX', 'YY'];
+const offsets = ['cross', 'elevation', 'expectedH', 'expectedV', 'tolerance', 'height']
 
 const Container = ({ childToParent }) => {
   const { t } = useTranslation('signalDisplay');
@@ -36,6 +39,8 @@ const Container = ({ childToParent }) => {
   const [chartData1, setChartData1] = React.useState(null);
   const [socketStatus2, setSocketStatus2] = React.useState(SOCKET_STATUS[0]);
   const [chartData2, setChartData2] = React.useState(null);
+  const [socketStatus3, setSocketStatus3] = React.useState(SOCKET_STATUS[0]);
+  const [chartData3, setChartData3] = React.useState(null);
   const [legendData, setLegendData] = React.useState(null);
   const [legendPole, setLegendPole] = React.useState(null);
   const [config, setConfig] = React.useState(null);
@@ -297,6 +302,8 @@ const Container = ({ childToParent }) => {
       setChartData1(PhaseData);
       setSocketStatus2(SOCKET_STATUS[3]);
       setChartData2(PlotData);
+      setSocketStatus3(SOCKET_STATUS[3])
+      setChartData3(pointingOffsetData)
     } else {
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
@@ -490,6 +497,21 @@ const Container = ({ childToParent }) => {
       ))}
       <Spectrogram config={config} legend={legendData} displaySettings={displaySettings} />
       <LagPlot config={config} legend={legendData} displaySettings={displaySettings} />
+      <Grid container>
+      {offsets.map(item => (
+        <Grid item xs={gridWidth()}>
+        <PointingOffsets 
+          data={chartData3} 
+          displaySettings={displaySettings} 
+          offset={item} 
+          resize={refresh}
+          setSettings={settingsUpdate} 
+          socketStatus={socketStatus1} 
+          redraw={redraw}
+          />
+          </Grid>
+        ))}
+        </Grid>
     </>
   );
 };
