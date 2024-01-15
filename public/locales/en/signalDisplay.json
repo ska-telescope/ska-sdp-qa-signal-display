@@ -21,6 +21,13 @@
   },
 
   "label": {
+    "cross": "Cross Elevation Offset",
+    "elevation": "Elevation Offset",
+    "expectedH": "Expected and Fitted H Beam Widths",
+    "expectedV": "Expected and Fitted V Beam Widths",
+    "tolerance": "Tolerance on H and V fitted Beam Widths",
+    "height": "Fitted Height",
+    "antennas": "Number of Antennae",
     "amplitude": "Amplitude",
     "ampVFreq": "Amplitude vs Frequency",
     "api": "API",
@@ -37,6 +44,7 @@
     "durationCurrentTransfer": "Duration of Current Transfer",
     "executingBlockId": "Executing Block ID",
     "frequency": "Frequency",
+    "GainStability": "Gain Stability",
     "hideContent": "Hide Content",
     "hideShowToggle": "Hide/Show Toggle",
     "ingestionRate": "Ingestion Rate",
@@ -124,6 +132,41 @@
       "title": "Lag Plots",
       "content": "For each baseline and polarisation, we present a waterfall plot of the inverse Fast Fourier Transform of the visibility spectrum. This is the cross correlation power as a function of lag and any residual delay manifests itself in a shift of the peak from zero.",
       "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#cross-correlation-power-vs-time-lag"
+    },
+    "GainStability": {
+      "title": "Gain Stability",
+      "content": "For each polarisation, we present the mean autospectrum averaged over all channels and baselines. This is the broad continuum spectrum of the source.",
+      "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#spectrum"
+    },
+    "cross": {
+      "title": "Cross Elevation Offset",
+      "content": "",
+      "site": ""
+    },
+    "elevation": {
+      "title": "Elevation Offset",
+      "content": "",
+      "site": ""
+    },
+    "expectedH": {
+      "title": "Expected and Fitted H Beam Widths",
+      "content": "",
+      "site": ""
+    },
+    "expectedV": {
+      "title": "Expected and Fitted V Beam Widths",
+      "content": "",
+      "site": ""
+    },
+    "tolerance": {
+      "title": "Tolerance on H and V fitted Beam Widths",
+      "content": "",
+      "site": ""
+    },
+    "height": {
+      "title": "Fitted Height",
+      "content": "",
+      "site": ""
     }
   }
 }
