@@ -121,6 +121,16 @@ export default function Settings({
           {headerRow(t('label.lagplots'), 'h6')}
 
           {basicRow('label.lagplots', 'showLagPlots')}
+
+          {headerRow(t('label.pointingOffsets'), 'h6')}
+
+          {basicRow('label.cross', 'showCrossElevationOffset')}
+          {basicRow('label.elevation', 'showElevationOffset')}
+          {basicRow('label.expectedH', 'showHBeamWidths')}
+          {basicRow('label.expectedV', 'showVBeamWidths')}
+          {basicRow('label.tolerance', 'showToleranceVHWidths')}
+          {basicRow('label.fitted', 'showFittedHeight')}
+
         </Grid>
       </Box>
     </Drawer>
