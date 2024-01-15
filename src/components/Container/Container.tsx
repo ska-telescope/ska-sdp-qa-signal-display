@@ -378,9 +378,9 @@ const Container = ({ childToParent }) => {
   const gridWidth = () => {
     if (displaySettings.gridView) {
       return 6
-    } else{
+    } 
       return 12
-    }
+    
 
   }
 
@@ -457,19 +457,19 @@ const Container = ({ childToParent }) => {
         displaySettings={displaySettings}
       />
       <Grid container>
-      {items.map(item => (
-        <Grid item xs={gridWidth()}>
-        <SpectrumPlot
-          key={`SpectrumPlot${item}`}
-          polarization={item}
-          redraw={redraw}
-          resize={refresh}
-          setSettings={settingsUpdate}
-          socketStatus={socketStatus2}
-          displaySettings={displaySettings}
-          data={chartData2}
-        />
-        </Grid>
+        {items.map(item => (
+          <Grid item xs={gridWidth()}>
+            <SpectrumPlot
+              key={`SpectrumPlot${item}`}
+              polarization={item}
+              redraw={redraw}
+              resize={refresh}
+              setSettings={settingsUpdate}
+              socketStatus={socketStatus2}
+              displaySettings={displaySettings}
+              data={chartData2}
+            />
+          </Grid>
       ))}
       </Grid>
       {showLegend() && (
@@ -498,20 +498,20 @@ const Container = ({ childToParent }) => {
       <Spectrogram config={config} legend={legendData} displaySettings={displaySettings} />
       <LagPlot config={config} legend={legendData} displaySettings={displaySettings} />
       <Grid container>
-      {offsets.map(item => (
-        <Grid item xs={gridWidth()}>
-        <PointingOffsets 
-          data={chartData3} 
-          displaySettings={displaySettings} 
-          offset={item} 
-          resize={refresh}
-          setSettings={settingsUpdate} 
-          socketStatus={socketStatus1} 
-          redraw={redraw}
-          />
+        {offsets.map(item => (
+          <Grid item xs={gridWidth()}>
+            <PointingOffsets 
+              data={chartData3} 
+              displaySettings={displaySettings} 
+              offset={item} 
+              resize={refresh}
+              setSettings={settingsUpdate} 
+              socketStatus={socketStatus3} 
+              redraw={redraw}
+            />
           </Grid>
         ))}
-        </Grid>
+      </Grid>
     </>
   );
 };

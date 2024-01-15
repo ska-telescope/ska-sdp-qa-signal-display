@@ -19,7 +19,7 @@ describe('<PointingOffsets />', () => {
             socketStatus=""
             data={undefined}
             displaySettings={undefined}
-            redraw={true}
+            redraw
           />
         </ThemeProvider>
       );

@@ -77,8 +77,6 @@ export default function Settings({
     complexRow(title, value, value2, 'phase');
   const amplitudeRow = (title: string, value: string, value2: string) =>
     complexRow(title, value, value2, 'amplitude');
-  const gridListRow = (title: string, value: string, value2: string) =>
-    complexRow(title, value, value2, "gridList")
 
   return (
     <Drawer anchor="right" open={open} onClose={settingsToggle}>

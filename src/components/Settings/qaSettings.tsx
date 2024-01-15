@@ -51,5 +51,5 @@ export const QASettings = {
   showHBeamWidths: true,
   showVBeamWidths: true,
   showToleranceVHWidths: true,
-  showFittedHeight: true,
+  showFittedHeight: true
 };

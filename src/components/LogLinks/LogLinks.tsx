@@ -18,7 +18,7 @@ interface LogLink{
 const LinkElement = ({link, title, description}: LogLink) => {
   const openLink = (navLink) => {
     if (navLink === ''){
-      alert('Logs Unavailable');
+      alert('Logs Unavailable');  // eslint-disable-line no-alert
     } else {
       window.open(navLink, "_blank");
     }

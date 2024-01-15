@@ -1,11 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Plotly from '../Plotly/Plotly';
 import { storageObject } from '@ska-telescope/ska-gui-local-storage';
+import Plotly from '../Plotly/Plotly';
 
 import SignalCard from '../SignalCard/SignalCard';
-import YAxisToggle from '../YAxisToggle/YAxisToggle';
-import {QASettings} from '../Settings/qaSettings';
 import { COLOR } from '../../utils/constants';
 
 
@@ -37,9 +37,6 @@ const PointingOffsets = ({
 
     const chartTitle = () => '';
 
-
-    const settingElement = () => `showPointingOffsets`;
-    const setting = () => displaySettings[settingElement()];
     const xLabel = () => `${t('label.antennas')}`;
 
     const yLabel = () => `${t('label.amplitude')} (arcmin)`;
@@ -55,9 +52,9 @@ const PointingOffsets = ({
         // TODO : Make this responsive
         if (displaySettings.gridView) {
         return 700;
-        } else {
+        } 
           return 1400
-        }
+        
       }
 
     function canShowChart() {
@@ -125,34 +122,34 @@ const PointingOffsets = ({
 
 
     return (
-        <>
-            {canShowChart() && (
-                <SignalCard
-                action={<></>}
-                data-testid="signalCardId"
-                title={`${t(`label.${offset}`)}`}
-                socketStatus={socketStatus}
-                showContent={showContent}
-                setShowContent={showToggle}
-                showInfoModal='true'
-                infoTitle={`${t(`modalInfo.${offset}.title`)}`}
-                infoContent={`${t(`modalInfo.${offset}.content`)}`}
-                infoSite={`${t(`modalInfo.${offset}.site`)}`}
-                >
+      <>
+        {canShowChart() && (
+        <SignalCard
+          action={<></>}
+          data-testid="signalCardId"
+          title={`${t(`label.${offset}`)}`}
+          socketStatus={socketStatus}
+          showContent={showContent}
+          setShowContent={showToggle}
+          showInfoModal='true'
+          infoTitle={`${t(`modalInfo.${offset}.title`)}`}
+          infoContent={`${t(`modalInfo.${offset}.content`)}`}
+          infoSite={`${t(`modalInfo.${offset}.site`)}`}
+        >
 
-                    <Plotly
-                        darkMode={darkMode}
-                        data={showContent ? chartData : null}
-                        height={parentWidth() / RATIO}
-                        title={chartTitle()}
-                        width={parentWidth()}
-                        xLabel={xLabel()}
-                        yLabel={yLabel()}
-                    />
-            </SignalCard>)
-            }
+          <Plotly
+            darkMode={darkMode}
+            data={showContent ? chartData : null}
+            height={parentWidth() / RATIO}
+            title={chartTitle()}
+            width={parentWidth()}
+            xLabel={xLabel()}
+            yLabel={yLabel()}
+          />
+        </SignalCard>
+)}
                 
-        </>
+      </>
     );
 };
 export default PointingOffsets;
