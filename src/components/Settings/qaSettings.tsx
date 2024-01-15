@@ -34,7 +34,22 @@ export const QASettings = {
   showPolarizationPhaseYXaxisY: phaseAxisY[0],
   showPolarizationPhaseYYaxisY: phaseAxisY[0],
   //
+  showGainStabilityXX: true,
+  showGainStabilityXY: true,
+  showGainStabilityYX: true,
+  showGainStabilityYY: true,
+  //
   showSpectrograms: true,
   //
-  showLagPlots: true
+  showLagPlots: true,
+  //
+  showPointingOffsets: true,
+  gridPointingOffsets: true,
+
+  showCrossElevationOffset: true,
+  showElevationOffset: true,
+  showHBeamWidths: true,
+  showVBeamWidths: true,
+  showToleranceVHWidths: true,
+  showFittedHeight: true,
 };
