@@ -52,6 +52,12 @@ function settings() {
     cy.findAllByTestId("showPolarizationPhaseYYButtonTestId").should("be.visible").click();
     cy.findAllByTestId("showSpectrogramsButtonTestId").should("be.visible").click();
     cy.findAllByTestId("showLagPlotsButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showCrossElevationOffsetButtonTestId").should("be.visible").click()
+    cy.findAllByTestId("showElevationOffsetButtonTestId").should("be.visible").click()
+    cy.findAllByTestId("showHBeamWidthsButtonTestId").should("be.visible").click()
+    cy.findAllByTestId("showVBeamWidthsButtonTestId").should("be.visible").click()
+    cy.findAllByTestId("showToleranceVHWidthsButtonTestId").should("be.visible").click()
+    cy.findAllByTestId("showFittedHeightButtonTestId").should("be.visible").click()
 }
 
 context('Signal display', () => {
@@ -112,6 +118,13 @@ context('Signal display', () => {
         cy.findByTestId('LagPlot2Id').should("be.visible");
         cy.findByTestId('LagPlot3Id').should("be.visible");
         cy.findByTestId('LagPlot4Id').should("be.visible");
+
+        cy.findAllByTestId("sectionHeader").contains("Cross Elevation Offset").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Elevation Offset").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Expected and Fitted H Beam Widths").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Expected and Fitted V Beam Widths").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Tolerance on H and V fitted Beam Widths").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Fitted Height").should("be.visible")
 
         settings();
     })
