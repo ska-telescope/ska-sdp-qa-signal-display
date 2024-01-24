@@ -481,8 +481,8 @@ const Container = ({ childToParent }) => {
         textColor='secondary' 
         centered 
         variant='fullWidth'>
-          <Tab label='Visibility Receive'/>
-          <Tab label='Calibration Data'/>
+          <Tab label='Visibility Receive' data-testid='visibilitiesTab'/>
+          <Tab label='Calibration Data' data-testid='calibrationPlotsTab'/>
       </Tabs>
       </Box>
       </Box>
