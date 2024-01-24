@@ -3,8 +3,9 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Tabs, Tab } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import ReceiptIcon from '@mui/icons-material/Receipt'
 import { Button, ButtonColorTypes, DropDown, InfoCard } from '@ska-telescope/ska-gui-components';
 import { env } from '../../env'
 import { QASettings } from '../Settings/qaSettings';
@@ -26,6 +27,7 @@ import PhaseData from '../../mockData/WebSocket/phase.json';
 import PlotData from '../../mockData/WebSocket/spectrum.json';
 import pointingOffsetData from '../../mockData/WebSocket/pointingOffsets.json'
 import { COLOR, DATA_API_URL, DATA_LOCAL, SOCKET_STATUS, WS_API_URL } from '../../utils/constants';
+import { BorderBottom } from '@mui/icons-material';
 
 const items = ['XX', 'XY', 'YX', 'YY'];
 const offsets = ['cross', 'elevation', 'expectedH', 'expectedV', 'tolerance', 'height']
@@ -50,6 +52,7 @@ const Container = ({ childToParent }) => {
   const [subArrays, setSubArrays] = React.useState(null);
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = React.useState(null);
   const [receiverEventsData, setReceiverEventsData] = React.useState(null);
+  const [currentTabIndex, setCurrentTabIndex] = React.useState(0)
 
   const [counter, setCounter] = React.useState(0);
   const [fetchConfig, setFetchConfig] = React.useState(false);
@@ -380,8 +383,10 @@ const Container = ({ childToParent }) => {
       return 6
     } 
       return 12
-    
+  }
 
+  const handleTabChange = (e, tabIndex) => {
+    setCurrentTabIndex(tabIndex)
   }
 
   return (
@@ -456,7 +461,20 @@ const Container = ({ childToParent }) => {
         receiverEventsData={receiverEventsData}
         displaySettings={displaySettings}
       />
-      <Grid container>
+      <Box sx={{width: '100%'}}>
+        <Box sx={{BorderBottom: 1, borderColor: 'divider'}}>
+      <Tabs 
+        value={currentTabIndex} 
+        onChange={handleTabChange} 
+        textColor='secondary' 
+        centered 
+        variant='fullWidth'>
+          <Tab label='Visibility Receive'/>
+          <Tab label='Calibration Data'/>
+      </Tabs>
+      </Box>
+      </Box>
+      {currentTabIndex===0 && (<Grid container>
         {items.map(item => (
           <Grid item xs={gridWidth()}>
             <SpectrumPlot
@@ -472,7 +490,9 @@ const Container = ({ childToParent }) => {
           </Grid>
       ))}
       </Grid>
-      {showLegend() && (
+      )}
+      
+      {(currentTabIndex===0 && showLegend()) && (
         <Legend
           resize={refresh}
           data={legendData}
@@ -482,7 +502,7 @@ const Container = ({ childToParent }) => {
           poleUpdate={poleOnClick}
         />
       )}
-      {items.map(item => (
+      {currentTabIndex === 0 && items.map(item => (
         <Polarization
           key={`Polarization${item}`}
           polarization={item}
@@ -495,9 +515,13 @@ const Container = ({ childToParent }) => {
           legend={legendData}
         />
       ))}
-      <Spectrogram config={config} legend={legendData} displaySettings={displaySettings} />
-      <LagPlot config={config} legend={legendData} displaySettings={displaySettings} />
-      <Grid container>
+
+      
+      {currentTabIndex===0 && (<Spectrogram config={config} legend={legendData} displaySettings={displaySettings} />)}
+      {currentTabIndex===0 && (<LagPlot config={config} legend={legendData} displaySettings={displaySettings} />)}
+      
+      
+      {currentTabIndex === 1 && (<Grid container>
         {offsets.map(item => (
           <Grid item xs={gridWidth()}>
             <PointingOffsets 
@@ -505,13 +529,12 @@ const Container = ({ childToParent }) => {
               displaySettings={displaySettings} 
               offset={item} 
               resize={refresh}
-              setSettings={settingsUpdate} 
               socketStatus={socketStatus3} 
               redraw={redraw}
             />
           </Grid>
         ))}
-      </Grid>
+      </Grid>)}
     </>
   );
 };
