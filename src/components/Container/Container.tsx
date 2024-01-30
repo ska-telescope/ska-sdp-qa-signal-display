@@ -27,7 +27,7 @@ import PhaseData from '../../mockData/WebSocket/phase.json';
 import PlotData from '../../mockData/WebSocket/spectrum.json';
 import pointingOffsetData from '../../mockData/WebSocket/pointingOffsets.json'
 import { COLOR, DATA_API_URL, DATA_LOCAL, SOCKET_STATUS, WS_API_URL } from '../../utils/constants';
-import { BorderBottom } from '@mui/icons-material';
+
 
 const items = ['XX', 'XY', 'YX', 'YY'];
 const offsets = ['cross', 'elevation', 'expectedH', 'expectedV', 'tolerance', 'height']
@@ -321,6 +321,13 @@ const Container = ({ childToParent }) => {
         suffix: `${config.topics.spectrum}-${subArray}`,
         statusFunction: setSocketStatus2,
         dataFunction: setChartData2
+      });
+      Socket({
+        apiUrl: WS_API_URL + config.paths.websocket,
+        protocol: config.api_format,
+        suffix: `${config.topics.pointing_offset}-${subArray}`,
+        statusFunction: setSocketStatus3,
+        dataFunction: setChartData3
       });
     }
   }, [subArray]);
