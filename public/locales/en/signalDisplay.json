@@ -29,6 +29,8 @@
     "height": "Fitted Height",
     "antennas": "Number of Antennae",
     "amplitude": "Amplitude",
+    "amplitudeH": "Amplitude_H",
+    "amplitudeV": "Amplitude_V",
     "ampVFreq": "Amplitude vs Frequency",
     "api": "API",
     "button": {
@@ -44,6 +46,7 @@
     "durationCurrentTransfer": "Duration of Current Transfer",
     "executingBlockId": "Executing Block ID",
     "frequency": "Frequency",
+    "gains": "Gains",
     "GainStability": "Gain Stability",
     "hideContent": "Hide Content",
     "hideShowToggle": "Hide/Show Toggle",
@@ -56,6 +59,8 @@
     "log": "Log",
     "payloadsReceived": "Payloads Received",
     "phase": "Phase",
+    "phaseH": "Phase_H",
+    "phaseV": "Phase_V",
     "phaseVFreq": "Phase vs Frequency",
     "processingBlockId": "Processing Block ID",
     "polarization": "Polarization",
@@ -137,6 +142,26 @@
       "title": "Gain Stability",
       "content": "For each polarisation, we present the mean autospectrum averaged over all channels and baselines. This is the broad continuum spectrum of the source.",
       "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#spectrum"
+    },
+    "phase_H": {
+      "title": "Gain Calibration - Phase_H",
+      "content": "We Need To Add Info",
+      "site": "We Need To Add Info"
+    },
+    "phase_V": {
+      "title": "Gain Calibration - Phase_V",
+      "content": "We Need To Add Info",
+      "site": "We Need To Add Info"
+    },
+    "amplitude_H": {
+      "title": "Gain Calibration - Amplitude_H",
+      "content": "We Need To Add Info",
+      "site": "We Need To Add Info"
+    },
+    "amplitude_V": {
+      "title": "Gain Calibration - Amplitude_V",
+      "content": "We Need To Add Info",
+      "site": "We Need To Add Info"
     },
     "cross": {
       "title": "Cross Elevation Offset",

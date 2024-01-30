@@ -51,5 +51,13 @@ export const QASettings = {
   showHBeamWidths: true,
   showVBeamWidths: true,
   showToleranceVHWidths: true,
-  showFittedHeight: true
+  showFittedHeight: true,
+
+  showGainCalibration: true,
+
+  showGainCalibrationAmplitudeH: true,
+  showGainCalibrationAmplitudeV: true,
+  showGainCalibrationPhaseH: true,
+  showGainCalibrationPhaseV: true,
+
 };

@@ -19,16 +19,19 @@ import Statistics from '../Statistics/Statistics';
 import Socket from '../../services/webSocket/Socket';
 import LagPlot from '../LagPlot/LagPlot';
 import LogLinks from '../LogLinks/LogLinks';
+import GainCalibration from '../GainCalibration/GainCalibration';
 
 import mockStatisticsProcessingBlock from '../../mockData/Statistics/processingBlock';
 import mockStatisticsReceiverEvents from '../../mockData/Statistics/receiverEvents';
 import PhaseData from '../../mockData/WebSocket/phase.json';
 import PlotData from '../../mockData/WebSocket/spectrum.json';
 import pointingOffsetData from '../../mockData/WebSocket/pointingOffsets.json'
+import gainCalibrationData from '../../mockData/WebSocket/gainCalibrations.json'
 import { COLOR, DATA_API_URL, DATA_LOCAL, SOCKET_STATUS, WS_API_URL } from '../../utils/constants';
 
 const items = ['XX', 'XY', 'YX', 'YY'];
 const offsets = ['cross', 'elevation', 'expectedH', 'expectedV', 'tolerance', 'height']
+const gains = ['amplitudeH', 'amplitudeV', 'phaseH', 'phaseV']
 
 const Container = ({ childToParent }) => {
   const { t } = useTranslation('signalDisplay');
@@ -50,6 +53,8 @@ const Container = ({ childToParent }) => {
   const [subArrays, setSubArrays] = React.useState(null);
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = React.useState(null);
   const [receiverEventsData, setReceiverEventsData] = React.useState(null);
+  const [socketStatus5, setSocketStatus5] = React.useState(SOCKET_STATUS[0]);
+  const [chartData4, setChartData4] = React.useState(null);
 
   const [counter, setCounter] = React.useState(0);
   const [fetchConfig, setFetchConfig] = React.useState(false);
@@ -92,7 +97,11 @@ const Container = ({ childToParent }) => {
     displaySettings.showPolarizationPhaseYX ||
     displaySettings.showPolarizationPhaseYY ||
     displaySettings.showSpectrograms ||
-    displaySettings.showLagPlots;
+    displaySettings.showLagPlots ||
+    displaySettings.showGainCalibrationAmplitudeH ||
+    displaySettings.showGainCalibrationAmplitudeV ||
+    displaySettings.showGainCalibrationPhaseH ||
+    displaySettings.showGainCalibrationPhaseV;
 
   const settingsClick = () => {
     setOpenSettings(o => !o);
@@ -304,6 +313,8 @@ const Container = ({ childToParent }) => {
       setChartData2(PlotData);
       setSocketStatus3(SOCKET_STATUS[3])
       setChartData3(pointingOffsetData)
+      setSocketStatus5(SOCKET_STATUS[3])
+      setChartData4(gainCalibrationData)
     } else {
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
@@ -445,6 +456,7 @@ const Container = ({ childToParent }) => {
               status2={socketStatus2}
               status3={SOCKET_STATUS[processingBlockStatisticsData === null ? 1 : 2]}
               status4={SOCKET_STATUS[receiverEventsData === null ? 1 : 2]}
+              status5={socketStatus5}
               clickFunction={settingsClick}
             />
           </Grid>
@@ -505,8 +517,21 @@ const Container = ({ childToParent }) => {
               displaySettings={displaySettings} 
               offset={item} 
               resize={refresh}
-              setSettings={settingsUpdate} 
               socketStatus={socketStatus3} 
+              redraw={redraw}
+            />
+          </Grid>
+        ))}
+      </Grid>
+      <Grid container>
+        {gains.map(item => (
+          <Grid item xs={gridWidth()}>
+            <GainCalibration
+              data={chartData4} 
+              displaySettings={displaySettings} 
+              gain={item} 
+              resize={refresh}
+              socketStatus={socketStatus5} 
               redraw={redraw}
             />
           </Grid>

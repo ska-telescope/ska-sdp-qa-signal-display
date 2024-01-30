@@ -129,6 +129,13 @@ export default function Settings({
           {basicRow('label.tolerance', 'showToleranceVHWidths')}
           {basicRow('label.fitted', 'showFittedHeight')}
 
+          {headerRow(t('label.gainCalibration'), 'h6')}
+
+          {basicRow('label.amplitude_H', 'showGainCalibrationAmplitudeH')}
+          {basicRow('label.amplitude_V', 'showGainCalibrationAmplitudeV')}
+          {basicRow('label.phase_H', 'showGainCalibrationPhaseH')}
+          {basicRow('label.phase_V', 'showGainCalibrationPhaseV')}
+
         </Grid>
       </Box>
     </Drawer>
