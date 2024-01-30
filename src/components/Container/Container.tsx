@@ -31,7 +31,7 @@ import { COLOR, DATA_API_URL, DATA_LOCAL, SOCKET_STATUS, WS_API_URL } from '../.
 
 const items = ['XX', 'XY', 'YX', 'YY'];
 const offsets = ['cross', 'elevation', 'expectedH', 'expectedV', 'tolerance', 'height']
-const gains = ['AmplitudeH', 'AmplitudeV', 'PhaseH', 'PhaseV']
+const gains = ['amplitudeH', 'amplitudeV', 'phaseH', 'phaseV']
 
 const Container = ({ childToParent }) => {
   const { t } = useTranslation('signalDisplay');
@@ -517,7 +517,6 @@ const Container = ({ childToParent }) => {
               displaySettings={displaySettings} 
               offset={item} 
               resize={refresh}
-              setSettings={settingsUpdate} 
               socketStatus={socketStatus3} 
               redraw={redraw}
             />

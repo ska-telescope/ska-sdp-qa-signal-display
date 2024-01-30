@@ -132,7 +132,7 @@ const Summary = ({ config, status1, status2, status3, status4, status5, clickFun
                 </Tooltip>
               </Grid>
               <Grid item>
-                <Tooltip title={toolTip4()}>
+                <Tooltip title={toolTip5()}>
                   <IconButton
                     aria-label={t('label.socketStatus')}
                     sx={{ '&:hover': { backgroundColor: 'primary.dark' }, p: 1.3 }}

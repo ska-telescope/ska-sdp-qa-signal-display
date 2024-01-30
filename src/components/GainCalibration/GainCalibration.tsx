@@ -65,7 +65,7 @@ const GainCalibration = ({
     const chartDataTmp = [
       {
         x: xValues,
-        y: getYData(usedData, gain, "m036"),
+        y: getYData(usedData, gain, "m033"),
         marker: {
           color: COLOR[0]
         }
@@ -76,13 +76,13 @@ const GainCalibration = ({
 
   function canShowChart() {
     switch (gain) {
-      case 'AmplitudeH':
+      case 'amplitudeH':
         return displaySettings.showGainCalibrationAmplitudeH;
-      case 'AmplitudeV':
+      case 'amplitudeV':
         return displaySettings.showGainCalibrationAmplitudeV;
-      case 'PhaseH':
+      case 'phaseH':
         return displaySettings.showGainCalibrationPhaseH;
-      case 'PhaseV':
+      case 'phaseV':
         return displaySettings.showGainCalibrationPhaseV;
       default:
         return false;
