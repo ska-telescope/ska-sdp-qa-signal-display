@@ -531,7 +531,6 @@ const Container = ({ childToParent }) => {
               displaySettings={displaySettings} 
               gain={item} 
               resize={refresh}
-              setSettings={settingsUpdate} 
               socketStatus={socketStatus5} 
               redraw={redraw}
             />

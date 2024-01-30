@@ -15,7 +15,6 @@ interface GainCalibrationProps {
   redraw: boolean;
   resize: number;
   // eslint-disable-next-line @typescript-eslint/ban-types
-  setSettings: Function;
   socketStatus: string;
 }
 
@@ -57,8 +56,8 @@ const GainCalibration = ({
     
   }
 
-  function getYData(inData: any, gain: string, subarray: string) {
-    return inData[gain][subarray]
+  function getYData(inData: any, gainStr: string, subarray: string) {
+    return inData[gainStr][subarray]
   }
   function getChartData(usedData: any) {
     const xValues = usedData["times"];
