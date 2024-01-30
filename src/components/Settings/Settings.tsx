@@ -127,7 +127,7 @@ export default function Settings({
           {basicRow('label.expectedH', 'showHBeamWidths')}
           {basicRow('label.expectedV', 'showVBeamWidths')}
           {basicRow('label.tolerance', 'showToleranceVHWidths')}
-          {basicRow('label.fitted', 'showFittedHeight')}
+          {basicRow('label.height', 'showFittedHeight')}
 
           {headerRow(t('label.gainCalibration'), 'h6')}
 

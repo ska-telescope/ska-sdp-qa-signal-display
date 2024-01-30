@@ -3,8 +3,9 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Tabs, Tab } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import ReceiptIcon from '@mui/icons-material/Receipt'
 import { Button, ButtonColorTypes, DropDown, InfoCard } from '@ska-telescope/ska-gui-components';
 import { env } from '../../env'
 import { QASettings } from '../Settings/qaSettings';
@@ -28,6 +29,7 @@ import PlotData from '../../mockData/WebSocket/spectrum.json';
 import pointingOffsetData from '../../mockData/WebSocket/pointingOffsets.json'
 import gainCalibrationData from '../../mockData/WebSocket/gainCalibrations.json'
 import { COLOR, DATA_API_URL, DATA_LOCAL, SOCKET_STATUS, WS_API_URL } from '../../utils/constants';
+
 
 const items = ['XX', 'XY', 'YX', 'YY'];
 const offsets = ['cross', 'elevation', 'expectedH', 'expectedV', 'tolerance', 'height']
@@ -55,6 +57,7 @@ const Container = ({ childToParent }) => {
   const [receiverEventsData, setReceiverEventsData] = React.useState(null);
   const [socketStatus5, setSocketStatus5] = React.useState(SOCKET_STATUS[0]);
   const [chartData4, setChartData4] = React.useState(null);
+  const [currentTabIndex, setCurrentTabIndex] = React.useState(0)
 
   const [counter, setCounter] = React.useState(0);
   const [fetchConfig, setFetchConfig] = React.useState(false);
@@ -330,6 +333,13 @@ const Container = ({ childToParent }) => {
         statusFunction: setSocketStatus2,
         dataFunction: setChartData2
       });
+      Socket({
+        apiUrl: WS_API_URL + config.paths.websocket,
+        protocol: config.api_format,
+        suffix: `${config.topics.pointing_offset}-${subArray}`,
+        statusFunction: setSocketStatus3,
+        dataFunction: setChartData3
+      });
     }
   }, [subArray]);
 
@@ -391,8 +401,10 @@ const Container = ({ childToParent }) => {
       return 6
     } 
       return 12
-    
+  }
 
+  const handleTabChange = (e, tabIndex) => {
+    setCurrentTabIndex(tabIndex)
   }
 
   return (
@@ -457,6 +469,7 @@ const Container = ({ childToParent }) => {
               status3={SOCKET_STATUS[processingBlockStatisticsData === null ? 1 : 2]}
               status4={SOCKET_STATUS[receiverEventsData === null ? 1 : 2]}
               status5={socketStatus5}
+              status6={socketStatus3}
               clickFunction={settingsClick}
             />
           </Grid>
@@ -468,7 +481,20 @@ const Container = ({ childToParent }) => {
         receiverEventsData={receiverEventsData}
         displaySettings={displaySettings}
       />
-      <Grid container>
+      <Box sx={{width: '100%'}}>
+        <Box sx={{BorderBottom: 1, borderColor: 'divider'}}>
+      <Tabs 
+        value={currentTabIndex} 
+        onChange={handleTabChange} 
+        textColor='secondary' 
+        centered 
+        variant='fullWidth'>
+          <Tab label='Visibility Receive' data-testid='visibilitiesTab'/>
+          <Tab label='Calibration Data' data-testid='calibrationPlotsTab'/>
+      </Tabs>
+      </Box>
+      </Box>
+      {currentTabIndex===0 && (<Grid container>
         {items.map(item => (
           <Grid item xs={gridWidth()}>
             <SpectrumPlot
@@ -484,7 +510,9 @@ const Container = ({ childToParent }) => {
           </Grid>
       ))}
       </Grid>
-      {showLegend() && (
+      )}
+      
+      {(currentTabIndex===0 && showLegend()) && (
         <Legend
           resize={refresh}
           data={legendData}
@@ -494,7 +522,7 @@ const Container = ({ childToParent }) => {
           poleUpdate={poleOnClick}
         />
       )}
-      {items.map(item => (
+      {currentTabIndex === 0 && items.map(item => (
         <Polarization
           key={`Polarization${item}`}
           polarization={item}
@@ -507,9 +535,13 @@ const Container = ({ childToParent }) => {
           legend={legendData}
         />
       ))}
-      <Spectrogram config={config} legend={legendData} displaySettings={displaySettings} />
-      <LagPlot config={config} legend={legendData} displaySettings={displaySettings} />
-      <Grid container>
+
+      
+      {currentTabIndex===0 && (<Spectrogram config={config} legend={legendData} displaySettings={displaySettings} />)}
+      {currentTabIndex===0 && (<LagPlot config={config} legend={legendData} displaySettings={displaySettings} />)}
+      
+      
+      {currentTabIndex === 1 && (<Grid container>
         {offsets.map(item => (
           <Grid item xs={gridWidth()}>
             <PointingOffsets 
@@ -522,8 +554,9 @@ const Container = ({ childToParent }) => {
             />
           </Grid>
         ))}
-      </Grid>
-      <Grid container>
+        </Grid>)}
+
+      {currentTabIndex === 1 && (<Grid container>
         {gains.map(item => (
           <Grid item xs={gridWidth()}>
             <GainCalibration
@@ -536,7 +569,8 @@ const Container = ({ childToParent }) => {
             />
           </Grid>
         ))}
-      </Grid>
+      </Grid>)}
+      
     </>
   );
 };

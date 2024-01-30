@@ -119,12 +119,16 @@ context('Signal display', () => {
         cy.findByTestId('LagPlot3Id').should("be.visible");
         cy.findByTestId('LagPlot4Id').should("be.visible");
 
+        cy.findByTestId("calibrationPlotsTab").click()
+
         cy.findAllByTestId("sectionHeader").contains("Cross Elevation Offset").should("be.visible")
         cy.findAllByTestId("sectionHeader").contains("Elevation Offset").should("be.visible")
         cy.findAllByTestId("sectionHeader").contains("Expected and Fitted H Beam Widths").should("be.visible")
         cy.findAllByTestId("sectionHeader").contains("Expected and Fitted V Beam Widths").should("be.visible")
         cy.findAllByTestId("sectionHeader").contains("Tolerance on H and V fitted Beam Widths").should("be.visible")
         cy.findAllByTestId("sectionHeader").contains("Fitted Height").should("be.visible")
+
+        cy.findAllByTestId('visibilitiesTab').click()
 
         settings();
     })
