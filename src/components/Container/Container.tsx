@@ -469,6 +469,7 @@ const Container = ({ childToParent }) => {
               status3={SOCKET_STATUS[processingBlockStatisticsData === null ? 1 : 2]}
               status4={SOCKET_STATUS[receiverEventsData === null ? 1 : 2]}
               status5={socketStatus5}
+              status6={socketStatus3}
               clickFunction={settingsClick}
             />
           </Grid>
