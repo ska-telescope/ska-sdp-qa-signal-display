@@ -555,7 +555,7 @@ const Container = ({ childToParent }) => {
         ))}
         </Grid>)}
 
-      <Grid container>
+      {currentTabIndex === 1 && (<Grid container>
         {gains.map(item => (
           <Grid item xs={gridWidth()}>
             <GainCalibration
@@ -568,7 +568,8 @@ const Container = ({ childToParent }) => {
             />
           </Grid>
         ))}
-      </Grid>
+      </Grid>)}
+      
     </>
   );
 };
