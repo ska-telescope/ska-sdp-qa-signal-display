@@ -1,8 +1,14 @@
 Available Graphs
 ================
 
-The signal display provides a number of key visualisations of the data. Descriptions of each and 
-how they respond follows.
+The signal display provides a number of key visualisations of the data. The plots are separated between 
+two tabs; "Visibilty Receive" housing the real time visualisation of incoming data and "Calibration Data"
+holding the outputs of the calibration pipelines.
+
+Visibilty Receive
+-----------------
+
+Descriptions of each plot in the Visibilty Receive tab and how they respond follows.
 
 Spectrum
 ----------
@@ -88,3 +94,8 @@ Any residual delay will manifest itself as a shift of the peak of the lag plot a
 if the signals have been correctly delayed before their Cross-Correlation the peak power in
 Cross-Correlation will be at zero lag.
 
+
+Calibration Data
+-----------------
+
+Descriptions of each plot in the Calibration Data tab and how they respond follows.
