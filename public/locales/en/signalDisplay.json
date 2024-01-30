@@ -27,6 +27,7 @@
     "expectedV": "Expected and Fitted V Beam Widths",
     "tolerance": "Tolerance on H and V fitted Beam Widths",
     "height": "Fitted Height",
+    "pointingOffsets": "Pointing Offsets",
     "antennas": "Number of Antennae",
     "amplitude": "Amplitude",
     "ampVFreq": "Amplitude vs Frequency",
