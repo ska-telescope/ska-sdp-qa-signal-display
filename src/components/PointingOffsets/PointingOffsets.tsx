@@ -90,7 +90,7 @@ const PointingOffsets = ({
                 type: "scatter",
                 mode: "markers",
                 marker: {
-                  color: COLOR[0],
+                  color: COLOR[2],
                   size: 8
                 }
             }

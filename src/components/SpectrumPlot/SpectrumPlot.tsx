@@ -96,7 +96,7 @@ const SpectrumPlot = ({
         x: xValues,
         y: getYData(usedData.polarisations, polarization),
         marker: {
-          color: COLOR[0]
+          color: COLOR[2]
         }
       }
     ];
