@@ -5,7 +5,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid, Tabs, Tab } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import ReceiptIcon from '@mui/icons-material/Receipt'
 import { Button, ButtonColorTypes, DropDown, InfoCard } from '@ska-telescope/ska-gui-components';
 import { env } from '../../env'
 import { QASettings } from '../Settings/qaSettings';
@@ -483,18 +482,20 @@ const Container = ({ childToParent }) => {
       />
       <Box sx={{width: '100%'}}>
         <Box sx={{BorderBottom: 1, borderColor: 'divider'}}>
-      <Tabs 
-        value={currentTabIndex} 
-        onChange={handleTabChange} 
-        textColor='secondary' 
-        centered 
-        variant='fullWidth'>
-          <Tab label='Visibility Receive' data-testid='visibilitiesTab'/>
-          <Tab label='Calibration Data' data-testid='calibrationPlotsTab'/>
-      </Tabs>
+          <Tabs 
+            value={currentTabIndex} 
+            onChange={handleTabChange} 
+            textColor='secondary' 
+            centered 
+            variant='fullWidth'
+          >
+            <Tab label='Visibility Receive' data-testid='visibilitiesTab' />
+            <Tab label='Calibration Data' data-testid='calibrationPlotsTab' />
+          </Tabs>
+        </Box>
       </Box>
-      </Box>
-      {currentTabIndex===0 && (<Grid container>
+      {currentTabIndex===0 && (
+      <Grid container>
         {items.map(item => (
           <Grid item xs={gridWidth()}>
             <SpectrumPlot
@@ -541,7 +542,8 @@ const Container = ({ childToParent }) => {
       {currentTabIndex===0 && (<LagPlot config={config} legend={legendData} displaySettings={displaySettings} />)}
       
       
-      {currentTabIndex === 1 && (<Grid container>
+      {currentTabIndex === 1 && (
+      <Grid container>
         {offsets.map(item => (
           <Grid item xs={gridWidth()}>
             <PointingOffsets 
@@ -554,9 +556,11 @@ const Container = ({ childToParent }) => {
             />
           </Grid>
         ))}
-        </Grid>)}
+      </Grid>
+      )}
 
-      {currentTabIndex === 1 && (<Grid container>
+      {currentTabIndex === 1 && (
+      <Grid container>
         {gains.map(item => (
           <Grid item xs={gridWidth()}>
             <GainCalibration
@@ -569,7 +573,8 @@ const Container = ({ childToParent }) => {
             />
           </Grid>
         ))}
-      </Grid>)}
+      </Grid>
+      )}
       
     </>
   );

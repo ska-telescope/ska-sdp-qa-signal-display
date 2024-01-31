@@ -60,7 +60,7 @@ const GainCalibration = ({
     return inData[gainStr][subarray]
   }
   function getChartData(usedData: any) {
-    const xValues = usedData["times"];
+    const xValues = usedData.times;
     const chartDataTmp = [
       {
         x: xValues,

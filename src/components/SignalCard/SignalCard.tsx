@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable react/require-default-props */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid, IconButton, Tooltip, Typography } from '@mui/material';
@@ -15,10 +16,10 @@ export interface SignalCardProps {
   showContent: boolean;
   // eslint-disable-next-line @typescript-eslint/ban-types
   setShowContent: Function;
-  showInfoModal?: string
-  infoTitle?: string
-  infoContent?: string
-  infoSite?: string
+  showInfoModal?: string;
+  infoTitle?: string;
+  infoContent?: string;
+  infoSite?: string;
 }
 
 const SignalCard = ({
