@@ -99,3 +99,28 @@ Calibration Data
 -----------------
 
 Descriptions of each plot in the Calibration Data tab and how they respond follows.
+
+Elevation and Cross-elevation offset
+------------------------------------
+
+The pointing offset calibration pipeline fits 2D Gaussian primary beams to the visibibility or gain 
+amplitudes. The fitted parameter representing the centre of the primary beam provides the elevation
+and Cross-elevation offsets, along with their uncertainties.
+
+Beam width
+----------
+
+The expected and fitted widths of the 2D gaussian primary beam are displayed, along with their 
+uncertainties.
+
+Beam height
+-----------
+
+The expected and fitted heights of the 2D gaussian primary beam are displayed, along with their 
+uncertainties.
+
+H and V Amplitude
+-----------------
+
+H and V Phase
+-------------
