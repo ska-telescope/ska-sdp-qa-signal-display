@@ -30,8 +30,8 @@
     "pointingOffsets": "Pointing Offsets",
     "antennas": "Number of Antennae",
     "amplitude": "Amplitude",
-    "amplitudeH": "Amplitude_H",
-    "amplitudeV": "Amplitude_V",
+    "amplitudeH": "H Amplitude",
+    "amplitudeV": "V Amplitude",
     "ampVFreq": "Amplitude vs Frequency",
     "api": "API",
     "button": {
@@ -60,8 +60,8 @@
     "log": "Log",
     "payloadsReceived": "Payloads Received",
     "phase": "Phase",
-    "phaseH": "Phase_H",
-    "phaseV": "Phase_V",
+    "phaseH": "H Phase",
+    "phaseV": "V Phase",
     "phaseVFreq": "Phase vs Frequency",
     "processingBlockId": "Processing Block ID",
     "polarization": "Polarization",
@@ -139,50 +139,50 @@
       "content": "For each baseline and polarisation, we present a waterfall plot of the inverse Fast Fourier Transform of the visibility spectrum. This is the cross correlation power as a function of lag and any residual delay manifests itself in a shift of the peak from zero.",
       "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#cross-correlation-power-vs-time-lag"
     },
-    "GainStability": {
-      "title": "Gain Stability",
-      "content": "For each polarisation, we present the mean autospectrum averaged over all channels and baselines. This is the broad continuum spectrum of the source.",
-      "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#spectrum"
+    "gainCalibration": {
+      "title": "Gain Calibration",
+      "content": "",
+      "site": ""
     },
-    "phase_H": {
-      "title": "Gain Calibration - Phase_H",
+    "phaseH": {
+      "title": "Gain Calibration - H Phase",
       "content": "We Need To Add Info",
       "site": "We Need To Add Info"
     },
-    "phase_V": {
-      "title": "Gain Calibration - Phase_V",
+    "phaseV": {
+      "title": "Gain Calibration - V Phase",
       "content": "We Need To Add Info",
       "site": "We Need To Add Info"
     },
-    "amplitude_H": {
-      "title": "Gain Calibration - Amplitude_H",
+    "amplitudeH": {
+      "title": "Gain Calibration - H Amplitude",
       "content": "We Need To Add Info",
       "site": "We Need To Add Info"
     },
-    "amplitude_V": {
-      "title": "Gain Calibration - Amplitude_V",
+    "amplitudeV": {
+      "title": "Gain Calibration - V Amplitude",
       "content": "We Need To Add Info",
       "site": "We Need To Add Info"
     },
     "cross": {
       "title": "Cross Elevation Offset",
-      "content": "",
-      "site": ""
+      "content": "The fitted parameter representing the centre of the primary beam provides the elevation and Cross-elevation offsets, along with their uncertainties.",
+      "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#elevation-and-cross-elevation-offset"
     },
     "elevation": {
       "title": "Elevation Offset",
-      "content": "",
-      "site": ""
+      "content": "The fitted parameter representing the centre of the primary beam provides the elevation and Cross-elevation offsets, along with their uncertainties.",
+      "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#elevation-and-cross-elevation-offset"
     },
     "expectedH": {
       "title": "Expected and Fitted H Beam Widths",
-      "content": "",
-      "site": ""
+      "content": "The expected and fitted widths of the 2D gaussian primary beam are displayed, along with their uncertainties.",
+      "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#beam-width"
     },
     "expectedV": {
       "title": "Expected and Fitted V Beam Widths",
-      "content": "",
-      "site": ""
+      "content": "The expected and fitted widths of the 2D gaussian primary beam are displayed, along with their uncertainties.",
+      "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#beam-width"
     },
     "tolerance": {
       "title": "Tolerance on H and V fitted Beam Widths",
@@ -191,8 +191,8 @@
     },
     "height": {
       "title": "Fitted Height",
-      "content": "",
-      "site": ""
+      "content": "The expected and fitted heights of the 2D gaussian primary beam are displayed, along with their uncertainties.",
+      "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#"
     }
   }
 }
