@@ -41,6 +41,25 @@ const PointingOffsets = ({
     const [refresh, setRefresh] = React.useState(false);
     const { darkMode } = storageObject.useStore();
 
+    function dataSelect() {
+      switch (offset) {
+        case 'cross':
+            return "crossElevationOffset";
+          case 'elevation':
+            return "elevationOffset";
+          case 'expectedH':
+            return "fittedHBeamWidths";
+          case 'expectedV':
+            return "fittedVBeamWidths";
+          case 'tolerance':
+            return "toleranceVHWidths";
+          case 'height':
+            return "fittedHeight";
+          default:
+            return false;
+      }
+    }
+
     const chartTitle = () => '';
 
     const settingElement = () => `show${dataSelect()}axisY`;
@@ -65,23 +84,6 @@ const PointingOffsets = ({
           return 1400
         
       }
-
-    function dataSelect() {
-      switch (offset) {
-        case 'cross':
-            return "crossElevationOffset";
-          case 'elevation':
-            return "elevationOffset";
-          case 'expectedH':
-            return "fittedHBeamWidths";
-          case 'expectedV':
-            return "fittedVBeamWidths";
-          case 'tolerance':
-            return "toleranceVHWidths";
-          case 'height':
-            return "fittedHeight";
-      }
-    }
 
     function canShowChart() {
         switch (offset) {
