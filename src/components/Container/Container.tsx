@@ -482,7 +482,7 @@ const Container = ({ childToParent }) => {
       />
       <Box sx={{width: '100%'}}>
         <Box sx={{BorderBottom: 1, borderColor: 'divider'}}>
-      <Tabs 
+        <Tabs 
         value={currentTabIndex} 
         onChange={handleTabChange} 
         textColor='secondary' 
@@ -498,6 +498,7 @@ const Container = ({ childToParent }) => {
           <Tab label='Visibility Receive' data-testid='visibilitiesTab'/>
           <Tab label='Calibration Data' data-testid='calibrationPlotsTab'/>
       </Tabs>
+        </Box>
       </Box>
       {currentTabIndex===0 && (
       <Grid container>
