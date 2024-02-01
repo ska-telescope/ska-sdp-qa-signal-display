@@ -100,12 +100,19 @@ Calibration Data
 
 Descriptions of each plot in the Calibration Data tab and how they respond follows.
 
+The pointing offset calibration pipeline fits 2D Gaussian primary beams to the visibibility or gain 
+amplitudes. Each scan is split into a number of frequency chunks, and the primary beam is fitted 
+for each frequency chunk and dish. The weighted average of the fitted parameters for each frequnecy 
+chunk is provided for each antenna.
+
 Elevation and Cross-elevation offset
 ------------------------------------
 
-The pointing offset calibration pipeline fits 2D Gaussian primary beams to the visibibility or gain 
-amplitudes. The fitted parameter representing the centre of the primary beam provides the elevation
-and Cross-elevation offsets, along with their uncertainties.
+ The fitted parameter representing the centre of the primary beam provides the elevation
+and Cross-elevation offsets, along with their uncertainties. 
+
+.. image:: images/elevation.png
+   :width: 400
 
 Beam width
 ----------
@@ -113,14 +120,14 @@ Beam width
 The expected and fitted widths of the 2D gaussian primary beam are displayed, along with their 
 uncertainties.
 
+.. image:: images/beam-width.png
+   :width: 400
+
 Beam height
 -----------
 
 The expected and fitted heights of the 2D gaussian primary beam are displayed, along with their 
 uncertainties.
 
-H and V Amplitude
------------------
-
-H and V Phase
--------------
+.. image:: images/beam-height.png
+   :width: 400
