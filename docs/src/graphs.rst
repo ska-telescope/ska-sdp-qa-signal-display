@@ -108,7 +108,7 @@ chunk is provided for each antenna.
 Elevation and Cross-elevation offset
 ------------------------------------
 
- The fitted parameter representing the centre of the primary beam provides the elevation
+The fitted parameter representing the centre of the primary beam provides the elevation
 and Cross-elevation offsets, along with their uncertainties. 
 
 .. image:: images/elevation.png
