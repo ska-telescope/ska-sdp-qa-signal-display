@@ -20,6 +20,7 @@ interface PointingOffsetsProps {
     redraw: boolean;
     resize: number;
     socketStatus: string;
+    // eslint-disable-next-line @typescript-eslint/ban-types
     setSettings: Function;
 }
 
@@ -42,12 +43,12 @@ const PointingOffsets = ({
 
     const chartTitle = () => '';
 
-    const settingElement = () => `show${offset}axisY`;
+    const settingElement = () => `show${dataSelect()}axisY`;
     const setting = () => displaySettings[settingElement()];
 
     const xLabel = () => `${t('label.antennas')}`;
 
-    const yLabel = () => `${t('label.amplitude')} (arcmin)`;
+    const yLabel = () => `${t('label.amplitude')} (${t(`units.${setting()}`)})`;
 
 
     const canShow = () => data !== null;
@@ -65,20 +66,37 @@ const PointingOffsets = ({
         
       }
 
+    function dataSelect() {
+      switch (offset) {
+        case 'cross':
+            return "crossElevationOffset";
+          case 'elevation':
+            return "elevationOffset";
+          case 'expectedH':
+            return "fittedHBeamWidths";
+          case 'expectedV':
+            return "fittedVBeamWidths";
+          case 'tolerance':
+            return "toleranceVHWidths";
+          case 'height':
+            return "fittedHeight";
+      }
+    }
+
     function canShowChart() {
         switch (offset) {
           case 'cross':
-            return displaySettings.showCrossElevationOffset;
+            return displaySettings.showcrossElevationOffset;
           case 'elevation':
-            return displaySettings.showElevationOffset;
+            return displaySettings.showelevationOffset;
           case 'expectedH':
             return displaySettings.showHBeamWidths;
           case 'expectedV':
             return displaySettings.showVBeamWidths;
           case 'tolerance':
-            return displaySettings.showToleranceVHWidths;
+            return displaySettings.showtoleranceVHWidths;
           case 'height':
-            return displaySettings.showFittedHeight;
+            return displaySettings.showfittedHeight;
           default:
             return false;
         }
@@ -96,29 +114,17 @@ const PointingOffsets = ({
             return 0;
         }
       }
-    
-      function getYData(inData: any, polar: string) {
-        switch (polar) {
-          case 'XX':
-            return calculateYData(inData.XX.power);
-          case 'XY':
-            return calculateYData(inData.XY.power);
-          case 'YX':
-            return calculateYData(inData.YX.power);
-          default:
-            return calculateYData(inData.YY.power);
-        }
-      }
 
       function getChartData(usedData: any) {
-        const xValues = usedData.crossElevationOffset.x;
+        const selection = dataSelect()
+        const xValues = usedData[selection].x;
         const chartDataTmp = [
             {
                 x: xValues,
-                y: usedData.crossElevationOffset.y,
+                y: calculateYData(usedData[selection].y),
                 error_y: {
                     type: 'data',
-                    array: usedData.crossElevationOffset.uncertainties,
+                    array: usedData[selection].uncertainties,
                     visible: true
                 },
                 type: "scatter",
