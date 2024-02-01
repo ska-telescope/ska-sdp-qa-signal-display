@@ -28,7 +28,7 @@
     "tolerance": "Tolerance on H and V fitted Beam Widths",
     "height": "Fitted Height",
     "pointingOffsets": "Pointing Offsets",
-    "antennas": "Number of Antennas",
+    "antennas": "Antenna ID",
     "amplitude": "Amplitude",
     "amplitudeH": "Amplitude_H",
     "amplitudeV": "Amplitude_V",
