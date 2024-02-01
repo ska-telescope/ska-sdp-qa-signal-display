@@ -6,7 +6,10 @@ import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 import Plotly from '../Plotly/Plotly';
 
 import SignalCard from '../SignalCard/SignalCard';
+import YAxisToggle from '../YAxisToggle/YAxisToggle';
 import { COLOR } from '../../utils/constants';
+import { calculateDB } from '../../utils/calculate';
+import { amplitudeAxisY, QASettings } from '../Settings/qaSettings';
 
 
 
@@ -17,6 +20,7 @@ interface PointingOffsetsProps {
     redraw: boolean;
     resize: number;
     socketStatus: string;
+    setSettings: Function;
 }
 
 const RATIO = 2;
@@ -27,7 +31,8 @@ const PointingOffsets = ({
     offset,
     redraw,
     resize,
-    socketStatus
+    socketStatus,
+    setSettings
 }: PointingOffsetsProps) => {
     const { t } = useTranslation('signalDisplay');
     const [chartData, setChartData] = React.useState(null);
@@ -36,6 +41,9 @@ const PointingOffsets = ({
     const { darkMode } = storageObject.useStore();
 
     const chartTitle = () => '';
+
+    const settingElement = () => `show${offset}axisY`;
+    const setting = () => displaySettings[settingElement()];
 
     const xLabel = () => `${t('label.antennas')}`;
 
@@ -76,6 +84,32 @@ const PointingOffsets = ({
         }
       }
 
+      function calculateYData(inData: any) {
+        switch (setting()) {
+          case amplitudeAxisY[0]: // amplitude
+            return inData;
+          case amplitudeAxisY[1]: // db
+            return inData.map((item: number) => calculateDB(item));
+          case amplitudeAxisY[2]: // log
+            return inData.map((item: number) => Math.log10(item));
+          default:
+            return 0;
+        }
+      }
+    
+      function getYData(inData: any, polar: string) {
+        switch (polar) {
+          case 'XX':
+            return calculateYData(inData.XX.power);
+          case 'XY':
+            return calculateYData(inData.XY.power);
+          case 'YX':
+            return calculateYData(inData.YX.power);
+          default:
+            return calculateYData(inData.YY.power);
+        }
+      }
+
       function getChartData(usedData: any) {
         const xValues = usedData.crossElevationOffset.x;
         const chartDataTmp = [
@@ -94,6 +128,7 @@ const PointingOffsets = ({
                   size: 8
                 }
             }
+
         ];
         return chartDataTmp
       }
@@ -120,12 +155,27 @@ const PointingOffsets = ({
         }
       }, [resize]);
 
+      function setValue(e: typeof QASettings) {
+        setSettings(e);
+      }
+    
+      const chartToggle = () => (
+        <YAxisToggle
+          // eslint-disable-next-line react/jsx-no-bind
+          setValue={setValue}
+          testId={`${settingElement()}ButtonTestId`}
+          type="amplitude"
+          value={settingElement()}
+          displaySettings={displaySettings}
+        />
+      );
+
 
     return (
       <>
         {canShowChart() && (
         <SignalCard
-          action={<></>}
+          action={chartToggle()}
           data-testid="signalCardId"
           title={`${t(`label.${offset}`)}`}
           socketStatus={socketStatus}
