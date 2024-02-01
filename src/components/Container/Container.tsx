@@ -558,6 +558,7 @@ const Container = ({ childToParent }) => {
               resize={refresh}
               socketStatus={socketStatus3} 
               redraw={redraw}
+              setSettings={settingsUpdate}
             />
           </Grid>
         ))}
