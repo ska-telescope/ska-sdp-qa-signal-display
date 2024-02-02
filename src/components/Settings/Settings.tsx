@@ -131,10 +131,10 @@ export default function Settings({
 
           {headerRow(t('label.gainCalibration'), 'h6')}
 
-          {basicRow('label.amplitude_H', 'showGainCalibrationAmplitudeH')}
-          {basicRow('label.amplitude_V', 'showGainCalibrationAmplitudeV')}
-          {basicRow('label.phase_H', 'showGainCalibrationPhaseH')}
-          {basicRow('label.phase_V', 'showGainCalibrationPhaseV')}
+          {basicRow('label.amplitudeH', 'showGainCalibrationAmplitudeH')}
+          {basicRow('label.amplitudeV', 'showGainCalibrationAmplitudeV')}
+          {basicRow('label.phaseH', 'showGainCalibrationPhaseH')}
+          {basicRow('label.phaseV', 'showGainCalibrationPhaseV')}
 
         </Grid>
       </Box>

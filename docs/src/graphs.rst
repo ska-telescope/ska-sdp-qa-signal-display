@@ -1,8 +1,14 @@
 Available Graphs
 ================
 
-The signal display provides a number of key visualisations of the data. Descriptions of each and 
-how they respond follows.
+The signal display provides a number of key visualisations of the data. The plots are separated between 
+two tabs; "Visibilty Receive" housing the real time visualisation of incoming data and "Calibration Data"
+holding the outputs of the calibration pipelines.
+
+Visibilty Receive
+-----------------
+
+Descriptions of each plot in the Visibilty Receive tab and how they respond follows.
 
 Spectrum
 ----------
@@ -88,3 +94,40 @@ Any residual delay will manifest itself as a shift of the peak of the lag plot a
 if the signals have been correctly delayed before their Cross-Correlation the peak power in
 Cross-Correlation will be at zero lag.
 
+
+Calibration Data
+-----------------
+
+Descriptions of each plot in the Calibration Data tab and how they respond follows.
+
+The pointing offset calibration pipeline fits 2D Gaussian primary beams to the visibibility or gain 
+amplitudes. Each scan is split into a number of frequency chunks, and the primary beam is fitted 
+for each frequency chunk and dish. The weighted average of the fitted parameters for each frequnecy 
+chunk is provided for each antenna.
+
+Elevation and Cross-elevation offset
+------------------------------------
+
+The fitted parameter representing the centre of the primary beam provides the elevation
+and Cross-elevation offsets, along with their uncertainties. 
+
+.. image:: images/elevation.png
+   :width: 400
+
+Beam width
+----------
+
+The expected and fitted widths of the 2D gaussian primary beam are displayed, along with their 
+uncertainties.
+
+.. image:: images/beam-width.png
+   :width: 400
+
+Beam height
+-----------
+
+The expected and fitted heights of the 2D gaussian primary beam are displayed, along with their 
+uncertainties.
+
+.. image:: images/beam-height.png
+   :width: 400
