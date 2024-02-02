@@ -46,12 +46,19 @@ export const QASettings = {
   showPointingOffsets: true,
   gridPointingOffsets: true,
 
-  showCrossElevationOffset: true,
-  showElevationOffset: true,
+  showcrossElevationOffset: true,
+  showelevationOffset: true,
   showHBeamWidths: true,
   showVBeamWidths: true,
-  showToleranceVHWidths: true,
-  showFittedHeight: true,
+  showtoleranceVHWidths: true,
+  showfittedHeight: true,
+
+  showcrossElevationOffsetaxisY: amplitudeAxisY[0],
+  showelevationOffsetaxisY: amplitudeAxisY[0],
+  showfittedHBeamWidthsaxisY: amplitudeAxisY[0],
+  showfittedVBeamWidthsaxisY: amplitudeAxisY[0],
+  showtoleranceVHWidthsaxisY: amplitudeAxisY[0],
+  showfittedHeightaxisY: amplitudeAxisY[0],
 
   showGainCalibration: true,
 

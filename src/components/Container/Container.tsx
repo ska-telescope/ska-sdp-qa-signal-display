@@ -482,16 +482,22 @@ const Container = ({ childToParent }) => {
       />
       <Box sx={{width: '100%'}}>
         <Box sx={{BorderBottom: 1, borderColor: 'divider'}}>
-          <Tabs 
-            value={currentTabIndex} 
-            onChange={handleTabChange} 
-            textColor='secondary' 
-            centered 
-            variant='fullWidth'
-          >
-            <Tab label='Visibility Receive' data-testid='visibilitiesTab' />
-            <Tab label='Calibration Data' data-testid='calibrationPlotsTab' />
-          </Tabs>
+        <Tabs 
+        value={currentTabIndex} 
+        onChange={handleTabChange} 
+        textColor='secondary' 
+        centered 
+        variant='fullWidth'
+        sx={{
+            "& button": {borderRadius: 2},
+            "& button.Mui-selected": {backgroundColor: '#d3d3d3'},
+            "& button:active": {backgroundColor: '#d3d3d3'},
+            "& button: focus": {backgroundColor: '#d3d3d3'},
+            "& button:hover": {backgroundColor: '#d3d3d3'}
+            }}>
+          <Tab label='Visibility Receive' data-testid='visibilitiesTab'/>
+          <Tab label='Calibration Data' data-testid='calibrationPlotsTab'/>
+      </Tabs>
         </Box>
       </Box>
       {currentTabIndex===0 && (
@@ -553,6 +559,7 @@ const Container = ({ childToParent }) => {
               resize={refresh}
               socketStatus={socketStatus3} 
               redraw={redraw}
+              setSettings={settingsUpdate}
             />
           </Grid>
         ))}

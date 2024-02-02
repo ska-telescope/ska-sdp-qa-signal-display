@@ -66,7 +66,7 @@ const GainCalibration = ({
         x: xValues,
         y: getYData(usedData, gain, "m033"),
         marker: {
-          color: COLOR[0]
+          color: COLOR[2]
         }
       }
     ];
