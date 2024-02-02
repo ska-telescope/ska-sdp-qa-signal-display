@@ -489,11 +489,11 @@ const Container = ({ childToParent }) => {
         centered 
         variant='fullWidth'
         sx={{
-             "& button": {borderRadius: 2},
-             "& button.Mui-selected": {backgroundColor: '#d3d3d3'},
-             "& button:active": {backgroundColor: '#d3d3d3'},
-             "& button: focus": {backgroundColor: '#d3d3d3'},
-             "& button:hover": {backgroundColor: '#d3d3d3'}
+            "& button": {borderRadius: 2},
+            "& button.Mui-selected": {backgroundColor: '#d3d3d3'},
+            "& button:active": {backgroundColor: '#d3d3d3'},
+            "& button: focus": {backgroundColor: '#d3d3d3'},
+            "& button:hover": {backgroundColor: '#d3d3d3'}
             }}>
           <Tab label='Visibility Receive' data-testid='visibilitiesTab'/>
           <Tab label='Calibration Data' data-testid='calibrationPlotsTab'/>
