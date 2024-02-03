@@ -24,7 +24,6 @@ import GainCalibration from '../GainCalibration/GainCalibration';
 import mockStatisticsProcessingBlock from '../../mockData/Statistics/processingBlock';
 import mockStatisticsReceiverEvents from '../../mockData/Statistics/receiverEvents';
 import PhaseData from '../../mockData/WebSocket/phase.json';
-import AmplitudeData from '../../mockData/WebSocket/amplitude.json'
 import PlotData from '../../mockData/WebSocket/spectrum.json';
 import pointingOffsetData from '../../mockData/WebSocket/pointingOffsets.json'
 import gainCalibrationData from '../../mockData/WebSocket/gainCalibrations.json'
@@ -57,7 +56,6 @@ const Container = ({ childToParent }) => {
   const [receiverEventsData, setReceiverEventsData] = React.useState(null);
   const [socketStatus5, setSocketStatus5] = React.useState(SOCKET_STATUS[0]);
   const [chartData4, setChartData4] = React.useState(null);
-  const [chartData5, setChartData5] = React.useState(null);
   const [currentTabIndex, setCurrentTabIndex] = React.useState(0)
 
   const [counter, setCounter] = React.useState(0);
@@ -312,8 +310,7 @@ const Container = ({ childToParent }) => {
     }
     if (DATA_LOCAL) {
       setSocketStatus1(SOCKET_STATUS[3]);
-      setChartData1(AmplitudeData);
-      setChartData5(PhaseData);
+      setChartData1(PhaseData);
       setSocketStatus2(SOCKET_STATUS[3]);
       setChartData2(PlotData);
       setSocketStatus3(SOCKET_STATUS[3])
@@ -324,16 +321,9 @@ const Container = ({ childToParent }) => {
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
         protocol: config.api_format,
-        suffix: `${config.topics.amplitude}-${subArray}`,
+        suffix: `${config.topics.phase_and_amplitude}-${subArray}`,
         statusFunction: setSocketStatus1,
         dataFunction: setChartData1
-      });
-      Socket({
-        apiUrl: WS_API_URL + config.paths.websocket,
-        protocol: config.api_format,
-        suffix: `${config.topics.phase}-${subArray}`,
-        statusFunction: setSocketStatus1,
-        dataFunction: setChartData5
       });
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
@@ -548,8 +538,7 @@ const Container = ({ childToParent }) => {
           setSettings={settingsUpdate}
           socketStatus={socketStatus1}
           displaySettings={displaySettings}
-          amplitudeData={chartData1}
-          phaseData={chartData5}
+          data={chartData1}
           legend={legendData}
         />
       ))}

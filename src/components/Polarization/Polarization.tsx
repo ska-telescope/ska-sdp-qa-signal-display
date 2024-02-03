@@ -20,8 +20,7 @@ import {
 import { amplitudeAxisY, phaseAxisY, QASettings } from '../Settings/qaSettings';
 
 interface PolarizationProps {
-  phaseData: any;
-  amplitudeData: any;
+  data: any;
   displaySettings: typeof QASettings;
   legend: any;
   polarization: string;
@@ -35,8 +34,7 @@ interface PolarizationProps {
 const RATIO = 2;
 
 const Polarization = ({
-  phaseData,
-  amplitudeData,
+  data,
   displaySettings,
   legend,
   polarization,
@@ -137,7 +135,7 @@ const Polarization = ({
     return chartData;
   }
 
-  const canShow = () => phaseData && phaseData.data && amplitudeData && amplitudeData.data;
+  const canShow = () => data && data.data;
 
   const showToggle = () => {
     setShowContent(showContent ? false : canShow());
@@ -161,14 +159,14 @@ const Polarization = ({
 
   React.useEffect(() => {
     const firstRender = chartData1 === null;
-    if (amplitudeData && phaseData && legend) {
-      setChartData1(canShow() ? getChartData(amplitudeData, true) : null);
-      setChartData2(canShow() ? getChartData(phaseData, false) : null);
+    if (data && legend) {
+      setChartData1(canShow() ? getChartData(data, true) : null);
+      setChartData2(canShow() ? getChartData(data, false) : null);
     }
     if (firstRender) {
       setShowContent(canShow());
     }
-  }, [amplitudeData, phaseData, legend, redraw]);
+  }, [data, legend, redraw]);
 
   function setValue(e: typeof QASettings) {
     setSettings(e);
