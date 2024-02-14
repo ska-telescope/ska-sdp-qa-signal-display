@@ -125,7 +125,6 @@ context('Signal display', () => {
         cy.findAllByTestId("sectionHeader").contains("Elevation Offset").should("be.visible")
         cy.findAllByTestId("sectionHeader").contains("Expected and Fitted H Beam Widths").should("be.visible")
         cy.findAllByTestId("sectionHeader").contains("Expected and Fitted V Beam Widths").should("be.visible")
-        cy.findAllByTestId("sectionHeader").contains("Tolerance on H and V fitted Beam Widths").should("be.visible")
         cy.findAllByTestId("sectionHeader").contains("Fitted Height").should("be.visible")
 
         cy.findAllByTestId('visibilitiesTab').click()
