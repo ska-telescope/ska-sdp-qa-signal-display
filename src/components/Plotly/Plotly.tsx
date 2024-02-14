@@ -10,7 +10,7 @@ interface PlotlyProps {
   width: number;
   xLabel: string;
   yLabel: string;
-  masked?: any[];
+  masked?: Data[];
 }
 
 const Plotly = ({

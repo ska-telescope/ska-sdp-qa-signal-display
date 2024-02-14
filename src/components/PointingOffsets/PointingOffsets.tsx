@@ -121,6 +121,37 @@ const PointingOffsets = ({
         return chartDataTmp
       }
 
+      function checkForInvalidData(usedData: any) {
+        const xValues = usedData.antennas
+        const y = usedData[offset]
+
+        const shapes = []
+
+        for (let i=0; i < y.length; i++){
+          if (!(Number.isFinite(y[i]))) {
+            const badAntenna = xValues[i];
+            const badAntennaNum = +badAntenna.replace(/[^0-9]/g, '') - 1;
+            shapes.push({
+              type: 'rect',
+              xref: 'x',
+              yref: 'paper',
+              x0: badAntennaNum-0.5,
+              y0: 0,
+              x1: badAntennaNum+0.5,
+              y1: 1,
+              fillcolor: '#fc0303',
+              opacity: 0.2,
+              line: {
+                width: 0
+              }
+            })
+          }
+        }
+
+        return shapes
+      }
+
+
       React.useEffect(() => {
         const firstRender = chartData === null;
         if (data) {
@@ -158,37 +189,6 @@ const PointingOffsets = ({
           displaySettings={displaySettings}
         />
       );
-
-      function checkForInvalidData(usedData: any) {
-        const xValues = usedData.antennas
-        const y = usedData[offset]
-
-        var shapes = []
-
-        for (let i=0; i < y.length; i++){
-          if (!(Number.isFinite(y[i]))) {
-            const bad_antenna = xValues[i];
-            const bad_antenna_num = +bad_antenna.replace(/[^0-9]/g, '') - 1;
-            shapes.push({
-              type: 'rect',
-              xref: 'x',
-              yref: 'paper',
-              x0: bad_antenna_num-0.5,
-              y0: 0,
-              x1: bad_antenna_num+0.5,
-              y1: 1,
-              fillcolor: '#fc0303',
-              opacity: 0.2,
-              line: {
-                width: 0
-              }
-            })
-          }
-        }
-
-        return shapes
-      }
-
 
     return (
       <>
