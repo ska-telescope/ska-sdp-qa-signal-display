@@ -32,7 +32,8 @@ import { COLOR, DATA_API_URL, DATA_LOCAL, SOCKET_STATUS, WS_API_URL } from '../.
 
 
 const items = ['XX', 'XY', 'YX', 'YY'];
-const offsets = ['cross', 'elevation', 'expectedH', 'expectedV', 'tolerance', 'height']
+const offsets = ['crossElevationOffset', 'crossElevationFittedWidth', 'elevationOffset', 'elevationFittedWidth', 'fittedHeight']
+// const offsets = ['cross', 'elevation', 'expectedH', 'expectedV', 'tolerance', 'height']
 const gains = ['amplitudeH', 'amplitudeV', 'phaseH', 'phaseV']
 
 const Container = ({ childToParent }) => {
@@ -345,7 +346,7 @@ const Container = ({ childToParent }) => {
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
         protocol: config.api_format,
-        suffix: `${config.topics.pointing_offset}-${subArray}`,
+        suffix: `${config.topics.pointing_offset_out}-${subArray}`,
         statusFunction: setSocketStatus3,
         dataFunction: setChartData3
       });
