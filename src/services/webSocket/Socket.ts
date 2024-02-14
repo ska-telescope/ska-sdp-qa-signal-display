@@ -40,6 +40,7 @@ const Socket = ({ apiUrl, protocol, suffix, statusFunction, dataFunction }: WebS
             if (dAny && dAny.status) {
               statusFunction(dAny.status);
             } else {
+              console.error("I am not sure " + tmpSplit[0]);
               dataFunction(decoded);
             }
           })
