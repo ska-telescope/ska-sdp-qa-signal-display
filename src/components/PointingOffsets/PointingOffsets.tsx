@@ -41,28 +41,9 @@ const PointingOffsets = ({
     const [refresh, setRefresh] = React.useState(false);
     const { darkMode } = storageObject.useStore();
 
-    function dataSelect() {
-      switch (offset) {
-        case 'cross':
-            return "crossElevationOffset";
-          case 'elevation':
-            return "elevationOffset";
-          case 'expectedH':
-            return "fittedHBeamWidths";
-          case 'expectedV':
-            return "fittedVBeamWidths";
-          case 'tolerance':
-            return "toleranceVHWidths";
-          case 'height':
-            return "fittedHeight";
-          default:
-            return false;
-      }
-    }
-
     const chartTitle = () => '';
 
-    const settingElement = () => `show${dataSelect()}axisY`;
+    const settingElement = () => `show${offset}axisY`;
     const setting = () => displaySettings[settingElement()];
 
     const xLabel = () => `${t('label.antennas')}`;
@@ -87,17 +68,15 @@ const PointingOffsets = ({
 
     function canShowChart() {
         switch (offset) {
-          case 'cross':
+          case 'crossElevationOffset':
             return displaySettings.showcrossElevationOffset;
-          case 'elevation':
+          case 'elevationOffset':
             return displaySettings.showelevationOffset;
-          case 'expectedH':
-            return displaySettings.showHBeamWidths;
-          case 'expectedV':
-            return displaySettings.showVBeamWidths;
-          case 'tolerance':
-            return displaySettings.showtoleranceVHWidths;
-          case 'height':
+          case 'crossElevationFittedWidth':
+            return displaySettings.showcrossElevationFittedWidth;
+          case 'elevationFittedWidth':
+            return displaySettings.showelevationFittedWidth;
+          case 'fittedHeight':
             return displaySettings.showfittedHeight;
           default:
             return false;
@@ -118,15 +97,15 @@ const PointingOffsets = ({
       }
 
       function getChartData(usedData: any) {
-        const selection = dataSelect()
-        const xValues = usedData[selection].x;
+        const selection = offset
+        const xValues = usedData.antennas;
         const chartDataTmp = [
             {
                 x: xValues,
-                y: calculateYData(usedData[selection].y),
+                y: calculateYData(usedData[selection]),
                 error_y: {
                     type: 'data',
-                    array: usedData[selection].uncertainties,
+                    array: usedData[`${selection}Uncertainty`],
                     visible: true
                 },
                 type: "scatter",
@@ -138,6 +117,8 @@ const PointingOffsets = ({
             }
 
         ];
+        console.log(selection)
+        console.log(calculateYData(usedData[selection]))
         return chartDataTmp
       }
 
