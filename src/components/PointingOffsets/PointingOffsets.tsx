@@ -37,6 +37,7 @@ const PointingOffsets = ({
 }: PointingOffsetsProps) => {
     const { t } = useTranslation('signalDisplay');
     const [chartData, setChartData] = React.useState(null);
+    const [invalidData, setInvalidData] = React.useState(null);
     const [showContent, setShowContent] = React.useState(false);
     const [refresh, setRefresh] = React.useState(false);
     const { darkMode } = storageObject.useStore();
@@ -117,8 +118,6 @@ const PointingOffsets = ({
             }
 
         ];
-        console.log(selection)
-        console.log(calculateYData(usedData[selection]))
         return chartDataTmp
       }
 
@@ -126,6 +125,7 @@ const PointingOffsets = ({
         const firstRender = chartData === null;
         if (data) {
           setChartData(getChartData(data));
+          setInvalidData(checkForInvalidData(data))
         }
         if (firstRender) {
           setShowContent(canShow());
@@ -159,6 +159,36 @@ const PointingOffsets = ({
         />
       );
 
+      function checkForInvalidData(usedData: any) {
+        const xValues = usedData.antennas
+        const y = usedData[offset]
+
+        var shapes = []
+
+        for (let i=0; i < y.length; i++){
+          if (!(Number.isFinite(y[i]))) {
+            const bad_antenna = xValues[i];
+            const bad_antenna_num = +bad_antenna.replace(/[^0-9]/g, '') - 1;
+            shapes.push({
+              type: 'rect',
+              xref: 'x',
+              yref: 'paper',
+              x0: bad_antenna_num-0.5,
+              y0: 0,
+              x1: bad_antenna_num+0.5,
+              y1: 1,
+              fillcolor: '#fc0303',
+              opacity: 0.2,
+              line: {
+                width: 0
+              }
+            })
+          }
+        }
+
+        return shapes
+      }
+
 
     return (
       <>
@@ -184,6 +214,7 @@ const PointingOffsets = ({
             width={parentWidth()}
             xLabel={xLabel()}
             yLabel={yLabel()}
+            masked={invalidData}
           />
         </SignalCard>
 )}
