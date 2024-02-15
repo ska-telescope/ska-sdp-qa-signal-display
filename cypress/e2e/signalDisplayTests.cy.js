@@ -1,5 +1,5 @@
 function statisticsDetailed() {
-    cy.findAllByTestId("sectionHeader").contains("Statistics - Detailed").should("be.visible")
+    cy.findAllByTestId("sectionHeader").contains("Statistics - Detailed").should("be.visible");
 
     cy.findByTestId("timeDetails").contains("Time").should("be.visible");
     cy.findByTestId("timeDetails").contains("Last Refresh from API:").should("be.visible");
@@ -21,7 +21,7 @@ function statisticsDetailed() {
 }
 
 function statisticsReceiver() {
-    cy.findAllByTestId("sectionHeader").contains("Statistics - Receiver").should("be.visible")
+    cy.findAllByTestId("sectionHeader").contains("Statistics - Receiver").should("be.visible");
 
     cy.findByTestId("currentScanDetails").contains("State").should("be.visible");
     cy.findByTestId("currentScanDetails").contains("Current Scan ID:").should("be.visible");
@@ -52,31 +52,31 @@ function settings() {
     cy.findAllByTestId("showPolarizationPhaseYYButtonTestId").should("be.visible").click();
     cy.findAllByTestId("showSpectrogramsButtonTestId").should("be.visible").click();
     cy.findAllByTestId("showLagPlotsButtonTestId").should("be.visible").click();
-    cy.findAllByTestId("showCrossElevationOffsetButtonTestId").should("be.visible").click()
-    cy.findAllByTestId("showElevationOffsetButtonTestId").should("be.visible").click()
-    cy.findAllByTestId("showHBeamWidthsButtonTestId").should("be.visible").click()
-    cy.findAllByTestId("showVBeamWidthsButtonTestId").should("be.visible").click()
-    cy.findAllByTestId("showToleranceVHWidthsButtonTestId").should("be.visible").click()
-    cy.findAllByTestId("showFittedHeightButtonTestId").should("be.visible").click()
+    cy.findAllByTestId("showCrossElevationOffsetButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showElevationOffsetButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showHBeamWidthsButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showVBeamWidthsButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showToleranceVHWidthsButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showFittedHeightButtonTestId").should("be.visible").click();
 }
 
 context('Signal display', () => {
 
     beforeEach(() => {
-        cy.visit("http://localhost:3333")
+        cy.visit("http://localhost:3333");
     })
 
     it('Verify external link to skao site', () => {
-        cy.findByLabelText("skaWebsite").click()
+        cy.findByLabelText("skaWebsite").click();
     })
 
     it('Verify light/dark mode is available', () => {
-        cy.findByTestId("Brightness7Icon").click()
+        cy.findByTestId("Brightness7Icon").click();
         cy.findByTestId('Brightness4Icon').should("be.visible");
     })
     
     it('Verify expected diagrams are present and can be hidden', () => {
-        cy.findAllByTestId("hideShowToggle").click({ multiple: true })
+        cy.findAllByTestId("hideShowToggle").click({ multiple: true });
 
         cy.findByTestId("noSubArrayCard").should("be.visible");
         cy.findAllByTestId("status1Id").should("be.visible");
@@ -84,26 +84,26 @@ context('Signal display', () => {
         statisticsDetailed();
         statisticsReceiver();
 
-        cy.findAllByTestId("sectionHeader").contains("Spectrum Plot XX").should("be.visible")
-        cy.findAllByTestId("sectionHeader").contains("Spectrum Plot XY").should("be.visible")
-        cy.findAllByTestId("sectionHeader").contains("Spectrum Plot YX").should("be.visible")
-        cy.findAllByTestId("sectionHeader").contains("Spectrum Plot YY").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Spectrum Plot XX").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Spectrum Plot XY").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Spectrum Plot YX").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Spectrum Plot YY").should("be.visible");
 
-        cy.findAllByTestId("sectionHeader").contains("Legend").should("be.visible")
-        cy.findAllByTestId("VisibilityOffIcon").eq(3).click({ multiple: true, force: true })
-        cy.findAllByTestId("legendGroupingId").click({ multiple: true })
-        cy.findAllByTestId("noChartData1Card").should("be.visible")
-        cy.findAllByTestId("noChartData2Card").should("be.visible")
-        cy.findAllByTestId("legendKey").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Legend").should("be.visible");
+        cy.findAllByTestId("VisibilityOffIcon").eq(3).click({ multiple: true, force: true });
+        cy.findAllByTestId("legendGroupingId").click({ multiple: true });
+        cy.findAllByTestId("noChartData1Card").should("be.visible");
+        cy.findAllByTestId("noChartData2Card").should("be.visible");
+        cy.findAllByTestId("legendKey").should("be.visible");
 
-        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XX").should("be.visible")
-        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XY").should("be.visible")
-        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude YX").should("be.visible")
-        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude YY").should("be.visible")
-        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase XX").should("be.visible")
-        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase XY").should("be.visible")
-        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase YX").should("be.visible")
-        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase YY").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XX").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XY").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude YX").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude YY").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase XX").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase XY").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase YX").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase YY").should("be.visible");
         cy.findAllByTestId('chartData1Content').should("be.visible");
         cy.findAllByTestId('chartData2Content').should("be.visible");
 
@@ -119,20 +119,20 @@ context('Signal display', () => {
         cy.findByTestId('LagPlot3Id').should("be.visible");
         cy.findByTestId('LagPlot4Id').should("be.visible");
 
-        cy.findByTestId("calibrationPlotsTab").click()
+        cy.findByTestId("calibrationPlotsTab").click();
 
-        cy.findAllByTestId("sectionHeader").contains("Cross Elevation Offset").should("be.visible")
-        cy.findAllByTestId("sectionHeader").contains("Elevation Offset").should("be.visible")
-        cy.findAllByTestId("sectionHeader").contains("Expected and Fitted H Beam Widths").should("be.visible")
-        cy.findAllByTestId("sectionHeader").contains("Expected and Fitted V Beam Widths").should("be.visible")
-        cy.findAllByTestId("sectionHeader").contains("Fitted Height").should("be.visible")
+        cy.findAllByTestId("sectionHeader").contains("Cross Elevation Offset").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Elevation Offset").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Expected and Fitted H Beam Widths").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Expected and Fitted V Beam Widths").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Fitted Height").should("be.visible");
 
-        cy.findAllByTestId('visibilitiesTab').click()
+        cy.findAllByTestId('visibilitiesTab').click();
 
         settings();
     })
 
     it("Verify modals operate as expected", () => {
-        cy.findAllByTestId('test-info-modal').should("be.visible").click({ multiple: true , force: true })
+        cy.findAllByTestId('test-info-modal').should("be.visible").click({ multiple: true , force: true });
     })
 })

@@ -44,10 +44,9 @@ const Plotly = ({
         color: darkMode ? 'white' : 'black',
         automargin: true
       },
-      margin:{t:25, r:0},
+      margin: { t: 25, r: 0 },
 
       shapes: masked
-
     }}
   />
 );

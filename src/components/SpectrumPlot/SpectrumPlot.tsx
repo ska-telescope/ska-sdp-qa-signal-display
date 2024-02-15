@@ -58,10 +58,9 @@ const SpectrumPlot = ({
   function parentWidth() {
     // TODO : Make this responsive
     if (displaySettings.gridView) {
-    return 700;
-    } 
-      return 1400
-    
+      return 700;
+    }
+    return 1400;
   }
 
   function calculateYData(inData: any) {
@@ -165,7 +164,7 @@ const SpectrumPlot = ({
           socketStatus={socketStatus}
           showContent={showContent}
           setShowContent={showToggle}
-          showInfoModal='true'
+          showInfoModal="true"
           infoTitle={t('modalInfo.spectrumPlot.title')}
           infoContent={t('modalInfo.spectrumPlot.content')}
           infoSite={t('modalInfo.spectrumPlot.site')}
