@@ -68,6 +68,11 @@ export const POLARIZATIONS = ['XX', 'XY', 'YX', 'YY'];
 
 export const SOCKET_STATUS = ['unknown', 'error', 'connected', 'local'];
 
+export const WATERFALL_PLOT_TYPES = {
+  SPECTROGRAM: 'spectrogram',
+  LAG_PLOT: 'lag_plot'
+}
+
 // Common URLs
 export const DATA_API_URL = env.REACT_APP_DATA_API_URL;
 

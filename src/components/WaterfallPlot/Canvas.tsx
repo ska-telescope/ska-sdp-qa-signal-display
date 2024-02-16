@@ -18,7 +18,7 @@ const Canvas = ({data, height, width}: CanvasProps) => {4
         var pictureData = context.createImageData(width, height);
         pictureData.data.set(data);
         context.putImageData(pictureData, 0, 0);
-    }, []);
+    }, [data]);
 
   return <canvas ref={canvasRef}/>
 }

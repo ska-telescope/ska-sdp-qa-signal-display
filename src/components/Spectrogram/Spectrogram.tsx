@@ -6,7 +6,7 @@ import SKAOModal from '../Modal/Modal';
 import SignalCard from '../SignalCard/SignalCard';
 import SpectrogramImage from '../SpectrogramImage/SpectrogramImage';
 import WaterfallPlot from '../WaterfallPlot/WaterfallPlot';
-import { DATA_LOCAL, DATA_API_URL } from '../../utils/constants';
+import { DATA_LOCAL, DATA_API_URL, WATERFALL_PLOT_TYPES } from '../../utils/constants';
 
 interface SpectrogramProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -99,7 +99,7 @@ const Spectrogram = ({ config, legend, displaySettings, subArray }: SpectrogramP
           <Card variant="outlined" className="removeBorder:focus">
             <CardContent>
               <WaterfallPlot 
-                type="spectrograms"
+                type={WATERFALL_PLOT_TYPES.SPECTROGRAM}
                 item={selected} 
                 config={config}
                 subArray={subArray}
