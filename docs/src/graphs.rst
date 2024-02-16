@@ -109,9 +109,11 @@ Elevation and Cross-elevation offset
 ------------------------------------
 
 The fitted parameter representing the centre of the primary beam provides the elevation
-and Cross-elevation offsets, along with their uncertainties. 
+and Cross-elevation offsets, along with their uncertainties. If a calculated pointing offset exceeds 
+a threshold percentage of the expected value, then it is discounted. These discounted pointing offsets 
+are indicated by the red shaded regions in the graphs.
 
-.. image:: images/elevation.png
+.. image:: images/cross-elevation.png
    :width: 400
 
 Beam width

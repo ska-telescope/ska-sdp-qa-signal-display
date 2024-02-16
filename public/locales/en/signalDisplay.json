@@ -21,12 +21,11 @@
   },
 
   "label": {
-    "cross": "Cross Elevation Offset",
-    "elevation": "Elevation Offset",
-    "expectedH": "Expected and Fitted H Beam Widths",
-    "expectedV": "Expected and Fitted V Beam Widths",
-    "tolerance": "Tolerance on H and V fitted Beam Widths",
-    "height": "Fitted Height",
+    "crossElevationOffset": "Cross Elevation Offset",
+    "elevationOffset": "Elevation Offset",
+    "crossElevationFittedWidth": "Expected and Fitted H Beam Widths",
+    "elevationFittedWidth": "Expected and Fitted V Beam Widths",
+    "fittedHeight": "Fitted Height",
     "pointingOffsets": "Pointing Offsets",
     "antennas": "Antenna ID",
     "amplitude": "Amplitude",
@@ -164,32 +163,27 @@
       "content": "We Need To Add Info",
       "site": "We Need To Add Info"
     },
-    "cross": {
+    "crossElevationOffset": {
       "title": "Cross Elevation Offset",
       "content": "The fitted parameter representing the centre of the primary beam provides the elevation and Cross-elevation offsets, along with their uncertainties.",
       "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#elevation-and-cross-elevation-offset"
     },
-    "elevation": {
+    "elevationOffset": {
       "title": "Elevation Offset",
       "content": "The fitted parameter representing the centre of the primary beam provides the elevation and Cross-elevation offsets, along with their uncertainties.",
       "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#elevation-and-cross-elevation-offset"
     },
-    "expectedH": {
+    "crossElevationFittedWidth": {
       "title": "Expected and Fitted H Beam Widths",
       "content": "The expected and fitted widths of the 2D gaussian primary beam are displayed, along with their uncertainties.",
       "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#beam-width"
     },
-    "expectedV": {
+    "elevationFittedWidth": {
       "title": "Expected and Fitted V Beam Widths",
       "content": "The expected and fitted widths of the 2D gaussian primary beam are displayed, along with their uncertainties.",
       "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#beam-width"
     },
-    "tolerance": {
-      "title": "Tolerance on H and V fitted Beam Widths",
-      "content": "",
-      "site": ""
-    },
-    "height": {
+    "fittedHeight": {
       "title": "Fitted Height",
       "content": "The expected and fitted heights of the 2D gaussian primary beam are displayed, along with their uncertainties.",
       "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#"

@@ -32,7 +32,7 @@ import { COLOR, DATA_API_URL, DATA_LOCAL, SOCKET_STATUS, WS_API_URL } from '../.
 
 
 const items = ['XX', 'XY', 'YX', 'YY'];
-const offsets = ['cross', 'elevation', 'expectedH', 'expectedV', 'tolerance', 'height']
+const offsets = ['crossElevationOffset', 'crossElevationFittedWidth', 'elevationOffset', 'elevationFittedWidth', 'fittedHeight']
 const gains = ['amplitudeH', 'amplitudeV', 'phaseH', 'phaseV']
 
 const Container = ({ childToParent }) => {
@@ -345,7 +345,7 @@ const Container = ({ childToParent }) => {
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
         protocol: config.api_format,
-        suffix: `${config.topics.pointing_offset}-${subArray}`,
+        suffix: `${config.topics.pointing_offset_out}-${subArray}`,
         statusFunction: setSocketStatus3,
         dataFunction: setChartData3
       });
@@ -492,22 +492,23 @@ const Container = ({ childToParent }) => {
       />
       <Box sx={{width: '100%'}}>
         <Box sx={{BorderBottom: 1, borderColor: 'divider'}}>
-        <Tabs 
-        value={currentTabIndex} 
-        onChange={handleTabChange} 
-        textColor='secondary' 
-        centered 
-        variant='fullWidth'
-        sx={{
+          <Tabs 
+            value={currentTabIndex} 
+            onChange={handleTabChange} 
+            textColor='secondary' 
+            centered 
+            variant='fullWidth'
+            sx={{
             "& button": {borderRadius: 2},
             "& button.Mui-selected": {backgroundColor: '#d3d3d3'},
             "& button:active": {backgroundColor: '#d3d3d3'},
             "& button: focus": {backgroundColor: '#d3d3d3'},
             "& button:hover": {backgroundColor: '#d3d3d3'}
-            }}>
-          <Tab label='Visibility Receive' data-testid='visibilitiesTab'/>
-          <Tab label='Calibration Data' data-testid='calibrationPlotsTab'/>
-      </Tabs>
+            }}
+          >
+            <Tab label='Visibility Receive' data-testid='visibilitiesTab' />
+            <Tab label='Calibration Data' data-testid='calibrationPlotsTab' />
+          </Tabs>
         </Box>
       </Box>
       {currentTabIndex===0 && (
