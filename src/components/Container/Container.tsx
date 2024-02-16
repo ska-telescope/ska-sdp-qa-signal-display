@@ -556,7 +556,7 @@ const Container = ({ childToParent }) => {
 
       
       {currentTabIndex===0 && (<Spectrogram config={config} legend={legendData} displaySettings={displaySettings} subArray={subArray}/>)}
-      {currentTabIndex===0 && (<LagPlot config={config} legend={legendData} displaySettings={displaySettings} />)}
+      {currentTabIndex===0 && (<LagPlot config={config} legend={legendData} displaySettings={displaySettings} subArray={subArray} />)}
       
       
       {currentTabIndex === 1 && (

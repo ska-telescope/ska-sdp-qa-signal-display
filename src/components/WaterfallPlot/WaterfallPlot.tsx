@@ -27,24 +27,28 @@ const WaterfallPlot = ({
 
   const [chartData, setChartData] = React.useState(null);
   const [imageArray, setImageArray] = React.useState([]);
-  const [socketStatus, setSocketStatus] = React.useState(SOCKET_STATUS[0])
-
-  var title = ''; 
+  const [socketStatus, setSocketStatus] = React.useState(SOCKET_STATUS[0]) 
 
   function returnTopic(){
     switch(type) {
       case WATERFALL_PLOT_TYPES.SPECTROGRAM:
-        title = `${t('label.spectrograms')}`;
         return config.topics.spectrograms;
       case WATERFALL_PLOT_TYPES.LAG_PLOT:
-        title = `${t('label.lag_plot')}`;
         return config.topics.lag_plot;
       default:
         console.error("Unknown waterfall plot type.");
-        title = `Unknown`;
         return "undefined"
     }
-};
+  };
+
+  function normaliseValues(data: number[]) {
+    const ratio = Math.max.apply(Math, data) /360;
+    var normalisedData = [];
+    for (let i = 0; i < data.length; i++) {
+        normalisedData.push(Math.round(data[i] / ratio));
+    }
+    return normalisedData;
+  };
 
   React.useEffect(() => {
     Socket({
@@ -61,15 +65,28 @@ const WaterfallPlot = ({
     if (!imageArray){
       setImageArray([]);
     }
-    chartData?.spectograms.forEach(function(spectrogram){
-      var rgbaValues = [];
-      if (spectrogram.baseline === `${baselines[0]}_${baselines[1]}` && spectrogram.polarisation === baselines[2]){
-        spectrogram.phase_values.forEach(function(value: number){
-          rgbaValues.push(LOOKUP_COLOUR_VALUES[value]);
-        });
-        imageArray.push(rgbaValues);
-      }
-    });
+    if(type === WATERFALL_PLOT_TYPES.SPECTROGRAM) {
+      chartData?.spectograms.forEach(function(spectrogram){
+        var rgbaValues = [];
+        if (spectrogram.baseline === `${baselines[0]}_${baselines[1]}` && spectrogram.polarisation === baselines[2]){
+          spectrogram.phase_values.forEach(function(value: number){
+            rgbaValues.push(LOOKUP_COLOUR_VALUES[value]);
+          });
+          imageArray.push(rgbaValues);
+        }
+      });
+    } else if (type === WATERFALL_PLOT_TYPES.LAG_PLOT) {
+      chartData?.forEach(function(plot){
+        var rgbaValues = [];
+        if (plot.baseline === `${baselines[0]}_${baselines[1]}` && plot.polarisations === baselines[2]){
+            const normaliseData = normaliseValues(plot.plot);
+            normaliseData.forEach(function(value: number){
+              rgbaValues.push(LOOKUP_COLOUR_VALUES[value]);
+          });
+          imageArray.push(rgbaValues);
+        }
+      });
+    }
     setImageArray(imageArray);
   },[chartData]);
 
