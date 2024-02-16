@@ -492,22 +492,23 @@ const Container = ({ childToParent }) => {
       />
       <Box sx={{width: '100%'}}>
         <Box sx={{BorderBottom: 1, borderColor: 'divider'}}>
-        <Tabs 
-        value={currentTabIndex} 
-        onChange={handleTabChange} 
-        textColor='secondary' 
-        centered 
-        variant='fullWidth'
-        sx={{
+          <Tabs 
+            value={currentTabIndex} 
+            onChange={handleTabChange} 
+            textColor='secondary' 
+            centered 
+            variant='fullWidth'
+            sx={{
             "& button": {borderRadius: 2},
             "& button.Mui-selected": {backgroundColor: '#d3d3d3'},
             "& button:active": {backgroundColor: '#d3d3d3'},
             "& button: focus": {backgroundColor: '#d3d3d3'},
             "& button:hover": {backgroundColor: '#d3d3d3'}
-            }}>
-          <Tab label='Visibility Receive' data-testid='visibilitiesTab'/>
-          <Tab label='Calibration Data' data-testid='calibrationPlotsTab'/>
-      </Tabs>
+            }}
+          >
+            <Tab label='Visibility Receive' data-testid='visibilitiesTab' />
+            <Tab label='Calibration Data' data-testid='calibrationPlotsTab' />
+          </Tabs>
         </Box>
       </Box>
       {currentTabIndex===0 && (
@@ -555,7 +556,7 @@ const Container = ({ childToParent }) => {
       ))}
 
       
-      {currentTabIndex===0 && (<Spectrogram config={config} legend={legendData} displaySettings={displaySettings} subArray={subArray}/>)}
+      {currentTabIndex===0 && (<Spectrogram config={config} legend={legendData} displaySettings={displaySettings} subArray={subArray} />)}
       {currentTabIndex===0 && (<LagPlot config={config} legend={legendData} displaySettings={displaySettings} subArray={subArray} />)}
       
       

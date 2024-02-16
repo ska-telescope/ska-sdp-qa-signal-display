@@ -99,7 +99,7 @@ const LagPlot = ({ config, legend, displaySettings, subArray }: LagPlotProps) =>
         <SKAOModal open={open} onClose={() => setOpen(false)}>
           <Card variant="outlined" className="removeBorder:focus">
             <CardContent>
-            <WaterfallPlot 
+              <WaterfallPlot 
                 type={WATERFALL_PLOT_TYPES.LAG_PLOT}
                 item={selected} 
                 config={config}
