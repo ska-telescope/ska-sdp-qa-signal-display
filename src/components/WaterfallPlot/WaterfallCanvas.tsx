@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from 'react'
 
-interface CanvasProps {
+interface WaterfallCanvasProps {
     data: Uint8ClampedArray,
     height: number,
     width: number
   }
 
-const Canvas = ({data, height, width}: CanvasProps) => {
+const WaterfallCanvas = ({data, height, width}: WaterfallCanvasProps) => {
 
     const canvasRef = useRef(null)
 
@@ -23,4 +23,4 @@ const Canvas = ({data, height, width}: CanvasProps) => {
   return <canvas ref={canvasRef} />
 }
 
-export default Canvas
+export default WaterfallCanvas

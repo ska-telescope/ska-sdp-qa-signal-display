@@ -3,7 +3,7 @@
 /* eslint-disable  prefer-destructuring */
 import React from 'react';
 
-import Canvas from './Canvas';
+import WaterfallCanvas from './WaterfallCanvas';
 import Socket from '../../services/webSocket/Socket';
 import SignalCard from '../SignalCard/SignalCard';
 
@@ -136,7 +136,7 @@ const WaterfallPlot = ({
       /* eslint-disable react/jsx-no-bind */
       setShowContent={showToggle}
     >
-      <Canvas
+      <WaterfallCanvas
         data={createUint8ClampedArray(imageArray)}
         height={(imageArray && imageArray.length > 0) ? imageArray.length : 500}
         width={(imageArray && imageArray[0]) ? imageArray[0].length : 500}
