@@ -59,33 +59,32 @@ const GainCalibration = ({
   function selector() {
     switch (gain) {
       case 'amplitudeH':
-        return "gains";
+        return ["gains", 0];
       case 'amplitudeV':
-        return "gains";
+        return ["gains", 3];
       case 'phaseH':
-        return "phases";
+        return ["phases", 0];
       case 'phaseV':
-        return "phases";
+        return ["phases", 3];
       default:
-        return false;
+        return [false, false];
     }
   }
 
-  function getYData(inData: any, gainStr: string) {
-    return inData[selector()]
-  }
+
   function getChartData(usedData: any) {
-    const xValues = 1 //usedData.times;
-    const chartDataTmp = [
-      {
+    const chartData = [];
+    const xValues = [0] //usedData.times;
+    const [selection, index] = selector()
+
+    for (let i = 0; i < usedData[selection].length; i++) {
+      chartData.push({
         x: xValues,
-        y: getYData(usedData, gain),
-        marker: {
-          color: COLOR[2]
-        }
-      }
-    ];
-    return chartDataTmp;
+        y: [usedData[selection][i][index]]
+      })
+    }
+
+    return chartData;
   }
 
   function canShowChart() {
