@@ -5,7 +5,8 @@ import { Card, CardContent, Grid } from '@mui/material';
 import SKAOModal from '../Modal/Modal';
 import SignalCard from '../SignalCard/SignalCard';
 import SpectrogramImage from '../SpectrogramImage/SpectrogramImage';
-import { DATA_LOCAL, DATA_API_URL } from '../../utils/constants';
+import WaterfallPlot from '../WaterfallPlot/WaterfallPlot';
+import { DATA_LOCAL, DATA_API_URL, WATERFALL_PLOT_TYPES } from '../../utils/constants';
 
 interface SpectrogramProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -14,9 +15,10 @@ interface SpectrogramProps {
   legend: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   displaySettings: any;
+  subArray: string
 }
 
-const Spectrogram = ({ config, legend, displaySettings }: SpectrogramProps) => {
+const Spectrogram = ({ config, legend, displaySettings, subArray }: SpectrogramProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [showContent, setShowContent] = React.useState(false);
@@ -96,7 +98,12 @@ const Spectrogram = ({ config, legend, displaySettings }: SpectrogramProps) => {
         <SKAOModal open={open} onClose={() => setOpen(false)}>
           <Card variant="outlined" className="removeBorder:focus">
             <CardContent>
-              <SpectrogramImage config={config} element={selected} full />
+              <WaterfallPlot 
+                type={WATERFALL_PLOT_TYPES.SPECTROGRAM}
+                item={selected} 
+                config={config}
+                subArray={subArray}
+              />
             </CardContent>
           </Card>
         </SKAOModal>

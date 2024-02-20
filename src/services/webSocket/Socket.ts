@@ -17,7 +17,7 @@ const Socket = ({ apiUrl, protocol, suffix, statusFunction, dataFunction }: WebS
   const tmp = `${apiUrl}/${tmpSplit[0]}${tmpSplit[1]}`;
   const ws = new WebSocket(tmp);
 
-  ws.onerror = function oneError(e) {
+  ws.onerror = function onError(e) {
     console.error('WebSocket: onerror, error = ', e);
     statusFunction(SOCKET_STATUS[1]);
   };
