@@ -349,8 +349,18 @@ const Container = ({ childToParent }) => {
         statusFunction: setSocketStatus3,
         dataFunction: setChartData3
       });
+      Socket({
+        apiUrl: WS_API_URL + config.paths.websocket,
+        protocol: config.api_format,
+        suffix: `${config.topics.gain_calibration_out}-${subArray}`,
+        statusFunction: setSocketStatus5,
+        dataFunction: setChartData4
+      }
+      );
     }
   }, [subArray]);
+
+  console.log(chartData4)
 
   React.useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
