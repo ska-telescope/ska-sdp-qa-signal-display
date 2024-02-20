@@ -577,24 +577,6 @@ const Container = ({ childToParent }) => {
         ))}
       </Grid>
       )}
-
-      {currentTabIndex === 1 && (
-      <Grid container>
-        {gains.map(item => (
-          <Grid item xs={gridWidth()}>
-            <GainCalibration
-              data={chartData4} 
-              displaySettings={displaySettings} 
-              gain={item} 
-              resize={refresh}
-              socketStatus={socketStatus5} 
-              redraw={redraw}
-            />
-          </Grid>
-        ))}
-      </Grid>
-      )}
-      
     </>
   );
 };
