@@ -56,15 +56,30 @@ const GainCalibration = ({
     
   }
 
-  function getYData(inData: any, gainStr: string, subarray: string) {
-    return inData[gainStr][subarray]
+  function selector() {
+    switch (gain) {
+      case 'amplitudeH':
+        return "gains";
+      case 'amplitudeV':
+        return "gains";
+      case 'phaseH':
+        return "phases";
+      case 'phaseV':
+        return "phases";
+      default:
+        return false;
+    }
+  }
+
+  function getYData(inData: any, gainStr: string) {
+    return inData[selector()]
   }
   function getChartData(usedData: any) {
-    const xValues = usedData.times;
+    const xValues = 1 //usedData.times;
     const chartDataTmp = [
       {
         x: xValues,
-        y: getYData(usedData, gain, "m033"),
+        y: getYData(usedData, gain),
         marker: {
           color: COLOR[2]
         }
