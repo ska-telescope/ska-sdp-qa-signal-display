@@ -8,11 +8,12 @@ import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import SignalCard from '../SignalCard/SignalCard';
 import { colorFlip } from '../../utils/colorFlip';
+import { QASettings } from '../Settings/qaSettings';
 
 interface LegendProps {
   resize: number;
   data: any;
-  displaySettings: any;
+  displaySettings: typeof QASettings;
   onClick: Function;
   pole: any;
   poleUpdate: Function;

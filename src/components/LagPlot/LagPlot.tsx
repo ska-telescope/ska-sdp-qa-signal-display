@@ -7,14 +7,16 @@ import SignalCard from '../SignalCard/SignalCard';
 import LagPlotImage from '../LagPlotImage/LagPlotImage';
 import WaterfallPlot from '../WaterfallPlot/WaterfallPlot';
 import { DATA_LOCAL, DATA_API_URL, WATERFALL_PLOT_TYPES } from '../../utils/constants';
+import { QASettings } from '../Settings/qaSettings';
+import Config from 'src/services/types/Config';
 
 interface LagPlotProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  config: any;
+  config: Config;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   legend: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  displaySettings: any;
+  displaySettings: typeof QASettings;
   subArray: string
 }
 

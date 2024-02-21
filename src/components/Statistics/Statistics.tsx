@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Grid, Typography } from '@mui/material';
 import SignalCard from '../SignalCard/SignalCard';
 import { SOCKET_STATUS } from '../../utils/constants';
+import { QASettings } from '../Settings/qaSettings';
 
 const CONVERT = 1000;
 
@@ -17,7 +18,7 @@ function epochToDate(timeInMilliseconds: number) {
 interface StatisticsProps {
   processingBlockStatisticsData: any;
   receiverEventsData: any;
-  displaySettings: any;
+  displaySettings: typeof QASettings;
 }
 
 const Statistics = ({

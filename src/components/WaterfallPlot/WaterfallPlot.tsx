@@ -8,11 +8,12 @@ import Socket from '../../services/webSocket/Socket';
 import SignalCard from '../SignalCard/SignalCard';
 
 import { LOOKUP_COLOUR_VALUES, SOCKET_STATUS, WATERFALL_PLOT_TYPES, WS_API_URL } from '../../utils/constants';
+import Config from 'src/services/types/Config';
 
 interface WaterfallPlotProps {
   type: string
   item: string,
-  config: any,
+  config: Config,
   subArray: string
 }
 

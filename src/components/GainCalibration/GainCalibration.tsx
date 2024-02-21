@@ -7,10 +7,11 @@ import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
 import { COLOR } from '../../utils/constants';
+import { QASettings } from '../Settings/qaSettings';
 
 interface GainCalibrationProps {
   data: object;
-  displaySettings: any;
+  displaySettings: typeof QASettings;
   gain: string;
   redraw: boolean;
   resize: number;

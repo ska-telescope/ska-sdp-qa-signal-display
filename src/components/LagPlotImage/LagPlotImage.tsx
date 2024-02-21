@@ -2,13 +2,14 @@
 import React from 'react';
 import { ImageListItem, ImageListItemBar } from '@mui/material';
 import { DATA_API_URL, DATA_LOCAL } from '../../utils/constants';
+import Config from 'src/services/types/Config';
 
 interface LagPlotImageProps {
   element: any;
   full?: boolean;
   // eslint-disable-next-line @typescript-eslint/ban-types
   onClick?: Function;
-  config: any;
+  config: Config;
 }
 
 

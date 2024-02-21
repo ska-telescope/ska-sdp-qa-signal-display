@@ -13,7 +13,7 @@ import { amplitudeAxisY, QASettings } from '../Settings/qaSettings';
 
 interface SpectrumPlotProps {
   data: object;
-  displaySettings: any;
+  displaySettings: typeof QASettings;
   polarization: string;
   redraw: boolean;
   resize: number;

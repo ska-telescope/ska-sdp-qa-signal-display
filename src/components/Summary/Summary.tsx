@@ -5,12 +5,13 @@ import { Box, Card, CardHeader, Grid, IconButton, Tooltip, Typography } from '@m
 import { ButtonColorTypes, Status } from '@ska-telescope/ska-gui-components';
 import SummaryIcon from '@mui/icons-material/Settings';
 import { SOCKET_STATUS } from '../../utils/constants';
+import Config from 'src/services/types/Config';
 
 const STATUS_SIZE = 20;
 
 interface SummaryProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  config: any;
+  config: Config;
   status1: string;
   status2: string;
   status3: string;
