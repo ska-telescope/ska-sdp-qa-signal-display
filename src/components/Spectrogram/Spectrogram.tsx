@@ -9,13 +9,11 @@ import WaterfallPlot from '../WaterfallPlot/WaterfallPlot';
 import { DATA_LOCAL, DATA_API_URL, WATERFALL_PLOT_TYPES } from '../../utils/constants';
 import { QASettings } from '../Settings/qaSettings';
 import Config from 'src/services/types/Config';
+import Legend from 'src/services/types/Legend';
 
 interface SpectrogramProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   config: Config;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  legend: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  legend: Legend;
   displaySettings: typeof QASettings;
   subArray: string
 }
