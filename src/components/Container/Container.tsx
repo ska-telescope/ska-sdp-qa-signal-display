@@ -559,24 +559,6 @@ const Container = ({ childToParent }) => {
       {currentTabIndex===0 && (<Spectrogram config={config} legend={legendData} displaySettings={displaySettings} subArray={subArray} />)}
       {currentTabIndex===0 && (<LagPlot config={config} legend={legendData} displaySettings={displaySettings} subArray={subArray} />)}
       
-      
-      {currentTabIndex === 1 && (
-      <Grid container>
-        {offsets.map(item => (
-          <Grid item xs={gridWidth()}>
-            <PointingOffsets 
-              data={chartData3} 
-              displaySettings={displaySettings} 
-              offset={item} 
-              resize={refresh}
-              socketStatus={socketStatus3} 
-              redraw={redraw}
-              setSettings={settingsUpdate}
-            />
-          </Grid>
-        ))}
-      </Grid>
-      )}
     </>
   );
 };
