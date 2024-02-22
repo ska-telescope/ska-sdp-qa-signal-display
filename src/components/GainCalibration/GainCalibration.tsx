@@ -50,41 +50,56 @@ const GainCalibration = ({
   function parentWidth() {
     // TODO : Make this responsive
     if (displaySettings.gridView) {
-    return 700;
-    } 
-      return 1400
-    
+      return 700;
+    }
+    return 1400;
   }
 
   function selector() {
     switch (gain) {
       case 'amplitudeH':
-        return ["gains", 0];
+        return ['gains', 0];
       case 'amplitudeV':
-        return ["gains", 3];
+        return ['gains', 3];
       case 'phaseH':
-        return ["phases", 0];
+        return ['phases', 0];
       case 'phaseV':
-        return ["phases", 3];
+        return ['phases', 3];
       default:
         return [false, false];
     }
   }
 
-
   function getChartData(usedData: any) {
-    const chartData = [];
-    const xValues = [0] //usedData.times;
-    const [selection, index] = selector()
+    let timeSeries = [];
+    const [selection, index] = selector();
 
-    for (let i = 0; i < usedData[selection].length; i++) {
-      chartData.push({
-        x: xValues,
-        y: [usedData[selection][i][index]]
-      })
+    let traces = [];
+
+    for (let k = 0; k < usedData[0][selection].length; k++) {
+      traces.push({
+        x: [],
+        y: [],
+        mode: 'markers+lines'
+      });
     }
 
-    return chartData;
+    const newTraces = [...traces];
+
+    for (let j = 0; j < usedData.length; j++) {
+      for (let i = 0; i < usedData[j][selection].length; i++) {
+        newTraces[i].x.push(usedData[j]['time'][0]);
+        newTraces[i].y.push(usedData[j][selection][i][index]);
+        // traces[i].push({
+        //   x: usedData[j]["time"],
+        //   y: usedData[j][selection][i][index],
+        //   mode: 'markers+lines',
+        // })
+      }
+    }
+
+    console.log(newTraces);
+    return newTraces;
   }
 
   function canShowChart() {
@@ -104,7 +119,7 @@ const GainCalibration = ({
 
   React.useEffect(() => {
     const firstRender = chartData === null;
-    if (data) {
+    if (data.length > 0) {
       setChartData(getChartData(data));
     }
     if (firstRender) {
@@ -134,7 +149,7 @@ const GainCalibration = ({
           socketStatus={socketStatus}
           showContent={showContent}
           setShowContent={showToggle}
-          showInfoModal='true'
+          showInfoModal="true"
           infoTitle={t(`modalInfo.${gain}.title`)}
           infoContent={t(`modalInfo.${gain}.content`)}
           infoSite={t(`modalInfo.${gain}.site`)}
