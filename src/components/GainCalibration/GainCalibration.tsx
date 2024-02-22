@@ -97,8 +97,6 @@ const GainCalibration = ({
         // })
       }
     }
-
-    console.log(newTraces);
     return newTraces;
   }
 
