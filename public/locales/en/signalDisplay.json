@@ -21,6 +21,13 @@
   },
 
   "label": {
+    "XX": "XX",
+    "YY": "YY",
+    "XY": "XY",
+    "YX": "YX",
+    "gridView": "Grid View",
+    "tolerance": "Tolerance",
+    "height": "Height",
     "crossElevationOffset": "Cross Elevation Offset",
     "elevationOffset": "Elevation Offset",
     "crossElevationFittedWidth": "Expected and Fitted H Beam Widths",

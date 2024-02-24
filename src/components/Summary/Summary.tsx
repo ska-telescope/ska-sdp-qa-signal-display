@@ -135,36 +135,6 @@ const Summary = ({ config, status1, status2, status3, status4, status5, status6,
                 </Tooltip>
               </Grid>
               <Grid item>
-                <Tooltip title={toolTip5()}>
-                  <IconButton
-                    aria-label={t('label.socketStatus')}
-                    sx={{ '&:hover': { backgroundColor: 'primary.dark' }, p: 1.3 }}
-                    color={ButtonColorTypes.Inherit}
-                  >
-                    <Status
-                      testId="status5Id"
-                      level={getSocketStatus(status5)}
-                      size={STATUS_SIZE}
-                    />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
-              <Grid item>
-                <Tooltip title={toolTip6()}>
-                  <IconButton
-                    aria-label={t('label.socketStatus')}
-                    sx={{ '&:hover': { backgroundColor: 'primary.dark' }, p: 1.3 }}
-                    color={ButtonColorTypes.Inherit}
-                  >
-                    <Status
-                      testId="status6Id"
-                      level={getSocketStatus(status6)}
-                      size={STATUS_SIZE}
-                    />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
-              <Grid item>
                 <Tooltip title={t('label.settings')}>
                   <IconButton
                     aria-label={t('label.settings')}
