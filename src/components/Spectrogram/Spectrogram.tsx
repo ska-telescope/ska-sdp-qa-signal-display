@@ -13,7 +13,7 @@ import Legend from 'src/services/types/Legend';
 
 interface SpectrogramProps {
   config: Config;
-  legend: Legend;
+  legend: Legend[];
   displaySettings: typeof QASettings;
   subArray: string
 }

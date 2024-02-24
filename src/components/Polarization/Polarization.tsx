@@ -18,10 +18,12 @@ import {
   calculateLog
 } from '../../utils/calculate';
 import { amplitudeAxisY, phaseAxisY, QASettings } from '../Settings/qaSettings';
+import PhaseData from 'src/services/types/PhaseData';
+import AmplitudeData from 'src/services/types/AmplitudeData';
 
 interface PolarizationProps {
-  phaseData: any;
-  amplitudeData: any;
+  phaseData: PhaseData;
+  amplitudeData: AmplitudeData;
   displaySettings: typeof QASettings;
   legend: any;
   polarization: string;

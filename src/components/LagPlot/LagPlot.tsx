@@ -13,8 +13,7 @@ import Legend from 'src/services/types/Legend';
 
 interface LagPlotProps {
   config: Config;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  legend: Legend;
+  legend: Legend[];
   displaySettings: typeof QASettings;
   subArray: string
 }

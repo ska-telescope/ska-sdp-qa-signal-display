@@ -31,7 +31,7 @@ type Config = {
     app_version: string;
     project_name: string;
     start_time: string;
-    uptime: string;
+    uptime: number;
     paths: Paths;
     topics: Topics;
     waterfall_plots: Waterfall_Plots;
