@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Box, Card, CardHeader, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { ButtonColorTypes, Status } from '@ska-telescope/ska-gui-components';
 import SummaryIcon from '@mui/icons-material/Settings';
+import Config from '../../services/types/Config';
 import { SOCKET_STATUS } from '../../utils/constants';
-import Config from 'src/services/types/Config';
 
 const STATUS_SIZE = 20;
 

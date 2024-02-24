@@ -7,6 +7,8 @@ import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
 import { InfoCard } from '@ska-telescope/ska-gui-components';
 import { storageObject } from '@ska-telescope/ska-gui-local-storage';
+import PhaseData from 'src/services/types/PhaseData';
+import AmplitudeData from 'src/services/types/AmplitudeData';
 import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
 import YAxisToggle from '../YAxisToggle/YAxisToggle';
@@ -18,8 +20,6 @@ import {
   calculateLog
 } from '../../utils/calculate';
 import { amplitudeAxisY, phaseAxisY, QASettings } from '../Settings/qaSettings';
-import PhaseData from 'src/services/types/PhaseData';
-import AmplitudeData from 'src/services/types/AmplitudeData';
 
 interface PolarizationProps {
   phaseData: PhaseData;

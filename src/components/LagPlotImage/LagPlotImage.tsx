@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { ImageListItem, ImageListItemBar } from '@mui/material';
+import Config from '../../services/types/Config';
 import { DATA_API_URL, DATA_LOCAL } from '../../utils/constants';
-import Config from 'src/services/types/Config';
 
 interface LagPlotImageProps {
   element: any;

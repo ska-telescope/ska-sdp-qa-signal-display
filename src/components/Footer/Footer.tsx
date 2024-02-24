@@ -3,7 +3,7 @@
 import React from 'react';
 import {Footer} from '@ska-telescope/ska-gui-components';
 import { Grid, Typography } from '@mui/material';
-import Config from 'src/services/types/Config';
+import Config from '../../services/types/Config';
 
 
 interface SKAOFooterProps {

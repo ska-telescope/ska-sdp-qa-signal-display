@@ -2,14 +2,14 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, Grid } from '@mui/material';
+import Config from 'src/services/types/Config';
+import Legend from 'src/services/types/Legend';
 import SKAOModal from '../Modal/Modal';
 import SignalCard from '../SignalCard/SignalCard';
 import LagPlotImage from '../LagPlotImage/LagPlotImage';
 import WaterfallPlot from '../WaterfallPlot/WaterfallPlot';
 import { DATA_LOCAL, DATA_API_URL, WATERFALL_PLOT_TYPES } from '../../utils/constants';
 import { QASettings } from '../Settings/qaSettings';
-import Config from 'src/services/types/Config';
-import Legend from 'src/services/types/Legend';
 
 interface LagPlotProps {
   config: Config;
