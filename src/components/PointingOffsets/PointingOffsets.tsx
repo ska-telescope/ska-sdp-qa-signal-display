@@ -13,7 +13,7 @@ import { amplitudeAxisY, QASettings } from '../Settings/qaSettings';
 
 interface PointingOffsetsProps {
   data: object;
-  displaySettings: any;
+  displaySettings: typeof QASettings;
   offset: string;
   redraw: boolean;
   resize: number;

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { ImageListItem, ImageListItemBar } from '@mui/material';
+import Config from '../../services/types/Config';
 import { DATA_API_URL, DATA_LOCAL } from '../../utils/constants';
 
 interface LagPlotImageProps {
@@ -8,7 +9,7 @@ interface LagPlotImageProps {
   full?: boolean;
   // eslint-disable-next-line @typescript-eslint/ban-types
   onClick?: Function;
-  config: any;
+  config: Config;
 }
 
 

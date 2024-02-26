@@ -1,5 +1,6 @@
 /* eslint-disable no-inner-declarations */
 /* eslint-disable react/jsx-no-bind */
+/* eslint-disable no-unused-vars */
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';

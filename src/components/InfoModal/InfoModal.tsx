@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';

@@ -3,11 +3,12 @@
 import React from 'react';
 import {Footer} from '@ska-telescope/ska-gui-components';
 import { Grid, Typography } from '@mui/material';
+import Config from '../../services/types/Config';
 
 
 interface SKAOFooterProps {
     version: string
-    config: any
+    config: Config
 }
 
 

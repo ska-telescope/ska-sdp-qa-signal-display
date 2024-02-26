@@ -3,6 +3,7 @@
 /* eslint-disable  prefer-destructuring */
 import React from 'react';
 
+import Config from '../../services/types/Config';
 import WaterfallCanvas from './WaterfallCanvas';
 import Socket from '../../services/webSocket/Socket';
 import SignalCard from '../SignalCard/SignalCard';
@@ -12,7 +13,7 @@ import { LOOKUP_COLOUR_VALUES, SOCKET_STATUS, WATERFALL_PLOT_TYPES, WS_API_URL }
 interface WaterfallPlotProps {
   type: string
   item: string,
-  config: any,
+  config: Config,
   subArray: string
 }
 

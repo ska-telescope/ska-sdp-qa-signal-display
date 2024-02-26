@@ -19,7 +19,6 @@ const Plotly = ({
   height,
   title,
   width,
-
   xLabel,
   yLabel,
   masked
