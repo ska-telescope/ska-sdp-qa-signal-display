@@ -11,7 +11,7 @@ interface PlotlyProps {
   xLabel: string;
   yLabel: string;
   masked?: Data[];
-  marginal?: boolean;
+  marginalHistogram?: boolean;
 }
 
 const Plotly = ({
@@ -24,11 +24,11 @@ const Plotly = ({
   xLabel,
   yLabel,
   masked,
-  marginal
+  marginalHistogram
 }: PlotlyProps) => {
-  function assignLayout(marginal) {
+  function assignLayout(marginalHistogram) {
     let layout = {};
-    if (marginal) {
+    if (marginalHistogram) {
       layout = {
         autosize: false,
         title,
@@ -88,7 +88,7 @@ const Plotly = ({
 
   return (
     <>
-      <Plot data={data} layout={assignLayout(marginal)} />
+      <Plot data={data} layout={assignLayout(marginalHistogram)} />
     </>
   );
 };

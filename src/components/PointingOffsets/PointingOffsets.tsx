@@ -217,7 +217,7 @@ const PointingOffsets = ({
             xLabel={xLabel()}
             yLabel={yLabel()}
             masked={invalidData}
-            marginal={true}
+            marginalHistogram={true}
           />
         </SignalCard>
       )}
