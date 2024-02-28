@@ -26,7 +26,7 @@ const Plotly = ({
   masked,
   marginalHistogram
 }: PlotlyProps) => {
-  function assignLayout(marginalHistogram) {
+  function assignLayout(marginalHistogram: boolean) {
     let layout = {};
     if (marginalHistogram) {
       layout = {
@@ -86,11 +86,7 @@ const Plotly = ({
     return layout;
   }
 
-  return (
-    <>
-      <Plot data={data} layout={assignLayout(marginalHistogram)} />
-    </>
-  );
+  return <Plot data={data} layout={assignLayout(marginalHistogram)} />;
 };
 
 Plotly.defaultProps = {};

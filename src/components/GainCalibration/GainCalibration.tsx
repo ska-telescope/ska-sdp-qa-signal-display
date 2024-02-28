@@ -71,10 +71,9 @@ const GainCalibration = ({
   }
 
   function getChartData(usedData: any) {
-    let timeSeries = [];
     const [selection, index] = selector();
 
-    let traces = [];
+    const traces = [];
 
     for (let k = 0; k < usedData[0][selection].length; k++) {
       traces.push({

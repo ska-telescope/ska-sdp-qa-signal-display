@@ -365,8 +365,6 @@ const Container = ({ childToParent }) => {
     }
   }, [subArray]);
 
-  //console.log(chartData4)
-
   React.useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function getBData(inData: any) {
