@@ -11,7 +11,7 @@ interface PlotlyProps {
   xLabel: string;
   yLabel: string;
   masked?: Data[];
-  marginal?: boolean
+  marginal?: boolean;
 }
 
 const Plotly = ({
@@ -26,7 +26,6 @@ const Plotly = ({
   masked,
   marginal
 }: PlotlyProps) => {
-
   function assignLayout(marginal) {
     let layout = {};
     if (marginal) {
@@ -50,16 +49,16 @@ const Plotly = ({
           automargin: true,
           domain: [0, 0.85]
         },
-        bargap: 0.05, 
-        margin: {t: 65}, 
+        bargap: 0.05,
+        margin: { t: 65 },
         xaxis2: {
-          domain: [0.85, 1], 
-          showgrid: false, 
+          domain: [0.85, 1],
+          showgrid: false,
           zeroline: false
         },
-        barmode: 'overlay',  
+        barmode: 'overlay',
         shapes: masked
-      }
+      };
     } else {
       layout = {
         autosize: false,
@@ -80,20 +79,17 @@ const Plotly = ({
           automargin: true
         },
         margin: { t: 25, r: 0 },
-  
+
         shapes: masked
-      }
+      };
     }
-    return layout
+    return layout;
   }
-  
+
   return (
-  <>
-    <Plot
-      data={data}
-      layout={assignLayout(marginal)}
-    />
-  </>
+    <>
+      <Plot data={data} layout={assignLayout(marginal)} />
+    </>
   );
 };
 
