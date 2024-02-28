@@ -111,6 +111,15 @@ const PointingOffsets = ({
           color: COLOR[2],
           size: 8
         }
+      },
+      {
+        y: calculateYData(usedData[selection]),
+        type: 'histogram',
+        xaxis: 'x2',
+        opacity: 0.5,
+        marker: {
+          color: COLOR[2]
+        }
       }
     ];
     return chartDataTmp;
@@ -208,6 +217,7 @@ const PointingOffsets = ({
             xLabel={xLabel()}
             yLabel={yLabel()}
             masked={invalidData}
+            marginal={true}
           />
         </SignalCard>
       )}
