@@ -26,9 +26,9 @@ const Plotly = ({
   masked,
   marginalHistogram
 }: PlotlyProps) => {
-  function assignLayout(marginalHistogram: boolean) {
+  function assignLayout(makeMarginal: boolean) {
     let layout = {};
-    if (marginalHistogram) {
+    if (makeMarginal) {
       layout = {
         autosize: false,
         title,
