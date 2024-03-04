@@ -126,15 +126,12 @@ const PointingOffsets = ({
   }
 
   function checkForInvalidData(usedData: any) {
-    const xValues = usedData.antennas;
     const y = usedData[offset];
 
     const shapes = [];
 
     for (let i = 0; i < y.length; i++) {
       if (!Number.isFinite(y[i])) {
-        const badAntenna = xValues[i];
-        // const badAntennaNum = +badAntenna.replace(/[^0-9]/g, '') - 1;
         shapes.push({
           type: 'rect',
           xref: 'x',
@@ -151,8 +148,6 @@ const PointingOffsets = ({
         });
       }
     }
-
-    console.log(shapes)
 
     return shapes;
   }
