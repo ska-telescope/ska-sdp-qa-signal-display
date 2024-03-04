@@ -134,14 +134,14 @@ const PointingOffsets = ({
     for (let i = 0; i < y.length; i++) {
       if (!Number.isFinite(y[i])) {
         const badAntenna = xValues[i];
-        const badAntennaNum = +badAntenna.replace(/[^0-9]/g, '') - 1;
+        // const badAntennaNum = +badAntenna.replace(/[^0-9]/g, '') - 1;
         shapes.push({
           type: 'rect',
           xref: 'x',
           yref: 'paper',
-          x0: badAntennaNum - 0.5,
+          x0: i - 0.5,
           y0: 0,
-          x1: badAntennaNum + 0.5,
+          x1: i + 0.5,
           y1: 1,
           fillcolor: '#fc0303',
           opacity: 0.2,
@@ -151,6 +151,8 @@ const PointingOffsets = ({
         });
       }
     }
+
+    console.log(shapes)
 
     return shapes;
   }
@@ -192,8 +194,6 @@ const PointingOffsets = ({
       displaySettings={displaySettings}
     />
   );
-
-  console.log(chartData)
 
   return (
     <>
