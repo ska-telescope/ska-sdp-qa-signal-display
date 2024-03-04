@@ -41,7 +41,10 @@ const Plotly = ({
           title: xLabel,
           color: darkMode ? 'white' : 'black',
           automargin: true,
-          domain: [0, 0.85]
+          domain: [0, 0.85],
+          type: 'category', 
+          categoryorder: 'array',
+          autorange: false
         },
         yaxis: {
           title: yLabel,
