@@ -193,6 +193,8 @@ const PointingOffsets = ({
     />
   );
 
+  console.log(chartData)
+
   return (
     <>
       {canShowChart() && (
