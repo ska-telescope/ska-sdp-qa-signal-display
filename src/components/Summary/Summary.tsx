@@ -15,13 +15,12 @@ interface SummaryProps {
   status2: string;
   status3: string;
   status4: string;
-  status5: string;
   status6: string;
   // eslint-disable-next-line @typescript-eslint/ban-types
   clickFunction: Function;
 }
 
-const Summary = ({ config, status1, status2, status3, status4, status5, status6, clickFunction }: SummaryProps) => {
+const Summary = ({ config, status1, status2, status3, status4, status6, clickFunction }: SummaryProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const handleClick = () => {
@@ -50,7 +49,6 @@ const Summary = ({ config, status1, status2, status3, status4, status5, status6,
   const toolTip2 = () => toolTipFormat('label.spectrumPlot', 'label.socket', status2);
   const toolTip3 = () => toolTipFormat('label.detailed', 'label.api', status3);
   const toolTip4 = () => toolTipFormat('label.receiver', 'label.api', status4);
-  const toolTip5 = () => toolTipFormat('label.GainStability', 'label.socket', status5)
   const toolTip6 = () => toolTipFormat('label.pointingOffsets', 'label.socket', status6)
 
   const getSocketStatus = (status: string) => {
@@ -128,21 +126,6 @@ const Summary = ({ config, status1, status2, status3, status4, status5, status6,
                     <Status
                       testId="status4Id"
                       level={getSocketStatus(status4)}
-                      size={STATUS_SIZE}
-                    />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
-              <Grid item>
-                <Tooltip title={toolTip5()}>
-                  <IconButton
-                    aria-label={t('label.socketStatus')}
-                    sx={{ '&:hover': { backgroundColor: 'primary.dark' }, p: 1.3 }}
-                    color={ButtonColorTypes.Inherit}
-                  >
-                    <Status
-                      testId="status5Id"
-                      level={getSocketStatus(status5)}
                       size={STATUS_SIZE}
                     />
                   </IconButton>

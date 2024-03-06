@@ -19,7 +19,6 @@ import Statistics from '../Statistics/Statistics';
 import Socket from '../../services/webSocket/Socket';
 import LagPlot from '../LagPlot/LagPlot';
 import LogLinks from '../LogLinks/LogLinks';
-import GainCalibration from '../GainCalibration/GainCalibration';
 
 import mockStatisticsProcessingBlock from '../../mockData/Statistics/processingBlock';
 import mockStatisticsReceiverEvents from '../../mockData/Statistics/receiverEvents';
@@ -27,7 +26,6 @@ import PhaseData from '../../mockData/WebSocket/phase.json';
 import AmplitudeData from '../../mockData/WebSocket/amplitude.json';
 import PlotData from '../../mockData/WebSocket/spectrum.json';
 import pointingOffsetData from '../../mockData/WebSocket/pointingOffsets.json';
-import gainCalibrationData from '../../mockData/WebSocket/gainCalibrations.json';
 import { COLOR, DATA_API_URL, DATA_LOCAL, SOCKET_STATUS, WS_API_URL } from '../../utils/constants';
 
 const items = ['XX', 'XY', 'YX', 'YY'];
@@ -38,7 +36,6 @@ const offsets = [
   'elevationFittedWidth',
   'fittedHeight'
 ];
-const gains = ['amplitudeH', 'amplitudeV', 'phaseH', 'phaseV'];
 
 const Container = ({ childToParent }) => {
   const { t } = useTranslation('signalDisplay');
@@ -60,8 +57,6 @@ const Container = ({ childToParent }) => {
   const [subArrays, setSubArrays] = React.useState(null);
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = React.useState(null);
   const [receiverEventsData, setReceiverEventsData] = React.useState(null);
-  const [socketStatus5, setSocketStatus5] = React.useState(SOCKET_STATUS[0]);
-  const [chartData4, setChartData4] = React.useState<{ time: any; gains: any; phases: any }[]>([]);
   const [currentTabIndex, setCurrentTabIndex] = React.useState(0);
   const [chartData5, setChartData5] = React.useState(null);
 
@@ -106,11 +101,7 @@ const Container = ({ childToParent }) => {
     displaySettings.showPolarizationPhaseYX ||
     displaySettings.showPolarizationPhaseYY ||
     displaySettings.showSpectrograms ||
-    displaySettings.showLagPlots ||
-    displaySettings.showGainCalibrationAmplitudeH ||
-    displaySettings.showGainCalibrationAmplitudeV ||
-    displaySettings.showGainCalibrationPhaseH ||
-    displaySettings.showGainCalibrationPhaseV;
+    displaySettings.showLagPlots;
 
   const settingsClick = () => {
     setOpenSettings(o => !o);
@@ -323,8 +314,6 @@ const Container = ({ childToParent }) => {
       setChartData2(PlotData);
       setSocketStatus3(SOCKET_STATUS[3]);
       setChartData3(pointingOffsetData);
-      setSocketStatus5(SOCKET_STATUS[3]);
-      setChartData4(gainCalibrationData);
     } else {
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
@@ -353,14 +342,6 @@ const Container = ({ childToParent }) => {
         suffix: `${config.topics.pointing_offset_out}-${subArray}`,
         statusFunction: setSocketStatus3,
         dataFunction: setChartData3
-      });
-      Socket({
-        apiUrl: WS_API_URL + config.paths.websocket,
-        protocol: config.api_format,
-        suffix: `${config.topics.gain_calibration_out}-${subArray}`,
-        statusFunction: setSocketStatus5,
-        dataFunction: setChartData4,
-        timeSeries: true
       });
     }
   }, [subArray]);
@@ -490,7 +471,6 @@ const Container = ({ childToParent }) => {
               status2={socketStatus2}
               status3={SOCKET_STATUS[processingBlockStatisticsData === null ? 1 : 2]}
               status4={SOCKET_STATUS[receiverEventsData === null ? 1 : 2]}
-              status5={socketStatus5}
               status6={socketStatus3}
               clickFunction={settingsClick}
             />
@@ -598,23 +578,6 @@ const Container = ({ childToParent }) => {
                 socketStatus={socketStatus3}
                 redraw={redraw}
                 setSettings={settingsUpdate}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      )}
-
-      {currentTabIndex === 1 && (
-        <Grid container>
-          {gains.map(item => (
-            <Grid item xs={gridWidth()}>
-              <GainCalibration
-                data={chartData4}
-                displaySettings={displaySettings}
-                gain={item}
-                resize={refresh}
-                socketStatus={socketStatus5}
-                redraw={redraw}
               />
             </Grid>
           ))}
