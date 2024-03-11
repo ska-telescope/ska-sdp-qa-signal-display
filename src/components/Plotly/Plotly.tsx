@@ -11,6 +11,7 @@ interface PlotlyProps {
   xLabel: string;
   yLabel: string;
   masked?: Data[];
+  marginalHistogram?: boolean;
 }
 
 const Plotly = ({
@@ -21,34 +22,71 @@ const Plotly = ({
   width,
   xLabel,
   yLabel,
-  masked
-}: PlotlyProps) => (
-  <Plot
-    data={data}
-    layout={{
-      autosize: false,
-      title,
-      plot_bgcolor: darkMode ? 'black' : 'white',
-      paper_bgcolor: darkMode ? 'black' : 'white',
-      width,
-      height,
-      uirevision: 'time',
-      xaxis: {
-        title: xLabel,
-        color: darkMode ? 'white' : 'black',
-        automargin: true
-      },
-      yaxis: {
-        title: yLabel,
-        color: darkMode ? 'white' : 'black',
-        automargin: true
-      },
-      margin: { t: 25, r: 0 },
+  masked,
+  marginalHistogram
+}: PlotlyProps) => {
+  function assignLayout(makeMarginal: boolean) {
+    let layout = {};
+    if (makeMarginal) {
+      layout = {
+        autosize: false,
+        title,
+        plot_bgcolor: darkMode ? 'black' : 'white',
+        paper_bgcolor: darkMode ? 'black' : 'white',
+        width,
+        height,
+        uirevision: 'time',
+        xaxis: {
+          title: xLabel,
+          color: darkMode ? 'white' : 'black',
+          automargin: true,
+          domain: [0, 0.85]
+        },
+        yaxis: {
+          title: yLabel,
+          color: darkMode ? 'white' : 'black',
+          automargin: true,
+          domain: [0, 0.85]
+        },
+        bargap: 0.05,
+        margin: { t: 65 },
+        xaxis2: {
+          domain: [0.85, 1],
+          showgrid: false,
+          zeroline: false
+        },
+        barmode: 'overlay',
+        shapes: masked
+      };
+    } else {
+      layout = {
+        autosize: false,
+        title,
+        plot_bgcolor: darkMode ? 'black' : 'white',
+        paper_bgcolor: darkMode ? 'black' : 'white',
+        width,
+        height,
+        uirevision: 'time',
+        xaxis: {
+          title: xLabel,
+          color: darkMode ? 'white' : 'black',
+          automargin: true
+        },
+        yaxis: {
+          title: yLabel,
+          color: darkMode ? 'white' : 'black',
+          automargin: true
+        },
+        margin: { t: 25, r: 0 },
 
-      shapes: masked
-    }}
-  />
-);
+        shapes: masked
+      };
+    }
+    return layout;
+  }
+
+  return <Plot data={data} layout={assignLayout(marginalHistogram)} />;
+};
 
 Plotly.defaultProps = {};
 
