@@ -39,7 +39,12 @@ const GainCalibration = ({
 
   const xLabel = () => `${t('label.time')}`;
 
-  const yLabel = () => `${t('label.gains')}`;
+  //const yLabel = () => `${t('label.gains')}`;
+
+  function yLabel() {
+    const [selection, index] = selector();
+    return selection
+  }
 
   const canShow = () => data !== null;
 
