@@ -111,34 +111,28 @@ const PointingOffsets = ({
           color: COLOR[2],
           size: 8
         }
-      },
-      {
-        y: calculateYData(usedData[selection]),
-        type: 'histogram',
-        xaxis: 'x2',
-        opacity: 0.5,
-        marker: {
-          color: COLOR[2]
-        }
       }
     ];
     return chartDataTmp;
   }
 
   function checkForInvalidData(usedData: any) {
+    const xValues = usedData.antennas;
     const y = usedData[offset];
 
     const shapes = [];
 
     for (let i = 0; i < y.length; i++) {
       if (!Number.isFinite(y[i])) {
+        const badAntenna = xValues[i];
+        const badAntennaNum = +badAntenna.replace(/[^0-9]/g, '') - 1;
         shapes.push({
           type: 'rect',
           xref: 'x',
           yref: 'paper',
-          x0: i - 0.5,
+          x0: badAntennaNum - 0.5,
           y0: 0,
-          x1: i + 0.5,
+          x1: badAntennaNum + 0.5,
           y1: 1,
           fillcolor: '#fc0303',
           opacity: 0.2,
@@ -214,7 +208,6 @@ const PointingOffsets = ({
             xLabel={xLabel()}
             yLabel={yLabel()}
             masked={invalidData}
-            marginalHistogram
           />
         </SignalCard>
       )}
