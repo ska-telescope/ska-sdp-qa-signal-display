@@ -1,7 +1,7 @@
 #Dependencies to resolve security vulnerabilities
 python = "^3.10"
-cryptography = "41.0.1"
-urllib3 = "2.0.3"
+cryptography = "42.0.5"
+urllib3 = "2.2.1"
 
 [tool.poetry]
 name = "ska-sdp-qa-display"
@@ -12,15 +12,19 @@ license = "BSD-3-Clause"
 packages = []
 
 [[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
+
+[[tool.poetry.source]]
 name = 'ska-nexus'
 url = 'https://artefact.skao.int/repository/pypi-internal/simple'
-secondary = true
+priority = "supplemental"
 
 [tool.poetry.dependencies]
 python = "^3.10"
 
 [tool.poetry.group.docs.dependencies]
-sphinx = "6.2.1"
+sphinx = "7.2.6"
 ska-ser-sphinx-theme = "0.1.2"
 
 [build-system]
