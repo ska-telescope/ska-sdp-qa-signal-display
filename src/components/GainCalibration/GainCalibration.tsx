@@ -35,15 +35,28 @@ const GainCalibration = ({
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
 
+  function selector() {
+    switch (gain) {
+      case 'amplitudeH':
+        return ['gains', 0];
+      case 'amplitudeV':
+        return ['gains', 3];
+      case 'phaseH':
+        return ['phases', 0];
+      case 'phaseV':
+        return ['phases', 3];
+      default:
+        return [false, false];
+    }
+  }
+
   const chartTitle = () => '';
 
   const xLabel = () => `${t('label.time')}`;
 
-  //const yLabel = () => `${t('label.gains')}`;
-
   function yLabel() {
     const [selection, index] = selector();
-    return selection
+    return selection;
   }
 
   const canShow = () => data !== null;
@@ -58,21 +71,6 @@ const GainCalibration = ({
       return 700;
     }
     return 1400;
-  }
-
-  function selector() {
-    switch (gain) {
-      case 'amplitudeH':
-        return ['gains', 0];
-      case 'amplitudeV':
-        return ['gains', 3];
-      case 'phaseH':
-        return ['phases', 0];
-      case 'phaseV':
-        return ['phases', 3];
-      default:
-        return [false, false];
-    }
   }
 
   function getChartData(usedData: any) {
