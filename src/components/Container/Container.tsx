@@ -27,6 +27,7 @@ import PhaseData from '../../mockData/WebSocket/phase.json';
 import AmplitudeData from '../../mockData/WebSocket/amplitude.json'
 import PlotData from '../../mockData/WebSocket/spectrum.json';
 import pointingOffsetData from '../../mockData/WebSocket/pointingOffsets.json';
+import gainCalibrationData from '../../mockData/WebSocket/gainCalibrations.json';
 import { COLOR, DATA_API_URL, DATA_LOCAL, SOCKET_STATUS, WS_API_URL } from '../../utils/constants';
 
 
@@ -571,6 +572,23 @@ const Container = ({ childToParent }) => {
           </Grid>
         ))}
       </Grid>
+      )}
+
+      {currentTabIndex === 1 && (
+        <Grid container>
+          {gains.map(item => (
+            <Grid item xs={gridWidth()}>
+              <GainCalibration
+                data={chartData4}
+                displaySettings={displaySettings}
+                gain={item}
+                resize={refresh}
+                socketStatus={socketStatus5}
+                redraw={redraw}
+              />
+            </Grid>
+          ))}
+        </Grid>
       )}
     </>
   );
