@@ -9,17 +9,9 @@ interface WebSocketProps {
   suffix: string;
   statusFunction: Function;
   dataFunction: Function;
-  timeSeries?: Boolean;
 }
 
-const Socket = ({
-  apiUrl,
-  protocol,
-  suffix,
-  statusFunction,
-  dataFunction,
-  timeSeries
-}: WebSocketProps) => {
+const Socket = ({ apiUrl, protocol, suffix, statusFunction, dataFunction }: WebSocketProps) => {
   const tmpSplit = suffix.split('-<subarray>');
 
   const tmp = `${apiUrl}/${tmpSplit[0]}${tmpSplit[1]}`;
@@ -38,11 +30,7 @@ const Socket = ({
         if (decoded && decoded.status) {
           statusFunction(decoded.status);
         } else {
-          if (timeSeries) {
-            dataFunction(prevState => [...prevState, decoded]);
-          } else {
-            dataFunction(decoded);
-          }
+          dataFunction(decoded);
         }
       } else {
         decodeAsync(inData.stream())
@@ -52,11 +40,7 @@ const Socket = ({
             if (dAny && dAny.status) {
               statusFunction(dAny.status);
             } else {
-              if (timeSeries) {
-                dataFunction(prevState => [...prevState, decoded]);
-              } else {
-                dataFunction(decoded);
-              }
+              dataFunction(decoded);
             }
           })
           .catch(() => 'ERROR');
