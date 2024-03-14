@@ -451,3 +451,14 @@ export const WS_API_URL = processAPI.startsWith('/')
     [255, 127, 129, 255],
     [255, 127, 127, 255]
 ];
+
+
+export const OFFSETS = [
+  'crossElevationOffset',
+  'crossElevationFittedWidth',
+  'elevationOffset',
+  'elevationFittedWidth',
+  'fittedHeight'
+];
+
+export const GAINS = ['amplitudeH', 'amplitudeV', 'phaseH', 'phaseV'];

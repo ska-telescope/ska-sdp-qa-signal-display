@@ -28,17 +28,16 @@ import AmplitudeData from '../../mockData/WebSocket/amplitude.json';
 import PlotData from '../../mockData/WebSocket/spectrum.json';
 import pointingOffsetData from '../../mockData/WebSocket/pointingOffsets.json';
 import gainCalibrationData from '../../mockData/WebSocket/gainCalibrations.json';
-import { COLOR, DATA_API_URL, DATA_LOCAL, SOCKET_STATUS, WS_API_URL } from '../../utils/constants';
-
-const items = ['XX', 'XY', 'YX', 'YY'];
-const offsets = [
-  'crossElevationOffset',
-  'crossElevationFittedWidth',
-  'elevationOffset',
-  'elevationFittedWidth',
-  'fittedHeight'
-];
-const gains = ['amplitudeH', 'amplitudeV', 'phaseH', 'phaseV'];
+import {
+  COLOR,
+  DATA_API_URL,
+  DATA_LOCAL,
+  POLARIZATIONS,
+  SOCKET_STATUS,
+  WS_API_URL,
+  OFFSETS,
+  GAINS
+} from '../../utils/constants';
 
 const Container = ({ childToParent }) => {
   const { t } = useTranslation('signalDisplay');
@@ -526,7 +525,7 @@ const Container = ({ childToParent }) => {
       </Box>
       {currentTabIndex === 0 && (
         <Grid container>
-          {items.map(item => (
+          {POLARIZATIONS.map(item => (
             <Grid item xs={gridWidth()}>
               <SpectrumPlot
                 key={`SpectrumPlot${item}`}
@@ -554,7 +553,7 @@ const Container = ({ childToParent }) => {
         />
       )}
       {currentTabIndex === 0 &&
-        items.map(item => (
+        POLARIZATIONS.map(item => (
           <Polarization
             key={`Polarization${item}`}
             polarization={item}
@@ -588,7 +587,7 @@ const Container = ({ childToParent }) => {
 
       {currentTabIndex === 1 && (
         <Grid container>
-          {offsets.map(item => (
+          {OFFSETS.map(item => (
             <Grid item xs={gridWidth()}>
               <PointingOffsets
                 data={chartData3}
@@ -606,7 +605,7 @@ const Container = ({ childToParent }) => {
 
       {currentTabIndex === 1 && (
         <Grid container>
-          {gains.map(item => (
+          {GAINS.map(item => (
             <Grid item xs={gridWidth()}>
               <GainCalibration
                 data={chartData4}
