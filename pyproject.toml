@@ -10,6 +10,7 @@ description = "Signal Display frontend"
 authors = ["NALEDI <naledi@sarao.ac.za>"]
 license = "BSD-3-Clause"
 packages = []
+package-mode = false
 
 [[tool.poetry.source]]
 name = "PyPI"
