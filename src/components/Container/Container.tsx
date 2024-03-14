@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Box, Grid, Tabs, Tab } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Button, ButtonColorTypes, DropDown, InfoCard } from '@ska-telescope/ska-gui-components';
-import { env } from '../../env';
+import { env } from '../../env'
 import { QASettings } from '../Settings/qaSettings';
 import Legend from '../Legend/Legend';
 import Polarization from '../Polarization/Polarization';
@@ -24,10 +24,11 @@ import LogLinks from '../LogLinks/LogLinks';
 import mockStatisticsProcessingBlock from '../../mockData/Statistics/processingBlock';
 import mockStatisticsReceiverEvents from '../../mockData/Statistics/receiverEvents';
 import PhaseData from '../../mockData/WebSocket/phase.json';
-import AmplitudeData from '../../mockData/WebSocket/amplitude.json';
+import AmplitudeData from '../../mockData/WebSocket/amplitude.json'
 import PlotData from '../../mockData/WebSocket/spectrum.json';
 import pointingOffsetData from '../../mockData/WebSocket/pointingOffsets.json';
 import { COLOR, DATA_API_URL, DATA_LOCAL, SOCKET_STATUS, WS_API_URL } from '../../utils/constants';
+
 
 const items = ['XX', 'XY', 'YX', 'YY'];
 const offsets = [
@@ -402,14 +403,14 @@ const Container = ({ childToParent }) => {
 
   const gridWidth = () => {
     if (displaySettings.gridView) {
-      return 6;
-    }
-    return 12;
-  };
+      return 6
+    } 
+      return 12
+  }
 
   const handleTabChange = (e, tabIndex) => {
-    setCurrentTabIndex(tabIndex);
-  };
+    setCurrentTabIndex(tabIndex)
+  }
 
   return (
     <>
@@ -484,47 +485,47 @@ const Container = ({ childToParent }) => {
         receiverEventsData={receiverEventsData}
         displaySettings={displaySettings}
       />
-      <Box sx={{ width: '100%' }}>
-        <Box sx={{ BorderBottom: 1, borderColor: 'divider' }}>
-          <Tabs
-            value={currentTabIndex}
-            onChange={handleTabChange}
-            textColor="secondary"
-            centered
-            variant="fullWidth"
+      <Box sx={{width: '100%'}}>
+        <Box sx={{BorderBottom: 1, borderColor: 'divider'}}>
+          <Tabs 
+            value={currentTabIndex} 
+            onChange={handleTabChange} 
+            textColor='secondary' 
+            centered 
+            variant='fullWidth'
             sx={{
-              '& button': { borderRadius: 2 },
-              '& button.Mui-selected': { backgroundColor: '#d3d3d3' },
-              '& button:active': { backgroundColor: '#d3d3d3' },
-              '& button: focus': { backgroundColor: '#d3d3d3' },
-              '& button:hover': { backgroundColor: '#d3d3d3' }
+            "& button": {borderRadius: 2},
+            "& button.Mui-selected": {backgroundColor: '#d3d3d3'},
+            "& button:active": {backgroundColor: '#d3d3d3'},
+            "& button: focus": {backgroundColor: '#d3d3d3'},
+            "& button:hover": {backgroundColor: '#d3d3d3'}
             }}
           >
-            <Tab label="Visibility Receive" data-testid="visibilitiesTab" />
-            <Tab label="Calibration Data" data-testid="calibrationPlotsTab" />
+            <Tab label='Visibility Receive' data-testid='visibilitiesTab' />
+            <Tab label='Calibration Data' data-testid='calibrationPlotsTab' />
           </Tabs>
         </Box>
       </Box>
-      {currentTabIndex === 0 && (
-        <Grid container>
-          {items.map(item => (
-            <Grid item xs={gridWidth()}>
-              <SpectrumPlot
-                key={`SpectrumPlot${item}`}
-                polarization={item}
-                redraw={redraw}
-                resize={refresh}
-                setSettings={settingsUpdate}
-                socketStatus={socketStatus2}
-                displaySettings={displaySettings}
-                data={chartData2}
-              />
-            </Grid>
-          ))}
-        </Grid>
+      {currentTabIndex===0 && (
+      <Grid container>
+        {items.map(item => (
+          <Grid item xs={gridWidth()}>
+            <SpectrumPlot
+              key={`SpectrumPlot${item}`}
+              polarization={item}
+              redraw={redraw}
+              resize={refresh}
+              setSettings={settingsUpdate}
+              socketStatus={socketStatus2}
+              displaySettings={displaySettings}
+              data={chartData2}
+            />
+          </Grid>
+      ))}
+      </Grid>
       )}
-
-      {currentTabIndex === 0 && showLegend() && (
+      
+      {(currentTabIndex===0 && showLegend()) && (
         <Legend
           resize={refresh}
           data={legendData}
@@ -534,55 +535,42 @@ const Container = ({ childToParent }) => {
           poleUpdate={poleOnClick}
         />
       )}
-      {currentTabIndex === 0 &&
-        items.map(item => (
-          <Polarization
-            key={`Polarization${item}`}
-            polarization={item}
-            redraw={redraw}
-            resize={refresh}
-            setSettings={settingsUpdate}
-            socketStatus={socketStatus1}
-            displaySettings={displaySettings}
-            amplitudeData={chartData1}
-            phaseData={chartData5}
-            legend={legendData}
-          />
-        ))}
-
-      {currentTabIndex === 0 && (
-        <Spectrogram
-          config={config}
-          legend={legendData}
+      {currentTabIndex === 0 && items.map(item => (
+        <Polarization
+          key={`Polarization${item}`}
+          polarization={item}
+          redraw={redraw}
+          resize={refresh}
+          setSettings={settingsUpdate}
+          socketStatus={socketStatus1}
           displaySettings={displaySettings}
-          subArray={subArray}
-        />
-      )}
-      {currentTabIndex === 0 && (
-        <LagPlot
-          config={config}
+          amplitudeData={chartData1}
+          phaseData={chartData5}
           legend={legendData}
-          displaySettings={displaySettings}
-          subArray={subArray}
         />
-      )}
+      ))}
 
+      
+      {currentTabIndex===0 && (<Spectrogram config={config} legend={legendData} displaySettings={displaySettings} subArray={subArray} />)}
+      {currentTabIndex===0 && (<LagPlot config={config} legend={legendData} displaySettings={displaySettings} subArray={subArray} />)}
+      
+      
       {currentTabIndex === 1 && (
-        <Grid container>
-          {offsets.map(item => (
-            <Grid item xs={gridWidth()}>
-              <PointingOffsets
-                data={chartData3}
-                displaySettings={displaySettings}
-                offset={item}
-                resize={refresh}
-                socketStatus={socketStatus3}
-                redraw={redraw}
-                setSettings={settingsUpdate}
-              />
-            </Grid>
-          ))}
-        </Grid>
+      <Grid container>
+        {offsets.map(item => (
+          <Grid item xs={gridWidth()}>
+            <PointingOffsets 
+              data={chartData3} 
+              displaySettings={displaySettings} 
+              offset={item} 
+              resize={refresh}
+              socketStatus={socketStatus3} 
+              redraw={redraw}
+              setSettings={settingsUpdate}
+            />
+          </Grid>
+        ))}
+      </Grid>
       )}
     </>
   );
