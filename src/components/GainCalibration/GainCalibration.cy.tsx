@@ -7,7 +7,7 @@ import GainCalibration from './GainCalibration';
 
 const THEME = [THEME_DARK, THEME_LIGHT];
 
-describe('<PointingOffsets />', () => {
+describe('<GainCalibration />', () => {
   for (const theTheme of THEME) {
     it(`Theme ${theTheme}: Renders`, () => {
       cy.mount(
