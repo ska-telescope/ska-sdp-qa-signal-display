@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
-import { COLOR } from '../../utils/constants';
 
 interface GainCalibrationProps {
   data: object;
