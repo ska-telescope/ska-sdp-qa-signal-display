@@ -60,7 +60,7 @@ const Container = ({ childToParent }) => {
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = React.useState(null);
   const [receiverEventsData, setReceiverEventsData] = React.useState(null);
   const [socketStatus5, setSocketStatus5] = React.useState(SOCKET_STATUS[0]);
-  const [chartData4, setChartData4] = React.useState<{ time: any; gains: any; phases: any }[]>([]);
+  const [chartData4, setChartData4] = React.useState<{ time: number[]; gains: number[][]; phases: number[][] }[]>([]);
   const [currentTabIndex, setCurrentTabIndex] = React.useState(0);
   const [chartData5, setChartData5] = React.useState(null);
 
@@ -323,7 +323,7 @@ const Container = ({ childToParent }) => {
       setSocketStatus3(SOCKET_STATUS[3]);
       setChartData3(pointingOffsetData);
       setSocketStatus5(SOCKET_STATUS[3]);
-      setChartData4(gainCalibrationData);
+      setChartData4([gainCalibrationData]);
     } else {
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
