@@ -46,7 +46,8 @@ const Plotly = ({
           title: yLabel,
           color: darkMode ? 'white' : 'black',
           automargin: true,
-          domain: [0, 0.85]
+          domain: [0, 0.85],
+          type: 'linear'
         },
         bargap: 0.05,
         margin: { t: 65 },
@@ -75,7 +76,8 @@ const Plotly = ({
         yaxis: {
           title: yLabel,
           color: darkMode ? 'white' : 'black',
-          automargin: true
+          automargin: true,
+          type: 'linear'
         },
         margin: { t: 25, r: 0 },
 
