@@ -45,7 +45,7 @@ const GainCalibration = ({
       case 'phaseV':
         return ['phases', 3];
       default:
-        return [false, false];
+        return ['', null];
     }
   }
 
