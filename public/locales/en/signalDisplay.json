@@ -54,7 +54,7 @@
     "executingBlockId": "Executing Block ID",
     "frequency": "Frequency",
     "gains": "Gains",
-    "GainStability": "Gain Stability",
+    "gainStability": "Gain Stability",
     "hideContent": "Hide Content",
     "hideShowToggle": "Hide/Show Toggle",
     "ingestionRate": "Ingestion Rate",

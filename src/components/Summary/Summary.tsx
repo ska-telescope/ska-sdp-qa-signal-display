@@ -55,7 +55,7 @@ const Summary = ({
   const toolTip2 = () => toolTipFormat('label.spectrumPlot', 'label.socket', status2);
   const toolTip3 = () => toolTipFormat('label.detailed', 'label.api', status3);
   const toolTip4 = () => toolTipFormat('label.receiver', 'label.api', status4);
-  const toolTip5 = () => toolTipFormat('label.GainStability', 'label.socket', status5);
+  const toolTip5 = () => toolTipFormat('label.gainStability', 'label.socket', status5);
   const toolTip6 = () => toolTipFormat('label.pointingOffsets', 'label.socket', status6);
 
   const getSocketStatus = (status: string) => {
