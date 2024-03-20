@@ -89,7 +89,7 @@ const GainCalibration = ({
 
     for (let j = 0; j < usedData.length; j++) {
       for (let i = 0; i < usedData[j][selection].length; i++) {
-        newTraces[i].x.push(usedData[j]['time'][0]);
+        newTraces[i].x.push(usedData[j].time[0]);
         newTraces[i].y.push(usedData[j][selection][i][index]);
       }
     }

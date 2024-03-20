@@ -15,7 +15,7 @@ interface SpectrogramProps {
   config: Config;
   legend: Legend[];
   displaySettings: typeof QASettings;
-  subArray: string
+  subArray: string;
 }
 
 const Spectrogram = ({ config, legend, displaySettings, subArray }: SpectrogramProps) => {
@@ -98,9 +98,9 @@ const Spectrogram = ({ config, legend, displaySettings, subArray }: SpectrogramP
         <SKAOModal open={open} onClose={() => setOpen(false)}>
           <Card variant="outlined" className="removeBorder:focus">
             <CardContent>
-              <WaterfallPlot 
+              <WaterfallPlot
                 type={WATERFALL_PLOT_TYPES.SPECTROGRAM}
-                item={selected} 
+                item={selected}
                 config={config}
                 subArray={subArray}
               />
@@ -114,7 +114,7 @@ const Spectrogram = ({ config, legend, displaySettings, subArray }: SpectrogramP
           title={t('label.spectrograms')}
           showContent={showContent}
           setShowContent={showToggle}
-          showInfoModal='true'
+          showInfoModal="true"
           infoTitle={t('modalInfo.spectrogram.title')}
           infoContent={t('modalInfo.spectrogram.content')}
           infoSite={t('modalInfo.spectrogram.site')}

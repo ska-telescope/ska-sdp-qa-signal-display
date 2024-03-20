@@ -60,7 +60,9 @@ const Container = ({ childToParent }) => {
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = React.useState(null);
   const [receiverEventsData, setReceiverEventsData] = React.useState(null);
   const [socketStatus5, setSocketStatus5] = React.useState(SOCKET_STATUS[0]);
-  const [chartData4, setChartData4] = React.useState<{ time: number[]; gains: number[][]; phases: number[][] }[]>([]);
+  const [chartData4, setChartData4] = React.useState<
+    { time: number[]; gains: number[][]; phases: number[][] }[]
+  >([]);
   const [currentTabIndex, setCurrentTabIndex] = React.useState(0);
   const [chartData5, setChartData5] = React.useState(null);
 
