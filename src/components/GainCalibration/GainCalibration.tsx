@@ -113,7 +113,7 @@ const GainCalibration = ({
 
   React.useEffect(() => {
     const firstRender = chartData === null;
-    if (data.length > 0) {
+    if (data[0] != null) {
       setChartData(getChartData(data));
     }
     if (firstRender) {
