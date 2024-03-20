@@ -20,21 +20,17 @@ function App() {
   const toolTip = { skao, mode };
   const version = process.env.VERSION;
 
-  const [data, setData] = React.useState(null)
+  const [data, setData] = React.useState(null);
 
-  const childToParent = (childData) => {
+  const childToParent = childData => {
     setData(childData);
-  }
+  };
 
   return (
     <ThemeProvider theme={theme(themeMode.mode)}>
       <CssBaseline enableColorScheme />
       <React.Suspense fallback={<Loader />}>
-        <Header
-          testId="headerId"
-          title={t('label.signalDisplay')}
-          toolTip={toolTip}
-        />
+        <Header testId="headerId" title={t('label.signalDisplay')} toolTip={toolTip} />
         <Paper>
           <Spacer size={HEADER_HEIGHT} axis={SPACER_VERTICAL} />
           <Container data-testid="containerId" childToParent={childToParent} />

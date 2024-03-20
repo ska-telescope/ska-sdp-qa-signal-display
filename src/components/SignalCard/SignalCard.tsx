@@ -64,7 +64,9 @@ const SignalCard = ({
         <Grid container spacing={0} justifyContent="justify-right">
           {action && <Grid item>{action}</Grid>}
           <Grid item>
-            {showInfoModal === 'true' && <InfoModal title={infoTitle} content={infoContent} site={infoSite} />}
+            {showInfoModal === 'true' && (
+              <InfoModal title={infoTitle} content={infoContent} site={infoSite} />
+            )}
           </Grid>
           <Grid item>
             <Tooltip title={t('label.settings')}>
@@ -74,7 +76,7 @@ const SignalCard = ({
                 sx={{ '&:hover': { backgroundColor: 'primary.dark' }, ml: 1 }}
                 onClick={handleToggle}
                 color={ButtonColorTypes.Inherit}
-              > 
+              >
                 {showContent ? <Visibility /> : <VisibilityOff />}
               </IconButton>
             </Tooltip>

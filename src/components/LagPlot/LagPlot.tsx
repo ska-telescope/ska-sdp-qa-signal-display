@@ -15,31 +15,30 @@ interface LagPlotProps {
   config: Config;
   legend: Legend[];
   displaySettings: typeof QASettings;
-  subArray: string
+  subArray: string;
 }
 
-
 const LagPlot = ({ config, legend, displaySettings, subArray }: LagPlotProps) => {
-    const { t } = useTranslation('signalDisplay');
-  
-    const [showContent, setShowContent] = React.useState(false);
-    const [open, setOpen] = React.useState(false);
-    const [selected, setSelected] = React.useState(null);
-    const [baseData, setBaseData] = React.useState(null);
-    const [chartData, setChartData] = React.useState(null);
-  
-    const PATH_SUFFIX = '/latest/baselines';
-  
-    const showToggle = () => {
-      setShowContent(showContent ? false : chartData !== null);
-    };
-  
-    React.useEffect(() => {
-      if (config === null) {
-        return;
-      }
+  const { t } = useTranslation('signalDisplay');
 
-      const abortController = new AbortController();
+  const [showContent, setShowContent] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [selected, setSelected] = React.useState(null);
+  const [baseData, setBaseData] = React.useState(null);
+  const [chartData, setChartData] = React.useState(null);
+
+  const PATH_SUFFIX = '/latest/baselines';
+
+  const showToggle = () => {
+    setShowContent(showContent ? false : chartData !== null);
+  };
+
+  React.useEffect(() => {
+    if (config === null) {
+      return;
+    }
+
+    const abortController = new AbortController();
     async function retrieveBaseData() {
       await fetch(`${DATA_API_URL}${config.paths.processing_blocks}${PATH_SUFFIX}`, {
         signal: abortController.signal
@@ -99,9 +98,9 @@ const LagPlot = ({ config, legend, displaySettings, subArray }: LagPlotProps) =>
         <SKAOModal open={open} onClose={() => setOpen(false)}>
           <Card variant="outlined" className="removeBorder:focus">
             <CardContent>
-              <WaterfallPlot 
+              <WaterfallPlot
                 type={WATERFALL_PLOT_TYPES.LAG_PLOT}
-                item={selected} 
+                item={selected}
                 config={config}
                 subArray={subArray}
               />
@@ -115,7 +114,7 @@ const LagPlot = ({ config, legend, displaySettings, subArray }: LagPlotProps) =>
           title={t('label.lagplots')}
           showContent={showContent}
           setShowContent={showToggle}
-          showInfoModal='true'
+          showInfoModal="true"
           infoTitle={t('modalInfo.lagPlot.title')}
           infoContent={t('modalInfo.lagPlot.content')}
           infoSite={t('modalInfo.lagPlot.site')}
@@ -125,32 +124,16 @@ const LagPlot = ({ config, legend, displaySettings, subArray }: LagPlotProps) =>
               {DATA_LOCAL && (
                 <>
                   <Grid data-testid="LagPlot1Id" item>
-                    <LagPlotImage
-                      config={config}
-                      element={null}
-                      onClick={() => imageClick(null)}
-                    />
+                    <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} />
                   </Grid>
                   <Grid data-testid="LagPlot2Id" item>
-                    <LagPlotImage
-                      config={config}
-                      element={null}
-                      onClick={() => imageClick(null)}
-                    />
+                    <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} />
                   </Grid>
                   <Grid data-testid="LagPlot3Id" item>
-                    <LagPlotImage
-                      config={config}
-                      element={null}
-                      onClick={() => imageClick(null)}
-                    />
+                    <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} />
                   </Grid>
                   <Grid data-testid="LagPlot4Id" item>
-                    <LagPlotImage
-                      config={config}
-                      element={null}
-                      onClick={() => imageClick(null)}
-                    />
+                    <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} />
                   </Grid>
                 </>
               )}
