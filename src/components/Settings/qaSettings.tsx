@@ -64,5 +64,4 @@ export const QASettings = {
   showGainCalibrationAmplitudeV: true,
   showGainCalibrationPhaseH: true,
   showGainCalibrationPhaseV: true
-
 };

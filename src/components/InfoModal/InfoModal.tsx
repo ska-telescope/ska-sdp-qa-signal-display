@@ -19,14 +19,13 @@ const style = {
   p: 4
 };
 
-
 interface InfoModalProps {
-    title: string
-    content: string
-    site: string
-  }
+  title: string;
+  content: string;
+  site: string;
+}
 
-export default function InfoModal({title, content, site}: InfoModalProps) {
+export default function InfoModal({ title, content, site }: InfoModalProps) {
   const { t } = useTranslation('signalDisplay');
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -34,21 +33,27 @@ export default function InfoModal({title, content, site}: InfoModalProps) {
 
   return (
     <div>
-      <IconButton onClick={handleOpen} data-testid="test-info-modal"><InfoOutlinedIcon /></IconButton>
-      <SKAOModal
-        open={open}
-        onClose={handleClose}
-      >
+      <IconButton onClick={handleOpen} data-testid="test-info-modal">
+        <InfoOutlinedIcon />
+      </IconButton>
+      <SKAOModal open={open} onClose={handleClose}>
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2" data-testid='test-info-modal-header'>
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            data-testid="test-info-modal-header"
+          >
             {title}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {content}
           </Typography>
-          For more information, see the 
+          For more information, see the
           {' '}
-          <a href={site} target='_blank' rel="noreferrer">ReadTheDocs</a>
+          <a href={site} target="_blank" rel="noreferrer">
+            ReadTheDocs
+          </a>
           {' '}
           page.
         </Box>

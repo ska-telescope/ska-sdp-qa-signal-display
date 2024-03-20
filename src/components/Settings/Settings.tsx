@@ -91,26 +91,26 @@ export default function Settings({
 
           {headerRow(t('label.spectrumPlot'), 'h6')}
 
-          {amplitudeRow('label.XX', 'showSpectrumPlotXX', 'showSpectrumPlotXXaxisY')}
-          {amplitudeRow('label.XY', 'showSpectrumPlotXY', 'showSpectrumPlotXYaxisY')}
-          {amplitudeRow('label.YX', 'showSpectrumPlotYX', 'showSpectrumPlotYXaxisY')}
-          {amplitudeRow('label.YY', 'showSpectrumPlotYY', 'showSpectrumPlotYYaxisY')}
+          {amplitudeRow('XX', 'showSpectrumPlotXX', 'showSpectrumPlotXXaxisY')}
+          {amplitudeRow('XY', 'showSpectrumPlotXY', 'showSpectrumPlotXYaxisY')}
+          {amplitudeRow('YX', 'showSpectrumPlotYX', 'showSpectrumPlotYXaxisY')}
+          {amplitudeRow('YY', 'showSpectrumPlotYY', 'showSpectrumPlotYYaxisY')}
 
-          {basicRow("label.gridView", 'gridView')}
+          {basicRow('Grid View', 'gridView')}
 
           {headerRow(`${t('label.polarization')} / ${t('label.amplitude')}`, 'h6')}
 
-          {amplitudeRow('label.XX', 'showPolarizationAmplitudeXX', 'showPolarizationAmplitudeXXaxisY')}
-          {amplitudeRow('label.XY', 'showPolarizationAmplitudeXY', 'showPolarizationAmplitudeXYaxisY')}
-          {amplitudeRow('label.YX', 'showPolarizationAmplitudeYX', 'showPolarizationAmplitudeYXaxisY')}
-          {amplitudeRow('label.YY', 'showPolarizationAmplitudeYY', 'showPolarizationAmplitudeYYaxisY')}
+          {amplitudeRow('XX', 'showPolarizationAmplitudeXX', 'showPolarizationAmplitudeXXaxisY')}
+          {amplitudeRow('XY', 'showPolarizationAmplitudeXY', 'showPolarizationAmplitudeXYaxisY')}
+          {amplitudeRow('YX', 'showPolarizationAmplitudeYX', 'showPolarizationAmplitudeYXaxisY')}
+          {amplitudeRow('YY', 'showPolarizationAmplitudeYY', 'showPolarizationAmplitudeYYaxisY')}
 
           {headerRow(`${t('label.polarization')} / ${t('label.phase')}`, 'h6')}
 
-          {phaseRow('label.XX', 'showPolarizationPhaseXX', 'showPolarizationPhaseXXaxisY')}
-          {phaseRow('label.XY', 'showPolarizationPhaseXY', 'showPolarizationPhaseXYaxisY')}
-          {phaseRow('label.YX', 'showPolarizationPhaseYX', 'showPolarizationPhaseYXaxisY')}
-          {phaseRow('label.YY', 'showPolarizationPhaseYY', 'showPolarizationPhaseYYaxisY')}
+          {phaseRow('XX', 'showPolarizationPhaseXX', 'showPolarizationPhaseXXaxisY')}
+          {phaseRow('XY', 'showPolarizationPhaseXY', 'showPolarizationPhaseXYaxisY')}
+          {phaseRow('YX', 'showPolarizationPhaseYX', 'showPolarizationPhaseYXaxisY')}
+          {phaseRow('YY', 'showPolarizationPhaseYY', 'showPolarizationPhaseYYaxisY')}
 
           {headerRow(t('label.spectrograms'), 'h6')}
 
@@ -122,20 +122,19 @@ export default function Settings({
 
           {headerRow(t('label.pointingOffsets'), 'h6')}
 
-          {basicRow('label.crossElevationOffset', 'showCrossElevationOffset')}
-          {basicRow('label.elevationOffset', 'showElevationOffset')}
-          {basicRow('label.elevationFittedWidth', 'showHBeamWidths')}
-          {basicRow('label.crossElevationFittedWidth', 'showVBeamWidths')}
+          {basicRow('label.cross', 'showCrossElevationOffset')}
+          {basicRow('label.elevation', 'showElevationOffset')}
+          {basicRow('label.expectedH', 'showHBeamWidths')}
+          {basicRow('label.expectedV', 'showVBeamWidths')}
           {basicRow('label.tolerance', 'showToleranceVHWidths')}
           {basicRow('label.height', 'showFittedHeight')}
 
-          {headerRow(t('label.GainStability'), 'h6')}
+          {headerRow(t('label.gainCalibration'), 'h6')}
 
           {basicRow('label.amplitudeH', 'showGainCalibrationAmplitudeH')}
           {basicRow('label.amplitudeV', 'showGainCalibrationAmplitudeV')}
           {basicRow('label.phaseH', 'showGainCalibrationPhaseH')}
           {basicRow('label.phaseV', 'showGainCalibrationPhaseV')}
-
         </Grid>
       </Box>
     </Drawer>

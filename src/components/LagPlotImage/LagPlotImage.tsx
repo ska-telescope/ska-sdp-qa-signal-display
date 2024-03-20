@@ -12,7 +12,6 @@ interface LagPlotImageProps {
   config: Config;
 }
 
-
 const FULL = 'full_image';
 const THUMBNAIL = 'thumbnail';
 const MOCK_FULL = '/static/images/mock/lag_plot_full.png';
@@ -84,4 +83,3 @@ LagPlotImage.defaultProps = {
 };
 
 export default LagPlotImage;
-
