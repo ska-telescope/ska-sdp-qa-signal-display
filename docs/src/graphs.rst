@@ -122,7 +122,7 @@ Beam width
 The expected and fitted widths of the 2D gaussian primary beam are displayed, along with their 
 uncertainties.
 
-.. image:: images/beam-width.png
+.. image:: images/beam-widths.png
    :width: 400
 
 Beam height
@@ -132,4 +132,25 @@ The expected and fitted heights of the 2D gaussian primary beam are displayed, a
 uncertainties.
 
 .. image:: images/beam-height.png
+   :width: 400
+
+
+Gain Calibration
+----------------
+
+In radio telescopes, the complex receiver gains are initially unknown and need to be calibrated.
+Measured intrerferometer data is generally corrupted by instrumental and atmospheric effects, which
+can be corrected for through a process known as gain calibration. Gain calibration enhances the 
+quality of astronomical images and improves the effectiveness of signal processing techniques.
+
+Since the antenna gains are unknown prior to observing the field of interest, science scans are typically
+interspersed with calibrator scans of high SNR, well-modelled objects. By determining the major factors
+influencing the antenna gains, and applying the inverse to the target field, we can produce corrected data
+that can act as the starting poing for self calibration.
+
+In order to assess the stability of the gain calibration solution with time, we present a time-series plot
+of the amplitude and phase of the complex gains, for each antenna. Currently, only the first frequency 
+channel is displayed.
+
+.. image:: images/gaincal.png
    :width: 400
