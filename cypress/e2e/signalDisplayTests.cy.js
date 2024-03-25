@@ -58,6 +58,10 @@ function settings() {
     cy.findAllByTestId("showVBeamWidthsButtonTestId").should("be.visible").click();
     cy.findAllByTestId("showToleranceVHWidthsButtonTestId").should("be.visible").click();
     cy.findAllByTestId("showFittedHeightButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showGainCalibrationAmplitudeHButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showGainCalibrationAmplitudeVButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showGainCalibrationPhaseHButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showGainCalibrationPhaseVButtonTestId").should("be.visible").click();
 }
 
 context('Signal display', () => {
@@ -118,6 +122,22 @@ context('Signal display', () => {
         cy.findByTestId('LagPlot2Id').should("be.visible");
         cy.findByTestId('LagPlot3Id').should("be.visible");
         cy.findByTestId('LagPlot4Id').should("be.visible");
+
+        cy.findByTestId("calibrationPlotsTab").click();
+
+        cy.findAllByTestId("sectionHeader").contains("Cross Elevation Offset").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Elevation Offset").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Expected and Fitted H Beam Widths").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Expected and Fitted V Beam Widths").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Fitted Height").should("be.visible");
+
+        cy.findAllByTestId("sectionHeader").contains("H Amplitude").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("V Amplitude").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("H Phase").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("V Phase").should("be.visible");
+
+        cy.findAllByTestId('visibilitiesTab').click();
+
 
         settings();
     })
