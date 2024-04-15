@@ -51,7 +51,7 @@ code_analysis:
 
 # run the cypress test coverage reports
 test_and_coverage:
-  image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
+  image: cypress/browsers:node-20.12.0-chrome-123.0.6312.86-1-ff-124.0.2-edge-123.0.2420.65-1
   stage: test
   variables:
     REACT_APP_USE_LOCAL_DATA: 'true'
@@ -96,7 +96,7 @@ list_dependencies:
       - .public
 
 test-counts:
-  image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
+  image: cypress/browsers:node-20.12.0-chrome-123.0.6312.86-1-ff-124.0.2-edge-123.0.2420.65-1
   stage: scan
   tags:
     - k8srunner
