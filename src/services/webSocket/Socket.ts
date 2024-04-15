@@ -38,10 +38,10 @@ const Socket = ({
         if (decoded && decoded.status) {
           statusFunction(decoded.status);
         } else if (timeSeries) {
-            dataFunction(prevState => [...prevState, decoded]);
-          } else {
-            dataFunction(decoded);
-          }
+          dataFunction(prevState => [...prevState, decoded]);
+        } else {
+          dataFunction(decoded);
+        }
       } else {
         decodeAsync(inData.stream())
           .then(decoded => {
@@ -50,10 +50,10 @@ const Socket = ({
             if (dAny && dAny.status) {
               statusFunction(dAny.status);
             } else if (timeSeries) {
-                dataFunction(prevState => [...prevState, decoded]);
-              } else {
-                dataFunction(decoded);
-              }
+              dataFunction(prevState => [...prevState, decoded]);
+            } else {
+              dataFunction(decoded);
+            }
           })
           .catch(() => 'ERROR');
       }
