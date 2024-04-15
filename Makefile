@@ -22,3 +22,9 @@ down:
 
 logs:
 	docker logs --follow signal-display
+
+dev-setup:
+	docker run -it -p 3333:3333 -v $(shell pwd):/data -w /data node:18.12.0 yarn install --forzen-lockfile
+
+dev-run:
+	docker run -it -p 3333:3333 -v $(shell pwd):/data -w /data node:18.12.0 yarn start
