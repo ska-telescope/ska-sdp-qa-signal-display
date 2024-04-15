@@ -28,10 +28,16 @@ function statisticsReceiver() {
 
     cy.findByTestId("heapDetails").contains("Number of Heaps:").should("be.visible");
     cy.findByTestId("heapDetails").contains("Number of Incomplete Heaps:").should("be.visible");
-    
+
     cy.findByTestId("dataReceivedDetails").contains("Total Data Received:").should("be.visible");
     cy.findByTestId("dataReceivedDetails").contains("Current Speed:").should("be.visible");
     cy.findByTestId("dataReceivedDetails").contains("Duration of Current Transfer:").should("be.visible");
+}
+
+function runningConfiguration() {
+    cy.findByTestId("subarray_subarray_stateLabel").contains("Scanning");
+    cy.findByTestId("eb_scan_typeLabel").contains("science");
+    cy.findByTestId("pb_scriptLabel").contains("realtime/vis-receive/4.0.0");
 }
 
 function settings() {
@@ -78,7 +84,7 @@ context('Signal display', () => {
         cy.findByTestId("Brightness7Icon").click();
         cy.findByTestId('Brightness4Icon').should("be.visible");
     })
-    
+
     it('Verify expected diagrams are present and can be hidden', () => {
         cy.findAllByTestId("hideShowToggle").click({ multiple: true });
 
@@ -87,6 +93,7 @@ context('Signal display', () => {
 
         statisticsDetailed();
         statisticsReceiver();
+        runningConfiguration();
 
         cy.findAllByTestId("sectionHeader").contains("Spectrum Plot XX").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("Spectrum Plot XY").should("be.visible");

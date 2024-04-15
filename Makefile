@@ -24,7 +24,24 @@ docker-logs:
 	docker logs --follow signal-display
 
 dev-setup:
-	docker run -it -p 3333:3333 -v $(shell pwd):/data -w /data node:20.12.2 yarn install --forzen-lockfile
+	docker run \
+		--rm \
+		--name signal-display-dev \
+		-it \
+		-p 3333:3333 \
+		-v $(shell pwd):/data \
+		-w /data \
+		node:20.12.2 \
+		yarn install --forzen-lockfile
 
 dev-start:
-	docker run -it -p 3333:3333 -v $(shell pwd):/data -w /data node:20.12.2 yarn start
+	docker run \
+		--rm \
+		--name signal-display-dev \
+		-e REACT_APP_USE_LOCAL_DATA=true \
+		-it \
+		-p 3333:3333 \
+		-v $(shell pwd):/data \
+		-w /data \
+		node:20.12.2 \
+		yarn start

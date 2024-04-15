@@ -4,7 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { Grid, Typography, Card, CardHeader, CardContent, Box, Stack } from '@mui/material';
 import { StatusIcon } from '@ska-telescope/ska-gui-components';
 import SignalCard from '../SignalCard/SignalCard';
-import { DATA_API_URL, SOCKET_STATUS } from '../../utils/constants';
+import { DATA_API_URL, SOCKET_STATUS, DATA_LOCAL } from '../../utils/constants';
+import {
+  processingBlockDetail,
+  processingBlockDetailState,
+  executionBlockDetail,
+  subarrayDetail
+} from '../../mockData/Statistics/configEndpoints';
 
 interface SubarrayProps {
   subarray: any;
@@ -44,7 +50,7 @@ const READY_STATUS = [STATUS_ERROR, STATUS_OK];
 const SDPConfiguration = ({ subarray }: SubarrayProps) => {
   const { t } = useTranslation('signalDisplay');
 
-  const [showDetailContent, setShowDetailContent] = React.useState(true);
+  const [showDetailContent, setShowDetailContent] = React.useState(false);
   const [subarrayDetails, setSubarrayDetails] = React.useState(null);
   const [executionBlockDetails, setExecutionBlockDetails] = React.useState(null);
   const [processingBlockDetails, setProcessingBlockDetails] = React.useState(null);
@@ -92,8 +98,17 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
         .catch(() => null);
     }
 
-    if (subarray !== '') {
-      fetchSubarrayDetails();
+    if (DATA_LOCAL) {
+      setShowDetailContent(true);
+      setProcessingBlockDetails(processingBlockDetail);
+      setProcessingBlockState(processingBlockDetailState);
+      setExecutionBlockDetails(executionBlockDetail);
+      setSubarrayDetails(subarrayDetail);
+    } else {
+      if (subarray !== '') {
+        setShowDetailContent(true);
+        fetchSubarrayDetails();
+      }
     }
   }, [subarray]);
 
@@ -109,17 +124,17 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
           <CardHeader
             component={Box}
             title={`${t('label.subArray')}: ${subarray}`}
-            avatar={(
+            avatar={
               <StatusIcon
                 ariaTitle=""
                 ariaDescription=""
                 testId="statusId"
                 icon
-                level={READY_STATUS[subarrayDetails?.state_commanded ? 1 : 0]}
+                level={READY_STATUS[subarrayDetails?.state_commanded === 'ON' ? 1 : 0]}
                 size={SIZE}
                 text=""
               />
-            )}
+            }
             titleTypographyProps={{
               align: 'center',
               fontWeight: 'bold',
@@ -163,6 +178,17 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
           <CardHeader
             component={Box}
             title={`${t('label.execution_block')}: ${subarrayDetails?.eb_id}`}
+            avatar={
+              <StatusIcon
+                ariaTitle=""
+                ariaDescription=""
+                testId="statusId"
+                icon
+                level={READY_STATUS[executionBlockDetails?.status === 'ACTIVE' ? 1 : 0]}
+                size={SIZE}
+                text=""
+              />
+            }
             titleTypographyProps={{
               align: 'center',
               fontWeight: 'bold',
@@ -186,6 +212,25 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
           <CardHeader
             component={Box}
             title={`${t('label.processing_block')}: ${executionBlockDetails?.pb_realtime}`}
+            avatar={
+              <StatusIcon
+                ariaTitle=""
+                ariaDescription=""
+                testId="statusId"
+                icon
+                level={
+                  READY_STATUS[
+                    processingBlockState?.status === 'READY' &&
+                    processingBlockState?.resources_available &&
+                    processingBlockState?.deployments_ready
+                      ? 1
+                      : 0
+                  ]
+                }
+                size={SIZE}
+                text=""
+              />
+            }
             titleTypographyProps={{
               align: 'center',
               fontWeight: 'bold',
