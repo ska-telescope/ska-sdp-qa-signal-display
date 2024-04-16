@@ -35,7 +35,7 @@ function statisticsReceiver() {
 }
 
 function runningConfiguration() {
-    cy.findByTestId("subarray_subarray_stateLabel").contains("Scanning");
+    cy.findByTestId("subarray_subarray_stateLabel").contains("SCANNING");
     cy.findByTestId("eb_scan_typeLabel").contains("science");
     cy.findByTestId("pb_scriptLabel").contains("realtime/vis-receive/4.0.0");
 }

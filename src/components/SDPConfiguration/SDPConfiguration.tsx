@@ -33,7 +33,7 @@ const displayElement = (eLabel: string, eValue: any, eId: string) => (
       </Typography>
     </Grid>
     <Grid item xs={9}>
-      <Typography id={`${eId}Label`} sx={{ align: 'left', fontWeight: 'bold' }} variant="body1">
+      <Typography data-testid={`${eId}Label`} id={`${eId}Label`} sx={{ align: 'left', fontWeight: 'bold' }} variant="body1">
         {eValue}
       </Typography>
     </Grid>
