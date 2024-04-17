@@ -33,7 +33,7 @@ const displayElement = (eLabel: string, eValue: any, eId: string) => (
       </Typography>
     </Grid>
     <Grid item xs={9}>
-      <Typography data-testid={`${eId}Label`} id={`${eId}Label`} sx={{ align: 'left', fontWeight: 'bold' }} variant="body1">
+      <Typography testId={`${eId}Label`} id={`${eId}Label`} sx={{ align: 'left', fontWeight: 'bold' }} variant="body1">
         {eValue}
       </Typography>
     </Grid>
@@ -128,7 +128,7 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
               <StatusIcon
                 ariaTitle=""
                 ariaDescription=""
-                testId="statusId"
+                testId="statusIdSubarray"
                 icon
                 level={READY_STATUS[subarrayDetails?.state_commanded === 'ON' ? 1 : 0]}
                 size={SIZE}
@@ -182,7 +182,7 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
               <StatusIcon
                 ariaTitle=""
                 ariaDescription=""
-                testId="statusId"
+                testId="statusIdExecutionBlock"
                 icon
                 level={READY_STATUS[executionBlockDetails?.status === 'ACTIVE' ? 1 : 0]}
                 size={SIZE}
@@ -216,7 +216,7 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
               <StatusIcon
                 ariaTitle=""
                 ariaDescription=""
-                testId="statusId"
+                testId="statusIdProcessingBLock"
                 icon
                 level={
                   READY_STATUS[
