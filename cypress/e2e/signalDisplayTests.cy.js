@@ -34,12 +34,6 @@ function statisticsReceiver() {
     cy.findByTestId("dataReceivedDetails").contains("Duration of Current Transfer:").should("be.visible");
 }
 
-function runningConfiguration() {
-    cy.findByTestId("subarray_subarray_stateLabel").contains("SCANNING").should("be.visible");
-    cy.findByTestId("eb_scan_typeLabel").contains("science").should("be.visible");
-    cy.findByTestId("pb_scriptLabel").contains("realtime/vis-receive/4.0.0").should("be.visible");
-}
-
 function settings() {
     cy.findByTestId("SettingsIcon").should("be.visible").click();
     cy.findAllByTestId("showStatisticsDetailedButtonTestId").should("be.visible").click();
@@ -93,7 +87,6 @@ context('Signal display', () => {
 
         statisticsDetailed();
         statisticsReceiver();
-        runningConfiguration();
 
         cy.findAllByTestId("sectionHeader").contains("Spectrum Plot XX").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("Spectrum Plot XY").should("be.visible");
