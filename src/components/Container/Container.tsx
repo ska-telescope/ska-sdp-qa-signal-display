@@ -290,9 +290,8 @@ const Container = ({ childToParent }) => {
         })
           .then(response => response.json())
           .then(data => {
-            const obj: [] = data ? Object.values(data) : null;
-            if (obj) {
-              const elements = obj.map(e => ({ label: e, value: e }));
+            if (data) {
+              const elements = data.map(e => ({ label: e, value: e }));
               const eFirst = elements?.length > 0 ? elements[0].value : '';
               setSubArrays(elements);
               setSubArray(eFirst);

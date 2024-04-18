@@ -33,7 +33,12 @@ const displayElement = (eLabel: string, eValue: any, eId: string) => (
       </Typography>
     </Grid>
     <Grid item xs={9}>
-      <Typography data-testid={`${eId}Label`} id={`${eId}Label`} sx={{ align: 'left', fontWeight: 'bold' }} variant="body1">
+      <Typography
+        data-testid={`${eId}Label`}
+        id={`${eId}Label`}
+        sx={{ align: 'left', fontWeight: 'bold' }}
+        variant="body1"
+      >
         {eValue}
       </Typography>
     </Grid>
@@ -103,12 +108,10 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
       setProcessingBlockState(processingBlockDetailState);
       setExecutionBlockDetails(executionBlockDetail);
       setSubarrayDetails(subarrayDetail);
-    } else {
-      if (subarray !== '') {
+    } else if (subarray !== '') {
         setShowDetailContent(true);
         fetchSubarrayDetails();
       }
-    }
   }, [subarray]);
 
   return (
@@ -123,7 +126,7 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
           <CardHeader
             component={Box}
             title={`${t('label.subArray')}: ${subarray}`}
-            avatar={
+            avatar={(
               <StatusIcon
                 ariaTitle=""
                 ariaDescription=""
@@ -133,7 +136,7 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
                 size={SIZE}
                 text=""
               />
-            }
+            )}
             titleTypographyProps={{
               align: 'center',
               fontWeight: 'bold',
@@ -177,7 +180,7 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
           <CardHeader
             component={Box}
             title={`${t('label.execution_block')}: ${subarrayDetails?.eb_id}`}
-            avatar={
+            avatar={(
               <StatusIcon
                 ariaTitle=""
                 ariaDescription=""
@@ -187,7 +190,7 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
                 size={SIZE}
                 text=""
               />
-            }
+            )}
             titleTypographyProps={{
               align: 'center',
               fontWeight: 'bold',
@@ -211,7 +214,7 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
           <CardHeader
             component={Box}
             title={`${t('label.processing_block')}: ${executionBlockDetails?.pb_realtime}`}
-            avatar={
+            avatar={(
               <StatusIcon
                 ariaTitle=""
                 ariaDescription=""
@@ -229,7 +232,7 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
                 size={SIZE}
                 text=""
               />
-            }
+            )}
             titleTypographyProps={{
               align: 'center',
               fontWeight: 'bold',

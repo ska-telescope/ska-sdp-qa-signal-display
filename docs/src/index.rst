@@ -12,4 +12,5 @@ The `ska-sdp-qa-display` repository contains the code to present the charting av
    running
    structure
    external_links
+   info
    graphs
