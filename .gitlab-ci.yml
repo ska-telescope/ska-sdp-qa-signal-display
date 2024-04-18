@@ -67,7 +67,7 @@ test_and_coverage:
     - yarn install --immutable
   script:
     - REACT_APP_USE_LOCAL_DATA='true' yarn start &
-    - yarn test:e2e:headless
+    - yarn test:cypress:e2e:ci
     - yarn test:coverage:report:ci
     - cp build/reports/cobertura-coverage.xml build/reports/code-coverage.xml
   artifacts:
