@@ -99,7 +99,6 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
     }
 
     if (DATA_LOCAL) {
-      setShowDetailContent(true);
       setProcessingBlockDetails(processingBlockDetail);
       setProcessingBlockState(processingBlockDetailState);
       setExecutionBlockDetails(executionBlockDetail);
