@@ -57,10 +57,6 @@ test_and_coverage:
     REACT_APP_USE_LOCAL_DATA: 'true'
   tags:
     - k8srunner
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
   before_script:
     - mkdir -p build/reports
     - mkdir -p build/.nyc_output
@@ -100,10 +96,6 @@ test-counts:
   stage: scan
   tags:
     - k8srunner
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
   before_script:
     - mkdir -p build/tests
     - yarn install --immutable
