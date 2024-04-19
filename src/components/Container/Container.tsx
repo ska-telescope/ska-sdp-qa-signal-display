@@ -16,6 +16,7 @@ import Summary from '../Summary/Summary';
 import Spectrogram from '../Spectrogram/Spectrogram';
 import SpectrumPlot from '../SpectrumPlot/SpectrumPlot';
 import Statistics from '../Statistics/Statistics';
+import SDPConfiguration from '../SDPConfiguration/SDPConfiguration';
 import Socket from '../../services/webSocket/Socket';
 import LagPlot from '../LagPlot/LagPlot';
 import LogLinks from '../LogLinks/LogLinks';
@@ -284,18 +285,16 @@ const Container = ({ childToParent }) => {
       };
 
       async function fetchSubArrayFromAPI() {
-        await fetch(`${DATA_API_URL}${config.paths.subarrays}`, {
+        await fetch(`${DATA_API_URL}/config/subarrays`, {
           signal: abortController.signal
         })
           .then(response => response.json())
           .then(data => {
-            const obj: { id: string }[] = data && data.all ? Object.values(data.all) : null;
-            if (obj) {
-              const elements = obj.map(e => ({ label: e.id, value: e.id }));
-              const latest = data && data?.latest ? data.latest : '';
-              const eDefault = elements?.length > 0 ? elements[0].value : '';
+            if (data) {
+              const elements = data.map(e => ({ label: e, value: e }));
+              const eFirst = elements?.length > 0 ? elements[0].value : '';
               setSubArrays(elements);
-              setSubArray(latest.length ? latest : eDefault);
+              setSubArray(eFirst);
               setFetchSubarrayList(false);
             } else {
               clear();
@@ -499,6 +498,7 @@ const Container = ({ childToParent }) => {
         </Grid>
       </Box>
       <LogLinks subArray={subArray} config={config} />
+      <SDPConfiguration subarray={subArray} />
       <Statistics
         processingBlockStatisticsData={processingBlockStatisticsData}
         receiverEventsData={receiverEventsData}

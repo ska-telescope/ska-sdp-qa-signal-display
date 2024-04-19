@@ -1,7 +1,6 @@
-FROM node:16.14.0 as dev
+FROM node:20.12.2 as dev
 
 ENV PORT 3333
-ENV NODE_OPTIONS --max_old_space_size=2048
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app

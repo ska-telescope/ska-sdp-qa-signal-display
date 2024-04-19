@@ -2,7 +2,7 @@ import React from 'react';
 import { CssBaseline, Paper, ThemeProvider } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Header, Spacer, SPACER_VERTICAL } from '@ska-telescope/ska-gui-components';
-import { storageObject } from '@ska-telescope/ska-gui-local-storage';
+import { storageObject, Telescope } from '@ska-telescope/ska-gui-local-storage';
 import Container from '../Container/Container';
 import Loader from '../Loader/Loader';
 import theme from '../../services/theme/theme';
@@ -13,12 +13,31 @@ const FOOTER_HEIGHT = 30;
 
 function App() {
   const { t } = useTranslation('signalDisplay');
-  const { themeMode } = storageObject.useStore();
+  const {
+    help,
+    helpToggle,
+    telescope,
+    themeMode,
+    toggleTheme,
+    updateTelescope
+  } = storageObject.useStore();
 
   const skao = t('toolTip.button.skao');
   const mode = t('toolTip.button.mode');
   const toolTip = { skao, mode };
   const version = process.env.VERSION;
+
+  const telescopeFunction = (e: Telescope) => {
+    updateTelescope(e);
+  };
+  const theStorage = {
+    help,
+    helpToggle,
+    telescope,
+    themeMode: themeMode.mode,
+    toggleTheme,
+    updateTelescope: telescopeFunction
+  };
 
   const [data, setData] = React.useState(null);
 
@@ -30,7 +49,12 @@ function App() {
     <ThemeProvider theme={theme(themeMode.mode)}>
       <CssBaseline enableColorScheme />
       <React.Suspense fallback={<Loader />}>
-        <Header testId="headerId" title={t('label.signalDisplay')} toolTip={toolTip} />
+        <Header
+          testId="headerId"
+          title={t('label.signalDisplay')}
+          storage={theStorage}
+          toolTip={toolTip}
+        />
         <Paper>
           <Spacer size={HEADER_HEIGHT} axis={SPACER_VERTICAL} />
           <Container data-testid="containerId" childToParent={childToParent} />
