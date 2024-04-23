@@ -171,7 +171,7 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
             )}
             {displayElement(
               t('label.currently_running.receptors'),
-              subarrayDetails?.resources?.receptors.join(', '),
+              subarrayDetails?.resources?.receptors?.join(', '),
               'subarray_receptors'
             )}
           </CardContent>
