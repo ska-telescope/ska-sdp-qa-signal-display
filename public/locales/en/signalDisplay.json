@@ -120,7 +120,9 @@
     "button": {
       "mode": "Colour mode toggle",
       "refresh": "Click if a refresh is required quicker than the scheduled interval",
-      "skao": "SKAO WebSite"
+      "skao": "SKAO WebSite",
+      "docs": "Click here for Signal Display documentation",
+      "docsURL": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/?badge=latest"
     },
     "settings": {
       "amplitude": "Determines the scale to be used for the Y-Axis",
