@@ -26,6 +26,11 @@ function App() {
   const mode = t('toolTip.button.mode');
   const toolTip = { skao, mode };
   const version = process.env.VERSION;
+  const getDocs = () => {
+    const headerTip = t('toolTip.button.docs');
+    const headerURL = t('toolTip.button.docsURL');
+    return { tooltip: headerTip, url: headerURL };
+  };
 
   const telescopeFunction = (e: Telescope) => {
     updateTelescope(e);
@@ -50,6 +55,7 @@ function App() {
       <CssBaseline enableColorScheme />
       <React.Suspense fallback={<Loader />}>
         <Header
+          docs={getDocs()}
           testId="headerId"
           title={t('label.signalDisplay')}
           storage={theStorage}
