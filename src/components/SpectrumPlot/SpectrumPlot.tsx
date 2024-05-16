@@ -77,23 +77,16 @@ const SpectrumPlot = ({
   }
 
   function getYData(inData: any, polar: string) {
-    switch (polar) {
-      case 'XX':
-        return calculateYData(inData.XX.power);
-      case 'XY':
-        return calculateYData(inData.XY.power);
-      case 'YX':
-        return calculateYData(inData.YX.power);
-      default:
-        return calculateYData(inData.YY.power);
-    }
+    return calculateYData(
+      inData.filter(spectrumPayload => spectrumPayload.polarisation == polar)[0].power
+    );
   }
   function getChartData(usedData: any) {
     const xValues = calculateChannels(usedData.spectral_window);
     const chartDataTmp = [
       {
         x: xValues,
-        y: getYData(usedData.polarisations, polarization),
+        y: getYData(usedData.data, polarization),
         marker: {
           color: COLOR[2]
         }

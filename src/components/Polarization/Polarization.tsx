@@ -67,33 +67,30 @@ const Polarization = ({
 
   const chartTitle = (amplitude: boolean) => t(amplitude ? 'label.amplitude' : 'label.phase');
 
-  function calculateYData(inData: any, i: number, amplitude: boolean) {
+  function calculateYData(values: any, amplitude: boolean) {
     switch (setting(amplitude)) {
       case phaseAxisY[0]: // radians
-        return inData[i].phases;
+        return values;
       case phaseAxisY[1]: // degrees
-        return inData[i].phases.map((item: number) => calculateDegrees(item));
+        return values.map((item: number) => calculateDegrees(item));
       case amplitudeAxisY[0]: // amplitude
-        return inData[i].amplitudes;
+        return values;
       case amplitudeAxisY[1]: // db
-        return inData[i].amplitudes.map((item: number) => calculateDB(item));
+        return values.map((item: number) => calculateDB(item));
       case amplitudeAxisY[2]: // log
-        return inData[i].amplitudes.map((item: number) => calculateLog(item));
+        return values.map((item: number) => calculateLog(item));
       default:
         return 0;
     }
   }
 
-  function getBaseData(inData: any, polarisation: string, amplitude: boolean) {
-    const tmp = [];
-    for (let i = 0; i < inData.length; i += 1) {
-      if (inData[i].polarisation === polarisation) {
-        tmp.push({
-          name: inData[i].baseline,
-          data: calculateYData(inData, i, amplitude)
-        });
-      }
-    }
+  function getBaseData(inData: array, polarisation: string, amplitude: boolean) {
+    const tmp = inData
+      .filter(dataPayload => dataPayload.polarisation === polarisation)
+      .map(dataPayload => ({
+        name: dataPayload.baseline,
+        data: calculateYData(dataPayload.data, amplitude)
+      }));
     if (!legend || legend.length === 0) {
       return tmp;
     }
