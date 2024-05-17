@@ -26,7 +26,7 @@ interface InfoModalProps {
 }
 
 export default function InfoModal({ title, content, site }: InfoModalProps) {
-  const { t } = useTranslation('signalDisplay');
+  // const { t } = useTranslation('signalDisplay');
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

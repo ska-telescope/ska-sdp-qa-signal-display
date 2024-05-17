@@ -54,7 +54,7 @@ const GainCalibration = ({
   const xLabel = () => `${t('label.time')}`;
 
   function yLabel() {
-    const [selection, index] = selector();
+    const [selection, _index] = selector();
     return selection;
   }
 

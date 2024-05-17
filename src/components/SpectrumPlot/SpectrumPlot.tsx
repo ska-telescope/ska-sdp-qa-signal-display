@@ -78,7 +78,7 @@ const SpectrumPlot = ({
 
   function getYData(inData: any, polar: string) {
     return calculateYData(
-      inData.filter(spectrumPayload => spectrumPayload.polarisation == polar)[0].power
+      inData.filter(spectrumPayload => spectrumPayload.polarisation === polar)[0].power
     );
   }
   function getChartData(usedData: any) {
