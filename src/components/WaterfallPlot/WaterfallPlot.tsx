@@ -63,34 +63,28 @@ const WaterfallPlot = ({ type, item, config, subArray }: WaterfallPlotProps) => 
     if (!imageArray) {
       setImageArray([]);
     }
-    if (type === WATERFALL_PLOT_TYPES.SPECTROGRAM) {
-      chartData?.spectograms.forEach(spectrogram => {
+
+    chartData?.data
+      .filter(
+        dataPayload =>
+          dataPayload.baseline === `${baselines[0]}_${baselines[1]}` &&
+          dataPayload.polarisation === baselines[2]
+      )
+      .forEach(dataPayload => {
         const rgbaValues = [];
-        if (
-          spectrogram.baseline === `${baselines[0]}_${baselines[1]}` &&
-          spectrogram.polarisation === baselines[2]
-        ) {
-          spectrogram.phase_values.forEach((value: number) => {
+        if (type === WATERFALL_PLOT_TYPES.SPECTROGRAM) {
+          dataPayload.data.forEach((value: number) => {
             rgbaValues.push(LOOKUP_COLOUR_VALUES[value]);
           });
-          imageArray.push(rgbaValues);
-        }
-      });
-    } else if (type === WATERFALL_PLOT_TYPES.LAG_PLOT) {
-      chartData?.forEach(plot => {
-        const rgbaValues = [];
-        if (
-          plot.baseline === `${baselines[0]}_${baselines[1]}` &&
-          plot.polarisations === baselines[2]
-        ) {
-          const normaliseData = normaliseValues(plot.plot);
+        } else if (type === WATERFALL_PLOT_TYPES.LAG_PLOT) {
+          const normaliseData = normaliseValues(dataPayload.data);
           normaliseData.forEach((value: number) => {
             rgbaValues.push(LOOKUP_COLOUR_VALUES[value]);
           });
-          imageArray.push(rgbaValues);
         }
+        imageArray.push(rgbaValues);
       });
-    }
+
     setImageArray(imageArray);
   }, [chartData]);
 

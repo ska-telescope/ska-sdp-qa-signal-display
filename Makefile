@@ -47,6 +47,16 @@ dev-start:
 		node:20.12.2 \
 		yarn start
 
+dev-shell:
+	docker run \
+		--rm \
+		-it \
+		-v $(shell pwd):/data \
+		--user 1000:1000 \
+		-w /data \
+		node:20.12.2 \
+		bash
+
 dev-cypress:
 	docker run \
 		--rm \

@@ -90,6 +90,9 @@ const Plotly = ({
   return <Plot data={data} layout={assignLayout(marginalHistogram)} />;
 };
 
-Plotly.defaultProps = {};
+Plotly.defaultProps = {
+  masked: [],
+  marginalHistogram: false
+};
 
 export default Plotly;

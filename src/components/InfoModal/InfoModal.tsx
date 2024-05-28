@@ -26,7 +26,7 @@ interface InfoModalProps {
 }
 
 export default function InfoModal({ title, content, site }: InfoModalProps) {
-  const { t } = useTranslation('signalDisplay');
+  // const { t } = useTranslation('signalDisplay');
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -49,12 +49,10 @@ export default function InfoModal({ title, content, site }: InfoModalProps) {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {content}
           </Typography>
-          For more information, see the
-          {' '}
+          For more information, see the{' '}
           <a href={site} target="_blank" rel="noreferrer">
             ReadTheDocs
-          </a>
-          {' '}
+          </a>{' '}
           page.
         </Box>
       </SKAOModal>
