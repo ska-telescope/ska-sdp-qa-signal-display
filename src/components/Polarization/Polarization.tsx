@@ -51,6 +51,9 @@ const Polarization = ({
 
   const [chartData1, setChartData1] = React.useState(null);
   const [chartData2, setChartData2] = React.useState(null);
+  const [invalidData1, setInvalidData1] = React.useState(null);
+  const [invalidData2, setInvalidData2] = React.useState(null);
+
   const [showContent, setShowContent] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
@@ -158,11 +161,45 @@ const Polarization = ({
     }
   }, [resize]);
 
+  function checkForInvalidData(usedData: any, amplitude: boolean) {
+    const xValues = calculateChannels(usedData.spectral_window);
+    const y = getBaseData(usedData.data, polarization, amplitude);
+
+    const shapes = [];
+
+    for (let i = 0; i < y.length; i++) {
+      const line = y[i];
+      for (let j = 0; j < line.data.length; j++) {
+        const num = line.data[j];
+        if (!Number.isFinite(num)) {
+          shapes.push({
+            type: 'rect',
+            xref: 'x',
+            yref: 'paper',
+            x0: xValues[j] - 0.5 * (xValues[1] - xValues[0]),
+            y0: 0,
+            x1: xValues[j] + 0.5 * (xValues[1] - xValues[0]),
+            y1: 1,
+            fillcolor: '#fc0303',
+            opacity: 0.2,
+            line: {
+              width: 0
+            }
+          });
+        }
+      }
+    }
+
+    return shapes;
+  }
+
   React.useEffect(() => {
     const firstRender = chartData1 === null;
     if (amplitudeData && phaseData && legend) {
       setChartData1(canShow() ? getChartData(amplitudeData, true) : null);
       setChartData2(canShow() ? getChartData(phaseData, false) : null);
+      setInvalidData1(canShow() ? checkForInvalidData(amplitudeData, true) : null);
+      setInvalidData2(canShow() ? checkForInvalidData(phaseData, false) : null);
     }
     if (firstRender) {
       setShowContent(canShow());
@@ -220,6 +257,7 @@ const Polarization = ({
                     width={parentWidth()}
                     xLabel={xLabel()}
                     yLabel={yLabel(true)}
+                    masked={invalidData1}
                   />
                 )}
               </Grid>
@@ -261,6 +299,7 @@ const Polarization = ({
                     width={parentWidth()}
                     xLabel={xLabel()}
                     yLabel={yLabel(false)}
+                    masked={invalidData2}
                   />
                 )}
               </Grid>
