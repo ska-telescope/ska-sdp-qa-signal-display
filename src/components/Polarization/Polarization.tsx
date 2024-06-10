@@ -51,8 +51,8 @@ const Polarization = ({
 
   const [chartData1, setChartData1] = React.useState(null);
   const [chartData2, setChartData2] = React.useState(null);
-  const [invalidData1, setInvalidData1] = React.useState(null);
-  const [invalidData2, setInvalidData2] = React.useState(null);
+  const [invalidDataAmplitude, setInvalidDataAmplitude] = React.useState(null);
+  const [invalidDataPhase, setInvalidDataPhase] = React.useState(null);
 
   const [showContent, setShowContent] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
@@ -198,8 +198,8 @@ const Polarization = ({
     if (amplitudeData && phaseData && legend) {
       setChartData1(canShow() ? getChartData(amplitudeData, true) : null);
       setChartData2(canShow() ? getChartData(phaseData, false) : null);
-      setInvalidData1(canShow() ? checkForInvalidData(amplitudeData, true) : null);
-      setInvalidData2(canShow() ? checkForInvalidData(phaseData, false) : null);
+      setInvalidDataAmplitude(canShow() ? checkForInvalidData(amplitudeData, true) : null);
+      setInvalidDataPhase(canShow() ? checkForInvalidData(phaseData, false) : null);
     }
     if (firstRender) {
       setShowContent(canShow());
@@ -257,7 +257,7 @@ const Polarization = ({
                     width={parentWidth()}
                     xLabel={xLabel()}
                     yLabel={yLabel(true)}
-                    masked={invalidData1}
+                    masked={invalidDataAmplitude}
                   />
                 )}
               </Grid>
@@ -299,7 +299,7 @@ const Polarization = ({
                     width={parentWidth()}
                     xLabel={xLabel()}
                     yLabel={yLabel(false)}
-                    masked={invalidData2}
+                    masked={invalidDataPhase}
                   />
                 )}
               </Grid>
