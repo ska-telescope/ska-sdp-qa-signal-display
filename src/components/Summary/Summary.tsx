@@ -17,6 +17,7 @@ interface SummaryProps {
   status4: string;
   status5: string;
   status6: string;
+  status7: string;
   // eslint-disable-next-line @typescript-eslint/ban-types
   clickFunction: Function;
 }
@@ -29,6 +30,7 @@ const Summary = ({
   status4,
   status5,
   status6,
+  status7,
   clickFunction
 }: SummaryProps) => {
   const { t } = useTranslation('signalDisplay');

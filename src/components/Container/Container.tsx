@@ -26,7 +26,7 @@ import mockStatisticsProcessingBlock from '../../mockData/Statistics/processingB
 import mockStatisticsReceiverEvents from '../../mockData/Statistics/receiverEvents';
 import PhaseData from '../../mockData/WebSocket/phase.json';
 import AmplitudeData from '../../mockData/WebSocket/amplitude.json';
-import PlotData from '../../mockData/WebSocket/spectrum.json';
+import SpectrumData from '../../mockData/WebSocket/spectrum.json';
 import pointingOffsetData from '../../mockData/WebSocket/pointingOffsets.json';
 import gainCalibrationData from '../../mockData/WebSocket/gainCalibrations.json';
 import {
@@ -45,12 +45,13 @@ const Container = ({ childToParent }) => {
 
   const [redraw, setRedraw] = React.useState(false);
   const [refresh, setRefresh] = React.useState(0);
-  const [socketStatus1, setSocketStatus1] = React.useState(SOCKET_STATUS[0]);
-  const [chartData1, setChartData1] = React.useState(null);
-  const [socketStatus2, setSocketStatus2] = React.useState(SOCKET_STATUS[0]);
-  const [chartData2, setChartData2] = React.useState(null);
-  const [socketStatus3, setSocketStatus3] = React.useState(SOCKET_STATUS[0]);
-  const [chartData3, setChartData3] = React.useState(null);
+  const [socketStatusAmplitude, setSocketStatusAmplitude] = React.useState(SOCKET_STATUS[0]);
+  const [socketStatusPhase, setSocketStatusPhase] = React.useState(SOCKET_STATUS[0]);
+  const [chartDataAmplitude, setChartDataAmplitude] = React.useState(null);
+  const [socketStatusSpectrum, setSocketStatusSpectrum] = React.useState(SOCKET_STATUS[0]);
+  const [chartDataSpectrum, setChartDataSpectrum] = React.useState(null);
+  const [socketStatusPointingOffset, setSocketStatusPointingOffset] = React.useState(SOCKET_STATUS[0]);
+  const [chartDataPointingOffset, setChartDataPointingOffset] = React.useState(null);
   const [legendData, setLegendData] = React.useState(null);
   const [legendPole, setLegendPole] = React.useState(null);
   const [config, setConfig] = React.useState(null);
@@ -60,12 +61,12 @@ const Container = ({ childToParent }) => {
   const [subArrays, setSubArrays] = React.useState(null);
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = React.useState(null);
   const [receiverEventsData, setReceiverEventsData] = React.useState(null);
-  const [socketStatus5, setSocketStatus5] = React.useState(SOCKET_STATUS[0]);
-  const [chartData4, setChartData4] = React.useState<
+  const [socketStatusGainCal, setSocketStatusGainCal] = React.useState(SOCKET_STATUS[0]);
+  const [chartDataGainCal, setChartDataGainCal] = React.useState<
     { time: number[]; gains: number[][]; phases: number[][] }[]
   >([]);
   const [currentTabIndex, setCurrentTabIndex] = React.useState(0);
-  const [chartData5, setChartData5] = React.useState(null);
+  const [chartDataPhase, setChartDataPhase] = React.useState(null);
 
   const [counter, setCounter] = React.useState(0);
   const [fetchConfig, setFetchConfig] = React.useState(false);
@@ -316,50 +317,51 @@ const Container = ({ childToParent }) => {
       return;
     }
     if (DATA_LOCAL) {
-      setSocketStatus1(SOCKET_STATUS[3]);
-      setChartData1(AmplitudeData);
-      setChartData5(PhaseData);
-      setSocketStatus2(SOCKET_STATUS[3]);
-      setChartData2(PlotData);
-      setSocketStatus3(SOCKET_STATUS[3]);
-      setChartData3(pointingOffsetData);
-      setSocketStatus5(SOCKET_STATUS[3]);
-      setChartData4([gainCalibrationData]);
+      setSocketStatusAmplitude(SOCKET_STATUS[3]);
+      setChartDataAmplitude(AmplitudeData);
+      setSocketStatusPhase(SOCKET_STATUS[3])
+      setChartDataPhase(PhaseData);
+      setSocketStatusSpectrum(SOCKET_STATUS[3]);
+      setChartDataSpectrum(SpectrumData);
+      setSocketStatusPointingOffset(SOCKET_STATUS[3]);
+      setChartDataPointingOffset(pointingOffsetData);
+      setSocketStatusGainCal(SOCKET_STATUS[3]);
+      setChartDataGainCal([gainCalibrationData]);
     } else {
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
         protocol: config.api_format,
         suffix: `${config.topics.amplitude}-${subArray}`,
-        statusFunction: setSocketStatus1,
-        dataFunction: setChartData1
+        statusFunction: setSocketStatusAmplitude,
+        dataFunction: setChartDataAmplitude
       });
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
         protocol: config.api_format,
         suffix: `${config.topics.phase}-${subArray}`,
-        statusFunction: setSocketStatus1,
-        dataFunction: setChartData5
+        statusFunction: setSocketStatusPhase,
+        dataFunction: setChartDataPhase
       });
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
         protocol: config.api_format,
         suffix: `${config.topics.spectrum}-${subArray}`,
-        statusFunction: setSocketStatus2,
-        dataFunction: setChartData2
+        statusFunction: setSocketStatusSpectrum,
+        dataFunction: setChartDataSpectrum
       });
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
         protocol: config.api_format,
         suffix: `${config.topics.pointing_offset_out}-${subArray}`,
-        statusFunction: setSocketStatus3,
-        dataFunction: setChartData3
+        statusFunction: setSocketStatusPointingOffset,
+        dataFunction: setChartDataPointingOffset
       });
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
         protocol: config.api_format,
         suffix: `${config.topics.gain_calibration_out}-${subArray}`,
-        statusFunction: setSocketStatus5,
-        dataFunction: setChartData4,
+        statusFunction: setSocketStatusGainCal,
+        dataFunction: setChartDataGainCal,
         timeSeries: true
       });
     }
@@ -399,17 +401,17 @@ const Container = ({ childToParent }) => {
       return elements;
     }
 
-    if (chartData1) {
-      if (chartData1.data && chartData1.data.length > 0) {
-        setLegendData(getLegendData(chartData1));
+    if (chartDataAmplitude) {
+      if (chartDataAmplitude.data && chartDataAmplitude.data.length > 0) {
+        setLegendData(getLegendData(chartDataAmplitude));
       } else {
         // eslint-disable-next-line no-console
         console.error('WebSocket: received, unexpected content error');
-        setSocketStatus1(SOCKET_STATUS[1]);
+        setSocketStatusAmplitude(SOCKET_STATUS[1]);
         setLegendData([]);
       }
     }
-  }, [chartData1]);
+  }, [chartDataAmplitude]);
 
   const labelCounter = () => limit() - counter;
   const refreshClicked = () => {
@@ -486,12 +488,13 @@ const Container = ({ childToParent }) => {
           <Grid item>
             <Summary
               config={config}
-              status1={socketStatus1}
-              status2={socketStatus2}
-              status3={SOCKET_STATUS[processingBlockStatisticsData === null ? 1 : 2]}
-              status4={SOCKET_STATUS[receiverEventsData === null ? 1 : 2]}
-              status5={socketStatus5}
-              status6={socketStatus3}
+              status1={socketStatusAmplitude}
+              status2={socketStatusPhase}
+              status3={socketStatusSpectrum}
+              status4={SOCKET_STATUS[processingBlockStatisticsData === null ? 1 : 2]}
+              status5={SOCKET_STATUS[receiverEventsData === null ? 1 : 2]}
+              status6={socketStatusGainCal}
+              status7={socketStatusPointingOffset}
               clickFunction={settingsClick}
             />
           </Grid>
@@ -535,9 +538,9 @@ const Container = ({ childToParent }) => {
                 redraw={redraw}
                 resize={refresh}
                 setSettings={settingsUpdate}
-                socketStatus={socketStatus2}
+                socketStatus={socketStatusSpectrum}
                 displaySettings={displaySettings}
-                data={chartData2}
+                data={chartDataSpectrum}
               />
             </Grid>
           ))}
@@ -562,10 +565,10 @@ const Container = ({ childToParent }) => {
             redraw={redraw}
             resize={refresh}
             setSettings={settingsUpdate}
-            socketStatus={socketStatus1}
+            socketStatus={socketStatusAmplitude}
             displaySettings={displaySettings}
-            amplitudeData={chartData1}
-            phaseData={chartData5}
+            amplitudeData={chartDataAmplitude}
+            phaseData={chartDataPhase}
             legend={legendData}
           />
         ))}
@@ -592,11 +595,11 @@ const Container = ({ childToParent }) => {
           {OFFSETS.map(item => (
             <Grid item xs={gridWidth()}>
               <PointingOffsets
-                data={chartData3}
+                data={chartDataPointingOffset}
                 displaySettings={displaySettings}
                 offset={item}
                 resize={refresh}
-                socketStatus={socketStatus3}
+                socketStatus={socketStatusPointingOffset}
                 redraw={redraw}
                 setSettings={settingsUpdate}
               />
@@ -610,11 +613,11 @@ const Container = ({ childToParent }) => {
           {GAINS.map(item => (
             <Grid item xs={gridWidth()}>
               <GainCalibration
-                data={chartData4}
+                data={chartDataGainCal}
                 displaySettings={displaySettings}
                 gain={item}
                 resize={refresh}
-                socketStatus={socketStatus5}
+                socketStatus={socketStatusGainCal}
                 redraw={redraw}
               />
             </Grid>
