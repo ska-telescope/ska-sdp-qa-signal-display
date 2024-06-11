@@ -36,6 +36,7 @@ const SpectrumPlot = ({
   const { t } = useTranslation('signalDisplay');
 
   const [chartData, setChartData] = React.useState(null);
+  const [invalidData, setInvalidData] = React.useState(null);
   const [showContent, setShowContent] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
@@ -110,10 +111,39 @@ const SpectrumPlot = ({
     }
   }
 
+  function checkForInvalidData(usedData: any) {
+    const xValues = calculateChannels(usedData.spectral_window);
+    const y = getYData(usedData.data, polarization);
+
+    const shapes = [];
+
+    for (let i = 0; i < y.length; i++) {
+      if (!Number.isFinite(y[i])) {
+        shapes.push({
+          type: 'rect',
+          xref: 'x',
+          yref: 'paper',
+          x0: xValues[i] - 0.5 * (xValues[1] - xValues[0]),
+          y0: 0,
+          x1: xValues[i] + 0.5 * (xValues[1] - xValues[0]),
+          y1: 1,
+          fillcolor: '#fc0303',
+          opacity: 0.2,
+          line: {
+            width: 0
+          }
+        });
+      }
+    }
+
+    return shapes;
+  }
+
   React.useEffect(() => {
     const firstRender = chartData === null;
     if (data) {
       setChartData(getChartData(data));
+      setInvalidData(checkForInvalidData(data));
     }
     if (firstRender) {
       setShowContent(canShow());
@@ -170,6 +200,7 @@ const SpectrumPlot = ({
             width={parentWidth()}
             xLabel={xLabel()}
             yLabel={yLabel()}
+            masked={invalidData}
           />
         </SignalCard>
       )}
