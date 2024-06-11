@@ -17,6 +17,7 @@ interface SummaryProps {
   status4: string;
   status5: string;
   status6: string;
+  status7: string;
   // eslint-disable-next-line @typescript-eslint/ban-types
   clickFunction: Function;
 }
@@ -29,6 +30,7 @@ const Summary = ({
   status4,
   status5,
   status6,
+  status7,
   clickFunction
 }: SummaryProps) => {
   const { t } = useTranslation('signalDisplay');
@@ -44,10 +46,14 @@ const Summary = ({
         <u>{t(label)}</u>
       </Typography>
       <Typography color="inherit">
-        {t(statusType)}:<b>{status}</b>
+        {t(statusType)}
+        :
+        <b>{status}</b>
       </Typography>
       <Typography color="inherit">
-        {t('label.serialisation')}:<b>{apiFormat}</b>
+        {t('label.serialisation')}
+        :
+        <b>{apiFormat}</b>
       </Typography>
     </>
   );
@@ -76,7 +82,7 @@ const Summary = ({
       <Card style={{ backgroundColor: 'primary' }} variant="outlined">
         <CardHeader
           data-testid="sectionHeader"
-          action={
+          action={(
             <Grid container spacing={0}>
               <Grid item>
                 <Tooltip title={toolTip1()}>
@@ -181,7 +187,7 @@ const Summary = ({
                 </Tooltip>
               </Grid>
             </Grid>
-          }
+          )}
         />
       </Card>
     </Box>
