@@ -103,8 +103,6 @@ const BandAveragedXCorr = ({
 
   function getChartData(usedData: any, amplitude: boolean) {
 
-    console.log(usedData)
-
     const traces = [];
     if (!legend) {
         return traces;
