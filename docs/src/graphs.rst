@@ -48,6 +48,12 @@ information allows us to determine the source's offset from the phase center.
 .. image:: images/polarization_phase.png
    :width: 100%
 
+Band Averaged Cross Correlation Power
+-------------------------------------
+
+For each polarisation and baseline, a plot of the band averaged cross correlation power is displayed 
+as a time series.
+
 Spectrum Waterfall
 ------------------
 

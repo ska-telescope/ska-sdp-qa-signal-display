@@ -9,10 +9,7 @@ import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
 import YAxisToggle from '../YAxisToggle/YAxisToggle';
 import { COLOR } from '../../utils/constants';
-import {
-  calculateDB,
-  calculateLog
-} from '../../utils/calculate';
+import { calculateDB, calculateLog } from '../../utils/calculate';
 import { amplitudeAxisY, QASettings } from '../Settings/qaSettings';
 
 interface BandAveragedXCorrProps {
@@ -69,21 +66,21 @@ const BandAveragedXCorr = ({
     }
   }
 
-  function getBaseData( inData: array, polarisation: string, amplitude: boolean) {
+  function getBaseData(inData: array, polarisation: string, amplitude: boolean) {
     const tmp = inData
       .filter(dataPayLoad => dataPayLoad.polarisation === polarisation)
       .map(dataPayLoad => ({
-          name: dataPayLoad.baseline,
-          data: calculateYData([dataPayLoad.data], amplitude)
+        name: dataPayLoad.baseline,
+        data: calculateYData([dataPayLoad.data], amplitude)
       }));
     if (!legend || legend.length === 0) {
-        return tmp;
-        }
+      return tmp;
+    }
     const arr = [];
     for (let i = 0; i < tmp.length; i += 1) {
-        if (tmp[i].name === legend[i].text && legend[i].active) {
+      if (tmp[i].name === legend[i].text && legend[i].active) {
         arr.push(tmp[i]);
-        }
+      }
     }
 
     return arr;
@@ -100,45 +97,44 @@ const BandAveragedXCorr = ({
     return COLOR[0]; // Only here for completeness.
   }
 
-
   function getChartData(usedData: any, amplitude: boolean) {
-
     const traces = [];
     if (!legend) {
-        return traces;
-      }
+      return traces;
+    }
 
     if (usedData.length === 0) {
-        return traces;
+      return traces;
     }
 
-
-    for (let k = 0; k < usedData[0].data.filter(dataPayload => dataPayload.polarisation===polarization).length; k++) {
-        traces.push({
-            x: [],
-            y: [],
-            mode: 'markers+lines',
-            name: '',
-            marker: []
-        });
+    for (
+      let k = 0;
+      k < usedData[0].data.filter(dataPayload => dataPayload.polarisation === polarization).length;
+      k++
+    ) {
+      traces.push({
+        x: [],
+        y: [],
+        mode: 'markers+lines',
+        name: '',
+        marker: []
+      });
     }
 
-    const newTraces = [...traces]
-
+    const newTraces = [...traces];
 
     for (let j = 0; j < usedData.length; j++) {
-        const baseData = getBaseData(usedData[j].data, polarization, amplitude)
-        for (let i = 0; i < baseData.length; i++) {
-            newTraces[i].x.push(usedData[j].timestamp)
-            newTraces[i].y.push(baseData[i].data[0])
-            newTraces[i].name = baseData[i].name
-            newTraces[i].marker.push({color: getLegendColor(baseData[i].names)})
-        }
+      const baseData = getBaseData(usedData[j].data, polarization, amplitude);
+      for (let i = 0; i < baseData.length; i++) {
+        newTraces[i].x.push(usedData[j].timestamp);
+        newTraces[i].y.push(baseData[i].data[0]);
+        newTraces[i].name = baseData[i].name;
+        newTraces[i].marker.push({ color: getLegendColor(baseData[i].names) });
+      }
     }
-    
+
     return newTraces;
   }
-
 
   const canShow = () => data !== null;
 
@@ -194,29 +190,29 @@ const BandAveragedXCorr = ({
   return (
     <>
       {canShow() && (
-      <SignalCard
-        action={chartToggle(true)}
-        title={`Band Averaged Cross Correlation Power (${polarization})`}
-        socketStatus={socketStatus}
-        showContent={showContent}
-        setShowContent={showToggle}
-        showInfoModal="true"
-        infoTitle={t('modalInfo.bandAveragedXCorr.title')}
-        infoContent={t('modalInfo.bandAveragedXCorr.content')}
-        infoSite={t('modalInfo.bandAveragedXCorr.site')}
-      >
-        {legend && chartData && chartData.length > 0 && (
-        <Plotly
-          darkMode={darkMode}
-          data={showContent ? chartData : null}
-          height={parentWidth() / RATIO}
-          title=""
-          width={parentWidth()}
-          xLabel={xLabel()}
-          yLabel={yLabel(true)}
-        />
-                )}
-      </SignalCard>
+        <SignalCard
+          action={chartToggle(true)}
+          title={`Band Averaged Cross Correlation Power (${polarization})`}
+          socketStatus={socketStatus}
+          showContent={showContent}
+          setShowContent={showToggle}
+          showInfoModal="true"
+          infoTitle={t('modalInfo.bandAveragedXCorr.title')}
+          infoContent={t('modalInfo.bandAveragedXCorr.content')}
+          infoSite={t('modalInfo.bandAveragedXCorr.site')}
+        >
+          {legend && chartData && chartData.length > 0 && (
+            <Plotly
+              darkMode={darkMode}
+              data={showContent ? chartData : null}
+              height={parentWidth() / RATIO}
+              title=""
+              width={parentWidth()}
+              xLabel={xLabel()}
+              yLabel={yLabel(true)}
+            />
+          )}
+        </SignalCard>
       )}
     </>
   );

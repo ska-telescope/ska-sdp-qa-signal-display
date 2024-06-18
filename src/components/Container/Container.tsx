@@ -50,7 +50,9 @@ const Container = ({ childToParent }) => {
   const [socketStatusBandAvXCorr, setSocketBandAvXCorr] = React.useState(SOCKET_STATUS[0]);
   const [socketStatusPhase, setSocketStatusPhase] = React.useState(SOCKET_STATUS[0]);
   const [socketStatusSpectrum, setSocketStatusSpectrum] = React.useState(SOCKET_STATUS[0]);
-  const [socketStatusPointingOffset, setSocketStatusPointingOffset] = React.useState(SOCKET_STATUS[0]);
+  const [socketStatusPointingOffset, setSocketStatusPointingOffset] = React.useState(
+    SOCKET_STATUS[0]
+  );
   const [socketStatusGainCal, setSocketStatusGainCal] = React.useState(SOCKET_STATUS[0]);
 
   const [chartDataAmplitude, setChartDataAmplitude] = React.useState(null);
@@ -58,8 +60,8 @@ const Container = ({ childToParent }) => {
   const [chartDataSpectrum, setChartDataSpectrum] = React.useState(null);
   const [chartDataPointingOffset, setChartDataPointingOffset] = React.useState(null);
   const [chartDataGainCal, setChartDataGainCal] = React.useState<
-  { time: number[]; gains: number[][]; phases: number[][] }[]
->([]);
+    { time: number[]; gains: number[][]; phases: number[][] }[]
+  >([]);
   const [legendData, setLegendData] = React.useState(null);
   const [legendPole, setLegendPole] = React.useState(null);
   const [config, setConfig] = React.useState(null);
@@ -328,7 +330,7 @@ const Container = ({ childToParent }) => {
     if (DATA_LOCAL) {
       setSocketStatusAmplitude(SOCKET_STATUS[3]);
       setChartDataAmplitude(AmplitudeData);
-      setSocketStatusPhase(SOCKET_STATUS[3])
+      setSocketStatusPhase(SOCKET_STATUS[3]);
       setChartDataPhase(PhaseData);
       setSocketStatusSpectrum(SOCKET_STATUS[3]);
       setChartDataSpectrum(SpectrumData);
@@ -336,8 +338,8 @@ const Container = ({ childToParent }) => {
       setChartDataPointingOffset(pointingOffsetData);
       setSocketStatusGainCal(SOCKET_STATUS[3]);
       setChartDataGainCal([gainCalibrationData]);
-      setSocketBandAvXCorr(SOCKET_STATUS[3])
-      setChartDataBandAvXCorr([BandAveragedXCorrData])
+      setSocketBandAvXCorr(SOCKET_STATUS[3]);
+      setChartDataBandAvXCorr([BandAveragedXCorrData]);
     } else {
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
@@ -609,7 +611,7 @@ const Container = ({ childToParent }) => {
                 legend={legendData}
               />
             </Grid>
-        ))}
+          ))}
         </Grid>
       )}
 

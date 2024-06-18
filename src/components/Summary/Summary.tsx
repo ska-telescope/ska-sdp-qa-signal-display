@@ -69,7 +69,6 @@ const Summary = ({
   const toolTip7 = () => toolTipFormat('label.pointingOffsets', 'label.socket', status7);
   const toolTip8 = () => toolTipFormat('label.bandAveragedXCorr', 'label.socket', status8);
 
-
   const getSocketStatus = (status: string) => {
     switch (status) {
       case SOCKET_STATUS[2]:

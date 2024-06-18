@@ -2,7 +2,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Grid, Typography, Card, CardHeader, CardContent, Box, Stack } from '@mui/material';
-import  StatusIcon  from '@ska-telescope/ska-gui-components';
+import { StatusIcon } from '@ska-telescope/ska-gui-components';
 import SignalCard from '../SignalCard/SignalCard';
 import { DATA_API_URL, SOCKET_STATUS, DATA_LOCAL } from '../../utils/constants';
 import {

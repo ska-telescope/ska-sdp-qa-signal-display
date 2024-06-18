@@ -63,9 +63,9 @@ export default function Settings({
         <YAxisToggle
           disabled={!displaySettings[value]}
           setValue={setValue}
-          testId={`${value}ButtonTestId`}
+          testId={`${value2}ButtonTestId`}
           type={type}
-          value={value}
+          value={value2}
           displaySettings={displaySettings}
         />
       </Grid>
@@ -123,36 +123,17 @@ export default function Settings({
 
           {headerRow(`${t('label.polarization')} / ${t('label.phase')}`, 'h6')}
 
-
           {phaseRow('label.XX', 'showPolarizationPhaseXX', 'showPolarizationPhaseXXaxisY')}
           {phaseRow('label.XY', 'showPolarizationPhaseXY', 'showPolarizationPhaseXYaxisY')}
           {phaseRow('label.YX', 'showPolarizationPhaseYX', 'showPolarizationPhaseYXaxisY')}
           {phaseRow('label.YY', 'showPolarizationPhaseYY', 'showPolarizationPhaseYYaxisY')}
 
-
           {headerRow(`${t('label.bandAveragedXCorr')}`, 'h6')}
 
-
-          {amplitudeRow(
-            'label.XX',
-            'showBandAvXCorrXX',
-            'showBandAvXCorrXXaxisY'
-          )}
-          {amplitudeRow(
-            'label.XY',
-            'showBandAvXCorrXY',
-            'showBandAvXCorrXYaxisY'
-          )}
-          {amplitudeRow(
-            'label.YX',
-            'showBandAvXCorrYX',
-            'showBandAvXCorrYXaxisY'
-          )}
-          {amplitudeRow(
-            'label.YY',
-            'showBandAvXCorrYY',
-            'showBandAvXCorrYYaxisY'
-          )}
+          {amplitudeRow('label.XX', 'showBandAvXCorrXX', 'showBandAvXCorrXXaxisY')}
+          {amplitudeRow('label.XY', 'showBandAvXCorrXY', 'showBandAvXCorrXYaxisY')}
+          {amplitudeRow('label.YX', 'showBandAvXCorrYX', 'showBandAvXCorrYXaxisY')}
+          {amplitudeRow('label.YY', 'showBandAvXCorrYY', 'showBandAvXCorrYYaxisY')}
 
           {headerRow(t('label.spectrograms'), 'h6')}
 
