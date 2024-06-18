@@ -13,7 +13,7 @@ describe('<SDPConfiguration />', () => {
       cy.mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
-          <SDPConfiguration config={undefined} />
+          <SDPConfiguration subarray={undefined} />
         </ThemeProvider>
       );
     });
