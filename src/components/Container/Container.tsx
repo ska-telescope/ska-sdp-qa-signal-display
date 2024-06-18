@@ -29,6 +29,7 @@ import AmplitudeData from '../../mockData/WebSocket/amplitude.json';
 import SpectrumData from '../../mockData/WebSocket/spectrum.json';
 import pointingOffsetData from '../../mockData/WebSocket/pointingOffsets.json';
 import gainCalibrationData from '../../mockData/WebSocket/gainCalibrations.json';
+import BandAveragedXCorrData from '../../mockData/WebSocket/bandAveragedXCorr.json';
 import {
   COLOR,
   DATA_API_URL,
@@ -331,6 +332,8 @@ const Container = ({ childToParent }) => {
       setChartDataPointingOffset(pointingOffsetData);
       setSocketStatusGainCal(SOCKET_STATUS[3]);
       setChartDataGainCal([gainCalibrationData]);
+      setSocketBandAvXCorr(SOCKET_STATUS[3])
+      setChartDataBandAvXCorr([BandAveragedXCorrData])
     } else {
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
@@ -507,6 +510,7 @@ const Container = ({ childToParent }) => {
               status5={SOCKET_STATUS[receiverEventsData === null ? 1 : 2]}
               status6={socketStatusGainCal}
               status7={socketStatusPointingOffset}
+              status8={socketStatusBandAvXCorr}
               clickFunction={settingsClick}
             />
           </Grid>
@@ -571,20 +575,6 @@ const Container = ({ childToParent }) => {
       )}
       {currentTabIndex === 0 &&
         POLARIZATIONS.map(item => (
-          <BandAveragedXCorr
-            key={`Polarization${item}`}
-            polarization={item}
-            redraw={redraw}
-            resize={refresh}
-            setSettings={settingsUpdate}
-            socketStatus={socketStatusBandAvXCorr}
-            displaySettings={displaySettings}
-            data={chartDataBandAvXCorr}
-            legend={legendData}
-          />
-        ))}
-      {currentTabIndex === 0 &&
-        POLARIZATIONS.map(item => (
           <Polarization
             key={`Polarization${item}`}
             polarization={item}
@@ -598,6 +588,26 @@ const Container = ({ childToParent }) => {
             legend={legendData}
           />
         ))}
+
+      {currentTabIndex === 0 && (
+        <Grid container>
+          {POLARIZATIONS.map(item => (
+            <Grid item xs={gridWidth()}>
+              <BandAveragedXCorr
+                key={`Polarization${item}`}
+                polarization={item}
+                redraw={redraw}
+                resize={refresh}
+                setSettings={settingsUpdate}
+                socketStatus={socketStatusBandAvXCorr}
+                displaySettings={displaySettings}
+                data={chartDataBandAvXCorr}
+                legend={legendData}
+              />
+            </Grid>
+        ))}
+        </Grid>
+      )}
 
       {currentTabIndex === 0 && (
         <Spectrogram

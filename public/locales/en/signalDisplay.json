@@ -61,6 +61,7 @@
     "amplitudeV": "V Amplitude",
     "ampVFreq": "Amplitude vs Frequency",
     "api": "API",
+    "bandAveragedXCorr": "Band Averaged Cross Correlation Power",
     "button": {
       "refresh_zero": "Refreshing...",
       "refresh_one": "Refreshing in {{count}} second",
