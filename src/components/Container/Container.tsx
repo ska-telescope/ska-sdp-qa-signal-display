@@ -21,7 +21,7 @@ import Socket from '../../services/webSocket/Socket';
 import LagPlot from '../LagPlot/LagPlot';
 import LogLinks from '../LogLinks/LogLinks';
 import GainCalibration from '../GainCalibration/GainCalibration';
-
+import BandAveragedXCorr from '../BandAveragedXCorr/BandAveragedXCorr';
 import mockStatisticsProcessingBlock from '../../mockData/Statistics/processingBlock';
 import mockStatisticsReceiverEvents from '../../mockData/Statistics/receiverEvents';
 import PhaseData from '../../mockData/WebSocket/phase.json';
@@ -46,12 +46,19 @@ const Container = ({ childToParent }) => {
   const [redraw, setRedraw] = React.useState(false);
   const [refresh, setRefresh] = React.useState(0);
   const [socketStatusAmplitude, setSocketStatusAmplitude] = React.useState(SOCKET_STATUS[0]);
+  const [socketStatusBandAvXCorr, setSocketBandAvXCorr] = React.useState(SOCKET_STATUS[0]);
   const [socketStatusPhase, setSocketStatusPhase] = React.useState(SOCKET_STATUS[0]);
-  const [chartDataAmplitude, setChartDataAmplitude] = React.useState(null);
   const [socketStatusSpectrum, setSocketStatusSpectrum] = React.useState(SOCKET_STATUS[0]);
-  const [chartDataSpectrum, setChartDataSpectrum] = React.useState(null);
   const [socketStatusPointingOffset, setSocketStatusPointingOffset] = React.useState(SOCKET_STATUS[0]);
+  const [socketStatusGainCal, setSocketStatusGainCal] = React.useState(SOCKET_STATUS[0]);
+
+  const [chartDataAmplitude, setChartDataAmplitude] = React.useState(null);
+  const [chartDataBandAvXCorr, setChartDataBandAvXCorr] = React.useState<[]>([]);
+  const [chartDataSpectrum, setChartDataSpectrum] = React.useState(null);
   const [chartDataPointingOffset, setChartDataPointingOffset] = React.useState(null);
+  const [chartDataGainCal, setChartDataGainCal] = React.useState<
+  { time: number[]; gains: number[][]; phases: number[][] }[]
+>([]);
   const [legendData, setLegendData] = React.useState(null);
   const [legendPole, setLegendPole] = React.useState(null);
   const [config, setConfig] = React.useState(null);
@@ -61,10 +68,7 @@ const Container = ({ childToParent }) => {
   const [subArrays, setSubArrays] = React.useState(null);
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = React.useState(null);
   const [receiverEventsData, setReceiverEventsData] = React.useState(null);
-  const [socketStatusGainCal, setSocketStatusGainCal] = React.useState(SOCKET_STATUS[0]);
-  const [chartDataGainCal, setChartDataGainCal] = React.useState<
-    { time: number[]; gains: number[][]; phases: number[][] }[]
-  >([]);
+
   const [currentTabIndex, setCurrentTabIndex] = React.useState(0);
   const [chartDataPhase, setChartDataPhase] = React.useState(null);
 
@@ -364,6 +368,14 @@ const Container = ({ childToParent }) => {
         dataFunction: setChartDataGainCal,
         timeSeries: true
       });
+      Socket({
+        apiUrl: WS_API_URL + config.paths.websocket,
+        protocol: config.api_format,
+        suffix: `${config.topics.band_averaged_x_corr}-${subArray}`,
+        statusFunction: setSocketBandAvXCorr,
+        dataFunction: setChartDataBandAvXCorr,
+        timeSeries: true
+      });
     }
   }, [subArray]);
 
@@ -557,6 +569,20 @@ const Container = ({ childToParent }) => {
           poleUpdate={poleOnClick}
         />
       )}
+      {currentTabIndex === 0 &&
+        POLARIZATIONS.map(item => (
+          <BandAveragedXCorr
+            key={`Polarization${item}`}
+            polarization={item}
+            redraw={redraw}
+            resize={refresh}
+            setSettings={settingsUpdate}
+            socketStatus={socketStatusBandAvXCorr}
+            displaySettings={displaySettings}
+            data={chartDataBandAvXCorr}
+            legend={legendData}
+          />
+        ))}
       {currentTabIndex === 0 &&
         POLARIZATIONS.map(item => (
           <Polarization
