@@ -203,9 +203,9 @@ const BandAveragedXCorr = ({
         showContent={showContent}
         setShowContent={showToggle}
         showInfoModal="true"
-        infoTitle={t('modalInfo.amplitudePlot.title')}
-        infoContent={t('modalInfo.amplitudePlot.content')}
-        infoSite={t('modalInfo.amplitudePlot.site')}
+        infoTitle={t('modalInfo.bandAveragedXCorr.title')}
+        infoContent={t('modalInfo.bandAveragedXCorr.content')}
+        infoSite={t('modalInfo.bandAveragedXCorr.site')}
       >
         {legend && chartData && chartData.length > 0 && (
         <Plotly

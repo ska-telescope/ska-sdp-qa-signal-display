@@ -113,6 +113,10 @@ const Container = ({ childToParent }) => {
     displaySettings.showPolarizationPhaseXY ||
     displaySettings.showPolarizationPhaseYX ||
     displaySettings.showPolarizationPhaseYY ||
+    displaySettings.showBandAvXCorrXX ||
+    displaySettings.showBandAvXCorrXY ||
+    displaySettings.showBandAvXCorrYX ||
+    displaySettings.showBandAvXCorrYY ||
     displaySettings.showSpectrograms ||
     displaySettings.showLagPlots ||
     displaySettings.showGainCalibrationAmplitudeH ||

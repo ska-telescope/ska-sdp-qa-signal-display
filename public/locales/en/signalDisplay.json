@@ -159,6 +159,11 @@
       "content": "For each baseline and polarisation, a plot of the phase of the visibility spectrum is displayed. This provides information about the source's offset from the phase centre.",
       "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#power-vs-phase"
     },
+    "bandAveragedXCorr": {
+      "title": "Band Averaged Cross Correlation Power",
+      "content": "For each polarisation and baseline, we present the band averaged cross correlation power.",
+      "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html"
+    },
     "spectrogram": {
       "title": "Spectrograms",
       "content": "For each baseline and polarisation, we present a waterfall plot of the phases of the visibilities as a function of frequency. A flat spectrum of phases is synonomous with zero residual delay.",

@@ -1,0 +1,7 @@
+{
+    "timestamp": "2024-06-17T14:32:06.2+00:00", 
+    "data": [
+        {"baseline": "C10_C10", "polarisation": "XX", "data": 0.01}, 
+        {"baseline": "C10_C10", "polarisation": "XY", "data": 0.01}, 
+        {"baseline": "C10_C10", "polarisation": "YX", "data": 0.01}, 
+        {"baseline": "C10_C10", "polarisation": "YY", "data": 0.01}]}
