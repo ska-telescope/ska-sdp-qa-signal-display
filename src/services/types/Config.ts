@@ -19,6 +19,7 @@ type Topics = {
   lag_plot: string;
   pointing_offset: string;
   pointing_offset_out: string;
+  band_averaged_x_corr: string;
 };
 
 type Waterfall_Plots = {

@@ -71,6 +71,10 @@ function settings() {
     cy.findAllByTestId("showPolarizationPhaseXYButtonTestId").should("be.visible").click();
     cy.findAllByTestId("showPolarizationPhaseYXButtonTestId").should("be.visible").click();
     cy.findAllByTestId("showPolarizationPhaseYYButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showBandAvXCorrXXButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showBandAvXCorrXYButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showBandAvXCorrYXButtonTestId").should("be.visible").click();
+    cy.findAllByTestId("showBandAvXCorrYYButtonTestId").should("be.visible").click();
     cy.findAllByTestId("showSpectrogramsButtonTestId").should("be.visible").click();
     cy.findAllByTestId("showLagPlotsButtonTestId").should("be.visible").click();
     cy.findAllByTestId("showCrossElevationOffsetButtonTestId").should("be.visible").click();

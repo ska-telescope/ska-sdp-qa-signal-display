@@ -34,6 +34,15 @@ export const QASettings = {
   showPolarizationPhaseYXaxisY: phaseAxisY[0],
   showPolarizationPhaseYYaxisY: phaseAxisY[0],
   //
+  showBandAvXCorrXX: true,
+  showBandAvXCorrXY: true,
+  showBandAvXCorrYX: true,
+  showBandAvXCorrYY: true,
+  showBandAvXCorrXXaxisY: amplitudeAxisY[0],
+  showBandAvXCorrXYaxisY: amplitudeAxisY[0],
+  showBandAvXCorrYXaxisY: amplitudeAxisY[0],
+  showBandAvXCorrYYaxisY: amplitudeAxisY[0],
+  //
   showGainStabilityXX: true,
   showGainStabilityXY: true,
   showGainStabilityYX: true,
