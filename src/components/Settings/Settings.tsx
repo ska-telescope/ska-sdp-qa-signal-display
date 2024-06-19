@@ -128,6 +128,13 @@ export default function Settings({
           {phaseRow('label.YX', 'showPolarizationPhaseYX', 'showPolarizationPhaseYXaxisY')}
           {phaseRow('label.YY', 'showPolarizationPhaseYY', 'showPolarizationPhaseYYaxisY')}
 
+          {headerRow(`${t('label.bandAveragedXCorr')}`, 'h6')}
+
+          {amplitudeRow('label.XX', 'showBandAvXCorrXX', 'showBandAvXCorrXXaxisY')}
+          {amplitudeRow('label.XY', 'showBandAvXCorrXY', 'showBandAvXCorrXYaxisY')}
+          {amplitudeRow('label.YX', 'showBandAvXCorrYX', 'showBandAvXCorrYXaxisY')}
+          {amplitudeRow('label.YY', 'showBandAvXCorrYY', 'showBandAvXCorrYYaxisY')}
+
           {headerRow(t('label.spectrograms'), 'h6')}
 
           {basicRow('label.spectrograms', 'showSpectrograms')}
