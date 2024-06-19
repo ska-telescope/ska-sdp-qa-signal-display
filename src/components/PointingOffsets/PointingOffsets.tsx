@@ -102,7 +102,7 @@ const PointingOffsets = ({
         y: calculateYData(usedData[selection]),
         error_y: {
           type: 'data',
-          array: usedData[`${selection}Uncertainty`],
+          array: usedData[`${selection}StandardDeviation`],
           visible: true
         },
         type: 'scatter',
