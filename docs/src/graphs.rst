@@ -115,7 +115,7 @@ Elevation and Cross-elevation offset
 ------------------------------------
 
 The fitted parameter representing the centre of the primary beam provides the elevation
-and Cross-elevation offsets, along with their uncertainties. If a calculated pointing offset exceeds 
+and Cross-elevation offsets, along with their standard deviations. If a calculated pointing offset exceeds 
 a threshold percentage of the expected value, then it is discounted. These discounted pointing offsets 
 are indicated by the red shaded regions in the graphs.
 
@@ -126,7 +126,7 @@ Beam width
 ----------
 
 The expected and fitted widths of the 2D gaussian primary beam are displayed, along with their 
-uncertainties.
+standard deviations.
 
 .. image:: images/beam-widths.png
    :width: 400
@@ -135,7 +135,7 @@ Beam height
 -----------
 
 The expected and fitted heights of the 2D gaussian primary beam are displayed, along with their 
-uncertainties.
+standard deviations.
 
 .. image:: images/beam-height.png
    :width: 400

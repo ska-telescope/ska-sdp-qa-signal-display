@@ -1,15 +1,15 @@
 {
   "antennas": ["SKA004", "SKA006", "SKA009", "SKA010"],
   "crossElevationOffset": [1, "nan", "nan", "nan"],
-  "crossElevationOffsetUncertainty": ["nan", "nan", "nan", "nan"],
+  "crossElevationOffsetStandardDeviation": ["nan", "nan", "nan", "nan"],
   "crossElevationFittedWidth": ["nan", "nan", "nan", "nan"],
-  "crossElevationFittedWidthUncertainty": ["nan", "nan", "nan", "nan"],
+  "crossElevationFittedWidthStandardDeviation": ["nan", "nan", "nan", "nan"],
   "crossElevationExpectedWidth": ["nan", "nan", "nan", "nan"],
   "elevationOffset": ["nan", "nan", "nan", "nan"],
-  "elevationOffsetUncertainty": ["nan", "nan", "nan", "nan"],
+  "elevationOffsetStandardDeviation": ["nan", "nan", "nan", "nan"],
   "elevationFittedWidth": ["nan", "nan", "nan", "nan"],
-  "elevationFittedWidthUncertainty": ["nan", "nan", "nan", "nan"],
+  "elevationFittedWidthStandardDeviation": ["nan", "nan", "nan", "nan"],
   "elevationExpectedWidth": ["nan", "nan", "nan", "nan"],
   "fittedHeight": ["nan", "nan", "nan", "nan"],
-  "fittedHeightUncertainty": ["nan", "nan", "nan", "nan"]
+  "fittedHeightStandardDeviation": ["nan", "nan", "nan", "nan"]
 }
