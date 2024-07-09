@@ -289,7 +289,7 @@ const deploymentDetail = {
             '--use-sdp-metadata',
             false,
             '--metrics',
-            'stats,spectrum,spectograms,lag_plot'
+            'stats,spectrum,spectrograms,lag_plot'
           ],
           image: 'artefact.skao.int/ska-sdp-qa-metric-generator',
           name: 'signal-display-metrics-basic',

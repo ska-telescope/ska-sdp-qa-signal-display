@@ -79,7 +79,7 @@ a function of frequency. A flat spectrum of phases is synonomous with zero resid
 due to the 'Shift Theorem' which states that a delay in the time domain corresponds to a linear phase 
 term in the frequency domain.
 
-.. image:: images/spectogram.png
+.. image:: images/spectrogram.png
    :width: 100%
 
 Cross-Correlation Power vs Time Lag
