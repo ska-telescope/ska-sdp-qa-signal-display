@@ -22,7 +22,7 @@ const SpectrogramImage = ({ element, full, onClick, config }: SpectrogramImagePr
       return MOCK_FULL;
     }
     const baselines = item.split(/[-_]+/);
-    return `${DATA_API_URL}/spectograms/${FULL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
+    return `${DATA_API_URL}/spectrograms/${FULL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
 
   function getImageTN(item: string) {
@@ -30,7 +30,7 @@ const SpectrogramImage = ({ element, full, onClick, config }: SpectrogramImagePr
       return MOCK_THUMBNAIL;
     }
     const baselines = item.split(/[-_]+/);
-    return `${DATA_API_URL}/spectograms/${THUMBNAIL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
+    return `${DATA_API_URL}/spectrograms/${THUMBNAIL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
 
   // m043_m043_YX
