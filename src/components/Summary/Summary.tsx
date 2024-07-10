@@ -19,6 +19,7 @@ interface SummaryProps {
   status6: string;
   status7: string;
   status8: string;
+  status9: string;
   // eslint-disable-next-line @typescript-eslint/ban-types
   clickFunction: Function;
 }
@@ -33,6 +34,7 @@ const Summary = ({
   status6,
   status7,
   status8,
+  status9,
   clickFunction
 }: SummaryProps) => {
   const { t } = useTranslation('signalDisplay');
@@ -68,6 +70,7 @@ const Summary = ({
   const toolTip6 = () => toolTipFormat('label.gainStability', 'label.socket', status6);
   const toolTip7 = () => toolTipFormat('label.pointingOffsets', 'label.socket', status7);
   const toolTip8 = () => toolTipFormat('label.bandAveragedXCorr', 'label.socket', status8);
+  const toolTip9 = () => toolTipFormat('label.uvCoverage', 'label.socket', status9);
 
   const getSocketStatus = (status: string) => {
     switch (status) {
@@ -204,6 +207,21 @@ const Summary = ({
                     <Status
                       testId="status8Id"
                       level={getSocketStatus(status8)}
+                      size={STATUS_SIZE}
+                    />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
+              <Grid item>
+                <Tooltip title={toolTip9()}>
+                  <IconButton
+                    aria-label={t('label.socketStatus')}
+                    sx={{ '&:hover': { backgroundColor: 'primary.dark' }, p: 1.3 }}
+                    color={ButtonColorTypes.Inherit}
+                  >
+                    <Status
+                      testId="status9Id"
+                      level={getSocketStatus(status9)}
                       size={STATUS_SIZE}
                     />
                   </IconButton>

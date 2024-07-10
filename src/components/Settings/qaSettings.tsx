@@ -72,5 +72,12 @@ export const QASettings = {
   showGainCalibrationAmplitudeH: true,
   showGainCalibrationAmplitudeV: true,
   showGainCalibrationPhaseH: true,
-  showGainCalibrationPhaseV: true
+  showGainCalibrationPhaseV: true,
+
+  showUVCoverage: true,
+
+  showWeightDistributionXX: true,
+  showWeightDistributionXY: true,
+  showWeightDistributionYX: true,
+  showWeightDistributionYY: true,
 };

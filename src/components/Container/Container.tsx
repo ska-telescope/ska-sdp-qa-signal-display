@@ -22,6 +22,7 @@ import LagPlot from '../LagPlot/LagPlot';
 import LogLinks from '../LogLinks/LogLinks';
 import GainCalibration from '../GainCalibration/GainCalibration';
 import BandAveragedXCorr from '../BandAveragedXCorr/BandAveragedXCorr';
+import WeightDistributionPlot from '../WeightDistributions/WeightDistributionPlot';
 import mockStatisticsProcessingBlock from '../../mockData/Statistics/processingBlock';
 import mockStatisticsReceiverEvents from '../../mockData/Statistics/receiverEvents';
 import PhaseData from '../../mockData/WebSocket/phase.json';
@@ -30,6 +31,7 @@ import SpectrumData from '../../mockData/WebSocket/spectrum.json';
 import pointingOffsetData from '../../mockData/WebSocket/pointingOffsets.json';
 import gainCalibrationData from '../../mockData/WebSocket/gainCalibrations.json';
 import BandAveragedXCorrData from '../../mockData/WebSocket/bandAveragedXCorr.json';
+import UVCoverageData from '../../mockData/WebSocket/uvCoverage.json';
 import {
   COLOR,
   DATA_API_URL,
@@ -54,6 +56,7 @@ const Container = ({ childToParent }) => {
     SOCKET_STATUS[0]
   );
   const [socketStatusGainCal, setSocketStatusGainCal] = React.useState(SOCKET_STATUS[0]);
+  const [socketStatusUVCoverage, setSocketStatusUVCoverage] = React.useState(SOCKET_STATUS[0]);
 
   const [chartDataAmplitude, setChartDataAmplitude] = React.useState(null);
   const [chartDataBandAvXCorr, setChartDataBandAvXCorr] = React.useState<[]>([]);
@@ -62,6 +65,7 @@ const Container = ({ childToParent }) => {
   const [chartDataGainCal, setChartDataGainCal] = React.useState<
     { time: number[]; gains: number[][]; phases: number[][] }[]
   >([]);
+  const [chartDataUVCoverage, setChartDataUVCoverage] = React.useState(null);
   const [legendData, setLegendData] = React.useState(null);
   const [legendPole, setLegendPole] = React.useState(null);
   const [config, setConfig] = React.useState(null);
@@ -124,7 +128,11 @@ const Container = ({ childToParent }) => {
     displaySettings.showGainCalibrationAmplitudeH ||
     displaySettings.showGainCalibrationAmplitudeV ||
     displaySettings.showGainCalibrationPhaseH ||
-    displaySettings.showGainCalibrationPhaseV;
+    displaySettings.showGainCalibrationPhaseV ||
+    displaySettings.showWeightDistributionXX ||
+    displaySettings.showWeightDistributionXY ||
+    displaySettings.showWeightDistributionYX ||
+    displaySettings.showWeightDistributionYY;
 
   const settingsClick = () => {
     setOpenSettings(o => !o);
@@ -340,6 +348,8 @@ const Container = ({ childToParent }) => {
       setChartDataGainCal([gainCalibrationData]);
       setSocketBandAvXCorr(SOCKET_STATUS[3]);
       setChartDataBandAvXCorr([BandAveragedXCorrData]);
+      setSocketStatusUVCoverage(SOCKET_STATUS[3]);
+      setChartDataUVCoverage(UVCoverageData);
     } else {
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
@@ -383,6 +393,14 @@ const Container = ({ childToParent }) => {
         suffix: `${config.topics.band_averaged_x_corr}-${subArray}`,
         statusFunction: setSocketBandAvXCorr,
         dataFunction: setChartDataBandAvXCorr,
+        timeSeries: true
+      });
+      Socket({
+        apiUrl: WS_API_URL + config.paths.websocket,
+        protocol: config.api_format,
+        suffix: `${config.topics.uv_coverage}-${subArray}`,
+        statusFunction: setSocketStatusUVCoverage,
+        dataFunction: setChartDataUVCoverage,
         timeSeries: true
       });
     }
@@ -517,6 +535,7 @@ const Container = ({ childToParent }) => {
               status6={socketStatusGainCal}
               status7={socketStatusPointingOffset}
               status8={socketStatusBandAvXCorr}
+              status9={socketStatusUVCoverage}
               clickFunction={settingsClick}
             />
           </Grid>
@@ -630,6 +649,24 @@ const Container = ({ childToParent }) => {
           displaySettings={displaySettings}
           subArray={subArray}
         />
+      )}
+      {currentTabIndex === 0 && (
+        <Grid container>
+          {POLARIZATIONS.map(item => (
+            <Grid item xs={gridWidth()}>
+          <WeightDistributionPlot
+          key={`Polarization${item}`}
+          polarization={item}
+          redraw={redraw}
+          resize={refresh}
+          setSettings={settingsUpdate}
+          socketStatus={socketStatusSpectrum}
+          displaySettings={displaySettings}
+          data={chartDataUVCoverage}
+        />
+      </Grid>
+        ))}
+        </Grid>
       )}
 
       {currentTabIndex === 1 && (
