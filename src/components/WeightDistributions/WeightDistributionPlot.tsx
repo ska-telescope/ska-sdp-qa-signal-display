@@ -65,11 +65,16 @@ const WeightDistributionPlot = ({
     return min_freq + (max_freq - min_freq)/2
   }
 
+  function getUVWData(data: any, polar: string, coordinate: string) {
+    const filteredData = data.filter(uvCoveragePayload => uvCoveragePayload.polarisation === polar);
+    return filteredData.map((datum: any) => datum[coordinate]*datum.weight);
+  }
+
   function getChartData(usedData: any) {
     const chartDataTmp = [
       {
-        x: usedData.data.u * usedData.data.weight,
-        y: usedData.data.v * usedData.data.weight,
+        x: getUVWData(usedData.data, polarization, "u"),
+        y: getUVWData(usedData.data, polarization, "v"),
         marker: {
           color: COLOR[2]
         }
@@ -116,8 +121,8 @@ const WeightDistributionPlot = ({
   }, [resize]);
 
   React.useEffect(() => {
-    if(chartData) {
-      setMidFreq(calculateMidFrequency(chartData))
+    if(data) {
+      setMidFreq(calculateMidFrequency(data))
     }
   })
 
