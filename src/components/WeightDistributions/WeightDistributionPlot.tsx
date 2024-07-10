@@ -77,7 +77,9 @@ const WeightDistributionPlot = ({
         y: getUVWData(usedData.data, polarization, "v"),
         marker: {
           color: COLOR[2]
-        }
+        },
+        mode: 'markers+text',
+        type: 'scatter',
       }
     ];
     return chartDataTmp;
