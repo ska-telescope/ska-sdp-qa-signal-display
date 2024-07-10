@@ -17,9 +17,11 @@ import {
   calculateChannels,
   calculateDB,
   calculateDegrees,
-  calculateLog
+  calculateLog,
+  calculateReal,
+  calculateImaginary
 } from '../../utils/calculate';
-import { amplitudeAxisY, phaseAxisY, QASettings } from '../Settings/qaSettings';
+import { amplitudeAxisY, phaseAxisY, amplitudeReal, phaseImaginary, QASettings } from '../Settings/qaSettings';
 
 interface PolarizationProps {
   phaseData: PhaseData;
@@ -61,7 +63,12 @@ const Polarization = ({
   const settingElement = (amplitude: boolean) =>
     `showPolarization${amplitude ? 'Amplitude' : 'Phase'}${polarization}axisY`;
 
+  const settingElementAmplitudeReal = (real: boolean) =>
+    `showPolarization${real ? 'Real' : 'Imaginary'}${polarization}axisY`;
+
   const setting = (amplitude: boolean) => displaySettings[settingElement(amplitude)];
+
+  const settingAmplitudeReal = (real: boolean) => displaySettings[settingElementAmplitudeReal(real)]
 
   const xLabel = () => `${t('label.frequency')} (${t('units.frequency')})`;
 
@@ -69,6 +76,22 @@ const Polarization = ({
     `${t('label.amplitude')} (${t(`units.${setting(amplitude)}`)})`;
 
   const chartTitle = (amplitude: boolean) => t(amplitude ? 'label.amplitude' : 'label.phase');
+
+  function convertAmplitudeReal(tmpAmplitude: any, tmpPhase: any, real: boolean) {
+    console.log(tmpAmplitude)
+    switch (settingAmplitudeReal(real)) {
+      case amplitudeReal[0]:
+        return tmpAmplitude.map((item: number, index: any) => item * calculateReal(phaseData[index]));
+      case amplitudeReal[1]:
+        return tmpAmplitude;
+      case phaseImaginary[0]:
+        return tmpAmplitude.map((item: number, index: any) => item * calculateImaginary(phaseData[index]));
+      case phaseImaginary[1]:
+        return tmpPhase;
+      default:
+        return 0;
+    }
+  }
 
   function calculateYData(values: any, amplitude: boolean) {
     switch (setting(amplitude)) {
@@ -87,17 +110,29 @@ const Polarization = ({
     }
   }
 
-  function getBaseData(inData: array, polarisation: string, amplitude: boolean) {
+  function getBaseData(inData: array, polarisation: string, amplitude: boolean, real: boolean) {
+
+    const tmpAmplitude = amplitudeData.data
+      .filter(dataPayload => dataPayload.polarisation === polarisation)
+      .map(dataPayload => ({
+        data: dataPayload.data
+      }))
+    const tmpPhase = phaseData.data
+      .filter(dataPayload => dataPayload.polarisation === polarisation)
+      .map(dataPayload => ({
+        data: dataPayload.data
+      }))
     const tmp = inData
       .filter(dataPayload => dataPayload.polarisation === polarisation)
       .map(dataPayload => ({
         name: dataPayload.baseline,
-        data: calculateYData(dataPayload.data, amplitude)
+        data: calculateYData(convertAmplitudeReal(tmpAmplitude, tmpPhase, real), amplitude)
       }));
     if (!legend || legend.length === 0) {
       return tmp;
     }
 
+    console.log(tmp)
     const arr = [];
     for (let i = 0; i < tmp.length; i += 1) {
       if (tmp[i].name === legend[i].text && legend[i].active) {
@@ -119,13 +154,13 @@ const Polarization = ({
     return COLOR[0]; // Only here for completeness.
   }
 
-  function getChartData(usedData: any, amplitude: boolean) {
+  function getChartData(usedData: any, amplitude: boolean, real: boolean) {
     const chartData = [];
     if (!legend) {
       return chartData;
     }
     const xValues = calculateChannels(usedData.spectral_window);
-    const baseData = getBaseData(usedData.data, polarization, amplitude);
+    const baseData = getBaseData(usedData.data, polarization, amplitude, real);
     for (let i = 0; i < baseData.length; i++) {
       chartData.push({
         x: xValues,
@@ -163,7 +198,7 @@ const Polarization = ({
 
   function checkForInvalidData(usedData: any, amplitude: boolean) {
     const xValues = calculateChannels(usedData.spectral_window);
-    const y = getBaseData(usedData.data, polarization, amplitude);
+    const y = getBaseData(usedData.data, polarization, amplitude, real);
 
     const shapes = [];
 
@@ -196,8 +231,8 @@ const Polarization = ({
   React.useEffect(() => {
     const firstRender = chartData1 === null;
     if (amplitudeData && phaseData && legend) {
-      setChartData1(canShow() ? getChartData(amplitudeData, true) : null);
-      setChartData2(canShow() ? getChartData(phaseData, false) : null);
+      setChartData1(canShow() ? getChartData(amplitudeData, true, true) : null);
+      setChartData2(canShow() ? getChartData(phaseData, false, false) : null);
       setInvalidDataAmplitude(canShow() ? checkForInvalidData(amplitudeData, true) : null);
       setInvalidDataPhase(canShow() ? checkForInvalidData(phaseData, false) : null);
     }
@@ -218,8 +253,21 @@ const Polarization = ({
       type={type ? 'amplitude' : 'phase'}
       value={settingElement(type)}
       displaySettings={displaySettings}
+      disabled={false}
     />
   );
+
+  const amplitudeRealToggle = (type: boolean) => (
+    <YAxisToggle
+      setValue={setValue}
+      testId={`${settingElementAmplitudeReal(type)}ButtonTestId`}
+      type={type ? 'Real': 'Imaginary'}
+      value={settingElementAmplitudeReal(type)}
+      displaySettings={displaySettings}
+      disabled={false}
+
+    />
+  )
 
   return (
     <Grid container direction="row" justifyContent="space-between">
@@ -227,6 +275,7 @@ const Polarization = ({
         <Grid item xs={canShowChartPhase() ? 6 : 12}>
           <SignalCard
             action={chartToggle(true)}
+            action2={amplitudeRealToggle(true)}
             title={`${t('label.polarization')} / ${chartTitle(true)} ${polarization}`}
             socketStatus={socketStatus}
             showContent={showContent}
@@ -269,6 +318,7 @@ const Polarization = ({
         <Grid item xs={canShowChartAmplitude() ? 6 : 12}>
           <SignalCard
             action={chartToggle(false)}
+            action2={amplitudeRealToggle(false)}
             title={`${t('label.polarization')} / ${chartTitle(false)}  ${polarization}`}
             socketStatus={socketStatus}
             showContent={showContent}
