@@ -2,7 +2,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ButtonToggle } from '@ska-telescope/ska-gui-components';
-import { QASettings, amplitudeAxisY, phaseAxisY } from '../Settings/qaSettings';
+import { QASettings, amplitudeAxisY, phaseAxisY, amplitudeReal, phaseImaginary } from '../Settings/qaSettings';
 
 export interface YAxisToggleProps {
   testId: string;
@@ -30,9 +30,17 @@ function YAxisToggle({
       amplitudeAxisY.forEach((el: string): void => {
         results.push({ id: el, label: t(`label.${el}`), value: el });
       });
-    } else {
+    } else if (type === 'phase') {
       phaseAxisY.forEach((el: string): void => {
         results.push({ id: el, label: t(`label.${el}`), value: el });
+      });
+    } else if (type === 'Real') {
+      amplitudeReal.forEach((el: string): void => {
+        results.push({ id: el, label: t(`label.${el}`), value: el });
+      });
+    } else {
+        phaseImaginary.forEach((el: string): void => {
+          results.push({ id: el, label: t(`label.${el}`), value: el });
       });
     }
     return results;
