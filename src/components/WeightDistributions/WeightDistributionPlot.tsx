@@ -15,8 +15,6 @@ interface WeightDistributionPlotProps {
   polarization: string,
   redraw: boolean;
   resize: number;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  setSettings: Function;
   socketStatus: string;
 }
 
@@ -28,7 +26,6 @@ const WeightDistributionPlot = ({
   polarization,
   redraw,
   resize,
-  setSettings,
   socketStatus
 }: WeightDistributionPlotProps) => {
   const { t } = useTranslation('signalDisplay');
@@ -60,13 +57,13 @@ const WeightDistributionPlot = ({
   }
 
   function calculateMidFrequency(usedData: any) {
-    const min_freq = usedData.spectral_window.freq_min
-    const max_freq = usedData.spectral_window.freq_max   
-    return min_freq + (max_freq - min_freq)/2
+    const minFreq = usedData.spectral_window.freq_min
+    const maxFreq = usedData.spectral_window.freq_max   
+    return minFreq + (maxFreq - minFreq)/2
   }
 
-  function getUVWData(data: any, polar: string, coordinate: string) {
-    const filteredData = data.filter(uvCoveragePayload => uvCoveragePayload.polarisation === polar);
+  function getUVWData(usedData: any, polar: string, coordinate: string) {
+    const filteredData = usedData.filter(uvCoveragePayload => uvCoveragePayload.polarisation === polar);
     return filteredData.map((datum: any) => datum[coordinate]*datum.weight);
   }
 
@@ -79,7 +76,7 @@ const WeightDistributionPlot = ({
           color: COLOR[2]
         },
         mode: 'markers+text',
-        type: 'scatter',
+        type: 'scatter'
       }
     ];
     return chartDataTmp;

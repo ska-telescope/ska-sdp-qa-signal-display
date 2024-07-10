@@ -654,17 +654,17 @@ const Container = ({ childToParent }) => {
         <Grid container>
           {POLARIZATIONS.map(item => (
             <Grid item xs={gridWidth()}>
-          <WeightDistributionPlot
-          key={`Polarization${item}`}
-          polarization={item}
-          redraw={redraw}
-          resize={refresh}
-          setSettings={settingsUpdate}
-          socketStatus={socketStatusSpectrum}
-          displaySettings={displaySettings}
-          data={chartDataUVCoverage}
-        />
-      </Grid>
+              <WeightDistributionPlot
+                key={`Polarization${item}`}
+                polarization={item}
+                redraw={redraw}
+                resize={refresh}
+                setSettings={settingsUpdate}
+                socketStatus={socketStatusSpectrum}
+                displaySettings={displaySettings}
+                data={chartDataUVCoverage}
+              />
+            </Grid>
         ))}
         </Grid>
       )}

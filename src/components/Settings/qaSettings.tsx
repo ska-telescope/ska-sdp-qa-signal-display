@@ -79,5 +79,5 @@ export const QASettings = {
   showWeightDistributionXX: true,
   showWeightDistributionXY: true,
   showWeightDistributionYX: true,
-  showWeightDistributionYY: true,
+  showWeightDistributionYY: true
 };
