@@ -158,6 +158,14 @@ export default function Settings({
           {basicRow('label.amplitudeV', 'showGainCalibrationAmplitudeV')}
           {basicRow('label.phaseH', 'showGainCalibrationPhaseH')}
           {basicRow('label.phaseV', 'showGainCalibrationPhaseV')}
+
+          {headerRow(t('label.uvCoverage'), 'h6')}
+
+          {basicRow('label.XX', 'showWeightDistributionXX')}
+          {basicRow('label.XY', 'showWeightDistributionXY')}
+          {basicRow('label.YX', 'showWeightDistributionYX')}
+          {basicRow('label.YY', 'showWeightDistributionYY')}
+
         </Grid>
       </Box>
     </Drawer>

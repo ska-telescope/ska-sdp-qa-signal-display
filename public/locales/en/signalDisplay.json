@@ -113,8 +113,12 @@
     "time": "Time",
     "timeSincePayload": "Time Since Last Payload",
     "totalDataReceived": "Total Data Received",
+    "u": "u value",
+    "uvCoverage": "UV Coverage and Weight Distribution",
+    "v": "v value",
     "visibilityReceiveActive": "Visibility Receive Still Active",
     "workflow": "Workflow",
+    "weightDistribution": "Weight Distribution",
     "yes": "Yes"
   },
   "toolTip": {
@@ -141,7 +145,8 @@
     "log": "log",
     "phase": "m",
     "radians": "radians",
-    "totalDataReceived": "MB"
+    "totalDataReceived": "MB",
+    "numberOfWavelengths": "dimensionless"
   },
   "modalInfo": {
     "spectrumPlot": {
@@ -223,6 +228,11 @@
       "title": "Fitted Height",
       "content": "The expected and fitted heights of the 2D gaussian primary beam are displayed, along with their standard deviations.",
       "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#"
+    },
+    "uvCoverage": {
+      "title": "UV Coverage and Weight Distribution",
+      "content": "For a given subarray, we display the coverage in the uv-plane. More complete coverage helps to reduce the correlated noise in imaging products.",
+      "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#uv-coverage"
     }
   }
 }
