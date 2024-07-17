@@ -17,11 +17,10 @@ import {
   calculateChannels,
   calculateDB,
   calculateDegrees,
-  calculateLog,
-  calculateReal,
-  calculateImaginary
+  calculateLog
 } from '../../utils/calculate';
 import { amplitudeAxisY, phaseAxisY, amplitudeReal, phaseImaginary, QASettings } from '../Settings/qaSettings';
+
 
 interface PolarizationProps {
   phaseData: PhaseData;
@@ -51,6 +50,9 @@ const Polarization = ({
 }: PolarizationProps) => {
   const { t } = useTranslation('signalDisplay');
 
+  const [disableReal, setRealDisabled] = React.useState(true);
+  const [disableImag, setImagDisabled] = React.useState(true);
+
   const [chartData1, setChartData1] = React.useState(null);
   const [chartData2, setChartData2] = React.useState(null);
   const [invalidDataAmplitude, setInvalidDataAmplitude] = React.useState(null);
@@ -63,12 +65,16 @@ const Polarization = ({
   const settingElement = (amplitude: boolean) =>
     `showPolarization${amplitude ? 'Amplitude' : 'Phase'}${polarization}axisY`;
 
-  const settingElementAmplitudeReal = (real: boolean) =>
-    `showPolarization${real ? 'Real' : 'Imaginary'}${polarization}axisY`;
+  const settingElementAmplitudeReal = (real: string) => {
+    return `showPolarization${real}${polarization}axisY`;
+  }
+
+  const settingElementPhaseImaginary = (real: boolean) =>
+    `showPolarization${real ? 'Phase' : 'Imaginary'}${polarization}axisY`;
 
   const setting = (amplitude: boolean) => displaySettings[settingElement(amplitude)];
 
-  const settingAmplitudeReal = (real: boolean) => displaySettings[settingElementAmplitudeReal(real)]
+  const settingAmplitudeReal = (real: string) => displaySettings[settingElementAmplitudeReal(real)]
 
   const xLabel = () => `${t('label.frequency')} (${t('units.frequency')})`;
 
@@ -77,21 +83,7 @@ const Polarization = ({
 
   const chartTitle = (amplitude: boolean) => t(amplitude ? 'label.amplitude' : 'label.phase');
 
-  function convertAmplitudeReal(tmpAmplitude: any, tmpPhase: any, real: boolean) {
-    console.log(tmpAmplitude)
-    switch (settingAmplitudeReal(real)) {
-      case amplitudeReal[0]:
-        return tmpAmplitude.map((item: number, index: any) => item * calculateReal(phaseData[index]));
-      case amplitudeReal[1]:
-        return tmpAmplitude;
-      case phaseImaginary[0]:
-        return tmpAmplitude.map((item: number, index: any) => item * calculateImaginary(phaseData[index]));
-      case phaseImaginary[1]:
-        return tmpPhase;
-      default:
-        return 0;
-    }
-  }
+
 
   function calculateYData(values: any, amplitude: boolean) {
     switch (setting(amplitude)) {
@@ -110,29 +102,39 @@ const Polarization = ({
     }
   }
 
-  function getBaseData(inData: array, polarisation: string, amplitude: boolean, real: boolean) {
+  function selector(real: string) {
+    switch (settingAmplitudeReal(real)) {
+      case amplitudeReal[0]:
+        setRealDisabled(true)
+        return 'component';
+      case amplitudeReal[1]:
+        setRealDisabled(false)
+        return 'data';
+      case phaseImaginary[0]:
+        setImagDisabled(true)
+        return 'component';
+      case phaseImaginary[1]:
+        setImagDisabled(false)
+        return 'data';
+      default:
+        return 0;
+    }
+  }
 
-    const tmpAmplitude = amplitudeData.data
-      .filter(dataPayload => dataPayload.polarisation === polarisation)
-      .map(dataPayload => ({
-        data: dataPayload.data
-      }))
-    const tmpPhase = phaseData.data
-      .filter(dataPayload => dataPayload.polarisation === polarisation)
-      .map(dataPayload => ({
-        data: dataPayload.data
-      }))
+  function getBaseData(inData: array, polarisation: string, amplitude: boolean, real: string) {
+
     const tmp = inData
       .filter(dataPayload => dataPayload.polarisation === polarisation)
       .map(dataPayload => ({
         name: dataPayload.baseline,
-        data: calculateYData(convertAmplitudeReal(tmpAmplitude, tmpPhase, real), amplitude)
+        data: calculateYData(dataPayload[selector(real)], amplitude)
       }));
+
+  
     if (!legend || legend.length === 0) {
       return tmp;
     }
 
-    console.log(tmp)
     const arr = [];
     for (let i = 0; i < tmp.length; i += 1) {
       if (tmp[i].name === legend[i].text && legend[i].active) {
@@ -154,7 +156,9 @@ const Polarization = ({
     return COLOR[0]; // Only here for completeness.
   }
 
-  function getChartData(usedData: any, amplitude: boolean, real: boolean) {
+
+  function getChartData(usedData: any, amplitude: boolean, real: string) {
+
     const chartData = [];
     if (!legend) {
       return chartData;
@@ -196,7 +200,7 @@ const Polarization = ({
     }
   }, [resize]);
 
-  function checkForInvalidData(usedData: any, amplitude: boolean) {
+  function checkForInvalidData(usedData: any, amplitude: boolean, real: string) {
     const xValues = calculateChannels(usedData.spectral_window);
     const y = getBaseData(usedData.data, polarization, amplitude, real);
 
@@ -231,10 +235,10 @@ const Polarization = ({
   React.useEffect(() => {
     const firstRender = chartData1 === null;
     if (amplitudeData && phaseData && legend) {
-      setChartData1(canShow() ? getChartData(amplitudeData, true, true) : null);
-      setChartData2(canShow() ? getChartData(phaseData, false, false) : null);
-      setInvalidDataAmplitude(canShow() ? checkForInvalidData(amplitudeData, true) : null);
-      setInvalidDataPhase(canShow() ? checkForInvalidData(phaseData, false) : null);
+      setChartData1(canShow() ? getChartData(amplitudeData, true, "Real") : null);
+      setChartData2(canShow() ? getChartData(phaseData, false, "Imaginary") : null);
+      setInvalidDataAmplitude(canShow() ? checkForInvalidData(amplitudeData, true, "Real") : null);
+      setInvalidDataPhase(canShow() ? checkForInvalidData(phaseData, false, "Imaginary") : null);
     }
     if (firstRender) {
       setShowContent(canShow());
@@ -245,7 +249,8 @@ const Polarization = ({
     setSettings(e);
   }
 
-  const chartToggle = (type: boolean) => (
+
+  const chartToggle = (type: boolean, disable: boolean) => (
     <YAxisToggle
       // eslint-disable-next-line react/jsx-no-bind
       setValue={setValue}
@@ -253,15 +258,27 @@ const Polarization = ({
       type={type ? 'amplitude' : 'phase'}
       value={settingElement(type)}
       displaySettings={displaySettings}
-      disabled={false}
+      disabled={disable}
     />
   );
+  
 
-  const amplitudeRealToggle = (type: boolean) => (
+  const amplitudeRealToggle = (type: string) => (
     <YAxisToggle
       setValue={setValue}
       testId={`${settingElementAmplitudeReal(type)}ButtonTestId`}
-      type={type ? 'Real': 'Imaginary'}
+      type={(type==='Real') ? 'Real': 'Imaginary'}
+      value={settingElementAmplitudeReal(type)}
+      displaySettings={displaySettings}
+      disabled={false}
+    />
+  )
+
+  const phaseImaginaryToggle = (type: string) => (
+    <YAxisToggle
+      setValue={setValue}
+      testId={`${settingElementAmplitudeReal(type)}ButtonTestId`}
+      type={(type==='phase') ? 'Phase': 'Imaginary'}
       value={settingElementAmplitudeReal(type)}
       displaySettings={displaySettings}
       disabled={false}
@@ -274,8 +291,8 @@ const Polarization = ({
       {canShowChartAmplitude() && (
         <Grid item xs={canShowChartPhase() ? 6 : 12}>
           <SignalCard
-            action={chartToggle(true)}
-            action2={amplitudeRealToggle(true)}
+            action={chartToggle(true, disableReal)}
+            action2={amplitudeRealToggle("Real")}
             title={`${t('label.polarization')} / ${chartTitle(true)} ${polarization}`}
             socketStatus={socketStatus}
             showContent={showContent}
@@ -317,8 +334,8 @@ const Polarization = ({
       {canShowChartPhase() && (
         <Grid item xs={canShowChartAmplitude() ? 6 : 12}>
           <SignalCard
-            action={chartToggle(false)}
-            action2={amplitudeRealToggle(false)}
+            action={chartToggle(false, disableImag)}
+            action2={phaseImaginaryToggle("Imaginary")}
             title={`${t('label.polarization')} / ${chartTitle(false)}  ${polarization}`}
             socketStatus={socketStatus}
             showContent={showContent}
