@@ -1,4 +1,4 @@
-export const amplitudeAxisY = ['amplitude', 'db', 'log'];
+export const amplitudeAxisY = ['linear', 'db', 'log'];
 export const phaseAxisY = ['radians', 'degrees'];
 export const amplitudeReal = ['real', 'amplitude']
 export const phaseImaginary = ['imaginary', 'phase']
