@@ -21,9 +21,9 @@ export function calculateLog(item: number) {
 }
 
 export function calculateReal(item: number) {
-  return Math.cos(item)
+  return Math.cos(item);
 }
 
 export function calculateImaginary(item: number) {
-  return Math.sin(item)
+  return Math.sin(item);
 }
