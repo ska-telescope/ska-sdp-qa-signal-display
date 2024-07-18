@@ -20,7 +20,7 @@ import {
   calculateLog
 } from '../../utils/calculate';
 import { amplitudeAxisY, phaseAxisY, QASettings } from '../Settings/qaSettings';
-import { MISSING_DATA_COLOR, INVALID_DATA_COLOR, createRectangle } from 'src/utils/rectangle';
+import { MISSING_DATA_COLOR, INVALID_DATA_COLOR, createRectangle } from '../../utils/masksCalculator';
 
 interface PolarizationProps {
   phaseData: PhaseData;

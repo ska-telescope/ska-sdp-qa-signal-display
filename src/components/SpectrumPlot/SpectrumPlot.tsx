@@ -10,7 +10,7 @@ import YAxisToggle from '../YAxisToggle/YAxisToggle';
 import { COLOR } from '../../utils/constants';
 import { calculateChannels, calculateDB } from '../../utils/calculate';
 import { amplitudeAxisY, QASettings } from '../Settings/qaSettings';
-import { MISSING_DATA_COLOR, INVALID_DATA_COLOR, createRectangle } from 'src/utils/rectangleCalculator';
+import { MISSING_DATA_COLOR, INVALID_DATA_COLOR, createRectangle } from '../../utils/masksCalculator';
 
 interface SpectrumPlotProps {
   data: object;
@@ -130,7 +130,7 @@ const SpectrumPlot = ({
   }
 
   function checkForMissingData(missingData: number[][]) {
-    missingData.forEach(rectangle)
+    missingData.forEach(rectangle);
 
     function rectangle(item: number[]) {
       maskedData.push(createRectangle(item[0], item[1], MISSING_DATA_COLOR));
@@ -144,7 +144,9 @@ const SpectrumPlot = ({
     if (data) {
       setChartData(getChartData(data));
       setMaskedData(checkForInvalidData(data));
-      setMaskedData(checkForMissingData(missingData))
+      if(missingData){
+        setMaskedData(checkForMissingData(missingData))
+      }
     }
     if (firstRender) {
       setShowContent(canShow());

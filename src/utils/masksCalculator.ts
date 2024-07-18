@@ -11,7 +11,7 @@ export function createRectangle(x0: number, x1: number, color: string) {
         x1: x1,
         y1: 1,
         fillcolor: color,
-        opacity: 0.2,
+        opacity: 0.1,
         line: {
             width: 0
         }
@@ -26,20 +26,20 @@ export function getMaskDomains(data: number[][]) {
 
     function onlyZero(mask: number, i: number) {
         if(mask === 0.0) {
-            indexArray.push(frequencies[i]);
+            indexArray.push(i);
         }
     }
 
     const maskData = [];
     let begin = 0;
     for(let i = 1; i < indexArray.length; i++) {
-        if(indexArray[i] !== (indexArray[i-1]-1)) {
-            maskData.push([frequencies[indexArray[begin]], frequencies[indexArray[i-1]]]);
+        if(indexArray[i] !== (indexArray[i-1]+1)) {
+            maskData.push([frequencies[indexArray[begin]]/1000000.0, frequencies[indexArray[i-1]]/1000000.0]);
             begin = i;
         }
     }
 
-    maskData.push([frequencies[indexArray[begin]], frequencies[indexArray.at(-1)]]);
+    maskData.push([frequencies[indexArray[begin]]/1000000.0, frequencies[indexArray.at(-1)]/1000000.0]);
 
-    return maskData
+    return maskData;
 }
