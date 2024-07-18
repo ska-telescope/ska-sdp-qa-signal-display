@@ -1,6 +1,6 @@
 const subarrayList = ['01'];
 
-const subarrayDetail = {
+const mockSubarrayDetail = {
   subarray: {
     eb_id: "eb-test-20240716-65504",
     last_command: null,
@@ -390,5 +390,5 @@ const subarrayDetail = {
 
 export {
   subarrayList,
-  subarrayDetail
+  mockSubarrayDetail
 };

@@ -5,12 +5,10 @@ import { Grid, Typography, Card, CardHeader, CardContent, Box, Stack } from '@mu
 import { StatusIcon } from '@ska-telescope/ska-gui-components';
 import SignalCard from '../SignalCard/SignalCard';
 import { DATA_API_URL, SOCKET_STATUS, DATA_LOCAL } from '../../utils/constants';
-import {
-  subarrayDetail
-} from '../../mockData/Statistics/configEndpoints';
+import { mockSubarrayDetail } from '../../mockData/Statistics/configEndpoints';
 
 interface SubarrayProps {
-  subarray: any;
+  subarrayDetails: any;
 }
 
 function objectToString(obj) {
@@ -49,35 +47,14 @@ const STATUS_ERROR = 1;
 // const STATUS_INITIAL = 5;
 const READY_STATUS = [STATUS_ERROR, STATUS_OK];
 
-const SDPConfiguration = ({ subarray }: SubarrayProps) => {
+const SDPConfiguration = ({ subarrayDetails }: SubarrayProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [showDetailContent, setShowDetailContent] = React.useState(false);
-  const [subarrayDetails, setSubarrayDetails] = React.useState(null);
 
   const showDetailToggle = () => {
     setShowDetailContent(!showDetailContent);
   };
-
-  /* Check for changes in subarray: */
-  React.useEffect(() => {
-
-    async function fetchSubarrayDetails() {
-      await fetch(`${DATA_API_URL}/config/subarrays/${subarray}/current_setup`)
-        .then(response => response.json())
-        .then(data => {
-          setSubarrayDetails(data);
-          setTimeout(fetchSubarrayDetails, 30000);
-        })
-        .catch(() => null);
-    }
-
-    if (DATA_LOCAL) {
-      setSubarrayDetails(subarrayDetail);
-    } else if (subarray !== '') {
-      fetchSubarrayDetails();
-    }
-  }, [subarray]);
 
   function getDeploymentNames() {
     if (subarrayDetails?.deployments == null) {
@@ -115,7 +92,7 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
         <Card variant="outlined">
           <CardHeader
             component={Box}
-            title={`${t('label.subArray')}: ${subarray}`}
+            title={`${t('label.subArray')}: --`}
             avatar={(
               <StatusIcon
                 ariaTitle=""

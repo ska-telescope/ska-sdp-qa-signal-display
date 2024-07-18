@@ -25,6 +25,7 @@ import BandAveragedXCorr from '../BandAveragedXCorr/BandAveragedXCorr';
 import WeightDistributionPlot from '../WeightDistributions/WeightDistributionPlot';
 import mockStatisticsProcessingBlock from '../../mockData/Statistics/processingBlock';
 import mockStatisticsReceiverEvents from '../../mockData/Statistics/receiverEvents';
+import {mockSubarrayDetail} from '../../mockData/Statistics/configEndpoints';
 import PhaseData from '../../mockData/WebSocket/phase.json';
 import AmplitudeData from '../../mockData/WebSocket/amplitude.json';
 import SpectrumData from '../../mockData/WebSocket/spectrum.json';
@@ -73,6 +74,7 @@ const Container = ({ childToParent }) => {
   const [openSettings, setOpenSettings] = React.useState(false);
   const [subArray, setSubArray] = React.useState('');
   const [subArrays, setSubArrays] = React.useState(null);
+  const [subarrayDetails, setSubarrayDetails] = React.useState(null);
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = React.useState(null);
   const [receiverEventsData, setReceiverEventsData] = React.useState(null);
 
@@ -294,6 +296,7 @@ const Container = ({ childToParent }) => {
     }
     if (DATA_LOCAL) {
       setSubArray('1');
+      setSubarrayDetails(mockSubarrayDetail);
       setFetchSubarrayList(false);
     } else {
       const abortController = new AbortController();
@@ -331,6 +334,17 @@ const Container = ({ childToParent }) => {
     setFetchSubarrayList(false);
   }, [fetchSubArrayList]);
 
+
+  async function fetchSubarrayDetails() {
+    await fetch(`${DATA_API_URL}/config/subarrays/${subArray}/current_setup`)
+      .then(response => response.json())
+      .then(data => {
+        setSubarrayDetails(data);
+        setTimeout(fetchSubarrayDetails, 30000);
+      })
+      .catch(() => null);
+  }
+
   React.useEffect(() => {
     if (subArray === '') {
       return;
@@ -351,6 +365,7 @@ const Container = ({ childToParent }) => {
       setSocketStatusUVCoverage(SOCKET_STATUS[3]);
       setChartDataUVCoverage(UVCoverageData);
     } else {
+      fetchSubarrayDetails();
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
         protocol: config.api_format,
@@ -542,7 +557,7 @@ const Container = ({ childToParent }) => {
         </Grid>
       </Box>
       <LogLinks subArray={subArray} config={config} />
-      <SDPConfiguration subarray={subArray} />
+      <SDPConfiguration subarrayDetails={subarrayDetails} />
       <Statistics
         processingBlockStatisticsData={processingBlockStatisticsData}
         receiverEventsData={receiverEventsData}
