@@ -4,8 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Grid, Typography, Card, CardHeader, CardContent, Box, Stack } from '@mui/material';
 import { StatusIcon } from '@ska-telescope/ska-gui-components';
 import SignalCard from '../SignalCard/SignalCard';
-import { DATA_API_URL, SOCKET_STATUS, DATA_LOCAL } from '../../utils/constants';
-import { mockSubarrayDetail } from '../../mockData/Statistics/configEndpoints';
+import { SOCKET_STATUS } from '../../utils/constants';
 
 interface SubarrayProps {
   subarrayDetails: any;
@@ -60,17 +59,17 @@ const SDPConfiguration = ({ subarrayDetails }: SubarrayProps) => {
     if (subarrayDetails?.deployments == null) {
       return "";
     }
-    let names = [];
-    let metrics = [];
+    const names = [];
+    const metrics = [];
     let version = "";
 
-    Object.entries(subarrayDetails?.deployments).forEach(([key, value]) => {
-      value?.deployment?.args?.values?.processors.forEach((value) => {
-        if (value.name.startsWith("signal-display-metrics-")) {
-          metrics.push(value.command[value.command.length - 1]);
-          version = value.version;
+    Object.entries(subarrayDetails?.deployments).forEach(([_key, deployments]) => {
+      deployments?.deployment?.args?.values?.processors.forEach((processor) => {
+        if (processor.name.startsWith("signal-display-metrics-")) {
+          metrics.push(processor.command[processor.command.length - 1]);
+          version = processor.version;
         } else {
-          names.push(`${value.name}: ${value.version}`);
+          names.push(`${processor.name}: ${processor.version}`);
         }
       })
     });
