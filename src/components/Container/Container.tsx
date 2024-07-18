@@ -618,6 +618,7 @@ const Container = ({ childToParent }) => {
             amplitudeData={chartDataAmplitude}
             phaseData={chartDataPhase}
             legend={legendData}
+            missingData={getMaskData()}
           />
         ))}
 
