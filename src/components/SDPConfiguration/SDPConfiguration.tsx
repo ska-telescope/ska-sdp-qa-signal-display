@@ -57,21 +57,21 @@ const SDPConfiguration = ({ subarrayDetails }: SubarrayProps) => {
 
   function getDeploymentNames() {
     if (subarrayDetails?.deployments == null) {
-      return "";
+      return '';
     }
     const names = [];
     const metrics = [];
-    let version = "";
+    let version = '';
 
     Object.entries(subarrayDetails?.deployments).forEach(([_key, deployments]) => {
-      deployments?.deployment?.args?.values?.processors.forEach((processor) => {
-        if (processor.name.startsWith("signal-display-metrics-")) {
+      deployments?.deployment?.args?.values?.processors.forEach(processor => {
+        if (processor.name.startsWith('signal-display-metrics-')) {
           metrics.push(processor.command[processor.command.length - 1]);
           version = processor.version;
         } else {
           names.push(`${processor.name}: ${processor.version}`);
         }
-      })
+      });
     });
 
     if (metrics.length > 0) {
@@ -92,7 +92,7 @@ const SDPConfiguration = ({ subarrayDetails }: SubarrayProps) => {
           <CardHeader
             component={Box}
             title={`${t('label.subArray')}: --`}
-            avatar={(
+            avatar={
               <StatusIcon
                 ariaTitle=""
                 ariaDescription=""
@@ -102,7 +102,7 @@ const SDPConfiguration = ({ subarrayDetails }: SubarrayProps) => {
                 size={SIZE}
                 text=""
               />
-            )}
+            }
             titleTypographyProps={{
               align: 'center',
               fontWeight: 'bold',
@@ -126,7 +126,7 @@ const SDPConfiguration = ({ subarrayDetails }: SubarrayProps) => {
           <CardHeader
             component={Box}
             title={`${t('label.execution_block')}: ${subarrayDetails?.execution_block?.eb_id}`}
-            avatar={(
+            avatar={
               <StatusIcon
                 ariaTitle=""
                 ariaDescription=""
@@ -136,7 +136,7 @@ const SDPConfiguration = ({ subarrayDetails }: SubarrayProps) => {
                 size={SIZE}
                 text=""
               />
-            )}
+            }
             titleTypographyProps={{
               align: 'center',
               fontWeight: 'bold',
@@ -159,8 +159,10 @@ const SDPConfiguration = ({ subarrayDetails }: SubarrayProps) => {
         <Card variant="outlined">
           <CardHeader
             component={Box}
-            title={`${t('label.processing_block')}: ${subarrayDetails?.execution_block?.pb_realtime}`}
-            avatar={(
+            title={`${t('label.processing_block')}: ${
+              subarrayDetails?.execution_block?.pb_realtime
+            }`}
+            avatar={
               <StatusIcon
                 ariaTitle=""
                 ariaDescription=""
@@ -178,7 +180,7 @@ const SDPConfiguration = ({ subarrayDetails }: SubarrayProps) => {
                 size={SIZE}
                 text=""
               />
-            )}
+            }
             titleTypographyProps={{
               align: 'center',
               fontWeight: 'bold',

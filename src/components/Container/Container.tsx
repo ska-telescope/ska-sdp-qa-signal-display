@@ -25,7 +25,7 @@ import BandAveragedXCorr from '../BandAveragedXCorr/BandAveragedXCorr';
 import WeightDistributionPlot from '../WeightDistributions/WeightDistributionPlot';
 import mockStatisticsProcessingBlock from '../../mockData/Statistics/processingBlock';
 import mockStatisticsReceiverEvents from '../../mockData/Statistics/receiverEvents';
-import {mockSubarrayDetail} from '../../mockData/Statistics/configEndpoints';
+import { mockSubarrayDetail } from '../../mockData/Statistics/configEndpoints';
 import PhaseData from '../../mockData/WebSocket/phase.json';
 import AmplitudeData from '../../mockData/WebSocket/amplitude.json';
 import SpectrumData from '../../mockData/WebSocket/spectrum.json';
@@ -333,7 +333,6 @@ const Container = ({ childToParent }) => {
     }
     setFetchSubarrayList(false);
   }, [fetchSubArrayList]);
-
 
   async function fetchSubarrayDetails() {
     await fetch(`${DATA_API_URL}/config/subarrays/${subArray}/current_setup`)
@@ -680,7 +679,7 @@ const Container = ({ childToParent }) => {
                 data={chartDataUVCoverage}
               />
             </Grid>
-        ))}
+          ))}
         </Grid>
       )}
 
