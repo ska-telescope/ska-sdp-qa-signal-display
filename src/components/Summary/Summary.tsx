@@ -48,10 +48,14 @@ const Summary = ({
         <u>{t(label)}</u>
       </Typography>
       <Typography color="inherit">
-        {t(statusType)}:<b>{status}</b>
+        {t(statusType)}
+        :
+        <b>{status}</b>
       </Typography>
       <Typography color="inherit">
-        {t('label.serialisation')}:<b>{apiFormat}</b>
+        {t('label.serialisation')}
+        :
+        <b>{apiFormat}</b>
       </Typography>
     </>
   );
@@ -83,7 +87,7 @@ const Summary = ({
       <Card style={{ backgroundColor: 'primary' }} variant="outlined">
         <CardHeader
           data-testid="sectionHeader"
-          action={
+          action={(
             <Grid container spacing={0}>
               <Grid item>
                 <Tooltip title={toolTip1()}>
@@ -218,7 +222,7 @@ const Summary = ({
                 </Tooltip>
               </Grid>
             </Grid>
-          }
+          )}
         />
       </Card>
     </Box>

@@ -55,7 +55,6 @@ function YAxisToggle({
   function update(e) {
     const tmp = displaySettings;
     tmp[value] = e.target.id;
-    // setSetting(e.target.id);
     setValue(tmp);
   }
 

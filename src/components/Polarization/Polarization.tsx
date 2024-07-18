@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
-import React from 'react';
+/* eslint-disable react/jsx-no-bind */
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Box, Grid } from '@mui/material';
@@ -70,12 +71,7 @@ const Polarization = ({
   const settingElement = (amplitude: boolean) =>
     `showPolarization${amplitude ? 'Amplitude' : 'Phase'}${polarization}axisY`;
 
-  const settingElementAmplitudeReal = (real: string) => {
-    return `showPolarization${real}${polarization}axisY`;
-  };
-
-  const settingElementPhaseImaginary = (real: boolean) =>
-    `showPolarization${real ? 'Phase' : 'Imaginary'}${polarization}axisY`;
+  const settingElementAmplitudeReal = useCallback((real: string) => `showPolarization${real}${polarization}axisY`, [disableReal, disableImag]);
 
   const setting = (amplitude: boolean) => displaySettings[settingElement(amplitude)];
 
@@ -88,21 +84,26 @@ const Polarization = ({
 
   const chartTitle = (amplitude: boolean) => t(amplitude ? 'label.amplitude' : 'label.phase');
 
-  function calculateYData(values: any, amplitude: boolean) {
-    switch (setting(amplitude)) {
-      case phaseAxisY[0]: // radians
-        return values;
-      case phaseAxisY[1]: // degrees
-        return values.map((item: number) => calculateDegrees(item));
-      case amplitudeAxisY[0]: // amplitude
-        return values;
-      case amplitudeAxisY[1]: // db
-        return values.map((item: number) => calculateDB(item));
-      case amplitudeAxisY[2]: // log
-        return values.map((item: number) => calculateLog(item));
-      default:
-        return 0;
+  function calculateYData(values: any, amplitude: boolean, selection: string) {
+    if (selection === 'component') {
+      return values
     }
+    
+      switch (setting(amplitude)) {
+        case phaseAxisY[0]: // radians
+          return values;
+        case phaseAxisY[1]: // degrees
+          return values.map((item: number) => calculateDegrees(item));
+        case amplitudeAxisY[0]: // amplitude
+          return values;
+        case amplitudeAxisY[1]: // db
+          return values.map((item: number) => calculateDB(item));
+        case amplitudeAxisY[2]: // log
+          return values.map((item: number) => calculateLog(item));
+        default:
+          return 0;
+      }
+    
   }
 
   function selector(real: string) {
@@ -125,12 +126,16 @@ const Polarization = ({
   }
 
   function getBaseData(inData: array, polarisation: string, amplitude: boolean, real: string) {
+
+    const selection = selector(real)
+
     const tmp = inData
-      .filter(dataPayload => dataPayload.polarisation === polarisation)
-      .map(dataPayload => ({
-        name: dataPayload.baseline,
-        data: calculateYData(dataPayload[selector(real)], amplitude)
-      }));
+    .filter(dataPayload => dataPayload.polarisation === polarisation)
+    .map(dataPayload => ({
+      name: dataPayload.baseline,
+      data: calculateYData(dataPayload[selection], amplitude, selection)
+    }));
+    
 
     if (!legend || legend.length === 0) {
       return tmp;
