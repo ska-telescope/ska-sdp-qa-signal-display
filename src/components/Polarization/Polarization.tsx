@@ -182,13 +182,14 @@ const Polarization = ({
       }
     }
 
+    function rectangle(item: number[]) {
+      shapes.push(createRectangle(item[0], item[1], MISSING_DATA_COLOR));
+    }
+
     if (missingData) {
       missingData.forEach(rectangle);
-      function rectangle(item: number[]) {
-        shapes.push(createRectangle(item[0], item[1], MISSING_DATA_COLOR));
-      }
     }
-    
+
     return shapes;
   }
 

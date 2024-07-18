@@ -129,13 +129,11 @@ const SpectrumPlot = ({
     return maskedData;
   }
 
-  function checkForMissingData(missingData: number[][]) {
-    missingData.forEach(rectangle);
-
+  function checkForMissingData(masksData: number[][]) {
     function rectangle(item: number[]) {
       maskedData.push(createRectangle(item[0], item[1], MISSING_DATA_COLOR));
     }
-
+    masksData.forEach(rectangle);
     return maskedData;
   }
 

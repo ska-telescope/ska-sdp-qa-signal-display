@@ -6,9 +6,9 @@ export function createRectangle(x0: number, x1: number, color: string) {
         type: 'rect',
         xref: 'x',
         yref: 'paper',
-        x0: x0,
+        x0,
         y0: 0,
-        x1: x1,
+        x1,
         y1: 1,
         fillcolor: color,
         opacity: 0.1,
@@ -19,16 +19,19 @@ export function createRectangle(x0: number, x1: number, color: string) {
 }
 
 export function getMaskDomains(data: number[][]) {
-    const frequencies = data[0];
-    const masks = data[1];
-    let indexArray = [];
-    masks.forEach(onlyZero)
+    const indexArray = [];
 
     function onlyZero(mask: number, i: number) {
         if(mask === 0.0) {
             indexArray.push(i);
         }
     }
+
+    const frequencies = data[0];
+    const masks = data[1];
+    masks.forEach(onlyZero)
+
+    
 
     const maskData = [];
     let begin = 0;
