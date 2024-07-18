@@ -7,6 +7,7 @@ import SignalCard from '../SignalCard/SignalCard';
 import { SOCKET_STATUS } from '../../utils/constants';
 
 interface SubarrayProps {
+  subarray: Any,
   subarrayDetails: any;
 }
 
@@ -46,7 +47,7 @@ const STATUS_ERROR = 1;
 // const STATUS_INITIAL = 5;
 const READY_STATUS = [STATUS_ERROR, STATUS_OK];
 
-const SDPConfiguration = ({ subarrayDetails }: SubarrayProps) => {
+const SDPConfiguration = ({ subarray, subarrayDetails }: SubarrayProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [showDetailContent, setShowDetailContent] = React.useState(false);
@@ -91,7 +92,7 @@ const SDPConfiguration = ({ subarrayDetails }: SubarrayProps) => {
         <Card variant="outlined">
           <CardHeader
             component={Box}
-            title={`${t('label.subArray')}: --`}
+            title={`${t('label.subArray')}: ${subarray}`}
             avatar={
               <StatusIcon
                 ariaTitle=""

@@ -556,7 +556,7 @@ const Container = ({ childToParent }) => {
         </Grid>
       </Box>
       <LogLinks subArray={subArray} config={config} />
-      <SDPConfiguration subarrayDetails={subarrayDetails} />
+      <SDPConfiguration subarray={subArray} subarrayDetails={subarrayDetails} />
       <Statistics
         processingBlockStatisticsData={processingBlockStatisticsData}
         receiverEventsData={receiverEventsData}
