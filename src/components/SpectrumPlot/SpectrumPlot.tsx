@@ -10,6 +10,7 @@ import YAxisToggle from '../YAxisToggle/YAxisToggle';
 import { COLOR } from '../../utils/constants';
 import { calculateChannels, calculateDB } from '../../utils/calculate';
 import { amplitudeAxisY, QASettings } from '../Settings/qaSettings';
+import { MISSING_DATA_COLOR, INVALID_DATA_COLOR, createRectangle } from '../../utils/masksCalculator';
 
 interface SpectrumPlotProps {
   data: object;
@@ -20,6 +21,7 @@ interface SpectrumPlotProps {
   // eslint-disable-next-line @typescript-eslint/ban-types
   setSettings: Function;
   socketStatus: string;
+  missingData?: number[][]
 }
 
 const RATIO = 2;
@@ -31,12 +33,13 @@ const SpectrumPlot = ({
   redraw,
   resize,
   setSettings,
-  socketStatus
+  socketStatus,
+  missingData
 }: SpectrumPlotProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [chartData, setChartData] = React.useState(null);
-  const [invalidData, setInvalidData] = React.useState(null);
+  const [maskedData, setMaskedData] = React.useState([]);
   const [showContent, setShowContent] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
@@ -115,35 +118,33 @@ const SpectrumPlot = ({
     const xValues = calculateChannels(usedData.spectral_window);
     const y = getYData(usedData.data, polarization);
 
-    const shapes = [];
-
     for (let i = 0; i < y.length; i++) {
       if (!Number.isFinite(y[i])) {
-        shapes.push({
-          type: 'rect',
-          xref: 'x',
-          yref: 'paper',
-          x0: xValues[i] - 0.5 * (xValues[1] - xValues[0]),
-          y0: 0,
-          x1: xValues[i] + 0.5 * (xValues[1] - xValues[0]),
-          y1: 1,
-          fillcolor: '#fc0303',
-          opacity: 0.2,
-          line: {
-            width: 0
-          }
-        });
+        const x0 = xValues[i] - 0.5 * (xValues[1] - xValues[0]);
+        const x1 = xValues[i] + 0.5 * (xValues[1] - xValues[0]);
+        maskedData.push(createRectangle(x0,x1,INVALID_DATA_COLOR));
       }
     }
 
-    return shapes;
+    return maskedData;
+  }
+
+  function checkForMissingData(masksData: number[][]) {
+    function rectangle(item: number[]) {
+      maskedData.push(createRectangle(item[0], item[1], MISSING_DATA_COLOR));
+    }
+    masksData.forEach(rectangle);
+    return maskedData;
   }
 
   React.useEffect(() => {
     const firstRender = chartData === null;
     if (data) {
       setChartData(getChartData(data));
-      setInvalidData(checkForInvalidData(data));
+      setMaskedData(checkForInvalidData(data));
+      if(missingData){
+        setMaskedData(checkForMissingData(missingData))
+      }
     }
     if (firstRender) {
       setShowContent(canShow());
@@ -200,7 +201,7 @@ const SpectrumPlot = ({
             width={parentWidth()}
             xLabel={xLabel()}
             yLabel={yLabel()}
-            masked={invalidData}
+            masked={maskedData}
           />
         </SignalCard>
       )}

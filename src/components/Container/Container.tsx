@@ -32,6 +32,7 @@ import pointingOffsetData from '../../mockData/WebSocket/pointingOffsets.json';
 import gainCalibrationData from '../../mockData/WebSocket/gainCalibrations.json';
 import BandAveragedXCorrData from '../../mockData/WebSocket/bandAveragedXCorr.json';
 import UVCoverageData from '../../mockData/WebSocket/uvCoverage.json';
+import maskMockData from '../../mockData/tel-model/maskMockData.json';
 import {
   COLOR,
   DATA_API_URL,
@@ -42,6 +43,7 @@ import {
   OFFSETS,
   GAINS
 } from '../../utils/constants';
+import { getMaskDomains } from '../../utils/masksCalculator';
 
 const Container = ({ childToParent }) => {
   const { t } = useTranslation('signalDisplay');
@@ -221,6 +223,10 @@ const Container = ({ childToParent }) => {
     subArrays && subArrays.length > 0
       ? +env.REACT_APP_SUBARRAY_REFRESH_SECONDS
       : +env.REACT_APP_SUBARRAY_REFRESH_SECONDS_FAST;
+
+  function getMaskData(){
+      return getMaskDomains(maskMockData.data);
+  }
 
   React.useEffect(() => {
     setFetchConfig(true);
@@ -582,6 +588,7 @@ const Container = ({ childToParent }) => {
                 socketStatus={socketStatusSpectrum}
                 displaySettings={displaySettings}
                 data={chartDataSpectrum}
+                missingData={getMaskData()}
               />
             </Grid>
           ))}
@@ -611,6 +618,7 @@ const Container = ({ childToParent }) => {
             amplitudeData={chartDataAmplitude}
             phaseData={chartDataPhase}
             legend={legendData}
+            missingData={getMaskData()}
           />
         ))}
 

@@ -20,6 +20,7 @@ import {
   calculateLog
 } from '../../utils/calculate';
 import { amplitudeAxisY, phaseAxisY, QASettings } from '../Settings/qaSettings';
+import { MISSING_DATA_COLOR, INVALID_DATA_COLOR, createRectangle } from '../../utils/masksCalculator';
 
 interface PolarizationProps {
   phaseData: PhaseData;
@@ -32,6 +33,7 @@ interface PolarizationProps {
   // eslint-disable-next-line @typescript-eslint/ban-types
   setSettings: Function;
   socketStatus: string;
+  missingData?: number[][];
 }
 
 const RATIO = 2;
@@ -45,7 +47,8 @@ const Polarization = ({
   redraw,
   resize,
   setSettings,
-  socketStatus
+  socketStatus,
+  missingData
 }: PolarizationProps) => {
   const { t } = useTranslation('signalDisplay');
 
@@ -172,22 +175,19 @@ const Polarization = ({
       for (let j = 0; j < line.data.length; j++) {
         const num = line.data[j];
         if (!Number.isFinite(num)) {
-          shapes.push({
-            type: 'rect',
-            xref: 'x',
-            yref: 'paper',
-            x0: xValues[j] - 0.5 * (xValues[1] - xValues[0]),
-            y0: 0,
-            x1: xValues[j] + 0.5 * (xValues[1] - xValues[0]),
-            y1: 1,
-            fillcolor: '#fc0303',
-            opacity: 0.2,
-            line: {
-              width: 0
-            }
-          });
+          const x0 = xValues[j] - 0.5 * (xValues[1] - xValues[0]);
+          const x1 = xValues[j] + 0.5 * (xValues[1] - xValues[0]);
+          shapes.push(createRectangle(x0,x1,INVALID_DATA_COLOR));
         }
       }
+    }
+
+    function rectangle(item: number[]) {
+      shapes.push(createRectangle(item[0], item[1], MISSING_DATA_COLOR));
+    }
+
+    if (missingData) {
+      missingData.forEach(rectangle);
     }
 
     return shapes;
