@@ -7,6 +7,7 @@ import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
 import YAxisToggle from '../YAxisToggle/YAxisToggle';
+import WaterfallToggle from '../WaterfallToggle/WaterfallToggle';
 import { COLOR } from '../../utils/constants';
 import { calculateChannels, calculateDB } from '../../utils/calculate';
 import { amplitudeAxisY, QASettings } from '../Settings/qaSettings';
@@ -47,6 +48,7 @@ const SpectrumPlot = ({
   const chartTitle = () => '';
 
   const settingElement = () => `showSpectrumPlot${polarization}axisY`;
+  const waterfallToggleElement = () => `showSpectrumWaterfallPlot${polarization}`
   const setting = () => displaySettings[settingElement()];
 
   const xLabel = () => `${t('label.frequency')} (${t('units.frequency')})`;
@@ -178,11 +180,24 @@ const SpectrumPlot = ({
     />
   );
 
+  const waterfallToggle = () => (
+    <WaterfallToggle
+      // eslint-disable-next-line react/jsx-no-bind
+      setValue={setValue}
+      testId={`${waterfallToggleElement()}ButtonTestId`}
+      type="spectrum"
+      value={waterfallToggleElement()}
+      displaySettings={displaySettings}
+      disabled={false}
+    />
+  )
+
   return (
     <>
       {canShowChart() && (
         <SignalCard
           action={chartToggle()}
+          action2={waterfallToggle()}
           data-testid="signalCardId"
           title={`${t('label.spectrumPlot')} ${polarization}`}
           socketStatus={socketStatus}
