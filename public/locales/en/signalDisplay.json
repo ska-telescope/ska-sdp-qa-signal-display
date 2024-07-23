@@ -86,6 +86,7 @@
     "lastUpdated": "Last Updated",
     "legend": "Legend",
     "log": "Log",
+    "maskLegend": "Mask Legend",
     "payloadsReceived": "Payloads Received",
     "phase": "Phase",
     "phaseH": "H Phase",
