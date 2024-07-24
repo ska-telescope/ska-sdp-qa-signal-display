@@ -38,18 +38,19 @@ function WaterfallToggle({
     const tmp = displaySettings;
     tmp[value] = e.target.id;
     // setSetting(e.target.id);
+
     setValue(tmp);
   }
 
   return (
     <ButtonToggle
-      ariaDescription={t(`toolTip.settings.${type}`)}
+      ariaDescription={t(`toolTip.spectrumWaterfall.${type}`)}
       ariaTitle="ariaTitle"
       disabled={disabled}
       options={toggleOptions()}
       setValue={update}
       testId={testId}
-      toolTip={t(`toolTip.settings.${type}`)}
+      toolTip={t(`toolTip.spectrumWaterfall.${type}`)}
       value={displaySettings[value]}
       current={displaySettings[value]}
     />
