@@ -76,12 +76,14 @@
     "gainStability": "Gain Stability",
     "hideContent": "Hide Content",
     "hideShowToggle": "Hide/Show Toggle",
+    "imaginary": "imaginary",
     "ingestionRate": "Ingestion Rate",
     "lagplots": "Lag Plots",
     "lastAPIRefresh": "Last Refresh from API",
     "lastUpdate": "Last Update",
     "lastUpdated": "Last Updated",
     "legend": "Legend",
+    "linear": "linear",
     "log": "Log",
     "maskLegend": "Mask Legend",
     "payloadsReceived": "Payloads Received",
@@ -95,6 +97,7 @@
     "numberHeaps": "Number of Heaps",
     "numberHeapsIncomplete": "Number of Incomplete Heaps",
     "radians": "Radians",
+    "real": "real",
     "receiver": "Receiver",
     "scanId": "Scan ID",
     "serialisation": "Serialisation",
@@ -130,7 +133,9 @@
     },
     "settings": {
       "amplitude": "Determines the scale to be used for the Y-Axis",
-      "phase": "Determines the scale to be used for the Y-Axis"
+      "phase": "Determines the scale to be used for the Y-Axis",
+      "Real": "Determines whether to show the amplitude or real component of the visibilities",
+      "Imaginary": "Determines whether to show the phase or imaginary component of the visibilities"
     },
     "spectrumWaterfall": {
       "spectrum": "Show as a frequency spectrum plot or waterfall plot"
@@ -144,6 +149,7 @@
     "durationCurrentTransfer": "s",
     "frequency": "MHz",
     "ingestionRate": "p/s",
+    "linear": "",
     "log": "log",
     "phase": "m",
     "radians": "radians",
