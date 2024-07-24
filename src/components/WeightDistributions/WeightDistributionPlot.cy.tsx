@@ -13,12 +13,7 @@ describe('<WeightDistributionPlot />', () => {
       cy.mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
-          <WeightDistributionPlot
-            resize={0}
-            socketStatus=""
-            config={undefined}
-            data={undefined}
-          />
+          <WeightDistributionPlot resize={0} socketStatus="" config={undefined} data={undefined} />
         </ThemeProvider>
       );
     });

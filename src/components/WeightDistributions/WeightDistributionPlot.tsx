@@ -12,7 +12,7 @@ import { QASettings } from '../Settings/qaSettings';
 interface WeightDistributionPlotProps {
   data: object;
   displaySettings: typeof QASettings;
-  polarization: string,
+  polarization: string;
   redraw: boolean;
   resize: number;
   socketStatus: string;
@@ -57,21 +57,23 @@ const WeightDistributionPlot = ({
   }
 
   function calculateMidFrequency(usedData: any) {
-    const minFreq = usedData.spectral_window.freq_min
-    const maxFreq = usedData.spectral_window.freq_max   
-    return minFreq + (maxFreq - minFreq)/2
+    const minFreq = usedData.spectral_window.freq_min;
+    const maxFreq = usedData.spectral_window.freq_max;
+    return minFreq + (maxFreq - minFreq) / 2;
   }
 
   function getUVWData(usedData: any, polar: string, coordinate: string) {
-    const filteredData = usedData.filter(uvCoveragePayload => uvCoveragePayload.polarisation === polar);
-    return filteredData.map((datum: any) => datum[coordinate]*datum.weight);
+    const filteredData = usedData.filter(
+      uvCoveragePayload => uvCoveragePayload.polarisation === polar
+    );
+    return filteredData.map((datum: any) => datum[coordinate] * datum.weight);
   }
 
   function getChartData(usedData: any) {
     const chartDataTmp = [
       {
-        x: getUVWData(usedData.data, polarization, "u"),
-        y: getUVWData(usedData.data, polarization, "v"),
+        x: getUVWData(usedData.data, polarization, 'u'),
+        y: getUVWData(usedData.data, polarization, 'v'),
         marker: {
           color: COLOR[2]
         },
@@ -120,10 +122,10 @@ const WeightDistributionPlot = ({
   }, [resize]);
 
   React.useEffect(() => {
-    if(data) {
-      setMidFreq(calculateMidFrequency(data))
+    if (data) {
+      setMidFreq(calculateMidFrequency(data));
     }
-  })
+  });
 
   return (
     <>
