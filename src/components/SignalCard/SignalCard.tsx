@@ -11,6 +11,7 @@ import InfoModal from '../InfoModal/InfoModal';
 export interface SignalCardProps {
   children?: JSX.Element;
   action?: JSX.Element;
+  action2?: JSX.Element;
   socketStatus?: string;
   title: string;
   showContent: boolean;
@@ -24,6 +25,7 @@ export interface SignalCardProps {
 
 const SignalCard = ({
   action,
+  action2,
   children,
   socketStatus,
   title,
@@ -62,6 +64,7 @@ const SignalCard = ({
     <>
       {!isDisabled() && (
         <Grid container spacing={0} justifyContent="justify-right">
+          {action2 && <Grid item>{action2}</Grid>}
           {action && <Grid item>{action}</Grid>}
           <Grid item>
             {showInfoModal === 'true' && (

@@ -615,7 +615,8 @@ const Container = ({ childToParent }) => {
                 socketStatus={socketStatusSpectrum}
                 displaySettings={displaySettings}
                 data={chartDataSpectrum}
-                missingData={maskData}
+                config={config}
+                // missingData={getMaskData()}
               />
             </Grid>
           ))}
@@ -645,7 +646,7 @@ const Container = ({ childToParent }) => {
             amplitudeData={chartDataAmplitude}
             phaseData={chartDataPhase}
             legend={legendData}
-            missingData={maskData}
+            // missingData={getMaskData()}
           />
         ))}
 

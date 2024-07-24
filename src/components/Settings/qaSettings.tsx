@@ -1,5 +1,6 @@
 export const amplitudeAxisY = ['amplitude', 'db', 'log'];
 export const phaseAxisY = ['radians', 'degrees'];
+export const spectrumWaterfallToggle = ['spectrumPlot', 'waterfallPlot'];
 
 export const QASettings = {
   showStatisticsDetailed: true,
@@ -13,6 +14,11 @@ export const QASettings = {
   showSpectrumPlotXYaxisY: amplitudeAxisY[0],
   showSpectrumPlotYXaxisY: amplitudeAxisY[0],
   showSpectrumPlotYYaxisY: amplitudeAxisY[0],
+  //
+  showSpectrumWaterfallPlotXX: spectrumWaterfallToggle[0],
+  showSpectrumWaterfallPlotXY: spectrumWaterfallToggle[0],
+  showSpectrumWaterfallPlotYX: spectrumWaterfallToggle[0],
+  showSpectrumWaterfallPlotYY: spectrumWaterfallToggle[0],
   //
   gridView: true,
   //
