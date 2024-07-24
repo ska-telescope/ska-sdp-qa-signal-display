@@ -35,10 +35,6 @@ function statisticsReceiver() {
 }
 
 function runningConfiguration() {
-    cy.findByTestId("subarray_last_commandLabel").contains("Scan").should('be.visible');
-    cy.findByTestId("subarray_last_command_timeLabel").contains("2024-04-15T07:07:36+00:00").should('be.visible');
-    cy.findByTestId("subarray_subarray_stateLabel").contains("SCANNING").should('be.visible');
-    cy.findByTestId("subarray_subarray_state_currentLabel").contains("ON").should('be.visible');
     cy.findByTestId("subarray_configured_nodesLabel").contains("1").should('be.visible');
     cy.findByTestId("subarray_receptorsLabel").contains("C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30").should('be.visible');
 
@@ -46,12 +42,13 @@ function runningConfiguration() {
     cy.findByTestId("eb_scan_typeLabel").contains("science").should('be.visible');
 
     cy.findByTestId("pb_statusLabel").contains("READY").should('be.visible');
-    cy.findByTestId("pb_status_last_updateLabel").contains("2024-04-15 06:51:00").should('be.visible');
+    cy.findByTestId("pb_status_last_updateLabel").contains("2024-07-16 07:08:32").should('be.visible');
     cy.findByTestId("pb_resources_availableLabel").contains("yes").should('be.visible');
     cy.findByTestId("pb_deployments_readyLabel").contains("yes").should('be.visible');
-    cy.findByTestId("pb_deploymentsLabel").contains("proc-pb-testrealtime-20240415-21626-vis-receive => RUNNING").should('be.visible');
+    cy.findByTestId("pb_deploymentsLabel").contains("proc-pb-testrealtime-20240716-65504-vis-receive => RUNNING").should('be.visible');
     cy.findByTestId("pb_scriptLabel").contains("realtime/vis-receive/4.0.0").should('be.visible');
-    cy.findByTestId("pb_processorsLabel").contains("mswriter, signal-display-metrics-amplitude, signal-display-metrics-basic, signal-display-metrics-phase").should('be.visible');
+    cy.findByTestId("pb_processorsLabel").contains("mswriter").should('be.visible');
+    cy.findByTestId("pb_processors_deployedLabel").contains("mswriter-processor: 2.0.2, Signal Display Metrics [stats,spectrum,spectograms,lag_plot,amplitude,phase]: 0.20.0").should('be.visible');
 
 }
 

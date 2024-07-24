@@ -1,5 +1,5 @@
-export const INVALID_DATA_COLOR = '#fc0303';
-export const MISSING_DATA_COLOR = '#03fc3d';
+export const INVALID_DATA_COLOR = "#fc0303";
+export const MISSING_DATA_COLOR = "#A9A9A9";
 
 export function createRectangle(x0: number, x1: number, color: string) {
   return {

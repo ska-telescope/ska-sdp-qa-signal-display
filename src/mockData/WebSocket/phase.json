@@ -2,8 +2,8 @@
   "data_type": "phase",
   "processing_block_id": "pb-test-123-123",
   "spectral_window": {
-    "freq_min": 715.459,
-    "freq_max": 1456.123,
+    "freq_min": 715459000.0,
+    "freq_max": 1456123000.0,
     "count": 1024,
     "channels_id": 0,
     "spectral_window_id": 1,
