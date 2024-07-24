@@ -165,7 +165,6 @@ export default function Settings({
           {basicRow('label.XY', 'showWeightDistributionXY')}
           {basicRow('label.YX', 'showWeightDistributionYX')}
           {basicRow('label.YY', 'showWeightDistributionYY')}
-
         </Grid>
       </Box>
     </Drawer>

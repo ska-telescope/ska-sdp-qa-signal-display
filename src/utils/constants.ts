@@ -70,7 +70,8 @@ export const SOCKET_STATUS = ['unknown', 'error', 'connected', 'local'];
 
 export const WATERFALL_PLOT_TYPES = {
   SPECTROGRAM: 'spectrogram',
-  LAG_PLOT: 'lag_plot'
+  LAG_PLOT: 'lag_plot',
+  SPECTRUM: 'spectrum'
 };
 
 // Common URLs

@@ -104,7 +104,7 @@
     "signalDisplay": "Signal Display",
     "socket": "Socket",
     "socketStatus": "socket Status",
-    "spectrumPlot": "Spectrum Plot",
+    "spectrumPlot": "Spectrum",
     "spectrograms": "Spectrograms",
     "start": "Start",
     "state": "State",
@@ -117,6 +117,7 @@
     "uvCoverage": "UV Coverage and Weight Distribution",
     "v": "v value",
     "visibilityReceiveActive": "Visibility Receive Still Active",
+    "waterfallPlot": "Waterfall",
     "workflow": "Workflow",
     "weightDistribution": "Weight Distribution",
     "yes": "Yes"
@@ -132,6 +133,9 @@
     "settings": {
       "amplitude": "Determines the scale to be used for the Y-Axis",
       "phase": "Determines the scale to be used for the Y-Axis"
+    },
+    "spectrumWaterfall": {
+      "spectrum": "Show as a frequency spectrum plot or waterfall plot"
     }
   },
   "units": {
