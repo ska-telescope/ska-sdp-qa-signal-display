@@ -45,6 +45,7 @@ import {
   GAINS
 } from '../../utils/constants';
 import { getMaskDomains } from '../../utils/masksCalculator';
+import MaskLegend from '../MaskLegend/MaskLegend';
 
 const Container = ({ childToParent }) => {
   const { t } = useTranslation('signalDisplay');
@@ -79,6 +80,7 @@ const Container = ({ childToParent }) => {
   const [subarrayDetails, setSubarrayDetails] = React.useState(null);
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = React.useState(null);
   const [receiverEventsData, setReceiverEventsData] = React.useState(null);
+  const [maskData, setMaskData] = React.useState(null);
 
   const [currentTabIndex, setCurrentTabIndex] = React.useState(0);
   const [chartDataPhase, setChartDataPhase] = React.useState(null);
@@ -226,8 +228,13 @@ const Container = ({ childToParent }) => {
       ? +env.REACT_APP_SUBARRAY_REFRESH_SECONDS
       : +env.REACT_APP_SUBARRAY_REFRESH_SECONDS_FAST;
 
-  function getMaskData(){
-      return getMaskDomains(maskMockData.data);
+  async function retrieveMaskData(){
+    await fetch(`${DATA_API_URL}${config.paths.mask_data}/scan_id/01`)
+      .then(response => response.json())
+      .then(data => {
+        setMaskData(getMaskDomains(data.data));
+      })
+      .catch(() => null);
   }
 
   React.useEffect(() => {
@@ -282,9 +289,11 @@ const Container = ({ childToParent }) => {
     if (DATA_LOCAL) {
       setProcessingBlockStatisticsData(mockStatisticsProcessingBlock);
       setReceiverEventsData(mockStatisticsReceiverEvents);
+      setMaskData(getMaskDomains(maskMockData.data));
     } else if (config !== null) {
       retrieveProcessingBlockStatisticsData();
       retrieveReceiverEventData();
+      retrieveMaskData();
     }
   }, [config]);
 
@@ -420,8 +429,7 @@ const Container = ({ childToParent }) => {
         protocol: config.api_format,
         suffix: `${config.topics.uv_coverage}-${subArray}`,
         statusFunction: setSocketStatusUVCoverage,
-        dataFunction: setChartDataUVCoverage,
-        timeSeries: true
+        dataFunction: setChartDataUVCoverage
       });
     }
   }, [subArray]);
@@ -589,6 +597,11 @@ const Container = ({ childToParent }) => {
           </Tabs>
         </Box>
       </Box>
+      {currentTabIndex === 0 && showLegend() && (
+        <MaskLegend
+          displaySettings={displaySettings}
+        />
+      )}
       {currentTabIndex === 0 && (
         <Grid container>
           {POLARIZATIONS.map(item => (
@@ -602,7 +615,7 @@ const Container = ({ childToParent }) => {
                 socketStatus={socketStatusSpectrum}
                 displaySettings={displaySettings}
                 data={chartDataSpectrum}
-                missingData={getMaskData()}
+                missingData={maskData}
               />
             </Grid>
           ))}
@@ -632,7 +645,7 @@ const Container = ({ childToParent }) => {
             amplitudeData={chartDataAmplitude}
             phaseData={chartDataPhase}
             legend={legendData}
-            missingData={getMaskData()}
+            missingData={maskData}
           />
         ))}
 
