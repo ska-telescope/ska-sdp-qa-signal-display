@@ -63,8 +63,8 @@ const Polarization = ({
 PolarizationProps) => {
   const { t } = useTranslation('signalDisplay');
 
-  const [disableReal, setRealDisabled] = React.useState(true);
-  const [disableImag, setImagDisabled] = React.useState(true);
+  const [disableReal, setDisableReal] = React.useState(true);
+  const [disableImag, setDisableImag] = React.useState(true);
 
   const [chartData1, setChartData1] = React.useState(null);
   const [chartData2, setChartData2] = React.useState(null);
@@ -116,16 +116,16 @@ PolarizationProps) => {
   function selector(real: string) {
     switch (settingAmplitudeReal(real)) {
       case amplitudeReal[0]:
-        setRealDisabled(true);
+        setDisableReal(true);
         return 'component';
       case amplitudeReal[1]:
-        setRealDisabled(false);
+        setDisableReal(false);
         return 'data';
       case phaseImaginary[0]:
-        setImagDisabled(true);
+        setDisableImag(true);
         return 'component';
       case phaseImaginary[1]:
-        setImagDisabled(false);
+        setDisableImag(false);
         return 'data';
       default:
         return 0;
