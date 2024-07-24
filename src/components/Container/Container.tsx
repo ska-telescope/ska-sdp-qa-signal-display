@@ -22,7 +22,7 @@ import LagPlot from '../LagPlot/LagPlot';
 import LogLinks from '../LogLinks/LogLinks';
 import GainCalibration from '../GainCalibration/GainCalibration';
 import BandAveragedXCorr from '../BandAveragedXCorr/BandAveragedXCorr';
-import WeightDistributionPlot from '../WeightDistributions/WeightDistributionPlot';
+// import WeightDistributionPlot from '../WeightDistributions/WeightDistributionPlot';
 import mockStatisticsProcessingBlock from '../../mockData/Statistics/processingBlock';
 import mockStatisticsReceiverEvents from '../../mockData/Statistics/receiverEvents';
 import PhaseData from '../../mockData/WebSocket/phase.json';
@@ -31,8 +31,8 @@ import SpectrumData from '../../mockData/WebSocket/spectrum.json';
 import pointingOffsetData from '../../mockData/WebSocket/pointingOffsets.json';
 import gainCalibrationData from '../../mockData/WebSocket/gainCalibrations.json';
 import BandAveragedXCorrData from '../../mockData/WebSocket/bandAveragedXCorr.json';
-import UVCoverageData from '../../mockData/WebSocket/uvCoverage.json';
-import maskMockData from '../../mockData/tel-model/maskMockData.json';
+// import UVCoverageData from '../../mockData/WebSocket/uvCoverage.json';
+// import maskMockData from '../../mockData/tel-model/maskMockData.json';
 import {
   COLOR,
   DATA_API_URL,
@@ -43,7 +43,7 @@ import {
   OFFSETS,
   GAINS
 } from '../../utils/constants';
-import { getMaskDomains } from '../../utils/masksCalculator';
+// import { getMaskDomains } from '../../utils/masksCalculator';
 
 const Container = ({ childToParent }) => {
   const { t } = useTranslation('signalDisplay');
@@ -58,7 +58,7 @@ const Container = ({ childToParent }) => {
     SOCKET_STATUS[0]
   );
   const [socketStatusGainCal, setSocketStatusGainCal] = React.useState(SOCKET_STATUS[0]);
-  const [socketStatusUVCoverage, setSocketStatusUVCoverage] = React.useState(SOCKET_STATUS[0]);
+  // const [socketStatusUVCoverage, setSocketStatusUVCoverage] = React.useState(SOCKET_STATUS[0]);
 
   const [chartDataAmplitude, setChartDataAmplitude] = React.useState(null);
   const [chartDataBandAvXCorr, setChartDataBandAvXCorr] = React.useState<[]>([]);
@@ -67,7 +67,7 @@ const Container = ({ childToParent }) => {
   const [chartDataGainCal, setChartDataGainCal] = React.useState<
     { time: number[]; gains: number[][]; phases: number[][] }[]
   >([]);
-  const [chartDataUVCoverage, setChartDataUVCoverage] = React.useState(null);
+  // const [chartDataUVCoverage, setChartDataUVCoverage] = React.useState(null);
   const [legendData, setLegendData] = React.useState(null);
   const [legendPole, setLegendPole] = React.useState(null);
   const [config, setConfig] = React.useState(null);
@@ -224,9 +224,9 @@ const Container = ({ childToParent }) => {
       ? +env.REACT_APP_SUBARRAY_REFRESH_SECONDS
       : +env.REACT_APP_SUBARRAY_REFRESH_SECONDS_FAST;
 
-  function getMaskData(){
-      return getMaskDomains(maskMockData.data);
-  }
+  // function getMaskData(){
+  //     return getMaskDomains(maskMockData.data);
+  // }
 
   React.useEffect(() => {
     setFetchConfig(true);
@@ -354,8 +354,8 @@ const Container = ({ childToParent }) => {
       setChartDataGainCal([gainCalibrationData]);
       setSocketBandAvXCorr(SOCKET_STATUS[3]);
       setChartDataBandAvXCorr([BandAveragedXCorrData]);
-      setSocketStatusUVCoverage(SOCKET_STATUS[3]);
-      setChartDataUVCoverage(UVCoverageData);
+      // setSocketStatusUVCoverage(SOCKET_STATUS[3]);
+      // setChartDataUVCoverage(UVCoverageData);
     } else {
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
@@ -401,14 +401,14 @@ const Container = ({ childToParent }) => {
         dataFunction: setChartDataBandAvXCorr,
         timeSeries: true
       });
-      Socket({
-        apiUrl: WS_API_URL + config.paths.websocket,
-        protocol: config.api_format,
-        suffix: `${config.topics.uv_coverage}-${subArray}`,
-        statusFunction: setSocketStatusUVCoverage,
-        dataFunction: setChartDataUVCoverage,
-        timeSeries: true
-      });
+      // Socket({
+      //   apiUrl: WS_API_URL + config.paths.websocket,
+      //   protocol: config.api_format,
+      //   suffix: `${config.topics.uv_coverage}-${subArray}`,
+      //   statusFunction: setSocketStatusUVCoverage,
+      //   dataFunction: setChartDataUVCoverage,
+      //   timeSeries: true
+      // });
     }
   }, [subArray]);
 
@@ -541,7 +541,7 @@ const Container = ({ childToParent }) => {
               status6={socketStatusGainCal}
               status7={socketStatusPointingOffset}
               status8={socketStatusBandAvXCorr}
-              status9={socketStatusUVCoverage}
+              // status9={socketStatusUVCoverage}
               clickFunction={settingsClick}
             />
           </Grid>
@@ -588,7 +588,8 @@ const Container = ({ childToParent }) => {
                 socketStatus={socketStatusSpectrum}
                 displaySettings={displaySettings}
                 data={chartDataSpectrum}
-                missingData={getMaskData()}
+                config={config}
+                // missingData={getMaskData()}
               />
             </Grid>
           ))}
@@ -618,7 +619,7 @@ const Container = ({ childToParent }) => {
             amplitudeData={chartDataAmplitude}
             phaseData={chartDataPhase}
             legend={legendData}
-            missingData={getMaskData()}
+            // missingData={getMaskData()}
           />
         ))}
 
@@ -658,7 +659,7 @@ const Container = ({ childToParent }) => {
           subArray={subArray}
         />
       )}
-      {currentTabIndex === 0 && (
+      {/* {currentTabIndex === 0 && (
         <Grid container>
           {POLARIZATIONS.map(item => (
             <Grid item xs={gridWidth()}>
@@ -675,7 +676,7 @@ const Container = ({ childToParent }) => {
             </Grid>
         ))}
         </Grid>
-      )}
+      )} */}
 
       {currentTabIndex === 1 && (
         <Grid container>
