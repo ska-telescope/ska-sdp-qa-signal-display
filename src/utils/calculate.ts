@@ -19,3 +19,11 @@ export function calculateDegrees(item: number) {
 export function calculateLog(item: number) {
   return Math.log10(item);
 }
+
+export function calculateReal(item: number) {
+  return Math.cos(item);
+}
+
+export function calculateImaginary(item: number) {
+  return Math.sin(item);
+}
