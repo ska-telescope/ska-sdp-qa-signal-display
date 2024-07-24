@@ -22,14 +22,18 @@ import LagPlot from '../LagPlot/LagPlot';
 import LogLinks from '../LogLinks/LogLinks';
 import GainCalibration from '../GainCalibration/GainCalibration';
 import BandAveragedXCorr from '../BandAveragedXCorr/BandAveragedXCorr';
+import WeightDistributionPlot from '../WeightDistributions/WeightDistributionPlot';
 import mockStatisticsProcessingBlock from '../../mockData/Statistics/processingBlock';
 import mockStatisticsReceiverEvents from '../../mockData/Statistics/receiverEvents';
+import { mockSubarrayDetail } from '../../mockData/Statistics/configEndpoints';
 import PhaseData from '../../mockData/WebSocket/phase.json';
 import AmplitudeData from '../../mockData/WebSocket/amplitude.json';
 import SpectrumData from '../../mockData/WebSocket/spectrum.json';
 import pointingOffsetData from '../../mockData/WebSocket/pointingOffsets.json';
 import gainCalibrationData from '../../mockData/WebSocket/gainCalibrations.json';
 import BandAveragedXCorrData from '../../mockData/WebSocket/bandAveragedXCorr.json';
+import UVCoverageData from '../../mockData/WebSocket/uvCoverage.json';
+import maskMockData from '../../mockData/tel-model/maskMockData.json';
 import {
   COLOR,
   DATA_API_URL,
@@ -40,6 +44,8 @@ import {
   OFFSETS,
   GAINS
 } from '../../utils/constants';
+import { getMaskDomains } from '../../utils/masksCalculator';
+import MaskLegend from '../MaskLegend/MaskLegend';
 
 const Container = ({ childToParent }) => {
   const { t } = useTranslation('signalDisplay');
@@ -54,6 +60,7 @@ const Container = ({ childToParent }) => {
     SOCKET_STATUS[0]
   );
   const [socketStatusGainCal, setSocketStatusGainCal] = React.useState(SOCKET_STATUS[0]);
+  const [socketStatusUVCoverage, setSocketStatusUVCoverage] = React.useState(SOCKET_STATUS[0]);
 
   const [chartDataAmplitude, setChartDataAmplitude] = React.useState(null);
   const [chartDataBandAvXCorr, setChartDataBandAvXCorr] = React.useState<[]>([]);
@@ -62,6 +69,7 @@ const Container = ({ childToParent }) => {
   const [chartDataGainCal, setChartDataGainCal] = React.useState<
     { time: number[]; gains: number[][]; phases: number[][] }[]
   >([]);
+  const [chartDataUVCoverage, setChartDataUVCoverage] = React.useState(null);
   const [legendData, setLegendData] = React.useState(null);
   const [legendPole, setLegendPole] = React.useState(null);
   const [config, setConfig] = React.useState(null);
@@ -69,8 +77,10 @@ const Container = ({ childToParent }) => {
   const [openSettings, setOpenSettings] = React.useState(false);
   const [subArray, setSubArray] = React.useState('');
   const [subArrays, setSubArrays] = React.useState(null);
+  const [subarrayDetails, setSubarrayDetails] = React.useState(null);
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = React.useState(null);
   const [receiverEventsData, setReceiverEventsData] = React.useState(null);
+  const [maskData, setMaskData] = React.useState(null);
 
   const [currentTabIndex, setCurrentTabIndex] = React.useState(0);
   const [chartDataPhase, setChartDataPhase] = React.useState(null);
@@ -124,7 +134,11 @@ const Container = ({ childToParent }) => {
     displaySettings.showGainCalibrationAmplitudeH ||
     displaySettings.showGainCalibrationAmplitudeV ||
     displaySettings.showGainCalibrationPhaseH ||
-    displaySettings.showGainCalibrationPhaseV;
+    displaySettings.showGainCalibrationPhaseV ||
+    displaySettings.showWeightDistributionXX ||
+    displaySettings.showWeightDistributionXY ||
+    displaySettings.showWeightDistributionYX ||
+    displaySettings.showWeightDistributionYY;
 
   const settingsClick = () => {
     setOpenSettings(o => !o);
@@ -214,6 +228,15 @@ const Container = ({ childToParent }) => {
       ? +env.REACT_APP_SUBARRAY_REFRESH_SECONDS
       : +env.REACT_APP_SUBARRAY_REFRESH_SECONDS_FAST;
 
+  async function retrieveMaskData(){
+    await fetch(`${DATA_API_URL}${config.paths.mask_data}/scan_id/01`)
+      .then(response => response.json())
+      .then(data => {
+        setMaskData(getMaskDomains(data.data));
+      })
+      .catch(() => null);
+  }
+
   React.useEffect(() => {
     setFetchConfig(true);
   }, []);
@@ -266,9 +289,11 @@ const Container = ({ childToParent }) => {
     if (DATA_LOCAL) {
       setProcessingBlockStatisticsData(mockStatisticsProcessingBlock);
       setReceiverEventsData(mockStatisticsReceiverEvents);
+      setMaskData(getMaskDomains(maskMockData.data));
     } else if (config !== null) {
       retrieveProcessingBlockStatisticsData();
       retrieveReceiverEventData();
+      retrieveMaskData();
     }
   }, [config]);
 
@@ -286,6 +311,7 @@ const Container = ({ childToParent }) => {
     }
     if (DATA_LOCAL) {
       setSubArray('1');
+      setSubarrayDetails(mockSubarrayDetail);
       setFetchSubarrayList(false);
     } else {
       const abortController = new AbortController();
@@ -323,6 +349,16 @@ const Container = ({ childToParent }) => {
     setFetchSubarrayList(false);
   }, [fetchSubArrayList]);
 
+  async function fetchSubarrayDetails() {
+    await fetch(`${DATA_API_URL}/config/subarrays/${subArray}/current_setup`)
+      .then(response => response.json())
+      .then(data => {
+        setSubarrayDetails(data);
+        setTimeout(fetchSubarrayDetails, 30000);
+      })
+      .catch(() => null);
+  }
+
   React.useEffect(() => {
     if (subArray === '') {
       return;
@@ -340,7 +376,10 @@ const Container = ({ childToParent }) => {
       setChartDataGainCal([gainCalibrationData]);
       setSocketBandAvXCorr(SOCKET_STATUS[3]);
       setChartDataBandAvXCorr([BandAveragedXCorrData]);
+      setSocketStatusUVCoverage(SOCKET_STATUS[3]);
+      setChartDataUVCoverage(UVCoverageData);
     } else {
+      fetchSubarrayDetails();
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
         protocol: config.api_format,
@@ -384,6 +423,13 @@ const Container = ({ childToParent }) => {
         statusFunction: setSocketBandAvXCorr,
         dataFunction: setChartDataBandAvXCorr,
         timeSeries: true
+      });
+      Socket({
+        apiUrl: WS_API_URL + config.paths.websocket,
+        protocol: config.api_format,
+        suffix: `${config.topics.uv_coverage}-${subArray}`,
+        statusFunction: setSocketStatusUVCoverage,
+        dataFunction: setChartDataUVCoverage
       });
     }
   }, [subArray]);
@@ -517,13 +563,14 @@ const Container = ({ childToParent }) => {
               status6={socketStatusGainCal}
               status7={socketStatusPointingOffset}
               status8={socketStatusBandAvXCorr}
+              status9={socketStatusUVCoverage}
               clickFunction={settingsClick}
             />
           </Grid>
         </Grid>
       </Box>
       <LogLinks subArray={subArray} config={config} />
-      <SDPConfiguration subarray={subArray} />
+      <SDPConfiguration subarray={subArray} subarrayDetails={subarrayDetails} />
       <Statistics
         processingBlockStatisticsData={processingBlockStatisticsData}
         receiverEventsData={receiverEventsData}
@@ -550,6 +597,11 @@ const Container = ({ childToParent }) => {
           </Tabs>
         </Box>
       </Box>
+      {currentTabIndex === 0 && showLegend() && (
+        <MaskLegend
+          displaySettings={displaySettings}
+        />
+      )}
       {currentTabIndex === 0 && (
         <Grid container>
           {POLARIZATIONS.map(item => (
@@ -563,6 +615,8 @@ const Container = ({ childToParent }) => {
                 socketStatus={socketStatusSpectrum}
                 displaySettings={displaySettings}
                 data={chartDataSpectrum}
+                config={config}
+                // missingData={getMaskData()}
               />
             </Grid>
           ))}
@@ -592,6 +646,7 @@ const Container = ({ childToParent }) => {
             amplitudeData={chartDataAmplitude}
             phaseData={chartDataPhase}
             legend={legendData}
+            // missingData={getMaskData()}
           />
         ))}
 
@@ -630,6 +685,24 @@ const Container = ({ childToParent }) => {
           displaySettings={displaySettings}
           subArray={subArray}
         />
+      )}
+      {currentTabIndex === 0 && (
+        <Grid container>
+          {POLARIZATIONS.map(item => (
+            <Grid item xs={gridWidth()}>
+              <WeightDistributionPlot
+                key={`Polarization${item}`}
+                polarization={item}
+                redraw={redraw}
+                resize={refresh}
+                setSettings={settingsUpdate}
+                socketStatus={socketStatusSpectrum}
+                displaySettings={displaySettings}
+                data={chartDataUVCoverage}
+              />
+            </Grid>
+          ))}
+        </Grid>
       )}
 
       {currentTabIndex === 1 && (

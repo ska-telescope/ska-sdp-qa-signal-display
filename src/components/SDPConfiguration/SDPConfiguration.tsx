@@ -4,16 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { Grid, Typography, Card, CardHeader, CardContent, Box, Stack } from '@mui/material';
 import { StatusIcon } from '@ska-telescope/ska-gui-components';
 import SignalCard from '../SignalCard/SignalCard';
-import { DATA_API_URL, SOCKET_STATUS, DATA_LOCAL } from '../../utils/constants';
-import {
-  processingBlockDetail,
-  processingBlockDetailState,
-  executionBlockDetail,
-  subarrayDetail
-} from '../../mockData/Statistics/configEndpoints';
+import { SOCKET_STATUS } from '../../utils/constants';
 
 interface SubarrayProps {
-  subarray: any;
+  subarray: Any,
+  subarrayDetails: any;
 }
 
 function objectToString(obj) {
@@ -52,66 +47,39 @@ const STATUS_ERROR = 1;
 // const STATUS_INITIAL = 5;
 const READY_STATUS = [STATUS_ERROR, STATUS_OK];
 
-const SDPConfiguration = ({ subarray }: SubarrayProps) => {
+const SDPConfiguration = ({ subarray, subarrayDetails }: SubarrayProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [showDetailContent, setShowDetailContent] = React.useState(false);
-  const [subarrayDetails, setSubarrayDetails] = React.useState(null);
-  const [executionBlockDetails, setExecutionBlockDetails] = React.useState(null);
-  const [processingBlockDetails, setProcessingBlockDetails] = React.useState(null);
-  const [processingBlockState, setProcessingBlockState] = React.useState(null);
 
   const showDetailToggle = () => {
     setShowDetailContent(!showDetailContent);
   };
 
-  /* Check for changes in subarray: */
-  React.useEffect(() => {
-    async function fetchProcessingBlockDetails(processingBlock) {
-      await fetch(`${DATA_API_URL}/config/processing_blocks/${processingBlock}`)
-        .then(response => response.json())
-        .then(data => {
-          setProcessingBlockDetails(data);
-        })
-        .catch(() => null);
-      await fetch(`${DATA_API_URL}/config/processing_blocks/${processingBlock}/state`)
-        .then(response => response.json())
-        .then(data => {
-          setProcessingBlockState(data);
-        })
-        .catch(() => null);
+  function getDeploymentNames() {
+    if (subarrayDetails?.deployments == null) {
+      return '';
     }
+    const names = [];
+    const metrics = [];
+    let version = '';
 
-    async function fetchExecutionBlockDetails(executionBlock) {
-      await fetch(`${DATA_API_URL}/config/execution_blocks/${executionBlock}`)
-        .then(response => response.json())
-        .then(data => {
-          setExecutionBlockDetails(data);
-          fetchProcessingBlockDetails(data.pb_realtime[0]);
-        })
-        .catch(() => null);
-    }
+    Object.entries(subarrayDetails?.deployments).forEach(([_key, deployments]) => {
+      deployments?.deployment?.args?.values?.processors.forEach(processor => {
+        if (processor.name.startsWith('signal-display-metrics-')) {
+          metrics.push(processor.command[processor.command.length - 1]);
+          version = processor.version;
+        } else {
+          names.push(`${processor.name}: ${processor.version}`);
+        }
+      });
+    });
 
-    async function fetchSubarrayDetails() {
-      await fetch(`${DATA_API_URL}/config/subarrays/${subarray}`)
-        .then(response => response.json())
-        .then(data => {
-          setSubarrayDetails(data);
-          fetchExecutionBlockDetails(data.eb_id);
-          setTimeout(fetchSubarrayDetails, 30000);
-        })
-        .catch(() => null);
+    if (metrics.length > 0) {
+      names.push(`Signal Display Metrics [${metrics.join(',')}]: ${version}`);
     }
-
-    if (DATA_LOCAL) {
-      setProcessingBlockDetails(processingBlockDetail);
-      setProcessingBlockState(processingBlockDetailState);
-      setExecutionBlockDetails(executionBlockDetail);
-      setSubarrayDetails(subarrayDetail);
-    } else if (subarray !== '') {
-      fetchSubarrayDetails();
-    }
-  }, [subarray]);
+    return names.join(', ');
+  }
 
   return (
     <SignalCard
@@ -125,17 +93,17 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
           <CardHeader
             component={Box}
             title={`${t('label.subArray')}: ${subarray}`}
-            avatar={(
+            avatar={
               <StatusIcon
                 ariaTitle=""
                 ariaDescription=""
                 testId="statusIdSubarray"
                 icon
-                level={READY_STATUS[subarrayDetails?.state_commanded === 'ON' ? 1 : 0]}
+                level={READY_STATUS[subarrayDetails?.subarray?.state_commanded === 'ON' ? 1 : 0]}
                 size={SIZE}
                 text=""
               />
-            )}
+            }
             titleTypographyProps={{
               align: 'center',
               fontWeight: 'bold',
@@ -144,33 +112,13 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
           />
           <CardContent>
             {displayElement(
-              t('label.currently_running.last_command'),
-              subarrayDetails?.last_command,
-              'subarray_last_command'
-            )}
-            {displayElement(
-              t('label.currently_running.last_command_time'),
-              subarrayDetails?.last_command_time,
-              'subarray_last_command_time'
-            )}
-            {displayElement(
-              t('label.currently_running.subarray_state'),
-              subarrayDetails?.obs_state_commanded,
-              'subarray_subarray_state'
-            )}
-            {displayElement(
-              t('label.currently_running.subarray_state_current'),
-              subarrayDetails?.state_commanded,
-              'subarray_subarray_state_current'
-            )}
-            {displayElement(
               t('label.currently_running.configured_nodes'),
-              subarrayDetails?.resources?.receive_nodes,
+              subarrayDetails?.subarray?.resources?.receive_nodes,
               'subarray_configured_nodes'
             )}
             {displayElement(
               t('label.currently_running.receptors'),
-              subarrayDetails?.resources?.receptors?.join(', '),
+              subarrayDetails?.subarray?.resources?.receptors?.join(', '),
               'subarray_receptors'
             )}
           </CardContent>
@@ -178,18 +126,18 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
         <Card variant="outlined">
           <CardHeader
             component={Box}
-            title={`${t('label.execution_block')}: ${subarrayDetails?.eb_id}`}
-            avatar={(
+            title={`${t('label.execution_block')}: ${subarrayDetails?.execution_block?.eb_id}`}
+            avatar={
               <StatusIcon
                 ariaTitle=""
                 ariaDescription=""
                 testId="statusIdExecutionBlock"
                 icon
-                level={READY_STATUS[executionBlockDetails?.status === 'ACTIVE' ? 1 : 0]}
+                level={READY_STATUS[subarrayDetails?.execution_block?.status === 'ACTIVE' ? 1 : 0]}
                 size={SIZE}
                 text=""
               />
-            )}
+            }
             titleTypographyProps={{
               align: 'center',
               fontWeight: 'bold',
@@ -199,12 +147,12 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
           <CardContent>
             {displayElement(
               t('label.currently_running.status'),
-              executionBlockDetails?.status,
+              subarrayDetails?.execution_block?.status,
               'eb_status'
             )}
             {displayElement(
               t('label.currently_running.scan_type'),
-              executionBlockDetails?.current_scan_type,
+              subarrayDetails?.execution_block?.current_scan_type,
               'eb_scan_type'
             )}
           </CardContent>
@@ -212,8 +160,10 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
         <Card variant="outlined">
           <CardHeader
             component={Box}
-            title={`${t('label.processing_block')}: ${executionBlockDetails?.pb_realtime}`}
-            avatar={(
+            title={`${t('label.processing_block')}: ${
+              subarrayDetails?.execution_block?.pb_realtime
+            }`}
+            avatar={
               <StatusIcon
                 ariaTitle=""
                 ariaDescription=""
@@ -221,9 +171,9 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
                 icon
                 level={
                   READY_STATUS[
-                    processingBlockState?.status === 'READY' &&
-                    processingBlockState?.resources_available &&
-                    processingBlockState?.deployments_ready
+                    subarrayDetails?.processing_block_state?.status === 'READY' &&
+                    subarrayDetails?.processing_block_state?.resources_available &&
+                    subarrayDetails?.processing_block_state?.deployments_ready
                       ? 1
                       : 0
                   ]
@@ -231,7 +181,7 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
                 size={SIZE}
                 text=""
               />
-            )}
+            }
             titleTypographyProps={{
               align: 'center',
               fontWeight: 'bold',
@@ -241,38 +191,43 @@ const SDPConfiguration = ({ subarray }: SubarrayProps) => {
           <CardContent>
             {displayElement(
               t('label.currently_running.processing_block_state'),
-              processingBlockState?.status,
+              subarrayDetails?.processing_block_state?.status,
               'pb_status'
             )}
             {displayElement(
               t('label.currently_running.processing_block_state_last_update'),
-              processingBlockState?.last_updated,
+              subarrayDetails?.processing_block_state?.last_updated,
               'pb_status_last_update'
             )}
             {displayElement(
               t('label.currently_running.resources_available'),
-              processingBlockState?.resources_available ? 'yes' : 'no',
+              subarrayDetails?.processing_block_state?.resources_available ? 'yes' : 'no',
               'pb_resources_available'
             )}
             {displayElement(
               t('label.currently_running.deployments_ready'),
-              processingBlockState?.deployments_ready ? 'yes' : 'no',
+              subarrayDetails?.processing_block_state?.deployments_ready ? 'yes' : 'no',
               'pb_deployments_ready'
             )}
             {displayElement(
               t('label.currently_running.processing_block_deployments'),
-              objectToString(processingBlockState?.deployments),
+              objectToString(subarrayDetails?.processing_block_state?.deployments),
               'pb_deployments'
             )}
             {displayElement(
               t('label.currently_running.script'),
-              `${processingBlockDetails?.script?.kind}/${processingBlockDetails?.script?.name}/${processingBlockDetails?.script?.version}`,
+              `${subarrayDetails?.processing_block?.script?.kind}/${subarrayDetails?.processing_block?.script?.name}/${subarrayDetails?.processing_block?.script?.version}`,
               'pb_script'
             )}
             {displayElement(
-              t('label.currently_running.processors'),
-              processingBlockDetails?.processors.join(', '),
+              t('label.currently_running.processors_configured'),
+              subarrayDetails?.processing_block?.processors.join(', '),
               'pb_processors'
+            )}
+            {displayElement(
+              t('label.currently_running.processors_running'),
+              getDeploymentNames(),
+              'pb_processors_deployed'
             )}
           </CardContent>
         </Card>

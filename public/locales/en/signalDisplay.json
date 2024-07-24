@@ -29,16 +29,13 @@
     "tolerance": "Tolerance",
     "currently_running": {
       "title": "Currently Running Configuration",
-      "last_command": "Last Command State",
-      "last_command_time": "Last Command Time",
-      "subarray_state": "Commanded State",
-      "subarray_state_current": "Current State",
       "configured_nodes": "Amount of nodes configured",
       "receptors": "Receptors in use",
       "status": "EB Status",
       "current_scan_type": "EB Scan Type",
       "script": "Script",
-      "processors": "Enabled Processors",
+      "processors_configured": "Configured Processors",
+      "processors_running": "Running Processors",
       "scan_type": "Scan Type",
       "processing_block_state": "Processing Block State",
       "processing_block_state_last_update": "Last Update",
@@ -88,6 +85,7 @@
     "legend": "Legend",
     "linear": "linear",
     "log": "Log",
+    "maskLegend": "Mask Legend",
     "payloadsReceived": "Payloads Received",
     "phase": "Phase",
     "phaseH": "H Phase",
@@ -107,7 +105,7 @@
     "signalDisplay": "Signal Display",
     "socket": "Socket",
     "socketStatus": "socket Status",
-    "spectrumPlot": "Spectrum Plot",
+    "spectrumPlot": "Spectrum",
     "spectrograms": "Spectrograms",
     "start": "Start",
     "state": "State",
@@ -116,8 +114,13 @@
     "time": "Time",
     "timeSincePayload": "Time Since Last Payload",
     "totalDataReceived": "Total Data Received",
+    "u": "u value",
+    "uvCoverage": "UV Coverage and Weight Distribution",
+    "v": "v value",
     "visibilityReceiveActive": "Visibility Receive Still Active",
+    "waterfallPlot": "Waterfall",
     "workflow": "Workflow",
+    "weightDistribution": "Weight Distribution",
     "yes": "Yes"
   },
   "toolTip": {
@@ -133,6 +136,9 @@
       "phase": "Determines the scale to be used for the Y-Axis",
       "Real": "Determines whether to show the amplitude or real component of the visibilities",
       "Imaginary": "Determines whether to show the phase or imaginary component of the visibilities"
+    },
+    "spectrumWaterfall": {
+      "spectrum": "Show as a frequency spectrum plot or waterfall plot"
     }
   },
   "units": {
@@ -147,7 +153,8 @@
     "log": "log",
     "phase": "m",
     "radians": "radians",
-    "totalDataReceived": "MB"
+    "totalDataReceived": "MB",
+    "numberOfWavelengths": "dimensionless"
   },
   "modalInfo": {
     "spectrumPlot": {
@@ -229,6 +236,11 @@
       "title": "Fitted Height",
       "content": "The expected and fitted heights of the 2D gaussian primary beam are displayed, along with their standard deviations.",
       "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#"
+    },
+    "uvCoverage": {
+      "title": "UV Coverage and Weight Distribution",
+      "content": "For a given subarray, we display the coverage in the uv-plane. More complete coverage helps to reduce the correlated noise in imaging products.",
+      "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#uv-coverage"
     }
   }
 }

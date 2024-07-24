@@ -4,12 +4,20 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { storageObject } from '@ska-telescope/ska-gui-local-storage';
+import Config from '../../services/types/Config';
 import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
 import YAxisToggle from '../YAxisToggle/YAxisToggle';
-import { COLOR } from '../../utils/constants';
+import WaterfallToggle from '../WaterfallToggle/WaterfallToggle';
+import { COLOR, DATA_LOCAL, DATA_API_URL } from '../../utils/constants';
 import { calculateChannels, calculateDB } from '../../utils/calculate';
 import { amplitudeAxisY, QASettings } from '../Settings/qaSettings';
+import {
+  MISSING_DATA_COLOR,
+  INVALID_DATA_COLOR,
+  createRectangle
+} from '../../utils/masksCalculator';
+import SpectrumWaterfallPlotImage from './spectrumWaterfallImage';
 
 interface SpectrumPlotProps {
   data: object;
@@ -20,6 +28,8 @@ interface SpectrumPlotProps {
   // eslint-disable-next-line @typescript-eslint/ban-types
   setSettings: Function;
   socketStatus: string;
+  config: Config;
+  // missingData?: number[][]
 }
 
 const RATIO = 2;
@@ -31,20 +41,25 @@ const SpectrumPlot = ({
   redraw,
   resize,
   setSettings,
-  socketStatus
-}: SpectrumPlotProps) => {
+  socketStatus,
+  config
+}: // missingData
+SpectrumPlotProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [chartData, setChartData] = React.useState(null);
-  const [invalidData, setInvalidData] = React.useState(null);
+  const [maskedData, setMaskedData] = React.useState([]);
   const [showContent, setShowContent] = React.useState(false);
+  const [baseData, setBaseData] = React.useState(null);
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
 
   const chartTitle = () => '';
 
   const settingElement = () => `showSpectrumPlot${polarization}axisY`;
+  const waterfallToggleElement = () => `showSpectrumWaterfallPlot${polarization}`;
   const setting = () => displaySettings[settingElement()];
+  const settingWaterfall = () => displaySettings[waterfallToggleElement()];
 
   const xLabel = () => `${t('label.frequency')} (${t('units.frequency')})`;
 
@@ -55,6 +70,8 @@ const SpectrumPlot = ({
   const showToggle = () => {
     setShowContent(showContent ? false : canShow());
   };
+
+  const PATH_SUFFIX = '/latest/baselines';
 
   function parentWidth() {
     // TODO : Make this responsive
@@ -115,35 +132,63 @@ const SpectrumPlot = ({
     const xValues = calculateChannels(usedData.spectral_window);
     const y = getYData(usedData.data, polarization);
 
-    const shapes = [];
-
     for (let i = 0; i < y.length; i++) {
       if (!Number.isFinite(y[i])) {
-        shapes.push({
-          type: 'rect',
-          xref: 'x',
-          yref: 'paper',
-          x0: xValues[i] - 0.5 * (xValues[1] - xValues[0]),
-          y0: 0,
-          x1: xValues[i] + 0.5 * (xValues[1] - xValues[0]),
-          y1: 1,
-          fillcolor: '#fc0303',
-          opacity: 0.2,
-          line: {
-            width: 0
-          }
-        });
+        const x0 = xValues[i] - 0.5 * (xValues[1] - xValues[0]);
+        const x1 = xValues[i] + 0.5 * (xValues[1] - xValues[0]);
+        maskedData.push(createRectangle(x0, x1, INVALID_DATA_COLOR));
       }
     }
 
-    return shapes;
+    return maskedData;
   }
+
+  function checkForMissingData(masksData: number[][]) {
+    function rectangle(item: number[]) {
+      maskedData.push(createRectangle(item[0], item[1], MISSING_DATA_COLOR));
+    }
+    masksData.forEach(rectangle);
+    return maskedData;
+  }
+
+  React.useEffect(() => {
+    if (config === null) {
+      return;
+    }
+
+    const abortController = new AbortController();
+    async function retrieveBaseData() {
+      await fetch(`${DATA_API_URL}${config.paths.processing_blocks}${PATH_SUFFIX}`, {
+        signal: abortController.signal
+      })
+        .then(response => response.json())
+        .then(d => {
+          setShowContent(showContent);
+          setBaseData(d.baselines);
+          abortController.abort();
+        })
+        .catch(() => {
+          // TODO : Should we put something in here ?
+          abortController.abort();
+        });
+    }
+    if (DATA_LOCAL) {
+      setShowContent(true);
+      setBaseData('DATA_LOCAL');
+    } else if (config !== null) {
+      retrieveBaseData();
+      setShowContent(true)
+    }
+  }, [config]);
 
   React.useEffect(() => {
     const firstRender = chartData === null;
     if (data) {
       setChartData(getChartData(data));
-      setInvalidData(checkForInvalidData(data));
+      setMaskedData(checkForInvalidData(data));
+      // if(missingData){
+      //   setMaskedData(checkForMissingData(missingData))
+      // }
     }
     if (firstRender) {
       setShowContent(canShow());
@@ -174,37 +219,71 @@ const SpectrumPlot = ({
       type="amplitude"
       value={settingElement()}
       displaySettings={displaySettings}
+      disabled={settingWaterfall() === 'waterfallPlot'}
     />
   );
 
-  return (
-    <>
-      {canShowChart() && (
-        <SignalCard
-          action={chartToggle()}
-          data-testid="signalCardId"
-          title={`${t('label.spectrumPlot')} ${polarization}`}
-          socketStatus={socketStatus}
-          showContent={showContent}
-          setShowContent={showToggle}
-          showInfoModal="true"
-          infoTitle={t('modalInfo.spectrumPlot.title')}
-          infoContent={t('modalInfo.spectrumPlot.content')}
-          infoSite={t('modalInfo.spectrumPlot.site')}
-        >
-          <Plotly
-            darkMode={darkMode}
-            data={showContent ? chartData : null}
-            height={parentWidth() / RATIO}
-            title={chartTitle()}
-            width={parentWidth()}
-            xLabel={xLabel()}
-            yLabel={yLabel()}
-            masked={invalidData}
-          />
-        </SignalCard>
-      )}
-    </>
+  const waterfallToggle = () => (
+    <WaterfallToggle
+      // eslint-disable-next-line react/jsx-no-bind
+      setValue={setValue}
+      testId={`${waterfallToggleElement()}ButtonTestId`}
+      type="spectrum"
+      value={waterfallToggleElement()}
+      displaySettings={displaySettings}
+      disabled={false}
+    />
   );
+
+  if (settingWaterfall() === 'spectrumPlot') {
+    return (
+      <>
+        {canShowChart() && (
+          <SignalCard
+            action={chartToggle()}
+            action2={waterfallToggle()}
+            data-testid="signalCardId"
+            title={`${t('label.spectrumPlot')} ${polarization}`}
+            socketStatus={socketStatus}
+            showContent={showContent}
+            setShowContent={showToggle}
+            showInfoModal="true"
+            infoTitle={t('modalInfo.spectrumPlot.title')}
+            infoContent={t('modalInfo.spectrumPlot.content')}
+            infoSite={t('modalInfo.spectrumPlot.site')}
+          >
+            <Plotly
+              darkMode={darkMode}
+              data={showContent ? chartData : null}
+              height={parentWidth() / RATIO}
+              title={chartTitle()}
+              width={parentWidth()}
+              xLabel={xLabel()}
+              yLabel={yLabel()}
+              masked={maskedData}
+            />
+          </SignalCard>
+        )}
+      </>
+    );
+  } 
+    return (
+      <SignalCard
+        action={chartToggle()}
+        action2={waterfallToggle()}
+        data-testid="signalCardId"
+        title={`${t('label.spectrumPlot')} ${polarization}`}
+        socketStatus={socketStatus}
+        showContent={showContent}
+        setShowContent={showToggle}
+        showInfoModal="true"
+        infoTitle={t('modalInfo.spectrumPlot.title')}
+        infoContent={t('modalInfo.spectrumPlot.content')}
+        infoSite={t('modalInfo.spectrumPlot.site')}
+      >
+        <SpectrumWaterfallPlotImage element={polarization} />
+      </SignalCard>
+    );
+  
 };
 export default SpectrumPlot;
