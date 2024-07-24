@@ -20,7 +20,11 @@ import {
   calculateLog
 } from '../../utils/calculate';
 import { amplitudeAxisY, phaseAxisY, QASettings } from '../Settings/qaSettings';
-import { MISSING_DATA_COLOR, INVALID_DATA_COLOR, createRectangle } from '../../utils/masksCalculator';
+import {
+  MISSING_DATA_COLOR,
+  INVALID_DATA_COLOR,
+  createRectangle
+} from '../../utils/masksCalculator';
 
 interface PolarizationProps {
   phaseData: PhaseData;
@@ -33,7 +37,7 @@ interface PolarizationProps {
   // eslint-disable-next-line @typescript-eslint/ban-types
   setSettings: Function;
   socketStatus: string;
-  missingData?: number[][];
+  // missingData?: number[][];
 }
 
 const RATIO = 2;
@@ -47,9 +51,9 @@ const Polarization = ({
   redraw,
   resize,
   setSettings,
-  socketStatus,
-  missingData
-}: PolarizationProps) => {
+  socketStatus
+}: // missingData
+PolarizationProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [chartData1, setChartData1] = React.useState(null);
@@ -177,7 +181,7 @@ const Polarization = ({
         if (!Number.isFinite(num)) {
           const x0 = xValues[j] - 0.5 * (xValues[1] - xValues[0]);
           const x1 = xValues[j] + 0.5 * (xValues[1] - xValues[0]);
-          shapes.push(createRectangle(x0,x1,INVALID_DATA_COLOR));
+          shapes.push(createRectangle(x0, x1, INVALID_DATA_COLOR));
         }
       }
     }
@@ -186,9 +190,9 @@ const Polarization = ({
       shapes.push(createRectangle(item[0], item[1], MISSING_DATA_COLOR));
     }
 
-    if (missingData) {
-      missingData.forEach(rectangle);
-    }
+    // if (missingData) {
+    //   missingData.forEach(rectangle);
+    // }
 
     return shapes;
   }
