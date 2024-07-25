@@ -10,7 +10,7 @@ import { COLOR } from '../../utils/constants';
 import { QASettings } from '../Settings/qaSettings';
 
 interface WeightDistributionPlotProps {
-  data: object;
+  data: Array<any>;
   displaySettings: typeof QASettings;
   polarization: string;
   redraw: boolean;
@@ -62,18 +62,30 @@ const WeightDistributionPlot = ({
     return minFreq + (maxFreq - minFreq) / 2;
   }
 
-  function getUVWData(usedData: any, polar: string, coordinate: string) {
-    const filteredData = usedData.filter(
-      uvCoveragePayload => uvCoveragePayload.polarisation === polar
-    );
-    return filteredData.map((datum: any) => datum[coordinate] * datum.weight);
+  function getUVWData(usedData: any, polar: string) {
+    const u_values = [];
+    const v_values = [];
+    function extractValues(element){
+      const filteredData = element.data.filter(
+        uvCoveragePayload => uvCoveragePayload.polarisation === polar
+      ); 
+      filteredData.forEach((datum: any) => {
+        u_values.push(datum['u']*datum.weight);
+        u_values.push(-1*datum['u']*datum.weight);
+        v_values.push(datum['v']*datum.weight);
+        v_values.push(-1*datum['v']*datum.weight);
+      })
+    }
+    usedData.forEach(extractValues);
+    return [u_values, v_values];
   }
 
   function getChartData(usedData: any) {
-    const chartDataTmp = [
+    const uvwData = getUVWData(usedData, polarization); 
+    return [
       {
-        x: getUVWData(usedData.data, polarization, 'u'),
-        y: getUVWData(usedData.data, polarization, 'v'),
+        x: uvwData[0],
+        y: uvwData[1],
         marker: {
           color: COLOR[2]
         },
@@ -81,7 +93,6 @@ const WeightDistributionPlot = ({
         type: 'scatter'
       }
     ];
-    return chartDataTmp;
   }
 
   function canShowChart() {
@@ -101,7 +112,7 @@ const WeightDistributionPlot = ({
 
   React.useEffect(() => {
     const firstRender = chartData === null;
-    if (data) {
+    if (data.length > 0) {
       setChartData(getChartData(data));
     }
     if (firstRender) {
@@ -122,8 +133,8 @@ const WeightDistributionPlot = ({
   }, [resize]);
 
   React.useEffect(() => {
-    if (data) {
-      setMidFreq(calculateMidFrequency(data));
+    if (data.length > 0) {
+      setMidFreq(calculateMidFrequency(data[0]));
     }
   });
 

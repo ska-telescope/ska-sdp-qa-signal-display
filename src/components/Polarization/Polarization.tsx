@@ -219,6 +219,7 @@ PolarizationProps) => {
 
     for (let i = 0; i < y.length; i++) {
       const line = y[i];
+      if (line.data) {
       for (let j = 0; j < line.data.length; j++) {
         const num = line.data[j];
         if (!Number.isFinite(num)) {
@@ -228,13 +229,13 @@ PolarizationProps) => {
         }
       }
     }
-
-    function rectangle(item: number[]) {
+  }
+    function addMask(item: number[]) {
       shapes.push(createRectangle(item[0], item[1], MISSING_DATA_COLOR));
     }
 
     // if (missingData) {
-    //   missingData.forEach(rectangle);
+    //   missingData.forEach(addMask);
     // }
 
     return shapes;

@@ -69,7 +69,7 @@ const Container = ({ childToParent }) => {
   const [chartDataGainCal, setChartDataGainCal] = React.useState<
     { time: number[]; gains: number[][]; phases: number[][] }[]
   >([]);
-  const [chartDataUVCoverage, setChartDataUVCoverage] = React.useState(null);
+  const [chartDataUVCoverage, setChartDataUVCoverage] = React.useState([]);
   const [legendData, setLegendData] = React.useState(null);
   const [legendPole, setLegendPole] = React.useState(null);
   const [config, setConfig] = React.useState(null);
@@ -377,7 +377,7 @@ const Container = ({ childToParent }) => {
       setSocketBandAvXCorr(SOCKET_STATUS[3]);
       setChartDataBandAvXCorr([BandAveragedXCorrData]);
       setSocketStatusUVCoverage(SOCKET_STATUS[3]);
-      setChartDataUVCoverage(UVCoverageData);
+      setChartDataUVCoverage([UVCoverageData]);
     } else {
       fetchSubarrayDetails();
       Socket({
@@ -429,7 +429,8 @@ const Container = ({ childToParent }) => {
         protocol: config.api_format,
         suffix: `${config.topics.uv_coverage}-${subArray}`,
         statusFunction: setSocketStatusUVCoverage,
-        dataFunction: setChartDataUVCoverage
+        dataFunction: setChartDataUVCoverage,
+        timeSeries: true
       });
     }
   }, [subArray]);

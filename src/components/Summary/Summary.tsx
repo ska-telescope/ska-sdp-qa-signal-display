@@ -247,6 +247,4 @@ const Summary = ({
   );
 };
 
-Summary.defaultProps = {};
-
 export default Summary;
