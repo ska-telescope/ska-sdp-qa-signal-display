@@ -77,6 +77,7 @@ const Container = ({ childToParent }) => {
   const [subArray, setSubArray] = React.useState('');
   const [subArrays, setSubArrays] = React.useState(null);
   const [subarrayDetails, setSubarrayDetails] = React.useState(null);
+  const [enabledMetrics, setEnabledMetrics] = React.useState(null);
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = React.useState(null);
   const [receiverEventsData, setReceiverEventsData] = React.useState(null);
 
@@ -90,6 +91,8 @@ const Container = ({ childToParent }) => {
   const CONVERT = 1000;
   const WORKFLOW_STATISTICS_INTERVAL_SECONDS =
     Number(env.REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS) * CONVERT;
+
+  const active_websockets = {};
 
   // We have a delay to reduce screen flicker
   function resizeIncrement() {
@@ -350,6 +353,88 @@ const Container = ({ childToParent }) => {
       .catch(() => null);
   }
 
+  async function connectWebSockets() {
+    Object.entries(active_websockets).forEach(([key, web_socket]) => {
+      delete active_websockets[key];
+      web_socket.close();
+    });
+
+    if (enabledMetrics === null) {
+      return;
+    }
+
+    enabledMetrics.forEach(metric => {
+      console.log(`Connecting to ${metric}`);
+      switch(metric) {
+        case "amplitude":
+          if (metric == "amplitude"){
+            active_websockets.amplitude = Socket({
+              apiUrl: WS_API_URL + config.paths.websocket,
+              protocol: config.api_format,
+              suffix: `${config.topics.amplitude}-${subArray}`,
+              statusFunction: setSocketStatusAmplitude,
+              dataFunction: setChartDataAmplitude
+            });
+          }
+          break;
+        case "phase":
+          if (metric == "phase"){
+            active_websockets.phase = Socket({
+              apiUrl: WS_API_URL + config.paths.websocket,
+              protocol: config.api_format,
+              suffix: `${config.topics.phase}-${subArray}`,
+              statusFunction: setSocketStatusPhase,
+              dataFunction: setChartDataPhase
+            });
+          }
+          break;
+        case "spectrum":
+          if (metric == "spectrum"){
+            active_websockets.spectrum = Socket({
+              apiUrl: WS_API_URL + config.paths.websocket,
+              protocol: config.api_format,
+              suffix: `${config.topics.spectrum}-${subArray}`,
+              statusFunction: setSocketStatusSpectrum,
+              dataFunction: setChartDataSpectrum
+            });
+          }
+          break;
+        case "band_averaged_x_corr":
+          if (metric == "band_averaged_x_corr"){
+            active_websockets.band_averaged_x_corr =Socket({
+              apiUrl: WS_API_URL + config.paths.websocket,
+              protocol: config.api_format,
+              suffix: `${config.topics.band_averaged_x_corr}-${subArray}`,
+              statusFunction: setSocketBandAvXCorr,
+              dataFunction: setChartDataBandAvXCorr,
+              timeSeries: true
+            });
+          }
+          break;
+        case "uv_coverage":
+          if (metric == "uv_coverage"){
+            active_websockets.uv_coverage = Socket({
+              apiUrl: WS_API_URL + config.paths.websocket,
+              protocol: config.api_format,
+              suffix: `${config.topics.uv_coverage}-${subArray}`,
+              statusFunction: setSocketStatusUVCoverage,
+              dataFunction: setChartDataUVCoverage,
+              timeSeries: true
+            });
+          }
+          break;
+      }
+    });
+  };
+
+  React.useEffect(() => {
+    setEnabledMetrics(enabled_metrics());
+  }, [subarrayDetails]);
+
+  React.useEffect(() => {
+    connectWebSockets();
+  }, [enabledMetrics]);
+
   React.useEffect(() => {
     if (subArray === '') {
       return;
@@ -371,27 +456,7 @@ const Container = ({ childToParent }) => {
       setChartDataUVCoverage(UVCoverageData);
     } else {
       fetchSubarrayDetails();
-      Socket({
-        apiUrl: WS_API_URL + config.paths.websocket,
-        protocol: config.api_format,
-        suffix: `${config.topics.amplitude}-${subArray}`,
-        statusFunction: setSocketStatusAmplitude,
-        dataFunction: setChartDataAmplitude
-      });
-      Socket({
-        apiUrl: WS_API_URL + config.paths.websocket,
-        protocol: config.api_format,
-        suffix: `${config.topics.phase}-${subArray}`,
-        statusFunction: setSocketStatusPhase,
-        dataFunction: setChartDataPhase
-      });
-      Socket({
-        apiUrl: WS_API_URL + config.paths.websocket,
-        protocol: config.api_format,
-        suffix: `${config.topics.spectrum}-${subArray}`,
-        statusFunction: setSocketStatusSpectrum,
-        dataFunction: setChartDataSpectrum
-      });
+
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
         protocol: config.api_format,
@@ -405,22 +470,6 @@ const Container = ({ childToParent }) => {
         suffix: `${config.topics.gain_calibration_out}-${subArray}`,
         statusFunction: setSocketStatusGainCal,
         dataFunction: setChartDataGainCal,
-        timeSeries: true
-      });
-      Socket({
-        apiUrl: WS_API_URL + config.paths.websocket,
-        protocol: config.api_format,
-        suffix: `${config.topics.band_averaged_x_corr}-${subArray}`,
-        statusFunction: setSocketBandAvXCorr,
-        dataFunction: setChartDataBandAvXCorr,
-        timeSeries: true
-      });
-      Socket({
-        apiUrl: WS_API_URL + config.paths.websocket,
-        protocol: config.api_format,
-        suffix: `${config.topics.uv_coverage}-${subArray}`,
-        statusFunction: setSocketStatusUVCoverage,
-        dataFunction: setChartDataUVCoverage,
         timeSeries: true
       });
     }
@@ -488,6 +537,24 @@ const Container = ({ childToParent }) => {
 
   const handleTabChange = (e, tabIndex) => {
     setCurrentTabIndex(tabIndex);
+  };
+
+  function enabled_metrics() {
+    if (subarrayDetails?.deployments == null) {
+      return [];
+    }
+    const metrics = [];
+    Object.entries(subarrayDetails?.deployments).forEach(([_key, deployments]) => {
+      deployments?.deployment?.args?.values?.processors.forEach(processor => {
+        if (processor.name.startsWith('signal-display-metrics-')) {
+          processor.command[processor.command.length - 1].split(',').forEach(metric => {
+            metrics.push(metric);
+          })
+        }
+      });
+    });
+
+    return metrics;
   };
 
   return (
