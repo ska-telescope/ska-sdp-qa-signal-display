@@ -354,21 +354,26 @@ const Container = ({ childToParent }) => {
   }
 
   async function connectWebSockets() {
+
+    const localEnabledMetrics = enabledMetrics === null ? [] : enabledMetrics;
+
     Object.entries(active_websockets).forEach(([key, web_socket]) => {
-      delete active_websockets[key];
-      web_socket.close();
+      if (!localEnabledMetrics.contains(key)) {
+        console.log(`[websockets] Removing: ${key}`);
+        delete active_websockets[key];
+        web_socket.close();
+      }
     });
 
-    if (enabledMetrics === null) {
-      return;
-    }
-
-    enabledMetrics.forEach(metric => {
-      console.log(`Connecting to ${metric}`);
+    localEnabledMetrics.forEach(metric => {
+      if (metric in active_websockets) {
+        return;
+      }
+      console.log(`[websockets] Connecting: ${metric}`);
       switch(metric) {
         case "amplitude":
           if (metric == "amplitude"){
-            active_websockets.amplitude = Socket({
+            active_websockets["amplitude"] = Socket({
               apiUrl: WS_API_URL + config.paths.websocket,
               protocol: config.api_format,
               suffix: `${config.topics.amplitude}-${subArray}`,
@@ -379,7 +384,7 @@ const Container = ({ childToParent }) => {
           break;
         case "phase":
           if (metric == "phase"){
-            active_websockets.phase = Socket({
+            active_websockets["phase"] = Socket({
               apiUrl: WS_API_URL + config.paths.websocket,
               protocol: config.api_format,
               suffix: `${config.topics.phase}-${subArray}`,
@@ -390,7 +395,7 @@ const Container = ({ childToParent }) => {
           break;
         case "spectrum":
           if (metric == "spectrum"){
-            active_websockets.spectrum = Socket({
+            active_websockets["spectrum"] = Socket({
               apiUrl: WS_API_URL + config.paths.websocket,
               protocol: config.api_format,
               suffix: `${config.topics.spectrum}-${subArray}`,
@@ -401,7 +406,7 @@ const Container = ({ childToParent }) => {
           break;
         case "band_averaged_x_corr":
           if (metric == "band_averaged_x_corr"){
-            active_websockets.band_averaged_x_corr =Socket({
+            active_websockets["band_averaged_x_corr"] =Socket({
               apiUrl: WS_API_URL + config.paths.websocket,
               protocol: config.api_format,
               suffix: `${config.topics.band_averaged_x_corr}-${subArray}`,
@@ -413,7 +418,7 @@ const Container = ({ childToParent }) => {
           break;
         case "uv_coverage":
           if (metric == "uv_coverage"){
-            active_websockets.uv_coverage = Socket({
+            active_websockets["uv_coverage"] = Socket({
               apiUrl: WS_API_URL + config.paths.websocket,
               protocol: config.api_format,
               suffix: `${config.topics.uv_coverage}-${subArray}`,
