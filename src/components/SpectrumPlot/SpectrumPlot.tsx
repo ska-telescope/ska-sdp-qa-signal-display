@@ -29,7 +29,7 @@ interface SpectrumPlotProps {
   setSettings: Function;
   socketStatus: string;
   config: Config;
-  // missingData?: number[][]
+  missingData?: number[][]
 }
 
 const RATIO = 2;
@@ -42,8 +42,9 @@ const SpectrumPlot = ({
   resize,
   setSettings,
   socketStatus,
-  config
-}: // missingData
+  config,
+  missingData
+}:
 SpectrumPlotProps) => {
   const { t } = useTranslation('signalDisplay');
 
@@ -177,7 +178,7 @@ SpectrumPlotProps) => {
       setBaseData('DATA_LOCAL');
     } else if (config !== null) {
       retrieveBaseData();
-      setShowContent(true)
+      setShowContent(true);
     }
   }, [config]);
 
@@ -186,9 +187,9 @@ SpectrumPlotProps) => {
     if (data) {
       setChartData(getChartData(data));
       setMaskedData(checkForInvalidData(data));
-      // if(missingData){
-      //   setMaskedData(checkForMissingData(missingData))
-      // }
+      if(missingData){
+        setMaskedData(checkForMissingData(missingData));
+      }
     }
     if (firstRender) {
       setShowContent(canShow());

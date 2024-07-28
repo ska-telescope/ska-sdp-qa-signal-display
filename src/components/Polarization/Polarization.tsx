@@ -44,7 +44,7 @@ interface PolarizationProps {
   // eslint-disable-next-line @typescript-eslint/ban-types
   setSettings: Function;
   socketStatus: string;
-  // missingData?: number[][];
+  missingData?: number[][];
 }
 
 const RATIO = 2;
@@ -58,8 +58,9 @@ const Polarization = ({
   redraw,
   resize,
   setSettings,
-  socketStatus
-}: // missingData
+  socketStatus,
+  missingData
+}:
 PolarizationProps) => {
   const { t } = useTranslation('signalDisplay');
 
@@ -234,9 +235,9 @@ PolarizationProps) => {
       shapes.push(createRectangle(item[0], item[1], MISSING_DATA_COLOR));
     }
 
-    // if (missingData) {
-    //   missingData.forEach(addMask);
-    // }
+    if (missingData) {
+      missingData.forEach(addMask);
+    }
 
     return shapes;
   }

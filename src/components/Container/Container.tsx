@@ -38,6 +38,7 @@ import {
   COLOR,
   DATA_API_URL,
   DATA_LOCAL,
+  USE_MISSING_DATA_MASK,
   POLARIZATIONS,
   SOCKET_STATUS,
   WS_API_URL,
@@ -289,11 +290,15 @@ const Container = ({ childToParent }) => {
     if (DATA_LOCAL) {
       setProcessingBlockStatisticsData(mockStatisticsProcessingBlock);
       setReceiverEventsData(mockStatisticsReceiverEvents);
-      setMaskData(getMaskDomains(maskMockData.data));
+      if (USE_MISSING_DATA_MASK){
+        setMaskData(getMaskDomains(maskMockData.data));
+      }
     } else if (config !== null) {
       retrieveProcessingBlockStatisticsData();
       retrieveReceiverEventData();
-      retrieveMaskData();
+      if (USE_MISSING_DATA_MASK) {
+        retrieveMaskData();
+      }
     }
   }, [config]);
 
@@ -617,7 +622,7 @@ const Container = ({ childToParent }) => {
                 displaySettings={displaySettings}
                 data={chartDataSpectrum}
                 config={config}
-                // missingData={getMaskData()}
+                missingData={maskData}
               />
             </Grid>
           ))}
@@ -647,7 +652,7 @@ const Container = ({ childToParent }) => {
             amplitudeData={chartDataAmplitude}
             phaseData={chartDataPhase}
             legend={legendData}
-            // missingData={getMaskData()}
+            missingData={maskData}
           />
         ))}
 
