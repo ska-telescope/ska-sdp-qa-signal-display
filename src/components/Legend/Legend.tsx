@@ -71,7 +71,7 @@ const Legend = ({ resize, data, displaySettings, onClick, pole, poleUpdate }: Le
                       m: 1,
                       '&:hover': item.active ? item.color : 'inherited',
                       backgroundColor: item.active ? item.color : 'inherited',
-                      color: (item.color && item.active) ? colorFlip(item.color, true) : 'inherited'
+                      color: item.color && item.active ? colorFlip(item.color, true) : 'inherited'
                     }}
                     variant={ButtonVariantTypes.Contained}
                   >
@@ -98,7 +98,7 @@ const Legend = ({ resize, data, displaySettings, onClick, pole, poleUpdate }: Le
                         m: 1,
                         '&:hover': item.active ? item.color : 'inherited',
                         backgroundColor: item.active ? item.color : 'inherited',
-                        color: (item.color && item.active) ? colorFlip(item.color, true) : 'inherited'
+                        color: item.color && item.active ? colorFlip(item.color, true) : 'inherited'
                       }}
                       variant="contained"
                     >

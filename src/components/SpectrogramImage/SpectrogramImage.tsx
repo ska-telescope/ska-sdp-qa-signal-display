@@ -16,7 +16,12 @@ const THUMBNAIL = 'thumbnail';
 const MOCK_FULL = '/static/images/mock/full.png';
 const MOCK_THUMBNAIL = '/static/images/mock/thumbnail.png';
 
-const SpectrogramImage = ({ element, full = false, onClick = null, config }: SpectrogramImageProps) => {
+const SpectrogramImage = ({
+  element,
+  full = false,
+  onClick = null,
+  config
+}: SpectrogramImageProps) => {
   function getImageFULL(item: string) {
     if (DATA_LOCAL) {
       return MOCK_FULL;

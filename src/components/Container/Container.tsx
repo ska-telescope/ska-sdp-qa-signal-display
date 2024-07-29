@@ -229,7 +229,7 @@ const Container = ({ childToParent }) => {
       ? +env.REACT_APP_SUBARRAY_REFRESH_SECONDS
       : +env.REACT_APP_SUBARRAY_REFRESH_SECONDS_FAST;
 
-  async function retrieveMaskData(){
+  async function retrieveMaskData() {
     await fetch(`${DATA_API_URL}${config.paths.mask_data}/scan_id/01`)
       .then(response => response.json())
       .then(data => {
@@ -290,7 +290,7 @@ const Container = ({ childToParent }) => {
     if (DATA_LOCAL) {
       setProcessingBlockStatisticsData(mockStatisticsProcessingBlock);
       setReceiverEventsData(mockStatisticsReceiverEvents);
-      if (USE_MISSING_DATA_MASK){
+      if (USE_MISSING_DATA_MASK) {
         setMaskData(getMaskDomains(maskMockData.data));
       }
     } else if (config !== null) {
@@ -603,11 +603,7 @@ const Container = ({ childToParent }) => {
           </Tabs>
         </Box>
       </Box>
-      {currentTabIndex === 0 && showLegend() && (
-        <MaskLegend
-          displaySettings={displaySettings}
-        />
-      )}
+      {currentTabIndex === 0 && showLegend() && <MaskLegend displaySettings={displaySettings} />}
       {currentTabIndex === 0 && (
         <Grid container>
           {POLARIZATIONS.map(item => (

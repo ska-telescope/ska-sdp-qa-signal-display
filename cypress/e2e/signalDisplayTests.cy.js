@@ -104,7 +104,8 @@ context('Signal display', () => {
     it('Verify expected diagrams are present and can be hidden', () => {
         cy.findAllByTestId("hideShowToggle").click({ multiple: true });
 
-        cy.findByTestId("noSubArrayCard").should("be.visible");
+        // Removed because display now defaults to one subarray
+        // cy.findByTestId("noSubArrayCard").should("be.visible");
         cy.findAllByTestId("status1Id").should("be.visible");
 
         statisticsDetailed();

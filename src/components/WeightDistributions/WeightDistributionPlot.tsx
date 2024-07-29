@@ -63,25 +63,25 @@ const WeightDistributionPlot = ({
   }
 
   function getUVWData(usedData: any, polar: string) {
-    const u_values = [];
-    const v_values = [];
-    function extractValues(element){
+    const uValues = [];
+    const vValues = [];
+    function extractValues(element) {
       const filteredData = element.data.filter(
         uvCoveragePayload => uvCoveragePayload.polarisation === polar
-      ); 
+      );
       filteredData.forEach((datum: any) => {
-        u_values.push(datum['u']*datum.weight);
-        u_values.push(-1*datum['u']*datum.weight);
-        v_values.push(datum['v']*datum.weight);
-        v_values.push(-1*datum['v']*datum.weight);
-      })
+        uValues.push(datum.u * datum.weight);
+        uValues.push(-1 * datum.u * datum.weight);
+        vValues.push(datum.v * datum.weight);
+        vValues.push(-1 * datum.v * datum.weight);
+      });
     }
     usedData.forEach(extractValues);
-    return [u_values, v_values];
+    return [uValues, vValues];
   }
 
   function getChartData(usedData: any) {
-    const uvwData = getUVWData(usedData, polarization); 
+    const uvwData = getUVWData(usedData, polarization);
     return [
       {
         x: uvwData[0],

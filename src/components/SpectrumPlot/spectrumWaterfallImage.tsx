@@ -17,8 +17,8 @@ const MOCK_THUMBNAIL = '/static/images/mock/lag_plot_thumbnail.png';
 
 const SpectrumWaterfallPlotImage = ({
   element,
-  full,
-  onClick
+  full = false,
+  onClick = null
 }: SpectrumWaterfallPlotImageProps) => {
   function getImageFULL(item: string) {
     if (DATA_LOCAL) {
@@ -77,11 +77,6 @@ const SpectrumWaterfallPlotImage = ({
       <ImageListItemBar title={element} position="below" />
     </ImageListItem>
   );
-};
-
-SpectrumWaterfallPlotImage.defaultProps = {
-  full: false,
-  onClick: null
 };
 
 export default SpectrumWaterfallPlotImage;

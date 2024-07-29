@@ -59,9 +59,8 @@ const Polarization = ({
   resize,
   setSettings,
   socketStatus,
-  missingData
-}:
-PolarizationProps) => {
+  missingData = null
+}: PolarizationProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [disableReal, setDisableReal] = React.useState(true);
@@ -79,7 +78,10 @@ PolarizationProps) => {
   const settingElement = (amplitude: boolean) =>
     `showPolarization${amplitude ? 'Amplitude' : 'Phase'}${polarization}axisY`;
 
-  const settingElementAmplitudeReal = useCallback((real: string) => `showPolarization${real}${polarization}axisY`, [disableReal, disableImag]);
+  const settingElementAmplitudeReal = useCallback(
+    (real: string) => `showPolarization${real}${polarization}axisY`,
+    [disableReal, disableImag]
+  );
 
   const setting = (amplitude: boolean) => displaySettings[settingElement(amplitude)];
 
@@ -94,24 +96,23 @@ PolarizationProps) => {
 
   function calculateYData(values: any, amplitude: boolean, selection: string) {
     if (selection === 'component') {
-      return values
+      return values;
     }
-    
-      switch (setting(amplitude)) {
-        case phaseAxisY[0]: // radians
-          return values;
-        case phaseAxisY[1]: // degrees
-          return values.map((item: number) => calculateDegrees(item));
-        case amplitudeAxisY[0]: // amplitude
-          return values;
-        case amplitudeAxisY[1]: // db
-          return values.map((item: number) => calculateDB(item));
-        case amplitudeAxisY[2]: // log
-          return values.map((item: number) => calculateLog(item));
-        default:
-          return 0;
-      }
-    
+
+    switch (setting(amplitude)) {
+      case phaseAxisY[0]: // radians
+        return values;
+      case phaseAxisY[1]: // degrees
+        return values.map((item: number) => calculateDegrees(item));
+      case amplitudeAxisY[0]: // amplitude
+        return values;
+      case amplitudeAxisY[1]: // db
+        return values.map((item: number) => calculateDB(item));
+      case amplitudeAxisY[2]: // log
+        return values.map((item: number) => calculateLog(item));
+      default:
+        return 0;
+    }
   }
 
   function selector(real: string) {
@@ -134,16 +135,14 @@ PolarizationProps) => {
   }
 
   function getBaseData(inData: array, polarisation: string, amplitude: boolean, real: string) {
-
-    const selection = selector(real)
+    const selection = selector(real);
 
     const tmp = inData
-    .filter(dataPayload => dataPayload.polarisation === polarisation)
-    .map(dataPayload => ({
-      name: dataPayload.baseline,
-      data: calculateYData(dataPayload[selection], amplitude, selection)
-    }));
-    
+      .filter(dataPayload => dataPayload.polarisation === polarisation)
+      .map(dataPayload => ({
+        name: dataPayload.baseline,
+        data: calculateYData(dataPayload[selection], amplitude, selection)
+      }));
 
     if (!legend || legend.length === 0) {
       return tmp;
@@ -221,16 +220,16 @@ PolarizationProps) => {
     for (let i = 0; i < y.length; i++) {
       const line = y[i];
       if (line.data) {
-      for (let j = 0; j < line.data.length; j++) {
-        const num = line.data[j];
-        if (!Number.isFinite(num)) {
-          const x0 = xValues[j] - 0.5 * (xValues[1] - xValues[0]);
-          const x1 = xValues[j] + 0.5 * (xValues[1] - xValues[0]);
-          shapes.push(createRectangle(x0, x1, INVALID_DATA_COLOR));
+        for (let j = 0; j < line.data.length; j++) {
+          const num = line.data[j];
+          if (!Number.isFinite(num)) {
+            const x0 = xValues[j] - 0.5 * (xValues[1] - xValues[0]);
+            const x1 = xValues[j] + 0.5 * (xValues[1] - xValues[0]);
+            shapes.push(createRectangle(x0, x1, INVALID_DATA_COLOR));
+          }
         }
       }
     }
-  }
     function addMask(item: number[]) {
       shapes.push(createRectangle(item[0], item[1], MISSING_DATA_COLOR));
     }

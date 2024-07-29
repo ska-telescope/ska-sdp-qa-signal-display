@@ -29,7 +29,7 @@ interface SpectrumPlotProps {
   setSettings: Function;
   socketStatus: string;
   config: Config;
-  missingData?: number[][]
+  missingData?: number[][];
 }
 
 const RATIO = 2;
@@ -43,9 +43,8 @@ const SpectrumPlot = ({
   setSettings,
   socketStatus,
   config,
-  missingData
-}:
-SpectrumPlotProps) => {
+  missingData = null
+}: SpectrumPlotProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [chartData, setChartData] = React.useState(null);
@@ -187,7 +186,7 @@ SpectrumPlotProps) => {
     if (data) {
       setChartData(getChartData(data));
       setMaskedData(checkForInvalidData(data));
-      if(missingData){
+      if (missingData) {
         setMaskedData(checkForMissingData(missingData));
       }
     }
@@ -267,24 +266,23 @@ SpectrumPlotProps) => {
         )}
       </>
     );
-  } 
-    return (
-      <SignalCard
-        action={chartToggle()}
-        action2={waterfallToggle()}
-        data-testid="signalCardId"
-        title={`${t('label.spectrumPlot')} ${polarization}`}
-        socketStatus={socketStatus}
-        showContent={showContent}
-        setShowContent={showToggle}
-        showInfoModal="true"
-        infoTitle={t('modalInfo.spectrumPlot.title')}
-        infoContent={t('modalInfo.spectrumPlot.content')}
-        infoSite={t('modalInfo.spectrumPlot.site')}
-      >
-        <SpectrumWaterfallPlotImage element={polarization} />
-      </SignalCard>
-    );
-  
+  }
+  return (
+    <SignalCard
+      action={chartToggle()}
+      action2={waterfallToggle()}
+      data-testid="signalCardId"
+      title={`${t('label.spectrumPlot')} ${polarization}`}
+      socketStatus={socketStatus}
+      showContent={showContent}
+      setShowContent={showToggle}
+      showInfoModal="true"
+      infoTitle={t('modalInfo.spectrumPlot.title')}
+      infoContent={t('modalInfo.spectrumPlot.content')}
+      infoSite={t('modalInfo.spectrumPlot.site')}
+    >
+      <SpectrumWaterfallPlotImage element={polarization} />
+    </SignalCard>
+  );
 };
 export default SpectrumPlot;
