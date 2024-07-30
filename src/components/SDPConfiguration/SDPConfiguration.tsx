@@ -7,7 +7,7 @@ import SignalCard from '../SignalCard/SignalCard';
 import { SOCKET_STATUS } from '../../utils/constants';
 
 interface SubarrayProps {
-  subarray: Any,
+  subarray: Any;
   subarrayDetails: any;
 }
 

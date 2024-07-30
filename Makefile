@@ -62,6 +62,7 @@ dev-cypress:
 		--rm \
 		--name signal-display-dev-cypress \
 		-e REACT_APP_USE_LOCAL_DATA=true \
+		-p 3333:3333 \
 		-it \
 		-v $(shell pwd):/data \
 		-w /data \

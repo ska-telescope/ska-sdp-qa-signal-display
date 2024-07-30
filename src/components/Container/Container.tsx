@@ -78,7 +78,7 @@ const Container = ({ childToParent }) => {
   const [subArray, setSubArray] = React.useState('');
   const [subArrays, setSubArrays] = React.useState(null);
   const [subarrayDetails, setSubarrayDetails] = React.useState(null);
-  const [enabledMetrics, setEnabledMetrics] = React.useState(null);
+  const [enabledMetrics, setEnabledMetrics] = React.useState([]);
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = React.useState(null);
   const [receiverEventsData, setReceiverEventsData] = React.useState(null);
   const [maskData, setMaskData] = React.useState(null);
@@ -231,7 +231,7 @@ const Container = ({ childToParent }) => {
       ? +env.REACT_APP_SUBARRAY_REFRESH_SECONDS
       : +env.REACT_APP_SUBARRAY_REFRESH_SECONDS_FAST;
 
-  async function retrieveMaskData(){
+  async function retrieveMaskData() {
     await fetch(`${DATA_API_URL}${config.paths.mask_data}/scan_id/01`)
       .then(response => response.json())
       .then(data => {
@@ -357,13 +357,12 @@ const Container = ({ childToParent }) => {
       .then(response => response.json())
       .then(data => {
         setSubarrayDetails(data);
-        setTimeout(fetchSubarrayDetails, 30000);
+        setTimeout(fetchSubarrayDetails, 10000);
       })
       .catch(() => null);
   }
 
   async function connectWebSockets() {
-
     const localEnabledMetrics = enabledMetrics === null ? [] : enabledMetrics;
 
     Object.entries(active_websockets).forEach(([key, web_socket]) => {
@@ -379,10 +378,10 @@ const Container = ({ childToParent }) => {
         return;
       }
       console.log(`[websockets] Connecting: ${metric}`);
-      switch(metric) {
-        case "amplitude":
-          if (metric == "amplitude"){
-            active_websockets["amplitude"] = Socket({
+      switch (metric) {
+        case 'amplitude':
+          if (metric == 'amplitude') {
+            active_websockets['amplitude'] = Socket({
               apiUrl: WS_API_URL + config.paths.websocket,
               protocol: config.api_format,
               suffix: `${config.topics.amplitude}-${subArray}`,
@@ -391,9 +390,9 @@ const Container = ({ childToParent }) => {
             });
           }
           break;
-        case "phase":
-          if (metric == "phase"){
-            active_websockets["phase"] = Socket({
+        case 'phase':
+          if (metric == 'phase') {
+            active_websockets['phase'] = Socket({
               apiUrl: WS_API_URL + config.paths.websocket,
               protocol: config.api_format,
               suffix: `${config.topics.phase}-${subArray}`,
@@ -402,9 +401,9 @@ const Container = ({ childToParent }) => {
             });
           }
           break;
-        case "spectrum":
-          if (metric == "spectrum"){
-            active_websockets["spectrum"] = Socket({
+        case 'spectrum':
+          if (metric == 'spectrum') {
+            active_websockets['spectrum'] = Socket({
               apiUrl: WS_API_URL + config.paths.websocket,
               protocol: config.api_format,
               suffix: `${config.topics.spectrum}-${subArray}`,
@@ -413,9 +412,9 @@ const Container = ({ childToParent }) => {
             });
           }
           break;
-        case "band_averaged_x_corr":
-          if (metric == "band_averaged_x_corr"){
-            active_websockets["band_averaged_x_corr"] =Socket({
+        case 'band_averaged_x_corr':
+          if (metric == 'band_averaged_x_corr') {
+            active_websockets['band_averaged_x_corr'] = Socket({
               apiUrl: WS_API_URL + config.paths.websocket,
               protocol: config.api_format,
               suffix: `${config.topics.band_averaged_x_corr}-${subArray}`,
@@ -425,9 +424,9 @@ const Container = ({ childToParent }) => {
             });
           }
           break;
-        case "uv_coverage":
-          if (metric == "uv_coverage"){
-            active_websockets["uv_coverage"] = Socket({
+        case 'uv_coverage':
+          if (metric == 'uv_coverage') {
+            active_websockets['uv_coverage'] = Socket({
               apiUrl: WS_API_URL + config.paths.websocket,
               protocol: config.api_format,
               suffix: `${config.topics.uv_coverage}-${subArray}`,
@@ -438,14 +437,16 @@ const Container = ({ childToParent }) => {
           break;
       }
     });
-  };
+  }
 
   React.useEffect(() => {
     setEnabledMetrics(enabled_metrics());
   }, [subarrayDetails]);
 
   React.useEffect(() => {
-    connectWebSockets();
+    if (!DATA_LOCAL) {
+      connectWebSockets();
+    }
   }, [enabledMetrics]);
 
   React.useEffect(() => {
@@ -562,13 +563,13 @@ const Container = ({ childToParent }) => {
         if (processor.name.startsWith('signal-display-metrics-')) {
           processor.command[processor.command.length - 1].split(',').forEach(metric => {
             metrics.push(metric);
-          })
+          });
         }
       });
     });
 
     return metrics;
-  };
+  }
 
   return (
     <>
@@ -669,12 +670,8 @@ const Container = ({ childToParent }) => {
           </Tabs>
         </Box>
       </Box>
-      {currentTabIndex === 0 && showLegend() && (
-        <MaskLegend
-          displaySettings={displaySettings}
-        />
-      )}
-      {currentTabIndex === 0 && (
+      {currentTabIndex === 0 && showLegend() && <MaskLegend displaySettings={displaySettings} />}
+      {currentTabIndex === 0 && enabledMetrics.includes('spectrum') && (
         <Grid container>
           {POLARIZATIONS.map(item => (
             <Grid item xs={gridWidth()}>
@@ -706,6 +703,7 @@ const Container = ({ childToParent }) => {
         />
       )}
       {currentTabIndex === 0 &&
+        (enabledMetrics.includes('phase') || enabledMetrics.includes('amplitude')) &&
         POLARIZATIONS.map(item => (
           <Polarization
             key={`Polarization${item}`}
@@ -722,7 +720,7 @@ const Container = ({ childToParent }) => {
           />
         ))}
 
-      {currentTabIndex === 0 && (
+      {currentTabIndex === 0 && enabledMetrics.includes('band_averaged_x_corr') && (
         <Grid container>
           {POLARIZATIONS.map(item => (
             <Grid item xs={gridWidth()}>
@@ -742,7 +740,7 @@ const Container = ({ childToParent }) => {
         </Grid>
       )}
 
-      {currentTabIndex === 0 && (
+      {currentTabIndex === 0 && enabledMetrics.includes('spectograms') && (
         <Spectrogram
           config={config}
           legend={legendData}
@@ -750,7 +748,7 @@ const Container = ({ childToParent }) => {
           subArray={subArray}
         />
       )}
-      {currentTabIndex === 0 && (
+      {currentTabIndex === 0 && enabledMetrics.includes('lag_plot') && (
         <LagPlot
           config={config}
           legend={legendData}
@@ -758,7 +756,7 @@ const Container = ({ childToParent }) => {
           subArray={subArray}
         />
       )}
-      {currentTabIndex === 0 && (
+      {currentTabIndex === 0 && enabledMetrics.includes('uv_coverage') && (
         <Grid container>
           {POLARIZATIONS.map(item => (
             <Grid item xs={gridWidth()}>

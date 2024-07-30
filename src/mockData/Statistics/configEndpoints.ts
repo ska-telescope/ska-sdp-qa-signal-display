@@ -306,6 +306,26 @@ const mockSubarrayDetail = {
                   file: '/tmp/processor_ready'
                 },
                 version: '0.20.0'
+              },
+              {
+                command: [
+                  'plasma-processor',
+                  'ska_sdp_qa_metric_generator.plasma_to_metrics.SignalDisplayMetrics',
+                  '--plasma_socket',
+                  '/plasma/socket',
+                  '--readiness-file',
+                  '/tmp/processor_ready',
+                  '--use-sdp-metadata',
+                  false,
+                  '--metrics',
+                  'band_averaged_x_corr,uv_coverage'
+                ],
+                image: 'artefact.skao.int/ska-sdp-qa-metric-generator',
+                name: 'signal-display-metrics-3',
+                readinessProbe: {
+                  file: '/tmp/processor_ready'
+                },
+                version: '0.20.0'
               }
             ],
             receiver: {
