@@ -111,10 +111,10 @@ context('Signal display', () => {
         statisticsReceiver();
         runningConfiguration();
 
-        cy.findAllByTestId("sectionHeader").contains("Spectrum Plot XX").should("be.visible");
-        cy.findAllByTestId("sectionHeader").contains("Spectrum Plot XY").should("be.visible");
-        cy.findAllByTestId("sectionHeader").contains("Spectrum Plot YX").should("be.visible");
-        cy.findAllByTestId("sectionHeader").contains("Spectrum Plot YY").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Spectrum XX").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Spectrum XY").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Spectrum YX").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Spectrum YY").should("be.visible");
 
         cy.findAllByTestId("sectionHeader").contains("Legend").should("be.visible");
         cy.findAllByTestId("VisibilityOffIcon").eq(3).click({ multiple: true, force: true });

@@ -1,5 +1,8 @@
-export const amplitudeAxisY = ['amplitude', 'db', 'log'];
+export const amplitudeAxisY = ['linear', 'db', 'log'];
 export const phaseAxisY = ['radians', 'degrees'];
+export const spectrumWaterfallToggle = ['spectrumPlot', 'waterfallPlot'];
+export const amplitudeReal = ['real', 'amplitude'];
+export const phaseImaginary = ['imaginary', 'phase'];
 
 export const QASettings = {
   showStatisticsDetailed: true,
@@ -14,7 +17,22 @@ export const QASettings = {
   showSpectrumPlotYXaxisY: amplitudeAxisY[0],
   showSpectrumPlotYYaxisY: amplitudeAxisY[0],
   //
+  showSpectrumWaterfallPlotXX: spectrumWaterfallToggle[0],
+  showSpectrumWaterfallPlotXY: spectrumWaterfallToggle[0],
+  showSpectrumWaterfallPlotYX: spectrumWaterfallToggle[0],
+  showSpectrumWaterfallPlotYY: spectrumWaterfallToggle[0],
+  //
   gridView: true,
+  //
+  showPolarizationRealXXaxisY: amplitudeReal[0],
+  showPolarizationRealXYaxisY: amplitudeReal[0],
+  showPolarizationRealYXaxisY: amplitudeReal[0],
+  showPolarizationRealYYaxisY: amplitudeReal[0],
+  //
+  showPolarizationImaginaryXXaxisY: phaseImaginary[0],
+  showPolarizationImaginaryXYaxisY: phaseImaginary[0],
+  showPolarizationImaginaryYXaxisY: phaseImaginary[0],
+  showPolarizationImaginaryYYaxisY: phaseImaginary[0],
   //
   showPolarizationAmplitudeXX: true,
   showPolarizationAmplitudeXY: true,

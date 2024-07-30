@@ -2,15 +2,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ButtonToggle } from '@ska-telescope/ska-gui-components';
-import {
-  QASettings,
-  amplitudeAxisY,
-  phaseAxisY,
-  amplitudeReal,
-  phaseImaginary
-} from '../Settings/qaSettings';
+import { QASettings, spectrumWaterfallToggle } from '../Settings/qaSettings';
 
-export interface YAxisToggleProps {
+export interface WaterfallToggleProps {
   testId: string;
   type: string;
   disabled: boolean;
@@ -20,32 +14,20 @@ export interface YAxisToggleProps {
   setValue: Function;
 }
 
-function YAxisToggle({
+function WaterfallToggle({
   testId,
   type,
   value,
   disabled,
   displaySettings,
   setValue
-}: YAxisToggleProps): React.JSX.Element {
+}: WaterfallToggleProps): React.JSX.Element {
   const { t } = useTranslation('signalDisplay');
 
   const toggleOptions = () => {
     const results: { id: string; label: string; value: string }[] = [];
-    if (type === 'amplitude') {
-      amplitudeAxisY.forEach((el: string): void => {
-        results.push({ id: el, label: t(`label.${el}`), value: el });
-      });
-    } else if (type === 'phase') {
-      phaseAxisY.forEach((el: string): void => {
-        results.push({ id: el, label: t(`label.${el}`), value: el });
-      });
-    } else if (type === 'Real') {
-      amplitudeReal.forEach((el: string): void => {
-        results.push({ id: el, label: t(`label.${el}`), value: el });
-      });
-    } else {
-      phaseImaginary.forEach((el: string): void => {
+    if (type === 'spectrum') {
+      spectrumWaterfallToggle.forEach((el: string): void => {
         results.push({ id: el, label: t(`label.${el}`), value: el });
       });
     }
@@ -55,22 +37,24 @@ function YAxisToggle({
   function update(e) {
     const tmp = displaySettings;
     tmp[value] = e.target.id;
+    // setSetting(e.target.id);
+
     setValue(tmp);
   }
 
   return (
     <ButtonToggle
-      ariaDescription={t(`toolTip.settings.${type}`)}
+      ariaDescription={t(`toolTip.spectrumWaterfall.${type}`)}
       ariaTitle="ariaTitle"
       disabled={disabled}
       options={toggleOptions()}
       setValue={update}
       testId={testId}
-      toolTip={t(`toolTip.settings.${type}`)}
+      toolTip={t(`toolTip.spectrumWaterfall.${type}`)}
       value={displaySettings[value]}
       current={displaySettings[value]}
     />
   );
 }
 
-export default YAxisToggle;
+export default WaterfallToggle;

@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
-import React from 'react';
+/* eslint-disable react/jsx-no-bind */
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Box, Grid } from '@mui/material';
@@ -19,8 +20,18 @@ import {
   calculateDegrees,
   calculateLog
 } from '../../utils/calculate';
-import { amplitudeAxisY, phaseAxisY, QASettings } from '../Settings/qaSettings';
-import { MISSING_DATA_COLOR, INVALID_DATA_COLOR, createRectangle } from '../../utils/masksCalculator';
+import {
+  amplitudeAxisY,
+  phaseAxisY,
+  amplitudeReal,
+  phaseImaginary,
+  QASettings
+} from '../Settings/qaSettings';
+import {
+  MISSING_DATA_COLOR,
+  INVALID_DATA_COLOR,
+  createRectangle
+} from '../../utils/masksCalculator';
 
 interface PolarizationProps {
   phaseData: PhaseData;
@@ -33,7 +44,7 @@ interface PolarizationProps {
   // eslint-disable-next-line @typescript-eslint/ban-types
   setSettings: Function;
   socketStatus: string;
-  missingData?: number[][];
+  // missingData?: number[][];
 }
 
 const RATIO = 2;
@@ -47,10 +58,13 @@ const Polarization = ({
   redraw,
   resize,
   setSettings,
-  socketStatus,
-  missingData
-}: PolarizationProps) => {
+  socketStatus
+}: // missingData
+PolarizationProps) => {
   const { t } = useTranslation('signalDisplay');
+
+  const [disableReal, setDisableReal] = React.useState(true);
+  const [disableImag, setDisableImag] = React.useState(true);
 
   const [chartData1, setChartData1] = React.useState(null);
   const [chartData2, setChartData2] = React.useState(null);
@@ -64,7 +78,11 @@ const Polarization = ({
   const settingElement = (amplitude: boolean) =>
     `showPolarization${amplitude ? 'Amplitude' : 'Phase'}${polarization}axisY`;
 
+  const settingElementAmplitudeReal = useCallback((real: string) => `showPolarization${real}${polarization}axisY`, [disableReal, disableImag]);
+
   const setting = (amplitude: boolean) => displaySettings[settingElement(amplitude)];
+
+  const settingAmplitudeReal = (real: string) => displaySettings[settingElementAmplitudeReal(real)];
 
   const xLabel = () => `${t('label.frequency')} (${t('units.frequency')})`;
 
@@ -73,30 +91,59 @@ const Polarization = ({
 
   const chartTitle = (amplitude: boolean) => t(amplitude ? 'label.amplitude' : 'label.phase');
 
-  function calculateYData(values: any, amplitude: boolean) {
-    switch (setting(amplitude)) {
-      case phaseAxisY[0]: // radians
-        return values;
-      case phaseAxisY[1]: // degrees
-        return values.map((item: number) => calculateDegrees(item));
-      case amplitudeAxisY[0]: // amplitude
-        return values;
-      case amplitudeAxisY[1]: // db
-        return values.map((item: number) => calculateDB(item));
-      case amplitudeAxisY[2]: // log
-        return values.map((item: number) => calculateLog(item));
+  function calculateYData(values: any, amplitude: boolean, selection: string) {
+    if (selection === 'component') {
+      return values
+    }
+    
+      switch (setting(amplitude)) {
+        case phaseAxisY[0]: // radians
+          return values;
+        case phaseAxisY[1]: // degrees
+          return values.map((item: number) => calculateDegrees(item));
+        case amplitudeAxisY[0]: // amplitude
+          return values;
+        case amplitudeAxisY[1]: // db
+          return values.map((item: number) => calculateDB(item));
+        case amplitudeAxisY[2]: // log
+          return values.map((item: number) => calculateLog(item));
+        default:
+          return 0;
+      }
+    
+  }
+
+  function selector(real: string) {
+    switch (settingAmplitudeReal(real)) {
+      case amplitudeReal[0]:
+        setDisableReal(true);
+        return 'component';
+      case amplitudeReal[1]:
+        setDisableReal(false);
+        return 'data';
+      case phaseImaginary[0]:
+        setDisableImag(true);
+        return 'component';
+      case phaseImaginary[1]:
+        setDisableImag(false);
+        return 'data';
       default:
         return 0;
     }
   }
 
-  function getBaseData(inData: array, polarisation: string, amplitude: boolean) {
+  function getBaseData(inData: array, polarisation: string, amplitude: boolean, real: string) {
+
+    const selection = selector(real)
+
     const tmp = inData
-      .filter(dataPayload => dataPayload.polarisation === polarisation)
-      .map(dataPayload => ({
-        name: dataPayload.baseline,
-        data: calculateYData(dataPayload.data, amplitude)
-      }));
+    .filter(dataPayload => dataPayload.polarisation === polarisation)
+    .map(dataPayload => ({
+      name: dataPayload.baseline,
+      data: calculateYData(dataPayload[selection], amplitude, selection)
+    }));
+    
+
     if (!legend || legend.length === 0) {
       return tmp;
     }
@@ -122,13 +169,13 @@ const Polarization = ({
     return COLOR[0]; // Only here for completeness.
   }
 
-  function getChartData(usedData: any, amplitude: boolean) {
+  function getChartData(usedData: any, amplitude: boolean, real: string) {
     const chartData = [];
     if (!legend) {
       return chartData;
     }
     const xValues = calculateChannels(usedData.spectral_window);
-    const baseData = getBaseData(usedData.data, polarization, amplitude);
+    const baseData = getBaseData(usedData.data, polarization, amplitude, real);
     for (let i = 0; i < baseData.length; i++) {
       chartData.push({
         x: xValues,
@@ -164,9 +211,9 @@ const Polarization = ({
     }
   }, [resize]);
 
-  function checkForInvalidData(usedData: any, amplitude: boolean) {
+  function checkForInvalidData(usedData: any, amplitude: boolean, real: string) {
     const xValues = calculateChannels(usedData.spectral_window);
-    const y = getBaseData(usedData.data, polarization, amplitude);
+    const y = getBaseData(usedData.data, polarization, amplitude, real);
 
     const shapes = [];
 
@@ -177,7 +224,7 @@ const Polarization = ({
         if (!Number.isFinite(num)) {
           const x0 = xValues[j] - 0.5 * (xValues[1] - xValues[0]);
           const x1 = xValues[j] + 0.5 * (xValues[1] - xValues[0]);
-          shapes.push(createRectangle(x0,x1,INVALID_DATA_COLOR));
+          shapes.push(createRectangle(x0, x1, INVALID_DATA_COLOR));
         }
       }
     }
@@ -186,9 +233,9 @@ const Polarization = ({
       shapes.push(createRectangle(item[0], item[1], MISSING_DATA_COLOR));
     }
 
-    if (missingData) {
-      missingData.forEach(rectangle);
-    }
+    // if (missingData) {
+    //   missingData.forEach(rectangle);
+    // }
 
     return shapes;
   }
@@ -196,10 +243,10 @@ const Polarization = ({
   React.useEffect(() => {
     const firstRender = chartData1 === null;
     if (amplitudeData && phaseData && legend) {
-      setChartData1(canShow() ? getChartData(amplitudeData, true) : null);
-      setChartData2(canShow() ? getChartData(phaseData, false) : null);
-      setInvalidDataAmplitude(canShow() ? checkForInvalidData(amplitudeData, true) : null);
-      setInvalidDataPhase(canShow() ? checkForInvalidData(phaseData, false) : null);
+      setChartData1(canShow() ? getChartData(amplitudeData, true, 'Real') : null);
+      setChartData2(canShow() ? getChartData(phaseData, false, 'Imaginary') : null);
+      setInvalidDataAmplitude(canShow() ? checkForInvalidData(amplitudeData, true, 'Real') : null);
+      setInvalidDataPhase(canShow() ? checkForInvalidData(phaseData, false, 'Imaginary') : null);
     }
     if (firstRender) {
       setShowContent(canShow());
@@ -210,7 +257,7 @@ const Polarization = ({
     setSettings(e);
   }
 
-  const chartToggle = (type: boolean) => (
+  const chartToggle = (type: boolean, disable: boolean) => (
     <YAxisToggle
       // eslint-disable-next-line react/jsx-no-bind
       setValue={setValue}
@@ -218,6 +265,29 @@ const Polarization = ({
       type={type ? 'amplitude' : 'phase'}
       value={settingElement(type)}
       displaySettings={displaySettings}
+      disabled={disable}
+    />
+  );
+
+  const amplitudeRealToggle = (type: string) => (
+    <YAxisToggle
+      setValue={setValue}
+      testId={`${settingElementAmplitudeReal(type)}ButtonTestId`}
+      type={type === 'Real' ? 'Real' : 'Imaginary'}
+      value={settingElementAmplitudeReal(type)}
+      displaySettings={displaySettings}
+      disabled={false}
+    />
+  );
+
+  const phaseImaginaryToggle = (type: string) => (
+    <YAxisToggle
+      setValue={setValue}
+      testId={`${settingElementAmplitudeReal(type)}ButtonTestId`}
+      type={type === 'phase' ? 'Phase' : 'Imaginary'}
+      value={settingElementAmplitudeReal(type)}
+      displaySettings={displaySettings}
+      disabled={false}
     />
   );
 
@@ -226,7 +296,8 @@ const Polarization = ({
       {canShowChartAmplitude() && (
         <Grid item xs={canShowChartPhase() ? 6 : 12}>
           <SignalCard
-            action={chartToggle(true)}
+            action={chartToggle(true, disableReal)}
+            action2={amplitudeRealToggle('Real')}
             title={`${t('label.polarization')} / ${chartTitle(true)} ${polarization}`}
             socketStatus={socketStatus}
             showContent={showContent}
@@ -268,7 +339,8 @@ const Polarization = ({
       {canShowChartPhase() && (
         <Grid item xs={canShowChartAmplitude() ? 6 : 12}>
           <SignalCard
-            action={chartToggle(false)}
+            action={chartToggle(false, disableImag)}
+            action2={phaseImaginaryToggle('Imaginary')}
             title={`${t('label.polarization')} / ${chartTitle(false)}  ${polarization}`}
             socketStatus={socketStatus}
             showContent={showContent}
