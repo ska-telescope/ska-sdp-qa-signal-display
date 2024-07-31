@@ -8,6 +8,7 @@ import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
 import { COLOR } from '../../utils/constants';
 import { QASettings } from '../Settings/qaSettings';
+import { COLOR_RANGE } from '../../utils/divergentColors';
 
 interface WeightDistributionPlotProps {
   data: Array<any>;
@@ -59,25 +60,34 @@ const WeightDistributionPlot = ({
   function calculateMidFrequency(usedData: any) {
     const minFreq = usedData.spectral_window.freq_min;
     const maxFreq = usedData.spectral_window.freq_max;
-    return minFreq + (maxFreq - minFreq) / 2;
+    return Math.round((minFreq + (maxFreq - minFreq)) / (2*1000000));
+  }
+
+  function pickColor(weight: number) {
+    const index = Math.round(weight*100);
+    return COLOR_RANGE[index];
   }
 
   function getUVWData(usedData: any, polar: string) {
     const uValues = [];
     const vValues = [];
+    const colors = [];
     function extractValues(element) {
       const filteredData = element.data.filter(
         uvCoveragePayload => uvCoveragePayload.polarisation === polar
       );
       filteredData.forEach((datum: any) => {
-        uValues.push(datum.u * datum.weight);
-        uValues.push(-1 * datum.u * datum.weight);
-        vValues.push(datum.v * datum.weight);
-        vValues.push(-1 * datum.v * datum.weight);
+        uValues.push(datum.u);
+        uValues.push(-1 * datum.u);
+        vValues.push(datum.v);
+        vValues.push(-1 * datum.v);
+        //Weight pushed twice to cater for both positive and negative values
+        colors.push(pickColor(datum.weight));
+        colors.push(pickColor(datum.weight));
       });
     }
     usedData.forEach(extractValues);
-    return [uValues, vValues];
+    return [uValues, vValues, colors];
   }
 
   function getChartData(usedData: any) {
@@ -87,7 +97,7 @@ const WeightDistributionPlot = ({
         x: uvwData[0],
         y: uvwData[1],
         marker: {
-          color: COLOR[2]
+          color: uvwData[2]
         },
         mode: 'markers+text',
         type: 'scatter'
@@ -144,7 +154,7 @@ const WeightDistributionPlot = ({
         <SignalCard
           action={<></>}
           data-testid="signalCardId"
-          title={`${t('label.weightDistribution')} ${polarization} ${midFreq}`}
+          title={`${t('label.weightDistribution')} ${polarization} - ${midFreq} MHz Mid Frequency`}
           socketStatus={socketStatus}
           showContent={showContent}
           setShowContent={showToggle}
