@@ -60,11 +60,11 @@ const WeightDistributionPlot = ({
   function calculateMidFrequency(usedData: any) {
     const minFreq = usedData.spectral_window.freq_min;
     const maxFreq = usedData.spectral_window.freq_max;
-    return Math.round((minFreq + (maxFreq - minFreq)) / (2*1000000));
+    return Math.round((minFreq + (maxFreq - minFreq)) / (2 * 1000000));
   }
 
   function pickColor(weight: number) {
-    const index = Math.round(weight*100);
+    const index = Math.round(weight * 10);
     return COLOR_RANGE[index];
   }
 
@@ -82,8 +82,8 @@ const WeightDistributionPlot = ({
         vValues.push(datum.v);
         vValues.push(-1 * datum.v);
         //Weight pushed twice to cater for both positive and negative values
-        colors.push(pickColor(datum.weight));
-        colors.push(pickColor(datum.weight));
+        colors.push(datum.weight);
+        colors.push(datum.weight);
       });
     }
     usedData.forEach(extractValues);
@@ -97,7 +97,14 @@ const WeightDistributionPlot = ({
         x: uvwData[0],
         y: uvwData[1],
         marker: {
-          color: uvwData[2]
+          color: uvwData[2],
+          colorscale: COLOR_RANGE,
+          colorbar: {
+            title: "Weight",
+            thickness: 25,
+            tick0: 0,
+            dtick: 0.1
+          }
         },
         mode: 'markers+text',
         type: 'scatter'
