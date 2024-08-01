@@ -66,7 +66,7 @@ const BandAveragedXCorr = ({
     }
   }
 
-  function getBaseData(inData: array, polarisation: string, amplitude: boolean) {
+  function getBaseData(inData: Array<any>, polarisation: string, amplitude: boolean) {
     const tmp = inData
       .filter(dataPayLoad => dataPayLoad.polarisation === polarisation)
       .map(dataPayLoad => ({
@@ -78,7 +78,7 @@ const BandAveragedXCorr = ({
     }
     const arr = [];
     for (let i = 0; i < tmp.length; i += 1) {
-      if (tmp[i].name === legend[i].text && legend[i].active) {
+      if (tmp[i].name === legend[i]?.text && legend[i].active) {
         arr.push(tmp[i]);
       }
     }

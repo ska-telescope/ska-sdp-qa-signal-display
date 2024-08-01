@@ -26,18 +26,20 @@ const MaskLegend = ({ displaySettings }: MaskLegendProps) => {
     displaySettings.showPolarizationAmplitudeYY ||
     displaySettings.showPolarizationPhaseYY;
 
-    const showToggle = () => {
-        setShowContent(!showContent);
-      };
+  const showToggle = () => {
+    setShowContent(!showContent);
+  };
 
   return (
     <>
       {canShowLegend() && (
         <SignalCard title={t('label.maskLegend')} showContent setShowContent={showToggle}>
           <Box>
-            <Typography data-testid="maskLegend1" variant="body1">
-              <div>Grey mask - Missing Data</div>
-              <div>Red mask - Invalid Data</div>
+            <Typography data-testid="maskLegend1" variant="body1" display="block">
+              Grey Mask - Missing Data
+            </Typography>
+            <Typography data-testid="maskLegend2" variant="body1" display="block">
+              Red Mask - Invalid Data
             </Typography>
           </Box>
         </SignalCard>

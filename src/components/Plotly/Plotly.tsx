@@ -22,8 +22,8 @@ const Plotly = ({
   width,
   xLabel,
   yLabel,
-  masked,
-  marginalHistogram
+  masked = [],
+  marginalHistogram = false
 }: PlotlyProps) => {
   function assignLayout(makeMarginal: boolean) {
     let layout = {};
@@ -88,11 +88,6 @@ const Plotly = ({
   }
 
   return <Plot data={data} layout={assignLayout(marginalHistogram)} />;
-};
-
-Plotly.defaultProps = {
-  masked: [],
-  marginalHistogram: false
 };
 
 export default Plotly;

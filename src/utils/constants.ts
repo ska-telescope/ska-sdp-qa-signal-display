@@ -79,6 +79,8 @@ export const DATA_API_URL = env.REACT_APP_DATA_API_URL;
 
 export const DATA_LOCAL = env.REACT_APP_USE_LOCAL_DATA === 'true';
 
+export const USE_MISSING_DATA_MASK = env.REACT_APP_USE_MISSING_DATA_MASK === 'true';
+
 const processAPI = env.REACT_APP_WS_API ? env.REACT_APP_WS_API : 'ws://localhost:8002';
 export const WS_API_URL = processAPI.startsWith('/')
   ? (window.location.protocol === 'https:' ? 'wss://' : 'ws://') +
