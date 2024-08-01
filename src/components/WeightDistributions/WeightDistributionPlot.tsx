@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
-import { COLOR } from '../../utils/constants';
 import { QASettings } from '../Settings/qaSettings';
 import { COLOR_RANGE } from '../../utils/divergentColors';
 
@@ -61,11 +60,6 @@ const WeightDistributionPlot = ({
     const minFreq = usedData.spectral_window.freq_min;
     const maxFreq = usedData.spectral_window.freq_max;
     return Math.round((minFreq + (maxFreq - minFreq)) / (2 * 1000000));
-  }
-
-  function pickColor(weight: number) {
-    const index = Math.round(weight * 10);
-    return COLOR_RANGE[index];
   }
 
   function getUVWData(usedData: any, polar: string) {
