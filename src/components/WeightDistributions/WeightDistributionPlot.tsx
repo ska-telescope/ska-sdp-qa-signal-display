@@ -6,11 +6,11 @@ import { useTranslation } from 'react-i18next';
 import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
-import { COLOR } from '../../utils/constants';
 import { QASettings } from '../Settings/qaSettings';
+import { COLOR_RANGE } from '../../utils/divergentColors';
 
 interface WeightDistributionPlotProps {
-  data: object;
+  data: Array<any>;
   displaySettings: typeof QASettings;
   polarization: string;
   redraw: boolean;
@@ -59,29 +59,51 @@ const WeightDistributionPlot = ({
   function calculateMidFrequency(usedData: any) {
     const minFreq = usedData.spectral_window.freq_min;
     const maxFreq = usedData.spectral_window.freq_max;
-    return minFreq + (maxFreq - minFreq) / 2;
+    return Math.round((minFreq + (maxFreq - minFreq)) / (2 * 1000000));
   }
 
-  function getUVWData(usedData: any, polar: string, coordinate: string) {
-    const filteredData = usedData.filter(
-      uvCoveragePayload => uvCoveragePayload.polarisation === polar
-    );
-    return filteredData.map((datum: any) => datum[coordinate] * datum.weight);
+  function getUVWData(usedData: any, polar: string) {
+    const uValues = [];
+    const vValues = [];
+    const colors = [];
+    function extractValues(element) {
+      const filteredData = element.data.filter(
+        uvCoveragePayload => uvCoveragePayload.polarisation === polar
+      );
+      filteredData.forEach((datum: any) => {
+        uValues.push(datum.u);
+        uValues.push(-1 * datum.u);
+        vValues.push(datum.v);
+        vValues.push(-1 * datum.v);
+        //Weight pushed twice to cater for both positive and negative values
+        colors.push(datum.weight);
+        colors.push(datum.weight);
+      });
+    }
+    usedData.forEach(extractValues);
+    return [uValues, vValues, colors];
   }
 
   function getChartData(usedData: any) {
-    const chartDataTmp = [
+    const uvwData = getUVWData(usedData, polarization);
+    return [
       {
-        x: getUVWData(usedData.data, polarization, 'u'),
-        y: getUVWData(usedData.data, polarization, 'v'),
+        x: uvwData[0],
+        y: uvwData[1],
         marker: {
-          color: COLOR[2]
+          color: uvwData[2],
+          colorscale: COLOR_RANGE,
+          colorbar: {
+            title: "Weight",
+            thickness: 25,
+            tick0: 0,
+            dtick: 0.1
+          }
         },
         mode: 'markers+text',
         type: 'scatter'
       }
     ];
-    return chartDataTmp;
   }
 
   function canShowChart() {
@@ -101,7 +123,7 @@ const WeightDistributionPlot = ({
 
   React.useEffect(() => {
     const firstRender = chartData === null;
-    if (data) {
+    if (data.length > 0) {
       setChartData(getChartData(data));
     }
     if (firstRender) {
@@ -122,8 +144,8 @@ const WeightDistributionPlot = ({
   }, [resize]);
 
   React.useEffect(() => {
-    if (data) {
-      setMidFreq(calculateMidFrequency(data));
+    if (data.length > 0) {
+      setMidFreq(calculateMidFrequency(data[0]));
     }
   });
 
@@ -133,7 +155,7 @@ const WeightDistributionPlot = ({
         <SignalCard
           action={<></>}
           data-testid="signalCardId"
-          title={`${t('label.weightDistribution')} ${polarization} ${midFreq}`}
+          title={`${t('label.weightDistribution')} ${polarization} - ${midFreq} MHz Mid Frequency`}
           socketStatus={socketStatus}
           showContent={showContent}
           setShowContent={showToggle}

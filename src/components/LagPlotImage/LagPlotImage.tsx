@@ -17,7 +17,7 @@ const THUMBNAIL = 'thumbnail';
 const MOCK_FULL = '/static/images/mock/lag_plot_full.png';
 const MOCK_THUMBNAIL = '/static/images/mock/lag_plot_thumbnail.png';
 
-const LagPlotImage = ({ element, full, onClick, config }: LagPlotImageProps) => {
+const LagPlotImage = ({ element, full = false, onClick = null, config }: LagPlotImageProps) => {
   function getImageFULL(item: string) {
     if (DATA_LOCAL) {
       return MOCK_FULL;
@@ -75,11 +75,6 @@ const LagPlotImage = ({ element, full, onClick, config }: LagPlotImageProps) => 
       <ImageListItemBar title={element} position="below" />
     </ImageListItem>
   );
-};
-
-LagPlotImage.defaultProps = {
-  full: false,
-  onClick: null
 };
 
 export default LagPlotImage;

@@ -38,6 +38,7 @@ import {
   COLOR,
   DATA_API_URL,
   DATA_LOCAL,
+  USE_MISSING_DATA_MASK,
   POLARIZATIONS,
   SOCKET_STATUS,
   WS_API_URL,
@@ -70,7 +71,7 @@ const Container = ({ childToParent }) => {
   const [chartDataGainCal, setChartDataGainCal] = React.useState<
     { time: number[]; gains: number[][]; phases: number[][] }[]
   >([]);
-  const [chartDataUVCoverage, setChartDataUVCoverage] = React.useState(null);
+  const [chartDataUVCoverage, setChartDataUVCoverage] = React.useState([]);
   const [legendData, setLegendData] = React.useState(null);
   const [legendPole, setLegendPole] = React.useState(null);
   const [config, setConfig] = React.useState(null);
@@ -311,11 +312,15 @@ const Container = ({ childToParent }) => {
     if (DATA_LOCAL) {
       setProcessingBlockStatisticsData(mockStatisticsProcessingBlock);
       setReceiverEventsData(mockStatisticsReceiverEvents);
-      setMaskData(getMaskDomains(maskMockData.data));
+      if (USE_MISSING_DATA_MASK) {
+        setMaskData(getMaskDomains(maskMockData.data));
+      }
     } else if (config !== null) {
       retrieveProcessingBlockStatisticsData();
       retrieveReceiverEventData();
-      retrieveMaskData();
+      if (USE_MISSING_DATA_MASK) {
+        retrieveMaskData();
+      }
     }
   }, [config]);
 
@@ -476,7 +481,7 @@ const Container = ({ childToParent }) => {
       setSocketBandAvXCorr(SOCKET_STATUS[3]);
       setChartDataBandAvXCorr([BandAveragedXCorrData]);
       setSocketStatusUVCoverage(SOCKET_STATUS[3]);
-      setChartDataUVCoverage(UVCoverageData);
+      setChartDataUVCoverage([UVCoverageData]);
     } else {
       fetchSubarrayDetails();
 
@@ -676,7 +681,7 @@ const Container = ({ childToParent }) => {
                 displaySettings={displaySettings}
                 data={chartDataSpectrum}
                 config={config}
-                // missingData={getMaskData()}
+                missingData={maskData}
               />
             </Grid>
           ))}
@@ -707,7 +712,7 @@ const Container = ({ childToParent }) => {
             amplitudeData={chartDataAmplitude}
             phaseData={chartDataPhase}
             legend={legendData}
-            // missingData={getMaskData()}
+            missingData={maskData}
           />
         ))}
 
