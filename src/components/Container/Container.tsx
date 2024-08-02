@@ -38,6 +38,7 @@ import {
   COLOR,
   DATA_API_URL,
   DATA_LOCAL,
+  USE_MISSING_DATA_MASK,
   POLARIZATIONS,
   SOCKET_STATUS,
   WS_API_URL,
@@ -69,7 +70,7 @@ const Container = ({ childToParent }) => {
   const [chartDataGainCal, setChartDataGainCal] = React.useState<
     { time: number[]; gains: number[][]; phases: number[][] }[]
   >([]);
-  const [chartDataUVCoverage, setChartDataUVCoverage] = React.useState(null);
+  const [chartDataUVCoverage, setChartDataUVCoverage] = React.useState([]);
   const [legendData, setLegendData] = React.useState(null);
   const [legendPole, setLegendPole] = React.useState(null);
   const [config, setConfig] = React.useState(null);
@@ -228,7 +229,7 @@ const Container = ({ childToParent }) => {
       ? +env.REACT_APP_SUBARRAY_REFRESH_SECONDS
       : +env.REACT_APP_SUBARRAY_REFRESH_SECONDS_FAST;
 
-  async function retrieveMaskData(){
+  async function retrieveMaskData() {
     await fetch(`${DATA_API_URL}${config.paths.mask_data}/scan_id/01`)
       .then(response => response.json())
       .then(data => {
@@ -289,11 +290,15 @@ const Container = ({ childToParent }) => {
     if (DATA_LOCAL) {
       setProcessingBlockStatisticsData(mockStatisticsProcessingBlock);
       setReceiverEventsData(mockStatisticsReceiverEvents);
-      setMaskData(getMaskDomains(maskMockData.data));
+      if (USE_MISSING_DATA_MASK) {
+        setMaskData(getMaskDomains(maskMockData.data));
+      }
     } else if (config !== null) {
       retrieveProcessingBlockStatisticsData();
       retrieveReceiverEventData();
-      retrieveMaskData();
+      if (USE_MISSING_DATA_MASK) {
+        retrieveMaskData();
+      }
     }
   }, [config]);
 
@@ -377,7 +382,7 @@ const Container = ({ childToParent }) => {
       setSocketBandAvXCorr(SOCKET_STATUS[3]);
       setChartDataBandAvXCorr([BandAveragedXCorrData]);
       setSocketStatusUVCoverage(SOCKET_STATUS[3]);
-      setChartDataUVCoverage(UVCoverageData);
+      setChartDataUVCoverage([UVCoverageData]);
     } else {
       fetchSubarrayDetails();
       Socket({
@@ -429,7 +434,8 @@ const Container = ({ childToParent }) => {
         protocol: config.api_format,
         suffix: `${config.topics.uv_coverage}-${subArray}`,
         statusFunction: setSocketStatusUVCoverage,
-        dataFunction: setChartDataUVCoverage
+        dataFunction: setChartDataUVCoverage,
+        timeSeries: true
       });
     }
   }, [subArray]);
@@ -597,11 +603,7 @@ const Container = ({ childToParent }) => {
           </Tabs>
         </Box>
       </Box>
-      {currentTabIndex === 0 && showLegend() && (
-        <MaskLegend
-          displaySettings={displaySettings}
-        />
-      )}
+      {currentTabIndex === 0 && showLegend() && <MaskLegend displaySettings={displaySettings} />}
       {currentTabIndex === 0 && (
         <Grid container>
           {POLARIZATIONS.map(item => (
@@ -616,7 +618,7 @@ const Container = ({ childToParent }) => {
                 displaySettings={displaySettings}
                 data={chartDataSpectrum}
                 config={config}
-                // missingData={getMaskData()}
+                missingData={maskData}
               />
             </Grid>
           ))}
@@ -646,7 +648,7 @@ const Container = ({ childToParent }) => {
             amplitudeData={chartDataAmplitude}
             phaseData={chartDataPhase}
             legend={legendData}
-            // missingData={getMaskData()}
+            missingData={maskData}
           />
         ))}
 

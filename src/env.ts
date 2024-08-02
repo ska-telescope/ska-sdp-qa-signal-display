@@ -15,6 +15,7 @@ type EnvType = {
   REACT_APP_DASHBOARD_URL_SUBDIRECTORY: string;
   REACT_APP_VERSION: string;
   REACT_APP_USE_LOCAL_DATA: string;
+  REACT_APP_USE_MISSING_DATA_MASK: string;
 };
 export const env: EnvType = {
   ...process.env,

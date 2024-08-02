@@ -24,10 +24,10 @@ export interface SignalCardProps {
 }
 
 const SignalCard = ({
-  action,
+  action = null,
   action2,
-  children,
-  socketStatus,
+  children = null,
+  socketStatus = null,
   title,
   showContent,
   setShowContent,
@@ -99,12 +99,6 @@ const SignalCard = ({
       </Box>
     </Alert>
   );
-};
-
-SignalCard.defaultProps = {
-  action: null,
-  children: null,
-  socketStatus: null
 };
 
 export default SignalCard;

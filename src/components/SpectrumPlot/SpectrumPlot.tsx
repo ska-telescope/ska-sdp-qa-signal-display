@@ -29,7 +29,7 @@ interface SpectrumPlotProps {
   setSettings: Function;
   socketStatus: string;
   config: Config;
-  // missingData?: number[][]
+  missingData?: number[][];
 }
 
 const RATIO = 2;
@@ -42,9 +42,9 @@ const SpectrumPlot = ({
   resize,
   setSettings,
   socketStatus,
-  config
-}: // missingData
-SpectrumPlotProps) => {
+  config,
+  missingData = null
+}: SpectrumPlotProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [chartData, setChartData] = React.useState(null);
@@ -177,7 +177,7 @@ SpectrumPlotProps) => {
       setBaseData('DATA_LOCAL');
     } else if (config !== null) {
       retrieveBaseData();
-      setShowContent(true)
+      setShowContent(true);
     }
   }, [config]);
 
@@ -186,9 +186,9 @@ SpectrumPlotProps) => {
     if (data) {
       setChartData(getChartData(data));
       setMaskedData(checkForInvalidData(data));
-      // if(missingData){
-      //   setMaskedData(checkForMissingData(missingData))
-      // }
+      if (missingData) {
+        setMaskedData(checkForMissingData(missingData));
+      }
     }
     if (firstRender) {
       setShowContent(canShow());
@@ -266,24 +266,23 @@ SpectrumPlotProps) => {
         )}
       </>
     );
-  } 
-    return (
-      <SignalCard
-        action={chartToggle()}
-        action2={waterfallToggle()}
-        data-testid="signalCardId"
-        title={`${t('label.spectrumPlot')} ${polarization}`}
-        socketStatus={socketStatus}
-        showContent={showContent}
-        setShowContent={showToggle}
-        showInfoModal="true"
-        infoTitle={t('modalInfo.spectrumPlot.title')}
-        infoContent={t('modalInfo.spectrumPlot.content')}
-        infoSite={t('modalInfo.spectrumPlot.site')}
-      >
-        <SpectrumWaterfallPlotImage element={polarization} />
-      </SignalCard>
-    );
-  
+  }
+  return (
+    <SignalCard
+      action={chartToggle()}
+      action2={waterfallToggle()}
+      data-testid="signalCardId"
+      title={`${t('label.spectrumPlot')} ${polarization}`}
+      socketStatus={socketStatus}
+      showContent={showContent}
+      setShowContent={showToggle}
+      showInfoModal="true"
+      infoTitle={t('modalInfo.spectrumPlot.title')}
+      infoContent={t('modalInfo.spectrumPlot.content')}
+      infoSite={t('modalInfo.spectrumPlot.site')}
+    >
+      <SpectrumWaterfallPlotImage element={polarization} />
+    </SignalCard>
+  );
 };
 export default SpectrumPlot;
