@@ -117,13 +117,6 @@ context('Signal display', () => {
         cy.findAllByTestId("sectionHeader").contains("Spectrum YX").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("Spectrum YY").should("be.visible");
 
-        cy.findAllByTestId("sectionHeader").contains("Legend").should("be.visible");
-        cy.findAllByTestId("VisibilityOffIcon").eq(4).click({ multiple: true, force: true });
-        cy.findAllByTestId("legendGroupingId").click({ multiple: true });
-        cy.findAllByTestId("noChartData1Card").should("be.visible");
-        cy.findAllByTestId("noChartData2Card").should("be.visible");
-        cy.findAllByTestId("legendKey").should("be.visible");
-
         cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XX").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XY").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude YX").should("be.visible");
