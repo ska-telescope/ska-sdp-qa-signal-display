@@ -17,7 +17,8 @@ import {
   INVALID_DATA_COLOR,
   createRectangle
 } from '../../utils/masksCalculator';
-import SpectrumWaterfallPlotImage from './spectrumWaterfallImage';
+import SpectrumWaterfallPlotImage from '../SpectrumWaterfallImage/SpectrumWaterfallImage';
+
 
 interface SpectrumPlotProps {
   data: object;
@@ -50,7 +51,7 @@ const SpectrumPlot = ({
   const [chartData, setChartData] = React.useState(null);
   const [maskedData, setMaskedData] = React.useState([]);
   const [showContent, setShowContent] = React.useState(false);
-  const [baseData, setBaseData] = React.useState(null);
+  const [baselineData, setBaselineData] = React.useState(null);
   const [refresh, setRefresh] = React.useState(false);
   const { darkMode } = storageObject.useStore();
 
@@ -164,7 +165,7 @@ const SpectrumPlot = ({
         .then(response => response.json())
         .then(d => {
           setShowContent(showContent);
-          setBaseData(d.baselines);
+          setBaselineData(d.baselines);
           abortController.abort();
         })
         .catch(() => {
@@ -174,7 +175,7 @@ const SpectrumPlot = ({
     }
     if (DATA_LOCAL) {
       setShowContent(true);
-      setBaseData('DATA_LOCAL');
+      setBaselineData('DATA_LOCAL');
     } else if (config !== null) {
       retrieveBaseData();
       setShowContent(true);
@@ -281,7 +282,9 @@ const SpectrumPlot = ({
       infoContent={t('modalInfo.spectrumPlot.content')}
       infoSite={t('modalInfo.spectrumPlot.site')}
     >
-      <SpectrumWaterfallPlotImage element={polarization} />
+      <SpectrumWaterfallPlotImage
+      element={polarization}
+      config={config}/>
     </SignalCard>
   );
 };

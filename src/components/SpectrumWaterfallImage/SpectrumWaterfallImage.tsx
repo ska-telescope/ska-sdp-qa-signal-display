@@ -2,42 +2,28 @@
 import React from 'react';
 import { ImageListItem, ImageListItemBar } from '@mui/material';
 import { DATA_API_URL, DATA_LOCAL } from '../../utils/constants';
+import Config from '../../services/types/Config';
 
 interface SpectrumWaterfallPlotImageProps {
   element: any;
-  full?: boolean;
   // eslint-disable-next-line @typescript-eslint/ban-types
   onClick?: Function;
+  config: Config
 }
 
-const FULL = 'full_image_pb';
-const THUMBNAIL = 'thumbnail_pb';
-const MOCK_FULL = '/static/images/mock/lag_plot_full.png';
 const MOCK_THUMBNAIL = '/static/images/mock/lag_plot_thumbnail.png';
 
 const SpectrumWaterfallPlotImage = ({
   element,
-  full = false,
-  onClick = null
+  onClick = null,
+  config
 }: SpectrumWaterfallPlotImageProps) => {
-  function getImageFULL(item: string) {
-    if (DATA_LOCAL) {
-      return MOCK_FULL;
-    }
-    // const baselines = item.split(/[-_]+/);
-    return `${DATA_API_URL}/spectrum_waterfalls/${FULL}/latest/${item}`;
-  }
-
+  
   function getImageTN(item: string) {
     if (DATA_LOCAL) {
       return MOCK_THUMBNAIL;
     }
-    // const baselines = item.split(/[-_]+/);
-    return `${DATA_API_URL}/spectrum_waterfalls/${THUMBNAIL}/latest/${item}`;
-  }
-
-  function getImageUrl(item: string) {
-    return full ? getImageFULL(item) : getImageTN(item);
+    return `${DATA_API_URL}${config.paths.spectrum_waterfalls_thumbnail_path}/latest/${item}`;
   }
 
   function imageClick(item: string) {
@@ -45,24 +31,17 @@ const SpectrumWaterfallPlotImage = ({
   }
 
   const width = () => {
-    if (DATA_LOCAL) {
-      return full ? '85vw' : '22vw';
-    }
-    return full ? '85vw' : 1024;
+    return DATA_LOCAL ? '22vw' : config.waterfall_plots.thumbnail_width; 
   };
 
   const height = () => {
-    if (DATA_LOCAL) {
-      return full ? '85vh' : '22vh';
-    }
-    return full ? '85vh' : 328;
+    return DATA_LOCAL ? '22vh' : config.waterfall_plots.thumbnail_max_height;
   };
 
   return (
     <ImageListItem key={element}>
       <img
-        src={getImageUrl(element)}
-        // placeholder={getImageTN(element)}
+        src={getImageTN(element)}
         alt={element}
         loading="lazy"
         onClick={() => imageClick(element)}

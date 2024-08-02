@@ -2,45 +2,29 @@
 import React from 'react';
 import { ImageListItem, ImageListItemBar } from '@mui/material';
 import { DATA_API_URL, DATA_LOCAL } from '../../utils/constants';
+import Config from '../../services/types/Config';
 
 interface SpectrogramImageProps {
   element: any;
-  full?: boolean;
   // eslint-disable-next-line @typescript-eslint/ban-types
   onClick?: Function;
-  config: any;
+  config: Config;
 }
 
-const FULL = 'full_image';
-const THUMBNAIL = 'thumbnail';
-const MOCK_FULL = '/static/images/mock/full.png';
 const MOCK_THUMBNAIL = '/static/images/mock/thumbnail.png';
 
 const SpectrogramImage = ({
   element,
-  full = false,
   onClick = null,
   config
 }: SpectrogramImageProps) => {
-  function getImageFULL(item: string) {
-    if (DATA_LOCAL) {
-      return MOCK_FULL;
-    }
-    const baselines = item.split(/[-_]+/);
-    return `${DATA_API_URL}/spectrograms/${FULL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
-  }
-
+ 
   function getImageTN(item: string) {
     if (DATA_LOCAL) {
       return MOCK_THUMBNAIL;
     }
     const baselines = item.split(/[-_]+/);
-    return `${DATA_API_URL}/spectrograms/${THUMBNAIL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
-  }
-
-  // m043_m043_YX
-  function getImageUrl(item: string) {
-    return full ? getImageFULL(item) : getImageTN(item);
+    return `${DATA_API_URL}${config.paths.spectrogram_thumbnail_path}/latest/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
 
   function imageClick(item: string) {
@@ -48,23 +32,17 @@ const SpectrogramImage = ({
   }
 
   const width = () => {
-    if (DATA_LOCAL) {
-      return full ? '85vw' : '22vw';
-    }
-    return full ? '85vw' : config.waterfall_plots.thumbnail_width;
+    return DATA_LOCAL ? '22vw' : config.waterfall_plots.thumbnail_width; 
   };
 
   const height = () => {
-    if (DATA_LOCAL) {
-      return full ? '85vh' : '22vh';
-    }
-    return full ? '85vh' : config.waterfall_plots.thumbnail_max_height;
+    return DATA_LOCAL ? '22vh' : config.waterfall_plots.thumbnail_max_height;
   };
 
   return (
     <ImageListItem key={element}>
       <img
-        src={getImageUrl(element)}
+        src={getImageTN(element)}
         // placeholder={getImageTN(element)}
         alt={element}
         loading="lazy"
