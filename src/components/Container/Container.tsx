@@ -42,7 +42,8 @@ import {
   SOCKET_STATUS,
   WS_API_URL,
   OFFSETS,
-  GAINS
+  GAINS,
+  METRIC_TYPES
 } from '../../utils/constants';
 import { getMaskDomains } from '../../utils/masksCalculator';
 import MaskLegend from '../MaskLegend/MaskLegend';
@@ -395,7 +396,7 @@ const Container = ({ childToParent }) => {
         return;
       }
       switch (metric) {
-        case 'amplitude':
+        case METRIC_TYPES.AMPLITUDE:
           activeWebsockets.amplitude = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
             protocol: config.api_format,
@@ -404,7 +405,7 @@ const Container = ({ childToParent }) => {
             dataFunction: setChartDataAmplitude
           });
           break;
-        case 'phase':
+        case METRIC_TYPES.PHASE:
           activeWebsockets.phase = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
             protocol: config.api_format,
@@ -413,7 +414,7 @@ const Container = ({ childToParent }) => {
             dataFunction: setChartDataPhase
           });
           break;
-        case 'spectrum':
+        case METRIC_TYPES.SPECTRUM:
           activeWebsockets.spectrum = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
             protocol: config.api_format,
@@ -422,7 +423,7 @@ const Container = ({ childToParent }) => {
             dataFunction: setChartDataSpectrum
           });
           break;
-        case 'band_averaged_x_corr':
+        case METRIC_TYPES.BAND_AVERAGED_X_CORR:
           activeWebsockets.band_averaged_x_corr = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
             protocol: config.api_format,
@@ -432,7 +433,7 @@ const Container = ({ childToParent }) => {
             timeSeries: true
           });
           break;
-        case 'uv_coverage':
+        case METRIC_TYPES.UV_COVERAGE:
           activeWebsockets.uv_coverage = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
             protocol: config.api_format,
@@ -661,7 +662,7 @@ const Container = ({ childToParent }) => {
         </Box>
       </Box>
       {currentTabIndex === 0 && showLegend() && <MaskLegend displaySettings={displaySettings} />}
-      {currentTabIndex === 0 && enabledMetrics.includes('spectrum') && (
+      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.SPECTRUM) && (
         <Grid container>
           {POLARIZATIONS.map(item => (
             <Grid item xs={gridWidth()}>
@@ -693,7 +694,7 @@ const Container = ({ childToParent }) => {
         />
       )}
       {currentTabIndex === 0 &&
-        (enabledMetrics.includes('phase') || enabledMetrics.includes('amplitude')) &&
+        (enabledMetrics.includes(METRIC_TYPES.PHASE) || enabledMetrics.includes(METRIC_TYPES.AMPLITUDE)) &&
         POLARIZATIONS.map(item => (
           <Polarization
             key={`Polarization${item}`}
@@ -710,7 +711,7 @@ const Container = ({ childToParent }) => {
           />
         ))}
 
-      {currentTabIndex === 0 && enabledMetrics.includes('band_averaged_x_corr') && (
+      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.BAND_AVERAGED_X_CORR) && (
         <Grid container>
           {POLARIZATIONS.map(item => (
             <Grid item xs={gridWidth()}>
@@ -730,7 +731,7 @@ const Container = ({ childToParent }) => {
         </Grid>
       )}
 
-      {currentTabIndex === 0 && enabledMetrics.includes('spectograms') && (
+      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.SPECTOGRAMS) && (
         <Spectrogram
           config={config}
           legend={legendData}
@@ -738,7 +739,7 @@ const Container = ({ childToParent }) => {
           subArray={subArray}
         />
       )}
-      {currentTabIndex === 0 && enabledMetrics.includes('lag_plot') && (
+      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.LAG_PLOT) && (
         <LagPlot
           config={config}
           legend={legendData}
@@ -746,7 +747,7 @@ const Container = ({ childToParent }) => {
           subArray={subArray}
         />
       )}
-      {currentTabIndex === 0 && enabledMetrics.includes('uv_coverage') && (
+      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.UV_COVERAGE) && (
         <Grid container>
           {POLARIZATIONS.map(item => (
             <Grid item xs={gridWidth()}>

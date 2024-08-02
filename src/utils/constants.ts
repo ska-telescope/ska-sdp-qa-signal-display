@@ -574,6 +574,17 @@ export const WATERFALL_PLOT_TYPES = {
   SPECTRUM: 'spectrum'
 };
 
+export const METRIC_TYPES = {
+  STATS: 'stats',
+  SPECTRUM: 'spectrum',
+  SPECTOGRAMS: 'spectograms',
+  LAG_PLOT: 'lag_plot',
+  AMPLITUDE: 'amplitude',
+  PHASE: 'phase',
+  BAND_AVERAGED_X_CORR: 'band_averaged_x_corr',
+  UV_COVERAGE: 'uv_coverage'
+};
+
 // Common URLs
 export const DATA_API_URL = env.REACT_APP_DATA_API_URL;
 
