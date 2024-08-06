@@ -7,6 +7,7 @@ The `ska-sdp-qa-display` repository contains the code to present the charting av
    :maxdepth: 2
    :caption: Contents:
 
+   changelog
    overview
    local_development
    running
