@@ -63,6 +63,8 @@ const Socket = ({
       statusFunction(SOCKET_STATUS[1]);
     }
   };
+
+  return ws;
 };
 
 export default Socket;

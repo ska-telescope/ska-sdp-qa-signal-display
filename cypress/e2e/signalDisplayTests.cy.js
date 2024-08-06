@@ -48,7 +48,7 @@ function runningConfiguration() {
     cy.findByTestId("pb_deploymentsLabel").contains("proc-pb-testrealtime-20240716-65504-vis-receive => RUNNING").should('be.visible');
     cy.findByTestId("pb_scriptLabel").contains("realtime/vis-receive/4.0.0").should('be.visible');
     cy.findByTestId("pb_processorsLabel").contains("mswriter").should('be.visible');
-    cy.findByTestId("pb_processors_deployedLabel").contains("mswriter-processor: 2.0.2, Signal Display Metrics [stats,spectrum,spectograms,lag_plot,amplitude,phase]: 0.20.0").should('be.visible');
+    cy.findByTestId("pb_processors_deployedLabel").contains("mswriter-processor: 2.0.2, Signal Display Metrics [stats,spectrum,spectograms,lag_plot,amplitude,phase,band_averaged_x_corr,uv_coverage]: 0.20.0").should('be.visible');
 
 }
 
@@ -116,13 +116,6 @@ context('Signal display', () => {
         cy.findAllByTestId("sectionHeader").contains("Spectrum XY").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("Spectrum YX").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("Spectrum YY").should("be.visible");
-
-        cy.findAllByTestId("sectionHeader").contains("Legend").should("be.visible");
-        cy.findAllByTestId("VisibilityOffIcon").eq(3).click({ multiple: true, force: true });
-        cy.findAllByTestId("legendGroupingId").click({ multiple: true });
-        cy.findAllByTestId("noChartData1Card").should("be.visible");
-        cy.findAllByTestId("noChartData2Card").should("be.visible");
-        cy.findAllByTestId("legendKey").should("be.visible");
 
         cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XX").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XY").should("be.visible");
