@@ -618,6 +618,7 @@ const Container = ({ childToParent }) => {
                 displaySettings={displaySettings}
                 data={chartDataSpectrum}
                 config={config}
+                subArray={subArray}
                 missingData={maskData}
               />
             </Grid>

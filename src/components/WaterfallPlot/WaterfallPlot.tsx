@@ -33,6 +33,8 @@ const WaterfallPlot = ({ type, item, config, subArray }: WaterfallPlotProps) => 
         return config.topics.spectrograms;
       case WATERFALL_PLOT_TYPES.LAG_PLOT:
         return config.topics.lag_plot;
+      case WATERFALL_PLOT_TYPES.SPECTRUM:
+        return config.topics.spectrum; 
       default:
         return 'undefined';
     }
@@ -79,6 +81,10 @@ const WaterfallPlot = ({ type, item, config, subArray }: WaterfallPlotProps) => 
         } else if (type === WATERFALL_PLOT_TYPES.LAG_PLOT) {
           const normaliseData = normaliseValues(dataPayload.data);
           normaliseData.forEach((value: number) => {
+            rgbaValues.push(LOOKUP_COLOUR_VALUES[value]);
+          });
+        } else if (type === WATERFALL_PLOT_TYPES.SPECTRUM) {
+          dataPayload.data.forEach((value: number) => {
             rgbaValues.push(LOOKUP_COLOUR_VALUES[value]);
           });
         }
