@@ -139,7 +139,7 @@ run_create_env()
         create_env_js
         echo "ENV added to $ENV_JS_OUTPUT_LOCATION"
     else
-        echo "No Setup Required, mising '$ENV_TYPE_FILE'"
+        echo "No Setup Required, missing '$ENV_TYPE_FILE'"
     fi
 
 }

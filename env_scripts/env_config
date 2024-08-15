@@ -1,4 +1,4 @@
-# This file contains the configuration of the expected environment varialbes
+# This file contains the configuration of the expected environment variables
 # The format is as follows:
 # <env name>:<env type>[:<optional default>]
 
