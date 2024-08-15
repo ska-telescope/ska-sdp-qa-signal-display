@@ -50,3 +50,4 @@ PrivateRules.mak
 !yarn.lock
 
 /dist
+.env
