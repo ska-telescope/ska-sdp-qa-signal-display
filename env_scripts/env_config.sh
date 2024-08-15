@@ -22,9 +22,9 @@ get_type_default()
 {
     if [[ "$1" == "string" ]]; then
         echo ''
-    elif [[ "$1" == "int" ]]; then
+    elif [[ "$1" == "number" ]]; then
         echo '0'
-    elif [[ "$1" == "bool" ]]; then
+    elif [[ "$1" == "boolean" ]]; then
         echo 'false' # quote false to avoid the builtin running
     else
         echo ''
