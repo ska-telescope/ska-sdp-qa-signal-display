@@ -45,9 +45,15 @@ const WaterfallPlot = ({ type, item, config, subArray }: WaterfallPlotProps) => 
     /* eslint-disable prefer-spread */
     const ratio = Math.max.apply(Math, data) / 360;
     const normalisedData = [];
-    for (let i = 0; i < data.length; i++) {
-      normalisedData.push(Math.round(data[i] / ratio));
-    }
+    data.forEach((value: number) => normalisedData.push(Math.round(value / ratio)));
+    return normalisedData;
+  }
+
+  function normaliseSpectrumValues(data: number[]) {
+    /* eslint-disable prefer-spread */
+    const ratio = 360 / Math.max.apply(Math, data);
+    const normalisedData = [];
+    data.forEach((value: number) => normalisedData.push(Math.round(value * ratio)));
     return normalisedData;
   }
 
@@ -84,8 +90,8 @@ const WaterfallPlot = ({ type, item, config, subArray }: WaterfallPlotProps) => 
             rgbaValues.push(LOOKUP_COLOUR_VALUES[value]);
           });
         } else if (type === WATERFALL_PLOT_TYPES.LAG_PLOT) {
-          const normaliseData = normaliseValues(dataPayload.data);
-          normaliseData.forEach((value: number) => {
+          const normalisedData = normaliseValues(dataPayload.data);
+          normalisedData.forEach((value: number) => {
             rgbaValues.push(LOOKUP_COLOUR_VALUES[value]);
           });
         } 
@@ -98,15 +104,14 @@ const WaterfallPlot = ({ type, item, config, subArray }: WaterfallPlotProps) => 
         dataPayload.polarisation === `${item}`
       )
       .forEach(dataPayload => {
-        console.error( Math.max.apply(Math, dataPayload.power));
         const rgbaValues = [];
-        dataPayload.power.forEach((value: number) => {
-          rgbaValues.push(LOOKUP_COLOUR_VALUES[Math.round(value)]);
-        });
-      })
+        const normalisedData = normaliseSpectrumValues(dataPayload.power);
+        normalisedData.forEach((value: number) => {
+          rgbaValues.push(LOOKUP_COLOUR_VALUES[value]);
+        }); 
+        imageArray.push(rgbaValues);
+      });
     }
-    
-
     setImageArray(imageArray);
   }, [chartData]);
 
