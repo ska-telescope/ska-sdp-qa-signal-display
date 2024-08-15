@@ -9,7 +9,7 @@ import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
 import YAxisToggle from '../YAxisToggle/YAxisToggle';
 import WaterfallToggle from '../WaterfallToggle/WaterfallToggle';
-import { COLOR, DATA_LOCAL, DATA_API_URL, WATERFALL_PLOT_TYPES } from '../../utils/constants';
+import { COLOR, DATA_LOCAL, WATERFALL_PLOT_TYPES } from '../../utils/constants';
 import { calculateChannels, calculateDB } from '../../utils/calculate';
 import { amplitudeAxisY, QASettings } from '../Settings/qaSettings';
 import {
@@ -56,7 +56,6 @@ const SpectrumPlot = ({
   const [chartData, setChartData] = React.useState(null);
   const [maskedData, setMaskedData] = React.useState([]);
   const [showContent, setShowContent] = React.useState(false);
-  const [baselineData, setBaselineData] = React.useState(null);
   const [refresh, setRefresh] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState(null);
@@ -79,7 +78,6 @@ const SpectrumPlot = ({
     setShowContent(showContent ? false : canShow());
   };
 
-  const PATH_SUFFIX = '/latest/baselines';
 
   function parentWidth() {
     // TODO : Make this responsive
@@ -169,27 +167,9 @@ const SpectrumPlot = ({
       return;
     }
 
-    const abortController = new AbortController();
-    async function retrieveBaseData() {
-      await fetch(`${DATA_API_URL}${config.paths.processing_blocks}${PATH_SUFFIX}`, {
-        signal: abortController.signal
-      })
-        .then(response => response.json())
-        .then(d => {
-          setShowContent(showContent);
-          setBaselineData(d.baselines);
-          abortController.abort();
-        })
-        .catch(() => {
-          // TODO : Should we put something in here ?
-          abortController.abort();
-        });
-    }
     if (DATA_LOCAL) {
       setShowContent(true);
-      setBaselineData('DATA_LOCAL');
     } else if (config !== null) {
-      retrieveBaseData();
       setShowContent(true);
     }
   }, [config]);
@@ -297,7 +277,7 @@ const SpectrumPlot = ({
         </SKAOModal>
       )}
     <SignalCard
-      action={chartToggle()}
+      action={null}
       action2={waterfallToggle()}
       data-testid="signalCardId"
       title={`${t('label.spectrumPlot')} ${polarization}`}

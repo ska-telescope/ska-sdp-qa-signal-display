@@ -12,7 +12,8 @@ import {
   LOOKUP_COLOUR_VALUES,
   SOCKET_STATUS,
   WATERFALL_PLOT_TYPES,
-  WS_API_URL
+  WS_API_URL,
+  DATA_LOCAL
 } from '../../utils/constants';
 
 interface WaterfallPlotProps {
@@ -51,22 +52,26 @@ const WaterfallPlot = ({ type, item, config, subArray }: WaterfallPlotProps) => 
   }
 
   React.useEffect(() => {
-    Socket({
-      apiUrl: WS_API_URL + config.paths.websocket,
-      protocol: config.api_format,
-      suffix: `${returnTopic()}-${subArray}`,
-      statusFunction: setSocketStatus,
-      dataFunction: setChartData
-    });
+    if (!DATA_LOCAL){
+      Socket({
+        apiUrl: WS_API_URL + config.paths.websocket,
+        protocol: config.api_format,
+        suffix: `${returnTopic()}-${subArray}`,
+        statusFunction: setSocketStatus,
+        dataFunction: setChartData
+      });
+    }
   }, []);
 
   React.useEffect(() => {
-    const baselines = item.split(/[-_]+/);
+
     if (!imageArray) {
       setImageArray([]);
     }
 
-    chartData?.data
+    if (type !== WATERFALL_PLOT_TYPES.SPECTRUM){
+      const baselines = item.split(/[-_]+/);
+      chartData?.data
       .filter(
         dataPayload =>
           dataPayload.baseline === `${baselines[0]}_${baselines[1]}` &&
@@ -83,13 +88,24 @@ const WaterfallPlot = ({ type, item, config, subArray }: WaterfallPlotProps) => 
           normaliseData.forEach((value: number) => {
             rgbaValues.push(LOOKUP_COLOUR_VALUES[value]);
           });
-        } else if (type === WATERFALL_PLOT_TYPES.SPECTRUM) {
-          dataPayload.data.forEach((value: number) => {
-            rgbaValues.push(LOOKUP_COLOUR_VALUES[value]);
-          });
-        }
+        } 
         imageArray.push(rgbaValues);
       });
+    } else {
+      chartData?.data
+      .filter(
+        dataPayload => 
+        dataPayload.polarisation === `${item}`
+      )
+      .forEach(dataPayload => {
+        console.error( Math.max.apply(Math, dataPayload.power));
+        const rgbaValues = [];
+        dataPayload.power.forEach((value: number) => {
+          rgbaValues.push(LOOKUP_COLOUR_VALUES[Math.round(value)]);
+        });
+      })
+    }
+    
 
     setImageArray(imageArray);
   }, [chartData]);
