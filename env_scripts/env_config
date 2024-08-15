@@ -1,7 +1,19 @@
+# This file contains the configuration of the expected environment varialbes
+# The format is as follows:
+# <env name>:<env type>[:<optional default>]
+
+# The current types that are expected are as follows:
+#
+# - string
+# - number
+# - boolean
+
 REACT_APP_WS_API:string:ws://localhost:8002
 REACT_APP_DATA_API_URL:string:http://localhost:8002
 REACT_APP_SUBARRAY_REFRESH_SECONDS:number:60
 REACT_APP_SUBARRAY_REFRESH_SECONDS_FAST:number:2
 REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS:number:10
-REACT_APP_USE_LOCAL_DATA:boolean:false
 REACT_APP_USE_MISSING_DATA_MASK:boolean:false
+
+# Make sure you commit this as false
+REACT_APP_USE_LOCAL_DATA:boolean:false

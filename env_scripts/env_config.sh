@@ -49,7 +49,7 @@ create_env_js()
         count=0
 
         # read each line of the input file
-        while read -r line; do
+        cat "$ENV_TYPE_FILE" | grep -v '^#' | grep -v '^$' | while read -r line; do
 
             # Get expected name, and type
             var="$(echo "$line" | cut -d "$ENV_SEPARATOR" -f1)"
@@ -74,7 +74,7 @@ create_env_js()
             output_js_line "$type" "$var" "$val"
 
             count=$((count+1))
-        done < "$ENV_TYPE_FILE"
+        done
 
         echo -e "\n}"
     } > "$ENV_JS_OUTPUT_LOCATION"
@@ -97,14 +97,14 @@ type EnvType = {
 EOF
 
         # read each line of the input file
-        while read -r line; do
+        cat "$ENV_TYPE_FILE" | grep -v '^#' | grep -v '^$' | while read -r line; do
 
             # Get expected name, and type
             var="$(echo "$line" | cut -d "$ENV_SEPARATOR" -f1)"
             type="$(echo "$line" | cut -d "$ENV_SEPARATOR" -f2)"
             default="$(echo "$line" | cut -d "$ENV_SEPARATOR" -f3-)"
             echo "  $var: $type;"
-        done < "$ENV_TYPE_FILE"
+        done
 
         cat - <<EOF
 };
