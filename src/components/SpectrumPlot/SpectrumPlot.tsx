@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { storageObject } from '@ska-telescope/ska-gui-local-storage';
+import { Card, CardContent } from '@mui/material';
 import Config from '../../services/types/Config';
 import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
@@ -19,9 +20,7 @@ import {
 } from '../../utils/masksCalculator';
 import SpectrumWaterfallPlotImage from '../SpectrumWaterfallImage/SpectrumWaterfallImage';
 import SKAOModal from '../Modal/Modal';
-import { Card, CardContent } from '@mui/material';
 import WaterfallPlot from '../WaterfallPlot/WaterfallPlot';
-
 
 interface SpectrumPlotProps {
   data: object;
@@ -33,7 +32,7 @@ interface SpectrumPlotProps {
   setSettings: Function;
   socketStatus: string;
   config: Config;
-  subArray: string,
+  subArray: string;
   missingData?: number[][];
 }
 
@@ -77,7 +76,6 @@ const SpectrumPlot = ({
   const showToggle = () => {
     setShowContent(showContent ? false : canShow());
   };
-
 
   function parentWidth() {
     // TODO : Make this responsive
@@ -276,25 +274,25 @@ const SpectrumPlot = ({
           </Card>
         </SKAOModal>
       )}
-    <SignalCard
-      action={null}
-      action2={waterfallToggle()}
-      data-testid="signalCardId"
-      title={`${t('label.spectrumPlot')} ${polarization}`}
-      socketStatus={socketStatus}
-      showContent={showContent}
-      setShowContent={showToggle}
-      showInfoModal="true"
-      infoTitle={t('modalInfo.spectrumPlot.title')}
-      infoContent={t('modalInfo.spectrumPlot.content')}
-      infoSite={t('modalInfo.spectrumPlot.site')}
-    >
-      <SpectrumWaterfallPlotImage
-      element={polarization}
-      config={config}
-      onClick={() => imageClick(polarization)}
-      />
-    </SignalCard>
+      <SignalCard
+        action={null}
+        action2={waterfallToggle()}
+        data-testid="signalCardId"
+        title={`${t('label.spectrumPlot')} ${polarization}`}
+        socketStatus={socketStatus}
+        showContent={showContent}
+        setShowContent={showToggle}
+        showInfoModal="true"
+        infoTitle={t('modalInfo.spectrumPlot.title')}
+        infoContent={t('modalInfo.spectrumPlot.content')}
+        infoSite={t('modalInfo.spectrumPlot.site')}
+      >
+        <SpectrumWaterfallPlotImage
+          element={polarization}
+          config={config}
+          onClick={() => imageClick(polarization)}
+        />
+      </SignalCard>
     </>
   );
 };

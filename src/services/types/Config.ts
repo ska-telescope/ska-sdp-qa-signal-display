@@ -5,9 +5,9 @@ type Paths = {
   spead2_scans: string;
   spectrogram_thumbnail_path: string;
   lag_plot_thumbnail_path: string;
-  spectrum_waterfalls_thumbnail_path: string,
-  log_url: string,
-  mask_data: string
+  spectrum_waterfalls_thumbnail_path: string;
+  log_url: string;
+  mask_data: string;
 };
 
 type Topics = {

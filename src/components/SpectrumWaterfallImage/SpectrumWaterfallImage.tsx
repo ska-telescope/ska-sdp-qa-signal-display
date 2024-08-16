@@ -8,7 +8,7 @@ interface SpectrumWaterfallPlotImageProps {
   element: any;
   // eslint-disable-next-line @typescript-eslint/ban-types
   onClick?: Function;
-  config: Config
+  config: Config;
 }
 
 const MOCK_THUMBNAIL = '/static/images/mock/lag_plot_thumbnail.png';
@@ -18,7 +18,6 @@ const SpectrumWaterfallPlotImage = ({
   onClick = null,
   config
 }: SpectrumWaterfallPlotImageProps) => {
-  
   function getImageTN(item: string) {
     if (DATA_LOCAL) {
       return MOCK_THUMBNAIL;
@@ -30,13 +29,9 @@ const SpectrumWaterfallPlotImage = ({
     return onClick ? onClick(item) : null;
   }
 
-  const width = () => {
-    return DATA_LOCAL ? '22vw' : config.waterfall_plots.thumbnail_width; 
-  };
+  const width = () => DATA_LOCAL ? '22vw' : config.waterfall_plots.thumbnail_width;
 
-  const height = () => {
-    return DATA_LOCAL ? '22vh' : config.waterfall_plots.thumbnail_max_height;
-  };
+  const height = () => DATA_LOCAL ? '22vh' : config.waterfall_plots.thumbnail_max_height;
 
   return (
     <ImageListItem key={element}>

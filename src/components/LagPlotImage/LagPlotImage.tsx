@@ -14,7 +14,6 @@ interface LagPlotImageProps {
 const MOCK_THUMBNAIL = '/static/images/mock/lag_plot_thumbnail.png';
 
 const LagPlotImage = ({ element, onClick = null, config }: LagPlotImageProps) => {
-  
   function getImageTN(item: string) {
     if (DATA_LOCAL) {
       return MOCK_THUMBNAIL;
@@ -27,13 +26,9 @@ const LagPlotImage = ({ element, onClick = null, config }: LagPlotImageProps) =>
     return onClick ? onClick(item) : null;
   }
 
-  const width = () => {
-    return DATA_LOCAL ? '22vw' : config.waterfall_plots.thumbnail_width; 
-  };
+  const width = () => DATA_LOCAL ? '22vw' : config.waterfall_plots.thumbnail_width;
 
-  const height = () => {
-    return DATA_LOCAL ? '22vh' : config.waterfall_plots.thumbnail_max_height;
-  };
+  const height = () => DATA_LOCAL ? '22vh' : config.waterfall_plots.thumbnail_max_height;
 
   return (
     <ImageListItem key={element}>
