@@ -700,7 +700,8 @@ const Container = ({ childToParent }) => {
         />
       )}
       {currentTabIndex === 0 &&
-        (enabledMetrics.includes(METRIC_TYPES.PHASE) || enabledMetrics.includes(METRIC_TYPES.AMPLITUDE)) &&
+        (enabledMetrics.includes(METRIC_TYPES.PHASE) ||
+          enabledMetrics.includes(METRIC_TYPES.AMPLITUDE)) &&
         POLARIZATIONS.map(item => (
           <Polarization
             key={`Polarization${item}`}

@@ -26,9 +26,9 @@ const SpectrogramImage = ({ element, onClick = null, config }: SpectrogramImageP
     return onClick ? onClick(item) : null;
   }
 
-  const width = () => DATA_LOCAL ? '22vw' : config.waterfall_plots.thumbnail_width;
+  const width = () => (DATA_LOCAL ? '22vw' : config.waterfall_plots.thumbnail_width);
 
-  const height = () => DATA_LOCAL ? '22vh' : config.waterfall_plots.thumbnail_max_height;
+  const height = () => (DATA_LOCAL ? '22vh' : config.waterfall_plots.thumbnail_max_height);
 
   return (
     <ImageListItem key={element}>
