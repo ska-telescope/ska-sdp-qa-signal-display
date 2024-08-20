@@ -68,3 +68,12 @@ dev-cypress:
 		-w /data \
 		cypress/browsers:node-20.12.0-chrome-123.0.6312.86-1-ff-124.0.2-edge-123.0.2420.65-1 \
 		bash
+
+dev-local-env:
+	-rm public/env.js src/env.ts
+	ENV_TYPE_FILE=env_scripts/env_config \
+	ENV_JS_OUTPUT_LOCATION=public/env.js \
+		bash env_scripts/env_config.sh js
+	ENV_TYPE_FILE=env_scripts/env_config \
+	ENV_JS_OUTPUT_LOCATION=src/env.ts \
+		bash env_scripts/env_config.sh ts
