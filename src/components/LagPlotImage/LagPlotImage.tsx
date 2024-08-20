@@ -6,61 +6,34 @@ import { DATA_API_URL, DATA_LOCAL } from '../../utils/constants';
 
 interface LagPlotImageProps {
   element: any;
-  full?: boolean;
   // eslint-disable-next-line @typescript-eslint/ban-types
   onClick?: Function;
   config: Config;
 }
 
-const FULL = 'full_image';
-const THUMBNAIL = 'thumbnail';
-const MOCK_FULL = '/static/images/mock/lag_plot_full.png';
 const MOCK_THUMBNAIL = '/static/images/mock/lag_plot_thumbnail.png';
 
-const LagPlotImage = ({ element, full = false, onClick = null, config }: LagPlotImageProps) => {
-  function getImageFULL(item: string) {
-    if (DATA_LOCAL) {
-      return MOCK_FULL;
-    }
-    const baselines = item.split(/[-_]+/);
-    return `${DATA_API_URL}/lag_plots/${FULL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
-  }
-
+const LagPlotImage = ({ element, onClick = null, config }: LagPlotImageProps) => {
   function getImageTN(item: string) {
     if (DATA_LOCAL) {
       return MOCK_THUMBNAIL;
     }
     const baselines = item.split(/[-_]+/);
-    return `${DATA_API_URL}/lag_plots/${THUMBNAIL}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
-  }
-
-  function getImageUrl(item: string) {
-    return full ? getImageFULL(item) : getImageTN(item);
+    return `${DATA_API_URL}${config.paths.lag_plot_thumbnail_path}/latest/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
 
   function imageClick(item: string) {
     return onClick ? onClick(item) : null;
   }
 
-  const width = () => {
-    if (DATA_LOCAL) {
-      return full ? '85vw' : '22vw';
-    }
-    return full ? '85vw' : config.waterfall_plots.thumbnail_width;
-  };
+  const width = () => (DATA_LOCAL ? '22vw' : config.waterfall_plots.thumbnail_width);
 
-  const height = () => {
-    if (DATA_LOCAL) {
-      return full ? '85vh' : '22vh';
-    }
-    return full ? '85vh' : config.waterfall_plots.thumbnail_max_height;
-  };
+  const height = () => (DATA_LOCAL ? '22vh' : config.waterfall_plots.thumbnail_max_height);
 
   return (
     <ImageListItem key={element}>
       <img
-        src={getImageUrl(element)}
-        // placeholder={getImageTN(element)}
+        src={getImageTN(element)}
         alt={element}
         loading="lazy"
         onClick={() => imageClick(element)}

@@ -12,7 +12,8 @@ import {
   LOOKUP_COLOUR_VALUES,
   SOCKET_STATUS,
   WATERFALL_PLOT_TYPES,
-  WS_API_URL
+  WS_API_URL,
+  DATA_LOCAL
 } from '../../utils/constants';
 
 interface WaterfallPlotProps {
@@ -33,6 +34,8 @@ const WaterfallPlot = ({ type, item, config, subArray }: WaterfallPlotProps) => 
         return config.topics.spectrograms;
       case WATERFALL_PLOT_TYPES.LAG_PLOT:
         return config.topics.lag_plot;
+      case WATERFALL_PLOT_TYPES.SPECTRUM:
+        return config.topics.spectrum;
       default:
         return 'undefined';
     }
@@ -42,49 +45,69 @@ const WaterfallPlot = ({ type, item, config, subArray }: WaterfallPlotProps) => 
     /* eslint-disable prefer-spread */
     const ratio = Math.max.apply(Math, data) / 360;
     const normalisedData = [];
-    for (let i = 0; i < data.length; i++) {
-      normalisedData.push(Math.round(data[i] / ratio));
-    }
+    data.forEach((value: number) => normalisedData.push(Math.round(value / ratio)));
+    return normalisedData;
+  }
+
+  function normaliseSpectrumValues(data: number[]) {
+    /* eslint-disable prefer-spread */
+    const ratio = 360 / Math.max.apply(Math, data);
+    const normalisedData = [];
+    data.forEach((value: number) => normalisedData.push(Math.round(value * ratio)));
     return normalisedData;
   }
 
   React.useEffect(() => {
-    Socket({
-      apiUrl: WS_API_URL + config.paths.websocket,
-      protocol: config.api_format,
-      suffix: `${returnTopic()}-${subArray}`,
-      statusFunction: setSocketStatus,
-      dataFunction: setChartData
-    });
+    if (!DATA_LOCAL) {
+      Socket({
+        apiUrl: WS_API_URL + config.paths.websocket,
+        protocol: config.api_format,
+        suffix: `${returnTopic()}-${subArray}`,
+        statusFunction: setSocketStatus,
+        dataFunction: setChartData
+      });
+    }
   }, []);
 
   React.useEffect(() => {
-    const baselines = item.split(/[-_]+/);
     if (!imageArray) {
       setImageArray([]);
     }
 
-    chartData?.data
-      .filter(
-        dataPayload =>
-          dataPayload.baseline === `${baselines[0]}_${baselines[1]}` &&
-          dataPayload.polarisation === baselines[2]
-      )
-      .forEach(dataPayload => {
-        const rgbaValues = [];
-        if (type === WATERFALL_PLOT_TYPES.SPECTROGRAM) {
-          dataPayload.data.forEach((value: number) => {
+    if (type !== WATERFALL_PLOT_TYPES.SPECTRUM) {
+      const baselines = item.split(/[-_]+/);
+      chartData?.data
+        .filter(
+          dataPayload =>
+            dataPayload.baseline === `${baselines[0]}_${baselines[1]}` &&
+            dataPayload.polarisation === baselines[2]
+        )
+        .forEach(dataPayload => {
+          const rgbaValues = [];
+          if (type === WATERFALL_PLOT_TYPES.SPECTROGRAM) {
+            dataPayload.data.forEach((value: number) => {
+              rgbaValues.push(LOOKUP_COLOUR_VALUES[value]);
+            });
+          } else if (type === WATERFALL_PLOT_TYPES.LAG_PLOT) {
+            const normalisedData = normaliseValues(dataPayload.data);
+            normalisedData.forEach((value: number) => {
+              rgbaValues.push(LOOKUP_COLOUR_VALUES[value]);
+            });
+          }
+          imageArray.push(rgbaValues);
+        });
+    } else {
+      chartData?.data
+        .filter(dataPayload => dataPayload.polarisation === `${item}`)
+        .forEach(dataPayload => {
+          const rgbaValues = [];
+          const normalisedData = normaliseSpectrumValues(dataPayload.power);
+          normalisedData.forEach((value: number) => {
             rgbaValues.push(LOOKUP_COLOUR_VALUES[value]);
           });
-        } else if (type === WATERFALL_PLOT_TYPES.LAG_PLOT) {
-          const normaliseData = normaliseValues(dataPayload.data);
-          normaliseData.forEach((value: number) => {
-            rgbaValues.push(LOOKUP_COLOUR_VALUES[value]);
-          });
-        }
-        imageArray.push(rgbaValues);
-      });
-
+          imageArray.push(rgbaValues);
+        });
+    }
     setImageArray(imageArray);
   }, [chartData]);
 

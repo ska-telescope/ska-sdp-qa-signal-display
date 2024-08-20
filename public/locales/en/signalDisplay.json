@@ -159,7 +159,7 @@
   "modalInfo": {
     "spectrumPlot": {
       "title": "Spectrum Plot",
-      "content": "For each polarisation, we present the mean autospectrum averaged over all channels and baselines. This is the broad continuum spectrum of the source.",
+      "content": "For each polarisation, we present the mean autospectrum averaged over all channels and baselines. This is the broad continuum spectrum of the source. For the waterfall plots, images are generated using DB values.",
       "site": "https://developer.skao.int/projects/ska-sdp-qa-display/en/latest/graphs.html#spectrum"
     },
     "amplitudePlot": {
