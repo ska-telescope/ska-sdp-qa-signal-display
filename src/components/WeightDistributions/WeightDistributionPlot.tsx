@@ -75,7 +75,7 @@ const WeightDistributionPlot = ({
         uValues.push(-1 * datum.u);
         vValues.push(datum.v);
         vValues.push(-1 * datum.v);
-        //Weight pushed twice to cater for both positive and negative values
+        // Weight pushed twice to cater for both positive and negative values
         colors.push(datum.weight);
         colors.push(datum.weight);
       });
@@ -94,7 +94,7 @@ const WeightDistributionPlot = ({
           color: uvwData[2],
           colorscale: COLOR_RANGE,
           colorbar: {
-            title: "Weight",
+            title: 'Weight',
             thickness: 25,
             tick0: 0,
             dtick: 0.1

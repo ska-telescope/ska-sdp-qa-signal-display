@@ -3,11 +3,11 @@ type Paths = {
   subarrays: string;
   processing_blocks: string;
   spead2_scans: string;
-  spectrogram_full_image_path: string;
   spectrogram_thumbnail_path: string;
-  lag_plot_full_image_path: string;
   lag_plot_thumbnail_path: string;
+  spectrum_waterfalls_thumbnail_path: string;
   log_url: string;
+  mask_data: string;
 };
 
 type Topics = {

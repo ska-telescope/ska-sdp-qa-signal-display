@@ -24,7 +24,7 @@ const LagPlot = ({ config, legend, displaySettings, subArray }: LagPlotProps) =>
   const [showContent, setShowContent] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState(null);
-  const [baseData, setBaseData] = React.useState(null);
+  const [baselineData, setBaselineData] = React.useState(null);
   const [chartData, setChartData] = React.useState(null);
 
   const PATH_SUFFIX = '/latest/baselines';
@@ -61,7 +61,7 @@ const LagPlot = ({ config, legend, displaySettings, subArray }: LagPlotProps) =>
 
     if (DATA_LOCAL) {
       setShowContent(true);
-      setBaseData('DATA_LOCAL');
+      setBaselineData('DATA_LOCAL');
     } else if (config !== null) {
       retrieveBaseData();
     }
@@ -71,25 +71,25 @@ const LagPlot = ({ config, legend, displaySettings, subArray }: LagPlotProps) =>
     if (DATA_LOCAL) {
       setChartData(['DUMMY_DATA']);
     }
-    if (baseData === null) {
+    if (baselineData === null) {
       setChartData([]);
       return;
     }
-    if (legend?.length > 0 && baseData?.length === legend.length * 4) {
+    if (legend?.length > 0 && baselineData?.length === legend.length * 4) {
       const newData = [];
       for (let i = 0; i < legend.length; i += 1) {
-        if (`${legend[i].text}_XX` === baseData[i * 4] && legend[i].active) {
-          newData.push(baseData[i * 4 + 0]);
-          newData.push(baseData[i * 4 + 1]);
-          newData.push(baseData[i * 4 + 2]);
-          newData.push(baseData[i * 4 + 3]);
+        if (`${legend[i].text}_XX` === baselineData[i * 4] && legend[i].active) {
+          newData.push(baselineData[i * 4 + 0]);
+          newData.push(baselineData[i * 4 + 1]);
+          newData.push(baselineData[i * 4 + 2]);
+          newData.push(baselineData[i * 4 + 3]);
         }
       }
       setChartData(newData);
     } else {
-      setChartData(baseData);
+      setChartData(baselineData);
     }
-  }, [baseData, legend]);
+  }, [baselineData, legend]);
 
   function imageClick(item: string) {
     setOpen(true);

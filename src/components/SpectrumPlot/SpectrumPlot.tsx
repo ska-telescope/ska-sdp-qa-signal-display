@@ -4,12 +4,13 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { storageObject } from '@ska-telescope/ska-gui-local-storage';
+import { Card, CardContent } from '@mui/material';
 import Config from '../../services/types/Config';
 import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
 import YAxisToggle from '../YAxisToggle/YAxisToggle';
 import WaterfallToggle from '../WaterfallToggle/WaterfallToggle';
-import { COLOR, DATA_LOCAL, DATA_API_URL } from '../../utils/constants';
+import { COLOR, DATA_LOCAL, WATERFALL_PLOT_TYPES } from '../../utils/constants';
 import { calculateChannels, calculateDB } from '../../utils/calculate';
 import { amplitudeAxisY, QASettings } from '../Settings/qaSettings';
 import {
@@ -17,7 +18,9 @@ import {
   INVALID_DATA_COLOR,
   createRectangle
 } from '../../utils/masksCalculator';
-import SpectrumWaterfallPlotImage from './spectrumWaterfallImage';
+import SpectrumWaterfallPlotImage from '../SpectrumWaterfallImage/SpectrumWaterfallImage';
+import SKAOModal from '../Modal/Modal';
+import WaterfallPlot from '../WaterfallPlot/WaterfallPlot';
 
 interface SpectrumPlotProps {
   data: object;
@@ -29,6 +32,7 @@ interface SpectrumPlotProps {
   setSettings: Function;
   socketStatus: string;
   config: Config;
+  subArray: string;
   missingData?: number[][];
 }
 
@@ -43,6 +47,7 @@ const SpectrumPlot = ({
   setSettings,
   socketStatus,
   config,
+  subArray,
   missingData = null
 }: SpectrumPlotProps) => {
   const { t } = useTranslation('signalDisplay');
@@ -50,8 +55,9 @@ const SpectrumPlot = ({
   const [chartData, setChartData] = React.useState(null);
   const [maskedData, setMaskedData] = React.useState([]);
   const [showContent, setShowContent] = React.useState(false);
-  const [baseData, setBaseData] = React.useState(null);
   const [refresh, setRefresh] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [selected, setSelected] = React.useState(null);
   const { darkMode } = storageObject.useStore();
 
   const chartTitle = () => '';
@@ -70,8 +76,6 @@ const SpectrumPlot = ({
   const showToggle = () => {
     setShowContent(showContent ? false : canShow());
   };
-
-  const PATH_SUFFIX = '/latest/baselines';
 
   function parentWidth() {
     // TODO : Make this responsive
@@ -151,32 +155,19 @@ const SpectrumPlot = ({
     return maskedData;
   }
 
+  function imageClick(item: string) {
+    setOpen(true);
+    setSelected(DATA_LOCAL ? 'THUMBNAIL' : item);
+  }
+
   React.useEffect(() => {
     if (config === null) {
       return;
     }
 
-    const abortController = new AbortController();
-    async function retrieveBaseData() {
-      await fetch(`${DATA_API_URL}${config.paths.processing_blocks}${PATH_SUFFIX}`, {
-        signal: abortController.signal
-      })
-        .then(response => response.json())
-        .then(d => {
-          setShowContent(showContent);
-          setBaseData(d.baselines);
-          abortController.abort();
-        })
-        .catch(() => {
-          // TODO : Should we put something in here ?
-          abortController.abort();
-        });
-    }
     if (DATA_LOCAL) {
       setShowContent(true);
-      setBaseData('DATA_LOCAL');
     } else if (config !== null) {
-      retrieveBaseData();
       setShowContent(true);
     }
   }, [config]);
@@ -268,21 +259,41 @@ const SpectrumPlot = ({
     );
   }
   return (
-    <SignalCard
-      action={chartToggle()}
-      action2={waterfallToggle()}
-      data-testid="signalCardId"
-      title={`${t('label.spectrumPlot')} ${polarization}`}
-      socketStatus={socketStatus}
-      showContent={showContent}
-      setShowContent={showToggle}
-      showInfoModal="true"
-      infoTitle={t('modalInfo.spectrumPlot.title')}
-      infoContent={t('modalInfo.spectrumPlot.content')}
-      infoSite={t('modalInfo.spectrumPlot.site')}
-    >
-      <SpectrumWaterfallPlotImage element={polarization} />
-    </SignalCard>
+    <>
+      {selected && (
+        <SKAOModal open={open} onClose={() => setOpen(false)}>
+          <Card variant="outlined" className="removeBorder:focus">
+            <CardContent>
+              <WaterfallPlot
+                type={WATERFALL_PLOT_TYPES.SPECTRUM}
+                item={selected}
+                config={config}
+                subArray={subArray}
+              />
+            </CardContent>
+          </Card>
+        </SKAOModal>
+      )}
+      <SignalCard
+        action={null}
+        action2={waterfallToggle()}
+        data-testid="signalCardId"
+        title={`${t('label.spectrumPlot')} ${polarization}`}
+        socketStatus={socketStatus}
+        showContent={showContent}
+        setShowContent={showToggle}
+        showInfoModal="true"
+        infoTitle={t('modalInfo.spectrumPlot.title')}
+        infoContent={t('modalInfo.spectrumPlot.content')}
+        infoSite={t('modalInfo.spectrumPlot.site')}
+      >
+        <SpectrumWaterfallPlotImage
+          element={polarization}
+          config={config}
+          onClick={() => imageClick(polarization)}
+        />
+      </SignalCard>
+    </>
   );
 };
 export default SpectrumPlot;
