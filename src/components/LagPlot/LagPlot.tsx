@@ -40,19 +40,23 @@ const LagPlot = ({ config, legend, displaySettings, subArray }: LagPlotProps) =>
 
     const abortController = new AbortController();
     async function retrieveBaseData() {
-      await fetch(`${DATA_API_URL}${config.paths.processing_blocks}${PATH_SUFFIX}`, {
-        signal: abortController.signal
-      })
-        .then(response => response.json())
-        .then(data => {
-          setShowContent(true);
-          setBaseData(data.baselines);
-          abortController.abort();
-        })
-        .catch(() => {
-          // TODO : Should we put something in here ?
-          abortController.abort();
+      try {
+        const response = await fetch(`${DATA_API_URL}${config.paths.processing_blocks}${PATH_SUFFIX}`, {
+          signal: abortController.signal
         });
+        const data = await response.json();
+    
+        const filteredBaselines = data.baselines.filter((baseline: string) => {
+          const [part1, part2] = baseline.split('_');
+          return part1 !== part2;
+        });
+    
+        setShowContent(true);
+        setBaseData(filteredBaselines);
+        abortController.abort();
+      } catch (error) {
+        abortController.abort();
+      }
     }
 
     if (DATA_LOCAL) {
