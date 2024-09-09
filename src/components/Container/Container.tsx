@@ -209,6 +209,10 @@ const Container = ({ childToParent }) => {
   };
 
   async function retrieveProcessingBlockStatisticsData() {
+    if (subarrayDetails?.processing_block_state?.status !== 'READY'){
+      return;
+    }
+    console.log(subarrayDetails);
     await fetch(`${DATA_API_URL}${config.paths.processing_blocks}/latest/statistics`)
       .then(response => response.json())
       .then(data => {
@@ -219,6 +223,9 @@ const Container = ({ childToParent }) => {
   }
 
   async function retrieveReceiverEventData() {
+    if (subarrayDetails?.processing_block_state?.status !== 'READY'){
+      return;
+    }
     await fetch(`${DATA_API_URL}${config.paths.spead2_scans}/latest/latest_event`)
       .then(response => response.json())
       .then(data => {
