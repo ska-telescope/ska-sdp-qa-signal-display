@@ -212,7 +212,6 @@ const Container = ({ childToParent }) => {
     if (subarrayDetails?.processing_block_state?.status !== 'READY'){
       return;
     }
-    console.log(subarrayDetails);
     await fetch(`${DATA_API_URL}${config.paths.processing_blocks}/latest/statistics`)
       .then(response => response.json())
       .then(data => {
