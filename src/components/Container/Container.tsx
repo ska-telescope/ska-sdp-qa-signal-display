@@ -217,8 +217,8 @@ const Container = ({ childToParent }) => {
         setTimeout(retrieveProcessingBlockStatisticsData, WORKFLOW_STATISTICS_INTERVAL_SECONDS);
       })
       .catch(() => null);
-  }
     }
+  }
     
 
   async function retrieveReceiverEventData() {
@@ -230,9 +230,8 @@ const Container = ({ childToParent }) => {
         setTimeout(retrieveReceiverEventData, WORKFLOW_STATISTICS_INTERVAL_SECONDS);
       })
       .catch(() => null);
-  }
-
     }
+  }
     
   const limit = () =>
     subArrays && subArrays.length > 0
