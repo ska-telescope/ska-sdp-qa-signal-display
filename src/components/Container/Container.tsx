@@ -209,25 +209,30 @@ const Container = ({ childToParent }) => {
   };
 
   async function retrieveProcessingBlockStatisticsData() {
-    await fetch(`${DATA_API_URL}${config.paths.processing_blocks}/latest/statistics`)
+    if (subarrayDetails?.processing_block_state?.status === 'READY'){
+      await fetch(`${DATA_API_URL}${config.paths.processing_blocks}/latest/statistics`)
       .then(response => response.json())
       .then(data => {
         setProcessingBlockStatisticsData(data);
         setTimeout(retrieveProcessingBlockStatisticsData, WORKFLOW_STATISTICS_INTERVAL_SECONDS);
       })
       .catch(() => null);
+    }
   }
+    
 
   async function retrieveReceiverEventData() {
-    await fetch(`${DATA_API_URL}${config.paths.spead2_scans}/latest/latest_event`)
+    if (subarrayDetails?.processing_block_state?.status === 'READY'){
+      await fetch(`${DATA_API_URL}${config.paths.spead2_scans}/latest/latest_event`)
       .then(response => response.json())
       .then(data => {
         setReceiverEventsData(data);
         setTimeout(retrieveReceiverEventData, WORKFLOW_STATISTICS_INTERVAL_SECONDS);
       })
       .catch(() => null);
+    }
   }
-
+    
   const limit = () =>
     subArrays && subArrays.length > 0
       ? +env.REACT_APP_SUBARRAY_REFRESH_SECONDS
