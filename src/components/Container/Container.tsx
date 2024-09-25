@@ -434,20 +434,20 @@ const Container = ({ childToParent }) => {
           });
           break;
         case METRIC_TYPES.BAND_AVERAGED_X_CORR:
-          activeWebsockets.band_averaged_x_corr = Socket({
+          activeWebsockets.bandaveragedxcorr = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
             protocol: config.api_format,
-            suffix: `${config.topics.band_averaged_x_corr}-${subArray}`,
+            suffix: `${config.topics.bandaveragedxcorr}-${subArray}`,
             statusFunction: setSocketBandAvXCorr,
             dataFunction: setChartDataBandAvXCorr,
             timeSeries: true
           });
           break;
         case METRIC_TYPES.UV_COVERAGE:
-          activeWebsockets.uv_coverage = Socket({
+          activeWebsockets.uvcoverage = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
             protocol: config.api_format,
-            suffix: `${config.topics.uv_coverage}-${subArray}`,
+            suffix: `${config.topics.uvcoverage}-${subArray}`,
             statusFunction: setSocketStatusUVCoverage,
             dataFunction: setChartDataUVCoverage
           });
@@ -743,12 +743,13 @@ const Container = ({ childToParent }) => {
         </Grid>
       )}
 
-      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.SPECTOGRAMS) && (
+      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.SPECTROGRAMS) && (
         <Spectrogram
           config={config}
           legend={legendData}
           displaySettings={displaySettings}
           subArray={subArray}
+          subarrayDetails={subarrayDetails}
         />
       )}
       {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.LAG_PLOT) && (
@@ -757,6 +758,7 @@ const Container = ({ childToParent }) => {
           legend={legendData}
           displaySettings={displaySettings}
           subArray={subArray}
+          subarrayDetails={subarrayDetails}
         />
       )}
       {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.UV_COVERAGE) && (
@@ -768,8 +770,7 @@ const Container = ({ childToParent }) => {
                 polarization={item}
                 redraw={redraw}
                 resize={refresh}
-                setSettings={settingsUpdate}
-                socketStatus={socketStatusSpectrum}
+                socketStatus={socketStatusUVCoverage}
                 displaySettings={displaySettings}
                 data={chartDataUVCoverage}
               />
