@@ -9,17 +9,18 @@ interface LagPlotImageProps {
   // eslint-disable-next-line @typescript-eslint/ban-types
   onClick?: Function;
   config: Config;
+  subarrayDetails: any;
 }
 
 const MOCK_THUMBNAIL = '/static/images/mock/lag_plot_thumbnail.png';
 
-const LagPlotImage = ({ element, onClick = null, config }: LagPlotImageProps) => {
+const LagPlotImage = ({ element, onClick = null, config, subarrayDetails }: LagPlotImageProps) => {
   function getImageTN(item: string) {
     if (DATA_LOCAL) {
       return MOCK_THUMBNAIL;
     }
     const baselines = item.split(/[-_]+/);
-    return `${DATA_API_URL}${config.paths.lag_plot_thumbnail_path}/latest/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
+    return `${DATA_API_URL}${config.paths.lag_plot_thumbnail_path}/${subarrayDetails?.execution_block?.pb_realtime}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
 
   function imageClick(item: string) {

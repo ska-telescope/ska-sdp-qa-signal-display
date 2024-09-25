@@ -258,7 +258,7 @@ const mockSubarrayDetail = {
                   '--use-sdp-metadata',
                   false,
                   '--metrics',
-                  'stats,spectrum,spectograms,lag_plot'
+                  'stats,spectrum,spectrograms,lagplot'
                 ],
                 image: 'artefact.skao.int/ska-sdp-qa-metric-generator',
                 name: 'signal-display-metrics-0',
@@ -318,7 +318,7 @@ const mockSubarrayDetail = {
                   '--use-sdp-metadata',
                   false,
                   '--metrics',
-                  'band_averaged_x_corr,uv_coverage'
+                  'bandaveragedxcorr,uvcoverage'
                 ],
                 image: 'artefact.skao.int/ska-sdp-qa-metric-generator',
                 name: 'signal-display-metrics-3',

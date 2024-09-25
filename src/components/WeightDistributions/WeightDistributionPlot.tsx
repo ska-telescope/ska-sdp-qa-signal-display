@@ -66,23 +66,20 @@ const WeightDistributionPlot = ({
     const uValues = [];
     const vValues = [];
     const colors = [];
-    function extractValues(element) {
-      const filteredData = element.data.filter(
-        uvCoveragePayload => uvCoveragePayload.polarisation === polar
-      );
-      filteredData.forEach((datum: any) => {
-        uValues.push(datum.u);
-        uValues.push(-1 * datum.u);
-        vValues.push(datum.v);
-        vValues.push(-1 * datum.v);
-        // Weight pushed twice to cater for both positive and negative values
-        colors.push(datum.weight);
-        colors.push(datum.weight);
-      });
-    }
-    usedData.forEach(extractValues);
-    return [uValues, vValues, colors];
+
+    const filteredData = usedData.filter(e => e.polarisation === polar)
+    filteredData.forEach((datum: any) => {
+      uValues.push(datum.u);
+      uValues.push(-1 * datum.u);
+      vValues.push(datum.v);
+      vValues.push(-1 * datum.v);
+      // Weight pushed twice to cater for both positive and negative values
+      colors.push(datum.weight);
+      colors.push(datum.weight);
+    });
+    return [uValues, vValues, colors]
   }
+
 
   function getChartData(usedData: any) {
     const uvwData = getUVWData(usedData, polarization);
@@ -123,8 +120,8 @@ const WeightDistributionPlot = ({
 
   React.useEffect(() => {
     const firstRender = chartData === null;
-    if (data.length > 0) {
-      setChartData(getChartData(data));
+    if (data?.data?.length > 0) {
+      setChartData(getChartData(data?.data));
     }
     if (firstRender) {
       setShowContent(canShow());
@@ -144,8 +141,8 @@ const WeightDistributionPlot = ({
   }, [resize]);
 
   React.useEffect(() => {
-    if (data.length > 0) {
-      setMidFreq(calculateMidFrequency(data[0]));
+    if (data?.data?.length > 0) {
+      setMidFreq(calculateMidFrequency(data));
     }
   });
 

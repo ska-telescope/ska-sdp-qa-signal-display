@@ -33,7 +33,7 @@ const WaterfallPlot = ({ type, item, config, subArray }: WaterfallPlotProps) => 
       case WATERFALL_PLOT_TYPES.SPECTROGRAM:
         return config.topics.spectrograms;
       case WATERFALL_PLOT_TYPES.LAG_PLOT:
-        return config.topics.lag_plot;
+        return config.topics.lagplot;
       case WATERFALL_PLOT_TYPES.SPECTRUM:
         return config.topics.spectrum;
       default:

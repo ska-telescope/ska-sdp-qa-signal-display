@@ -16,10 +16,10 @@ type Topics = {
   spectrum: string;
   phase: string;
   amplitude: string;
-  lag_plot: string;
+  lagplot: string;
   pointing_offset: string;
   pointing_offset_out: string;
-  band_averaged_x_corr: string;
+  bandaveragedxcorr: string;
 };
 
 type Waterfall_Plots = {

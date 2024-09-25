@@ -16,9 +16,10 @@ interface SpectrogramProps {
   legend: Legend[];
   displaySettings: typeof QASettings;
   subArray: string;
+  subarrayDetails: any;
 }
 
-const Spectrogram = ({ config, legend, displaySettings, subArray }: SpectrogramProps) => {
+const Spectrogram = ({ config, legend, displaySettings, subArray, subarrayDetails }: SpectrogramProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [showContent, setShowContent] = React.useState(false);
@@ -27,7 +28,7 @@ const Spectrogram = ({ config, legend, displaySettings, subArray }: SpectrogramP
   const [baselineData, setBaselineData] = React.useState(null);
   const [chartData, setChartData] = React.useState(null);
 
-  const PATH_SUFFIX = '/latest/baselines';
+  const PATH_SUFFIX = `/${subarrayDetails?.execution_block?.key}/baselines`;
 
   const showToggle = () => {
     setShowContent(showContent ? false : chartData !== null);
@@ -40,7 +41,7 @@ const Spectrogram = ({ config, legend, displaySettings, subArray }: SpectrogramP
 
     const abortController = new AbortController();
     async function retrieveBaselineData() {
-      await fetch(`${DATA_API_URL}${config.paths.processing_blocks}${PATH_SUFFIX}`, {
+      await fetch(`${DATA_API_URL}/config/execution_blocks${PATH_SUFFIX}`, {
         signal: abortController.signal
       })
         .then(response => response.json())
@@ -128,6 +129,7 @@ const Spectrogram = ({ config, legend, displaySettings, subArray }: SpectrogramP
                       config={config}
                       element={null}
                       onClick={() => imageClick(null)}
+                      subarrayDetails={subarrayDetails} 
                     />
                   </Grid>
                   <Grid data-testid="spectrogram2Id" item>
@@ -135,6 +137,7 @@ const Spectrogram = ({ config, legend, displaySettings, subArray }: SpectrogramP
                       config={config}
                       element={null}
                       onClick={() => imageClick(null)}
+                      subarrayDetails={subarrayDetails} 
                     />
                   </Grid>
                   <Grid data-testid="spectrogram3Id" item>
@@ -142,6 +145,7 @@ const Spectrogram = ({ config, legend, displaySettings, subArray }: SpectrogramP
                       config={config}
                       element={null}
                       onClick={() => imageClick(null)}
+                      subarrayDetails={subarrayDetails} 
                     />
                   </Grid>
                   <Grid data-testid="spectrogram4Id" item>
@@ -149,6 +153,7 @@ const Spectrogram = ({ config, legend, displaySettings, subArray }: SpectrogramP
                       config={config}
                       element={null}
                       onClick={() => imageClick(null)}
+                      subarrayDetails={subarrayDetails} 
                     />
                   </Grid>
                 </>
@@ -161,6 +166,7 @@ const Spectrogram = ({ config, legend, displaySettings, subArray }: SpectrogramP
                         config={config}
                         element={item}
                         onClick={() => imageClick(item)}
+                        subarrayDetails={subarrayDetails} 
                       />
                     </Grid>
                   )
