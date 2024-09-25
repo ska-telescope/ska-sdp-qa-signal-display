@@ -16,9 +16,10 @@ interface LagPlotProps {
   legend: Legend[];
   displaySettings: typeof QASettings;
   subArray: string;
+  subarrayDetails: any;
 }
 
-const LagPlot = ({ config, legend, displaySettings, subArray }: LagPlotProps) => {
+const LagPlot = ({ config, legend, displaySettings, subArray, subarrayDetails }: LagPlotProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [showContent, setShowContent] = React.useState(false);
@@ -27,7 +28,7 @@ const LagPlot = ({ config, legend, displaySettings, subArray }: LagPlotProps) =>
   const [baselineData, setBaselineData] = React.useState(null);
   const [chartData, setChartData] = React.useState(null);
 
-  const PATH_SUFFIX = '/latest/baselines';
+  const PATH_SUFFIX = `/${subarrayDetails?.execution_block?.key}/baselines`;
 
   const showToggle = () => {
     setShowContent(showContent ? false : chartData !== null);
@@ -41,7 +42,7 @@ const LagPlot = ({ config, legend, displaySettings, subArray }: LagPlotProps) =>
     const abortController = new AbortController();
     async function retrieveBaseData() {
       try {
-        const response = await fetch(`${DATA_API_URL}${config.paths.processing_blocks}${PATH_SUFFIX}`, {
+        const response = await fetch(`${DATA_API_URL}/config/execution_blocks${PATH_SUFFIX}`, {
           signal: abortController.signal
         });
         const data = await response.json();
@@ -52,7 +53,7 @@ const LagPlot = ({ config, legend, displaySettings, subArray }: LagPlotProps) =>
         });
     
         setShowContent(true);
-        setBaseData(filteredBaselines);
+        setBaselineData(filteredBaselines);
         abortController.abort();
       } catch (error) {
         abortController.abort();
@@ -128,16 +129,16 @@ const LagPlot = ({ config, legend, displaySettings, subArray }: LagPlotProps) =>
               {DATA_LOCAL && (
                 <>
                   <Grid data-testid="LagPlot1Id" item>
-                    <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} />
+                    <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} subarrayDetails={subarrayDetails} />
                   </Grid>
                   <Grid data-testid="LagPlot2Id" item>
-                    <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} />
+                    <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} subarrayDetails={subarrayDetails} />
                   </Grid>
                   <Grid data-testid="LagPlot3Id" item>
-                    <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} />
+                    <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} subarrayDetails={subarrayDetails} />
                   </Grid>
                   <Grid data-testid="LagPlot4Id" item>
-                    <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} />
+                    <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} subarrayDetails={subarrayDetails} />
                   </Grid>
                 </>
               )}
@@ -149,6 +150,7 @@ const LagPlot = ({ config, legend, displaySettings, subArray }: LagPlotProps) =>
                         config={config}
                         element={item}
                         onClick={() => imageClick(item)}
+                        subarrayDetails={subarrayDetails}
                       />
                     </Grid>
                   )

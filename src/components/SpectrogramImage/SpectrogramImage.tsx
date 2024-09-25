@@ -9,17 +9,18 @@ interface SpectrogramImageProps {
   // eslint-disable-next-line @typescript-eslint/ban-types
   onClick?: Function;
   config: Config;
+  subarrayDetails: any;
 }
 
 const MOCK_THUMBNAIL = '/static/images/mock/thumbnail.png';
 
-const SpectrogramImage = ({ element, onClick = null, config }: SpectrogramImageProps) => {
+const SpectrogramImage = ({ element, onClick = null, config, subarrayDetails }: SpectrogramImageProps) => {
   function getImageTN(item: string) {
     if (DATA_LOCAL) {
       return MOCK_THUMBNAIL;
     }
     const baselines = item.split(/[-_]+/);
-    return `${DATA_API_URL}${config.paths.spectrogram_thumbnail_path}/latest/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
+    return `${DATA_API_URL}${config.paths.spectrogram_thumbnail_path}/${subarrayDetails?.execution_block?.pb_realtime}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
 
   function imageClick(item: string) {
@@ -29,6 +30,7 @@ const SpectrogramImage = ({ element, onClick = null, config }: SpectrogramImageP
   const width = () => (DATA_LOCAL ? '22vw' : config.waterfall_plots.thumbnail_width);
 
   const height = () => (DATA_LOCAL ? '22vh' : config.waterfall_plots.thumbnail_max_height);
+
 
   return (
     <ImageListItem key={element}>

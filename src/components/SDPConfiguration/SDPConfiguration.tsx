@@ -126,7 +126,7 @@ const SDPConfiguration = ({ subarray, subarrayDetails }: SubarrayProps) => {
         <Card variant="outlined">
           <CardHeader
             component={Box}
-            title={`${t('label.execution_block')}: ${subarrayDetails?.execution_block?.eb_id}`}
+            title={`${t('label.execution_block')}: ${subarrayDetails?.execution_block?.key}`}
             avatar={(
               <StatusIcon
                 ariaTitle=""
