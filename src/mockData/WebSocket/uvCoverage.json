@@ -1,5 +1,5 @@
 {
-  "data_type": "uv_coverage",
+  "data_type": "uvcoverage",
   "processing_block_id": "pb-unknown",
   "spectral_window": {
     "freq_min": 855582031.25,

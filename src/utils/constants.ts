@@ -570,19 +570,19 @@ export const SOCKET_STATUS = ['unknown', 'error', 'connected', 'local'];
 
 export const WATERFALL_PLOT_TYPES = {
   SPECTROGRAM: 'spectrogram',
-  LAG_PLOT: 'lag_plot',
+  LAG_PLOT: 'lagplot',
   SPECTRUM: 'spectrum'
 };
 
 export const METRIC_TYPES = {
   STATS: 'stats',
   SPECTRUM: 'spectrum',
-  SPECTOGRAMS: 'spectograms',
-  LAG_PLOT: 'lag_plot',
+  SPECTROGRAMS: 'spectrograms',
+  LAG_PLOT: 'lagplot',
   AMPLITUDE: 'amplitude',
   PHASE: 'phase',
-  BAND_AVERAGED_X_CORR: 'band_averaged_x_corr',
-  UV_COVERAGE: 'uv_coverage'
+  BAND_AVERAGED_X_CORR: 'bandaveragedxcorr',
+  UV_COVERAGE: 'uvcoverage'
 };
 
 // Common URLs

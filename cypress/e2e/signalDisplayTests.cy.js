@@ -48,7 +48,7 @@ function runningConfiguration() {
     cy.findByTestId("pb_deploymentsLabel").contains("proc-pb-testrealtime-20240716-65504-vis-receive => RUNNING").should('be.visible');
     cy.findByTestId("pb_scriptLabel").contains("realtime/vis-receive/4.0.0").should('be.visible');
     cy.findByTestId("pb_processorsLabel").contains("mswriter").should('be.visible');
-    cy.findByTestId("pb_processors_deployedLabel").contains("mswriter-processor: 2.0.2, Signal Display Metrics [stats,spectrum,spectograms,lag_plot,amplitude,phase,band_averaged_x_corr,uv_coverage]: 0.20.0").should('be.visible');
+    cy.findByTestId("pb_processors_deployedLabel").contains("mswriter-processor: 2.0.2, Signal Display Metrics [stats,spectrum,spectrograms,lagplot,amplitude,phase,bandaveragedxcorr,uvcoverage]: 0.20.0").should('be.visible');
 
 }
 
