@@ -136,57 +136,34 @@ const Polarization = ({
 
   function getBaseData(inData: array, polarisation: string, amplitude: boolean, real: string) {
     const selection = selector(real);
-
-    const tmp = inData
+    return inData
       .filter(dataPayload => dataPayload.polarisation === polarisation)
-      .map(dataPayload => ({
-        name: dataPayload.baseline,
-        data: calculateYData(dataPayload[selection], amplitude, selection)
-      }));
-
-    if (!legend || legend.length === 0) {
-      return tmp;
-    }
-
-    const arr = [];
-    for (let i = 0; i < tmp.length; i += 1) {
-      if (tmp[i].name === legend[i].text && legend[i].active) {
-        arr.push(tmp[i]);
-      }
-    }
-
-    return arr;
+      .map(({ baseline, [selection]: data }) => ({
+        name: baseline,
+        data: calculateYData(data, amplitude, selection)
+      }))
+      .filter((_, i) => !legend || legend[i]?.active);
   }
 
+  const legendMap = React.useMemo(() => {
+    const map = new Map();
+    legend?.forEach(l => map.set(l.text, l.color));
+    return map;
+  }, [legend]);
+  
   function getLegendColor(name: string) {
-    if (legend) {
-      for (let i = 0; i < legend.length; i++) {
-        if (legend[i].text === name) {
-          return legend[i].color;
-        }
-      }
-    }
-    return COLOR[0]; // Only here for completeness.
+    return legendMap.get(name) || COLOR[0];
   }
 
   function getChartData(usedData: any, amplitude: boolean, real: string) {
-    const chartData = [];
-    if (!legend) {
-      return chartData;
-    }
     const xValues = calculateChannels(usedData.spectral_window);
     const baseData = getBaseData(usedData.data, polarization, amplitude, real);
-    for (let i = 0; i < baseData.length; i++) {
-      chartData.push({
-        x: xValues,
-        y: baseData[i].data,
-        name: baseData[i].name,
-        marker: {
-          color: getLegendColor(baseData[i].name)
-        }
-      });
-    }
-    return chartData;
+    return baseData.map(({ name, data }) => ({
+      x: xValues,
+      y: data,
+      name,
+      marker: { color: getLegendColor(name) }
+    }));
   }
 
   const canShow = () => phaseData && phaseData.data && amplitudeData && amplitudeData.data;
