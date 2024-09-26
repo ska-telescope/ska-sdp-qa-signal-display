@@ -42,19 +42,17 @@ const WeightDistributionPlot = ({
 
   const yLabel = () => `${t('label.v')} (${t(`units.numberOfWavelengths`)})`;
 
-  const canShow = () => data !== null;
+  const canShow = () => data && data.data;
 
   const showToggle = () => {
     setShowContent(showContent ? false : canShow());
   };
 
   function parentWidth() {
-    // TODO : Make this responsive
-    if (displaySettings.gridView) {
-      return 700;
-    }
-    return 1400;
+    const width = window.innerWidth;
+    return displaySettings.gridView ? Math.min(700, width) : Math.min(1400, width);
   }
+  
 
   function calculateMidFrequency(usedData: any) {
     const minFreq = usedData.spectral_window.freq_min;

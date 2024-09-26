@@ -67,74 +67,53 @@ const BandAveragedXCorr = ({
   }
 
   function getBaseData(inData: Array<any>, polarisation: string, amplitude: boolean) {
-    const tmp = inData
-      .filter(dataPayLoad => dataPayLoad.polarisation === polarisation)
+    return inData
+      .filter(dataPayLoad => dataPayLoad.polarisation === polarisation && 
+        (!legend || legend.some(l => l.text === dataPayLoad.baseline && l.active)))
       .map(dataPayLoad => ({
         name: dataPayLoad.baseline,
         data: calculateYData([dataPayLoad.data], amplitude)
       }));
-    if (!legend || legend.length === 0) {
-      return tmp;
-    }
-    const arr = [];
-    for (let i = 0; i < tmp.length; i += 1) {
-      if (tmp[i].name === legend[i]?.text && legend[i].active) {
-        arr.push(tmp[i]);
-      }
-    }
-
-    return arr;
   }
+  
 
+  const legendMap = React.useMemo(() => {
+    const map = new Map();
+    legend?.forEach(l => map.set(l.text, l.color));
+    return map;
+  }, [legend]);
+  
   function getLegendColor(name: string) {
-    if (legend) {
-      for (let i = 0; i < legend.length; i++) {
-        if (legend[i].text === name) {
-          return legend[i].color;
-        }
-      }
-    }
-    return COLOR[0]; // Only here for completeness.
+    return legendMap.get(name) || COLOR[0];
   }
 
-  function getChartData(usedData: any, amplitude: boolean) {
+  function getChartData(usedData: any[], amplitude: boolean) {
+    if (!legend || usedData.length === 0) return [];
+  
     const traces = [];
-    if (!legend) {
-      return traces;
-    }
-
-    if (usedData.length === 0) {
-      return traces;
-    }
-
-    for (
-      let k = 0;
-      k < usedData[0].data.filter(dataPayload => dataPayload.polarisation === polarization).length;
-      k++
-    ) {
-      traces.push({
-        x: [],
-        y: [],
-        mode: 'markers+lines',
-        name: '',
-        marker: []
+  
+    usedData.forEach(dataSet => {
+      const baseData = getBaseData(dataSet.data, polarization, amplitude);
+      
+      baseData.forEach((base, index) => {
+        if (!traces[index]) {
+          traces[index] = {
+            x: [],
+            y: [],
+            mode: 'markers+lines',
+            name: base.name,
+            marker: { color: getLegendColor(base.name) }
+          };
+        }
+        
+        traces[index].x.push(dataSet.timestamp);
+        traces[index].y.push(base.data[0]);
       });
-    }
-
-    const newTraces = [...traces];
-
-    for (let j = 0; j < usedData.length; j++) {
-      const baseData = getBaseData(usedData[j].data, polarization, amplitude);
-      for (let i = 0; i < baseData.length; i++) {
-        newTraces[i].x.push(usedData[j].timestamp);
-        newTraces[i].y.push(baseData[i].data[0]);
-        newTraces[i].name = baseData[i].name;
-        newTraces[i].marker.push({ color: getLegendColor(baseData[i].names) });
-      }
-    }
-
-    return newTraces;
+    });
+  
+    return traces;
   }
+  
 
   const canShow = () => data !== null;
 
@@ -143,12 +122,10 @@ const BandAveragedXCorr = ({
   };
 
   function parentWidth() {
-    // TODO : Make this responsive
-    if (displaySettings.gridView) {
-      return 700;
-    }
-    return 1400;
+    const width = window.innerWidth;
+    return displaySettings.gridView ? Math.min(700, width) : Math.min(1400, width);
   }
+  
 
   React.useEffect(() => {
     if (!refresh) setShowContent(canShow());
