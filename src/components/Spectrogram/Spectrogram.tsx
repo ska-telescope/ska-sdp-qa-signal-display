@@ -6,10 +6,13 @@ import Config from 'src/services/types/Config';
 import Legend from 'src/services/types/Legend';
 import SKAOModal from '../Modal/Modal';
 import SignalCard from '../SignalCard/SignalCard';
-import SpectrogramImage from '../SpectrogramImage/SpectrogramImage';
 import WaterfallPlot from '../WaterfallPlot/WaterfallPlot';
 import { DATA_LOCAL, DATA_API_URL, WATERFALL_PLOT_TYPES } from '../../utils/constants';
 import { QASettings } from '../Settings/qaSettings';
+import inView from '../InView/InView';
+
+
+const SpectrogramImage = React.lazy(() => import('../SpectrogramImage/SpectrogramImage'))
 
 interface SpectrogramProps {
   config: Config;
@@ -29,6 +32,9 @@ const Spectrogram = ({ config, legend, displaySettings, subArray, subarrayDetail
   const [chartData, setChartData] = React.useState(null);
 
   const PATH_SUFFIX = `/${subarrayDetails?.execution_block?.key}/baselines`;
+
+  const spectrogramImageRef = React.useRef<HTMLDivElement>(null)
+  const spectrogramImageInView = inView(spectrogramImageRef, '100px')
 
   const showToggle = () => {
     setShowContent(showContent ? false : chartData !== null);
@@ -93,14 +99,15 @@ const Spectrogram = ({ config, legend, displaySettings, subArray, subarrayDetail
     setSelected(DATA_LOCAL ? 'THUMBNAIL' : item);
   }
 
+
   return (
-    <>
+    <div ref={spectrogramImageRef}>
       {selected && (
         <SKAOModal open={open} onClose={() => setOpen(false)}>
           <Card variant="outlined" className="removeBorder:focus">
             <CardContent>
               <WaterfallPlot
-                type={WATERFALL_PLOT_TYPES.SPECTROGRAM}
+                type={WATERFALL_PLOT_TYPES.LAG_PLOT}
                 item={selected}
                 config={config}
                 subArray={subArray}
@@ -111,7 +118,6 @@ const Spectrogram = ({ config, legend, displaySettings, subArray, subarrayDetail
       )}
       {displaySettings.showSpectrograms && (
         <SignalCard
-          data-testId="chloe2"
           title={t('label.spectrograms')}
           showContent={showContent}
           setShowContent={showToggle}
@@ -120,66 +126,27 @@ const Spectrogram = ({ config, legend, displaySettings, subArray, subarrayDetail
           infoContent={t('modalInfo.spectrogram.content')}
           infoSite={t('modalInfo.spectrogram.site')}
         >
-          <>
-            <Grid data-testid="chloe5" container direction="row" justifyContent="space-evenly">
-              {DATA_LOCAL && (
-                <>
-                  <Grid data-testid="spectrogram1Id" item>
+          <Grid container direction="row" justifyContent="space-evenly">
+            {chartData && chartData.length && spectrogramImageInView ? (
+              chartData.map((item) => (
+                <Grid key={item} item>
+                  <React.Suspense fallback={<div>Loading...</div>}>
                     <SpectrogramImage
                       config={config}
-                      element={null}
-                      onClick={() => imageClick(null)}
-                      subarrayDetails={subarrayDetails} 
+                      element={item}
+                      onClick={() => imageClick(item)}
+                      subarrayDetails={subarrayDetails}
                     />
-                  </Grid>
-                  <Grid data-testid="spectrogram2Id" item>
-                    <SpectrogramImage
-                      config={config}
-                      element={null}
-                      onClick={() => imageClick(null)}
-                      subarrayDetails={subarrayDetails} 
-                    />
-                  </Grid>
-                  <Grid data-testid="spectrogram3Id" item>
-                    <SpectrogramImage
-                      config={config}
-                      element={null}
-                      onClick={() => imageClick(null)}
-                      subarrayDetails={subarrayDetails} 
-                    />
-                  </Grid>
-                  <Grid data-testid="spectrogram4Id" item>
-                    <SpectrogramImage
-                      config={config}
-                      element={null}
-                      onClick={() => imageClick(null)}
-                      subarrayDetails={subarrayDetails} 
-                    />
-                  </Grid>
-                </>
-              )}
-              {!DATA_LOCAL && chartData && chartData.length ? (
-                chartData.map(
-                  (item): React.JSX.Element => (
-                    <Grid key={item} item>
-                      <SpectrogramImage
-                        config={config}
-                        element={item}
-                        onClick={() => imageClick(item)}
-                        subarrayDetails={subarrayDetails} 
-                      />
-                    </Grid>
-                  )
-                )
-              ) : (
-                <div />
-              )}
-            </Grid>
-            <div id="spectrogramId" />
-          </>
+                  </React.Suspense>
+                </Grid>
+              ))
+            ) : (
+              <div />
+            )}
+          </Grid>
         </SignalCard>
       )}
-    </>
+    </div>
   );
 };
 
