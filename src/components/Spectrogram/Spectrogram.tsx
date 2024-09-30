@@ -127,7 +127,44 @@ const Spectrogram = ({ config, legend, displaySettings, subArray, subarrayDetail
           infoSite={t('modalInfo.spectrogram.site')}
         >
           <Grid container direction="row" justifyContent="space-evenly">
-            {chartData && chartData.length && spectrogramImageInView ? (
+            {DATA_LOCAL && (
+              <>
+                <Grid data-testid="spectrogram1Id" item>
+                  <SpectrogramImage
+                    config={config}
+                    element={null}
+                    onClick={() => imageClick(null)}
+                    subarrayDetails={subarrayDetails} 
+                  />
+                </Grid>
+                <Grid data-testid="spectrogram2Id" item>
+                  <SpectrogramImage
+                    config={config}
+                    element={null}
+                    onClick={() => imageClick(null)}
+                    subarrayDetails={subarrayDetails} 
+                  />
+                </Grid>
+                <Grid data-testid="spectrogram3Id" item>
+                  <SpectrogramImage
+                    config={config}
+                    element={null}
+                    onClick={() => imageClick(null)}
+                    subarrayDetails={subarrayDetails} 
+                  />
+                </Grid>
+                <Grid data-testid="spectrogram4Id" item>
+                  <SpectrogramImage
+                    config={config}
+                    element={null}
+                    onClick={() => imageClick(null)}
+                    subarrayDetails={subarrayDetails} 
+                  />
+                </Grid>
+              </>
+            )}
+
+            {!DATA_LOCAL && chartData && chartData.length && spectrogramImageInView ? (
               chartData.map((item) => (
                 <Grid key={item} item>
                   <React.Suspense fallback={<div>Loading...</div>}>

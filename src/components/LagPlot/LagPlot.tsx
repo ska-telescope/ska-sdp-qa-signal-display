@@ -129,7 +129,24 @@ const LagPlot = ({ config, legend, displaySettings, subArray, subarrayDetails }:
           infoSite={t('modalInfo.lagPlot.site')}
         >
           <Grid container direction="row" justifyContent="space-evenly">
-            {chartData && chartData.length && lagPlotImageInView ? (
+            {DATA_LOCAL && (
+              <>
+                <Grid data-testid="LagPlot1Id" item>
+                  <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} subarrayDetails={subarrayDetails} />
+                </Grid>
+                <Grid data-testid="LagPlot2Id" item>
+                  <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} subarrayDetails={subarrayDetails} />
+                </Grid>
+                <Grid data-testid="LagPlot3Id" item>
+                  <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} subarrayDetails={subarrayDetails} />
+                </Grid>
+                <Grid data-testid="LagPlot4Id" item>
+                  <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} subarrayDetails={subarrayDetails} />
+                </Grid>
+              </>
+            )}
+
+            {!DATA_LOCAL && chartData && chartData.length && lagPlotImageInView ? (
               chartData.map((item) => (
                 <Grid key={item} item>
                   <React.Suspense fallback={<div>Loading...</div>}>
