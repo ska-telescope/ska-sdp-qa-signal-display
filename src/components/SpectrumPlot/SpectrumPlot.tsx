@@ -109,7 +109,8 @@ const SpectrumPlot = ({
         y: getYData(usedData.data, polarization),
         marker: {
           color: COLOR[2]
-        }
+        },
+        line: {shape: 'hvh'}
       }
     ];
     return chartDataTmp;
