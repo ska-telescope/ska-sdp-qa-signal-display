@@ -162,7 +162,8 @@ const Polarization = ({
       x: xValues,
       y: data,
       name,
-      marker: { color: getLegendColor(name) }
+      marker: { color: getLegendColor(name) },
+      line: {shape: 'hvh'}
     }));
   }
 
