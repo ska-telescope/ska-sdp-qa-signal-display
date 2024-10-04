@@ -2,6 +2,7 @@
 
 ## Development
 
+- [fix] Repeated needless recreation of websockets has been fixed
 - [NAL-1100] Addition of display changes based on configured metrics
 - Addition of real and imaginary components to display
 - Ability to switch between real time graphs, and waterfall plots
