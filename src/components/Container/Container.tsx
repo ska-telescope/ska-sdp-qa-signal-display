@@ -96,8 +96,6 @@ const Container = ({ childToParent }) => {
   const WORKFLOW_STATISTICS_INTERVAL_SECONDS =
     Number(env.REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS) * CONVERT;
 
-  const activeWebsockets = {};
-
   // We have a delay to reduce screen flicker
   function resizeIncrement() {
     setTimeout(() => {
@@ -261,7 +259,6 @@ const Container = ({ childToParent }) => {
         }
       });
     });
-
     return metrics;
   }
 
@@ -391,23 +388,26 @@ const Container = ({ childToParent }) => {
       .catch(() => null);
   }
 
+  const activeWebsockets = React.useRef<{ [key: string]: WebSocket }>({});
+
   async function connectWebSockets() {
     const localEnabledMetrics = enabledMetrics === null ? [] : enabledMetrics;
 
-    Object.entries(activeWebsockets).forEach(([key, webSocket]) => {
-      if (!localEnabledMetrics.contains(key)) {
-        delete activeWebsockets[key];
-        webSocket.close();
+    Object.entries(activeWebsockets.current).forEach(([key, webSocket]) => {
+      if (!localEnabledMetrics.includes(key)) {
+        webSocket.close(); 
+        delete activeWebsockets.current[key]; 
       }
     });
 
     localEnabledMetrics.forEach(metric => {
-      if (metric in activeWebsockets) {
-        return;
+      if (metric in activeWebsockets.current) {
+        return; 
       }
+
       switch (metric) {
         case METRIC_TYPES.AMPLITUDE:
-          activeWebsockets.amplitude = Socket({
+          activeWebsockets.current[metric] = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
             protocol: config.api_format,
             suffix: `${config.topics.amplitude}-${subArray}`,
@@ -416,7 +416,7 @@ const Container = ({ childToParent }) => {
           });
           break;
         case METRIC_TYPES.PHASE:
-          activeWebsockets.phase = Socket({
+          activeWebsockets.current[metric] = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
             protocol: config.api_format,
             suffix: `${config.topics.phase}-${subArray}`,
@@ -425,7 +425,7 @@ const Container = ({ childToParent }) => {
           });
           break;
         case METRIC_TYPES.SPECTRUM:
-          activeWebsockets.spectrum = Socket({
+          activeWebsockets.current[metric] = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
             protocol: config.api_format,
             suffix: `${config.topics.spectrum}-${subArray}`,
@@ -434,7 +434,7 @@ const Container = ({ childToParent }) => {
           });
           break;
         case METRIC_TYPES.BAND_AVERAGED_X_CORR:
-          activeWebsockets.bandaveragedxcorr = Socket({
+          activeWebsockets.current[metric] = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
             protocol: config.api_format,
             suffix: `${config.topics.bandaveragedxcorr}-${subArray}`,
@@ -444,7 +444,7 @@ const Container = ({ childToParent }) => {
           });
           break;
         case METRIC_TYPES.UV_COVERAGE:
-          activeWebsockets.uvcoverage = Socket({
+          activeWebsockets.current[metric] = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
             protocol: config.api_format,
             suffix: `${config.topics.uvcoverage}-${subArray}`,
@@ -457,6 +457,7 @@ const Container = ({ childToParent }) => {
       }
     });
   }
+
 
   React.useEffect(() => {
     setEnabledMetrics(getEnabledMetrics());
