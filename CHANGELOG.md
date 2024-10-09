@@ -1,6 +1,6 @@
 # Changelog
 
-## Development
+## 0.18.0
 
 - [fix] Repeated needless recreation of websockets has been fixed
 - [NAL-1100] Addition of display changes based on configured metrics
