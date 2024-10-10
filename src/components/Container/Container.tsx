@@ -92,10 +92,6 @@ const Container = ({ childToParent }) => {
   const [fetchConfig, setFetchConfig] = React.useState(false);
   const [fetchSubArrayList, setFetchSubarrayList] = React.useState(false);
 
-  const CONVERT = 1000;
-  const WORKFLOW_STATISTICS_INTERVAL_SECONDS =
-    Number(env.REACT_APP_WORKFLOW_STATISTICS_INTERVAL_SECONDS) * CONVERT;
-
   // We have a delay to reduce screen flicker
   function resizeIncrement() {
     setTimeout(() => {
@@ -207,7 +203,6 @@ const Container = ({ childToParent }) => {
   };
 
   async function retrieveProcessingBlockStatisticsData() {
-    console.log('running... retrieveProcessingBlockStatisticsData');
     await fetch(`${DATA_API_URL}${config.paths.processing_blocks}/latest/statistics`)
     .then(response => response.json())
     .then(data => {
@@ -217,7 +212,6 @@ const Container = ({ childToParent }) => {
   }
 
   async function retrieveReceiverEventData() {
-    console.log('running... retrieveReceiverEventData');
     await fetch(`${DATA_API_URL}${config.paths.spead2_scans}/latest/latest_event`)
     .then(response => response.json())
     .then(data => {
