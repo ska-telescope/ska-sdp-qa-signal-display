@@ -207,30 +207,25 @@ const Container = ({ childToParent }) => {
   };
 
   async function retrieveProcessingBlockStatisticsData() {
-    if (subarrayDetails?.processing_block_state?.status === 'READY'){
-      await fetch(`${DATA_API_URL}${config.paths.processing_blocks}/latest/statistics`)
-      .then(response => response.json())
-      .then(data => {
-        setProcessingBlockStatisticsData(data);
-        setTimeout(retrieveProcessingBlockStatisticsData, WORKFLOW_STATISTICS_INTERVAL_SECONDS);
-      })
-      .catch(() => null);
-    }
+    console.log('running... retrieveProcessingBlockStatisticsData');
+    await fetch(`${DATA_API_URL}${config.paths.processing_blocks}/latest/statistics`)
+    .then(response => response.json())
+    .then(data => {
+      setProcessingBlockStatisticsData(data);
+    })
+    .catch(() => null);
   }
-    
 
   async function retrieveReceiverEventData() {
-    if (subarrayDetails?.processing_block_state?.status === 'READY'){
-      await fetch(`${DATA_API_URL}${config.paths.spead2_scans}/latest/latest_event`)
-      .then(response => response.json())
-      .then(data => {
-        setReceiverEventsData(data);
-        setTimeout(retrieveReceiverEventData, WORKFLOW_STATISTICS_INTERVAL_SECONDS);
-      })
-      .catch(() => null);
-    }
+    console.log('running... retrieveReceiverEventData');
+    await fetch(`${DATA_API_URL}${config.paths.spead2_scans}/latest/latest_event`)
+    .then(response => response.json())
+    .then(data => {
+      setReceiverEventsData(data);
+    })
+    .catch(() => null);
   }
-    
+
   const limit = () =>
     subArrays && subArrays.length > 0
       ? +env.REACT_APP_SUBARRAY_REFRESH_SECONDS
@@ -318,8 +313,6 @@ const Container = ({ childToParent }) => {
         setMaskData(getMaskDomains(maskMockData.data));
       }
     } else if (config !== null) {
-      retrieveProcessingBlockStatisticsData();
-      retrieveReceiverEventData();
       if (USE_MISSING_DATA_MASK) {
         retrieveMaskData();
       }
@@ -395,14 +388,14 @@ const Container = ({ childToParent }) => {
 
     Object.entries(activeWebsockets.current).forEach(([key, webSocket]) => {
       if (!localEnabledMetrics.includes(key)) {
-        webSocket.close(); 
-        delete activeWebsockets.current[key]; 
+        webSocket.close();
+        delete activeWebsockets.current[key];
       }
     });
 
     localEnabledMetrics.forEach(metric => {
       if (metric in activeWebsockets.current) {
-        return; 
+        return;
       }
 
       switch (metric) {
@@ -461,6 +454,10 @@ const Container = ({ childToParent }) => {
 
   React.useEffect(() => {
     setEnabledMetrics(getEnabledMetrics());
+    if (subarrayDetails?.processing_block_state?.status === 'READY'){
+      retrieveProcessingBlockStatisticsData();
+      retrieveReceiverEventData();
+    }
   }, [subarrayDetails]);
 
   React.useEffect(() => {
@@ -744,24 +741,6 @@ const Container = ({ childToParent }) => {
         </Grid>
       )}
 
-      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.SPECTROGRAMS) && (
-        <Spectrogram
-          config={config}
-          legend={legendData}
-          displaySettings={displaySettings}
-          subArray={subArray}
-          subarrayDetails={subarrayDetails}
-        />
-      )}
-      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.LAG_PLOT) && (
-        <LagPlot
-          config={config}
-          legend={legendData}
-          displaySettings={displaySettings}
-          subArray={subArray}
-          subarrayDetails={subarrayDetails}
-        />
-      )}
       {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.UV_COVERAGE) && (
         <Grid container>
           {POLARIZATIONS.map(item => (
@@ -778,6 +757,26 @@ const Container = ({ childToParent }) => {
             </Grid>
           ))}
         </Grid>
+      )}
+
+      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.SPECTROGRAMS) && (
+        <Spectrogram
+          config={config}
+          legend={legendData}
+          displaySettings={displaySettings}
+          subArray={subArray}
+          subarrayDetails={subarrayDetails}
+        />
+      )}
+
+      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.LAG_PLOT) && (
+        <LagPlot
+          config={config}
+          legend={legendData}
+          displaySettings={displaySettings}
+          subArray={subArray}
+          subarrayDetails={subarrayDetails}
+        />
       )}
 
       {currentTabIndex === 1 && (

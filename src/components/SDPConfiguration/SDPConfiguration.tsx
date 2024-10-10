@@ -12,7 +12,7 @@ interface SubarrayProps {
 }
 
 function objectToString(obj) {
-  if (obj === undefined) {
+  if (obj === undefined || obj === null) {
     return '';
   }
   return Object.keys(obj)
@@ -133,7 +133,7 @@ const SDPConfiguration = ({ subarray, subarrayDetails }: SubarrayProps) => {
                 ariaDescription=""
                 testId="statusIdExecutionBlock"
                 icon
-                level={READY_STATUS[subarrayDetails?.execution_block?.status === 'ACTIVE' ? 1 : 0]}
+                level={READY_STATUS[subarrayDetails?.execution_block_state?.status === 'ACTIVE' ? 1 : 0]}
                 size={SIZE}
                 text=""
               />
@@ -147,12 +147,12 @@ const SDPConfiguration = ({ subarray, subarrayDetails }: SubarrayProps) => {
           <CardContent>
             {displayElement(
               t('label.currently_running.status'),
-              subarrayDetails?.execution_block?.status,
+              subarrayDetails?.execution_block_state?.status,
               'eb_status'
             )}
             {displayElement(
               t('label.currently_running.scan_type'),
-              subarrayDetails?.execution_block?.current_scan_type,
+              subarrayDetails?.execution_block_state?.scan_type,
               'eb_scan_type'
             )}
           </CardContent>
