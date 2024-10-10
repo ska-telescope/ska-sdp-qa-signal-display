@@ -203,6 +203,12 @@ const Container = ({ childToParent }) => {
   };
 
   async function retrieveProcessingBlockStatisticsData() {
+    if (DATA_LOCAL) {
+      return;
+    }
+    if (config === undefined) {
+      return;
+    }
     await fetch(`${DATA_API_URL}${config.paths.processing_blocks}/latest/statistics`)
     .then(response => response.json())
     .then(data => {
@@ -212,6 +218,12 @@ const Container = ({ childToParent }) => {
   }
 
   async function retrieveReceiverEventData() {
+    if (DATA_LOCAL) {
+      return;
+    }
+    if (config === undefined) {
+      return;
+    }
     await fetch(`${DATA_API_URL}${config.paths.spead2_scans}/latest/latest_event`)
     .then(response => response.json())
     .then(data => {
