@@ -38,9 +38,9 @@ const LagPlotImage = ({ element, onClick = null, config, subarrayDetails }: LagP
         alt={element}
         loading="lazy"
         onClick={() => imageClick(element)}
+        width={width()}
+        height={height()}
         style={{
-          width: width(),
-          height: height(),
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center'
