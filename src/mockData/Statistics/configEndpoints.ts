@@ -177,6 +177,12 @@ const mockSubarrayDetail = {
     status: 'ACTIVE',
     subarray_id: '01'
   },
+  execution_block_state: {
+    scan_id: 1,
+    scan_type: "science",
+    scans: [],
+    status: "ACTIVE"
+  },
   processing_block: {
     eb_id: 'eb-test-20240716-65504',
     script: {
