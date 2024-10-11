@@ -1,6 +1,12 @@
 # Changelog
 
-## Development
+## 0.18.1
+- [Change] Move Weight Distribution graphs to above waterfall plots
+- [Fix] Change size of waterfall plots to show entire image
+- [Fix] Correct a crash when receiving a null for processing block deployments
+- [FIx] Correct the execution block status
+
+## 0.18.0
 
 - [fix] Repeated needless recreation of websockets has been fixed
 - [NAL-1100] Addition of display changes based on configured metrics
