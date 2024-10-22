@@ -1,7 +1,7 @@
 /* eslint-disable no-empty */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { Footer } from '@ska-telescope/ska-gui-components';
+import { Footer, CopyrightModal } from '@ska-telescope/ska-gui-components';
 import { Grid, Typography } from '@mui/material';
 import Config from '../../services/types/Config';
 
@@ -13,6 +13,17 @@ interface SKAOFooterProps {
 const SKAOFooter = ({ version, config }: SKAOFooterProps) => {
   let apiVersionNumber = 'API Version Number: API Unreachable';
 
+  const [showCopyright, setShowCopyright] = React.useState(false);
+
+  function CopyrightModalFunction(): React.JSX.Element {
+    return (
+      <>
+        <CopyrightModal copyrightFunc={setShowCopyright} show={showCopyright} />
+      </>
+    );
+  }
+
+
   React.useEffect(() => {
     if (config === null) {
     }
@@ -23,11 +34,12 @@ const SKAOFooter = ({ version, config }: SKAOFooterProps) => {
   }
 
   return (
-    <Footer testId="footerId" version={version}>
+    <Footer copyrightFunc={setShowCopyright} testId="footerId" version={version}>
       <Grid item>
         <Typography variant="body1">{apiVersionNumber}</Typography>
       </Grid>
       <Grid />
+      {CopyrightModalFunction()}
     </Footer>
   );
 };
