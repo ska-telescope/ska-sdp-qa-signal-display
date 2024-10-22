@@ -1,14 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMsal, MsalAuthenticationTemplate } from '@azure/msal-react';
-import {
-  Header
-} from '@ska-telescope/ska-gui-components';
+import { Header } from '@ska-telescope/ska-gui-components';
 import { storageObject, Telescope } from '@ska-telescope/ska-gui-local-storage';
-import {
-  ALLOW_MOCK_USER_PERMISSIONS,
-  MSENTRA_CLIENT_ID
-} from '@utils/constants';
+import { ALLOW_MOCK_USER_PERMISSIONS, MSENTRA_CLIENT_ID } from '@utils/constants';
 
 import MSEntraSignInButton from '@components/Auth/MSEntraAuth/MSEntraSignInButton/MSEntraSignInButton';
 import { InteractionType } from '@azure/msal-browser';
@@ -135,8 +130,6 @@ function TheHeader(setOpenUser: {
   );
 }
 
-
-
 export interface LayoutProps {
   children: JSX.Element;
 }
@@ -174,7 +167,6 @@ export function Shell({ children }: LayoutProps) {
           {/* <Spacer size={SPACER_FOOTER} axis={SPACER_VERTICAL} /> */}
         </div>
       </Paper>
-      
     </Paper>
   );
 }

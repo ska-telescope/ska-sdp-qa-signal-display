@@ -1,15 +1,16 @@
 # Changelog
 
 ## Current Development
+
 - [Changed] Updated the @ska-telescope/ska-gui-components to ^2.0.16 and @ska-telescope/ska-gui-local-storage to ^2.0.0.
 - [Changed] Updated the typescript and webpack configuration to include paths to commonly used internal components.
 - [Added] added a run_get_local_env function in the end_config.sh to load .env variables in development environments.
 - [Changed] Moved the shell out of the App into its own component.
-- [Changed] Updated the footer to include the Copyright Modal. 
+- [Changed] Updated the footer to include the Copyright Modal.
 - [Added] Integrated the authentication with MS Entra into the application.
 
-
 ## 0.18.1
+
 - [Change] Move Weight Distribution graphs to above waterfall plots
 - [Fix] Change size of waterfall plots to show entire image
 - [Fix] Correct a crash when receiving a null for processing block deployments

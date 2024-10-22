@@ -3,21 +3,18 @@ import { CssBaseline, Paper, ThemeProvider } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Spacer, SPACER_VERTICAL } from '@ska-telescope/ska-gui-components';
 import { storageObject } from '@ska-telescope/ska-gui-local-storage';
+import theme from '@services/theme/theme';
+import { Shell } from '@components/Shell/Shell';
 import Container from '../Container/Container';
 import Loader from '../Loader/Loader';
-import theme from '@services/theme/theme';
 import SKAOFooter from '../Footer/Footer';
-import { Shell } from '@components/Shell/Shell';
-
 
 const HEADER_HEIGHT = 70;
 const FOOTER_HEIGHT = 30;
 
 function App() {
   const { t } = useTranslation('signalDisplay');
-  const {
-    themeMode,
-  } = storageObject.useStore();
+  const { themeMode } = storageObject.useStore();
 
   const version = process.env.VERSION;
 
@@ -27,12 +24,11 @@ function App() {
     setData(childData);
   };
 
-
   return (
     <ThemeProvider theme={theme(themeMode.mode)}>
       <CssBaseline enableColorScheme />
       <React.Suspense fallback={<Loader />}>
-        <Shell >
+        <Shell>
           <Paper>
             <Spacer size={HEADER_HEIGHT} axis={SPACER_VERTICAL} />
             <Container data-testid="containerId" childToParent={childToParent} />

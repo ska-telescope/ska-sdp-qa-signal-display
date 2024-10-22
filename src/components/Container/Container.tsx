@@ -210,11 +210,11 @@ const Container = ({ childToParent }) => {
       return;
     }
     await fetch(`${DATA_API_URL}${config.paths.processing_blocks}/latest/statistics`)
-    .then(response => response.json())
-    .then(data => {
-      setProcessingBlockStatisticsData(data);
-    })
-    .catch(() => null);
+      .then(response => response.json())
+      .then(data => {
+        setProcessingBlockStatisticsData(data);
+      })
+      .catch(() => null);
   }
 
   async function retrieveReceiverEventData() {
@@ -225,11 +225,11 @@ const Container = ({ childToParent }) => {
       return;
     }
     await fetch(`${DATA_API_URL}${config.paths.spead2_scans}/latest/latest_event`)
-    .then(response => response.json())
-    .then(data => {
-      setReceiverEventsData(data);
-    })
-    .catch(() => null);
+      .then(response => response.json())
+      .then(data => {
+        setReceiverEventsData(data);
+      })
+      .catch(() => null);
   }
 
   const limit = () =>
@@ -457,10 +457,9 @@ const Container = ({ childToParent }) => {
     });
   }
 
-
   React.useEffect(() => {
     setEnabledMetrics(getEnabledMetrics());
-    if (subarrayDetails?.processing_block_state?.status === 'READY'){
+    if (subarrayDetails?.processing_block_state?.status === 'READY') {
       retrieveProcessingBlockStatisticsData();
       retrieveReceiverEventData();
     }

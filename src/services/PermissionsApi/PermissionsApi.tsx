@@ -17,8 +17,8 @@ export async function loadUserPermissions(accessToken: string) {
 
   return (
     fetch(PERMISSIONS_API_URI, options)
-      .then((response) => response.json())
+      .then(response => response.json())
       // eslint-disable-next-line no-console
-      .catch((error) => console.log(error))
+      .catch(error => console.log(error))
   );
 }

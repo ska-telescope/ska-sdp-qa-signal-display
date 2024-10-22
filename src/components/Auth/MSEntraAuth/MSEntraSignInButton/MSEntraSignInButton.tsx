@@ -9,7 +9,7 @@ export default function MSEntraSignInButton() {
   const { instance } = useMsal();
   const { t } = useTranslation('authentication');
   function handleLogin() {
-    instance.loginRedirect(loginRequest).catch((e) => {
+    instance.loginRedirect(loginRequest).catch(e => {
       // eslint-disable-next-line no-console
       console.log(e);
     });

@@ -11,7 +11,7 @@ import { DATA_LOCAL, DATA_API_URL, WATERFALL_PLOT_TYPES } from '../../utils/cons
 import { QASettings } from '../Settings/qaSettings';
 import inView from '../InView/InView';
 
-const LagPlotImage = React.lazy(() => import('../LagPlotImage/LagPlotImage'))
+const LagPlotImage = React.lazy(() => import('../LagPlotImage/LagPlotImage'));
 
 interface LagPlotProps {
   config: Config;
@@ -32,8 +32,8 @@ const LagPlot = ({ config, legend, displaySettings, subArray, subarrayDetails }:
 
   const PATH_SUFFIX = `/${subarrayDetails?.execution_block?.key}/baselines`;
 
-  const lagPlotImageRef = React.useRef<HTMLDivElement>(null)
-  const lagPlotImageInView = inView(lagPlotImageRef, '100px')
+  const lagPlotImageRef = React.useRef<HTMLDivElement>(null);
+  const lagPlotImageInView = inView(lagPlotImageRef, '100px');
 
   const showToggle = () => {
     setShowContent(showContent ? false : chartData !== null);
@@ -51,12 +51,12 @@ const LagPlot = ({ config, legend, displaySettings, subArray, subarrayDetails }:
           signal: abortController.signal
         });
         const data = await response.json();
-    
+
         const filteredBaselines = data.baselines.filter((baseline: string) => {
           const [part1, part2] = baseline.split('_');
           return part1 !== part2;
         });
-    
+
         setShowContent(true);
         setBaselineData(filteredBaselines);
         abortController.abort();
@@ -132,22 +132,42 @@ const LagPlot = ({ config, legend, displaySettings, subArray, subarrayDetails }:
             {DATA_LOCAL && (
               <>
                 <Grid data-testid="LagPlot1Id" item>
-                  <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} subarrayDetails={subarrayDetails} />
+                  <LagPlotImage
+                    config={config}
+                    element={null}
+                    onClick={() => imageClick(null)}
+                    subarrayDetails={subarrayDetails}
+                  />
                 </Grid>
                 <Grid data-testid="LagPlot2Id" item>
-                  <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} subarrayDetails={subarrayDetails} />
+                  <LagPlotImage
+                    config={config}
+                    element={null}
+                    onClick={() => imageClick(null)}
+                    subarrayDetails={subarrayDetails}
+                  />
                 </Grid>
                 <Grid data-testid="LagPlot3Id" item>
-                  <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} subarrayDetails={subarrayDetails} />
+                  <LagPlotImage
+                    config={config}
+                    element={null}
+                    onClick={() => imageClick(null)}
+                    subarrayDetails={subarrayDetails}
+                  />
                 </Grid>
                 <Grid data-testid="LagPlot4Id" item>
-                  <LagPlotImage config={config} element={null} onClick={() => imageClick(null)} subarrayDetails={subarrayDetails} />
+                  <LagPlotImage
+                    config={config}
+                    element={null}
+                    onClick={() => imageClick(null)}
+                    subarrayDetails={subarrayDetails}
+                  />
                 </Grid>
               </>
             )}
 
             {!DATA_LOCAL && chartData && chartData.length && lagPlotImageInView ? (
-              chartData.map((item) => (
+              chartData.map(item => (
                 <Grid key={item} item>
                   <React.Suspense fallback={<div>Loading...</div>}>
                     <LagPlotImage

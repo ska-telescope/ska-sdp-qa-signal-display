@@ -17,12 +17,9 @@ const SKAOFooter = ({ version, config }: SKAOFooterProps) => {
 
   function CopyrightModalFunction(): React.JSX.Element {
     return (
-      <>
-        <CopyrightModal copyrightFunc={setShowCopyright} show={showCopyright} />
-      </>
+      <CopyrightModal copyrightFunc={setShowCopyright} show={showCopyright} />
     );
   }
-
 
   React.useEffect(() => {
     if (config === null) {
