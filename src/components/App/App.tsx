@@ -1,6 +1,5 @@
 import React from 'react';
 import { CssBaseline, Paper, ThemeProvider } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { Spacer, SPACER_VERTICAL } from '@ska-telescope/ska-gui-components';
 import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 import theme from '@services/theme/theme';
@@ -13,7 +12,6 @@ const HEADER_HEIGHT = 70;
 const FOOTER_HEIGHT = 30;
 
 function App() {
-  const { t } = useTranslation('signalDisplay');
   const { themeMode } = storageObject.useStore();
 
   const version = process.env.VERSION;

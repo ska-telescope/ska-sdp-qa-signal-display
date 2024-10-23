@@ -5,7 +5,7 @@ import MSEntraSignOutButton from '@components/Auth/MSEntraAuth/MSEntraSignOutBut
 
 export interface UserProps {
   open: boolean;
-  toggleDrawer: Function;
+  toggleDrawer: (newOpen: boolean) => () => void;
 }
 
 export default function User({ open, toggleDrawer }: UserProps) {

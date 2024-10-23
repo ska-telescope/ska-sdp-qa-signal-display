@@ -55,7 +55,8 @@ module.exports = {
     "@typescript-eslint/no-shadow": ["error"],
     "no-bitwise": "off",
     "@typescript-eslint/ban-ts-comment": "off",
-    "@typescript-eslint/no-var-requires": "off"
+    "@typescript-eslint/no-var-requires": "off",
+    'import/no-unresolved': 'off'
   },
   "env": {
     "browser": true,

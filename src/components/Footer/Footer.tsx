@@ -15,12 +15,6 @@ const SKAOFooter = ({ version, config }: SKAOFooterProps) => {
 
   const [showCopyright, setShowCopyright] = React.useState(false);
 
-  function CopyrightModalFunction(): React.JSX.Element {
-    return (
-      <CopyrightModal copyrightFunc={setShowCopyright} show={showCopyright} />
-    );
-  }
-
   React.useEffect(() => {
     if (config === null) {
     }
@@ -36,7 +30,7 @@ const SKAOFooter = ({ version, config }: SKAOFooterProps) => {
         <Typography variant="body1">{apiVersionNumber}</Typography>
       </Grid>
       <Grid />
-      {CopyrightModalFunction()}
+      <CopyrightModal copyrightFunc={setShowCopyright} show={showCopyright} />
     </Footer>
   );
 };

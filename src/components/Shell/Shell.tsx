@@ -3,20 +3,17 @@ import { useTranslation } from 'react-i18next';
 import { useMsal, MsalAuthenticationTemplate } from '@azure/msal-react';
 import { Header } from '@ska-telescope/ska-gui-components';
 import { storageObject, Telescope } from '@ska-telescope/ska-gui-local-storage';
-import { ALLOW_MOCK_USER_PERMISSIONS, MSENTRA_CLIENT_ID } from '@utils/constants';
 
 import MSEntraSignInButton from '@components/Auth/MSEntraAuth/MSEntraSignInButton/MSEntraSignInButton';
 import { InteractionType } from '@azure/msal-browser';
 import { IconButton, Paper, Tooltip, Typography } from '@mui/material';
-import { loadUserPermissions } from '@services/PermissionsApi/PermissionsApi';
-import { TELESCOPE_LOW, TELESCOPE_MID } from '@ska-telescope/ska-javascript-components';
 import User from './User/User';
 
 function TheHeader(setOpenUser: {
   (newOpen: boolean): () => void;
   (arg0: boolean): React.MouseEventHandler<HTMLButtonElement> | undefined;
 }): React.JSX.Element {
-  const { t } = useTranslation('signalDisplay');
+  const { t } = useTranslation();
   const skao = t('toolTip.button.skao', { ns: 'signalDisplay' });
   const mode = t('toolTip.button.mode', { ns: 'signalDisplay' });
   const toolTip = { skao, mode };
@@ -47,53 +44,6 @@ function TheHeader(setOpenUser: {
   };
   const { accounts } = useMsal();
   const username = accounts.length > 0 ? accounts[0].name : '';
-
-  const { updateAccess } = storageObject.useStore();
-
-  React.useEffect(() => {
-    if (!ALLOW_MOCK_USER_PERMISSIONS) {
-      const tokens = sessionStorage.getItem(`msal.token.keys.${MSENTRA_CLIENT_ID}`);
-      if (tokens) {
-        const accessTokenName = JSON.parse(tokens).accessToken[0];
-        const accessToken = sessionStorage.getItem(accessTokenName);
-        if (accessToken) {
-          (async () => {
-            try {
-              const permissions = await loadUserPermissions(JSON.parse(accessToken).secret);
-              let lowChecked = false;
-              let midChecked = false;
-              const telescopePermissions = permissions.telescope;
-              if (telescopePermissions.includes('low')) {
-                lowChecked = true;
-              } else if (telescopePermissions.includes('mid')) {
-                midChecked = true;
-              }
-
-              const newAccess = {
-                telescopes: [
-                  lowChecked ? TELESCOPE_LOW.code : '',
-                  midChecked ? TELESCOPE_MID.code : ''
-                ],
-                menu: {
-                  too: [{ title: 'Dummy Title', path: 'Dummy Path' }],
-                  top: [],
-                  dev: [],
-                  obs: [],
-                  res: [],
-                  def: [],
-                  lnk: []
-                }
-              };
-              updateAccess(newAccess);
-            } catch (error) {
-              console.error('Error fetching permissions:', error);
-            }
-          })();
-        }
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const signIn = () => (
     <>
