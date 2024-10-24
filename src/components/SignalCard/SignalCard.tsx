@@ -50,6 +50,8 @@ const SignalCard = ({
         return 9; // This value suppresses the Status Component
       case SOCKET_STATUS[0]:
         return 3;
+      case null:
+        return 2;
       default:
         return 1; // Everything else shown as an error
     }
