@@ -91,6 +91,7 @@ const Container = ({ childToParent }) => {
   const [counter, setCounter] = React.useState(0);
   const [fetchConfig, setFetchConfig] = React.useState(false);
   const [fetchSubArrayList, setFetchSubarrayList] = React.useState(false);
+  const [processingBlockId, setProcessingBlockId] = React.useState(null);
 
   // We have a delay to reduce screen flicker
   function resizeIncrement() {
@@ -210,11 +211,11 @@ const Container = ({ childToParent }) => {
       return;
     }
     await fetch(`${DATA_API_URL}${config.paths.processing_blocks}/latest/statistics`)
-    .then(response => response.json())
-    .then(data => {
-      setProcessingBlockStatisticsData(data);
-    })
-    .catch(() => null);
+      .then(response => response.json())
+      .then(data => {
+        setProcessingBlockStatisticsData(data);
+      })
+      .catch(() => null);
   }
 
   async function retrieveReceiverEventData() {
@@ -225,11 +226,11 @@ const Container = ({ childToParent }) => {
       return;
     }
     await fetch(`${DATA_API_URL}${config.paths.spead2_scans}/latest/latest_event`)
-    .then(response => response.json())
-    .then(data => {
-      setReceiverEventsData(data);
-    })
-    .catch(() => null);
+      .then(response => response.json())
+      .then(data => {
+        setReceiverEventsData(data);
+      })
+      .catch(() => null);
   }
 
   const limit = () =>
@@ -382,6 +383,7 @@ const Container = ({ childToParent }) => {
       .then(response => response.json())
       .then(data => {
         setSubarrayDetails(data);
+        setProcessingBlockId(data.execution_block.pb_realtime[0]);
         setTimeout(fetchSubarrayDetails, 10000);
       })
       .catch(() => null);
@@ -457,10 +459,18 @@ const Container = ({ childToParent }) => {
     });
   }
 
+  React.useEffect(() => {
+    if (processingBlockId != null) {
+      // eslint-disable-next-line no-console
+      console.log("Web sockets must be opened and components rerendered.");
+      setRedraw(!redraw);
+    }
+  }, [processingBlockId]);
+
 
   React.useEffect(() => {
     setEnabledMetrics(getEnabledMetrics());
-    if (subarrayDetails?.processing_block_state?.status === 'READY'){
+    if (subarrayDetails?.processing_block_state?.status === 'READY') {
       retrieveProcessingBlockStatisticsData();
       retrieveReceiverEventData();
     }
@@ -561,6 +571,7 @@ const Container = ({ childToParent }) => {
   const labelCounter = () => limit() - counter;
   const refreshClicked = () => {
     if (!fetchSubArrayList) {
+      setCounter(0);
       setFetchSubarrayList(true);
     }
   };
@@ -772,6 +783,7 @@ const Container = ({ childToParent }) => {
           displaySettings={displaySettings}
           subArray={subArray}
           subarrayDetails={subarrayDetails}
+          redraw={redraw}
         />
       )}
 
@@ -782,6 +794,7 @@ const Container = ({ childToParent }) => {
           displaySettings={displaySettings}
           subArray={subArray}
           subarrayDetails={subarrayDetails}
+          redraw={redraw}
         />
       )}
 

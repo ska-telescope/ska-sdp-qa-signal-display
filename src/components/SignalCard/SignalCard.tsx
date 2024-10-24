@@ -57,7 +57,7 @@ const SignalCard = ({
 
   const isDisabled = () => {
     const status = getSocketStatus();
-    return status > 1 && status < 4;
+    return status === 1;
   };
 
   const actionButtons = () => (
