@@ -81,7 +81,6 @@ const SpectrumPlot = ({
     const width = window.innerWidth;
     return displaySettings.gridView ? Math.min(700, width) : Math.min(1400, width);
   }
-  
 
   function calculateYData(inData: any) {
     switch (setting()) {
@@ -110,7 +109,7 @@ const SpectrumPlot = ({
         marker: {
           color: COLOR[2]
         },
-        line: {shape: 'hvh'}
+        line: { shape: 'hvh' }
       }
     ];
     return chartDataTmp;

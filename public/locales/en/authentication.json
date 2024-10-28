@@ -1,0 +1,12 @@
+{
+  "button": {
+    "confirm": "Confirm",
+    "signIn": "SIGN IN",
+    "signOut": "SIGN OUT"
+  },
+  "toolTip": {
+    "button": {
+      "user": "Additional user functionality including sign out"
+    }
+  }
+}

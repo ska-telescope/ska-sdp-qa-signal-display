@@ -52,7 +52,6 @@ const WeightDistributionPlot = ({
     const width = window.innerWidth;
     return displaySettings.gridView ? Math.min(700, width) : Math.min(1400, width);
   }
-  
 
   function calculateMidFrequency(usedData: any) {
     const minFreq = usedData.spectral_window.freq_min;
@@ -65,7 +64,7 @@ const WeightDistributionPlot = ({
     const vValues = [];
     const colors = [];
 
-    const filteredData = usedData.filter(e => e.polarisation === polar)
+    const filteredData = usedData.filter(e => e.polarisation === polar);
     filteredData.forEach((datum: any) => {
       uValues.push(datum.u);
       uValues.push(-1 * datum.u);
@@ -75,9 +74,8 @@ const WeightDistributionPlot = ({
       colors.push(datum.weight);
       colors.push(datum.weight);
     });
-    return [uValues, vValues, colors]
+    return [uValues, vValues, colors];
   }
-
 
   function getChartData(usedData: any) {
     const uvwData = getUVWData(usedData, polarization);
