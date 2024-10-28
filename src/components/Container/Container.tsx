@@ -463,13 +463,13 @@ const Container = ({ childToParent }) => {
     if (processingBlockId != null) {
       // eslint-disable-next-line no-console
       console.log("Web sockets must be opened and components rerendered.");
+      setEnabledMetrics(getEnabledMetrics());
       setRedraw(!redraw);
     }
   }, [processingBlockId]);
 
 
   React.useEffect(() => {
-    setEnabledMetrics(getEnabledMetrics());
     if (subarrayDetails?.processing_block_state?.status === 'READY') {
       retrieveProcessingBlockStatisticsData();
       retrieveReceiverEventData();
