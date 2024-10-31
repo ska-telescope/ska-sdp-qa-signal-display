@@ -383,7 +383,9 @@ const Container = ({ childToParent }) => {
       .then(response => response.json())
       .then(data => {
         setSubarrayDetails(data);
-        setProcessingBlockId(data.execution_block.pb_realtime[0]);
+        if(data.execution_block && data.execution_block.pb_realtime.length > 0){
+          setProcessingBlockId(data.execution_block.pb_realtime[0]);
+        }
         setTimeout(fetchSubarrayDetails, 10000);
       })
       .catch(() => null);
@@ -461,8 +463,6 @@ const Container = ({ childToParent }) => {
 
   React.useEffect(() => {
     if (processingBlockId != null) {
-      // eslint-disable-next-line no-console
-      console.log("Web sockets must be opened and components rerendered.");
       setRedraw(!redraw);
     }
   }, [processingBlockId]);
