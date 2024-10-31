@@ -13,7 +13,7 @@ i18n
   .init({
     fallbackLng: 'en',
     lng: 'en',
-    ns: ['signalDisplay'],
+    ns: ['signalDisplay', 'authentication'],
     defaultNS: 'signalDisplay',
     backend: {
       loadPath: './locales/{{lng}}/{{ns}}.json'

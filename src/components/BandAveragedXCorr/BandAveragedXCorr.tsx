@@ -68,33 +68,35 @@ const BandAveragedXCorr = ({
 
   function getBaseData(inData: Array<any>, polarisation: string, amplitude: boolean) {
     return inData
-      .filter(dataPayLoad => dataPayLoad.polarisation === polarisation && 
-        (!legend || legend.some(l => l.text === dataPayLoad.baseline && l.active)))
+      .filter(
+        dataPayLoad =>
+          dataPayLoad.polarisation === polarisation &&
+          (!legend || legend.some(l => l.text === dataPayLoad.baseline && l.active))
+      )
       .map(dataPayLoad => ({
         name: dataPayLoad.baseline,
         data: calculateYData([dataPayLoad.data], amplitude)
       }));
   }
-  
 
   const legendMap = React.useMemo(() => {
     const map = new Map();
     legend?.forEach(l => map.set(l.text, l.color));
     return map;
   }, [legend]);
-  
+
   function getLegendColor(name: string) {
     return legendMap.get(name) || COLOR[0];
   }
 
   function getChartData(usedData: any[], amplitude: boolean) {
     if (!legend || usedData.length === 0) return [];
-  
+
     const traces = [];
-  
+
     usedData.forEach(dataSet => {
       const baseData = getBaseData(dataSet.data, polarization, amplitude);
-      
+
       baseData.forEach((base, index) => {
         if (!traces[index]) {
           traces[index] = {
@@ -105,15 +107,14 @@ const BandAveragedXCorr = ({
             marker: { color: getLegendColor(base.name) }
           };
         }
-        
+
         traces[index].x.push(dataSet.timestamp);
         traces[index].y.push(base.data[0]);
       });
     });
-  
+
     return traces;
   }
-  
 
   const canShow = () => data !== null;
 
@@ -125,7 +126,6 @@ const BandAveragedXCorr = ({
     const width = window.innerWidth;
     return displaySettings.gridView ? Math.min(700, width) : Math.min(1400, width);
   }
-  
 
   React.useEffect(() => {
     if (!refresh) setShowContent(canShow());

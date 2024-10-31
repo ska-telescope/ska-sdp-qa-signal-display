@@ -5,6 +5,11 @@ export const CELL_HEIGHT = 75;
 export const CELL_WIDTH = 150;
 export const ROW_HEIGHT = 164;
 
+// AAA Constants
+export const MSENTRA_CLIENT_ID = env.REACT_APP_MSENTRA_CLIENT_ID;
+export const MSENTRA_TENANT_ID = env.REACT_APP_MSENTRA_TENANT_ID;
+export const MSENTRA_REDIRECT_URI = env.REACT_APP_MSENTRA_REDIRECT_URI;
+
 export const COLOR = [
   '#FF0000',
   '#00FF00',
@@ -588,9 +593,11 @@ export const METRIC_TYPES = {
 // Common URLs
 export const DATA_API_URL = env.REACT_APP_DATA_API_URL;
 
-export const DATA_LOCAL = env.REACT_APP_USE_LOCAL_DATA === true || env.REACT_APP_USE_LOCAL_DATA === 'true';
+export const DATA_LOCAL =
+  env.REACT_APP_USE_LOCAL_DATA === true || env.REACT_APP_USE_LOCAL_DATA === 'true';
 
-export const USE_MISSING_DATA_MASK = env.REACT_APP_USE_MISSING_DATA_MASK === true || env.REACT_APP_USE_MISSING_DATA_MASK === 'true';
+export const USE_MISSING_DATA_MASK =
+  env.REACT_APP_USE_MISSING_DATA_MASK === true || env.REACT_APP_USE_MISSING_DATA_MASK === 'true';
 
 const processAPI = env.REACT_APP_WS_API ? env.REACT_APP_WS_API : 'ws://localhost:8002';
 export const WS_API_URL = processAPI.startsWith('/')

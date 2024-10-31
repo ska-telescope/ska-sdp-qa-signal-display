@@ -59,7 +59,6 @@ const PointingOffsets = ({
     const width = window.innerWidth;
     return displaySettings.gridView ? Math.min(700, width) : Math.min(1400, width);
   }
-  
 
   function canShowChart() {
     switch (offset) {

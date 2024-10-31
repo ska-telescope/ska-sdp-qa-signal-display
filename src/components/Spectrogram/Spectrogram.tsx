@@ -11,8 +11,7 @@ import { DATA_LOCAL, DATA_API_URL, WATERFALL_PLOT_TYPES } from '../../utils/cons
 import { QASettings } from '../Settings/qaSettings';
 import inView from '../InView/InView';
 
-
-const SpectrogramImage = React.lazy(() => import('../SpectrogramImage/SpectrogramImage'))
+const SpectrogramImage = React.lazy(() => import('../SpectrogramImage/SpectrogramImage'));
 
 interface SpectrogramProps {
   config: Config;
@@ -34,8 +33,8 @@ const Spectrogram = ({ config, legend, displaySettings, subArray, subarrayDetail
 
   const PATH_SUFFIX = `/${subarrayDetails?.execution_block?.key}/baselines`;
 
-  const spectrogramImageRef = React.useRef<HTMLDivElement>(null)
-  const spectrogramImageInView = inView(spectrogramImageRef, '100px')
+  const spectrogramImageRef = React.useRef<HTMLDivElement>(null);
+  const spectrogramImageInView = inView(spectrogramImageRef, '100px');
 
   const showToggle = () => {
     setShowContent(showContent ? false : chartData !== null);
@@ -99,7 +98,6 @@ const Spectrogram = ({ config, legend, displaySettings, subArray, subarrayDetail
     setOpen(true);
     setSelected(DATA_LOCAL ? 'THUMBNAIL' : item);
   }
-
 
   return (
     <div ref={spectrogramImageRef}>
@@ -166,7 +164,7 @@ const Spectrogram = ({ config, legend, displaySettings, subArray, subarrayDetail
             )}
 
             {!DATA_LOCAL && chartData && chartData.length && spectrogramImageInView ? (
-              chartData.map((item) => (
+              chartData.map(item => (
                 <Grid key={item} item>
                   <React.Suspense fallback={<div>Loading...</div>}>
                     <SpectrogramImage

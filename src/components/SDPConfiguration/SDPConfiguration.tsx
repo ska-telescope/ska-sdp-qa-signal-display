@@ -133,7 +133,9 @@ const SDPConfiguration = ({ subarray, subarrayDetails }: SubarrayProps) => {
                 ariaDescription=""
                 testId="statusIdExecutionBlock"
                 icon
-                level={READY_STATUS[subarrayDetails?.execution_block_state?.status === 'ACTIVE' ? 1 : 0]}
+                level={
+                  READY_STATUS[subarrayDetails?.execution_block_state?.status === 'ACTIVE' ? 1 : 0]
+                }
                 size={SIZE}
                 text=""
               />

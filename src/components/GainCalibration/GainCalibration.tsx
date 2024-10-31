@@ -40,11 +40,16 @@ const GainCalibration = ({
 
   const selector = React.useMemo(() => {
     switch (gain) {
-      case 'amplitudeH': return ['gains', 0];
-      case 'amplitudeV': return ['gains', 3];
-      case 'phaseH': return ['phases', 0];
-      case 'phaseV': return ['phases', 3];
-      default: return ['', null];
+      case 'amplitudeH':
+        return ['gains', 0];
+      case 'amplitudeV':
+        return ['gains', 3];
+      case 'phaseH':
+        return ['phases', 0];
+      case 'phaseV':
+        return ['phases', 3];
+      default:
+        return ['', null];
     }
   }, [gain]);
 
@@ -55,7 +60,7 @@ const GainCalibration = ({
     return usedData[0][selection].map((_: any, i: number) => ({
       x: usedData.map((datum: any) => datum.time[0]),
       y: usedData.map((datum: any) => datum[selection][i][index]),
-      mode: 'markers+lines',
+      mode: 'markers+lines'
     }));
   };
 
@@ -69,9 +74,6 @@ const GainCalibration = ({
     const width = window.innerWidth;
     return displaySettings.gridView ? Math.min(700, width) : Math.min(1400, width);
   }
-  
-
-
 
   function canShowChart() {
     switch (gain) {

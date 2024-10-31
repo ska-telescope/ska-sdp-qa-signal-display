@@ -150,7 +150,7 @@ const Polarization = ({
     legend?.forEach(l => map.set(l.text, l.color));
     return map;
   }, [legend]);
-  
+
   function getLegendColor(name: string) {
     return legendMap.get(name) || COLOR[0];
   }
@@ -163,7 +163,7 @@ const Polarization = ({
       y: data,
       name,
       marker: { color: getLegendColor(name) },
-      line: {shape: 'hvh'}
+      line: { shape: 'hvh' }
     }));
   }
 

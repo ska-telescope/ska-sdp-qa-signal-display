@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "target": "es6",
     "lib": ["dom", "ES6", "dom.iterable", "ScriptHost", "ES2016.Array.Include"],
     "allowJs": true,
@@ -17,13 +16,15 @@
     "noEmit": true,
     "jsx": "preserve",
     "incremental": true,
-    "types": ["cypress", "node"]
+    "types": ["cypress", "node"],
+
+    "baseUrl": "src/",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@services/*": ["services/*"],
+      "@utils/*": ["utils/*"]
+    }
   },
   "include": ["src", "cypress", "./cypress.d.ts", "./cypress/support/index.d.ts"],
-  "exclude": ["node_modules"],
-  "paths": {
-    "@components/*": ["components/*"],
-    "@pages/*": ["pages/*"],
-    "@hooks/*": ["hooks/*"]
-  }
+  "exclude": ["node_modules"]
 }
