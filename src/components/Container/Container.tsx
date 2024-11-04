@@ -687,7 +687,7 @@ const Container = ({ childToParent }) => {
         </Box>
       </Box>
       {currentTabIndex === 0 && showLegend() && <MaskLegend displaySettings={displaySettings} />}
-      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.SPECTRUM) && (
+      {currentTabIndex === 0 && (
         <Grid container>
           {POLARIZATIONS.map(item => (
             <Grid item xs={gridWidth()}>
@@ -720,8 +720,6 @@ const Container = ({ childToParent }) => {
         />
       )}
       {currentTabIndex === 0 &&
-        (enabledMetrics.includes(METRIC_TYPES.PHASE) ||
-          enabledMetrics.includes(METRIC_TYPES.AMPLITUDE)) &&
         POLARIZATIONS.map(item => (
           <Polarization
             key={`Polarization${item}`}
@@ -738,7 +736,7 @@ const Container = ({ childToParent }) => {
           />
         ))}
 
-      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.BAND_AVERAGED_X_CORR) && (
+      {currentTabIndex === 0 && (
         <Grid container>
           {POLARIZATIONS.map(item => (
             <Grid item xs={gridWidth()}>
@@ -758,7 +756,7 @@ const Container = ({ childToParent }) => {
         </Grid>
       )}
 
-      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.UV_COVERAGE) && (
+      {currentTabIndex === 0 && (
         <Grid container>
           {POLARIZATIONS.map(item => (
             <Grid item xs={gridWidth()}>
@@ -776,7 +774,7 @@ const Container = ({ childToParent }) => {
         </Grid>
       )}
 
-      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.SPECTROGRAMS) && (
+      {currentTabIndex === 0 && (
         <Spectrogram
           config={config}
           legend={legendData}
@@ -787,7 +785,7 @@ const Container = ({ childToParent }) => {
         />
       )}
 
-      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.LAG_PLOT) && (
+      {currentTabIndex === 0 && (
         <LagPlot
           config={config}
           legend={legendData}
