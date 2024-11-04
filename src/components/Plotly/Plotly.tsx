@@ -85,19 +85,26 @@ const Plotly = ({
         },
         margin: { t: 25, r: 0 },
 
-        shapes: masked
+        shapes: masked,
+
+        selection: [
+          {
+            type: 'line',
+            line: {
+              color: 'red',
+              dash: 'dot',
+              width: 2,
+            },
+          }
+        ],
       };
     }
     return layout;
   }
 
   const handleSelection = (event: any) => {
-    console.log(event)
     if (event && event.range && event.range.x) {
       onSetSharedData(event.range.x);
-    }
-    else {
-      console.warn("Unexpected event handling.")
     }
   };
 
