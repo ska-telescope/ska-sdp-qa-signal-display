@@ -34,6 +34,7 @@ import gainCalibrationData from '../../mockData/WebSocket/gainCalibrations.json'
 import BandAveragedXCorrData from '../../mockData/WebSocket/bandAveragedXCorr.json';
 import UVCoverageData from '../../mockData/WebSocket/uvCoverage.json';
 import maskMockData from '../../mockData/tel-model/maskMockData.json';
+import WindowRequest from '@components/WindowRequest/WindowRequest';
 import {
   COLOR,
   DATA_API_URL,
@@ -575,6 +576,8 @@ const Container = ({ childToParent }) => {
     setCurrentTabIndex(tabIndex);
   };
 
+  const [sharedXRange, setSharedXRange] = React.useState([])
+
   return (
     <>
       <Box m={0}>
@@ -675,6 +678,7 @@ const Container = ({ childToParent }) => {
         </Box>
       </Box>
       {currentTabIndex === 0 && showLegend() && <MaskLegend displaySettings={displaySettings} />}
+      {currentTabIndex === 0 && <WindowRequest sharedData={sharedXRange}/>}
       {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.SPECTRUM) && (
         <Grid container>
           {POLARIZATIONS.map(item => (
@@ -691,6 +695,7 @@ const Container = ({ childToParent }) => {
                 config={config}
                 subArray={subArray}
                 missingData={maskData}
+                setSharedData={setSharedXRange}
               />
             </Grid>
           ))}

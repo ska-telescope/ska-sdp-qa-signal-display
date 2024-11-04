@@ -112,6 +112,9 @@ context('Signal display', () => {
         statisticsReceiver();
         runningConfiguration();
 
+        cy.findAllByTestId("sectionHeader").contains("High Resolution Windows").should("be.visible");
+
+
         cy.findAllByTestId("sectionHeader").contains("Spectrum XX").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("Spectrum XY").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("Spectrum YX").should("be.visible");

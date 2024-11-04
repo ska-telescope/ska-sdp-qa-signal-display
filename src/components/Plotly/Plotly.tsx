@@ -12,6 +12,7 @@ interface PlotlyProps {
   yLabel: string;
   masked?: Data[];
   marginalHistogram?: boolean;
+  onSetSharedData?: any
 }
 
 const Plotly = ({
@@ -23,7 +24,8 @@ const Plotly = ({
   xLabel,
   yLabel,
   masked = [],
-  marginalHistogram = false
+  marginalHistogram = false,
+  onSetSharedData
 }: PlotlyProps) => {
   function assignLayout(makeMarginal: boolean) {
     let layout = {};
@@ -73,6 +75,8 @@ const Plotly = ({
           color: darkMode ? 'white' : 'black',
           automargin: true
         },
+        dragmode: 'select',
+        selectdirection: 'h',
         yaxis: {
           title: yLabel,
           color: darkMode ? 'white' : 'black',
@@ -87,7 +91,17 @@ const Plotly = ({
     return layout;
   }
 
-  return <Plot data={data} layout={assignLayout(marginalHistogram)} />;
+  const handleSelection = (event: any) => {
+    console.log(event)
+    if (event && event.range && event.range.x) {
+      onSetSharedData(event.range.x);
+    }
+    else {
+      console.warn("Unexpected event handling.")
+    }
+  };
+
+  return <Plot data={data} layout={assignLayout(marginalHistogram)} onSelected={handleSelection}/>;
 };
 
 export default Plotly;
