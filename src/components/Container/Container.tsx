@@ -678,7 +678,12 @@ const Container = ({ childToParent }) => {
         </Box>
       </Box>
       {currentTabIndex === 0 && showLegend() && <MaskLegend displaySettings={displaySettings} />}
-      {currentTabIndex === 0 && <WindowRequest sharedData={sharedXRange}/>}
+      {currentTabIndex === 0 && 
+      <WindowRequest 
+        sharedData={sharedXRange} 
+        subArray={subArray}
+        subarrayDetails={subarrayDetails}
+      />}
       {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.SPECTRUM) && (
         <Grid container>
           {POLARIZATIONS.map(item => (
