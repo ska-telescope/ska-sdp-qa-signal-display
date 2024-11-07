@@ -43,6 +43,7 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }) => {
       alert(`Hi-Res window requested for: ${data.f_min} - ${data.f_max}, with channel averaging: ${data.nchan_avg}`);
       return responseData;
     } catch (error) {
+      /* eslint no-console: ["error", { allow: ["error"] }] */
       console.error("Request failed:", error);
     }
   }
@@ -73,7 +74,7 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }) => {
       processing_block: subarrayDetails?.execution_block?.pb_realtime[0],
       spectrum_start: Math.round(data.f_min * HZ_TO_MHZ),
       spectrum_end: Math.round(data.f_max * HZ_TO_MHZ),
-      channels_averaged: parseInt(data.nchan_avg)
+      channels_averaged: parseInt(data.nchan_avg, 10)
     }
     createWindow(windowData)
   };
