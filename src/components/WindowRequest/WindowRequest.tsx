@@ -40,7 +40,7 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }) => {
       }
   
       const responseData = await response.json();
-      alert(`Hi-Res window requested for: ${data.f_min} - ${data.f_max}, ${data.nchan_avg}`);
+      alert(`Hi-Res window requested for: ${data.f_min} - ${data.f_max}, with channel averaging: ${data.nchan_avg}`);
       return responseData;
     } catch (error) {
       console.error("Request failed:", error);
