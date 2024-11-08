@@ -26,7 +26,6 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }) => {
 
   async function createWindow(windowData: CreateWindow) {
     try {
-      console.log(JSON.stringify(windowData))
       const response = await fetch(`${DATA_API_URL}/windows`, {
         method: "POST",
         headers: {
