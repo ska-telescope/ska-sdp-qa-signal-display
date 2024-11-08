@@ -51,8 +51,8 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }) => {
   useEffect(() => {
     if (sharedData) {
       setData({
-        f_min: sharedData[0] || '',
-        f_max: sharedData[1] || '',
+        f_min: sharedData.data[0] || '',
+        f_max: sharedData.data[1] || '',
       });
     }
   }, [sharedData]);
@@ -69,7 +69,7 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }) => {
     event.preventDefault();
 
     const windowData: CreateWindow = {
-      metric: 'spectrum',
+      metric: sharedData.metric,
       subarray: subArray,
       processing_block: subarrayDetails?.execution_block?.pb_realtime[0],
       spectrum_start: Math.round(data.f_min * HZ_TO_MHZ),

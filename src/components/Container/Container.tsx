@@ -576,7 +576,7 @@ const Container = ({ childToParent }) => {
     setCurrentTabIndex(tabIndex);
   };
 
-  const [sharedXRange, setSharedXRange] = React.useState([])
+  const [sharedXRange, setSharedXRange] = React.useState({data: '', metric: ''})
 
   return (
     <>

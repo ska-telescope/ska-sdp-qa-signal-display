@@ -253,6 +253,7 @@ const SpectrumPlot = ({
               yLabel={yLabel()}
               masked={maskedData}
               onSetSharedData={setSharedData}
+              metricType='spectrum'
             />
           </SignalCard>
         )}
