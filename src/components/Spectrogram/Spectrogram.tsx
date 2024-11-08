@@ -19,15 +19,10 @@ interface SpectrogramProps {
   displaySettings: typeof QASettings;
   subArray: string;
   subarrayDetails: any;
+  redraw: boolean;
 }
 
-const Spectrogram = ({
-  config,
-  legend,
-  displaySettings,
-  subArray,
-  subarrayDetails
-}: SpectrogramProps) => {
+const Spectrogram = ({ config, legend, displaySettings, subArray, subarrayDetails, redraw }: SpectrogramProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [showContent, setShowContent] = React.useState(false);
@@ -73,7 +68,7 @@ const Spectrogram = ({
     } else if (config !== null) {
       retrieveBaselineData();
     }
-  }, [config]);
+  }, [config, redraw]);
 
   React.useEffect(() => {
     if (DATA_LOCAL) {

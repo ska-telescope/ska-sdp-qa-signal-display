@@ -19,9 +19,10 @@ interface LagPlotProps {
   displaySettings: typeof QASettings;
   subArray: string;
   subarrayDetails: any;
+  redraw: boolean;
 }
 
-const LagPlot = ({ config, legend, displaySettings, subArray, subarrayDetails }: LagPlotProps) => {
+const LagPlot = ({ config, legend, displaySettings, subArray, subarrayDetails, redraw }: LagPlotProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [showContent, setShowContent] = React.useState(false);
@@ -71,7 +72,7 @@ const LagPlot = ({ config, legend, displaySettings, subArray, subarrayDetails }:
     } else if (config !== null) {
       retrieveBaseData();
     }
-  }, [config]);
+  }, [config, redraw]);
 
   React.useEffect(() => {
     if (DATA_LOCAL) {

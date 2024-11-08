@@ -91,6 +91,7 @@ const Container = ({ childToParent }) => {
   const [counter, setCounter] = React.useState(0);
   const [fetchConfig, setFetchConfig] = React.useState(false);
   const [fetchSubArrayList, setFetchSubarrayList] = React.useState(false);
+  const [processingBlockId, setProcessingBlockId] = React.useState(null);
 
   // We have a delay to reduce screen flicker
   function resizeIncrement() {
@@ -382,6 +383,9 @@ const Container = ({ childToParent }) => {
       .then(response => response.json())
       .then(data => {
         setSubarrayDetails(data);
+        if(data.execution_block && data.execution_block.pb_realtime.length > 0){
+          setProcessingBlockId(data.execution_block.pb_realtime[0]);
+        }
         setTimeout(fetchSubarrayDetails, 10000);
       })
       .catch(() => null);
@@ -456,6 +460,13 @@ const Container = ({ childToParent }) => {
       }
     });
   }
+
+  React.useEffect(() => {
+    if (processingBlockId != null) {
+      setRedraw(!redraw);
+    }
+  }, [processingBlockId]);
+
 
   React.useEffect(() => {
     setEnabledMetrics(getEnabledMetrics());
@@ -560,6 +571,7 @@ const Container = ({ childToParent }) => {
   const labelCounter = () => limit() - counter;
   const refreshClicked = () => {
     if (!fetchSubArrayList) {
+      setCounter(0);
       setFetchSubarrayList(true);
     }
   };
@@ -675,7 +687,7 @@ const Container = ({ childToParent }) => {
         </Box>
       </Box>
       {currentTabIndex === 0 && showLegend() && <MaskLegend displaySettings={displaySettings} />}
-      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.SPECTRUM) && (
+      {currentTabIndex === 0 && (
         <Grid container>
           {POLARIZATIONS.map(item => (
             <Grid item xs={gridWidth()}>
@@ -708,8 +720,6 @@ const Container = ({ childToParent }) => {
         />
       )}
       {currentTabIndex === 0 &&
-        (enabledMetrics.includes(METRIC_TYPES.PHASE) ||
-          enabledMetrics.includes(METRIC_TYPES.AMPLITUDE)) &&
         POLARIZATIONS.map(item => (
           <Polarization
             key={`Polarization${item}`}
@@ -726,7 +736,7 @@ const Container = ({ childToParent }) => {
           />
         ))}
 
-      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.BAND_AVERAGED_X_CORR) && (
+      {currentTabIndex === 0 && (
         <Grid container>
           {POLARIZATIONS.map(item => (
             <Grid item xs={gridWidth()}>
@@ -746,7 +756,7 @@ const Container = ({ childToParent }) => {
         </Grid>
       )}
 
-      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.UV_COVERAGE) && (
+      {currentTabIndex === 0 && (
         <Grid container>
           {POLARIZATIONS.map(item => (
             <Grid item xs={gridWidth()}>
@@ -764,23 +774,25 @@ const Container = ({ childToParent }) => {
         </Grid>
       )}
 
-      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.SPECTROGRAMS) && (
+      {currentTabIndex === 0 && (
         <Spectrogram
           config={config}
           legend={legendData}
           displaySettings={displaySettings}
           subArray={subArray}
           subarrayDetails={subarrayDetails}
+          redraw={redraw}
         />
       )}
 
-      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.LAG_PLOT) && (
+      {currentTabIndex === 0 && (
         <LagPlot
           config={config}
           legend={legendData}
           displaySettings={displaySettings}
           subArray={subArray}
           subarrayDetails={subarrayDetails}
+          redraw={redraw}
         />
       )}
 

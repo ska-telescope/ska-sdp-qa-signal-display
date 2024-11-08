@@ -42,7 +42,7 @@ const WeightDistributionPlot = ({
 
   const yLabel = () => `${t('label.v')} (${t(`units.numberOfWavelengths`)})`;
 
-  const canShow = () => data && data.data;
+  const canShow = () => data?.length > 0;
 
   const showToggle = () => {
     setShowContent(showContent ? false : canShow());
@@ -147,7 +147,7 @@ const WeightDistributionPlot = ({
       {canShowChart() && (
         <SignalCard
           action={<></>}
-          data-testid="signalCardId"
+          data-testid="uvCoverageCard"
           title={`${t('label.weightDistribution')} ${polarization} - ${midFreq} MHz Mid Frequency`}
           socketStatus={socketStatus}
           showContent={showContent}
