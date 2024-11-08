@@ -12,8 +12,9 @@ interface PlotlyProps {
   yLabel: string;
   masked?: Data[];
   marginalHistogram?: boolean;
-  onSetSharedData?: any
-  metricType?: string
+  onSetSharedData?: any;
+  onSharedData?: any;
+  metricType?: string;
 }
 
 const Plotly = ({
@@ -27,6 +28,7 @@ const Plotly = ({
   masked = [],
   marginalHistogram = false,
   onSetSharedData,
+  onSharedData,
   metricType
 }: PlotlyProps) => {
   function assignLayout(makeMarginal: boolean) {
@@ -106,7 +108,7 @@ const Plotly = ({
 
   const handleSelection = (event: any) => {
     if (event && event.range && event.range.x) {
-      onSetSharedData({data: event.range.x, metric: metricType});
+      onSetSharedData({...onSharedData, data: event.range.x, metric: metricType});
     }
   };
 

@@ -713,6 +713,7 @@ const Container = ({ childToParent }) => {
                 subArray={subArray}
                 missingData={maskData}
                 setSharedData={setSharedXRange}
+                sharedData={sharedXRange}
               />
             </Grid>
           ))}
