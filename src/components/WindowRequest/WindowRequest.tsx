@@ -75,7 +75,7 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }: WindowRequestP
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    selectedOptions.map((option) => {
+    selectedOptions.forEach((option) => {
 
       const windowData: CreateWindow = {
         metric: option,
