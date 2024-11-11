@@ -6,7 +6,7 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Typography } from '@mui/material';
 import SignalCard from '../SignalCard/SignalCard';
-import { DATA_API_URL, METRIC_TYPES } from '@utils/constants';
+import { DATA_API_URL } from '@utils/constants';
 import { HZ_TO_MHZ } from '@utils/calculate';
 
 
@@ -22,7 +22,7 @@ interface CreateWindow {
 interface WindowRequestProps {
   sharedData: object;
   subArray: string;
-  subarrayDetails?: string[];
+  subarrayDetails: string[];
 }
 
 const WindowRequest = ({ sharedData, subArray, subarrayDetails }: WindowRequestProps) => {
