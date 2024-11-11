@@ -22,7 +22,15 @@ interface SpectrogramProps {
   redraw: boolean;
 }
 
-const Spectrogram = ({ config, legend, displaySettings, subArray, subarrayDetails, redraw }: SpectrogramProps) => {
+const Spectrogram = ({
+  config,
+  legend,
+  displaySettings,
+  subArray,
+  subarrayDetails,
+  redraw
+}: SpectrogramProps) => {
+
   const { t } = useTranslation('signalDisplay');
 
   const [showContent, setShowContent] = React.useState(false);
