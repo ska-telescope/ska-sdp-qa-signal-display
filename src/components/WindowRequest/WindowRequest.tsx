@@ -19,7 +19,13 @@ interface CreateWindow {
   channels_averaged: number;
 }
 
-const WindowRequest = ({ sharedData, subArray, subarrayDetails }) => {
+interface WindowRequestProps {
+  sharedData: object;
+  subArray: string;
+  subarrayDetails?: string[];
+}
+
+const WindowRequest = ({ sharedData, subArray, subarrayDetails }: WindowRequestProps) => {
   const { t } = useTranslation('signalDisplay');
   const [showContent, setShowContent] = React.useState(false);
   const [data, setData] = React.useState({ f_min: '', f_max: '', nchan_avg: '' });
@@ -30,7 +36,7 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
-        },
+                },
         body: JSON.stringify(windowData)
       });
   
@@ -68,20 +74,57 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const windowData: CreateWindow = {
-      metric: sharedData.metric,
-      subarray: subArray,
-      processing_block: subarrayDetails?.execution_block?.pb_realtime[0],
-      spectrum_start: Math.round(data.f_min * HZ_TO_MHZ),
-      spectrum_end: Math.round(data.f_max * HZ_TO_MHZ),
-      channels_averaged: parseInt(data.nchan_avg, 10)
-    }
-    createWindow(windowData)
+    for (var selection of selectedOptions) {
+
+      const windowData: CreateWindow = {
+        metric: selection,
+        subarray: subArray,
+        processing_block: subarrayDetails?.execution_block?.pb_realtime[0],
+        spectrum_start: Math.round(data.f_min * HZ_TO_MHZ),
+        spectrum_end: Math.round(data.f_max * HZ_TO_MHZ),
+        channels_averaged: parseInt(data.nchan_avg, 10)
+      }
+      createWindow(windowData)
+  }
   };
 
   const showToggle = () => {
     setShowContent(!showContent);
   };
+
+  function getDeploymentNames() {
+    if (subarrayDetails?.deployments == null) {
+      return '';
+    }
+    const metrics = [];
+
+    Object.entries(subarrayDetails?.deployments).forEach(([_key, deployments]) => {
+      deployments?.deployment?.args?.values?.processors.forEach(processor => {
+        if (processor.name.startsWith('signal-display-metrics-')) {
+          metrics.push(processor.command[processor.command.length - 1]);
+        } 
+      });
+    });
+    return metrics.flatMap(item => item.split(','));;
+  }
+
+  const options = getDeploymentNames() || [];
+
+  const filteredOptions = options.filter(option => 
+    !['stats', 'bandaveragedxcorr'].includes(option)
+  );
+
+  const [selectedOptions, setSelectedOptions] = React.useState<string[]>([]);
+
+  const handleCheckboxChange = (option: string) => {
+    setSelectedOptions(prev =>
+      prev.includes(option)
+        ? prev.filter(item => item !== option)
+        : [...prev, option]
+    );
+  };
+
+  console.log(selectedOptions)
 
   return (
     <>
@@ -116,6 +159,19 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }) => {
                   onChange={handleChange}
                 />
               </Typography>
+              {filteredOptions.map(option => (
+                <div key={option}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      value={option}
+                      checked={selectedOptions.includes(option)}
+                      onChange={() => handleCheckboxChange(option)}
+                    />
+                    {option}
+                  </label>
+                </div>
+              ))}
               <input type="submit" />
             </Box>
           </form>
