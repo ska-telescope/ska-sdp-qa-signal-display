@@ -29,6 +29,7 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }: WindowRequestP
   const { t } = useTranslation('signalDisplay');
   const [showContent, setShowContent] = React.useState(false);
   const [data, setData] = React.useState({ f_min: '', f_max: '', nchan_avg: '' });
+  const [selectedOptions, setSelectedOptions] = React.useState<string[]>([]);
 
   async function createWindow(windowData: CreateWindow) {
     try {
@@ -98,7 +99,7 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }: WindowRequestP
     }
     const metrics = [];
 
-    Object.entries(subarrayDetails?.deployments).forEach(([_key, deployments]) => {
+    Object.entries(subarrayDetails?.deployments).forEach(([_, deployments]) => {
       deployments?.deployment?.args?.values?.processors.forEach(processor => {
         if (processor.name.startsWith('signal-display-metrics-')) {
           metrics.push(processor.command[processor.command.length - 1]);
@@ -113,8 +114,6 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }: WindowRequestP
   const filteredOptions = options.filter(option => 
     !['stats', 'bandaveragedxcorr'].includes(option)
   );
-
-  const [selectedOptions, setSelectedOptions] = React.useState<string[]>([]);
 
   const handleCheckboxChange = (option: string) => {
     setSelectedOptions(prev =>
@@ -160,8 +159,9 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }: WindowRequestP
               </Typography>
               {filteredOptions.map(option => (
                 <div key={option}>
-                  <label>
+                  <label htmlFor="metric">
                     <input
+                      id="metric"
                       type="checkbox"
                       value={option}
                       checked={selectedOptions.includes(option)}
