@@ -696,7 +696,7 @@ const Container = ({ childToParent }) => {
           subarrayDetails={subarrayDetails}
         />
       )}
-      {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.SPECTRUM) && (
+      {currentTabIndex === 0 && (
         <Grid container>
           {POLARIZATIONS.map(item => (
             <Grid item xs={gridWidth()}>
