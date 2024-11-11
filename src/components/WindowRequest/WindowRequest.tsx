@@ -74,10 +74,10 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }: WindowRequestP
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    for (var selection of selectedOptions) {
+    selectedOptions.map((option) => {
 
       const windowData: CreateWindow = {
-        metric: selection,
+        metric: option,
         subarray: subArray,
         processing_block: subarrayDetails?.execution_block?.pb_realtime[0],
         spectrum_start: Math.round(data.f_min * HZ_TO_MHZ),
@@ -85,7 +85,7 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }: WindowRequestP
         channels_averaged: parseInt(data.nchan_avg, 10)
       }
       createWindow(windowData)
-  }
+  })
   };
 
   const showToggle = () => {
@@ -124,7 +124,6 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }: WindowRequestP
     );
   };
 
-  console.log(selectedOptions)
 
   return (
     <>
