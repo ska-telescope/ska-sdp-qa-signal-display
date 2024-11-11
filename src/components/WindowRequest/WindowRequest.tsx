@@ -5,13 +5,12 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Typography } from '@mui/material';
-import SignalCard from '../SignalCard/SignalCard';
-import { DATA_API_URL } from '@utils/constants';
+import { DATA_API_URL, MSENTRA_CLIENT_ID } from '@utils/constants';
 import { HZ_TO_MHZ } from '@utils/calculate';
-
+import SignalCard from '../SignalCard/SignalCard';
 
 interface CreateWindow {
-  metric: string; 
+  metric: string;
   subarray: string;
   processing_block: string;
   spectrum_start: number;
@@ -30,28 +29,44 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }: WindowRequestP
   const [showContent, setShowContent] = React.useState(false);
   const [data, setData] = React.useState({ f_min: '', f_max: '', nchan_avg: '' });
   const [selectedOptions, setSelectedOptions] = React.useState<string[]>([]);
+  const [bearer, setBearer] = React.useState('');
+
+  React.useEffect(() => {
+    const tokens = sessionStorage.getItem(`msal.token.keys.${MSENTRA_CLIENT_ID}`);
+    if (tokens) {
+      const accessTokenName = JSON.parse(tokens).accessToken[0];
+      const accessToken = sessionStorage.getItem(accessTokenName);
+      if (accessToken) {
+        const { secret } = JSON.parse(accessToken);
+        setBearer(`Bearer ${secret}`);
+      }
+    }
+  }, []);
 
   async function createWindow(windowData: CreateWindow) {
     try {
       const response = await fetch(`${DATA_API_URL}/windows`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json"
-                },
+          'Content-Type': 'application/json',
+          Authorization: bearer
+        },
         body: JSON.stringify(windowData)
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(`Error creating window: ${errorData.message}`);
       }
-  
+
       const responseData = await response.json();
-      alert(`Hi-Res window requested for: ${data.f_min} - ${data.f_max}, with channel averaging: ${data.nchan_avg}`);
+      alert(
+        `Hi-Res window requested for: ${data.f_min} - ${data.f_max}, with channel averaging: ${data.nchan_avg}`
+      );
       return responseData;
     } catch (error) {
       /* eslint no-console: ["error", { allow: ["error"] }] */
-      console.error("Request failed:", error);
+      console.error('Request failed:', error);
     }
   }
 
@@ -59,24 +74,23 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }: WindowRequestP
     if (sharedData) {
       setData({
         f_min: sharedData.data[0] || '',
-        f_max: sharedData.data[1] || '',
+        f_max: sharedData.data[1] || ''
       });
     }
   }, [sharedData]);
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     const { name, value } = event.target;
-    setData((prevData) => ({
+    setData(prevData => ({
       ...prevData,
-      [name]: value,
+      [name]: value
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
 
-    selectedOptions.forEach((option) => {
-
+    selectedOptions.forEach(option => {
       const windowData: CreateWindow = {
         metric: option,
         subarray: subArray,
@@ -84,9 +98,9 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }: WindowRequestP
         spectrum_start: Math.round(data.f_min * HZ_TO_MHZ),
         spectrum_end: Math.round(data.f_max * HZ_TO_MHZ),
         channels_averaged: parseInt(data.nchan_avg, 10)
-      }
-      createWindow(windowData)
-  })
+      };
+      createWindow(windowData);
+    });
   };
 
   const showToggle = () => {
@@ -103,50 +117,41 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }: WindowRequestP
       deployments?.deployment?.args?.values?.processors.forEach(processor => {
         if (processor.name.startsWith('signal-display-metrics-')) {
           metrics.push(processor.command[processor.command.length - 1]);
-        } 
+        }
       });
     });
-    return metrics.flatMap(item => item.split(','));;
+    return metrics.flatMap(item => item.split(','));
   }
 
   const options = getDeploymentNames() || [];
 
-  const filteredOptions = options.filter(option => 
-    !['stats', 'bandaveragedxcorr'].includes(option)
+  const filteredOptions = options.filter(
+    option => !['stats', 'bandaveragedxcorr'].includes(option)
   );
 
   const handleCheckboxChange = (option: string) => {
     setSelectedOptions(prev =>
-      prev.includes(option)
-        ? prev.filter(item => item !== option)
-        : [...prev, option]
+      prev.includes(option) ? prev.filter(item => item !== option) : [...prev, option]
     );
   };
 
-
   return (
     <>
-      <SignalCard title={t('label.windowRequest')} showContent={showContent} setShowContent={showToggle}>
+      <SignalCard
+        title={t('label.windowRequest')}
+        showContent={showContent}
+        setShowContent={showToggle}
+      >
         <Box>
           <form onSubmit={handleSubmit}>
             <Box style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <Typography data-testid="windowRequest" variant="body1" display="block">
                 f_min for window:
-                <input
-                  type="number"
-                  name="f_min"
-                  value={data.f_min}
-                  onChange={handleChange}
-                />
+                <input type="number" name="f_min" value={data.f_min} onChange={handleChange} />
               </Typography>
               <Typography data-testid="windowRequest" variant="body1" display="block">
                 f_max for window:
-                <input
-                  type="number"
-                  name="f_max"
-                  value={data.f_max}
-                  onChange={handleChange}
-                />
+                <input type="number" name="f_max" value={data.f_max} onChange={handleChange} />
               </Typography>
               <Typography data-testid="windowRequest" variant="body1" display="block">
                 Number of averaged channels:

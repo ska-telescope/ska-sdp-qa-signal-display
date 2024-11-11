@@ -97,10 +97,10 @@ const Plotly = ({
             line: {
               color: 'red',
               dash: 'dot',
-              width: 2,
-            },
+              width: 2
+            }
           }
-        ],
+        ]
       };
     }
     return layout;
@@ -108,11 +108,11 @@ const Plotly = ({
 
   const handleSelection = (event: any) => {
     if (event && event.range && event.range.x) {
-      onSetSharedData({...onSharedData, data: event.range.x, metric: metricType});
+      onSetSharedData({ ...onSharedData, data: event.range.x, metric: metricType });
     }
   };
 
-  return <Plot data={data} layout={assignLayout(marginalHistogram)} onSelected={handleSelection}/>;
+  return <Plot data={data} layout={assignLayout(marginalHistogram)} onSelected={handleSelection} />;
 };
 
 export default Plotly;

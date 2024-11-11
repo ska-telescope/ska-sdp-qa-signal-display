@@ -34,8 +34,8 @@ interface SpectrumPlotProps {
   config: Config;
   subArray: string;
   missingData?: number[][];
-  setSharedData?: any
-  sharedData?: any
+  setSharedData?: any;
+  sharedData?: any;
 }
 
 const RATIO = 2;
@@ -256,7 +256,7 @@ const SpectrumPlot = ({
               masked={maskedData}
               onSetSharedData={setSharedData}
               onSharedData={sharedData}
-              metricType='spectrum'
+              metricType="spectrum"
             />
           </SignalCard>
         )}

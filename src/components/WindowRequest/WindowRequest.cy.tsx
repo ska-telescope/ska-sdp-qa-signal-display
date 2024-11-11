@@ -13,7 +13,7 @@ describe('<WindowRequest />', () => {
       cy.mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
-          <WindowRequest sharedData={undefined}/>
+          <WindowRequest sharedData={undefined} />
         </ThemeProvider>
       );
     });

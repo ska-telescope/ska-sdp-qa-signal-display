@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Box, Grid, Tabs, Tab } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Button, ButtonColorTypes, DropDown, InfoCard } from '@ska-telescope/ska-gui-components';
+import WindowRequest from '@components/WindowRequest/WindowRequest';
 import { env } from '../../env';
 import { QASettings } from '../Settings/qaSettings';
 import Legend from '../Legend/Legend';
@@ -34,7 +35,6 @@ import gainCalibrationData from '../../mockData/WebSocket/gainCalibrations.json'
 import BandAveragedXCorrData from '../../mockData/WebSocket/bandAveragedXCorr.json';
 import UVCoverageData from '../../mockData/WebSocket/uvCoverage.json';
 import maskMockData from '../../mockData/tel-model/maskMockData.json';
-import WindowRequest from '@components/WindowRequest/WindowRequest';
 import {
   COLOR,
   DATA_API_URL,
@@ -384,7 +384,7 @@ const Container = ({ childToParent }) => {
       .then(response => response.json())
       .then(data => {
         setSubarrayDetails(data);
-        if(data.execution_block && data.execution_block.pb_realtime.length > 0){
+        if (data.execution_block && data.execution_block.pb_realtime.length > 0) {
           setProcessingBlockId(data.execution_block.pb_realtime[0]);
         }
         setTimeout(fetchSubarrayDetails, 10000);
@@ -467,7 +467,6 @@ const Container = ({ childToParent }) => {
       setRedraw(!redraw);
     }
   }, [processingBlockId]);
-
 
   React.useEffect(() => {
     setEnabledMetrics(getEnabledMetrics());
@@ -588,7 +587,7 @@ const Container = ({ childToParent }) => {
     setCurrentTabIndex(tabIndex);
   };
 
-  const [sharedXRange, setSharedXRange] = React.useState({data: '', metric: ''})
+  const [sharedXRange, setSharedXRange] = React.useState({ data: '', metric: '' });
 
   return (
     <>
@@ -690,12 +689,13 @@ const Container = ({ childToParent }) => {
         </Box>
       </Box>
       {currentTabIndex === 0 && showLegend() && <MaskLegend displaySettings={displaySettings} />}
-      {currentTabIndex === 0 && 
-      <WindowRequest 
-        sharedData={sharedXRange} 
-        subArray={subArray}
-        subarrayDetails={subarrayDetails}
-      />}
+      {currentTabIndex === 0 && (
+        <WindowRequest
+          sharedData={sharedXRange}
+          subArray={subArray}
+          subarrayDetails={subarrayDetails}
+        />
+      )}
       {currentTabIndex === 0 && enabledMetrics.includes(METRIC_TYPES.SPECTRUM) && (
         <Grid container>
           {POLARIZATIONS.map(item => (
