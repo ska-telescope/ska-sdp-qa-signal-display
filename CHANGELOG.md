@@ -8,6 +8,7 @@
 - [Changed] Moved the shell out of the App into its own component.
 - [Changed] Updated the footer to include the Copyright Modal.
 - [Added] Integrated the authentication with MS Entra into the application.
+- [Added] New mechanism for requesting hi-res windows
 
 ## 0.18.1
 

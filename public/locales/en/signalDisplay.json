@@ -121,7 +121,8 @@
     "waterfallPlot": "Waterfall",
     "workflow": "Workflow",
     "weightDistribution": "Weight Distribution",
-    "yes": "Yes"
+    "yes": "Yes",
+    "windowRequest": "High-Resolution Windows"
   },
   "toolTip": {
     "button": {

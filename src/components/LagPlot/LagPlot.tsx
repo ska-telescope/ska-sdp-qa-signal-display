@@ -22,7 +22,14 @@ interface LagPlotProps {
   redraw: boolean;
 }
 
-const LagPlot = ({ config, legend, displaySettings, subArray, subarrayDetails, redraw }: LagPlotProps) => {
+const LagPlot = ({
+  config,
+  legend,
+  displaySettings,
+  subArray,
+  subarrayDetails,
+  redraw
+}: LagPlotProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [showContent, setShowContent] = React.useState(false);
