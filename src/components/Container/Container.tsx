@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Box, Grid, Tabs, Tab } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Button, ButtonColorTypes, DropDown, InfoCard } from '@ska-telescope/ska-gui-components';
+import WindowRequest from '@components/WindowRequest/WindowRequest';
 import { env } from '../../env';
 import { QASettings } from '../Settings/qaSettings';
 import Legend from '../Legend/Legend';
@@ -383,7 +384,7 @@ const Container = ({ childToParent }) => {
       .then(response => response.json())
       .then(data => {
         setSubarrayDetails(data);
-        if(data.execution_block && data.execution_block.pb_realtime.length > 0){
+        if (data.execution_block && data.execution_block.pb_realtime.length > 0) {
           setProcessingBlockId(data.execution_block.pb_realtime[0]);
         }
         setTimeout(fetchSubarrayDetails, 10000);
@@ -466,7 +467,6 @@ const Container = ({ childToParent }) => {
       setRedraw(!redraw);
     }
   }, [processingBlockId]);
-
 
   React.useEffect(() => {
     setEnabledMetrics(getEnabledMetrics());
@@ -587,6 +587,8 @@ const Container = ({ childToParent }) => {
     setCurrentTabIndex(tabIndex);
   };
 
+  const [sharedXRange, setSharedXRange] = React.useState({ data: '', metric: '' });
+
   return (
     <>
       <Box m={0}>
@@ -688,6 +690,13 @@ const Container = ({ childToParent }) => {
       </Box>
       {currentTabIndex === 0 && showLegend() && <MaskLegend displaySettings={displaySettings} />}
       {currentTabIndex === 0 && (
+        <WindowRequest
+          sharedData={sharedXRange}
+          subArray={subArray}
+          subarrayDetails={subarrayDetails}
+        />
+      )}
+      {currentTabIndex === 0 && (
         <Grid container>
           {POLARIZATIONS.map(item => (
             <Grid item xs={gridWidth()}>
@@ -703,6 +712,8 @@ const Container = ({ childToParent }) => {
                 config={config}
                 subArray={subArray}
                 missingData={maskData}
+                setSharedData={setSharedXRange}
+                sharedData={sharedXRange}
               />
             </Grid>
           ))}
