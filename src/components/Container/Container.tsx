@@ -62,6 +62,44 @@ const Container = ({ childToParent }) => {
   const [socketStatusPointingOffset, setSocketStatusPointingOffset] = React.useState(
     SOCKET_STATUS[0]
   );
+
+  const [socketHiResStatusAmplitude1, setHiResSocketStatusAmplitude1] = React.useState(SOCKET_STATUS[0]);
+  const [socketHiResStatusAmplitude2, setHiResSocketStatusAmplitude2] = React.useState(SOCKET_STATUS[0]);
+  const [socketHiResStatusAmplitude3, setHiResSocketStatusAmplitude3] = React.useState(SOCKET_STATUS[0]);
+  const [socketHiResStatusAmplitude4, setHiResSocketStatusAmplitude4] = React.useState(SOCKET_STATUS[0]);
+  const [socketHiResStatusAmplitude5, setHiResSocketStatusAmplitude5] = React.useState(SOCKET_STATUS[0]);
+
+  const [socketHiResStatusPhase1, setHiResSocketStatusPhase1] = React.useState(SOCKET_STATUS[0]);
+  const [socketHiResStatusPhase2, setHiResSocketStatusPhase2] = React.useState(SOCKET_STATUS[0]);
+  const [socketHiResStatusPhase3, setHiResSocketStatusPhase3] = React.useState(SOCKET_STATUS[0]);
+  const [socketHiResStatusPhase4, setHiResSocketStatusPhase4] = React.useState(SOCKET_STATUS[0]);
+  const [socketHiResStatusPhase5, setHiResSocketStatusPhase5] = React.useState(SOCKET_STATUS[0]);
+
+  const [socketHiResStatusSpectrum1, setHiResSocketStatusSpectrum1] = React.useState(SOCKET_STATUS[0]);
+  const [socketHiResStatusSpectrum2, setHiResSocketStatusSpectrum2] = React.useState(SOCKET_STATUS[0]);
+  const [socketHiResStatusSpectrum3, setHiResSocketStatusSpectrum3] = React.useState(SOCKET_STATUS[0]);
+  const [socketHiResStatusSpectrum4, setHiResSocketStatusSpectrum4] = React.useState(SOCKET_STATUS[0]);
+  const [socketHiResStatusSpectrum5, setHiResSocketStatusSpectrum5] = React.useState(SOCKET_STATUS[0]);
+
+
+  const [chartHiResDataAmplitude1, setHiResChartDataAmplitude1] = React.useState(null);
+  const [chartHiResDataAmplitude2, setHiResChartDataAmplitude2] = React.useState(null);
+  const [chartHiResDataAmplitude3, setHiResChartDataAmplitude3] = React.useState(null);
+  const [chartHiResDataAmplitude4, setHiResChartDataAmplitude4] = React.useState(null);
+  const [chartHiResDataAmplitude5, setHiResChartDataAmplitude5] = React.useState(null);
+
+  const [chartHiResDataSpectrum1, setHiResChartDataSpectrum1] = React.useState(null);
+  const [chartHiResDataSpectrum2, setHiResChartDataSpectrum2] = React.useState(null);
+  const [chartHiResDataSpectrum3, setHiResChartDataSpectrum3] = React.useState(null);
+  const [chartHiResDataSpectrum4, setHiResChartDataSpectrum4] = React.useState(null);
+  const [chartHiResDataSpectrum5, setHiResChartDataSpectrum5] = React.useState(null);
+
+  const [chartHiResDataPhase1, setHiResChartDataPhase1] = React.useState(null);
+  const [chartHiResDataPhase2, setHiResChartDataPhase2] = React.useState(null);
+  const [chartHiResDataPhase3, setHiResChartDataPhase3] = React.useState(null);
+  const [chartHiResDataPhase4, setHiResChartDataPhase4] = React.useState(null);
+  const [chartHiResDataPhase5, setHiResChartDataPhase5] = React.useState(null);
+
   const [socketStatusGainCal, setSocketStatusGainCal] = React.useState(SOCKET_STATUS[0]);
   const [socketStatusUVCoverage, setSocketStatusUVCoverage] = React.useState(SOCKET_STATUS[0]);
 
@@ -85,6 +123,7 @@ const Container = ({ childToParent }) => {
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = React.useState(null);
   const [receiverEventsData, setReceiverEventsData] = React.useState(null);
   const [maskData, setMaskData] = React.useState(null);
+  const [hiResWindows, setHiResWindows] = React.useState([]);
 
   const [currentTabIndex, setCurrentTabIndex] = React.useState(0);
   const [chartDataPhase, setChartDataPhase] = React.useState(null);
@@ -151,6 +190,78 @@ const Container = ({ childToParent }) => {
     setRedraw(!redraw);
   };
 
+  const functionMapping = {
+    [`metrics-amplitude-${subArray}`]: {
+      status: [
+        setHiResSocketStatusAmplitude1,
+        setHiResSocketStatusAmplitude2,
+        setHiResSocketStatusAmplitude3,
+        setHiResSocketStatusAmplitude4,
+        setHiResSocketStatusAmplitude5,
+      ],
+      setData: [
+        setHiResChartDataAmplitude1,
+        setHiResChartDataAmplitude2,
+        setHiResChartDataAmplitude3,
+        setHiResChartDataAmplitude4,
+        setHiResChartDataAmplitude5,
+      ],
+      data: [
+        chartHiResDataAmplitude1,
+        chartHiResDataAmplitude2,
+        chartHiResDataAmplitude3,
+        chartHiResDataAmplitude4,
+        chartHiResDataAmplitude5,
+      ],
+    },
+    [`metrics-phase-${subArray}`]: {
+      status: [
+        setHiResSocketStatusPhase1,
+        setHiResSocketStatusPhase2,
+        setHiResSocketStatusPhase3,
+        setHiResSocketStatusPhase4,
+        setHiResSocketStatusPhase5,
+      ],
+      setData: [
+        setHiResChartDataPhase1,
+        setHiResChartDataPhase2,
+        setHiResChartDataPhase3,
+        setHiResChartDataPhase4,
+        setHiResChartDataPhase5,
+      ],
+      data: [
+        chartHiResDataPhase1,
+        chartHiResDataPhase2,
+        chartHiResDataPhase3,
+        chartHiResDataPhase4,
+        chartHiResDataPhase5,
+      ],
+    },
+    [`metrics-spectrum-${subArray}`]: {
+      status: [
+        setHiResSocketStatusSpectrum1,
+        setHiResSocketStatusSpectrum2,
+        setHiResSocketStatusSpectrum3,
+        setHiResSocketStatusSpectrum4,
+        setHiResSocketStatusSpectrum5,
+      ],
+      setData: [
+        setHiResChartDataSpectrum1,
+        setHiResChartDataSpectrum2,
+        setHiResChartDataSpectrum3,
+        setHiResChartDataSpectrum4,
+        setHiResChartDataSpectrum5,
+      ],
+      data: [
+        chartHiResDataSpectrum1,
+        chartHiResDataSpectrum2,
+        chartHiResDataSpectrum3,
+        chartHiResDataSpectrum4,
+        chartHiResDataSpectrum5,
+      ],
+    },
+  };
+
   function legendOnClick(val: string): void {
     const tmp = [];
     for (let i = 0; i < legendData.length; i++) {
@@ -203,6 +314,39 @@ const Container = ({ childToParent }) => {
     }
     return t(config ? 'error.subArray' : 'error.config');
   };
+
+  async function retrieveHiResWindows() {
+    if (DATA_LOCAL) {
+      return;
+    }
+    if (config === undefined) {
+      return;
+    }
+    try {
+      const response = await fetch(`${DATA_API_URL}/windows/`);
+      const data = await response.json();
+      return data.flatMap((item: any) =>
+        item.windows.map((window: any, index: number) => ({
+          ...window,
+          topic: item.topic,
+          index
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching high-resolution windows:", error);
+      return [];
+    }
+  }
+
+  React.useEffect(() => {
+    const intervalCall = setInterval(async () => {
+      const windows = await retrieveHiResWindows()
+      setHiResWindows(windows);
+    }, 3000);
+    return () => {
+      clearInterval(intervalCall);
+    };
+  }, []);
 
   async function retrieveProcessingBlockStatisticsData() {
     if (DATA_LOCAL) {
@@ -393,6 +537,8 @@ const Container = ({ childToParent }) => {
   }
 
   const activeWebsockets = React.useRef<{ [key: string]: WebSocket }>({});
+  const activeWindows = React.useRef<{ [key: string]: WebSocket }>({});
+
 
   async function connectWebSockets() {
     const localEnabledMetrics = enabledMetrics === null ? [] : enabledMetrics;
@@ -432,7 +578,7 @@ const Container = ({ childToParent }) => {
           activeWebsockets.current[metric] = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
             protocol: config.api_format,
-            suffix: `${config.topics.spectrum}-${subArray}`,
+            suffix: `${config.topics.spectrum}-${subArray}/0`,
             statusFunction: setSocketStatusSpectrum,
             dataFunction: setChartDataSpectrum
           });
@@ -462,6 +608,59 @@ const Container = ({ childToParent }) => {
     });
   }
 
+
+  async function connectHiResWebSockets() {
+  
+    hiResWindows.forEach(window => {
+      const topic = window.topic;
+      if (topic.includes('spectrum')) {
+        var metric = config.topics.spectrum
+      } else if (topic.includes('phase')) {
+        var metric = config.topics.phase
+      } else if (topic.includes('amplitude')) {
+        var metric = config.topics.amplitude
+      }
+      const partition = (window.index ?? 0) + 1;
+  
+      if (!activeWindows.current[topic]) {
+        activeWindows.current[topic] = {};
+      }
+
+      if (activeWindows.current[topic][partition]) {
+        return;
+      }
+
+      console.log("FIRED")
+      console.log(topic)
+      console.log(partition)
+      console.log(metric)
+  
+      const functions = functionMapping[topic];
+      if (!functions) {
+        console.error(`Unhandled topic: ${topic}`);
+        return;
+      }
+  
+      const status = functions.status[partition - 1];
+      const setData = functions.setData[partition - 1];
+  
+      if (!status || !setData) {
+        console.error(`Invalid partition ${partition} for topic: ${topic}`);
+        return;
+      }
+  
+      // Create and store the WebSocket
+      activeWindows.current[topic][partition] = Socket({
+        apiUrl: WS_API_URL + config.paths.websocket,
+        protocol: config.api_format,
+        suffix: `${metric}-${subArray}/${partition.toString()}`,
+        statusFunction: status,
+        dataFunction: setData,
+      });
+    });
+  }
+  
+
   React.useEffect(() => {
     if (processingBlockId != null) {
       setRedraw(!redraw);
@@ -481,6 +680,10 @@ const Container = ({ childToParent }) => {
       connectWebSockets();
     }
   }, [enabledMetrics]);
+
+  React.useEffect(() => {
+  connectHiResWebSockets();
+  }, [hiResWindows]);
 
   React.useEffect(() => {
     if (subArray === '') {
@@ -588,6 +791,8 @@ const Container = ({ childToParent }) => {
   };
 
   const [sharedXRange, setSharedXRange] = React.useState({ data: '', metric: '' });
+
+  const hiResSpectrumWindows = hiResWindows.filter(window => window.topic === `metrics-spectrum-${subArray}`);
 
   return (
     <>
@@ -719,6 +924,33 @@ const Container = ({ childToParent }) => {
           ))}
         </Grid>
       )}
+
+      {currentTabIndex === 0 && hiResSpectrumWindows.length >= 1 && (
+        hiResSpectrumWindows.map((window, windowIdx) => (
+          <Grid container key={`Grid-${window.topic}-${windowIdx}`}>
+            {POLARIZATIONS.map((item, polarizationIdx) => (
+              <Grid item xs={gridWidth()} key={`GridItem-${item}-${windowIdx}-${polarizationIdx}`}>
+                <SpectrumPlot
+                  key={`SpectrumPlot${item}`}
+                  polarization={item}
+                  redraw={redraw}
+                  resize={refresh}
+                  setSettings={settingsUpdate}
+                  socketStatus={functionMapping[window?.topic]?.status[window?.index]}
+                  displaySettings={displaySettings}
+                  data={functionMapping[window?.topic]?.data[window?.index]}
+                  config={config}
+                  subArray={subArray}
+                  missingData={maskData}
+                  setSharedData={setSharedXRange}
+                  sharedData={sharedXRange}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        ))
+      )}
+
 
       {currentTabIndex === 0 && showLegend() && (
         <Legend

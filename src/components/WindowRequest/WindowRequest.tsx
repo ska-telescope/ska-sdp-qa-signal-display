@@ -127,7 +127,7 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }: WindowRequestP
   const options = getDeploymentNames() || [];
 
   const filteredOptions = options.filter(
-    option => !['stats', 'bandaveragedxcorr'].includes(option)
+    option => !['stats', 'bandaveragedxcorr', 'lagplot', 'uvcoverage', 'spectrograms', 'amplitude', 'phase'].includes(option)
   );
 
   const handleCheckboxChange = (option: string) => {
