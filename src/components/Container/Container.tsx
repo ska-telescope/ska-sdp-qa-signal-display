@@ -581,7 +581,7 @@ const Container = ({ childToParent }) => {
           activeWebsockets.current[metric] = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
             protocol: config.api_format,
-            suffix: `${config.topics.spectrum}-${subArray}/0`,
+            suffix: `${config.topics.spectrum}-${subArray}`,
             statusFunction: setSocketStatusSpectrum,
             dataFunction: setChartDataSpectrum
           });
@@ -651,7 +651,6 @@ const Container = ({ childToParent }) => {
         return;
       }
   
-      // Create and store the WebSocket
       activeWindows.current[topic][partition] = Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
         protocol: config.api_format,
@@ -928,8 +927,8 @@ const Container = ({ childToParent }) => {
       )}
 
       {currentTabIndex === 0 && hiResSpectrumWindows.length >= 1 && (
-        hiResSpectrumWindows.map((window, windowIdx) => (
-          <Grid container key={`Grid-${window.topic}-${windowIdx}`}>
+        hiResSpectrumWindows.map(window => (
+          <Grid container>
             {POLARIZATIONS.map(item => (
               <Grid item xs={gridWidth()} >
                 <SpectrumPlot
