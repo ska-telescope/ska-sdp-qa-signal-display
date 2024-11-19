@@ -325,7 +325,9 @@ const Container = ({ childToParent }) => {
     try {
       const response = await fetch(`${DATA_API_URL}/windows/`);
       const data = await response.json();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return data.flatMap((item: any) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         item.windows.map((window: any, index: number) => ({
           ...window,
           topic: item.topic,
@@ -333,6 +335,7 @@ const Container = ({ childToParent }) => {
         }))
       );
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error("Error fetching high-resolution windows:", error);
       return [];
     }
@@ -610,15 +613,17 @@ const Container = ({ childToParent }) => {
 
 
   async function connectHiResWebSockets() {
+
+    let metric: string;
   
     hiResWindows.forEach(window => {
       const topic = window.topic;
       if (topic.includes('spectrum')) {
-        var metric = config.topics.spectrum
+        metric = config.topics.spectrum
       } else if (topic.includes('phase')) {
-        var metric = config.topics.phase
+        metric = config.topics.phase
       } else if (topic.includes('amplitude')) {
-        var metric = config.topics.amplitude
+        metric = config.topics.amplitude
       }
       const partition = (window.index ?? 0) + 1;
   
@@ -629,14 +634,10 @@ const Container = ({ childToParent }) => {
       if (activeWindows.current[topic][partition]) {
         return;
       }
-
-      console.log("FIRED")
-      console.log(topic)
-      console.log(partition)
-      console.log(metric)
   
       const functions = functionMapping[topic];
       if (!functions) {
+        // eslint-disable-next-line no-console
         console.error(`Unhandled topic: ${topic}`);
         return;
       }
@@ -645,6 +646,7 @@ const Container = ({ childToParent }) => {
       const setData = functions.setData[partition - 1];
   
       if (!status || !setData) {
+        // eslint-disable-next-line no-console
         console.error(`Invalid partition ${partition} for topic: ${topic}`);
         return;
       }
@@ -928,8 +930,8 @@ const Container = ({ childToParent }) => {
       {currentTabIndex === 0 && hiResSpectrumWindows.length >= 1 && (
         hiResSpectrumWindows.map((window, windowIdx) => (
           <Grid container key={`Grid-${window.topic}-${windowIdx}`}>
-            {POLARIZATIONS.map((item, polarizationIdx) => (
-              <Grid item xs={gridWidth()} key={`GridItem-${item}-${windowIdx}-${polarizationIdx}`}>
+            {POLARIZATIONS.map(item => (
+              <Grid item xs={gridWidth()} >
                 <SpectrumPlot
                   key={`SpectrumPlot${item}`}
                   polarization={item}
