@@ -103,7 +103,7 @@ context('Signal display', () => {
 
     it('Verify expected diagrams are present and can be hidden', () => {
 
-        cy.findAllByLabelText("Status Indicator 4", {timeout: 30000}).should("have.length", 7);
+        cy.findAllByLabelText("Status Indicator 4", {timeout: 30000}).should("have.length", 9);
 
         cy.findAllByTestId("hideShowToggle").click({ multiple: true , force: true});
 
@@ -122,16 +122,16 @@ context('Signal display', () => {
         cy.findAllByTestId("sectionHeader").contains("Spectrum YX").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("Spectrum YY").should("be.visible");
 
-        // cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XX").should("be.visible");
-        // cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XY").should("be.visible");
-        // cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude YX").should("be.visible");
-        // cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude YY").should("be.visible");
-        // cy.findAllByTestId("sectionHeader").contains("Polarization / Phase XX").should("be.visible");
-        // cy.findAllByTestId("sectionHeader").contains("Polarization / Phase XY").should("be.visible");
-        // cy.findAllByTestId("sectionHeader").contains("Polarization / Phase YX").should("be.visible");
-        // cy.findAllByTestId("sectionHeader").contains("Polarization / Phase YY").should("be.visible");
-        // cy.findAllByTestId('chartData1Content').should("be.visible");
-        // cy.findAllByTestId('chartData2Content').should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XX").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XY").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude YX").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude YY").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase XX").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase XY").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase YX").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase YY").should("be.visible");
+        cy.findAllByTestId('chartData1Content').should("be.visible");
+        cy.findAllByTestId('chartData2Content').should("be.visible");
 
         cy.findAllByTestId("sectionHeader").contains("Spectrograms").should("be.visible")
         cy.findByTestId('spectrogram1Id').should("be.visible");
