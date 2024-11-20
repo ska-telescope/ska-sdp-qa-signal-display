@@ -165,7 +165,7 @@ context('Signal display', () => {
     })
 
     it("Verify modals operate as expected", () => {
-        cy.findAllByTestId('test-info-modal').should("be.visible").click({ multiple: true , force: true });
-        cy.get('body').click(200,0, {force: true});
+        cy.findAllByTestId('test-info-modal').should("be.visible").click();
+        cy.get('body').click(400,0, {force: true});
     })
 })
