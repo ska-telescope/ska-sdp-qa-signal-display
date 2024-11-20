@@ -315,41 +315,6 @@ const Container = ({ childToParent }) => {
     return t(config ? 'error.subArray' : 'error.config');
   };
 
-  async function retrieveHiResWindows() {
-    if (DATA_LOCAL) {
-      return;
-    }
-    if (config === undefined) {
-      return;
-    }
-    try {
-      const response = await fetch(`${DATA_API_URL}/windows/?subarray=${subArray}`);
-      const data = await response.json();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return data.flatMap((item: any) =>
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        item.windows.map((window: any, index: number) => ({
-          ...window,
-          topic: item.topic,
-          index
-        }))
-      );
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error("Error fetching high-resolution windows:", error);
-      return [];
-    }
-  }
-
-  React.useEffect(() => {
-    const intervalCall = setInterval(async () => {
-      const windows = await retrieveHiResWindows()
-      setHiResWindows(windows);
-    }, 3000);
-    return () => {
-      clearInterval(intervalCall);
-    };
-  }, []);
 
   async function retrieveProcessingBlockStatisticsData() {
     if (DATA_LOCAL) {
@@ -610,6 +575,42 @@ const Container = ({ childToParent }) => {
       }
     });
   }
+
+  async function retrieveHiResWindows() {
+    if (DATA_LOCAL) {
+      return;
+    }
+    if (config === undefined) {
+      return;
+    }
+    try {
+      const response = await fetch(`${DATA_API_URL}/windows/?subarray=${encodeURIComponent(subArray)}`);
+      const data = await response.json();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return data.flatMap((item: any) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        item.windows.map((window: any, index: number) => ({
+          ...window,
+          topic: item.topic,
+          index
+        }))
+      );
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error("Error fetching high-resolution windows:", error);
+      return [];
+    }
+  }
+
+  React.useEffect(() => {
+    const intervalCall = setInterval(async () => {
+      const windows = await retrieveHiResWindows()
+      setHiResWindows(windows);
+    }, 3000);
+    return () => {
+      clearInterval(intervalCall);
+    };
+  }, [subArray]);
 
 
   async function connectHiResWebSockets() {

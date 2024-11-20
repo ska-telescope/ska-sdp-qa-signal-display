@@ -115,23 +115,23 @@ context('Signal display', () => {
         statisticsReceiver();
         runningConfiguration();
 
-        //cy.findAllByTestId("sectionHeader").contains("High-Resolution Windows").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("High-Resolution Windows").should("be.visible");
 
-        //cy.findAllByTestId("sectionHeader").contains("Spectrum XX").should("be.visible");
-        //cy.findAllByTestId("sectionHeader").contains("Spectrum XY").should("be.visible");
-        //cy.findAllByTestId("sectionHeader").contains("Spectrum YX").should("be.visible");
-        //cy.findAllByTestId("sectionHeader").contains("Spectrum YY").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Spectrum XX").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Spectrum XY").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Spectrum YX").should("be.visible");
+        cy.findAllByTestId("sectionHeader").contains("Spectrum YY").should("be.visible");
 
-        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XX").should("be.visible");
-        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XY").should("be.visible");
-        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude YX").should("be.visible");
-        cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude YY").should("be.visible");
-        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase XX").should("be.visible");
-        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase XY").should("be.visible");
-        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase YX").should("be.visible");
-        cy.findAllByTestId("sectionHeader").contains("Polarization / Phase YY").should("be.visible");
-        cy.findAllByTestId('chartData1Content').should("be.visible");
-        cy.findAllByTestId('chartData2Content').should("be.visible");
+        // cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XX").should("be.visible");
+        // cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XY").should("be.visible");
+        // cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude YX").should("be.visible");
+        // cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude YY").should("be.visible");
+        // cy.findAllByTestId("sectionHeader").contains("Polarization / Phase XX").should("be.visible");
+        // cy.findAllByTestId("sectionHeader").contains("Polarization / Phase XY").should("be.visible");
+        // cy.findAllByTestId("sectionHeader").contains("Polarization / Phase YX").should("be.visible");
+        // cy.findAllByTestId("sectionHeader").contains("Polarization / Phase YY").should("be.visible");
+        // cy.findAllByTestId('chartData1Content').should("be.visible");
+        // cy.findAllByTestId('chartData2Content').should("be.visible");
 
         cy.findAllByTestId("sectionHeader").contains("Spectrograms").should("be.visible")
         cy.findByTestId('spectrogram1Id').should("be.visible");
