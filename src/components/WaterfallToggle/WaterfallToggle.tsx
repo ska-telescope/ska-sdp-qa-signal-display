@@ -5,7 +5,7 @@ import { ButtonToggle } from '@ska-telescope/ska-gui-components';
 import { QASettings, spectrumWaterfallToggle } from '../Settings/qaSettings';
 
 export interface WaterfallToggleProps {
-  testId: string;
+  data-testid: string;
   type: string;
   disabled: boolean;
   displaySettings: typeof QASettings;
@@ -15,7 +15,7 @@ export interface WaterfallToggleProps {
 }
 
 function WaterfallToggle({
-  testId,
+  data-testid,
   type,
   value,
   disabled,
@@ -49,7 +49,7 @@ function WaterfallToggle({
       disabled={disabled}
       options={toggleOptions()}
       setValue={update}
-      testId={testId}
+      data-testid={data-testid}
       toolTip={t(`toolTip.spectrumWaterfall.${type}`)}
       value={displaySettings[value]}
       current={displaySettings[value]}

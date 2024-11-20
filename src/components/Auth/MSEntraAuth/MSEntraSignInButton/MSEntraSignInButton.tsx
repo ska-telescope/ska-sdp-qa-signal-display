@@ -30,7 +30,7 @@ export default function MSEntraSignInButton() {
       icon={<DoneOutlinedIcon />}
       label={t('button.signIn')}
       onClick={() => handleLogin()}
-      testId="loginButton"
+      data-testid="loginButton"
       disabled={!authAvailable}
       variant={ButtonVariantTypes.Contained}
     />

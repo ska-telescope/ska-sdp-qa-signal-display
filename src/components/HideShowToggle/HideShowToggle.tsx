@@ -5,7 +5,7 @@ import { QASettings } from '../Settings/qaSettings';
 
 export interface HideShowToggleProps {
   label: string;
-  testId: string;
+  data-testid: string;
   displaySettings: typeof QASettings;
   value: string;
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -14,7 +14,7 @@ export interface HideShowToggleProps {
 
 function HideShowToggle({
   label,
-  testId,
+  data-testid,
   value,
   displaySettings,
   setValue
@@ -35,7 +35,7 @@ function HideShowToggle({
   return (
     <Button
       label={label}
-      testId={testId}
+      data-testid={data-testid}
       color={ButtonColorTypes.Secondary}
       variant={setting ? ButtonVariantTypes.Contained : ButtonVariantTypes.Outlined}
       // eslint-disable-next-line react/jsx-no-bind

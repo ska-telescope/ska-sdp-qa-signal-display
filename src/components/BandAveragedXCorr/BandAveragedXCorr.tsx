@@ -157,7 +157,7 @@ const BandAveragedXCorr = ({
     <YAxisToggle
       // eslint-disable-next-line react/jsx-no-bind
       setValue={setValue}
-      testId={`${settingElement(type)}ButtonTestId`}
+      data-testid={`${settingElement(type)}ButtonTestId`}
       type={type ? 'amplitude' : 'phase'}
       value={settingElement(type)}
       displaySettings={displaySettings}

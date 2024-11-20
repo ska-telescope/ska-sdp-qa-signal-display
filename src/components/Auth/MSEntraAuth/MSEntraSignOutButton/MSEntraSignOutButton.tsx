@@ -20,7 +20,7 @@ export default function MSEntraSignOutButton() {
       icon={<DoNotDisturbAltOutlinedIcon />}
       label={t('button.signOut')}
       onClick={() => handleLogout()}
-      testId="logoutButton"
+      data-testid="logoutButton"
       variant={ButtonVariantTypes.Contained}
     />
   );

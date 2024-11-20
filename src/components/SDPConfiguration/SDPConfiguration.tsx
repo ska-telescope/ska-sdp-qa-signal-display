@@ -97,7 +97,7 @@ const SDPConfiguration = ({ subarray, subarrayDetails }: SubarrayProps) => {
               <StatusIcon
                 ariaTitle=""
                 ariaDescription=""
-                testId="statusIdSubarray"
+                data-testid="statusIdSubarray"
                 icon
                 level={READY_STATUS[subarrayDetails?.subarray?.state_commanded === 'ON' ? 1 : 0]}
                 size={SIZE}
@@ -131,7 +131,7 @@ const SDPConfiguration = ({ subarray, subarrayDetails }: SubarrayProps) => {
               <StatusIcon
                 ariaTitle=""
                 ariaDescription=""
-                testId="statusIdExecutionBlock"
+                data-testid="statusIdExecutionBlock"
                 icon
                 level={
                   READY_STATUS[subarrayDetails?.execution_block_state?.status === 'ACTIVE' ? 1 : 0]
@@ -169,7 +169,7 @@ const SDPConfiguration = ({ subarray, subarrayDetails }: SubarrayProps) => {
               <StatusIcon
                 ariaTitle=""
                 ariaDescription=""
-                testId="statusIdProcessingBLock"
+                data-testid="statusIdProcessingBLock"
                 icon
                 level={
                   READY_STATUS[

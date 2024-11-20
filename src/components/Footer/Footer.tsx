@@ -25,7 +25,7 @@ const SKAOFooter = ({ version, config }: SKAOFooterProps) => {
   }
 
   return (
-    <Footer copyrightFunc={setShowCopyright} testId="footerId" version={version}>
+    <Footer copyrightFunc={setShowCopyright} data-testid="footerId" version={version}>
       <Grid item>
         <Typography variant="body1">{apiVersionNumber}</Typography>
       </Grid>
