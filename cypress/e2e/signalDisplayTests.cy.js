@@ -105,13 +105,7 @@ context('Signal display', () => {
 
         cy.findAllByLabelText("Status Indicator 4", {timeout: 30000}).should("have.length", 7);
 
-        cy.findAllByTestId("signalCardId").each(($ele) => {
-            cy.wrap($ele).then(($card) => {
-                if($card.find("[data-testid='VisibilityOffIcon']").length){
-                    cy.wrap($card).find("[data-testid='VisibilityOffIcon']").click();
-                }
-            });
-        });
+        cy.findAllByTestId("hideShowToggle").click({ multiple: true , force: true});
 
         // Removed because display now defaults to one subarray
         // cy.findByTestId("noSubArrayCard").should("be.visible");
