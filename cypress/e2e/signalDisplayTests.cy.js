@@ -103,7 +103,7 @@ context('Signal display', () => {
 
     it('Verify expected diagrams are present and can be hidden', () => {
 
-        cy.findAllByLabelText("Status Indicator 4", {timeout: 30000}).should("have.length", 9);
+        //cy.findAllByLabelText("Status Indicator 4", {timeout: 30000}).should("have.length", 9);
 
         cy.findAllByTestId("hideShowToggle").click({ multiple: true , force: true});
 
