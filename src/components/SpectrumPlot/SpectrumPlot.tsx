@@ -23,7 +23,6 @@ import SKAOModal from '../Modal/Modal';
 import WaterfallPlot from '../WaterfallPlot/WaterfallPlot';
 
 interface SpectrumPlotProps {
-  key: string;
   data: object;
   displaySettings: typeof QASettings;
   polarization: string;
