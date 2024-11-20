@@ -63,42 +63,14 @@ const Container = ({ childToParent }) => {
     SOCKET_STATUS[0]
   );
 
-  const [socketHiResStatusAmplitude1, setHiResSocketStatusAmplitude1] = React.useState(SOCKET_STATUS[0]);
-  const [socketHiResStatusAmplitude2, setHiResSocketStatusAmplitude2] = React.useState(SOCKET_STATUS[0]);
-  const [socketHiResStatusAmplitude3, setHiResSocketStatusAmplitude3] = React.useState(SOCKET_STATUS[0]);
-  const [socketHiResStatusAmplitude4, setHiResSocketStatusAmplitude4] = React.useState(SOCKET_STATUS[0]);
-  const [socketHiResStatusAmplitude5, setHiResSocketStatusAmplitude5] = React.useState(SOCKET_STATUS[0]);
+  const [socketHiResStatusAmplitude, setHiResSocketStatusAmplitude] = React.useState(SOCKET_STATUS[0]);
+  const [socketHiResStatusPhase, setHiResSocketStatusPhase] = React.useState(SOCKET_STATUS[0]);
+  const [socketHiResStatusSpectrum, setHiResSocketStatusSpectrum] = React.useState(SOCKET_STATUS[0]);
 
-  const [socketHiResStatusPhase1, setHiResSocketStatusPhase1] = React.useState(SOCKET_STATUS[0]);
-  const [socketHiResStatusPhase2, setHiResSocketStatusPhase2] = React.useState(SOCKET_STATUS[0]);
-  const [socketHiResStatusPhase3, setHiResSocketStatusPhase3] = React.useState(SOCKET_STATUS[0]);
-  const [socketHiResStatusPhase4, setHiResSocketStatusPhase4] = React.useState(SOCKET_STATUS[0]);
-  const [socketHiResStatusPhase5, setHiResSocketStatusPhase5] = React.useState(SOCKET_STATUS[0]);
+  const [chartHiResDataAmplitude, setHiResChartDataAmplitude] = React.useState([]);
+  const [chartHiResDataSpectrum, setHiResChartDataSpectrum] = React.useState([]);
+  const [chartHiResDataPhase, setHiResChartDataPhase] = React.useState([]);
 
-  const [socketHiResStatusSpectrum1, setHiResSocketStatusSpectrum1] = React.useState(SOCKET_STATUS[0]);
-  const [socketHiResStatusSpectrum2, setHiResSocketStatusSpectrum2] = React.useState(SOCKET_STATUS[0]);
-  const [socketHiResStatusSpectrum3, setHiResSocketStatusSpectrum3] = React.useState(SOCKET_STATUS[0]);
-  const [socketHiResStatusSpectrum4, setHiResSocketStatusSpectrum4] = React.useState(SOCKET_STATUS[0]);
-  const [socketHiResStatusSpectrum5, setHiResSocketStatusSpectrum5] = React.useState(SOCKET_STATUS[0]);
-
-
-  const [chartHiResDataAmplitude1, setHiResChartDataAmplitude1] = React.useState(null);
-  const [chartHiResDataAmplitude2, setHiResChartDataAmplitude2] = React.useState(null);
-  const [chartHiResDataAmplitude3, setHiResChartDataAmplitude3] = React.useState(null);
-  const [chartHiResDataAmplitude4, setHiResChartDataAmplitude4] = React.useState(null);
-  const [chartHiResDataAmplitude5, setHiResChartDataAmplitude5] = React.useState(null);
-
-  const [chartHiResDataSpectrum1, setHiResChartDataSpectrum1] = React.useState(null);
-  const [chartHiResDataSpectrum2, setHiResChartDataSpectrum2] = React.useState(null);
-  const [chartHiResDataSpectrum3, setHiResChartDataSpectrum3] = React.useState(null);
-  const [chartHiResDataSpectrum4, setHiResChartDataSpectrum4] = React.useState(null);
-  const [chartHiResDataSpectrum5, setHiResChartDataSpectrum5] = React.useState(null);
-
-  const [chartHiResDataPhase1, setHiResChartDataPhase1] = React.useState(null);
-  const [chartHiResDataPhase2, setHiResChartDataPhase2] = React.useState(null);
-  const [chartHiResDataPhase3, setHiResChartDataPhase3] = React.useState(null);
-  const [chartHiResDataPhase4, setHiResChartDataPhase4] = React.useState(null);
-  const [chartHiResDataPhase5, setHiResChartDataPhase5] = React.useState(null);
 
   const [socketStatusGainCal, setSocketStatusGainCal] = React.useState(SOCKET_STATUS[0]);
   const [socketStatusUVCoverage, setSocketStatusUVCoverage] = React.useState(SOCKET_STATUS[0]);
@@ -190,74 +162,62 @@ const Container = ({ childToParent }) => {
     setRedraw(!redraw);
   };
 
+  function updateHiResAmplitudeData(index, data) {
+    setHiResChartDataAmplitude(prevState => {
+      const newState = [...prevState];
+      newState[index] = data;
+      return newState
+    })
+  }
+
+  function updateHiResPhaseData(index, data) {
+    setHiResChartDataPhase(prevState => {
+      const newState = [...prevState];
+      newState[index] = data;
+      return newState
+    })
+  }
+
+  function updateHiResSpectrumData(index, data) {
+    setHiResChartDataSpectrum(prevState => {
+      const newState = [...prevState];
+      newState[index] = data;
+      return newState
+    })
+  }
+
   const functionMapping = {
     [`metrics-amplitude-${subArray}`]: {
       status: [
-        setHiResSocketStatusAmplitude1,
-        setHiResSocketStatusAmplitude2,
-        setHiResSocketStatusAmplitude3,
-        setHiResSocketStatusAmplitude4,
-        setHiResSocketStatusAmplitude5,
+        setHiResSocketStatusAmplitude
       ],
       setData: [
-        setHiResChartDataAmplitude1,
-        setHiResChartDataAmplitude2,
-        setHiResChartDataAmplitude3,
-        setHiResChartDataAmplitude4,
-        setHiResChartDataAmplitude5,
+        updateHiResAmplitudeData
       ],
       data: [
-        chartHiResDataAmplitude1,
-        chartHiResDataAmplitude2,
-        chartHiResDataAmplitude3,
-        chartHiResDataAmplitude4,
-        chartHiResDataAmplitude5,
+        chartHiResDataAmplitude
       ],
     },
     [`metrics-phase-${subArray}`]: {
       status: [
-        setHiResSocketStatusPhase1,
-        setHiResSocketStatusPhase2,
-        setHiResSocketStatusPhase3,
-        setHiResSocketStatusPhase4,
-        setHiResSocketStatusPhase5,
+        setHiResSocketStatusPhase
       ],
       setData: [
-        setHiResChartDataPhase1,
-        setHiResChartDataPhase2,
-        setHiResChartDataPhase3,
-        setHiResChartDataPhase4,
-        setHiResChartDataPhase5,
+        updateHiResPhaseData
       ],
       data: [
-        chartHiResDataPhase1,
-        chartHiResDataPhase2,
-        chartHiResDataPhase3,
-        chartHiResDataPhase4,
-        chartHiResDataPhase5,
+        chartHiResDataPhase
       ],
     },
     [`metrics-spectrum-${subArray}`]: {
       status: [
-        setHiResSocketStatusSpectrum1,
-        setHiResSocketStatusSpectrum2,
-        setHiResSocketStatusSpectrum3,
-        setHiResSocketStatusSpectrum4,
-        setHiResSocketStatusSpectrum5,
+        setHiResSocketStatusSpectrum
       ],
       setData: [
-        setHiResChartDataSpectrum1,
-        setHiResChartDataSpectrum2,
-        setHiResChartDataSpectrum3,
-        setHiResChartDataSpectrum4,
-        setHiResChartDataSpectrum5,
+        updateHiResSpectrumData
       ],
       data: [
-        chartHiResDataSpectrum1,
-        chartHiResDataSpectrum2,
-        chartHiResDataSpectrum3,
-        chartHiResDataSpectrum4,
-        chartHiResDataSpectrum5,
+        chartHiResDataSpectrum
       ],
     },
   };
@@ -643,8 +603,8 @@ const Container = ({ childToParent }) => {
         return;
       }
   
-      const status = functions.status[partition - 1];
-      const setData = functions.setData[partition - 1];
+      const status = functions.status[0];
+      const setData = functions.setData[0];
   
       if (!status || !setData) {
         // eslint-disable-next-line no-console
@@ -658,6 +618,7 @@ const Container = ({ childToParent }) => {
         suffix: `${metric}-${subArray}/${partition.toString()}`,
         statusFunction: status,
         dataFunction: setData,
+        index: partition - 1
       });
     });
   }
@@ -938,9 +899,9 @@ const Container = ({ childToParent }) => {
                   redraw={redraw}
                   resize={refresh}
                   setSettings={settingsUpdate}
-                  socketStatus={functionMapping[window?.topic]?.status[window?.index]}
+                  socketStatus={functionMapping[window?.topic]?.status[0]}
                   displaySettings={displaySettings}
-                  data={functionMapping[window?.topic]?.data[window?.index]}
+                  data={functionMapping[window?.topic]?.data[0][window?.index]}
                   config={config}
                   subArray={subArray}
                   missingData={maskData}
