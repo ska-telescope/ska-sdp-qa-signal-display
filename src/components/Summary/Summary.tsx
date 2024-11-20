@@ -100,7 +100,7 @@ const Summary = ({
                     color={ButtonColorTypes.Inherit}
                   >
                     <Status
-                      data-testid="status1Id"
+                      testId="status1Id"
                       level={getSocketStatus(status1)}
                       size={STATUS_SIZE}
                     />
@@ -115,7 +115,7 @@ const Summary = ({
                     color={ButtonColorTypes.Inherit}
                   >
                     <Status
-                      data-testid="status2Id"
+                      testId="status2Id"
                       level={getSocketStatus(status2)}
                       size={STATUS_SIZE}
                     />
@@ -130,7 +130,7 @@ const Summary = ({
                     color={ButtonColorTypes.Inherit}
                   >
                     <Status
-                      data-testid="status3Id"
+                      testId="status3Id"
                       level={getSocketStatus(status3)}
                       size={STATUS_SIZE}
                     />
@@ -145,7 +145,7 @@ const Summary = ({
                     color={ButtonColorTypes.Inherit}
                   >
                     <Status
-                      data-testid="status4Id"
+                      testId="status4Id"
                       level={getSocketStatus(status4)}
                       size={STATUS_SIZE}
                     />
@@ -160,7 +160,7 @@ const Summary = ({
                     color={ButtonColorTypes.Inherit}
                   >
                     <Status
-                      data-testid="status5Id"
+                      testId="status5Id"
                       level={getSocketStatus(status5)}
                       size={STATUS_SIZE}
                     />
@@ -175,7 +175,7 @@ const Summary = ({
                     color={ButtonColorTypes.Inherit}
                   >
                     <Status
-                      data-testid="status6Id"
+                      testId="status6Id"
                       level={getSocketStatus(status6)}
                       size={STATUS_SIZE}
                     />
@@ -190,7 +190,7 @@ const Summary = ({
                     color={ButtonColorTypes.Inherit}
                   >
                     <Status
-                      data-testid="status7Id"
+                      testId="status7Id"
                       level={getSocketStatus(status7)}
                       size={STATUS_SIZE}
                     />
@@ -205,7 +205,7 @@ const Summary = ({
                     color={ButtonColorTypes.Inherit}
                   >
                     <Status
-                      data-testid="status8Id"
+                      testId="status8Id"
                       level={getSocketStatus(status8)}
                       size={STATUS_SIZE}
                     />
@@ -220,7 +220,7 @@ const Summary = ({
                     color={ButtonColorTypes.Inherit}
                   >
                     <Status
-                      data-testid="status9Id"
+                      testId="status9Id"
                       level={getSocketStatus(status9)}
                       size={STATUS_SIZE}
                     />

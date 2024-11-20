@@ -71,7 +71,7 @@ function TheHeader(setOpenUser: {
     <Header
       docs={getDocs()}
       title={t('label.signalDisplay', { ns: 'signalDisplay' })}
-      data-testid="skaHeader"
+      testId="skaHeader"
       toolTip={toolTip}
       storage={theStorage}
     >

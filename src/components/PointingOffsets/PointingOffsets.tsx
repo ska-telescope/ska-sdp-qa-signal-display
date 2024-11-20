@@ -180,7 +180,7 @@ const PointingOffsets = ({
     <YAxisToggle
       // eslint-disable-next-line react/jsx-no-bind
       setValue={setValue}
-      data-testid={`${settingElement()}ButtonTestId`}
+      testId={`${settingElement()}ButtonTestId`}
       type="amplitude"
       value={settingElement()}
       displaySettings={displaySettings}

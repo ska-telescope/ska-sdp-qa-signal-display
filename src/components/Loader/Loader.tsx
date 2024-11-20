@@ -6,7 +6,7 @@ export default function Loader() {
   return (
     <Box>
       <BackDrop open>
-        <Progress size={100} data-testid="progressTestId" />
+        <Progress size={100} testId="progressTestId" />
       </BackDrop>
     </Box>
   );

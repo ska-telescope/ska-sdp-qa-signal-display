@@ -92,7 +92,7 @@ const SignalCard = ({
   );
 
   return (
-    <Alert action={actionButtons()} data-testid="signalCardId" key="alerts" severity={0}>
+    <Alert action={actionButtons()} testId="signalCardId" key="alerts" severity={0}>
       <Box width="80vw">
         <Typography data-testid="sectionHeader" variant="h5">
           {title}

@@ -41,7 +41,7 @@ export default function Settings({
     <Grid item xs={4}>
       <HideShowToggle
         label={t(title)}
-        data-testid={`${value}ButtonTestId`}
+        testId={`${value}ButtonTestId`}
         displaySettings={displaySettings}
         value={value}
         setValue={setValue}
@@ -63,7 +63,7 @@ export default function Settings({
         <YAxisToggle
           disabled={!displaySettings[value]}
           setValue={setValue}
-          data-testid={`${value2}ButtonTestId`}
+          testId={`${value2}ButtonTestId`}
           type={type}
           value={value2}
           displaySettings={displaySettings}

@@ -11,7 +11,7 @@ import {
 } from '../Settings/qaSettings';
 
 export interface YAxisToggleProps {
-  data-testid: string;
+  testId: string;
   type: string;
   disabled: boolean;
   displaySettings: typeof QASettings;
@@ -21,7 +21,7 @@ export interface YAxisToggleProps {
 }
 
 function YAxisToggle({
-  data-testid,
+  testId,
   type,
   value,
   disabled,
@@ -65,7 +65,7 @@ function YAxisToggle({
       disabled={disabled}
       options={toggleOptions()}
       setValue={update}
-      data-testid={data-testid}
+      testId={testId}
       toolTip={t(`toolTip.settings.${type}`)}
       value={displaySettings[value]}
       current={displaySettings[value]}

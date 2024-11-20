@@ -212,7 +212,7 @@ const SpectrumPlot = ({
     <YAxisToggle
       // eslint-disable-next-line react/jsx-no-bind
       setValue={setValue}
-      data-testid={`${settingElement()}ButtonTestId`}
+      testId={`${settingElement()}ButtonTestId`}
       type="amplitude"
       value={settingElement()}
       displaySettings={displaySettings}
@@ -224,7 +224,7 @@ const SpectrumPlot = ({
     <WaterfallToggle
       // eslint-disable-next-line react/jsx-no-bind
       setValue={setValue}
-      data-testid={`${waterfallToggleElement()}ButtonTestId`}
+      testId={`${waterfallToggleElement()}ButtonTestId`}
       type="spectrum"
       value={waterfallToggleElement()}
       displaySettings={displaySettings}

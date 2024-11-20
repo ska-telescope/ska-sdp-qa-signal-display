@@ -240,7 +240,7 @@ const Polarization = ({
     <YAxisToggle
       // eslint-disable-next-line react/jsx-no-bind
       setValue={setValue}
-      data-testid={`${settingElement(type)}ButtonTestId`}
+      testId={`${settingElement(type)}ButtonTestId`}
       type={type ? 'amplitude' : 'phase'}
       value={settingElement(type)}
       displaySettings={displaySettings}
@@ -251,7 +251,7 @@ const Polarization = ({
   const amplitudeRealToggle = (type: string) => (
     <YAxisToggle
       setValue={setValue}
-      data-testid={`${settingElementAmplitudeReal(type)}ButtonTestId`}
+      testId={`${settingElementAmplitudeReal(type)}ButtonTestId`}
       type={type === 'Real' ? 'Real' : 'Imaginary'}
       value={settingElementAmplitudeReal(type)}
       displaySettings={displaySettings}
@@ -262,7 +262,7 @@ const Polarization = ({
   const phaseImaginaryToggle = (type: string) => (
     <YAxisToggle
       setValue={setValue}
-      data-testid={`${settingElementAmplitudeReal(type)}ButtonTestId`}
+      testId={`${settingElementAmplitudeReal(type)}ButtonTestId`}
       type={type === 'phase' ? 'Phase' : 'Imaginary'}
       value={settingElementAmplitudeReal(type)}
       displaySettings={displaySettings}
@@ -291,7 +291,7 @@ const Polarization = ({
                 {(!legend || !chartData1 || chartData1.length === 0) && (
                   <Box m={1}>
                     <InfoCard
-                      data-testid="noChartData1Card"
+                      testId="noChartData1Card"
                       fontSize={25}
                       level={1}
                       message={t('error.noData')}
@@ -334,7 +334,7 @@ const Polarization = ({
                 {(!chartData2 || chartData2.length === 0) && (
                   <Box m={1}>
                     <InfoCard
-                      data-testid="noChartData2Card"
+                      testId="noChartData2Card"
                       fontSize={25}
                       level={1}
                       message={t('error.noData')}

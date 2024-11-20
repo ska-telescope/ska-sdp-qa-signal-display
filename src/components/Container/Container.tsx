@@ -779,14 +779,14 @@ const Container = ({ childToParent }) => {
                       )}
                       label={t('label.subArray')}
                       options={subArrays}
-                      data-testid="subArraySelection"
+                      testId="subArraySelection"
                       value={subArray}
                       setValue={setSubArray}
                     />
                   )}
                   {!subArrays && (
                     <InfoCard
-                      data-testid="noSubArrayCard"
+                      testId="noSubArrayCard"
                       fontSize={25}
                       level={1}
                       message={displayError()}
@@ -803,7 +803,7 @@ const Container = ({ childToParent }) => {
                       icon={<RefreshIcon />}
                       label={t('label.button.refresh', { count: labelCounter() })}
                       onClick={refreshClicked}
-                      data-testid="refreshButton"
+                      testId="refreshButton"
                       toolTip={t('toolTip.button.refresh')}
                     />
                   </Box>
