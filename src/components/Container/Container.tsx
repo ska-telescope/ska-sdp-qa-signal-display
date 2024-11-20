@@ -323,7 +323,7 @@ const Container = ({ childToParent }) => {
       return;
     }
     try {
-      const response = await fetch(`${DATA_API_URL}/windows/`);
+      const response = await fetch(`${DATA_API_URL}/windows/?subarray=${subArray}`);
       const data = await response.json();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return data.flatMap((item: any) =>
