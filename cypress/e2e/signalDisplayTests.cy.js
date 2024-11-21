@@ -1,5 +1,4 @@
 function statisticsDetailed() {
-    cy.findAllByTestId("hideShowToggle").click()
     cy.findAllByTestId("sectionHeader").contains("Statistics - Detailed").should("be.visible");
 
     cy.findByTestId("timeDetails").contains("Time").should("be.visible");
@@ -111,30 +110,17 @@ context('Signal display', () => {
         // Removed because display now defaults to one subarray
         // cy.findByTestId("noSubArrayCard").should("be.visible");
         cy.findAllByTestId("status1Id").should("be.visible");
-    })
-    it('Verify expected diagrams are present and can be hidden stats', () => {
+
         statisticsDetailed();
-    })
-    it('Verify expected diagrams are present and can be hidden receiver', () => {
         statisticsReceiver();
-    })
-    it('Verify expected diagrams are present and can be hidden config', () => {
         runningConfiguration();
-    })
-    it('Verify expected diagrams are present and can be hidden 2', () => {
 
         cy.findAllByTestId("sectionHeader").contains("High-Resolution Windows").should("be.visible");
-    })
-
-    it('Verify expected diagrams are present and can be hidden 3', () => {
 
         cy.findAllByTestId("sectionHeader").contains("Spectrum XX").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("Spectrum XY").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("Spectrum YX").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("Spectrum YY").should("be.visible");
-    })
-
-    it('Verify expected diagrams are present and can be hidden 4', () => {
 
         cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XX").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("Polarization / Amplitude XY").should("be.visible");
@@ -146,9 +132,6 @@ context('Signal display', () => {
         cy.findAllByTestId("sectionHeader").contains("Polarization / Phase YY").should("be.visible");
         cy.findAllByTestId('chartData1Content').should("be.visible");
         cy.findAllByTestId('chartData2Content').should("be.visible");
-    })
-
-    it('Verify expected diagrams are present and can be hidden 5', () => {
 
         cy.findAllByTestId("sectionHeader").contains("Spectrograms").should("be.visible")
         cy.findByTestId('spectrogram1Id').should("be.visible");
@@ -156,18 +139,11 @@ context('Signal display', () => {
         cy.findByTestId('spectrogram3Id').should("be.visible");
         cy.findByTestId('spectrogram4Id').should("be.visible");
 
-    })
-
-    it('Verify expected diagrams are present and can be hidden 6', () => {
-
         cy.findAllByTestId("sectionHeader").contains("Lag Plots").should("be.visible")
         cy.findByTestId('LagPlot1Id').should("be.visible");
         cy.findByTestId('LagPlot2Id').should("be.visible");
         cy.findByTestId('LagPlot3Id').should("be.visible");
         cy.findByTestId('LagPlot4Id').should("be.visible");
-    })
-
-    it('Verify expected diagrams are present and can be hidden 7', () => {
 
         cy.findByTestId("calibrationPlotsTab").click();
 
