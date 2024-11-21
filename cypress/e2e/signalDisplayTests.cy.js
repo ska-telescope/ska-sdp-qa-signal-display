@@ -1,4 +1,5 @@
 function statisticsDetailed() {
+    cy.findAllByTestId("hideShowToggle").click()
     cy.findAllByTestId("sectionHeader").contains("Statistics - Detailed").should("be.visible");
 
     cy.findByTestId("timeDetails").contains("Time").should("be.visible");
