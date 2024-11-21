@@ -110,9 +110,14 @@ context('Signal display', () => {
         // Removed because display now defaults to one subarray
         // cy.findByTestId("noSubArrayCard").should("be.visible");
         cy.findAllByTestId("status1Id").should("be.visible");
-
+    })
+    it('Verify expected diagrams are present and can be hidden stats', () => {
         statisticsDetailed();
+    })
+    it('Verify expected diagrams are present and can be hidden receiver', () => {
         statisticsReceiver();
+    })
+    it('Verify expected diagrams are present and can be hidden config', () => {
         runningConfiguration();
     })
     it('Verify expected diagrams are present and can be hidden 2', () => {
@@ -170,6 +175,8 @@ context('Signal display', () => {
         cy.findAllByTestId("sectionHeader").contains("Expected and Fitted H Beam Widths").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("Expected and Fitted V Beam Widths").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("Fitted Height").should("be.visible");
+    })
+    it('Verify expected diagrams are present and can be hidden 8', () => {
 
         cy.findAllByTestId("sectionHeader").contains("H Amplitude").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("V Amplitude").should("be.visible");
