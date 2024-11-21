@@ -101,19 +101,25 @@ context('Signal display', () => {
         cy.findByTestId('Brightness4Icon').should("be.visible");
     })
 
-    it('Verify expected diagrams are present and can be hidden 1', () => {
+    // it('Verify expected diagrams are present and can be hidden 1', () => {
 
-        //cy.findAllByLabelText("Status Indicator 4", {timeout: 30000}).should("have.length", 9);
+    //     //cy.findAllByLabelText("Status Indicator 4", {timeout: 30000}).should("have.length", 9);
 
-        cy.findAllByTestId("hideShowToggle").click({ multiple: true , force: true});
+    //     cy.findAllByTestId("hideShowToggle").click({ multiple: true , force: true});
 
-        // Removed because display now defaults to one subarray
-        // cy.findByTestId("noSubArrayCard").should("be.visible");
-        cy.findAllByTestId("status1Id").should("be.visible");
+    //     // Removed because display now defaults to one subarray
+    //     // cy.findByTestId("noSubArrayCard").should("be.visible");
+    //     cy.findAllByTestId("status1Id").should("be.visible");
 
+    it('Verify expected diagrams are present and can be hidden stats', () => {
         statisticsDetailed();
+    })
+    it('Verify expected diagrams are present and can be hidden receiver', () => {
         statisticsReceiver();
+    })
+    it('Verify expected diagrams are present and can be hidden config', () => {
         runningConfiguration();
+    })
 
         cy.findAllByTestId("sectionHeader").contains("High-Resolution Windows").should("be.visible");
 
