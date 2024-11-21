@@ -175,8 +175,6 @@ context('Signal display', () => {
         cy.findAllByTestId("sectionHeader").contains("Expected and Fitted H Beam Widths").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("Expected and Fitted V Beam Widths").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("Fitted Height").should("be.visible");
-    })
-    it('Verify expected diagrams are present and can be hidden 8', () => {
 
         cy.findAllByTestId("sectionHeader").contains("H Amplitude").should("be.visible");
         cy.findAllByTestId("sectionHeader").contains("V Amplitude").should("be.visible");
@@ -191,6 +189,5 @@ context('Signal display', () => {
 
     it("Verify modals operate as expected", () => {
         cy.findAllByTestId('test-info-modal').should("be.visible").click();
-        cy.get('body').click(400,0, {force: true});
     })
 })
