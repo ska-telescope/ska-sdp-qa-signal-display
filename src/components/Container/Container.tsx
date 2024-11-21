@@ -538,10 +538,10 @@ const Container = ({ childToParent }) => {
 
   async function retrieveHiResWindows() {
     if (DATA_LOCAL) {
-      return;
+      return [];
     }
     if (config === undefined) {
-      return;
+      return [];
     }
     try {
       const response = await fetch(`${DATA_API_URL}/windows/?subarray=${encodeURIComponent(subArray)}`);
