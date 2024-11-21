@@ -121,6 +121,9 @@ context('Signal display', () => {
         runningConfiguration();
     })
 
+
+    it('Verify expected diagrams are present and can be hidden', () => {
+
         cy.findAllByTestId("sectionHeader").contains("High-Resolution Windows").should("be.visible");
 
         cy.findAllByTestId("sectionHeader").contains("Spectrum XX").should("be.visible");
