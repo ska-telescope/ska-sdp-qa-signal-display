@@ -71,6 +71,7 @@ const Container = ({ childToParent }) => {
   const [chartHiResDataSpectrum, setHiResChartDataSpectrum] = React.useState([]);
   const [chartHiResDataPhase, setHiResChartDataPhase] = React.useState([]);
 
+  const [selectedWindows, setSelectedWindows] = React.useState<Set<string>>(new Set());
 
   const [socketStatusGainCal, setSocketStatusGainCal] = React.useState(SOCKET_STATUS[0]);
   const [socketStatusUVCoverage, setSocketStatusUVCoverage] = React.useState(SOCKET_STATUS[0]);
@@ -753,9 +754,20 @@ const Container = ({ childToParent }) => {
     setCurrentTabIndex(tabIndex);
   };
 
-  const [sharedXRange, setSharedXRange] = React.useState({ data: '', metric: '' });
+  function toggleWindowSelection(id: string) {
+    setSelectedWindows(prevSelected => {
+      const updated = new Set(prevSelected);
+      if (updated.has(id)) {
+        updated.delete(id); // Deselect if already selected
+      } else {
+        updated.add(id); // Select if not already selected
+      }
+      return updated;
+    });
+  }
 
-  const hiResSpectrumWindows = hiResWindows.filter(window => window.topic === `metrics-spectrum-${subArray}`);
+  const [sharedXRange, setSharedXRange] = React.useState({ data: '', metric: '' });
+  const hiResSpectrumWindows = hiResWindows.filter(window => (window.topic === `metrics-spectrum-${subArray}`)&&(selectedWindows.has(window.index)))
 
   return (
     <>
@@ -862,6 +874,9 @@ const Container = ({ childToParent }) => {
           sharedData={sharedXRange}
           subArray={subArray}
           subarrayDetails={subarrayDetails}
+          windows={hiResWindows}
+          selectedWindows={selectedWindows}
+          onToggle={toggleWindowSelection}
         />
       )}
       {currentTabIndex === 0 && (
