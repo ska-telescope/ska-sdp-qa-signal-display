@@ -212,11 +212,12 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails, windows, selecte
           <div>
         {windows.map(window => (
           <div key={window.index}>
-            <label>
+            <label htmlFor='toggle-view'>
               <input
                 type="checkbox"
                 checked={selectedWindows.has(window.index)}
                 onChange={() => onToggle(window.index)}
+                id='toggle-view'
               />
               {`Topic: ${window.topic}, Freq. Range: ${window.start}-${window.end}, Channels Averaged: ${window.channels_averaged}`}
             </label>
