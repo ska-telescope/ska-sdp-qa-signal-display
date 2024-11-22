@@ -62,6 +62,16 @@ const Container = ({ childToParent }) => {
   const [socketStatusPointingOffset, setSocketStatusPointingOffset] = React.useState(
     SOCKET_STATUS[0]
   );
+
+  const [socketHiResStatusAmplitude, setHiResSocketStatusAmplitude] = React.useState(SOCKET_STATUS[0]);
+  const [socketHiResStatusPhase, setHiResSocketStatusPhase] = React.useState(SOCKET_STATUS[0]);
+  const [socketHiResStatusSpectrum, setHiResSocketStatusSpectrum] = React.useState(SOCKET_STATUS[0]);
+
+  const [chartHiResDataAmplitude, setHiResChartDataAmplitude] = React.useState([]);
+  const [chartHiResDataSpectrum, setHiResChartDataSpectrum] = React.useState([]);
+  const [chartHiResDataPhase, setHiResChartDataPhase] = React.useState([]);
+
+
   const [socketStatusGainCal, setSocketStatusGainCal] = React.useState(SOCKET_STATUS[0]);
   const [socketStatusUVCoverage, setSocketStatusUVCoverage] = React.useState(SOCKET_STATUS[0]);
 
@@ -85,6 +95,7 @@ const Container = ({ childToParent }) => {
   const [processingBlockStatisticsData, setProcessingBlockStatisticsData] = React.useState(null);
   const [receiverEventsData, setReceiverEventsData] = React.useState(null);
   const [maskData, setMaskData] = React.useState(null);
+  const [hiResWindows, setHiResWindows] = React.useState([]);
 
   const [currentTabIndex, setCurrentTabIndex] = React.useState(0);
   const [chartDataPhase, setChartDataPhase] = React.useState(null);
@@ -151,6 +162,66 @@ const Container = ({ childToParent }) => {
     setRedraw(!redraw);
   };
 
+  function updateHiResAmplitudeData(index, data) {
+    setHiResChartDataAmplitude(prevState => {
+      const newState = [...prevState];
+      newState[index] = data;
+      return newState
+    })
+  }
+
+  function updateHiResPhaseData(index, data) {
+    setHiResChartDataPhase(prevState => {
+      const newState = [...prevState];
+      newState[index] = data;
+      return newState
+    })
+  }
+
+  function updateHiResSpectrumData(index, data) {
+    setHiResChartDataSpectrum(prevState => {
+      const newState = [...prevState];
+      newState[index] = data;
+      return newState
+    })
+  }
+
+  const functionMapping = {
+    [`metrics-amplitude-${subArray}`]: {
+      status: [
+        setHiResSocketStatusAmplitude
+      ],
+      setData: [
+        updateHiResAmplitudeData
+      ],
+      data: [
+        chartHiResDataAmplitude
+      ],
+    },
+    [`metrics-phase-${subArray}`]: {
+      status: [
+        setHiResSocketStatusPhase
+      ],
+      setData: [
+        updateHiResPhaseData
+      ],
+      data: [
+        chartHiResDataPhase
+      ],
+    },
+    [`metrics-spectrum-${subArray}`]: {
+      status: [
+        setHiResSocketStatusSpectrum
+      ],
+      setData: [
+        updateHiResSpectrumData
+      ],
+      data: [
+        chartHiResDataSpectrum
+      ],
+    },
+  };
+
   function legendOnClick(val: string): void {
     const tmp = [];
     for (let i = 0; i < legendData.length; i++) {
@@ -203,6 +274,7 @@ const Container = ({ childToParent }) => {
     }
     return t(config ? 'error.subArray' : 'error.config');
   };
+
 
   async function retrieveProcessingBlockStatisticsData() {
     if (DATA_LOCAL) {
@@ -393,6 +465,8 @@ const Container = ({ childToParent }) => {
   }
 
   const activeWebsockets = React.useRef<{ [key: string]: WebSocket }>({});
+  const activeWindows = React.useRef<{ [key: string]: WebSocket }>({});
+
 
   async function connectWebSockets() {
     const localEnabledMetrics = enabledMetrics === null ? [] : enabledMetrics;
@@ -462,6 +536,94 @@ const Container = ({ childToParent }) => {
     });
   }
 
+  async function retrieveHiResWindows() {
+    if (DATA_LOCAL) {
+      return [];
+    }
+    if (config === undefined) {
+      return [];
+    }
+    try {
+      const response = await fetch(`${DATA_API_URL}/windows/?subarray=${encodeURIComponent(subArray)}`);
+      const data = await response.json();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return data.flatMap((item: any) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        item.windows.map((window: any, index: number) => ({
+          ...window,
+          topic: item.topic,
+          index
+        }))
+      );
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error("Error fetching high-resolution windows:", error);
+      return [];
+    }
+  }
+
+  React.useEffect(() => {
+    const intervalCall = setInterval(async () => {
+      const windows = await retrieveHiResWindows()
+      setHiResWindows(windows);
+    }, 3000);
+    return () => {
+      clearInterval(intervalCall);
+    };
+  }, [subArray]);
+
+
+  async function connectHiResWebSockets() {
+
+    let metric: string;
+  
+    hiResWindows.forEach(window => {
+      const topic = window.topic;
+      if (topic.includes('spectrum')) {
+        metric = config.topics.spectrum
+      } else if (topic.includes('phase')) {
+        metric = config.topics.phase
+      } else if (topic.includes('amplitude')) {
+        metric = config.topics.amplitude
+      }
+      const partition = (window.index ?? 0) + 1;
+  
+      if (!activeWindows.current[topic]) {
+        activeWindows.current[topic] = {};
+      }
+
+      if (activeWindows.current[topic][partition]) {
+        return;
+      }
+  
+      const functions = functionMapping[topic];
+      if (!functions) {
+        // eslint-disable-next-line no-console
+        console.error(`Unhandled topic: ${topic}`);
+        return;
+      }
+  
+      const status = functions.status[0];
+      const setData = functions.setData[0];
+  
+      if (!status || !setData) {
+        // eslint-disable-next-line no-console
+        console.error(`Invalid partition ${partition} for topic: ${topic}`);
+        return;
+      }
+  
+      activeWindows.current[topic][partition] = Socket({
+        apiUrl: WS_API_URL + config.paths.websocket,
+        protocol: config.api_format,
+        suffix: `${metric}-${subArray}/${partition.toString()}`,
+        statusFunction: status,
+        dataFunction: setData,
+        index: partition - 1
+      });
+    });
+  }
+  
+
   React.useEffect(() => {
     if (processingBlockId != null) {
       setRedraw(!redraw);
@@ -481,6 +643,10 @@ const Container = ({ childToParent }) => {
       connectWebSockets();
     }
   }, [enabledMetrics]);
+
+  React.useEffect(() => {
+  connectHiResWebSockets();
+  }, [hiResWindows]);
 
   React.useEffect(() => {
     if (subArray === '') {
@@ -588,6 +754,8 @@ const Container = ({ childToParent }) => {
   };
 
   const [sharedXRange, setSharedXRange] = React.useState({ data: '', metric: '' });
+
+  const hiResSpectrumWindows = hiResWindows.filter(window => window.topic === `metrics-spectrum-${subArray}`);
 
   return (
     <>
@@ -719,6 +887,33 @@ const Container = ({ childToParent }) => {
           ))}
         </Grid>
       )}
+
+      {currentTabIndex === 0 && hiResSpectrumWindows.length >= 1 && (
+        hiResSpectrumWindows.map(window => (
+          <Grid container>
+            {POLARIZATIONS.map(item => (
+              <Grid item xs={gridWidth()} >
+                <SpectrumPlot
+                  key={`SpectrumPlot${item}`}
+                  polarization={item}
+                  redraw={redraw}
+                  resize={refresh}
+                  setSettings={settingsUpdate}
+                  socketStatus={functionMapping[window?.topic]?.status[0]}
+                  displaySettings={displaySettings}
+                  data={functionMapping[window?.topic]?.data[0][window?.index]}
+                  config={config}
+                  subArray={subArray}
+                  missingData={maskData}
+                  setSharedData={setSharedXRange}
+                  sharedData={sharedXRange}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        ))
+      )}
+
 
       {currentTabIndex === 0 && showLegend() && (
         <Legend

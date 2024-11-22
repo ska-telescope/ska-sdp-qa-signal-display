@@ -8,7 +8,7 @@ context('Signal display', () => {
         cy.wait(5000);
         cy.findAllByTestId("sectionHeader").contains("Legend").should("be.visible");
         cy.findAllByTestId("VisibilityOffIcon").eq(4).click({ multiple: true, force: true }); // counts from 0
-        cy.findAllByTestId("legendGroupingId").click({ multiple: true });
+        cy.findAllByTestId("legendGroupingId").click({ multiple: true, force: true });
         cy.findAllByTestId("noChartData1Card").should("be.visible");
         cy.findAllByTestId("noChartData2Card").should("be.visible");
         cy.findAllByTestId("legendKey").should("be.visible");
