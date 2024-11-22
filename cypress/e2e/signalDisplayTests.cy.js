@@ -1,4 +1,8 @@
 function statisticsDetailed() {
+
+
+    cy.get('[data-testid="signalCardId"]').eq(1).within(() => {
+        cy.get('[data-testid="hideShowToggle"]').click()});
     cy.findAllByTestId("sectionHeader").contains("Statistics - Detailed").should("be.visible");
 
     cy.findByTestId("timeDetails").contains("Time").should("be.visible");
@@ -21,6 +25,8 @@ function statisticsDetailed() {
 }
 
 function statisticsReceiver() {
+    cy.get('[data-testid="signalCardId"]').eq(2).within(() => {
+        cy.get('[data-testid="hideShowToggle"]').click()});
     cy.findAllByTestId("sectionHeader").contains("Statistics - Receiver").should("be.visible");
 
     cy.findByTestId("currentScanDetails").contains("State").should("be.visible");
@@ -35,6 +41,8 @@ function statisticsReceiver() {
 }
 
 function runningConfiguration() {
+    cy.get('[data-testid="signalCardId"]').eq(0).within(() => {
+        cy.get('[data-testid="hideShowToggle"]').click()});
     cy.findByTestId("subarray_configured_nodesLabel").contains("1").should('be.visible');
     cy.findByTestId("subarray_receptorsLabel").contains("C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30").should('be.visible');
 
@@ -101,25 +109,29 @@ context('Signal display', () => {
         cy.findByTestId('Brightness4Icon').should("be.visible");
     })
 
-    it('Verify expected diagrams are present and can be hidden', () => {
+    it('Verify expected diagrams are present and can be hidden 1', () => {
 
         cy.findAllByLabelText("Status Indicator 4", {timeout: 30000}).should("have.length", 7);
 
-        cy.findAllByTestId("signalCardId").each(($ele) => {
-            cy.wrap($ele).then(($card) => {
-                if($card.find("[data-testid='VisibilityOffIcon']").length){
-                    cy.wrap($card).find("[data-testid='VisibilityOffIcon']").click();
-                }
-            });
-        });
+        cy.findAllByTestId("hideShowToggle").click({ multiple: true , force: true});
 
         // Removed because display now defaults to one subarray
         // cy.findByTestId("noSubArrayCard").should("be.visible");
         cy.findAllByTestId("status1Id").should("be.visible");
+    })
 
+    it('Verify expected diagrams are present and can be hidden stats', () => {
         statisticsDetailed();
+    })
+    it('Verify expected diagrams are present and can be hidden receiver', () => {
         statisticsReceiver();
+    })
+    it('Verify expected diagrams are present and can be hidden config', () => {
         runningConfiguration();
+    })
+
+
+    it('Verify expected diagrams are present and can be hidden', () => {
 
         cy.findAllByTestId("sectionHeader").contains("High-Resolution Windows").should("be.visible");
 
@@ -171,6 +183,6 @@ context('Signal display', () => {
     })
 
     it("Verify modals operate as expected", () => {
-        cy.findAllByTestId('test-info-modal').should("be.visible").click({ multiple: true , force: true });
+        cy.findAllByTestId('test-info-modal').should("be.visible").click({multiple: true, force: true});
     })
 })

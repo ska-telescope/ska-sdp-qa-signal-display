@@ -174,9 +174,13 @@ const SpectrumPlot = ({
     }
   }, [config]);
 
+  function isEmptyObject(obj: object | null | undefined): boolean {
+    return !obj || Object.keys(obj).length === 0;
+  }
+
   React.useEffect(() => {
     const firstRender = chartData === null;
-    if (data) {
+    if (!isEmptyObject(data)) {
       setChartData(getChartData(data));
       setMaskedData(checkForInvalidData(data));
       if (missingData) {
