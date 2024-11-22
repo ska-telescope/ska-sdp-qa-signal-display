@@ -4,7 +4,7 @@
 /* eslint-disable import/no-unresolved */
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Typography } from '@mui/material';
+import { Grid, Typography, Card, CardHeader, CardContent, Box, Stack } from '@mui/material';
 import { DATA_API_URL, MSENTRA_CLIENT_ID } from '@utils/constants';
 import { HZ_TO_MHZ } from '@utils/calculate';
 import SignalCard from '../SignalCard/SignalCard';
@@ -22,9 +22,12 @@ interface WindowRequestProps {
   sharedData: object;
   subArray: string;
   subarrayDetails: string[];
+  windows: any;
+  selectedWindows: any;
+  onToggle: any;
 }
 
-const WindowRequest = ({ sharedData, subArray, subarrayDetails }: WindowRequestProps) => {
+const WindowRequest = ({ sharedData, subArray, subarrayDetails, windows, selectedWindows, onToggle }: WindowRequestProps) => {
   const { t } = useTranslation('signalDisplay');
   const [showContent, setShowContent] = React.useState(false);
   const [data, setData] = React.useState({ f_min: '', f_max: '', nchan_avg: '' });
@@ -143,7 +146,19 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }: WindowRequestP
         showContent={showContent}
         setShowContent={showToggle}
       >
-        <Box>
+        <Stack spacing={1}>
+        <Card variant="outlined">
+          <CardHeader
+            component={Box}
+            title={`${t('label.windowRequest')}`}
+            titleTypographyProps={{
+              align: 'center',
+              fontWeight: 'bold',
+              variant: 'h5'
+            }}
+          />
+          <CardContent>
+          <Box>
           <form onSubmit={handleSubmit}>
             <Box style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <Typography data-testid="windowRequest" variant="body1" display="block">
@@ -181,6 +196,36 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails }: WindowRequestP
             </Box>
           </form>
         </Box>
+          </CardContent>
+        </Card>
+        <Card variant="outlined">
+          <CardHeader
+            component={Box}
+            title={`${t('label.currentWindows')}`}
+            titleTypographyProps={{
+              align: 'center',
+              fontWeight: 'bold',
+              variant: 'h5'
+            }}
+          />
+          <CardContent>
+          <div>
+        {windows.map(window => (
+          <div key={window.index}>
+            <label>
+              <input
+                type="checkbox"
+                checked={selectedWindows.has(window.index)}
+                onChange={() => onToggle(window.index)}
+              />
+              {`Topic: ${window.topic}, Freq. Range: ${window.start}-${window.end}, Channels Averaged: ${window.channels_averaged}`}
+            </label>
+          </div>
+        ))}
+      </div>
+          </CardContent>
+          </Card>
+      </Stack>
       </SignalCard>
     </>
   );

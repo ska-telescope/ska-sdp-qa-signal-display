@@ -122,7 +122,8 @@
     "workflow": "Workflow",
     "weightDistribution": "Weight Distribution",
     "yes": "Yes",
-    "windowRequest": "High-Resolution Windows"
+    "windowRequest": "High-Resolution Windows",
+    "currentWindows": "Currently Available Windows"
   },
   "toolTip": {
     "button": {
