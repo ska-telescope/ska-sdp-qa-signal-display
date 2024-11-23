@@ -758,20 +758,14 @@ const Container = ({ childToParent }) => {
 
   function toggleWindowSelection(index: string, topic: string) {
     setSelectedWindows(prevSelected => {
-      // Create a shallow copy of the previous selection object
-      const updated = { ...prevSelected };
-  
-      // Construct a unique key based on id and topic
+      const updated = { ...prevSelected };  
       const key = `${index}_${topic}`;
-  
-      // Check if the entry with the constructed key exists
       if (updated[key]) {
-        delete updated[key]; // Deselect: Remove the entry
+        delete updated[key];
       } else {
-        updated[key] = { index, topic }; // Select: Add the entry
+        updated[key] = { index, topic };
       }
-  
-      return updated; // Return the updated object
+      return updated;
     });
   }
 
