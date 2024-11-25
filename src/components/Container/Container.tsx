@@ -21,6 +21,8 @@ import SDPConfiguration from '../SDPConfiguration/SDPConfiguration';
 import Socket from '../../services/webSocket/Socket';
 import LagPlot from '../LagPlot/LagPlot';
 import LogLinks from '../LogLinks/LogLinks';
+import Phase from '@components/Phase/Phase';
+import Amplitude from '@components/Amplitude/Amplitude';
 import GainCalibration from '../GainCalibration/GainCalibration';
 import BandAveragedXCorr from '../BandAveragedXCorr/BandAveragedXCorr';
 import WeightDistributionPlot from '../WeightDistributions/WeightDistributionPlot';
@@ -71,7 +73,7 @@ const Container = ({ childToParent }) => {
   const [chartHiResDataSpectrum, setHiResChartDataSpectrum] = React.useState([]);
   const [chartHiResDataPhase, setHiResChartDataPhase] = React.useState([]);
 
-  const [selectedWindows, setSelectedWindows] = React.useState<Set<string>>(new Set());
+  const [selectedWindows, setSelectedWindows] = React.useState<{ [key: string]: { index: string; topic: string } }>({});
 
   const [socketStatusGainCal, setSocketStatusGainCal] = React.useState(SOCKET_STATUS[0]);
   const [socketStatusUVCoverage, setSocketStatusUVCoverage] = React.useState(SOCKET_STATUS[0]);
@@ -754,20 +756,25 @@ const Container = ({ childToParent }) => {
     setCurrentTabIndex(tabIndex);
   };
 
-  function toggleWindowSelection(id: string) {
+  function toggleWindowSelection(index: string, topic: string) {
     setSelectedWindows(prevSelected => {
-      const updated = new Set(prevSelected);
-      if (updated.has(id)) {
-        updated.delete(id); // Deselect if already selected
+      const updated = { ...prevSelected };  
+      const key = `${index}_${topic}`;
+      if (updated[key]) {
+        delete updated[key];
       } else {
-        updated.add(id); // Select if not already selected
+        updated[key] = { index, topic };
       }
       return updated;
     });
   }
 
   const [sharedXRange, setSharedXRange] = React.useState({ data: '', metric: '' });
-  const hiResSpectrumWindows = hiResWindows.filter(window => (window.topic === `metrics-spectrum-${subArray}`)&&(selectedWindows.has(window.index)))
+
+  const selectedEntries = Object.values(selectedWindows);
+  const hiResSpectrumWindows = selectedEntries.filter(entry => entry.topic === `metrics-spectrum-${subArray}`);
+  const hiResPhaseWindows = selectedEntries.filter(entry => entry.topic === `metrics-phase-${subArray}`);
+  const hiResAmplitudeWindows = selectedEntries.filter(entry => entry.topic === `metrics-amplitude-${subArray}`);
 
   return (
     <>
@@ -956,6 +963,52 @@ const Container = ({ childToParent }) => {
             missingData={maskData}
           />
         ))}
+
+       {currentTabIndex === 0 && hiResPhaseWindows.length >= 1 && (
+        hiResPhaseWindows.map(window => (
+          <Grid container>
+            {POLARIZATIONS.map(item => (
+              <Grid item xs={gridWidth()} >
+                <Phase
+                  key={`Polarization${item}`}
+                  polarization={item}
+                  redraw={redraw}
+                  resize={refresh}
+                  setSettings={settingsUpdate}
+                  socketStatus={socketStatusAmplitude}
+                  displaySettings={displaySettings}
+                  phaseData={functionMapping[window?.topic]?.data[0][window?.index]}
+                  legend={legendData}
+                  missingData={maskData}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        ))
+      )}
+
+      {currentTabIndex === 0 && hiResAmplitudeWindows.length >= 1 && (
+        hiResAmplitudeWindows.map(window => (
+          <Grid container>
+            {POLARIZATIONS.map(item => (
+              <Grid item xs={gridWidth()} >
+                <Amplitude
+                  key={`Polarization${item}`}
+                  polarization={item}
+                  redraw={redraw}
+                  resize={refresh}
+                  setSettings={settingsUpdate}
+                  socketStatus={socketStatusAmplitude}
+                  displaySettings={displaySettings}
+                  amplitudeData={functionMapping[window?.topic]?.data[0][window?.index]}
+                  legend={legendData}
+                  missingData={maskData}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        ))
+      )}
 
       {currentTabIndex === 0 && (
         <Grid container>

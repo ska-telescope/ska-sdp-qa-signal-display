@@ -130,7 +130,7 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails, windows, selecte
   const options = getDeploymentNames() || [];
 
   const filteredOptions = options.filter(
-    option => !['stats', 'bandaveragedxcorr', 'lagplot', 'uvcoverage', 'spectrograms', 'amplitude', 'phase'].includes(option)
+    option => !['stats', 'bandaveragedxcorr', 'lagplot', 'uvcoverage', 'spectrograms'].includes(option)
   );
 
   const handleCheckboxChange = (option: string) => {
@@ -215,8 +215,8 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails, windows, selecte
             <label htmlFor='toggle-view'>
               <input
                 type="checkbox"
-                checked={selectedWindows.has(window.index)}
-                onChange={() => onToggle(window.index)}
+                checked={!!selectedWindows[`${window.index}_${window.topic}`]}
+                onChange={() => onToggle(window.index, window.topic)}
                 id='toggle-view'
               />
               {`Topic: ${window.topic}, Freq. Range: ${window.start}-${window.end}, Channels Averaged: ${window.channels_averaged}`}
