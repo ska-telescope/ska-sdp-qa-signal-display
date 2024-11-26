@@ -1,6 +1,8 @@
 # Changelog
 
-## Current Development
+## Development
+
+## 0.19.0
 
 - [Changed] Updated the @ska-telescope/ska-gui-components to ^2.0.16 and @ska-telescope/ska-gui-local-storage to ^2.0.0.
 - [Changed] Updated the typescript and webpack configuration to include paths to commonly used internal components.
