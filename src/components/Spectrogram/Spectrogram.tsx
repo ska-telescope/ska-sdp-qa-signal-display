@@ -20,6 +20,7 @@ interface SpectrogramProps {
   subArray: string;
   subarrayDetails: any;
   redraw: boolean;
+  hiResWindows?: any
 }
 
 const Spectrogram = ({
@@ -28,7 +29,8 @@ const Spectrogram = ({
   displaySettings,
   subArray,
   subarrayDetails,
-  redraw
+  redraw,
+  hiResWindows
 }: SpectrogramProps) => {
   const { t } = useTranslation('signalDisplay');
 
@@ -113,10 +115,11 @@ const Spectrogram = ({
           <Card variant="outlined" className="removeBorder:focus">
             <CardContent>
               <WaterfallPlot
-                type={WATERFALL_PLOT_TYPES.LAG_PLOT}
+                type={WATERFALL_PLOT_TYPES.SPECTROGRAM}
                 item={selected}
                 config={config}
                 subArray={subArray}
+                hiResWindows={hiResWindows}
               />
             </CardContent>
           </Card>

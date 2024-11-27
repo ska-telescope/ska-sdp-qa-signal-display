@@ -20,6 +20,7 @@ interface LagPlotProps {
   subArray: string;
   subarrayDetails: any;
   redraw: boolean;
+  hiResWindows?: any
 }
 
 const LagPlot = ({
@@ -28,7 +29,8 @@ const LagPlot = ({
   displaySettings,
   subArray,
   subarrayDetails,
-  redraw
+  redraw,
+  hiResWindows
 }: LagPlotProps) => {
   const { t } = useTranslation('signalDisplay');
 
@@ -121,6 +123,7 @@ const LagPlot = ({
                 item={selected}
                 config={config}
                 subArray={subArray}
+                hiResWindows={hiResWindows}
               />
             </CardContent>
           </Card>
