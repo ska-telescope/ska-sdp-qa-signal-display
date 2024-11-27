@@ -38,6 +38,13 @@ const WaterfallPlot = ({ type, item, config, subArray, hiResWindows }: Waterfall
     }
   }
 
+  function normaliseValues(data: number[]) {
+    if (!data.length) return [];
+    const max = Math.max(...data);
+    const ratio = max ? 360 / max : 1;
+    return data.map((value) => Math.round(value * ratio));
+  }
+
   React.useEffect(() => {
     if (!DATA_LOCAL) {
       const newSocketStatuses: Record<string, string> = {};
@@ -134,15 +141,6 @@ const WaterfallPlot = ({ type, item, config, subArray, hiResWindows }: Waterfall
     });
   }, [chartData]);
   
-  
-  function normaliseValues(data: number[]) {
-    if (!data.length) return [];
-    const max = Math.max(...data);
-    const ratio = max ? 360 / max : 1;
-    return data.map((value) => Math.round(value * ratio));
-  }
-  
-  
 
   function createUint8ClampedArray(data) {
     if (data?.[0]) {
@@ -153,10 +151,11 @@ const WaterfallPlot = ({ type, item, config, subArray, hiResWindows }: Waterfall
       for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
           const pos = (y * width + x) * 4;
-          buffer[pos] = data[y][x][0]; // R
-          buffer[pos + 1] = data[y][x][1]; // G
-          buffer[pos + 2] = data[y][x][2]; // B
-          buffer[pos + 3] = data[y][x][3]; // Alpha
+          const [R, G, B, A] = data[y][x];
+          buffer[pos] = R;
+          buffer[pos + 1] = G;
+          buffer[pos + 2] = B;
+          buffer[pos + 3] = A;
         }
       }
       return buffer;
@@ -173,7 +172,6 @@ const WaterfallPlot = ({ type, item, config, subArray, hiResWindows }: Waterfall
       showContent
     >
       <Grid container spacing={2}>
-        {/* Default WaterfallCanvas */}
         <Grid item xs={12} sm={6} md={4}>
           <Typography variant="subtitle1" gutterBottom>
             Default Waterfall View
@@ -189,7 +187,6 @@ const WaterfallPlot = ({ type, item, config, subArray, hiResWindows }: Waterfall
           />
         </Grid>
   
-        {/* High-resolution Windows */}
         {hiResWindows?.map((window) => {
           const hiResKey = `${window.index}_${window.topic}`;
           return (
