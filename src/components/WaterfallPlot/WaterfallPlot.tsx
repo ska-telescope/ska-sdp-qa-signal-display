@@ -45,6 +45,15 @@ const WaterfallPlot = ({ type, item, config, subArray, hiResWindows }: Waterfall
     return data.map((value) => Math.round(value * ratio));
   }
 
+  function normaliseSpectrumValues(data: number[]) {
+    /* eslint-disable prefer-spread */
+    const ratio = 360 / Math.max.apply(Math, data);
+    const normalisedData = [];
+    data.forEach((value: number) => normalisedData.push(Math.round(value * ratio)));
+    return normalisedData;
+  }
+
+
   React.useEffect(() => {
     if (!DATA_LOCAL) {
       const newSocketStatuses: Record<string, string> = {};
@@ -102,39 +111,64 @@ const WaterfallPlot = ({ type, item, config, subArray, hiResWindows }: Waterfall
   
       Object.entries(chartData).forEach(([key, chartEntry]) => {
         if (chartEntry?.data) {
-          const baselines = item.split(/[-_]+/);
-          const newImages = [];
+          if (type === WATERFALL_PLOT_TYPES.SPECTRUM) {
+            const newImages = [];
+              chartEntry.data
+              .filter((dataPayload) => dataPayload.polarisation === `${item}`)
+              .forEach((dataPayload) => {
+                const rgbaValues = [];
+                const normalisedData = normaliseSpectrumValues(dataPayload.power);
+                
+                normalisedData.forEach((value: number) => {
+                  rgbaValues.push(LOOKUP_COLOUR_VALUES[value] || [0, 0, 0, 255]);
+                });
   
-          chartEntry.data
-            .filter(
-              (dataPayload) =>
-                dataPayload.baseline === `${baselines[0]}_${baselines[1]}` &&
-                dataPayload.polarisation === baselines[2]
-            )
-            .forEach((dataPayload) => {
-              const rgbaValues = [];
-              if (type === WATERFALL_PLOT_TYPES.SPECTROGRAM) {
-                dataPayload.data?.forEach((value: number) => {
-                  rgbaValues.push(LOOKUP_COLOUR_VALUES[value] || [0, 0, 0, 255]);
-                });
-              } else if (type === WATERFALL_PLOT_TYPES.LAG_PLOT) {
-                const normalizedData = normaliseValues(dataPayload.data || []);
-                normalizedData.forEach((value: number) => {
-                  rgbaValues.push(LOOKUP_COLOUR_VALUES[value] || [0, 0, 0, 255]);
-                });
-              }
-              if (rgbaValues.length) {
-                newImages.push(rgbaValues);
-              }
-            });
+                if (rgbaValues.length) {
+                  newImages.push(rgbaValues);
+                }
+              });
   
             if (newImages.length) {
               updatedArrays[key] = updatedArrays[key]
                 ? [...updatedArrays[key], ...newImages]
                 : newImages;
             }
-            
-        }
+          }
+          else if (type !== WATERFALL_PLOT_TYPES.SPECTRUM) {
+            const baselines = item.split(/[-_]+/);
+            const newImages = [];
+    
+            chartEntry.data
+              .filter(
+                (dataPayload) =>
+                  dataPayload.baseline === `${baselines[0]}_${baselines[1]}` &&
+                  dataPayload.polarisation === baselines[2]
+              )
+              .forEach((dataPayload) => {
+                const rgbaValues = [];
+                if (type === WATERFALL_PLOT_TYPES.SPECTROGRAM) {
+                  dataPayload.data?.forEach((value: number) => {
+                    rgbaValues.push(LOOKUP_COLOUR_VALUES[value] || [0, 0, 0, 255]);
+                  });
+                } else if (type === WATERFALL_PLOT_TYPES.LAG_PLOT) {
+                  const normalizedData = normaliseValues(dataPayload.data || []);
+                  normalizedData.forEach((value: number) => {
+                    rgbaValues.push(LOOKUP_COLOUR_VALUES[value] || [0, 0, 0, 255]);
+                  });
+                }
+                if (rgbaValues.length) {
+                  newImages.push(rgbaValues);
+                }
+              });
+    
+              if (newImages.length) {
+                updatedArrays[key] = updatedArrays[key]
+                  ? [...updatedArrays[key], ...newImages]
+                  : newImages;
+              }
+              
+          }
+      }
       });
   
       return updatedArrays;
