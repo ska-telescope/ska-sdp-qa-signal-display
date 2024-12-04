@@ -56,7 +56,7 @@ const WeightDistributionPlot = ({
   function calculateMidFrequency(usedData: any) {
     const minFreq = usedData[0]?.spectral_window?.freq_min;
     const maxFreq = usedData[0]?.spectral_window?.freq_max;
-    return minFreq && maxFreq ? Math.round((minFreq + maxFreq) / (2 * 1000000)) : null;
+    return Math.round((minFreq + (maxFreq - minFreq)) / (2 * 1000000));
   }
 
   function getUVWData(usedData: any, polar: string) {
