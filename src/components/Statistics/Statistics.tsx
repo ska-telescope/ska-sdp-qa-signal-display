@@ -19,17 +19,22 @@ interface StatisticsProps {
   processingBlockStatisticsData: any;
   receiverEventsData: any;
   displaySettings: typeof QASettings;
+  socketStatusStats: string;
 }
 
 const Statistics = ({
   processingBlockStatisticsData,
   receiverEventsData,
-  displaySettings
+  displaySettings,
+  socketStatusStats,
 }: StatisticsProps) => {
   const { t } = useTranslation('signalDisplay');
 
   const [showBasicContent, setShowBasicContent] = React.useState(false);
   const [showDetailContent, setShowDetailContent] = React.useState(false);
+  const [startTime, setStartTime] = React.useState(null);
+  const [ingestionRate, setIngestionRate] = React.useState(null);
+  const [receiveActive, setReceiveActive] = React.useState(false);
 
   const canShowBasic = () => processingBlockStatisticsData !== null;
 
@@ -42,17 +47,30 @@ const Statistics = ({
   const showDetailToggle = () => {
     setShowDetailContent(showDetailContent ? false : canShowDetail());
   };
+  
+  React.useEffect(() => {
+    if(processingBlockStatisticsData.state === "new"){
+      setStartTime(processingBlockStatisticsData.time);
+    }
+    if(startTime > 0 && processingBlockStatisticsData.time > 0 && processingBlockStatisticsData.time > startTime){
+      const rate =  processingBlockStatisticsData.payloads_received/(processingBlockStatisticsData.time - startTime);
+      setIngestionRate(Math.round(rate* 100) / 100);
+    }
+    if((Date.now() - processingBlockStatisticsData.time) > 10){
+      setReceiveActive(true);
+    }
+  })[processingBlockStatisticsData]
+
 
   return (
     <>
       {displaySettings.showStatisticsDetailed && (
         <SignalCard
           title={`${t('label.statistics')} - ${t('label.detailed')}`}
-          socketStatus={SOCKET_STATUS[processingBlockStatisticsData === null ? 1 : 2]}
+          socketStatus={socketStatusStats}
           showContent={showBasicContent}
           setShowContent={showBasicToggle}
         >
-          {processingBlockStatisticsData?.time && (
             <Grid
               data-testid="statistics-detailed-Id"
               container
@@ -68,21 +86,21 @@ const Statistics = ({
                   {t('label.lastAPIRefresh')}
                   {': '}
                   {t('date_time', {
-                    date: epochToDate(processingBlockStatisticsData?.time?.now)
+                    date: epochToDate(Date.now())
                   })}
                 </Typography>
                 <Typography variant="subtitle1">
                   {t('label.lastUpdated')}
                   {': '}
                   {t('date_time', {
-                    date: epochToDate(processingBlockStatisticsData?.time?.last_update)
+                    date: epochToDate(processingBlockStatisticsData?.time)
                   })}
                 </Typography>
                 <Typography variant="subtitle1">
                   {t('label.start')}
                   {': '}
                   {t('date_time', {
-                    date: epochToDate(processingBlockStatisticsData?.time?.start)
+                    date: epochToDate(startTime)
                   })}
                 </Typography>
               </Grid>
@@ -93,22 +111,20 @@ const Statistics = ({
                 <Typography variant="subtitle1">
                   {t('label.ingestionRate')}
                   {': '}
-                  {Math.round(
-                    (processingBlockStatisticsData?.statistics?.ingestion_rate || 0) * 100
-                  ) / 100}
+                  {ingestionRate}
                   {' '}
                   {t('units.ingestionRate')}
                 </Typography>
                 <Typography variant="subtitle1">
                   {t('label.payloadsReceived')}
                   {': '}
-                  {processingBlockStatisticsData?.statistics?.payloads_received}
+                  {processingBlockStatisticsData?.payloads_received}
                 </Typography>
                 <Typography variant="subtitle1">
                   {t('label.visibilityReceiveActive')}
                   {': '}
                   {t(
-                    processingBlockStatisticsData?.statistics?.receive_active
+                    receiveActive
                       ? 'label.yes'
                       : 'label.no'
                   )}
@@ -121,36 +137,35 @@ const Statistics = ({
                 <Typography variant="subtitle1">
                   {t('label.state')}
                   {': '}
-                  {processingBlockStatisticsData?.processing_block?.state}
+                  {processingBlockStatisticsData?.state}
                 </Typography>
                 <Typography variant="subtitle1">
                   {t('label.scanId')}
                   {': '}
-                  {processingBlockStatisticsData?.processing_block?.scan_id}
+                  {processingBlockStatisticsData?.scan_id}
                 </Typography>
                 <Typography variant="subtitle1">
                   {t('label.processingBlockId')}
                   {': '}
-                  {processingBlockStatisticsData?.processing_block?.processing_block_id}
+                  {processingBlockStatisticsData?.processing_block_id}
                 </Typography>
                 <Typography variant="subtitle1">
                   {t('label.executingBlockId')}
                   {': '}
-                  {processingBlockStatisticsData?.processing_block?.execution_block_id}
+                  {processingBlockStatisticsData?.execution_block_id}
                 </Typography>
                 <Typography variant="subtitle1">
                   {t('label.subArray')}
                   {': '}
-                  {processingBlockStatisticsData?.processing_block?.subarray}
+                  {processingBlockStatisticsData?.subarray}
                 </Typography>
                 <Typography variant="subtitle1">
                   {t('label.timeSincePayload')}
                   {': '}
-                  {processingBlockStatisticsData?.processing_block?.time_since_last_payload}
+                  {processingBlockStatisticsData?.time_since_last_payload}
                 </Typography>
               </Grid>
             </Grid>
-          )}
         </SignalCard>
       )}
       {displaySettings.showStatisticsReceiver && (

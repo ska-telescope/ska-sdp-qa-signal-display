@@ -88,7 +88,6 @@ const Container = ({ childToParent }) => {
     { time: number[]; gains: number[][]; phases: number[][] }[]
   >([]);
   const [chartDataUVCoverage, setChartDataUVCoverage] = React.useState([]);
-  const [dataStats, setDataStats] = React.useState(null);
   const [dataWorkflowState, setDataWorkflowState] = React.useState(null);
   const [legendData, setLegendData] = React.useState(null);
   const [legendPole, setLegendPole] = React.useState(null);
@@ -281,22 +280,6 @@ const Container = ({ childToParent }) => {
     }
     return t(config ? 'error.subArray' : 'error.config');
   };
-
-
-  async function retrieveProcessingBlockStatisticsData() {
-    if (DATA_LOCAL) {
-      return;
-    }
-    if (config === undefined) {
-      return;
-    }
-    await fetch(`${DATA_API_URL}${config.paths.processing_blocks}/latest/statistics`)
-      .then(response => response.json())
-      .then(data => {
-        setProcessingBlockStatisticsData(data);
-      })
-      .catch(() => null);
-  }
 
   async function retrieveReceiverEventData() {
     if (DATA_LOCAL) {
@@ -544,7 +527,7 @@ const Container = ({ childToParent }) => {
             protocol: config.api_format,
             suffix: `${config.topics.stats}-${subArray}`,
             statusFunction: setSocketStatusStats,
-            dataFunction: setDataStats
+            dataFunction: setProcessingBlockStatisticsData
           });
           break;
         case METRIC_TYPES.WORKFLOW_STATE:
@@ -663,7 +646,6 @@ const Container = ({ childToParent }) => {
   React.useEffect(() => {
     setEnabledMetrics(getEnabledMetrics());
     if (subarrayDetails?.processing_block_state?.status === 'READY') {
-      retrieveProcessingBlockStatisticsData();
       retrieveReceiverEventData();
     }
   }, [subarrayDetails]);
@@ -865,7 +847,7 @@ const Container = ({ childToParent }) => {
               status1={socketStatusAmplitude}
               status2={socketStatusPhase}
               status3={socketStatusSpectrum}
-              status4={SOCKET_STATUS[processingBlockStatisticsData === null ? 1 : 2]}
+              status4={socketStatusStats}
               status5={SOCKET_STATUS[receiverEventsData === null ? 1 : 2]}
               status6={socketStatusGainCal}
               status7={socketStatusPointingOffset}
@@ -882,6 +864,7 @@ const Container = ({ childToParent }) => {
         processingBlockStatisticsData={processingBlockStatisticsData}
         receiverEventsData={receiverEventsData}
         displaySettings={displaySettings}
+        socketStatusStats={socketStatusStats}
       />
       <Box sx={{ width: '100%' }}>
         <Box sx={{ BorderBottom: 1, borderColor: 'divider' }}>
