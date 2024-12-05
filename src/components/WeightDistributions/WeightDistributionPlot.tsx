@@ -54,8 +54,8 @@ const WeightDistributionPlot = ({
   }
 
   function calculateMidFrequency(usedData: any) {
-    const minFreq = usedData.spectral_window.freq_min;
-    const maxFreq = usedData.spectral_window.freq_max;
+    const minFreq = usedData[0]?.spectral_window?.freq_min;
+    const maxFreq = usedData[0]?.spectral_window?.freq_max;
     return Math.round((minFreq + (maxFreq - minFreq)) / (2 * 1000000));
   }
 
@@ -94,7 +94,7 @@ const WeightDistributionPlot = ({
           }
         },
         mode: 'markers+text',
-        type: 'scatter'
+        type: 'scattergl'
       }
     ];
   }
@@ -116,31 +116,27 @@ const WeightDistributionPlot = ({
 
   React.useEffect(() => {
     const firstRender = chartData === null;
-    if (data?.data?.length > 0) {
-      setChartData(getChartData(data?.data));
+    if (data.length > 0) {
+      const allData = data.flatMap(d => d.data || []);
+      if (allData.length > 0) {
+        setChartData(getChartData(allData));
+      }
     }
     if (firstRender) {
       setShowContent(canShow());
     }
   }, [data, redraw]);
-
+  
   React.useEffect(() => {
     if (!refresh) setShowContent(canShow());
     else setRefresh(false);
   }, [refresh]);
-
+  
   React.useEffect(() => {
-    if (showContent) {
-      setShowContent(false);
-      setRefresh(true);
-    }
-  }, [resize]);
-
-  React.useEffect(() => {
-    if (data?.data?.length > 0) {
+    if (data.length > 0) {
       setMidFreq(calculateMidFrequency(data));
     }
-  });
+  }, [data]);
 
   return (
     <>
