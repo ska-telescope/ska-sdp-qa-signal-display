@@ -64,6 +64,8 @@ const Container = ({ childToParent }) => {
   const [socketStatusPointingOffset, setSocketStatusPointingOffset] = React.useState(
     SOCKET_STATUS[0]
   );
+  const [socketStatusStats, setSocketStatusStats] = React.useState(SOCKET_STATUS[0]);
+  const [socketStatusWorkflowState, setSocketStatusWorkflowState] = React.useState(SOCKET_STATUS[0]);
 
   const [socketHiResStatusAmplitude, setHiResSocketStatusAmplitude] = React.useState(SOCKET_STATUS[0]);
   const [socketHiResStatusPhase, setHiResSocketStatusPhase] = React.useState(SOCKET_STATUS[0]);
@@ -86,6 +88,8 @@ const Container = ({ childToParent }) => {
     { time: number[]; gains: number[][]; phases: number[][] }[]
   >([]);
   const [chartDataUVCoverage, setChartDataUVCoverage] = React.useState([]);
+  const [dataStats, setDataStats] = React.useState(null);
+  const [dataWorkflowState, setDataWorkflowState] = React.useState(null);
   const [legendData, setLegendData] = React.useState(null);
   const [legendPole, setLegendPole] = React.useState(null);
   const [config, setConfig] = React.useState(null);
@@ -530,7 +534,26 @@ const Container = ({ childToParent }) => {
             protocol: config.api_format,
             suffix: `${config.topics.uvcoverage}-${subArray}`,
             statusFunction: setSocketStatusUVCoverage,
-            dataFunction: setChartDataUVCoverage
+            dataFunction: setChartDataUVCoverage,
+            timeSeries: true,
+          });
+          break;
+        case METRIC_TYPES.STATS:
+          activeWebsockets.current[metric] = Socket({
+            apiUrl: WS_API_URL + config.paths.websocket,
+            protocol: config.api_format,
+            suffix: `${config.topics.stats}-${subArray}`,
+            statusFunction: setSocketStatusStats,
+            dataFunction: setDataStats
+          });
+          break;
+        case METRIC_TYPES.WORKFLOW_STATE:
+            activeWebsockets.current[metric] = Socket({
+              apiUrl: WS_API_URL + config.paths.websocket,
+              protocol: config.api_format,
+              suffix: `${config.topics.workflow_state}-${subArray}`,
+              statusFunction: setSocketStatusWorkflowState,
+              dataFunction: setDataWorkflowState
           });
           break;
         default:
