@@ -3,7 +3,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Grid, Typography } from '@mui/material';
 import SignalCard from '../SignalCard/SignalCard';
-import { SOCKET_STATUS } from '../../utils/constants';
 import { QASettings } from '../Settings/qaSettings';
 
 const CONVERT = 1000;
@@ -19,14 +18,16 @@ interface StatisticsProps {
   processingBlockStatisticsData: any;
   receiverEventsData: any;
   displaySettings: typeof QASettings;
-  socketStatusStats: string;
+  socketStatusProcessingBlockStatistics: string;
+  socketStatusReceiverEvents: string;
 }
 
 const Statistics = ({
   processingBlockStatisticsData,
   receiverEventsData,
   displaySettings,
-  socketStatusStats,
+  socketStatusProcessingBlockStatistics,
+  socketStatusReceiverEvents,
 }: StatisticsProps) => {
   const { t } = useTranslation('signalDisplay');
 
@@ -67,7 +68,7 @@ const Statistics = ({
       {displaySettings.showStatisticsDetailed && (
         <SignalCard
           title={`${t('label.statistics')} - ${t('label.detailed')}`}
-          socketStatus={socketStatusStats}
+          socketStatus={socketStatusProcessingBlockStatistics}
           showContent={showBasicContent}
           setShowContent={showBasicToggle}
         >
@@ -171,7 +172,7 @@ const Statistics = ({
       {displaySettings.showStatisticsReceiver && (
         <SignalCard
           title={`${t('label.statistics')} - ${t('label.receiver')}`}
-          socketStatus={SOCKET_STATUS[receiverEventsData === null ? 1 : 2]}
+          socketStatus={socketStatusReceiverEvents}
           showContent={showDetailContent}
           setShowContent={showDetailToggle}
         >

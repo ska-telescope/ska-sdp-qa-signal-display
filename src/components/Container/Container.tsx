@@ -64,8 +64,8 @@ const Container = ({ childToParent }) => {
   const [socketStatusPointingOffset, setSocketStatusPointingOffset] = React.useState(
     SOCKET_STATUS[0]
   );
-  const [socketStatusStats, setSocketStatusStats] = React.useState(SOCKET_STATUS[0]);
-  const [socketStatusWorkflowState, setSocketStatusWorkflowState] = React.useState(SOCKET_STATUS[0]);
+  const [socketStatusProcessingBlockStatistics, setSocketStatusProcessingBlockStatistics] = React.useState(SOCKET_STATUS[0]);
+  const [socketStatusReceiverEvents, setSocketStatusReceiverEvents] = React.useState(SOCKET_STATUS[0]);
 
   const [socketHiResStatusAmplitude, setHiResSocketStatusAmplitude] = React.useState(SOCKET_STATUS[0]);
   const [socketHiResStatusPhase, setHiResSocketStatusPhase] = React.useState(SOCKET_STATUS[0]);
@@ -88,7 +88,6 @@ const Container = ({ childToParent }) => {
     { time: number[]; gains: number[][]; phases: number[][] }[]
   >([]);
   const [chartDataUVCoverage, setChartDataUVCoverage] = React.useState([]);
-  const [dataWorkflowState, setDataWorkflowState] = React.useState(null);
   const [legendData, setLegendData] = React.useState(null);
   const [legendPole, setLegendPole] = React.useState(null);
   const [config, setConfig] = React.useState(null);
@@ -281,21 +280,6 @@ const Container = ({ childToParent }) => {
     return t(config ? 'error.subArray' : 'error.config');
   };
 
-  async function retrieveReceiverEventData() {
-    if (DATA_LOCAL) {
-      return;
-    }
-    if (config === undefined) {
-      return;
-    }
-    await fetch(`${DATA_API_URL}${config.paths.spead2_scans}/latest/latest_event`)
-      .then(response => response.json())
-      .then(data => {
-        setReceiverEventsData(data);
-      })
-      .catch(() => null);
-  }
-
   const limit = () =>
     subArrays && subArrays.length > 0
       ? +env.REACT_APP_SUBARRAY_REFRESH_SECONDS
@@ -378,7 +362,9 @@ const Container = ({ childToParent }) => {
   React.useEffect(() => {
     if (DATA_LOCAL) {
       setProcessingBlockStatisticsData(mockStatisticsProcessingBlock);
+      setSocketStatusProcessingBlockStatistics(SOCKET_STATUS[3]);
       setReceiverEventsData(mockStatisticsReceiverEvents);
+      setSocketStatusReceiverEvents(SOCKET_STATUS[3]);
       if (USE_MISSING_DATA_MASK) {
         setMaskData(getMaskDomains(maskMockData.data));
       }
@@ -526,7 +512,7 @@ const Container = ({ childToParent }) => {
             apiUrl: WS_API_URL + config.paths.websocket,
             protocol: config.api_format,
             suffix: `${config.topics.stats}-${subArray}`,
-            statusFunction: setSocketStatusStats,
+            statusFunction: setSocketStatusProcessingBlockStatistics,
             dataFunction: setProcessingBlockStatisticsData
           });
           break;
@@ -535,8 +521,8 @@ const Container = ({ childToParent }) => {
               apiUrl: WS_API_URL + config.paths.websocket,
               protocol: config.api_format,
               suffix: `${config.topics.workflow_state}-${subArray}`,
-              statusFunction: setSocketStatusWorkflowState,
-              dataFunction: setDataWorkflowState
+              statusFunction: setSocketStatusReceiverEvents,
+              dataFunction: setReceiverEventsData
           });
           break;
         default:
@@ -645,9 +631,6 @@ const Container = ({ childToParent }) => {
 
   React.useEffect(() => {
     setEnabledMetrics(getEnabledMetrics());
-    if (subarrayDetails?.processing_block_state?.status === 'READY') {
-      retrieveReceiverEventData();
-    }
   }, [subarrayDetails]);
 
   React.useEffect(() => {
@@ -847,8 +830,8 @@ const Container = ({ childToParent }) => {
               status1={socketStatusAmplitude}
               status2={socketStatusPhase}
               status3={socketStatusSpectrum}
-              status4={socketStatusStats}
-              status5={SOCKET_STATUS[receiverEventsData === null ? 1 : 2]}
+              status4={socketStatusProcessingBlockStatistics}
+              status5={socketStatusReceiverEvents}
               status6={socketStatusGainCal}
               status7={socketStatusPointingOffset}
               status8={socketStatusBandAvXCorr}
@@ -864,7 +847,8 @@ const Container = ({ childToParent }) => {
         processingBlockStatisticsData={processingBlockStatisticsData}
         receiverEventsData={receiverEventsData}
         displaySettings={displaySettings}
-        socketStatusStats={socketStatusStats}
+        socketStatusProcessingBlockStatistics={socketStatusProcessingBlockStatistics}
+        socketStatusReceiverEvents={socketStatusReceiverEvents}
       />
       <Box sx={{ width: '100%' }}>
         <Box sx={{ BorderBottom: 1, borderColor: 'divider' }}>
