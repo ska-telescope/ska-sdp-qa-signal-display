@@ -28,7 +28,7 @@ const WaterfallPlot = ({ type, item, config, subArray, hiResWindows }: Waterfall
   function returnTopic() {
     switch (type) {
       case WATERFALL_PLOT_TYPES.SPECTROGRAM:
-        return config.topics.spectrograms;
+        return config.topics.phase;
       case WATERFALL_PLOT_TYPES.LAG_PLOT:
         return config.topics.lagplot;
       case WATERFALL_PLOT_TYPES.SPECTRUM:
@@ -80,7 +80,7 @@ const WaterfallPlot = ({ type, item, config, subArray, hiResWindows }: Waterfall
       if (topic.includes('spectrum')) {
         metric = config.topics.spectrum
       } else if (topic.includes('spectrograms')) {
-        metric = config.topics.spectrograms
+        metric = config.topics.phase
       } else if (topic.includes('lagplot')) {
         metric = config.topics.lagplot
       }
@@ -147,7 +147,8 @@ const WaterfallPlot = ({ type, item, config, subArray, hiResWindows }: Waterfall
               .forEach((dataPayload) => {
                 const rgbaValues = [];
                 if (type === WATERFALL_PLOT_TYPES.SPECTROGRAM) {
-                  dataPayload.data?.forEach((value: number) => {
+                  const normalizedData = normaliseValues(dataPayload.data || []);
+                  normalizedData.forEach((value: number) => {
                     rgbaValues.push(LOOKUP_COLOUR_VALUES[value] || [0, 0, 0, 255]);
                   });
                 } else if (type === WATERFALL_PLOT_TYPES.LAG_PLOT) {

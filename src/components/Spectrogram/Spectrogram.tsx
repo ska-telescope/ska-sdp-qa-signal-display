@@ -87,20 +87,7 @@ const Spectrogram = ({
       setChartData([]);
       return;
     }
-    if (legend?.length > 0 && baselineData?.length === legend.length * 4) {
-      const newData = [];
-      for (let i = 0; i < legend.length; i += 1) {
-        if (`${legend[i].text}_XX` === baselineData[i * 4] && legend[i].active) {
-          newData.push(baselineData[i * 4 + 0]);
-          newData.push(baselineData[i * 4 + 1]);
-          newData.push(baselineData[i * 4 + 2]);
-          newData.push(baselineData[i * 4 + 3]);
-        }
-      }
-      setChartData(newData);
-    } else {
-      setChartData(baselineData);
-    }
+    setChartData(baselineData)
   }, [baselineData, legend]);
 
   function imageClick(item: string) {
