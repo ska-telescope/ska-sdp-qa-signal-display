@@ -113,7 +113,8 @@ const SpectrumPlot = ({
         marker: {
           color: COLOR[2]
         },
-        line: { shape: 'hvh' }
+        line: { shape: 'hvh' },
+        type: 'scatter'
       }
     ];
     return chartDataTmp;
