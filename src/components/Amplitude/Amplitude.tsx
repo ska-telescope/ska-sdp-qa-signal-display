@@ -141,7 +141,8 @@ const Amplitude = ({
       y: data,
       name,
       marker: { color: getLegendColor(name) },
-      line: { shape: 'hvh' }
+      line: { shape: 'hvh' },
+      type: 'scatter'
     }));
   }
 

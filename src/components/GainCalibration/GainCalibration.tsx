@@ -60,7 +60,8 @@ const GainCalibration = ({
     return usedData[0][selection].map((_: any, i: number) => ({
       x: usedData.map((datum: any) => datum.time[0]),
       y: usedData.map((datum: any) => datum[selection][i][index]),
-      mode: 'markers+lines'
+      mode: 'markers+lines',
+      type: 'scatter'
     }));
   };
 

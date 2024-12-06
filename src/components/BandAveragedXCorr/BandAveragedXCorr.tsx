@@ -104,7 +104,8 @@ const BandAveragedXCorr = ({
             y: [],
             mode: 'markers+lines',
             name: base.name,
-            marker: { color: getLegendColor(base.name) }
+            marker: { color: getLegendColor(base.name) },
+            type: 'scatter'
           };
         }
 

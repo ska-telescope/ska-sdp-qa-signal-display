@@ -94,7 +94,7 @@ const WeightDistributionPlot = ({
           }
         },
         mode: 'markers+text',
-        type: 'scattergl'
+        type: 'scatter'
       }
     ];
   }
