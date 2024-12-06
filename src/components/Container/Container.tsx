@@ -780,7 +780,6 @@ const Container = ({ childToParent }) => {
   const hiResSpectrumWindows = selectedEntries.filter(entry => entry.topic === `metrics-spectrum-${subArray}`);
   const hiResPhaseWindows = selectedEntries.filter(entry => entry.topic === `metrics-phase-${subArray}`);
   const hiResAmplitudeWindows = selectedEntries.filter(entry => entry.topic === `metrics-amplitude-${subArray}`);
-  const hiResSpectrogramWindows = selectedEntries.filter(entry => entry.topic === `metrics-spectrograms-${subArray}`);
   const hiResLagPlotWindows = selectedEntries.filter(entry => entry.topic === `metrics-lagplot-${subArray}`);
 
   return (
@@ -1063,7 +1062,7 @@ const Container = ({ childToParent }) => {
           subArray={subArray}
           subarrayDetails={subarrayDetails}
           redraw={redraw}
-          hiResWindows={hiResSpectrogramWindows}
+          hiResWindows={hiResPhaseWindows}
         />
       )}
 
