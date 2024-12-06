@@ -79,7 +79,7 @@ const WaterfallPlot = ({ type, item, config, subArray, hiResWindows }: Waterfall
         const topic = window.topic;
       if (topic.includes('spectrum')) {
         metric = config.topics.spectrum
-      } else if (topic.includes('spectrograms')) {
+      } else if (topic.includes('phase')) {
         metric = config.topics.phase
       } else if (topic.includes('lagplot')) {
         metric = config.topics.lagplot
