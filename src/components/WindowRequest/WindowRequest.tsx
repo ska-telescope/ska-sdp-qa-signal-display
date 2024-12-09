@@ -27,7 +27,14 @@ interface WindowRequestProps {
   onToggle: any;
 }
 
-const WindowRequest = ({ sharedData, subArray, subarrayDetails, windows, selectedWindows, onToggle }: WindowRequestProps) => {
+const WindowRequest = ({
+  sharedData,
+  subArray,
+  subarrayDetails,
+  windows,
+  selectedWindows,
+  onToggle
+}: WindowRequestProps) => {
   const { t } = useTranslation('signalDisplay');
   const [showContent, setShowContent] = React.useState(false);
   const [data, setData] = React.useState({ f_min: '', f_max: '', nchan_avg: '' });
@@ -147,86 +154,96 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails, windows, selecte
         setShowContent={showToggle}
       >
         <Stack spacing={1}>
-        <Card variant="outlined">
-          <CardHeader
-            component={Box}
-            title={`${t('label.windowRequest')}`}
-            titleTypographyProps={{
-              align: 'center',
-              fontWeight: 'bold',
-              variant: 'h5'
-            }}
-          />
-          <CardContent>
-          <Box>
-          <form onSubmit={handleSubmit}>
-            <Box style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <Typography data-testid="windowRequest" variant="body1" display="block">
-                f_min for window:
-                <input type="number" name="f_min" value={data.f_min} onChange={handleChange} />
-              </Typography>
-              <Typography data-testid="windowRequest" variant="body1" display="block">
-                f_max for window:
-                <input type="number" name="f_max" value={data.f_max} onChange={handleChange} />
-              </Typography>
-              <Typography data-testid="windowRequest" variant="body1" display="block">
-                Number of averaged channels:
-                <input
-                  type="number"
-                  name="nchan_avg"
-                  value={data.nchan_avg}
-                  onChange={handleChange}
-                />
-              </Typography>
-              {filteredOptions.map(option => (
-                <div key={option}>
-                  <label htmlFor="metric">
-                    <input
-                      id="metric"
-                      type="checkbox"
-                      value={option}
-                      checked={selectedOptions.includes(option)}
-                      onChange={() => handleCheckboxChange(option)}
-                    />
-                    {option}
-                  </label>
-                </div>
-              ))}
-              <input type="submit" />
-            </Box>
-          </form>
-        </Box>
-          </CardContent>
-        </Card>
-        <Card variant="outlined">
-          <CardHeader
-            component={Box}
-            title={`${t('label.currentWindows')}`}
-            titleTypographyProps={{
-              align: 'center',
-              fontWeight: 'bold',
-              variant: 'h5'
-            }}
-          />
-          <CardContent>
-          <div>
-        {windows.map(window => (
-          <div key={window.index}>
-            <label htmlFor='toggle-view'>
-              <input
-                type="checkbox"
-                checked={!!selectedWindows[`${window.index}_${window.topic}`]}
-                onChange={() => onToggle(window.index, window.topic)}
-                id='toggle-view'
-              />
-              {`Topic: ${window.topic}, Freq. Range: ${window.start}-${window.end}, Channels Averaged: ${window.channels_averaged}`}
-            </label>
-          </div>
-        ))}
-      </div>
-          </CardContent>
+          <Card variant="outlined">
+            <CardHeader
+              component={Box}
+              title={`${t('label.windowRequest')}`}
+              titleTypographyProps={{
+                align: 'center',
+                fontWeight: 'bold',
+                variant: 'h5'
+              }}
+            />
+            <CardContent>
+              <Box>
+                <form onSubmit={handleSubmit}>
+                  <Box style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <Typography data-testid="windowRequest" variant="body1" display="block">
+                      f_min for window:
+                      <input
+                        type="number"
+                        name="f_min"
+                        value={data.f_min}
+                        onChange={handleChange}
+                      />
+                    </Typography>
+                    <Typography data-testid="windowRequest" variant="body1" display="block">
+                      f_max for window:
+                      <input
+                        type="number"
+                        name="f_max"
+                        value={data.f_max}
+                        onChange={handleChange}
+                      />
+                    </Typography>
+                    <Typography data-testid="windowRequest" variant="body1" display="block">
+                      Number of averaged channels:
+                      <input
+                        type="number"
+                        name="nchan_avg"
+                        value={data.nchan_avg}
+                        onChange={handleChange}
+                      />
+                    </Typography>
+                    {filteredOptions.map(option => (
+                      <div key={option}>
+                        <label htmlFor="metric">
+                          <input
+                            id="metric"
+                            type="checkbox"
+                            value={option}
+                            checked={selectedOptions.includes(option)}
+                            onChange={() => handleCheckboxChange(option)}
+                          />
+                          {option}
+                        </label>
+                      </div>
+                    ))}
+                    <input type="submit" />
+                  </Box>
+                </form>
+              </Box>
+            </CardContent>
           </Card>
-      </Stack>
+          <Card variant="outlined">
+            <CardHeader
+              component={Box}
+              title={`${t('label.currentWindows')}`}
+              titleTypographyProps={{
+                align: 'center',
+                fontWeight: 'bold',
+                variant: 'h5'
+              }}
+            />
+            <CardContent>
+              <div>
+                {windows.map(window => (
+                  <div key={window.index}>
+                    <label htmlFor="toggle-view">
+                      <input
+                        type="checkbox"
+                        checked={!!selectedWindows[`${window.index}_${window.topic}`]}
+                        onChange={() => onToggle(window.index, window.topic)}
+                        id="toggle-view"
+                      />
+                      {`Topic: ${window.topic}, Freq. Range: ${window.start}-${window.end}, Channels Averaged: ${window.channels_averaged}`}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </Stack>
       </SignalCard>
     </>
   );

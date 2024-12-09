@@ -27,7 +27,7 @@ const Statistics = ({
   receiverEventsData,
   displaySettings,
   socketStatusProcessingBlockStatistics,
-  socketStatusReceiverEvents,
+  socketStatusReceiverEvents
 }: StatisticsProps) => {
   const { t } = useTranslation('signalDisplay');
 
@@ -44,20 +44,25 @@ const Statistics = ({
   const showDetailToggle = () => {
     setShowDetailContent(!showDetailContent);
   };
-  
+
   React.useEffect(() => {
-    if(processingBlockStatisticsData?.state === "new"){
+    if (processingBlockStatisticsData?.state === 'new') {
       setStartTime(processingBlockStatisticsData.time);
     }
-    if(startTime > 0 && processingBlockStatisticsData?.time > 0 && processingBlockStatisticsData?.time > startTime){
-      const rate =  processingBlockStatisticsData?.payloads_received/(processingBlockStatisticsData?.time - startTime);
-      setIngestionRate(Math.round(rate* 100) / 100);
+    if (
+      startTime > 0 &&
+      processingBlockStatisticsData?.time > 0 &&
+      processingBlockStatisticsData?.time > startTime
+    ) {
+      const rate =
+        processingBlockStatisticsData.payloads_received /
+        (processingBlockStatisticsData.time - startTime);
+      setIngestionRate(Math.round(rate * 100) / 100);
     }
-    if((Date.now() - processingBlockStatisticsData?.time) > 10){
+    if (Date.now() - processingBlockStatisticsData.time > 10) {
       setReceiveActive(true);
     }
-  }, [processingBlockStatisticsData])
-
+  }, [processingBlockStatisticsData]);
 
   return (
     <>
@@ -68,101 +73,95 @@ const Statistics = ({
           showContent={showBasicContent}
           setShowContent={showBasicToggle}
         >
-            <Grid
-              data-testid="statistics-detailed-Id"
-              container
-              direction="row"
-              justifyContent="space-between"
-              width="100%"
-            >
-              <Grid data-testid="timeDetails" item md={4} sm={6} xs={12}>
-                <Typography variant="h6" paragraph>
-                  {t('label.time')}
-                </Typography>
-                <Typography variant="subtitle1">
-                  {t('label.lastAPIRefresh')}
-                  {': '}
-                  {t('date_time', {
-                    date: epochToDate(Date.now())
-                  })}
-                </Typography>
-                <Typography variant="subtitle1">
-                  {t('label.lastUpdated')}
-                  {': '}
-                  {t('date_time', {
-                    date: epochToDate(processingBlockStatisticsData?.time)
-                  })}
-                </Typography>
-                <Typography variant="subtitle1">
-                  {t('label.start')}
-                  {': '}
-                  {t('date_time', {
-                    date: epochToDate(startTime)
-                  })}
-                </Typography>
-              </Grid>
-              <Grid data-testid="statisticsDetails" item md={4} sm={6} xs={12}>
-                <Typography variant="h6" paragraph>
-                  {t('label.statistics')}
-                </Typography>
-                <Typography variant="subtitle1">
-                  {t('label.ingestionRate')}
-                  {': '}
-                  {ingestionRate}
-                  {' '}
-                  {t('units.ingestionRate')}
-                </Typography>
-                <Typography variant="subtitle1">
-                  {t('label.payloadsReceived')}
-                  {': '}
-                  {processingBlockStatisticsData?.payloads_received}
-                </Typography>
-                <Typography variant="subtitle1">
-                  {t('label.visibilityReceiveActive')}
-                  {': '}
-                  {t(
-                    receiveActive
-                      ? 'label.yes'
-                      : 'label.no'
-                  )}
-                </Typography>
-              </Grid>
-              <Grid data-testid="workflowDetails" item md={4} sm={6} xs={12}>
-                <Typography variant="h6" paragraph>
-                  {t('label.workflow')}
-                </Typography>
-                <Typography variant="subtitle1">
-                  {t('label.state')}
-                  {': '}
-                  {processingBlockStatisticsData?.state}
-                </Typography>
-                <Typography variant="subtitle1">
-                  {t('label.scanId')}
-                  {': '}
-                  {processingBlockStatisticsData?.scan_id}
-                </Typography>
-                <Typography variant="subtitle1">
-                  {t('label.processingBlockId')}
-                  {': '}
-                  {processingBlockStatisticsData?.processing_block_id}
-                </Typography>
-                <Typography variant="subtitle1">
-                  {t('label.executingBlockId')}
-                  {': '}
-                  {processingBlockStatisticsData?.execution_block_id}
-                </Typography>
-                <Typography variant="subtitle1">
-                  {t('label.subArray')}
-                  {': '}
-                  {processingBlockStatisticsData?.subarray}
-                </Typography>
-                <Typography variant="subtitle1">
-                  {t('label.timeSincePayload')}
-                  {': '}
-                  {processingBlockStatisticsData?.time_since_last_payload}
-                </Typography>
-              </Grid>
+          <Grid
+            data-testid="statistics-detailed-Id"
+            container
+            direction="row"
+            justifyContent="space-between"
+            width="100%"
+          >
+            <Grid data-testid="timeDetails" item md={4} sm={6} xs={12}>
+              <Typography variant="h6" paragraph>
+                {t('label.time')}
+              </Typography>
+              <Typography variant="subtitle1">
+                {t('label.lastAPIRefresh')}
+                {': '}
+                {t('date_time', {
+                  date: epochToDate(Date.now())
+                })}
+              </Typography>
+              <Typography variant="subtitle1">
+                {t('label.lastUpdated')}
+                {': '}
+                {t('date_time', {
+                  date: epochToDate(processingBlockStatisticsData?.time)
+                })}
+              </Typography>
+              <Typography variant="subtitle1">
+                {t('label.start')}
+                {': '}
+                {t('date_time', {
+                  date: epochToDate(startTime)
+                })}
+              </Typography>
             </Grid>
+            <Grid data-testid="statisticsDetails" item md={4} sm={6} xs={12}>
+              <Typography variant="h6" paragraph>
+                {t('label.statistics')}
+              </Typography>
+              <Typography variant="subtitle1">
+                {t('label.ingestionRate')}
+                {': '}
+                {ingestionRate} {t('units.ingestionRate')}
+              </Typography>
+              <Typography variant="subtitle1">
+                {t('label.payloadsReceived')}
+                {': '}
+                {processingBlockStatisticsData?.payloads_received}
+              </Typography>
+              <Typography variant="subtitle1">
+                {t('label.visibilityReceiveActive')}
+                {': '}
+                {t(receiveActive ? 'label.yes' : 'label.no')}
+              </Typography>
+            </Grid>
+            <Grid data-testid="workflowDetails" item md={4} sm={6} xs={12}>
+              <Typography variant="h6" paragraph>
+                {t('label.workflow')}
+              </Typography>
+              <Typography variant="subtitle1">
+                {t('label.state')}
+                {': '}
+                {processingBlockStatisticsData?.state}
+              </Typography>
+              <Typography variant="subtitle1">
+                {t('label.scanId')}
+                {': '}
+                {processingBlockStatisticsData?.scan_id}
+              </Typography>
+              <Typography variant="subtitle1">
+                {t('label.processingBlockId')}
+                {': '}
+                {processingBlockStatisticsData?.processing_block_id}
+              </Typography>
+              <Typography variant="subtitle1">
+                {t('label.executingBlockId')}
+                {': '}
+                {processingBlockStatisticsData?.execution_block_id}
+              </Typography>
+              <Typography variant="subtitle1">
+                {t('label.subArray')}
+                {': '}
+                {processingBlockStatisticsData?.subarray}
+              </Typography>
+              <Typography variant="subtitle1">
+                {t('label.timeSincePayload')}
+                {': '}
+                {processingBlockStatisticsData?.time_since_last_payload}
+              </Typography>
+            </Grid>
+          </Grid>
         </SignalCard>
       )}
       {displaySettings.showStatisticsReceiver && (
@@ -203,8 +202,7 @@ const Statistics = ({
                   <Typography variant="subtitle1">
                     {t('label.totalDataReceived')}
                     {': '}
-                    {Math.round((receiverEventsData?.total_megabytes || 0) * 100) / 100}
-                    {' '}
+                    {Math.round((receiverEventsData?.total_megabytes || 0) * 100) / 100}{' '}
                     {t('units.totalDataReceived')}
                   </Typography>
                   <Typography variant="subtitle1">
@@ -214,16 +212,13 @@ const Statistics = ({
                       ((receiverEventsData?.total_megabytes || 0) /
                         (receiverEventsData?.duration || 1)) *
                         100
-                    ) / 100}
-                    {' '}
+                    ) / 100}{' '}
                     {t('units.currentSpeed')}
                   </Typography>
                   <Typography variant="subtitle1">
                     {t('label.durationCurrentTransfer')}
                     {': '}
-                    {Math.round(receiverEventsData?.duration)} 
-                    {' '}
-                    {t('units.durationCurrentTransfer')}
+                    {Math.round(receiverEventsData?.duration)} {t('units.durationCurrentTransfer')}
                   </Typography>
                 </Grid>
               </Grid>

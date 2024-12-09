@@ -20,7 +20,7 @@ interface SpectrogramProps {
   subArray: string;
   subarrayDetails: any;
   redraw: boolean;
-  hiResWindows?: any
+  hiResWindows?: any;
 }
 
 const Spectrogram = ({
@@ -87,7 +87,7 @@ const Spectrogram = ({
       setChartData([]);
       return;
     }
-    setChartData(baselineData)
+    setChartData(baselineData);
   }, [baselineData, legend]);
 
   function imageClick(item: string) {

@@ -20,7 +20,7 @@ interface LagPlotProps {
   subArray: string;
   subarrayDetails: any;
   redraw: boolean;
-  hiResWindows?: any
+  hiResWindows?: any;
 }
 
 const LagPlot = ({
@@ -91,9 +91,8 @@ const LagPlot = ({
       setChartData([]);
       return;
     }
-    
+
     setChartData(baselineData);
-    
   }, [baselineData, legend]);
 
   function imageClick(item: string) {

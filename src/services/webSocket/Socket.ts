@@ -10,7 +10,7 @@ interface WebSocketProps {
   statusFunction: Function;
   dataFunction: Function;
   timeSeries?: Boolean;
-  index?: number
+  index?: number;
 }
 
 const Socket = ({
@@ -20,7 +20,7 @@ const Socket = ({
   statusFunction,
   dataFunction,
   timeSeries,
-  index=-1
+  index = -1
 }: WebSocketProps) => {
   const tmpSplit = suffix.split('-<subarray>');
 
@@ -41,12 +41,10 @@ const Socket = ({
           statusFunction(decoded.status);
         } else if (timeSeries) {
           dataFunction(prevState => [...prevState, decoded]);
+        } else if (index >= 0) {
+          dataFunction(index, decoded);
         } else {
-          if (index >= 0) {
-            dataFunction(index, decoded)
-          } else {
-              dataFunction(decoded);
-          }
+          dataFunction(decoded);
         }
       } else {
         decodeAsync(inData.stream())
@@ -57,12 +55,10 @@ const Socket = ({
               statusFunction(dAny.status);
             } else if (timeSeries) {
               dataFunction(prevState => [...prevState, decoded]);
-            }  else {
-              if (index >= 0) {
-                dataFunction(index, decoded)
-              } else {
-                  dataFunction(decoded);
-              }
+            } else if (index >= 0) {
+              dataFunction(index, decoded);
+            } else {
+              dataFunction(decoded);
             }
           })
           .catch(() => 'ERROR');
