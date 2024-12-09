@@ -49,18 +49,19 @@ const Statistics = ({
     if (processingBlockStatisticsData?.state === 'new') {
       setStartTime(processingBlockStatisticsData.time);
     }
-    if (
-      startTime > 0 &&
-      processingBlockStatisticsData?.time > 0 &&
-      processingBlockStatisticsData?.time > startTime
-    ) {
-      const rate =
-        processingBlockStatisticsData.payloads_received /
-        (processingBlockStatisticsData.time - startTime);
-      setIngestionRate(Math.round(rate * 100) / 100);
-    }
-    if (Date.now() - processingBlockStatisticsData.time > 10) {
-      setReceiveActive(true);
+    const time = processingBlockStatisticsData?.time;
+
+    if (time !== null) {
+      if (startTime > 0 && time > 0 && time > startTime) {
+        const payloadsReceived = processingBlockStatisticsData.payloads_received
+          ? processingBlockStatisticsData.payloads_received
+          : 0;
+        const rate = payloadsReceived / (time - startTime);
+        setIngestionRate(Math.round(rate * 100) / 100);
+      }
+      if (Date.now() - time > 10) {
+        setReceiveActive(true);
+      }
     }
   }, [processingBlockStatisticsData]);
 
