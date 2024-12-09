@@ -37,30 +37,26 @@ const Statistics = ({
   const [ingestionRate, setIngestionRate] = React.useState(null);
   const [receiveActive, setReceiveActive] = React.useState(false);
 
-  const canShowBasic = () => processingBlockStatisticsData !== null;
-
-  const canShowDetail = () => receiverEventsData !== null;
-
   const showBasicToggle = () => {
-    setShowBasicContent(showBasicContent ? false : canShowBasic());
+    setShowBasicContent(!showBasicContent);
   };
 
   const showDetailToggle = () => {
-    setShowDetailContent(showDetailContent ? false : canShowDetail());
+    setShowDetailContent(!showDetailContent);
   };
   
   React.useEffect(() => {
-    if(processingBlockStatisticsData.state === "new"){
+    if(processingBlockStatisticsData?.state === "new"){
       setStartTime(processingBlockStatisticsData.time);
     }
-    if(startTime > 0 && processingBlockStatisticsData.time > 0 && processingBlockStatisticsData.time > startTime){
-      const rate =  processingBlockStatisticsData.payloads_received/(processingBlockStatisticsData.time - startTime);
+    if(startTime > 0 && processingBlockStatisticsData?.time > 0 && processingBlockStatisticsData?.time > startTime){
+      const rate =  processingBlockStatisticsData?.payloads_received/(processingBlockStatisticsData?.time - startTime);
       setIngestionRate(Math.round(rate* 100) / 100);
     }
-    if((Date.now() - processingBlockStatisticsData.time) > 10){
+    if((Date.now() - processingBlockStatisticsData?.time) > 10){
       setReceiveActive(true);
     }
-  })[processingBlockStatisticsData]
+  }, [processingBlockStatisticsData])
 
 
   return (

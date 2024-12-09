@@ -361,10 +361,6 @@ const Container = ({ childToParent }) => {
 
   React.useEffect(() => {
     if (DATA_LOCAL) {
-      setProcessingBlockStatisticsData(mockStatisticsProcessingBlock);
-      setSocketStatusProcessingBlockStatistics(SOCKET_STATUS[3]);
-      setReceiverEventsData(mockStatisticsReceiverEvents);
-      setSocketStatusReceiverEvents(SOCKET_STATUS[3]);
       if (USE_MISSING_DATA_MASK) {
         setMaskData(getMaskDomains(maskMockData.data));
       }
@@ -662,6 +658,10 @@ const Container = ({ childToParent }) => {
       setChartDataBandAvXCorr([BandAveragedXCorrData]);
       setSocketStatusUVCoverage(SOCKET_STATUS[3]);
       setChartDataUVCoverage([UVCoverageData]);
+      setProcessingBlockStatisticsData(mockStatisticsProcessingBlock);
+      setSocketStatusProcessingBlockStatistics(SOCKET_STATUS[3]);
+      setReceiverEventsData(mockStatisticsReceiverEvents);
+      setSocketStatusReceiverEvents(SOCKET_STATUS[3]);
     } else {
       fetchSubarrayDetails();
 

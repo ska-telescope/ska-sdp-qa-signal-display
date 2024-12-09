@@ -1,6 +1,4 @@
 function statisticsDetailed() {
-
-
     cy.get('[data-testid="signalCardId"]').eq(1).within(() => {
         cy.get('[data-testid="hideShowToggle"]').click()});
     cy.findAllByTestId("sectionHeader").contains("Statistics - Detailed").should("be.visible");
@@ -26,7 +24,8 @@ function statisticsDetailed() {
 
 function statisticsReceiver() {
     cy.get('[data-testid="signalCardId"]').eq(2).within(() => {
-        cy.get('[data-testid="hideShowToggle"]').click()});
+        cy.get('[data-testid="hideShowToggle"]').click()
+    });
     cy.findAllByTestId("sectionHeader").contains("Statistics - Receiver").should("be.visible");
 
     cy.findByTestId("currentScanDetails").contains("State").should("be.visible");
@@ -100,6 +99,10 @@ context('Signal display', () => {
         cy.visit("http://localhost:3333");
     })
 
+    afterEach(() => {
+        cy.reload();
+    })
+
     it('Verify external link to skao site', () => {
         cy.findByLabelText("skaWebsite").click();
     })
@@ -111,7 +114,7 @@ context('Signal display', () => {
 
     it('Verify expected diagrams are present and can be hidden 1', () => {
 
-        cy.findAllByLabelText("Status Indicator 4", {timeout: 30000}).should("have.length", 7);
+        cy.findAllByLabelText("Status Indicator 4", {timeout: 30000}).should("have.length", 9);
 
         cy.findAllByTestId("hideShowToggle").click({ multiple: true , force: true});
 
@@ -120,15 +123,17 @@ context('Signal display', () => {
         cy.findAllByTestId("status1Id").should("be.visible");
     })
 
+    it('Verify expected diagrams are present and can be hidden config', () => {
+        runningConfiguration();
+    })
+
     it('Verify expected diagrams are present and can be hidden stats', () => {
         statisticsDetailed();
     })
     it('Verify expected diagrams are present and can be hidden receiver', () => {
         statisticsReceiver();
     })
-    it('Verify expected diagrams are present and can be hidden config', () => {
-        runningConfiguration();
-    })
+  
 
 
     it('Verify expected diagrams are present and can be hidden', () => {
