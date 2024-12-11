@@ -505,7 +505,7 @@ const Container = ({ childToParent }) => {
           });
           break;
         case METRIC_TYPES.WORKFLOW_STATE:
-          // eslint-disable no-console
+          /* eslint-disable no-console */
           console.error(config.topics.workflow_state);
           activeWebsockets.current[metric] = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
