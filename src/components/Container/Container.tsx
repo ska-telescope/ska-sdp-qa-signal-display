@@ -508,7 +508,7 @@ const Container = ({ childToParent }) => {
           activeWebsockets.current[metric] = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
             protocol: config.api_format,
-            suffix: `${config.topics.workflow_state}-${subArray}`,
+            suffix: `${config.topics.workflow_state}`,
             statusFunction: setSocketStatusReceiverEvents,
             dataFunction: setReceiverEventsData
           });
