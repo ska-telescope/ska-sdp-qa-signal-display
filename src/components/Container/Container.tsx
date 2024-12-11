@@ -498,16 +498,17 @@ const Container = ({ childToParent }) => {
         case METRIC_TYPES.STATS:
           activeWebsockets.current[metric] = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
-            protocol: config.api_format,
+            protocol: 'json',
             suffix: `${config.topics.stats}-${subArray}`,
             statusFunction: setSocketStatusProcessingBlockStatistics,
             dataFunction: setProcessingBlockStatisticsData
           });
           break;
         case METRIC_TYPES.WORKFLOW_STATE:
+          console.error(config.topics.workflow_state);
           activeWebsockets.current[metric] = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
-            protocol: config.api_format,
+            protocol: 'json',
             suffix: `${config.topics.workflow_state}`,
             statusFunction: setSocketStatusReceiverEvents,
             dataFunction: setReceiverEventsData

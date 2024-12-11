@@ -56,7 +56,7 @@ const Spectrogram = ({
 
     const abortController = new AbortController();
     async function retrieveBaselineData() {
-      await fetch(`${DATA_API_URL}/config/execution_blocks${PATH_SUFFIX}`, {
+      await fetch(`${DATA_API_URL}/config/execution_block${PATH_SUFFIX}`, {
         signal: abortController.signal
       })
         .then(response => response.json())
