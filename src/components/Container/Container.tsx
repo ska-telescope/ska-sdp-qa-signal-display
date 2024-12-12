@@ -499,7 +499,7 @@ const Container = ({ childToParent }) => {
         case METRIC_TYPES.STATS:
           activeWebsockets.current[metric] = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
-            protocol: PROTOCOL.JSON,
+            protocol: PROTOCOL.JSON, // stats topic will be changed to msgpack at a later stage
             suffix: `${config.topics.stats}-${subArray}`,
             statusFunction: setSocketStatusProcessingBlockStatistics,
             dataFunction: setProcessingBlockStatisticsData
@@ -663,6 +663,7 @@ const Container = ({ childToParent }) => {
         dataFunction: setChartDataGainCal,
         timeSeries: true
       });
+      // workflow_topic will be added as flow at a later stage and changed to msgpack
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
         protocol: PROTOCOL.JSON,
