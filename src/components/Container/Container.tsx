@@ -47,7 +47,8 @@ import {
   WS_API_URL,
   OFFSETS,
   GAINS,
-  METRIC_TYPES
+  METRIC_TYPES,
+  PROTOCOL
 } from '../../utils/constants';
 import { getMaskDomains } from '../../utils/masksCalculator';
 import MaskLegend from '../MaskLegend/MaskLegend';
@@ -498,21 +499,10 @@ const Container = ({ childToParent }) => {
         case METRIC_TYPES.STATS:
           activeWebsockets.current[metric] = Socket({
             apiUrl: WS_API_URL + config.paths.websocket,
-            protocol: 'json',
+            protocol: PROTOCOL.JSON,
             suffix: `${config.topics.stats}-${subArray}`,
             statusFunction: setSocketStatusProcessingBlockStatistics,
             dataFunction: setProcessingBlockStatisticsData
-          });
-          break;
-        case METRIC_TYPES.WORKFLOW_STATE:
-          /* eslint-disable no-console */
-          console.error(config.topics.workflow_state);
-          activeWebsockets.current[metric] = Socket({
-            apiUrl: WS_API_URL + config.paths.websocket,
-            protocol: 'json',
-            suffix: `${config.topics.workflow_state}`,
-            statusFunction: setSocketStatusReceiverEvents,
-            dataFunction: setReceiverEventsData
           });
           break;
         default:
@@ -672,6 +662,13 @@ const Container = ({ childToParent }) => {
         statusFunction: setSocketStatusGainCal,
         dataFunction: setChartDataGainCal,
         timeSeries: true
+      });
+      Socket({
+        apiUrl: WS_API_URL + config.paths.websocket,
+        protocol: PROTOCOL.JSON,
+        suffix: `${config.topics.workflow_state}`,
+        statusFunction: setSocketStatusReceiverEvents,
+        dataFunction: setReceiverEventsData
       });
     }
   }, [subArray]);

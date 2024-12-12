@@ -57,7 +57,7 @@ const LagPlot = ({
     const abortController = new AbortController();
     async function retrieveBaseData() {
       try {
-        const response = await fetch(`${DATA_API_URL}/config/execution_block${PATH_SUFFIX}`, {
+        const response = await fetch(`${DATA_API_URL}/config/execution_blocks${PATH_SUFFIX}`, {
           signal: abortController.signal
         });
         const data = await response.json();
