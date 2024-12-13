@@ -23,8 +23,12 @@ const Socket = ({
   index = -1
 }: WebSocketProps) => {
   const tmpSplit = suffix.split('-<subarray>');
+  let tmp = `${apiUrl}/${tmpSplit[0]}`
 
-  const tmp = `${apiUrl}/${tmpSplit[0]}${tmpSplit[1]}`;
+  if(tmpSplit[1] != null){
+    tmp = `${tmp}${tmpSplit[1]}`
+  }
+  
   const ws = new WebSocket(tmp);
 
   ws.onerror = function onError(e) {
