@@ -38,22 +38,6 @@ const WaterfallPlot = ({ type, item, config, subArray, hiResWindows }: Waterfall
     }
   }
 
-  function normaliseValues(data: number[]) {
-    if (!data.length) return [];
-    const max = Math.max(...data);
-    const ratio = max ? 360 / max : 1;
-    return data.map((value) => Math.round(value * ratio));
-  }
-
-  function normaliseSpectrumValues(data: number[]) {
-    /* eslint-disable prefer-spread */
-    const ratio = 360 / Math.max.apply(Math, data);
-    const normalisedData = [];
-    data.forEach((value: number) => normalisedData.push(Math.round(value * ratio)));
-    return normalisedData;
-  }
-
-
   React.useEffect(() => {
     if (!DATA_LOCAL) {
       const newSocketStatuses: Record<string, string> = {};
@@ -117,9 +101,9 @@ const WaterfallPlot = ({ type, item, config, subArray, hiResWindows }: Waterfall
               .filter((dataPayload) => dataPayload.polarisation === `${item}`)
               .forEach((dataPayload) => {
                 const rgbaValues = [];
-                const normalisedData = normaliseSpectrumValues(dataPayload.power);
+                const data = dataPayload.power;
                 
-                normalisedData.forEach((value: number) => {
+                data.forEach((value: number) => {
                   rgbaValues.push(LOOKUP_COLOUR_VALUES[value] || [0, 0, 0, 255]);
                 });
   
@@ -147,13 +131,13 @@ const WaterfallPlot = ({ type, item, config, subArray, hiResWindows }: Waterfall
               .forEach((dataPayload) => {
                 const rgbaValues = [];
                 if (type === WATERFALL_PLOT_TYPES.SPECTROGRAM) {
-                  const normalizedData = normaliseValues(dataPayload.data || []);
-                  normalizedData.forEach((value: number) => {
+                  const data = dataPayload.data || [];
+                  data.forEach((value: number) => {
                     rgbaValues.push(LOOKUP_COLOUR_VALUES[value] || [0, 0, 0, 255]);
                   });
                 } else if (type === WATERFALL_PLOT_TYPES.LAG_PLOT) {
-                  const normalizedData = normaliseValues(dataPayload.data || []);
-                  normalizedData.forEach((value: number) => {
+                  const data = dataPayload.data || [];
+                  data.forEach((value: number) => {
                     rgbaValues.push(LOOKUP_COLOUR_VALUES[value] || [0, 0, 0, 255]);
                   });
                 }
