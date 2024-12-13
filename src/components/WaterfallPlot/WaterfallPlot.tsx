@@ -101,9 +101,9 @@ const WaterfallPlot = ({ type, item, config, subArray, hiResWindows }: Waterfall
               .filter((dataPayload) => dataPayload.polarisation === `${item}`)
               .forEach((dataPayload) => {
                 const rgbaValues = [];
-                const normalisedData = dataPayload.power;
+                const data = dataPayload.power;
                 
-                normalisedData.forEach((value: number) => {
+                data.forEach((value: number) => {
                   rgbaValues.push(LOOKUP_COLOUR_VALUES[value] || [0, 0, 0, 255]);
                 });
   
@@ -131,13 +131,13 @@ const WaterfallPlot = ({ type, item, config, subArray, hiResWindows }: Waterfall
               .forEach((dataPayload) => {
                 const rgbaValues = [];
                 if (type === WATERFALL_PLOT_TYPES.SPECTROGRAM) {
-                  const normalizedData = dataPayload.data || [];
-                  normalizedData.forEach((value: number) => {
+                  const data = dataPayload.data || [];
+                  data.forEach((value: number) => {
                     rgbaValues.push(LOOKUP_COLOUR_VALUES[value] || [0, 0, 0, 255]);
                   });
                 } else if (type === WATERFALL_PLOT_TYPES.LAG_PLOT) {
-                  const normalizedData = dataPayload.data || [];
-                  normalizedData.forEach((value: number) => {
+                  const data = dataPayload.data || [];
+                  data.forEach((value: number) => {
                     rgbaValues.push(LOOKUP_COLOUR_VALUES[value] || [0, 0, 0, 255]);
                   });
                 }
