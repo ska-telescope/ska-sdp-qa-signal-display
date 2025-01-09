@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ImageListItem, ImageListItemBar } from '@mui/material';
+import { ImageListItem } from '@mui/material';
 import { DATA_API_URL, DATA_LOCAL } from '../../utils/constants';
 import Config from '../../services/types/Config';
 import Plot from 'react-plotly.js';
@@ -13,14 +13,16 @@ interface SpectrogramImageProps {
 
 const MOCK_THUMBNAIL = '/static/images/mock/thumbnail.png';
 
+const MAX_ROWS = 150; 
+
 const SpectrogramImage = ({
   element,
   onClick = null,
   config,
   subarrayDetails,
 }: SpectrogramImageProps) => {
-  const [heatmapData, setHeatmapData] = useState<number[][] | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [heatmapData, setHeatmapData] = useState<number[][]>([]);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   function getImageTN(item: string) {
@@ -38,17 +40,27 @@ const SpectrogramImage = ({
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
+          Accept: 'application/json',
         },
-        mode: 'cors'
+        mode: 'cors',
       });
 
       if (!response.ok) {
         throw new Error(`Failed to fetch heatmap data: ${response.statusText}`);
       }
 
-      const data = await response.json();
-      setHeatmapData(data);
+      const initialData = await response.json(); 
+      if (!Array.isArray(initialData) || !initialData.length || !Array.isArray(initialData[0])) {
+        throw new Error('Invalid heatmap data format');
+      }
+
+      const numColumns = initialData[0].length;
+
+      setHeatmapData((prevData) => {
+        const updatedData = [...prevData, ...initialData];
+        return updatedData.slice(-MAX_ROWS); // Keep only the last MAX_ROWS rows
+      });
+
       setError(null);
     } catch (err) {
       setError(err.message || 'Error fetching heatmap data');
@@ -59,7 +71,7 @@ const SpectrogramImage = ({
 
   useEffect(() => {
     setLoading(true);
-    fetchHeatmapData(element);
+    fetchHeatmapData(element); // Fetch data only once on page load
   }, [element]);
 
   return (
@@ -68,7 +80,7 @@ const SpectrogramImage = ({
         <p>Loading heatmap...</p>
       ) : error ? (
         <p style={{ color: 'red' }}>{error}</p>
-      ) : heatmapData ? (
+      ) : (
         <Plot
           data={[
             {
@@ -80,13 +92,10 @@ const SpectrogramImage = ({
           ]}
           layout={{
             title: element,
-            margin: { t: 50, r: 50, b: 50, l: 50 },
+            margin: { t: 25, r: 25, b: 25, l: 25 },
           }}
         />
-      ) : (
-        <p>No data available</p>
       )}
-      <ImageListItemBar title={element} position="below" />
     </ImageListItem>
   );
 };
