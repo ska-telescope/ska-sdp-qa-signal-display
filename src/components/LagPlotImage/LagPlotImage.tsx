@@ -1,20 +1,28 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ImageListItem, ImageListItemBar } from '@mui/material';
-import Config from '../../services/types/Config';
 import { DATA_API_URL, DATA_LOCAL } from '../../utils/constants';
+import Config from '../../services/types/Config';
+import Plot from 'react-plotly.js';
 
 interface LagPlotImageProps {
-  element: any;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  onClick?: Function;
+  element: string;
+  onClick?: (item: string) => void;
   config: Config;
   subarrayDetails: any;
 }
 
-const MOCK_THUMBNAIL = '/static/images/mock/lag_plot_thumbnail.png';
+const MOCK_THUMBNAIL = '/static/images/mock/thumbnail.png';
 
-const LagPlotImage = ({ element, onClick = null, config, subarrayDetails }: LagPlotImageProps) => {
+const LagPlotImage = ({
+  element,
+  onClick = null,
+  config,
+  subarrayDetails,
+}: LagPlotImageProps) => {
+  const [heatmapData, setHeatmapData] = useState<number[][] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   function getImageTN(item: string) {
     if (DATA_LOCAL) {
       return MOCK_THUMBNAIL;
@@ -23,29 +31,61 @@ const LagPlotImage = ({ element, onClick = null, config, subarrayDetails }: LagP
     return `${DATA_API_URL}${config.paths.lag_plot_thumbnail_path}/${subarrayDetails?.execution_block?.pb_realtime}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
   }
 
-  function imageClick(item: string) {
-    return onClick ? onClick(item) : null;
+  async function fetchHeatmapData(item: string) {
+    const url = getImageTN(item);
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        mode: 'cors'
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch heatmap data: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      setHeatmapData(data);
+      setError(null);
+    } catch (err) {
+      setError(err.message || 'Error fetching heatmap data');
+    } finally {
+      setLoading(false);
+    }
   }
 
-  const width = () => (DATA_LOCAL ? '22vw' : config.waterfall_plots.thumbnail_width);
-
-  const height = () => (DATA_LOCAL ? '22vh' : config.waterfall_plots.thumbnail_max_height);
+  useEffect(() => {
+    setLoading(true);
+    fetchHeatmapData(element);
+  }, [element]);
 
   return (
     <ImageListItem key={element}>
-      <img
-        src={getImageTN(element)}
-        alt={element}
-        loading="lazy"
-        onClick={() => imageClick(element)}
-        width={width()}
-        height={height()}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      />
+      {loading ? (
+        <p>Loading heatmap...</p>
+      ) : error ? (
+        <p style={{ color: 'red' }}>{error}</p>
+      ) : heatmapData ? (
+        <Plot
+          data={[
+            {
+              z: heatmapData,
+              type: 'heatmap',
+              colorscale: 'Viridis',
+              colorbar: { title: 'Intensity', titleside: 'right' },
+            },
+          ]}
+          layout={{
+            title: element,
+            margin: { t: 50, r: 50, b: 50, l: 50 },
+          }}
+        />
+      ) : (
+        <p>No data available</p>
+      )}
       <ImageListItemBar title={element} position="below" />
     </ImageListItem>
   );
