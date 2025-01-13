@@ -907,6 +907,7 @@ const Container = ({ childToParent }) => {
                 data={chartDataSpectrum}
                 config={config}
                 subArray={subArray}
+                subarrayDetails={subarrayDetails}
                 missingData={maskData}
                 setSharedData={setSharedXRange}
                 sharedData={sharedXRange}
