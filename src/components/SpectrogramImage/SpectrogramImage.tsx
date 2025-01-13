@@ -1,39 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
+import ReactDOMServer from 'react-dom/server'
 import { ImageListItem } from '@mui/material';
 import { DATA_API_URL, DATA_LOCAL } from '../../utils/constants';
 import Config from '../../services/types/Config';
 import Plot from 'react-plotly.js';
+import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
+import { calculateChannels } from '../../utils/calculate';
 
 interface SpectrogramImageProps {
   element: string;
   onClick?: (item: string) => void;
-  config: Config;
+  APIconfig: Config;
   subarrayDetails: any;
 }
 
 const MOCK_THUMBNAIL = '/static/images/mock/thumbnail.png';
-
-const MAX_ROWS = 150; 
+const MAX_ROWS = 150;
 
 const SpectrogramImage = ({
   element,
   onClick = null,
-  config,
+  APIconfig,
   subarrayDetails,
 }: SpectrogramImageProps) => {
   const [heatmapData, setHeatmapData] = useState<number[][]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [numColumns, setNumColumns] = useState<number | null>(null);
 
-  function getImageTN(item: string) {
+  const getImageTN = (item: string) => {
     if (DATA_LOCAL) {
       return MOCK_THUMBNAIL;
     }
     const baselines = item.split(/[-_]+/);
-    return `${DATA_API_URL}${config.paths.spectrogram_thumbnail_path}/${subarrayDetails?.execution_block?.pb_realtime}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
-  }
+    return `${DATA_API_URL}${APIconfig.paths.spectrogram_thumbnail_path}/${subarrayDetails?.execution_block?.pb_realtime}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
+  };
 
-  async function fetchHeatmapData(item: string) {
+  const fetchHeatmapData = async (item: string) => {
     const url = getImageTN(item);
     try {
       const response = await fetch(url, {
@@ -49,17 +52,15 @@ const SpectrogramImage = ({
         throw new Error(`Failed to fetch heatmap data: ${response.statusText}`);
       }
 
-      const initialData = await response.json(); 
+      const initialData = await response.json();
       if (!Array.isArray(initialData) || !initialData.length || !Array.isArray(initialData[0])) {
         throw new Error('Invalid heatmap data format');
       }
 
-      const numColumns = initialData[0].length;
+      const columns = initialData[0].length;
+      setNumColumns(columns);
 
-      setHeatmapData((prevData) => {
-        const updatedData = [...prevData, ...initialData];
-        return updatedData.slice(-MAX_ROWS); // Keep only the last MAX_ROWS rows
-      });
+      setHeatmapData(initialData)
 
       setError(null);
     } catch (err) {
@@ -67,12 +68,49 @@ const SpectrogramImage = ({
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     setLoading(true);
-    fetchHeatmapData(element); // Fetch data only once on page load
+    fetchHeatmapData(element);
   }, [element]);
+
+  const spectralWindow = useMemo(() => {
+    const channels = subarrayDetails?.execution_block?.channels?.[0]?.spectral_windows?.[0];
+    return channels
+      ? {
+          freq_max: channels.freq_max,
+          freq_min: channels.freq_min,
+          count: numColumns ?? channels.count, 
+        }
+      : null;
+  }, [subarrayDetails, numColumns]);
+
+  const xValues = useMemo(() => {
+    return spectralWindow ? calculateChannels(spectralWindow) : [];
+  }, [spectralWindow]);
+
+  // Convert the Material-UI icon to an SVG string
+    const svgString = ReactDOMServer.renderToStaticMarkup(<LocalMoviesIcon />);
+  
+    // Extract the path data from the SVG string
+    const pathMatch = svgString.match(/<path d="([^"]*)"/);
+    const iconPath = pathMatch ? pathMatch[1] : '';
+    const customIcon = {
+      width: 5,
+      height: 5,
+      path: iconPath,
+    };
+  
+    var config = {modeBarButtonsToAdd: [
+      {
+        name: 'Stream Data',
+        icon: customIcon,
+        click: function imageClick(item: string) {
+          return onClick ? onClick(item) : null;
+        }
+      }
+    ]}
 
   return (
     <ImageListItem key={element}>
@@ -85,6 +123,7 @@ const SpectrogramImage = ({
           data={[
             {
               z: heatmapData,
+              x: xValues,
               type: 'heatmap',
               colorscale: 'Viridis',
               colorbar: { title: 'Intensity', titleside: 'right' },
@@ -94,6 +133,7 @@ const SpectrogramImage = ({
             title: element,
             margin: { t: 25, r: 25, b: 25, l: 25 },
           }}
+          config={config}
         />
       )}
     </ImageListItem>
