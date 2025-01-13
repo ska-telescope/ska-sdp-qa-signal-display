@@ -15,7 +15,6 @@ interface SpectrogramImageProps {
 }
 
 const MOCK_THUMBNAIL = '/static/images/mock/thumbnail.png';
-const MAX_ROWS = 150;
 
 const SpectrogramImage = ({
   element,
@@ -116,8 +115,6 @@ const SpectrogramImage = ({
     <ImageListItem key={element}>
       {loading ? (
         <p>Loading heatmap...</p>
-      ) : error ? (
-        <p style={{ color: 'red' }}>{error}</p>
       ) : (
         <Plot
           data={[
