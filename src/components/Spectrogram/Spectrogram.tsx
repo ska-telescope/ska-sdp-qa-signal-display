@@ -165,7 +165,7 @@ const Spectrogram = ({
                 <Grid key={item} item>
                   <React.Suspense fallback={<div>Loading...</div>}>
                     <SpectrogramImage
-                      config={config}
+                      APIconfig={config}
                       element={item}
                       onClick={() => imageClick(item)}
                       subarrayDetails={subarrayDetails}

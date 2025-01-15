@@ -78,6 +78,7 @@
     "hideShowToggle": "Hide/Show Toggle",
     "imaginary": "imaginary",
     "ingestionRate": "Ingestion Rate",
+    "intensity": "Intensity",
     "lagplots": "Lag Plots",
     "lastAPIRefresh": "Last Refresh from API",
     "lastUpdate": "Last Update",
