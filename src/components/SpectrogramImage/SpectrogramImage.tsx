@@ -1,14 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react';
-import { ImageListItem, ImageListItemBar } from '@mui/material';
+import React, { useEffect, useState, useMemo } from 'react';
+import ReactDOMServer from 'react-dom/server'
+import { useTranslation } from 'react-i18next';
+import { ImageListItem } from '@mui/material';
 import { DATA_API_URL, DATA_LOCAL } from '../../utils/constants';
 import Config from '../../services/types/Config';
+import Plot from 'react-plotly.js';
+import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
+import { calculateChannels } from '../../utils/calculate';
 
 interface SpectrogramImageProps {
-  element: any;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  onClick?: Function;
-  config: Config;
+  element: string;
+  onClick?: (item: string) => void;
+  APIconfig: Config;
   subarrayDetails: any;
 }
 
@@ -17,42 +20,121 @@ const MOCK_THUMBNAIL = '/static/images/mock/thumbnail.png';
 const SpectrogramImage = ({
   element,
   onClick = null,
-  config,
-  subarrayDetails
+  APIconfig,
+  subarrayDetails,
 }: SpectrogramImageProps) => {
-  function getImageTN(item: string) {
+  const { t } = useTranslation('signalDisplay');
+  const [heatmapData, setHeatmapData] = useState<number[][]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [numColumns, setNumColumns] = useState<number | null>(null);
+
+  const getImageTN = (item: string) => {
     if (DATA_LOCAL) {
       return MOCK_THUMBNAIL;
     }
     const baselines = item.split(/[-_]+/);
-    return `${DATA_API_URL}${config.paths.spectrogram_thumbnail_path}/${subarrayDetails?.execution_block?.pb_realtime}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
-  }
+    return `${DATA_API_URL}${APIconfig.paths.spectrogram_thumbnail_path}/${subarrayDetails?.execution_block?.pb_realtime}/${baselines[0]}/${baselines[1]}/${baselines[2]}`;
+  };
 
-  function imageClick(item: string) {
-    return onClick ? onClick(item) : null;
-  }
+  const fetchHeatmapData = async (item: string) => {
+    const url = getImageTN(item);
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        mode: 'cors',
+      });
 
-  const width = () => (DATA_LOCAL ? '22vw' : config.waterfall_plots.thumbnail_width);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch heatmap data: ${response.statusText}`);
+      }
 
-  const height = () => (DATA_LOCAL ? '22vh' : config.waterfall_plots.thumbnail_max_height);
+      const initialData = await response.json();
+      if (!Array.isArray(initialData) || !initialData.length || !Array.isArray(initialData[0])) {
+        throw new Error('Invalid heatmap data format');
+      }
+
+      const columns = initialData[0].length;
+      setNumColumns(columns);
+
+      setHeatmapData(initialData)
+
+      setError(null);
+    } catch (err) {
+      setError(err.message || 'Error fetching heatmap data');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    fetchHeatmapData(element);
+  }, [element]);
+
+  const spectralWindow = useMemo(() => {
+    const channels = subarrayDetails?.execution_block?.channels?.[0]?.spectral_windows?.[0];
+    return channels
+      ? {
+          freq_max: channels.freq_max,
+          freq_min: channels.freq_min,
+          count: numColumns ?? channels.count, 
+        }
+      : null;
+  }, [subarrayDetails, numColumns]);
+
+  const xValues = useMemo(() => {
+    return spectralWindow ? calculateChannels(spectralWindow) : [];
+  }, [spectralWindow]);
+
+  // Convert the Material-UI icon to an SVG string
+    const svgString = ReactDOMServer.renderToStaticMarkup(<LocalMoviesIcon />);
+  
+    // Extract the path data from the SVG string
+    const pathMatch = svgString.match(/<path d="([^"]*)"/);
+    const iconPath = pathMatch ? pathMatch[1] : '';
+    const customIcon = {
+      width: 10,
+      height: 10,
+      path: iconPath,
+    };
+  
+    var config = {modeBarButtonsToAdd: [
+      {
+        name: 'Stream Data',
+        icon: customIcon,
+        click: function imageClick(item: string) {
+          return onClick ? onClick(item) : null;
+        }
+      }
+    ]}
 
   return (
     <ImageListItem key={element}>
-      <img
-        src={getImageTN(element)}
-        // placeholder={getImageTN(element)}
-        alt={element}
-        loading="lazy"
-        onClick={() => imageClick(element)}
-        width={width()}
-        height={height()}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      />
-      <ImageListItemBar title={element} position="below" />
+      {loading ? (
+        <p>Loading heatmap...</p>
+      ) : (
+        <Plot
+          data={[
+            {
+              z: heatmapData,
+              x: xValues,
+              type: 'heatmap',
+              colorscale: 'Viridis',
+              colorbar: { title: t('label.phase'), titleside: 'right' },
+            },
+          ]}
+          layout={{
+            title: element,
+            margin: { t: 25, r: 25, b: 25, l: 25 },
+          }}
+          config={config}
+        />
+      )}
     </ImageListItem>
   );
 };
