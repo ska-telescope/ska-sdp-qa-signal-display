@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import ReactDOMServer from 'react-dom/server'
+import { useTranslation } from 'react-i18next';
 import { ImageListItem } from '@mui/material';
 import { DATA_API_URL, DATA_LOCAL } from '../../utils/constants';
 import Config from '../../services/types/Config';
@@ -22,6 +23,7 @@ const SpectrogramImage = ({
   APIconfig,
   subarrayDetails,
 }: SpectrogramImageProps) => {
+  const { t } = useTranslation('signalDisplay');
   const [heatmapData, setHeatmapData] = useState<number[][]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -96,8 +98,8 @@ const SpectrogramImage = ({
     const pathMatch = svgString.match(/<path d="([^"]*)"/);
     const iconPath = pathMatch ? pathMatch[1] : '';
     const customIcon = {
-      width: 5,
-      height: 5,
+      width: 10,
+      height: 10,
       path: iconPath,
     };
   
@@ -123,7 +125,7 @@ const SpectrogramImage = ({
               x: xValues,
               type: 'heatmap',
               colorscale: 'Viridis',
-              colorbar: { title: 'Intensity', titleside: 'right' },
+              colorbar: { title: t('label.phase'), titleside: 'right' },
             },
           ]}
           layout={{

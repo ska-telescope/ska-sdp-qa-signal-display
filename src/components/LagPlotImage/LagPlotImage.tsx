@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import ReactDOMServer from 'react-dom/server'
+import { useTranslation } from 'react-i18next';
 import { ImageListItem } from '@mui/material';
 import { DATA_API_URL, DATA_LOCAL } from '../../utils/constants';
 import Config from '../../services/types/Config';
 import Plot from 'react-plotly.js';
 import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
-import { calculateChannels } from '../../utils/calculate';
 
 interface LagPlotImageProps {
   element: string;
@@ -22,6 +22,7 @@ const LagPlotImage = ({
   APIconfig,
   subarrayDetails,
 }: LagPlotImageProps) => {
+  const { t } = useTranslation('signalDisplay');
   const [heatmapData, setHeatmapData] = useState<number[][]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -76,18 +77,19 @@ const LagPlotImage = ({
 
   const spectralWindow = useMemo(() => {
     const channels = subarrayDetails?.execution_block?.channels?.[0]?.spectral_windows?.[0];
-    return channels
-      ? {
-          freq_max: channels.freq_max,
-          freq_min: channels.freq_min,
-          count: numColumns ?? channels.count, 
-        }
-      : null;
-  }, [subarrayDetails, numColumns]);
 
-  const xValues = useMemo(() => {
-    return spectralWindow ? calculateChannels(spectralWindow) : [];
-  }, [spectralWindow]);
+    
+    const frequencyWidth = (channels.freq_max - channels.freq_min) / numColumns;
+
+  
+    const halfCount = numColumns / 2;
+    const result = Array.from({ length: numColumns }, (_, i) => {
+      const value = i - halfCount;
+      return value * (1 / frequencyWidth);
+    });
+
+  return result;
+  }, [subarrayDetails, numColumns]);
 
   // Convert the Material-UI icon to an SVG string
     const svgString = ReactDOMServer.renderToStaticMarkup(<LocalMoviesIcon />);
@@ -96,8 +98,8 @@ const LagPlotImage = ({
     const pathMatch = svgString.match(/<path d="([^"]*)"/);
     const iconPath = pathMatch ? pathMatch[1] : '';
     const customIcon = {
-      width: 5,
-      height: 5,
+      width: 10,
+      height: 10,
       path: iconPath,
     };
   
@@ -120,10 +122,10 @@ const LagPlotImage = ({
           data={[
             {
               z: heatmapData,
-              x: xValues,
+              x: spectralWindow,
               type: 'heatmap',
               colorscale: 'Viridis',
-              colorbar: { title: 'Intensity', titleside: 'right' },
+              colorbar: { title: t('label.intensity'), titleside: 'right' },
             },
           ]}
           layout={{
