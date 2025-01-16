@@ -1,12 +1,10 @@
 import React from 'react';
-
+import Plot from 'react-plotly.js';
 import Config from '../../services/types/Config';
-import WaterfallCanvas from './WaterfallCanvas';
 import Socket from '../../services/webSocket/Socket';
 import SignalCard from '../SignalCard/SignalCard';
-import { Grid, Typography } from '@mui/material'
+import { Grid, Typography } from '@mui/material';
 import {
-  LOOKUP_COLOUR_VALUES,
   WATERFALL_PLOT_TYPES,
   WS_API_URL,
   DATA_LOCAL,
@@ -17,7 +15,7 @@ interface WaterfallPlotProps {
   item: string;
   config: Config;
   subArray: string;
-  hiResWindows?: []; 
+  hiResWindows?: [];
 }
 
 const WaterfallPlot = ({ type, item, config, subArray, hiResWindows }: WaterfallPlotProps) => {
@@ -87,103 +85,47 @@ const WaterfallPlot = ({ type, item, config, subArray, hiResWindows }: Waterfall
     }
   }, []);
 
+
   React.useEffect(() => {
     if (!chartData) return;
-  
+
     setImageArray((prevImageArrays) => {
       const updatedArrays = { ...prevImageArrays };
-  
+
       Object.entries(chartData).forEach(([key, chartEntry]) => {
         if (chartEntry?.data) {
           if (type === WATERFALL_PLOT_TYPES.SPECTRUM) {
-            const newImages = [];
-              chartEntry.data
-              .filter((dataPayload) => dataPayload.polarisation === `${item}`)
-              .forEach((dataPayload) => {
-                const rgbaValues = [];
-                const data = dataPayload.power;
-                
-                data.forEach((value: number) => {
-                  rgbaValues.push(LOOKUP_COLOUR_VALUES[value] || [0, 0, 0, 255]);
-                });
-  
-                if (rgbaValues.length) {
-                  newImages.push(rgbaValues);
-                }
-              });
-  
-            if (newImages.length) {
-              updatedArrays[key] = updatedArrays[key]
-                ? [...updatedArrays[key], ...newImages]
-                : newImages;
-            }
+          const newImages = chartEntry.data
+            .filter((dataPayload) => dataPayload.polarisation === item)
+            .map((dataPayload) => dataPayload.power);
+
+          if (newImages.length) {
+            updatedArrays[key] = updatedArrays[key]
+              ? [...updatedArrays[key], ...newImages]
+              : newImages;
           }
-          else if (type !== WATERFALL_PLOT_TYPES.SPECTRUM) {
-            const baselines = item.split(/[-_]+/);
-            const newImages = [];
-    
-            chartEntry.data
-              .filter(
-                (dataPayload) =>
-                  dataPayload.baseline === `${baselines[0]}_${baselines[1]}` &&
-                  dataPayload.polarisation === baselines[2]
-              )
-              .forEach((dataPayload) => {
-                const rgbaValues = [];
-                if (type === WATERFALL_PLOT_TYPES.SPECTROGRAM) {
-                  const data = dataPayload.data || [];
-                  data.forEach((value: number) => {
-                    rgbaValues.push(LOOKUP_COLOUR_VALUES[value] || [0, 0, 0, 255]);
-                  });
-                } else if (type === WATERFALL_PLOT_TYPES.LAG_PLOT) {
-                  const data = dataPayload.data || [];
-                  data.forEach((value: number) => {
-                    rgbaValues.push(LOOKUP_COLOUR_VALUES[value] || [0, 0, 0, 255]);
-                  });
-                }
-                if (rgbaValues.length) {
-                  newImages.push(rgbaValues);
-                }
-              });
-    
-              if (newImages.length) {
-                updatedArrays[key] = updatedArrays[key]
-                  ? [...updatedArrays[key], ...newImages]
-                  : newImages;
-              }
-              
+        }
+        else if (type !== WATERFALL_PLOT_TYPES.SPECTRUM) {
+          const baselines = item.split(/[-_]+/);
+          const newImages = chartEntry.data
+            .filter((dataPayload) =>
+              dataPayload.baseline === `${baselines[0]}_${baselines[1]}` &&
+              dataPayload.polarisation === baselines[2])
+            .map((dataPayload) => dataPayload.data);
+
+          if (newImages.length) {
+            updatedArrays[key] = updatedArrays[key]
+              ? [...updatedArrays[key], ...newImages]
+              : newImages;
           }
-      }
+        }}
       });
-  
+
       return updatedArrays;
     });
   }, [chartData]);
-  
-
-  function createUint8ClampedArray(data) {
-    if (data?.[0]) {
-      const height = data.length;
-      const width = data[0].length;
-      const buffer = new Uint8ClampedArray(width * height * 4);
-
-      for (let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-          const pos = (y * width + x) * 4;
-          const [R, G, B, A] = data[y][x];
-          buffer[pos] = R;
-          buffer[pos + 1] = G;
-          buffer[pos + 2] = B;
-          buffer[pos + 3] = A;
-        }
-      }
-      return buffer;
-    }
-    return new Uint8ClampedArray(500 * 500 * 4).fill(255);
-  }
 
   return (
-    <>
     <SignalCard
       data-testid="signalCardId"
       title={`Default: ${item}`}
@@ -193,37 +135,50 @@ const WaterfallPlot = ({ type, item, config, subArray, hiResWindows }: Waterfall
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={4}>
           <Typography variant="subtitle1" gutterBottom>
-            Default Waterfall View
+            Default Waterfall Heatmap
           </Typography>
-          <WaterfallCanvas
-            data={createUint8ClampedArray(imageArrays[`${returnTopic()}-${subArray}`])}
-            height={
-              imageArrays[`${returnTopic()}-${subArray}`]?.length || 500
-            }
-            width={
-              imageArrays[`${returnTopic()}-${subArray}`]?.[0]?.length || 500
-            }
+          <Plot
+            data={[
+              {
+                z: imageArrays[`${returnTopic()}-${subArray}`] || [],
+                type: 'heatmap',
+                colorscale: 'Viridis',
+              },
+            ]}
+            layout={{
+              width: 500,
+              height: 500,
+              title: 'Heatmap',
+            }}
           />
         </Grid>
-  
+
         {hiResWindows?.map((window) => {
           const hiResKey = `${window.index}_${window.topic}`;
           return (
             <Grid item xs={12} sm={6} md={4} key={hiResKey}>
               <Typography variant="subtitle1" gutterBottom>
-                Hi-Res Waterfall View
+                Hi-Res Heatmap
               </Typography>
-              <WaterfallCanvas
-                data={createUint8ClampedArray(imageArrays[hiResKey])}
-                height={imageArrays[hiResKey]?.length || 500}
-                width={imageArrays[hiResKey]?.[0]?.length || 500}
+              <Plot
+                data={[
+                  {
+                    z: imageArrays[hiResKey] || [],
+                    type: 'heatmap',
+                    colorscale: 'Viridis',
+                  },
+                ]}
+                layout={{
+                  width: 500,
+                  height: 500,
+                  title: `Hi-Res: ${hiResKey}`,
+                }}
               />
             </Grid>
           );
         })}
       </Grid>
     </SignalCard>
-  </>
   );
 };
 
