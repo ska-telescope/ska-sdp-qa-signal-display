@@ -116,16 +116,16 @@ const WindowRequest = ({ sharedData, subArray, subarrayDetails, windows, selecte
       return '';
     }
     const metrics = [];
-
+  
     Object.entries(subarrayDetails?.deployments).forEach(([_, deployments]) => {
-      deployments?.deployment?.args?.values?.processors.forEach(processor => {
-        if (processor.name.startsWith('signal-display-metrics-')) {
-          metrics.push(processor.command[processor.command.length - 1]);
+      deployments?.deployment?.args?.values?.processors?.forEach(processor => {
+        if (processor?.name?.startsWith('signal-display-metrics-')) {
+          metrics.push(processor?.command?.[processor?.command?.length - 1] || '');
         }
       });
     });
-    return metrics.flatMap(item => item.split(','));
-  }
+    return metrics.flatMap(item => (item ? item.split(',') : []));
+  }  
 
   const options = getDeploymentNames() || [];
 
