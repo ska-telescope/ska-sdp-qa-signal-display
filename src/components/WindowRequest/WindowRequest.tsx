@@ -2,9 +2,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-unresolved */
+/* eslint-disable no-unsafe-optional-chaining */
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Grid, Typography, Card, CardHeader, CardContent, Box, Stack } from '@mui/material';
+import { Typography, Card, CardHeader, CardContent, Box, Stack } from '@mui/material';
 import { DATA_API_URL, MSENTRA_CLIENT_ID } from '@utils/constants';
 import { HZ_TO_MHZ } from '@utils/calculate';
 import SignalCard from '../SignalCard/SignalCard';
