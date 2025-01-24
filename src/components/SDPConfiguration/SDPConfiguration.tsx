@@ -73,7 +73,7 @@ const SDPConfiguration = ({ subarray, subarrayDetails }: SubarrayProps) => {
           names.push(`${processor.name}: ${processor.version || ''}`);
         }
       });
-    });    
+    });
 
     if (metrics.length > 0) {
       names.push(`Signal Display Metrics [${metrics.join(',')}]: ${version}`);

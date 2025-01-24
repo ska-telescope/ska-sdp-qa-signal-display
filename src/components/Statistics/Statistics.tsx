@@ -89,7 +89,7 @@ const Statistics = ({
                 {t('label.lastAPIRefresh')}
                 {': '}
                 {t('date_time', {
-                  date: epochToDate((Date.now())/CONVERT)
+                  date: epochToDate(Date.now() / CONVERT)
                 })}
               </Typography>
               <Typography variant="subtitle1">

@@ -124,7 +124,7 @@ const WindowRequest = ({
       return '';
     }
     const metrics = [];
-  
+
     Object.entries(subarrayDetails?.deployments).forEach(([_, deployments]) => {
       deployments?.deployment?.args?.values?.processors?.forEach(processor => {
         if (processor?.name?.startsWith('signal-display-metrics-')) {
@@ -133,7 +133,7 @@ const WindowRequest = ({
       });
     });
     return metrics.flatMap(item => (item ? item.split(',') : []));
-  }  
+  }
 
   const options = getDeploymentNames() || [];
 

@@ -87,7 +87,7 @@ const Spectrogram = ({
       setChartData([]);
       return;
     }
-    setChartData(baselineData)
+    setChartData(baselineData);
   }, [baselineData, legend]);
 
   function imageClick(item: string) {

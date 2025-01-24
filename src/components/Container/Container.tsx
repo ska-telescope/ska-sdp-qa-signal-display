@@ -755,10 +755,18 @@ const Container = ({ childToParent }) => {
   const [sharedXRange, setSharedXRange] = React.useState({ data: '', metric: '' });
 
   const selectedEntries = Object.values(selectedWindows);
-  const hiResSpectrumWindows = selectedEntries.filter(entry => entry.topic === `metrics-spectrum-${subArray}`);
-  const hiResPhaseWindows = selectedEntries.filter(entry => entry.topic === `metrics-phase-${subArray}`);
-  const hiResAmplitudeWindows = selectedEntries.filter(entry => entry.topic === `metrics-amplitude-${subArray}`);
-  const hiResLagPlotWindows = selectedEntries.filter(entry => entry.topic === `metrics-lagplot-${subArray}`);
+  const hiResSpectrumWindows = selectedEntries.filter(
+    entry => entry.topic === `metrics-spectrum-${subArray}`
+  );
+  const hiResPhaseWindows = selectedEntries.filter(
+    entry => entry.topic === `metrics-phase-${subArray}`
+  );
+  const hiResAmplitudeWindows = selectedEntries.filter(
+    entry => entry.topic === `metrics-amplitude-${subArray}`
+  );
+  const hiResLagPlotWindows = selectedEntries.filter(
+    entry => entry.topic === `metrics-lagplot-${subArray}`
+  );
 
   return (
     <>

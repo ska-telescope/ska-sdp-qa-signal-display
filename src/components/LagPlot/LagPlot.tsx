@@ -91,9 +91,8 @@ const LagPlot = ({
       setChartData([]);
       return;
     }
-    
+
     setChartData(baselineData);
-    
   }, [baselineData, legend]);
 
   function imageClick(item: string) {
