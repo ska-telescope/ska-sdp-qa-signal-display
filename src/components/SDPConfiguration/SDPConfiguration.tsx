@@ -64,16 +64,16 @@ const SDPConfiguration = ({ subarray, subarrayDetails }: SubarrayProps) => {
     const metrics = [];
     let version = '';
 
-    Object.entries(subarrayDetails?.deployments).forEach(([_key, deployments]) => {
-      deployments?.deployment?.args?.values?.processors.forEach(processor => {
-        if (processor.name.startsWith('signal-display-metrics-')) {
-          metrics.push(processor.command[processor.command.length - 1]);
-          version = processor.version;
-        } else {
-          names.push(`${processor.name}: ${processor.version}`);
+    Object.entries(subarrayDetails?.deployments || {}).forEach(([_key, deployments]) => {
+      deployments?.deployment?.args?.values?.processors?.forEach(processor => {
+        if (processor?.name?.startsWith('signal-display-metrics-')) {
+          metrics.push(processor.command?.[processor.command.length - 1] || '');
+          version = processor.version || '';
+        } else if (processor?.name) {
+          names.push(`${processor.name}: ${processor.version || ''}`);
         }
       });
-    });
+    });    
 
     if (metrics.length > 0) {
       names.push(`Signal Display Metrics [${metrics.join(',')}]: ${version}`);
