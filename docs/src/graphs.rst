@@ -34,6 +34,13 @@ polarisation.
 .. image:: images/spectrum.png
    :width: 100%
 
+The scale of the y-axis can be changed between linear, decibels and logarithmic using the buttons in 
+the top right corner of the plot view. Additionally, one can switch between a 'live' view and a 'waterfall' 
+plot, showing historical spectrum data from the Redis store.
+
+.. image:: images/spectrum_waterfall.png
+   :width: 100%
+
 Power vs Phase
 --------------
 
