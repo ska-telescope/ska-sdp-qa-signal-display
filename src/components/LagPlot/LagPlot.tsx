@@ -91,8 +91,9 @@ const LagPlot = ({
       setChartData([]);
       return;
     }
-
+    
     setChartData(baselineData);
+    
   }, [baselineData, legend]);
 
   function imageClick(item: string) {
@@ -170,7 +171,7 @@ const LagPlot = ({
                 <Grid key={item} item>
                   <React.Suspense fallback={<div>Loading...</div>}>
                     <LagPlotImage
-                      config={config}
+                      APIconfig={config}
                       element={item}
                       onClick={() => imageClick(item)}
                       subarrayDetails={subarrayDetails}

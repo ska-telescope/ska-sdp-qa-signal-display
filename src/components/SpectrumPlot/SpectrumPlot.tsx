@@ -18,7 +18,7 @@ import {
   INVALID_DATA_COLOR,
   createRectangle
 } from '../../utils/masksCalculator';
-import SpectrumWaterfallPlotImage from '../SpectrumWaterfallImage/SpectrumWaterfallImage';
+import SpectrumWaterfall from '../SpectrumWaterfallImage/SpectrumWaterfallImage';
 import SKAOModal from '../Modal/Modal';
 import WaterfallPlot from '../WaterfallPlot/WaterfallPlot';
 
@@ -33,6 +33,7 @@ interface SpectrumPlotProps {
   socketStatus: string;
   config: Config;
   subArray: string;
+  subarrayDetails: any;
   missingData?: number[][];
   setSharedData?: any;
   sharedData?: any;
@@ -50,6 +51,7 @@ const SpectrumPlot = ({
   socketStatus,
   config,
   subArray,
+  subarrayDetails,
   missingData = null,
   setSharedData,
   sharedData
@@ -297,10 +299,11 @@ const SpectrumPlot = ({
         infoContent={t('modalInfo.spectrumPlot.content')}
         infoSite={t('modalInfo.spectrumPlot.site')}
       >
-        <SpectrumWaterfallPlotImage
+        <SpectrumWaterfall
           element={polarization}
-          config={config}
+          APIconfig={config}
           onClick={() => imageClick(polarization)}
+          subarrayDetails={subarrayDetails}
         />
       </SignalCard>
     </>
