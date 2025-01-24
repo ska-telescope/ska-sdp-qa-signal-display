@@ -49,11 +49,22 @@ along with a plot of the phase of the visibility spectrum. From the plot of the 
 possible to discern whether a source is resolved, along with information about its shape. The phase 
 information allows us to determine the source's offset from the phase center.
 
-.. image:: images/polarization_amplitude.png
+.. image:: images/amplitude.png
    :width: 100%
 
-.. image:: images/polarization_phase.png
+This plot is able to show the amplitude, or the real component of the visibility 
+spectrum, selectable via the button in the top right corner of the plot view. When viewing the amplitude, 
+the scale of the y-axis can be changed between linear, decibels and logarithmic using the buttons in 
+the top right corner of the plot view (it is not possible to take the logarithm of a negative number, and 
+so it is disabled when viewing the real components of the visibibility spectrum).
+
+.. image:: images/phase.png
    :width: 100%
+
+This plot is able to show the phase, or the imaginary component of the visibility 
+spectrum, selectable via the button in the top right corner of the plot view. When viewing the phase, 
+the scale of the y-axis can be changed between radians and degrees using the buttons in 
+the top right corner of the plot view (this action is disabled when viewing the imaginary component).
 
 Band Averaged Cross Correlation Power
 -------------------------------------
