@@ -76,7 +76,7 @@ the buttons in the top right corner of the plot view.
 .. image:: images/band_average_xcorr_power.png
    :width: 100%
 
-Spectrum Waterfall
+Spectrogram Waterfall
 ------------------
 
 A visibility is the correlation between two antennas over a time and frequency interval. A lag or XF
@@ -115,7 +115,7 @@ calculate the inverse Fourier transform (iFFT) of the visibilities for each base
 We present this calculation in the form of a Waterfall plot. For each baseline and timestep, the
 iFFT of the complex visibility spectrum is calculated.
 
-.. image:: images/waterfall_lag.png
+.. image:: images/lag_plot.png
    :width: 400
 
 Any residual delay will manifest itself as a shift of the peak of the lag plot away from zero. I.e.,
