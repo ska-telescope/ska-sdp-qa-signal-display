@@ -70,7 +70,11 @@ Band Averaged Cross Correlation Power
 -------------------------------------
 
 For each polarisation and baseline, a plot of the band averaged cross correlation power is displayed 
-as a time series.
+as a time series. The scale of the y-axis can be changed between linear, decibels and logarithmic using 
+the buttons in the top right corner of the plot view.
+
+.. image:: images/band_average_xcorr_power.png
+   :width: 100%
 
 Spectrum Waterfall
 ------------------
