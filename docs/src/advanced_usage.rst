@@ -5,7 +5,7 @@ By default, the signal metrics are computed using a channel averaging window of 
 This default value is configurable in the assign_resources json. The reason for this is to 
 reduce the volume of data being sent over the API and to lower the workload on the browser.
 
-.. code-block:: json
+.. code-block:: JSON
     "signal_display": {
                         "metrics": [
                             "all"

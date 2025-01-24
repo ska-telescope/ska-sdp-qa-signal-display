@@ -11,7 +11,7 @@ Visibilty Receive
 Descriptions of each plot in the Visibilty Receive tab and how they respond follows.
 
 Spectrum
-----------
+--------
 
 The incident flux on the telescope is distributed over a finite receiving band, and is a function of
 frequency. The spectrum is the flux per unit bandwidth. The broad continuum spectrum of a radio source
@@ -77,7 +77,7 @@ the buttons in the top right corner of the plot view.
    :width: 100%
 
 Spectrogram Waterfall
-------------------
+---------------------
 
 A visibility is the correlation between two antennas over a time and frequency interval. A lag or XF
 correlator multiplies (X) the signals from each antenna together as a function of lag.
@@ -123,7 +123,7 @@ if the signals have been correctly delayed before their Cross-Correlation the pe
 Cross-Correlation will be at zero lag.
 
 Weight Distribution and UV-Coverage Plots
------------------
+-----------------------------------------
 An interferometer measures components of the sky Fourier Transform through the sampling of the Visibility 
 function V. These samples live in (u, v, w) space and are often projected into a plane, the uv-plane.
 We present the weight distribution W(u, v) as a time series plot, showing how the uv-plane gets filled 
@@ -133,7 +133,7 @@ in with the earth's rotation.
    :width: 100%
 
 Calibration Data
------------------
+----------------
 
 Descriptions of each plot in the Calibration Data tab and how they respond follows.
 
