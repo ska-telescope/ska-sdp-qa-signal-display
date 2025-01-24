@@ -13,6 +13,9 @@ Once the subarray has been selected the current configuration will be retrieved
 every 30 seconds to check the execution block information and processing block
 information.
 
+.. image:: images/config.png
+    :width: 100%
+
 Visibility Receive Statistics
 -----------------------------
 

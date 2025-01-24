@@ -11,7 +11,7 @@ Visibilty Receive
 Descriptions of each plot in the Visibilty Receive tab and how they respond follows.
 
 Spectrum
-----------
+--------
 
 The incident flux on the telescope is distributed over a finite receiving band, and is a function of
 frequency. The spectrum is the flux per unit bandwidth. The broad continuum spectrum of a radio source
@@ -34,6 +34,13 @@ polarisation.
 .. image:: images/spectrum.png
    :width: 100%
 
+The scale of the y-axis can be changed between linear, decibels and logarithmic using the buttons in 
+the top right corner of the plot view. Additionally, one can switch between a 'live' view and a 'waterfall' 
+plot, showing historical spectrum data from the Redis store.
+
+.. image:: images/spectrum_waterfall.png
+   :width: 100%
+
 Power vs Phase
 --------------
 
@@ -42,20 +49,35 @@ along with a plot of the phase of the visibility spectrum. From the plot of the 
 possible to discern whether a source is resolved, along with information about its shape. The phase 
 information allows us to determine the source's offset from the phase center.
 
-.. image:: images/polarization_amplitude.png
+.. image:: images/amplitude.png
    :width: 100%
 
-.. image:: images/polarization_phase.png
+This plot is able to show the amplitude, or the real component of the visibility 
+spectrum, selectable via the button in the top right corner of the plot view. When viewing the amplitude, 
+the scale of the y-axis can be changed between linear, decibels and logarithmic using the buttons in 
+the top right corner of the plot view (it is not possible to take the logarithm of a negative number, and 
+so it is disabled when viewing the real components of the visibibility spectrum).
+
+.. image:: images/phase.png
    :width: 100%
+
+This plot is able to show the phase, or the imaginary component of the visibility 
+spectrum, selectable via the button in the top right corner of the plot view. When viewing the phase, 
+the scale of the y-axis can be changed between radians and degrees using the buttons in 
+the top right corner of the plot view (this action is disabled when viewing the imaginary component).
 
 Band Averaged Cross Correlation Power
 -------------------------------------
 
 For each polarisation and baseline, a plot of the band averaged cross correlation power is displayed 
-as a time series.
+as a time series. The scale of the y-axis can be changed between linear, decibels and logarithmic using 
+the buttons in the top right corner of the plot view.
 
-Spectrum Waterfall
-------------------
+.. image:: images/band_average_xcorr_power.png
+   :width: 100%
+
+Spectrogram Waterfall
+---------------------
 
 A visibility is the correlation between two antennas over a time and frequency interval. A lag or XF
 correlator multiplies (X) the signals from each antenna together as a function of lag.
@@ -93,16 +115,25 @@ calculate the inverse Fourier transform (iFFT) of the visibilities for each base
 We present this calculation in the form of a Waterfall plot. For each baseline and timestep, the
 iFFT of the complex visibility spectrum is calculated.
 
-.. image:: images/waterfall_lag.png
+.. image:: images/lag_plot.png
    :width: 400
 
 Any residual delay will manifest itself as a shift of the peak of the lag plot away from zero. I.e.,
 if the signals have been correctly delayed before their Cross-Correlation the peak power in
 Cross-Correlation will be at zero lag.
 
+Weight Distribution and UV-Coverage Plots
+-----------------------------------------
+An interferometer measures components of the sky Fourier Transform through the sampling of the Visibility 
+function V. These samples live in (u, v, w) space and are often projected into a plane, the uv-plane.
+We present the weight distribution W(u, v) as a time series plot, showing how the uv-plane gets filled 
+in with the earth's rotation.
+
+.. image:: images/uv_coverage.png
+   :width: 100%
 
 Calibration Data
------------------
+----------------
 
 Descriptions of each plot in the Calibration Data tab and how they respond follows.
 
