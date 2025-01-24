@@ -122,6 +122,15 @@ Any residual delay will manifest itself as a shift of the peak of the lag plot a
 if the signals have been correctly delayed before their Cross-Correlation the peak power in
 Cross-Correlation will be at zero lag.
 
+Weight Distribution and UV-Coverage Plots
+-----------------
+An interferometer measures components of the sky Fourier Transform through the sampling of the Visibility 
+function V. These samples live in (u, v, w) space and are often projected into a plane, the uv-plane.
+We present the weight distribution W(u, v) as a time series plot, showing how the uv-plane gets filled 
+in with the earth's rotation.
+
+.. image:: images/uv_coverage.png
+   :width: 100%
 
 Calibration Data
 -----------------
