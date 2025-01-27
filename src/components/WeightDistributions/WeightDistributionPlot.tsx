@@ -126,12 +126,12 @@ const WeightDistributionPlot = ({
       setShowContent(canShow());
     }
   }, [data, redraw]);
-  
+
   React.useEffect(() => {
     if (!refresh) setShowContent(canShow());
     else setRefresh(false);
   }, [refresh]);
-  
+
   React.useEffect(() => {
     if (data.length > 0) {
       setMidFreq(calculateMidFrequency(data));

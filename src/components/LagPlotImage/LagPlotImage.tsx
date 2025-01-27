@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import ReactDOMServer from 'react-dom/server'
+import ReactDOMServer from 'react-dom/server';
 import { useTranslation } from 'react-i18next';
 import { ImageListItem } from '@mui/material';
-import { DATA_API_URL, DATA_LOCAL } from '../../utils/constants';
-import Config from '../../services/types/Config';
 import Plot from 'react-plotly.js';
 import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
+import { DATA_API_URL, DATA_LOCAL } from '../../utils/constants';
+import Config from '../../services/types/Config';
 
 interface LagPlotImageProps {
   element: string;
@@ -20,7 +20,7 @@ const LagPlotImage = ({
   element,
   onClick = null,
   APIconfig,
-  subarrayDetails,
+  subarrayDetails
 }: LagPlotImageProps) => {
   const { t } = useTranslation('signalDisplay');
   const [heatmapData, setHeatmapData] = useState<number[][]>([]);
@@ -43,9 +43,9 @@ const LagPlotImage = ({
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Accept: 'application/json',
+          Accept: 'application/json'
         },
-        mode: 'cors',
+        mode: 'cors'
       });
 
       if (!response.ok) {
@@ -60,7 +60,7 @@ const LagPlotImage = ({
       const columns = initialData[0].length;
       setNumColumns(columns);
 
-      setHeatmapData(initialData)
+      setHeatmapData(initialData);
 
       setError(null);
     } catch (err) {
@@ -78,32 +78,31 @@ const LagPlotImage = ({
   const spectralWindow = useMemo(() => {
     const channels = subarrayDetails?.execution_block?.channels?.[0]?.spectral_windows?.[0];
 
-    
     const frequencyWidth = (channels.freq_max - channels.freq_min) / numColumns;
 
-  
     const halfCount = numColumns / 2;
     const result = Array.from({ length: numColumns }, (_, i) => {
       const value = i - halfCount;
       return value * (1 / frequencyWidth);
     });
 
-  return result;
+    return result;
   }, [subarrayDetails, numColumns]);
 
   // Convert the Material-UI icon to an SVG string
-    const svgString = ReactDOMServer.renderToStaticMarkup(<LocalMoviesIcon />);
-  
-    // Extract the path data from the SVG string
-    const pathMatch = svgString.match(/<path d="([^"]*)"/);
-    const iconPath = pathMatch ? pathMatch[1] : '';
-    const customIcon = {
-      width: 10,
-      height: 10,
-      path: iconPath,
-    };
-  
-    var config = {modeBarButtonsToAdd: [
+  const svgString = ReactDOMServer.renderToStaticMarkup(<LocalMoviesIcon />);
+
+  // Extract the path data from the SVG string
+  const pathMatch = svgString.match(/<path d="([^"]*)"/);
+  const iconPath = pathMatch ? pathMatch[1] : '';
+  const customIcon = {
+    width: 10,
+    height: 10,
+    path: iconPath
+  };
+
+  const config = {
+    modeBarButtonsToAdd: [
       {
         name: 'Stream Data',
         icon: customIcon,
@@ -111,7 +110,8 @@ const LagPlotImage = ({
           return onClick ? onClick(item) : null;
         }
       }
-    ]}
+    ]
+  };
 
   return (
     <ImageListItem key={element}>
@@ -125,12 +125,12 @@ const LagPlotImage = ({
               x: spectralWindow,
               type: 'heatmap',
               colorscale: 'Viridis',
-              colorbar: { title: t('label.intensity'), titleside: 'right' },
-            },
+              colorbar: { title: t('label.intensity'), titleside: 'right' }
+            }
           ]}
           layout={{
             title: element,
-            margin: { t: 25, r: 25, b: 25, l: 25 },
+            margin: { t: 25, r: 25, b: 25, l: 25 }
           }}
           config={config}
         />

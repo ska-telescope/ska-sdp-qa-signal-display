@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import ReactDOMServer from 'react-dom/server'
+import ReactDOMServer from 'react-dom/server';
 import { useTranslation } from 'react-i18next';
 import { ImageListItem } from '@mui/material';
-import { DATA_API_URL, DATA_LOCAL } from '../../utils/constants';
-import Config from '../../services/types/Config';
 import Plot from 'react-plotly.js';
 import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
+import { DATA_API_URL, DATA_LOCAL } from '../../utils/constants';
+import Config from '../../services/types/Config';
 import { calculateChannels } from '../../utils/calculate';
 
 interface SpectrogramImageProps {
@@ -21,7 +21,7 @@ const SpectrogramImage = ({
   element,
   onClick = null,
   APIconfig,
-  subarrayDetails,
+  subarrayDetails
 }: SpectrogramImageProps) => {
   const { t } = useTranslation('signalDisplay');
   const [heatmapData, setHeatmapData] = useState<number[][]>([]);
@@ -44,9 +44,9 @@ const SpectrogramImage = ({
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Accept: 'application/json',
+          Accept: 'application/json'
         },
-        mode: 'cors',
+        mode: 'cors'
       });
 
       if (!response.ok) {
@@ -61,7 +61,7 @@ const SpectrogramImage = ({
       const columns = initialData[0].length;
       setNumColumns(columns);
 
-      setHeatmapData(initialData)
+      setHeatmapData(initialData);
 
       setError(null);
     } catch (err) {
@@ -82,28 +82,29 @@ const SpectrogramImage = ({
       ? {
           freq_max: channels.freq_max,
           freq_min: channels.freq_min,
-          count: numColumns ?? channels.count, 
+          count: numColumns ?? channels.count
         }
       : null;
   }, [subarrayDetails, numColumns]);
 
-  const xValues = useMemo(() => {
-    return spectralWindow ? calculateChannels(spectralWindow) : [];
-  }, [spectralWindow]);
+  const xValues = useMemo(() => (spectralWindow ? calculateChannels(spectralWindow) : []), [
+    spectralWindow
+  ]);
 
   // Convert the Material-UI icon to an SVG string
-    const svgString = ReactDOMServer.renderToStaticMarkup(<LocalMoviesIcon />);
-  
-    // Extract the path data from the SVG string
-    const pathMatch = svgString.match(/<path d="([^"]*)"/);
-    const iconPath = pathMatch ? pathMatch[1] : '';
-    const customIcon = {
-      width: 10,
-      height: 10,
-      path: iconPath,
-    };
-  
-    var config = {modeBarButtonsToAdd: [
+  const svgString = ReactDOMServer.renderToStaticMarkup(<LocalMoviesIcon />);
+
+  // Extract the path data from the SVG string
+  const pathMatch = svgString.match(/<path d="([^"]*)"/);
+  const iconPath = pathMatch ? pathMatch[1] : '';
+  const customIcon = {
+    width: 10,
+    height: 10,
+    path: iconPath
+  };
+
+  const config = {
+    modeBarButtonsToAdd: [
       {
         name: 'Stream Data',
         icon: customIcon,
@@ -111,7 +112,8 @@ const SpectrogramImage = ({
           return onClick ? onClick(item) : null;
         }
       }
-    ]}
+    ]
+  };
 
   return (
     <ImageListItem key={element}>
@@ -125,12 +127,12 @@ const SpectrogramImage = ({
               x: xValues,
               type: 'heatmap',
               colorscale: 'Viridis',
-              colorbar: { title: t('label.phase'), titleside: 'right' },
-            },
+              colorbar: { title: t('label.phase'), titleside: 'right' }
+            }
           ]}
           layout={{
             title: element,
-            margin: { t: 25, r: 25, b: 25, l: 25 },
+            margin: { t: 25, r: 25, b: 25, l: 25 }
           }}
           config={config}
         />

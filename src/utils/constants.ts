@@ -587,7 +587,8 @@ export const METRIC_TYPES = {
   AMPLITUDE: 'amplitude',
   PHASE: 'phase',
   BAND_AVERAGED_X_CORR: 'bandaveragedxcorr',
-  UV_COVERAGE: 'uvcoverage'
+  UV_COVERAGE: 'uvcoverage',
+  WORKFLOW_STATE: 'workflow_state'
 };
 
 // Common URLs

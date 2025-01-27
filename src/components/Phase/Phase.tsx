@@ -10,15 +10,8 @@ import Plotly from '../Plotly/Plotly';
 import SignalCard from '../SignalCard/SignalCard';
 import YAxisToggle from '../YAxisToggle/YAxisToggle';
 import { COLOR } from '../../utils/constants';
-import {
-  calculateChannels,
-  calculateDegrees,
-} from '../../utils/calculate';
-import {
-  phaseAxisY,
-  phaseImaginary,
-  QASettings
-} from '../Settings/qaSettings';
+import { calculateChannels, calculateDegrees } from '../../utils/calculate';
+import { phaseAxisY, phaseImaginary, QASettings } from '../Settings/qaSettings';
 import {
   MISSING_DATA_COLOR,
   INVALID_DATA_COLOR,
@@ -64,7 +57,6 @@ const Phase = ({
 
   const settingElement = (amplitude: boolean) =>
     `showPolarization${amplitude ? 'Amplitude' : 'Phase'}${polarization}axisY`;
-
 
   const settingElementAmplitudeReal = useCallback(
     (real: string) => `showPolarization${real}${polarization}axisY`,
@@ -151,7 +143,7 @@ const Phase = ({
   };
 
   const canShowChartPhase = () => displaySettings[`showPolarizationPhase${polarization}`];
-  const parentWidth = () => ( canShowChartPhase() ? 700 : 1400);
+  const parentWidth = () => (canShowChartPhase() ? 700 : 1400);
 
   React.useEffect(() => {
     if (!refresh) setShowContent(canShow());
@@ -222,7 +214,6 @@ const Phase = ({
     />
   );
 
-
   const phaseImaginaryToggle = (type: string) => (
     <YAxisToggle
       setValue={setValue}
@@ -237,29 +228,29 @@ const Phase = ({
   return (
     <>
       {canShowChartPhase() && (
-          <SignalCard
-            action={chartToggle(false, disableImag)}
-            action2={phaseImaginaryToggle('Imaginary')}
-            title={`${t('label.polarization')} / ${chartTitle(false)}  ${polarization}`}
-            socketStatus={socketStatus}
-            showContent={showContent}
-            setShowContent={showToggle}
-            showInfoModal="true"
-            infoTitle={t('modalInfo.phasePlot.title')}
-            infoContent={t('modalInfo.phasePlot.content')}
-            infoSite={t('modalInfo.phasePlot.site')}
-          >
-                  <Plotly
-                    darkMode={darkMode}
-                    data={showContent ? chartData2 : null}
-                    height={parentWidth() / RATIO}
-                    title=""
-                    width={parentWidth()}
-                    xLabel={xLabel()}
-                    yLabel={yLabel(false)}
-                    masked={invalidDataPhase}
-                  />
-          </SignalCard>
+        <SignalCard
+          action={chartToggle(false, disableImag)}
+          action2={phaseImaginaryToggle('Imaginary')}
+          title={`${t('label.polarization')} / ${chartTitle(false)}  ${polarization}`}
+          socketStatus={socketStatus}
+          showContent={showContent}
+          setShowContent={showToggle}
+          showInfoModal="true"
+          infoTitle={t('modalInfo.phasePlot.title')}
+          infoContent={t('modalInfo.phasePlot.content')}
+          infoSite={t('modalInfo.phasePlot.site')}
+        >
+          <Plotly
+            darkMode={darkMode}
+            data={showContent ? chartData2 : null}
+            height={parentWidth() / RATIO}
+            title=""
+            width={parentWidth()}
+            xLabel={xLabel()}
+            yLabel={yLabel(false)}
+            masked={invalidDataPhase}
+          />
+        </SignalCard>
       )}
     </>
   );

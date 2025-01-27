@@ -10,7 +10,7 @@ interface WebSocketProps {
   statusFunction: Function;
   dataFunction: Function;
   timeSeries?: Boolean;
-  index?: number
+  index?: number;
 }
 
 const Socket = ({
@@ -20,11 +20,15 @@ const Socket = ({
   statusFunction,
   dataFunction,
   timeSeries,
-  index=-1
+  index = -1
 }: WebSocketProps) => {
   const tmpSplit = suffix.split('-<subarray>');
+  let tmp = `${apiUrl}/${tmpSplit[0]}`;
 
-  const tmp = `${apiUrl}/${tmpSplit[0]}${tmpSplit[1]}`;
+  if (tmpSplit[1] != null) {
+    tmp = `${tmp}${tmpSplit[1]}`;
+  }
+
   const ws = new WebSocket(tmp);
 
   ws.onerror = function onError(e) {
@@ -41,12 +45,10 @@ const Socket = ({
           statusFunction(decoded.status);
         } else if (timeSeries) {
           dataFunction(prevState => [...prevState, decoded]);
+        } else if (index >= 0) {
+          dataFunction(index, decoded);
         } else {
-          if (index >= 0) {
-            dataFunction(index, decoded)
-          } else {
-              dataFunction(decoded);
-          }
+          dataFunction(decoded);
         }
       } else {
         decodeAsync(inData.stream())
@@ -57,12 +59,10 @@ const Socket = ({
               statusFunction(dAny.status);
             } else if (timeSeries) {
               dataFunction(prevState => [...prevState, decoded]);
-            }  else {
-              if (index >= 0) {
-                dataFunction(index, decoded)
-              } else {
-                  dataFunction(decoded);
-              }
+            } else if (index >= 0) {
+              dataFunction(index, decoded);
+            } else {
+              dataFunction(decoded);
             }
           })
           .catch(() => 'ERROR');

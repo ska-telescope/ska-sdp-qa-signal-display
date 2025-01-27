@@ -73,7 +73,7 @@ const SDPConfiguration = ({ subarray, subarrayDetails }: SubarrayProps) => {
           names.push(`${processor.name}: ${processor.version || ''}`);
         }
       });
-    });    
+    });
 
     if (metrics.length > 0) {
       names.push(`Signal Display Metrics [${metrics.join(',')}]: ${version}`);
@@ -93,7 +93,7 @@ const SDPConfiguration = ({ subarray, subarrayDetails }: SubarrayProps) => {
           <CardHeader
             component={Box}
             title={`${t('label.subArray')}: ${subarray}`}
-            avatar={(
+            avatar={
               <StatusIcon
                 ariaTitle=""
                 ariaDescription=""
@@ -103,7 +103,7 @@ const SDPConfiguration = ({ subarray, subarrayDetails }: SubarrayProps) => {
                 size={SIZE}
                 text=""
               />
-            )}
+            }
             titleTypographyProps={{
               align: 'center',
               fontWeight: 'bold',
@@ -127,7 +127,7 @@ const SDPConfiguration = ({ subarray, subarrayDetails }: SubarrayProps) => {
           <CardHeader
             component={Box}
             title={`${t('label.execution_block')}: ${subarrayDetails?.execution_block?.key}`}
-            avatar={(
+            avatar={
               <StatusIcon
                 ariaTitle=""
                 ariaDescription=""
@@ -139,7 +139,7 @@ const SDPConfiguration = ({ subarray, subarrayDetails }: SubarrayProps) => {
                 size={SIZE}
                 text=""
               />
-            )}
+            }
             titleTypographyProps={{
               align: 'center',
               fontWeight: 'bold',
@@ -165,7 +165,7 @@ const SDPConfiguration = ({ subarray, subarrayDetails }: SubarrayProps) => {
             title={`${t('label.processing_block')}: ${
               subarrayDetails?.execution_block?.pb_realtime
             }`}
-            avatar={(
+            avatar={
               <StatusIcon
                 ariaTitle=""
                 ariaDescription=""
@@ -183,7 +183,7 @@ const SDPConfiguration = ({ subarray, subarrayDetails }: SubarrayProps) => {
                 size={SIZE}
                 text=""
               />
-            )}
+            }
             titleTypographyProps={{
               align: 'center',
               fontWeight: 'bold',
