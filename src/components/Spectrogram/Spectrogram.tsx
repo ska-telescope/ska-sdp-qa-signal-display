@@ -46,8 +46,10 @@ const Spectrogram = ({
   const spectrogramImageInView = inView(spectrogramImageRef, '100px');
 
   const showToggle = () => {
-    setShowContent(showContent ? false : chartData !== null);
-  };
+    if (chartData !== null) {
+      setShowContent(!showContent);
+    }
+  };  
 
   React.useEffect(() => {
     if (config === null) {
@@ -61,7 +63,6 @@ const Spectrogram = ({
       })
         .then(response => response.json())
         .then(data => {
-          setShowContent(true);
           setBaselineData(data.baselines);
           abortController.abort();
         })
@@ -124,8 +125,8 @@ const Spectrogram = ({
         >
           <Grid container direction="row" justifyContent="space-evenly">
             {DATA_LOCAL && (
-              <>
-                <Grid data-testid="spectrogram1Id" item>
+              [...Array(4)].map((_, index) => (
+                <Grid key={`local-${index}`} item>
                   <SpectrogramImage
                     config={config}
                     element={null}
@@ -133,31 +134,7 @@ const Spectrogram = ({
                     subarrayDetails={subarrayDetails}
                   />
                 </Grid>
-                <Grid data-testid="spectrogram2Id" item>
-                  <SpectrogramImage
-                    config={config}
-                    element={null}
-                    onClick={() => imageClick(null)}
-                    subarrayDetails={subarrayDetails}
-                  />
-                </Grid>
-                <Grid data-testid="spectrogram3Id" item>
-                  <SpectrogramImage
-                    config={config}
-                    element={null}
-                    onClick={() => imageClick(null)}
-                    subarrayDetails={subarrayDetails}
-                  />
-                </Grid>
-                <Grid data-testid="spectrogram4Id" item>
-                  <SpectrogramImage
-                    config={config}
-                    element={null}
-                    onClick={() => imageClick(null)}
-                    subarrayDetails={subarrayDetails}
-                  />
-                </Grid>
-              </>
+              ))
             )}
 
             {!DATA_LOCAL && chartData && chartData.length && spectrogramImageInView ? (

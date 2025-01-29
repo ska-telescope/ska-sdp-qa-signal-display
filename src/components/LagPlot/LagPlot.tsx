@@ -46,8 +46,10 @@ const LagPlot = ({
   const lagPlotImageInView = inView(lagPlotImageRef, '100px');
 
   const showToggle = () => {
-    setShowContent(showContent ? false : chartData !== null);
-  };
+    if (chartData !== null) {
+      setShowContent(!showContent);
+    }
+  };  
 
   React.useEffect(() => {
     if (config === null) {
@@ -67,7 +69,6 @@ const LagPlot = ({
           return part1 !== part2;
         });
 
-        setShowContent(true);
         setBaselineData(filteredBaselines);
         abortController.abort();
       } catch (error) {
@@ -129,8 +130,8 @@ const LagPlot = ({
         >
           <Grid container direction="row" justifyContent="space-evenly">
             {DATA_LOCAL && (
-              <>
-                <Grid data-testid="LagPlot1Id" item>
+              [...Array(4)].map((_, index) => (
+                <Grid key={`local-${index}`} item>
                   <LagPlotImage
                     config={config}
                     element={null}
@@ -138,31 +139,7 @@ const LagPlot = ({
                     subarrayDetails={subarrayDetails}
                   />
                 </Grid>
-                <Grid data-testid="LagPlot2Id" item>
-                  <LagPlotImage
-                    config={config}
-                    element={null}
-                    onClick={() => imageClick(null)}
-                    subarrayDetails={subarrayDetails}
-                  />
-                </Grid>
-                <Grid data-testid="LagPlot3Id" item>
-                  <LagPlotImage
-                    config={config}
-                    element={null}
-                    onClick={() => imageClick(null)}
-                    subarrayDetails={subarrayDetails}
-                  />
-                </Grid>
-                <Grid data-testid="LagPlot4Id" item>
-                  <LagPlotImage
-                    config={config}
-                    element={null}
-                    onClick={() => imageClick(null)}
-                    subarrayDetails={subarrayDetails}
-                  />
-                </Grid>
-              </>
+              ))
             )}
 
             {!DATA_LOCAL && chartData && chartData.length && lagPlotImageInView ? (
