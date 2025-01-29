@@ -131,7 +131,7 @@ const LagPlot = ({
           <Grid container direction="row" justifyContent="space-evenly">
             {DATA_LOCAL && (
               [0,1,2,3].map((content) => (
-                <Grid data-testid={`local-${content}`} item>
+                <Grid data-testid={`lagplot-${content}`} item>
                   <LagPlotImage
                     config={config}
                     element={null}
