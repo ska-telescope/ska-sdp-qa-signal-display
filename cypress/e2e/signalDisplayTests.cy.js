@@ -157,14 +157,12 @@ context('Signal display', () => {
         cy.findAllByTestId('chartData2Content').should("be.visible");
 
         cy.findAllByTestId("sectionHeader").contains("Spectrograms").should("be.visible")
-        cy.findAllByTestId("showSpectrogramsButtonTestId").should("be.visible").click();
         cy.findByTestId('spectrogram-0').should("be.visible");
         cy.findByTestId('spectrogram-1').should("be.visible");
         cy.findByTestId('spectrogram-2').should("be.visible");
         cy.findByTestId('spectrogram-3').should("be.visible");
 
         cy.findAllByTestId("sectionHeader").contains("Lag Plots").should("be.visible")
-        cy.findAllByTestId("showLagPlotsButtonTestId").should("be.visible").click();
         cy.findByTestId('lagplot-0').should("be.visible");
         cy.findByTestId('lagplot-1').should("be.visible");
         cy.findByTestId('lagplot-2').should("be.visible");
