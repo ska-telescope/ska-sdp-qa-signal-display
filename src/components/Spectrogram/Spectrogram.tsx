@@ -126,7 +126,7 @@ const Spectrogram = ({
           <Grid container direction="row" justifyContent="space-evenly">
             {DATA_LOCAL && (
               [0,1,2,3].map((content) => (
-                <Grid key={`local-${content}`} item>
+                <Grid data-testid={`local-${content}`} item>
                   <SpectrogramImage
                     config={config}
                     element={null}

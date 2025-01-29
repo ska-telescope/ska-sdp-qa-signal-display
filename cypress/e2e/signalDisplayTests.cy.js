@@ -157,16 +157,16 @@ context('Signal display', () => {
         cy.findAllByTestId('chartData2Content').should("be.visible");
 
         cy.findAllByTestId("sectionHeader").contains("Spectrograms").should("be.visible")
-        cy.findByTestId('spectrogram1Id').should("be.visible");
-        cy.findByTestId('spectrogram2Id').should("be.visible");
-        cy.findByTestId('spectrogram3Id').should("be.visible");
-        cy.findByTestId('spectrogram4Id').should("be.visible");
+        cy.findByTestId('local-0').should("be.visible");
+        cy.findByTestId('local-1').should("be.visible");
+        cy.findByTestId('local-2').should("be.visible");
+        cy.findByTestId('local-3').should("be.visible");
 
         cy.findAllByTestId("sectionHeader").contains("Lag Plots").should("be.visible")
-        cy.findByTestId('LagPlot1Id').should("be.visible");
-        cy.findByTestId('LagPlot2Id').should("be.visible");
-        cy.findByTestId('LagPlot3Id').should("be.visible");
-        cy.findByTestId('LagPlot4Id').should("be.visible");
+        cy.findByTestId('local-0').should("be.visible");
+        cy.findByTestId('local-1').should("be.visible");
+        cy.findByTestId('local-2').should("be.visible");
+        cy.findByTestId('local-3').should("be.visible");
 
         cy.findByTestId("calibrationPlotsTab").click();
 
