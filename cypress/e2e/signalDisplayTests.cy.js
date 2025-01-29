@@ -157,12 +157,14 @@ context('Signal display', () => {
         cy.findAllByTestId('chartData2Content').should("be.visible");
 
         cy.findAllByTestId("sectionHeader").contains("Spectrograms").should("be.visible")
+        cy.findAllByTestId("showSpectrogramsButtonTestId").should("be.visible").click();
         cy.findByTestId('local-0').should("be.visible");
         cy.findByTestId('local-1').should("be.visible");
         cy.findByTestId('local-2').should("be.visible");
         cy.findByTestId('local-3').should("be.visible");
 
         cy.findAllByTestId("sectionHeader").contains("Lag Plots").should("be.visible")
+        cy.findAllByTestId("showLagPlotsButtonTestId").should("be.visible").click();
         cy.findByTestId('local-0').should("be.visible");
         cy.findByTestId('local-1').should("be.visible");
         cy.findByTestId('local-2').should("be.visible");
