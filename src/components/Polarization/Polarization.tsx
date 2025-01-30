@@ -89,8 +89,16 @@ const Polarization = ({
 
   const xLabel = () => `${t('label.frequency')} (${t('units.frequency')})`;
 
-  const yLabel = (amplitude: boolean) =>
-    `${t('label.amplitude')} (${t(`units.${setting(amplitude)}`)})`;
+  const yLabel = (amplitude: boolean, type: string) => {
+    if ((type === 'Phase') && (!amplitude)) {
+      return `A ${t('label.phase')} (${t(`units.${setting(amplitude)}`)})`;
+    } else if ((type === 'Amplitude') && (amplitude)) {
+      return `B ${t('label.amplitude')} (${t(`units.${setting(amplitude)}`)})`;
+    } else if ((type === 'Amplitude') && (!amplitude)){
+      return `${t('label.real')} Component`
+  } else if ((type === 'Phase') && (amplitude)){
+    return `${t('label.imaginary')} Component`
+  }};  
 
   const chartTitle = (amplitude: boolean) => t(amplitude ? 'label.amplitude' : 'label.phase');
 
@@ -307,7 +315,7 @@ const Polarization = ({
                     title=""
                     width={parentWidth()}
                     xLabel={xLabel()}
-                    yLabel={yLabel(true)}
+                    yLabel={yLabel(!disableReal, 'Amplitude')}
                     masked={invalidDataAmplitude}
                   />
                 )}
@@ -350,7 +358,7 @@ const Polarization = ({
                     title=""
                     width={parentWidth()}
                     xLabel={xLabel()}
-                    yLabel={yLabel(false)}
+                    yLabel={yLabel(disableImag, 'Phase')}
                     masked={invalidDataPhase}
                   />
                 )}
