@@ -667,7 +667,7 @@ const Container = ({ childToParent }) => {
       Socket({
         apiUrl: WS_API_URL + config.paths.websocket,
         protocol: PROTOCOL.JSON,
-        suffix: `${config.topics.workflow_state}`,
+        suffix: `${config.topics.receiverstats}-${subArray}`,
         statusFunction: setSocketStatusReceiverEvents,
         dataFunction: setReceiverEventsData
       });
