@@ -340,7 +340,7 @@ const mockSubarrayDetail = {
                 reception: {
                   continuous_mode: true,
                   reset_time_indexing_after_each_scan: true,
-                  stats_receiver_kafka_config: 'ska-sdp-kafka.merlin.svc:9092:json_workflow_state',
+                  stats_receiver_kafka_config: 'ska-sdp-kafka.merlin.svc:9092:metrics-receiverstats-01',
                   transport_protocol: 'tcp'
                 },
                 scan_provider: {
