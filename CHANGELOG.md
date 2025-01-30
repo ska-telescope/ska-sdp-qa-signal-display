@@ -2,6 +2,10 @@
 
 ## Development
 
+- [Changed] Default options for amplitude/phase set to log/radians - appears to be favoured by AIV
+- [Changed] Spectrograms/Lag plots set to hidden by default - i.e don't open automatically if you scroll down to them
+- [Fix] Axis labels for the amplitude/phase graphs now correctly detect when the real/imaginary components are being viewed and update accordingly
+
 ## 0.19.0
 
 - [Changed] Updated the @ska-telescope/ska-gui-components to ^2.0.16 and @ska-telescope/ska-gui-local-storage to ^2.0.0.
