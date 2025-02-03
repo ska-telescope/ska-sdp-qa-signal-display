@@ -71,9 +71,13 @@ const LagPlotImage = ({
   };
 
   useEffect(() => {
+    if (!APIconfig?.paths) {
+      console.warn("APIconfig is not ready yet");
+      return;
+    }
     setLoading(true);
     fetchHeatmapData(element);
-  }, [element]);
+  }, [element, APIconfig]);  
 
   const spectralWindow = useMemo(() => {
     const channels = subarrayDetails?.execution_block?.channels?.[0]?.spectral_windows?.[0];
