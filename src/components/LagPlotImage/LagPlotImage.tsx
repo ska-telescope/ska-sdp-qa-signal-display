@@ -72,7 +72,6 @@ const LagPlotImage = ({
 
   useEffect(() => {
     if (!APIconfig?.paths) {
-      console.warn("APIconfig is not ready yet");
       return;
     }
     setLoading(true);
