@@ -72,9 +72,12 @@ const SpectrogramImage = ({
   };
 
   useEffect(() => {
+    if (!APIconfig?.paths) {
+      return;
+    }
     setLoading(true);
     fetchHeatmapData(element);
-  }, [element]);
+  }, [element, APIconfig]);  
 
   const spectralWindow = useMemo(() => {
     const channels = subarrayDetails?.execution_block?.channels?.[0]?.spectral_windows?.[0];

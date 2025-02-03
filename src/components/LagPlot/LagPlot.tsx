@@ -133,7 +133,7 @@ const LagPlot = ({
               [0,1,2,3].map((content) => (
                 <Grid data-testid={`lagplot-${content}`} item>
                   <LagPlotImage
-                    config={config}
+                    APIconfig={config}
                     element={null}
                     onClick={() => imageClick(null)}
                     subarrayDetails={subarrayDetails}
