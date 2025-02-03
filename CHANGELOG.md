@@ -5,6 +5,7 @@
 - [Changed] Default options for amplitude/phase set to log/radians - appears to be favoured by AIV
 - [Changed] Spectrograms/Lag plots set to hidden by default - i.e don't open automatically if you scroll down to them
 - [Fix] Axis labels for the amplitude/phase graphs now correctly detect when the real/imaginary components are being viewed and update accordingly
+- [Changed] Updated webapack config to use hashing to force latest version load
 
 ## 0.19.0
 
