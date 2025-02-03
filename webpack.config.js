@@ -12,6 +12,13 @@ module.exports = () => {
     mode: 'development',
     entry: "./src/index.tsx",
 
+    output: {
+      filename: '[name].[contenthash].js',
+      chunkFilename: '[name].[contenthash].js',
+      path: path.resolve(__dirname, 'dist'),
+      clean: true,
+    },
+
     resolve: {
       alias: {
         '@components': path.resolve(__dirname, 'src/components'),
