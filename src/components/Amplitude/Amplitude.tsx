@@ -160,44 +160,43 @@ const Amplitude = ({
   }, [resize]);
 
   function checkForInvalidData(usedData: any, amplitude: boolean, real: string) {
-      if (!usedData?.data) return [];
-  
-      const xValues = calculateChannels(usedData.spectral_window);
-      const yData = getBaseData(usedData.data, polarization, amplitude, real);
-      const existingPositions = new Set();
-      const existingMissing = new Set();
-      const shapes = [];
-  
-      const xStep = xValues.length > 1 ? xValues[1] - xValues[0] : 1;
-  
-      for (let i = 0; i < yData.length; i++) {
-        const line = yData[i]?.data;
-        if (!line) continue;
-  
-        for (let j = 0; j < line.length; j++) {
-          if (!Number.isFinite(line[j])) {
-            const x0 = xValues[j] - 0.5 * xStep;
-            const x1 = xValues[j] + 0.5 * xStep;
-            const positionKey = `${x0}-${x1}`;
-  
-            if (!existingPositions.has(positionKey)) {
-              existingPositions.add(positionKey);
-              shapes.push(createRectangle(x0, x1, INVALID_DATA_COLOR));
-          }}
-        }
+        if (!usedData?.data) return [];
+    
+        const xValues = calculateChannels(usedData.spectral_window);
+        const yData = getBaseData(usedData.data, polarization, amplitude, real);
+        const existingPositions = new Set();
+        const existingMissing = new Set();
+        const shapes = [];
+    
+        const xStep = xValues.length > 1 ? xValues[1] - xValues[0] : 1;
+    
+        for (let i = 0; i < yData.length; i++) {
+          const line = yData[i]?.data;
+          if (line){
+    
+          for (let j = 0; j < line.length; j++) {
+            if (!Number.isFinite(line[j])) {
+              const x0 = xValues[j] - 0.5 * xStep;
+              const x1 = xValues[j] + 0.5 * xStep;
+              const positionKey = `${x0}-${x1}`;
+    
+              if (!existingPositions.has(positionKey)) {
+                existingPositions.add(positionKey);
+                shapes.push(createRectangle(x0, x1, INVALID_DATA_COLOR));
+            }}
+          }
+        }}
+    
+        missingData?.forEach(([start, end]) => {
+          const positionKey = `${start}-${end}`;
+          if (!existingMissing.has(positionKey)) {
+            existingMissing.add(positionKey);
+            shapes.push(createRectangle(start, end, MISSING_DATA_COLOR));
+          }
+        });
+    
+        return shapes;
       }
-  
-      missingData?.forEach(([start, end]) => {
-        const positionKey = `${start}-${end}`;
-        if (!existingMissing.has(positionKey)) {
-          existingMissing.add(positionKey);
-          shapes.push(createRectangle(start, end, MISSING_DATA_COLOR));
-        }
-      });
-  
-      return shapes;
-    }
-
   React.useEffect(() => {
     const firstRender = chartData1 === null;
     if (amplitudeData && legend) {

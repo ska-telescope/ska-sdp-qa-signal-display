@@ -170,7 +170,7 @@ const Phase = ({
   
       for (let i = 0; i < yData.length; i++) {
         const line = yData[i]?.data;
-        if (!line) continue;
+        if (line){
   
         for (let j = 0; j < line.length; j++) {
           if (!Number.isFinite(line[j])) {
@@ -183,7 +183,7 @@ const Phase = ({
               shapes.push(createRectangle(x0, x1, INVALID_DATA_COLOR));
           }}
         }
-      }
+      }}
   
       missingData?.forEach(([start, end]) => {
         const positionKey = `${start}-${end}`;
