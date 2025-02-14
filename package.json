@@ -1,6 +1,6 @@
 {
   "name": "ska-sdp-qa-display",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "license": "BSD 3-Clause",
   "description": "SKA SDP Signal Display",
