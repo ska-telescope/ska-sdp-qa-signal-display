@@ -1,11 +1,11 @@
 {
-  "name": "ska-webapps-react-skeleton",
-  "version": "0.19.0",
+  "name": "ska-sdp-qa-display",
+  "version": "1.0.0",
   "private": true,
   "license": "BSD 3-Clause",
-  "description": "SKA React Web App Skeleton",
+  "description": "SKA SDP Signal Display",
   "main": "index.js",
-  "repository": "git@gitlab.com:ska-telescope/templates/ska-react-webapp-skeleton.git",
+  "repository": "git@gitlab.com:ska-telescope/sdp/ska-sdp-qa-display.git",
   "scripts": {
     "build": "webpack --mode production",
     "code-analysis": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --ignore-path .eslintignore -f junit -o linting.xml",
