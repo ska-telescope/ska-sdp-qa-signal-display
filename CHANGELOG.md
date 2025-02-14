@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1
+
+- [Fix] Rework the masking functions for invalid data
+
 ## 1.0.0
 
 - [Changed] Default options for amplitude/phase set to log/radians - appears to be favoured by AIV
