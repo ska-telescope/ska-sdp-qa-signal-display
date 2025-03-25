@@ -3,7 +3,7 @@ Developing the Display
 
 To develop this display locally you need to set up a `NodeJS`_ environment and install `yarn`_ on your machine.
 
-To get a development instance running, do the following:
+To get a development instance running locally, perform the following steps:
 
 #. Install the dependencies with ``yarn install --frozen-lockfile``
 #. (Optional) set the system to use local data by updating the ``env_scripts/env_config`` file, and setting

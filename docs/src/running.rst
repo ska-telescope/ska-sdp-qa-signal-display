@@ -1,7 +1,7 @@
 Running the Display
 ===================
 
-The display can be run in three ways; DEvelopment, Docker or Kubernetes.
+The display can be run in three ways; Development, Docker or Kubernetes.
 
 Development
 -----------

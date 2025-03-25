@@ -33,8 +33,8 @@ Configuration is done in a few different files depending on what needs to be con
   ├── docs
   │   └── src
   │       └── conf.py                 < Documentation configuration
-  ├── env_scripts
-  ├── public                          < Script to generate config from env variables
+  ├── env_scripts                     < Script to generate config from env variables
+  ├── public                          
   │   ├── locales
   │   │   └── en
   │   │       └── signalDisplay.json  < Translation configuration
