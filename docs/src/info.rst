@@ -1,16 +1,15 @@
 Configuration and Statistics
 ============================
 
-The configuration of the currently running subarray is shown on the UI. The
-information that is shown is the configuration information of the subarray
-and what is currently being observed, as well as the current statistics of the
-visibility receive process that is running.
+The configuration of the currently running subarray is shown on the UI. This
+includes information about the subarray's config, what is currently being observed,
+and real-time statistics from the running visibility receive process.
 
 Configuration Information
 -------------------------
 
-Once the subarray has been selected the current configuration will be retrieved
-every 30 seconds to check the execution block information and processing block
+Once the subarray has been selected, the current configuration is retrieved
+every 30 seconds to check the execution block and processing block
 information.
 
 .. image:: images/config.png
@@ -19,12 +18,11 @@ information.
 Visibility Receive Statistics
 -----------------------------
 
-While the visibility receive process is running we will get stats on the current
-data getting received.
+While the visibility receive process is running, the UI will display stats on the incoming data.
 
 SPEED2 Statistics
 -----------------
 
-When the speed2 receiver is running we get the statistics on the heaps that
-are getting received.
+When the speed2 receiver is running we get statistics on the heaps that
+are being received.
 

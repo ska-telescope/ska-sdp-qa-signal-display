@@ -1,22 +1,22 @@
 Running the Display
 ===================
 
-The display can be run in 3 different methods.
+The display can be run in three ways; Development, Docker or Kubernetes.
 
-Development Version
--------------------
+Development
+-----------
 
-Refer to :doc:`local_development` for more information on running a local or development version.
+Refer to :doc:`local_development` for more information on running a local development version.
 
 Docker
 ------
 
-There is a ``Dockerfile`` available to use. And to make this easier there are some helper
+There is a ``Dockerfile`` as well as the following helper
 ``Makefile`` commands.
 
 #. To build run ``make build``
 #. To run use ``make run``
-#. And to bring it down again run ``make down``
+#. To bring it down again run ``make down``
 
 Refer to the ``Makefile`` as to what the above commands do.
 

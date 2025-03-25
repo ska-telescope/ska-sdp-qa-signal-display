@@ -2,20 +2,20 @@ Available Graphs
 ================
 
 The signal display provides a number of key visualisations of the data. The plots are separated between 
-two tabs; "Visibilty Receive" housing the real time visualisation of incoming data and "Calibration Data"
-holding the outputs of the calibration pipelines.
+two tabs; "Visibility Receive", which houses the real time visualisation of incoming data, and "Calibration Data",
+which holds the outputs of the calibration pipelines.
 
-Visibilty Receive
+Visibility Receive
 -----------------
 
-Descriptions of each plot in the Visibilty Receive tab and how they respond follows.
+Below are the descriptions of each plot in the Visibility Receive tab and how they respond.
 
 Spectrum
 --------
 
 The incident flux on the telescope is distributed over a finite receiving band, and is a function of
 frequency. The spectrum is the flux per unit bandwidth. The broad continuum spectrum of a radio source
-may contain a number of spectral lines, whose profile are the subject of detailed study. However, a 
+may contain a number of spectral lines, whose profiles are the subject of detailed study. However, a 
 receiver bandpass is usually wide enough to contain one or more spectral lines, and so we sub-divide 
 the band into a number of filter channels.
 
@@ -56,7 +56,7 @@ This plot is able to show the amplitude, or the real component of the visibility
 spectrum, selectable via the button in the top right corner of the plot view. When viewing the amplitude, 
 the scale of the y-axis can be changed between linear, decibels and logarithmic using the buttons in 
 the top right corner of the plot view (it is not possible to take the logarithm of a negative number, and 
-so it is disabled when viewing the real components of the visibibility spectrum).
+so it is disabled when viewing the real components of the visibility spectrum).
 
 .. image:: images/phase.png
    :width: 100%
@@ -97,7 +97,7 @@ This is the Cross-Correlation power as a function of frequency and it is what we
 correlator.
 
 For each baseline and polarisation, we present a waterfall plot of the phases of the visibilities as 
-a function of frequency. A flat spectrum of phases is synonomous with zero residual delay. This is 
+a function of frequency. A flat spectrum of phases is synonymous with zero residual delay. This is 
 due to the 'Shift Theorem' which states that a delay in the time domain corresponds to a linear phase 
 term in the frequency domain.
 
@@ -137,9 +137,9 @@ Calibration Data
 
 Descriptions of each plot in the Calibration Data tab and how they respond follows.
 
-The pointing offset calibration pipeline fits 2D Gaussian primary beams to the visibibility or gain 
+The pointing offset calibration pipeline fits 2D Gaussian primary beams to the visibility or gain 
 amplitudes. Each scan is split into a number of frequency chunks, and the primary beam is fitted 
-for each frequency chunk and dish. The weighted average of the fitted parameters for each frequnecy 
+for each frequency chunk and dish. The weighted average of the fitted parameters for each frequency 
 chunk is provided for each antenna.
 
 Elevation and Cross-elevation offset
@@ -176,14 +176,14 @@ Gain Calibration
 ----------------
 
 In radio telescopes, the complex receiver gains are initially unknown and need to be calibrated.
-Measured intrerferometer data is generally corrupted by instrumental and atmospheric effects, which
+Measured interferometer data is generally corrupted by instrumental and atmospheric effects, which
 can be corrected for through a process known as gain calibration. Gain calibration enhances the 
 quality of astronomical images and improves the effectiveness of signal processing techniques.
 
 Since the antenna gains are unknown prior to observing the field of interest, science scans are typically
 interspersed with calibrator scans of high SNR, well-modelled objects. By determining the major factors
 influencing the antenna gains, and applying the inverse to the target field, we can produce corrected data
-that can act as the starting poing for self calibration.
+that can act as the starting point for self calibration.
 
 In order to assess the stability of the gain calibration solution with time, we present a time-series plot
 of the amplitude and phase of the complex gains, for each antenna. Currently, only the first frequency 

@@ -1,7 +1,8 @@
 Overview
 ========
 
-This connects to the `Signal Data API`_ via a WebSocket and :doc:`visualizes <graphs>` the received Signal metrics (e.g, spectrum plot, waterfall plot etc.) in real-time.
+The QA Display :doc:`visualizes <graphs>` Signal metrics (e.g, spectrum plot, waterfall plot etc.) received from the 
+`Signal Data API`_ via a WebSocket, in real-time.
 
 More information can be found in the `Signal Data API Docs`_.
 

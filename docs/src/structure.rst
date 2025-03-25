@@ -33,7 +33,8 @@ Configuration is done in a few different files depending on what needs to be con
   ├── docs
   │   └── src
   │       └── conf.py                 < Documentation configuration
-  ├── public
+  ├── env_scripts                     < Script to generate config from env variables
+  ├── public                          
   │   ├── locales
   │   │   └── en
   │   │       └── signalDisplay.json  < Translation configuration
@@ -51,6 +52,7 @@ Configuration is done in a few different files depending on what needs to be con
   │   │   └── WebSocket
   │   │       ├── phase.json
   │   │       └── spectrum.json
+  │   │   └── tel-model
   │   └── env.ts                      < Environment Variable Config
   ├── babel.config.js
   ├── .babelrc
@@ -67,7 +69,6 @@ Configuration is done in a few different files depending on what needs to be con
   ├── jest.config.ts
   ├── LICENSE
   ├── Makefile
-  ├── nginx_env_config.sh             < Helper script for ENV variables in nginx
   ├── .npmrc
   ├── .nycrc
   ├── package.json

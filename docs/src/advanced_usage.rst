@@ -2,7 +2,7 @@ High-Resolution Windows
 -----------------------
 
 By default, the signal metrics are computed using a channel averaging window of 50 channels. 
-This default value is configurable in the assign_resources json. The reason for this is to 
+This default value is configurable in the assign_resources json. This is to 
 reduce the volume of data being sent over the API and to lower the workload on the browser.
 
 .. code-block:: JSON
